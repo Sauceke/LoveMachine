@@ -1,0 +1,45 @@
+name: Manual release
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Release version'
+        required: true
+
+jobs:
+  release:
+    runs-on: windows-2019
+    
+    env:
+      ACTIONS_ALLOW_UNSECURE_COMMANDS: true
+    
+    steps:
+    - uses: actions/checkout@v1
+      name: Checkout Code
+    
+    - name: Setup MSBuild Path
+      uses: warrenbuckley/Setup-MSBuild@v1
+      
+    - name: Setup NuGet
+      uses: NuGet/setup-nuget@v1.0.2
+     
+    - name: Restore NuGet Packages
+      run: nuget restore KK_ButtPlugin.sln
+ 
+    - name: Build and Publish
+      run: msbuild KK_ButtPlugin.sln /p:Configuration=Release /p:DeployOnBuild=true /p:PublishProfile=FolderProfile
+    
+    - name: Zip artifacts
+      run: powershell Compress-Archive -Path bin/* -DestinationPath ButtPlugin.zip
+
+    - name: Release
+      uses: "marvinpinto/action-automatic-releases@latest"
+      with:
+        repo_token: "${{ secrets.GITHUB_TOKEN }}"
+        prerelease: false
+        draft: true
+        automatic_release_tag: ${{ github.event.inputs.version }}
+        files: |
+          ButtPlugin.zip
+
