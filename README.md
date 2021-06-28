@@ -15,12 +15,14 @@ The full list of linear devices supported by the Buttplug project at the time of
 * RealTouch
 * The Handy
 * Vorze Piston
+
 (Note: all of these devices are onaholes.)
 
 ## Installation
 Prerequisites:
 * Install [Initface Desktop](https://intiface.com/desktop/).
 * Install [BepInEx 5.3](https://github.com/BepInEx/BepInEx/releases) or later.
+
 Download the DLLs from the latest release and move them into BepInEx\plugins under your game directory.
 
 ## How to use
