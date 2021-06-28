@@ -20,13 +20,13 @@ The full list of linear devices supported by the Buttplug project at the time of
 
 ## Installation
 Prerequisites:
-* Install [Initface Desktop](https://intiface.com/desktop/).
+* Install [Intiface Desktop](https://intiface.com/desktop/).
 * Install [BepInEx 5.3](https://github.com/BepInEx/BepInEx/releases) or later.
 
 Download the DLLs from the latest release and move them into BepInEx\plugins under your game directory.
 
 ## How to use
-1. Open Initface Desktop.
+1. Open Intiface Desktop.
 1. Start the server.
 1. Add the device you want to use.
 1. Disconnect Intiface from the server, but don't close it (this step is important).
