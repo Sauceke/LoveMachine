@@ -29,7 +29,7 @@ Download the DLLs from the latest release and move them into BepInEx\plugins und
 1. Open Initface Desktop.
 1. Start the server.
 1. Add the device you want to use.
-1. Disconnect Intiface from the server.
+1. Disconnect Intiface from the server, but don't close it (this step is important).
 1. Start Koikatsu in either desktop or VR mode.
 1. You know the rest.
 
