@@ -11,6 +11,21 @@ namespace KK_ButtPlugin
             HFlag.EMode.houshi,
             HFlag.EMode.sonyu
         };
+        // animation -> normalized time from start of up-stroke to end of animation
+        private static readonly Dictionary<string, float> animPhases =
+            new Dictionary<string, float>
+            {
+                { "Missionary.WLoop", 0.45f },
+                { "Missionary.SLoop", 0.45f },
+                { "Cowgirl.SLoop", 0.63f },
+                { "Chair Cowgirl.WLoop", 0.75f },
+                { "Chair Cowgirl.SLoop", 0.5f },
+                { "Standing.SLoop", 0.5f },
+                { "Standing Missionary.SLoop", 0.5f },
+                { "Standing Missionary.OLoop", 0.5f },
+                { "Chair Reverse Cowgirl.WLoop", 0.45f },
+                { "Chair Reverse Cowgirl.SLoop", 0.45f }
+            };
 
         private readonly ButtplugWsClient client = new ButtplugWsClient();
         private HFlag flags;
@@ -32,7 +47,9 @@ namespace KK_ButtPlugin
 
         public void OnFinish()
         {
-            GetHeroine(flags).chaCtrl.animBody.speed = 1;
+            if (flags != null) {
+                GetHeroine(flags).chaCtrl.animBody.speed = 1;
+            }
             loopThread = null;
             flags = null;
             client.LinearCmd(0, 300);
@@ -47,6 +64,7 @@ namespace KK_ButtPlugin
         private void RunLoop()
         {
             var animator = GetHeroine(flags).chaCtrl.animBody;
+            var playerAnimator = flags.player.chaCtrl.animBody;
             double prevTime = double.MaxValue;
             while (loopThread != null)
             {
@@ -58,12 +76,14 @@ namespace KK_ButtPlugin
                 var info = animator.GetCurrentAnimatorStateInfo(0);
                 // nerf the animation speed so the device can keep up with it
                 // OLoop is faster than the rest, about 280ms per stroke at its original speed
-                animator.speed = info.IsName("OLoop")
+                playerAnimator.speed = animator.speed = info.IsName("OLoop")
                     ? GetSpeedMultiplierFor(0.28f)
                     : GetSpeedMultiplierFor(0.375f);
                 double time = info.normalizedTime;
+                string pose = flags.nowAnimationInfo.nameAnimation + "." + flags.nowAnimStateName;
+                animPhases.TryGetValue(pose, out float phase);
                 // sync stroke to animation loop starting over (thanks essu#1145 for the idea)
-                if ((int)time > (int)prevTime && flags.speed >= 1 && info.length < 2)
+                if ((int)(time + phase) > (int)(prevTime + phase) && flags.speed >= 1)
                 {
                     float strokeTimeSecs = info.length / info.speed;
                     int strokeTimeMs = (int)(strokeTimeSecs * 1000) - 10;
@@ -91,15 +111,13 @@ namespace KK_ButtPlugin
 
         private void DoStroke(int strokeTimeMs, double margin)
         {
-            int upStrokeTime = (int)(strokeTimeMs * 0.45);
-            int downStrokeTime = (int)(strokeTimeMs * 0.55);
             client.LinearCmd(
                 position: 1 - margin * 0.7,
-                durationMs: upStrokeTime);
-            Thread.Sleep(upStrokeTime);
+                durationMs: strokeTimeMs / 2);
+            Thread.Sleep(strokeTimeMs / 2);
             client.LinearCmd(
                 position: margin * 0.3,
-                durationMs:downStrokeTime);
+                durationMs: strokeTimeMs / 2);
             // skip sleep so we can react to speed changes
         }
 
