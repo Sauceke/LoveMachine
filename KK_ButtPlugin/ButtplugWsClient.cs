@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LitJson;
+using System;
 using System.Collections.Generic;
 using WebSocket4Net;
 
@@ -50,7 +51,7 @@ namespace KK_ButtPlugin
                     }
                 }
             };
-            websocket.Send(LitJson.JsonMapper.ToJson(new List<object> { command }));
+            websocket.Send(JsonMapper.ToJson(new List<object> { command }));
         }
 
         private void OnOpened(object sender, EventArgs e)
@@ -64,7 +65,7 @@ namespace KK_ButtPlugin
                     MessageVersion = 1
                 }
             };
-            websocket.Send(LitJson.JsonMapper.ToJson(new object[] { handshake }));
+            websocket.Send(JsonMapper.ToJson(new object[] { handshake }));
         }
 
         private void OnMessageReceived(object sender, MessageReceivedEventArgs e)

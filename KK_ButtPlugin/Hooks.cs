@@ -22,7 +22,13 @@ namespace KK_ButtPlugin
 
             [HarmonyPrefix]
             [HarmonyPatch(typeof(HFlag), nameof(HFlag.AddSonyuOrg))]
+            [HarmonyPatch(typeof(HFlag), nameof(HFlag.AddSonyuInside))]
+            [HarmonyPatch(typeof(HFlag), nameof(HFlag.AddSonyuCondomInside))]
+            [HarmonyPatch(typeof(HFlag), nameof(HFlag.AddSonyuOutside))]
             [HarmonyPatch(typeof(HFlag), nameof(HFlag.AddSonyuAnalOrg))]
+            [HarmonyPatch(typeof(HFlag), nameof(HFlag.AddSonyuAnalInside))]
+            [HarmonyPatch(typeof(HFlag), nameof(HFlag.AddSonyuAnalCondomInside))]
+            [HarmonyPatch(typeof(HFlag), nameof(HFlag.AddSonyuAnalOutside))]
             [HarmonyPatch(typeof(HFlag), nameof(HFlag.AddHoushiInside))]
             [HarmonyPatch(typeof(HFlag), nameof(HFlag.AddHoushiOutside))]
             public static void Finish()
