@@ -11,20 +11,51 @@ namespace KK_ButtPlugin
             HFlag.EMode.houshi,
             HFlag.EMode.sonyu
         };
-        // animation -> normalized time from start of up-stroke to end of animation
+        // animation -> fraction of normalized time at start of up-stroke
+        // these were calibrated to the heroine's movements using PhaseDetector
         private static readonly Dictionary<string, float> animPhases =
             new Dictionary<string, float>
             {
-                { "Missionary.WLoop", 0.45f },
-                { "Missionary.SLoop", 0.45f },
-                { "Cowgirl.SLoop", 0.63f },
-                { "Chair Cowgirl.WLoop", 0.75f },
-                { "Chair Cowgirl.SLoop", 0.5f },
-                { "Standing.SLoop", 0.5f },
-                { "Standing Missionary.SLoop", 0.5f },
-                { "Standing Missionary.OLoop", 0.5f },
-                { "Chair Reverse Cowgirl.WLoop", 0.45f },
-                { "Chair Reverse Cowgirl.SLoop", 0.45f }
+                { "C. Doggy (Arm Pull).SLoop", 0.1522713f },
+                { "C. Doggy (Arm Pull).WLoop", 0.4625397f },
+                { "Chair Cowgirl.SLoop", 0.03100491f },
+                { "Chair Cowgirl.WLoop", 0.9470091f },
+                { "Chair Doggy.SLoop", 0.2003322f },
+                { "Chair Doggy.WLoop", 0.9085472f },
+                { "Chair Reverse Cowgirl.SLoop", 0.8580751f },
+                { "Chair Reverse Cowgirl.WLoop", 0.4444504f },
+                { "Cowgirl.SLoop", 0.2394352f },
+                { "Cowgirl.WLoop", 0.9708462f },
+                { "D. Doggy (Arm Pull).SLoop", 0.8819561f },
+                { "D. Doggy (Arm Pull).WLoop", 0.966011f },
+                { "Desk Doggy.SLoop", 0.2220459f },
+                { "Desk Doggy.WLoop", 0.6546593f },
+                { "Desk Missionary.SLoop", 0.1886158f },
+                { "Desk Missionary.WLoop", 0.1895599f },
+                { "Desk Side.SLoop", 0.06700228f },
+                { "Desk Side.WLoop", 0.5270042f },
+                { "Doggy (Arm Pull).SLoop", 0.1495857f },
+                { "Doggy (Arm Pull).WLoop", 0.2061415f },
+                { "Doggy (One Leg Up).SLoop", 0.2065086f },
+                { "Doggy (One Leg Up).WLoop", 0.7616539f },
+                { "Doggy.SLoop", 0.9896765f },
+                { "Doggy.WLoop", 0.8349953f },
+                { "Lotus (One Leg Up).SLoop", 0.3988791f },
+                { "Lotus (One Leg Up).WLoop", 0.1558132f },
+                { "Missionary Press.SLoop", 0.04641628f },
+                { "Missionary Press.WLoop", 0.8453636f },
+                { "Missionary.SLoop", 0.07053375f },
+                { "Missionary.WLoop", 0.2240219f },
+                { "Prone Doggy.SLoop", 0.293231f },
+                { "Prone Doggy.WLoop", 0.6115961f },
+                { "Side.SLoop", 0.2126694f },
+                { "Side.WLoop", 0.003202677f },
+                { "Spread Missionary.SLoop", 0.3389168f },
+                { "Spread Missionary.WLoop", 0.9958129f },
+                { "Standing Missionary.SLoop", 0.2895164f },
+                { "Standing Missionary.WLoop", 0.3592472f },
+                { "Standing.SLoop", 0.3157215f },
+                { "Standing.WLoop", 0.1781301f }
             };
 
         private readonly ButtplugWsClient client = new ButtplugWsClient();
@@ -83,7 +114,7 @@ namespace KK_ButtPlugin
                 string pose = flags.nowAnimationInfo.nameAnimation + "." + flags.nowAnimStateName;
                 animPhases.TryGetValue(pose, out float phase);
                 // sync stroke to animation loop starting over (thanks essu#1145 for the idea)
-                if ((int)(time + phase) > (int)(prevTime + phase) && flags.speed >= 1)
+                if ((int)(time + 1 - phase) > (int)(prevTime + 1 - phase) && flags.speed >= 1)
                 {
                     float strokeTimeSecs = info.length / info.speed;
                     int strokeTimeMs = (int)(strokeTimeSecs * 1000) - 10;
