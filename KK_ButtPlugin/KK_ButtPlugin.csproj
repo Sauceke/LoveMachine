@@ -78,12 +78,11 @@
       <HintPath>..\packages\WebSocket4Net.0.15.2\lib\net35\WebSocket4Net.dll</HintPath>
     </Reference>
   </ItemGroup>
+  <PropertyGroup>
+    <IncludePattern>**\*.cs</IncludePattern>
+  </PropertyGroup>
   <ItemGroup>
-    <Compile Include="ButtplugController.cs" />
-    <Compile Include="ButtPlugin.cs" />
-    <Compile Include="ButtplugWsClient.cs" />
-    <Compile Include="Hooks.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="$(IncludePattern)" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
