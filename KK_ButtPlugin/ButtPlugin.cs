@@ -15,7 +15,7 @@ namespace KK_ButtPlugin
 
         public static ConfigEntry<string> WebSocketAddress { get; private set; }
         public static ConfigEntry<int> MaxStrokesPerMinute { get; private set; }
-        public static ConfigEntry<float> ClimaxSpeed { get; private set; }
+        public static ConfigEntry<int> LatencyMs { get; private set; }
 
         private void Start()
         {
@@ -28,7 +28,13 @@ namespace KK_ButtPlugin
                 section: "Device",
                 key: "Maximum strokes per minute",
                 defaultValue: 140,
-                "The top speed possible on your device at 70% stroke length.");
+                "The top speed possible on your stroker at 70% stroke length.");
+            LatencyMs = Config.Bind(
+                section: "Device",
+                key: "Latency (ms)",
+                defaultValue: 0,
+                "The difference in latency between your stroker and your display. \n" +
+                "Negative if your stroker has lower latency.");
             Logger = base.Logger;
             GameAPI.RegisterExtraBehaviour<ButtplugController>(GUID);
         }
