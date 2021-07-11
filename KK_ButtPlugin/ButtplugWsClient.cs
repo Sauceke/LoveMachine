@@ -20,8 +20,9 @@ namespace KK_ButtPlugin
             string address = ButtPlugin.WebSocketAddress.Value;
             ButtPlugin.Logger.LogDebug("Connecting to Buttplug server at " + address);
             websocket = new WebSocket(address);
-            websocket.Opened += new EventHandler(OnOpened);
-            websocket.MessageReceived += new EventHandler<MessageReceivedEventArgs>(OnMessageReceived);
+            websocket.Opened += OnOpened;
+            websocket.MessageReceived += OnMessageReceived;
+            websocket.Error += OnError;
             websocket.Open();
         }
 
@@ -70,7 +71,22 @@ namespace KK_ButtPlugin
 
         private void OnMessageReceived(object sender, MessageReceivedEventArgs e)
         {
-            ButtPlugin.Logger.LogDebug("Message from Buttplug server: " + e.Message);
+            foreach(JsonData data in JsonMapper.ToObject(e.Message))
+            {
+                if (data.ContainsKey("Error"))
+                {
+                    ButtPlugin.Logger.LogWarning("Buttplug error: " + data.ToJson());
+                }
+            }
+        }
+
+        private void OnError(object sender, SuperSocket.ClientEngine.ErrorEventArgs e)
+        {
+            ButtPlugin.Logger.LogWarning("Websocket error: " + e.Exception.Message);
+            if (e.Exception.Message.Contains("unreachable"))
+            {
+                ButtPlugin.Logger.LogMessage("Error: Failed to connect to Buttplug server");
+            }
         }
     }
 }
