@@ -1,6 +1,7 @@
 ﻿using BepInEx;
 using BepInEx.Configuration;
 using BepInEx.Logging;
+using KKAPI.MainGame;
 
 namespace KK_ButtPlugin
 {
@@ -11,7 +12,6 @@ namespace KK_ButtPlugin
         public const string Version = "1.0.0";
 
         public static new ManualLogSource Logger { get; private set; }
-        public static ButtplugController Controller { get; private set; }
 
         public static ConfigEntry<string> WebSocketAddress { get; private set; }
         public static ConfigEntry<int> MaxStrokesPerMinute { get; private set; }
@@ -30,13 +30,7 @@ namespace KK_ButtPlugin
                 defaultValue: 140,
                 "The top speed possible on your device at 70% stroke length.");
             Logger = base.Logger;
-            Controller = new ButtplugController();
-            Hooks.InstallHooks();
-        }
-
-        private void OnApplicationQuit()
-        {
-            Controller.OnAppQuit();
+            GameAPI.RegisterExtraBehaviour<ButtplugController>(GUID);
         }
     }
 }
