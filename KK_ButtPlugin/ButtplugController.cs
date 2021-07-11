@@ -111,11 +111,12 @@ namespace KK_ButtPlugin
         {
             var animator = GetHeroine(flags).chaCtrl.animBody;
             var playerAnimator = flags.player.chaCtrl.animBody;
-            double prevTime = double.MaxValue;
+            double prevNormTime = double.MaxValue;
             while (loopThread != null)
             {
                 if (!supportedModes.Contains(flags.mode)
-                    || !supportedAnimations.Contains(flags.nowAnimStateName))
+                    || !supportedAnimations.Contains(flags.nowAnimStateName)
+                    || flags.speed < 1)
                 {
                     Thread.Sleep(100);
                     continue;
@@ -126,13 +127,15 @@ namespace KK_ButtPlugin
                 playerAnimator.speed = animator.speed = info.IsName("OLoop")
                     ? GetSpeedMultiplierFor(0.28f)
                     : GetSpeedMultiplierFor(0.375f);
-                double time = info.normalizedTime;
+                double normTime = info.normalizedTime;
                 string pose = flags.nowAnimationInfo.nameAnimation + "." + flags.nowAnimStateName;
                 animPhases.TryGetValue(pose, out float phase);
+                float strokeTimeSecs = info.length / info.speed;
+                float latencyNormTime = ButtPlugin.LatencyMs.Value / 1000f / strokeTimeSecs;
+                phase -= latencyNormTime;
                 // sync stroke to animation loop starting over (thanks essu#1145 for the idea)
-                if ((int)(time + 1 - phase) > (int)(prevTime + 1 - phase) && flags.speed >= 1)
+                if ((int)(normTime - phase + 2) > (int)(prevNormTime - phase + 2))
                 {
-                    float strokeTimeSecs = info.length / info.speed;
                     int strokeTimeMs = (int)(strokeTimeSecs * 1000) - 10;
                     // decrease stroke length gradually as speed approaches the device limit
                     double rate = 60f / ButtPlugin.MaxStrokesPerMinute.Value / strokeTimeSecs;
@@ -146,7 +149,7 @@ namespace KK_ButtPlugin
                     }
                     DoStroke(strokeTimeMs, margin);
                 }
-                prevTime = time;
+                prevNormTime = normTime;
                 Thread.Sleep(10);
             }
         }
