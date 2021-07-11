@@ -7,14 +7,13 @@ using System.Threading;
 namespace KK_ButtPlugin
 {
     // measuring tool for syncing toys to animations
-    // not used by the plugin, but too useful not to include 
     class PhaseDetector
     {
         public static void RunLoop(HFlag flags)
         {
             var animator = GetHeroine(flags).chaCtrl.animBody;
             var crotch1 = GetHeroine(flags).chaCtrl.objBodyBone.transform
-                .FindLoop("a_n_kokan").transform;
+                .FindLoop("cf_n_pee").transform;
             var crotch2 = flags.player.chaCtrl.objBodyBone.transform
                 .FindLoop("k_f_tamaL_00").transform;
             Dictionary<string, float> minDistSqTimes = new Dictionary<string, float> { };
