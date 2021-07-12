@@ -1,11 +1,10 @@
-﻿using KKAPI.MainGame;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Threading;
 
 namespace KK_ButtPlugin
 {
-    public class ButtplugController : GameCustomFunctionController
+    public class ButtplugController : UnityEngine.MonoBehaviour
     {
         private static readonly List<HFlag.EMode> supportedModes = new List<HFlag.EMode>
         {
@@ -83,37 +82,40 @@ namespace KK_ButtPlugin
 
         private readonly ButtplugWsClient client = new ButtplugWsClient();
         private HFlag flags;
-        private Thread loopThread;
         
-        protected override void OnStartH(HSceneProc proc, bool freeH)
+        public void OnStartH(HFlag flags)
         {
-            flags = proc.flags;
-            loopThread = new Thread(RunLoop)
+            this.flags = flags;
+            new Thread(RunLoop)
             {
                 Priority = ThreadPriority.AboveNormal
-            };
-            loopThread.Start();
-        }
-
-        protected override void OnEndH(HSceneProc proc, bool freeH)
-        {
-            loopThread = null;
-            flags = null;
+            }
+            .Start();
         }
 
         void OnApplicationQuit()
         {
-            loopThread = null;
             client.Close();
         }
 
         private void RunLoop()
         {
+            while (flags.lstHeroine.IsNullOrEmpty()
+                || GetHeroine(flags).chaCtrl?.animBody == null
+                || flags.player?.chaCtrl?.animBody == null)
+            {
+                Thread.Sleep(1000);
+            }
             var animator = GetHeroine(flags).chaCtrl.animBody;
             var playerAnimator = flags.player.chaCtrl.animBody;
             double prevNormTime = double.MaxValue;
-            while (loopThread != null)
+            while (true)
             {
+                if (flags.isHSceneEnd)
+                {
+                    flags = null;
+                    break;
+                }
                 if (!supportedModes.Contains(flags.mode)
                     || !supportedAnimations.Contains(flags.nowAnimStateName)
                     || flags.speed < 1)
