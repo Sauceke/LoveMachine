@@ -1,7 +1,14 @@
 ﻿using BepInEx;
+using BepInEx.Bootstrap;
 using BepInEx.Configuration;
 using BepInEx.Logging;
-using KKAPI.MainGame;
+using System.Linq;
+using UnityEngine.SceneManagement;
+using HSceneUtility;
+
+using IllusionUtility.GetUtility;
+using UnityEngine;
+using System;
 
 namespace KK_ButtPlugin
 {
@@ -36,7 +43,8 @@ namespace KK_ButtPlugin
                 "The difference in latency between your stroker and your display. \n" +
                 "Negative if your stroker has lower latency.");
             Logger = base.Logger;
-            GameAPI.RegisterExtraBehaviour<ButtplugController>(GUID);
+            Chainloader.ManagerObject.AddComponent<ButtplugController>();
+            Hooks.InstallHooks();
         }
     }
 }
