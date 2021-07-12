@@ -22,6 +22,7 @@ The full list of linear devices supported by the Buttplug project at the time of
 Prerequisites:
 * Install [Intiface Desktop](https://intiface.com/desktop/).
 * Install [BepInEx 5.3](https://github.com/BepInEx/BepInEx/releases) or later.
+* Install [KKAPI 1.10.0](https://github.com/IllusionMods/IllusionModdingAPI) or later.
 
 Download the DLLs from the latest release and move them into BepInEx\plugins under your game directory.
 
@@ -33,9 +34,10 @@ Download the DLLs from the latest release and move them into BepInEx\plugins und
 1. Start Koikatsu in either desktop or VR mode.
 1. You know the rest.
 
-The plugin handles most of the BJ, HJ, TJ, cowgirl and chair cowgirl animations well enough. For some of the animations (doggy, missionary etc.), the movement gets reversed (going down when it should be going up). Still not sure how to fix this.
+All Insert animations should be accurately synced to the device. Some Receive animations will be out of sync because I haven't got around to them yet.
 
 ## Configuration
-In Plugin Settings > ButtPlugin, you can set the maximum speed your device is capable of ("Maximum strokes per minute"). Based on this value, ButtPlugin will slow down H scene animations if necessary, to keep the immersion. (You'll still be in control of speed, but it will be relative to how fast your toy can go.) The part right before climax will also be slowed down. Keep in mind that the plugin never goes below 70% stroke length, so choose a number your device can reliably maintain at that setting.
-
-You can also change the Buttplug server address in this menu (usually localhost:12345).
+In Plugin Settings > ButtPlugin, you can set the following parameters:
+* The maximum speed your device is capable of ("Maximum strokes per minute"). Based on this value, ButtPlugin will slow down H scene animations if necessary, to keep the immersion. (You'll still be in control of speed, but it will be relative to how fast your toy can go.) The part right before climax will also be slowed down. Keep in mind that the plugin never goes below 70% stroke length, so choose a number your device can reliably maintain at that setting.
+* The latency between your display and your device. Set a negative value if your device is faster than your display. (No way to calibrate, you have to "experiment".)
+* The Buttplug server address (usually localhost:12345).
