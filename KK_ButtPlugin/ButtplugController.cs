@@ -18,7 +18,7 @@ namespace KK_ButtPlugin
         private static readonly Dictionary<string, float> animPhases =
             new Dictionary<string, float>
             {
-                { "Chair Cowgirl.WLoop", 0.7652473f },
+                { "Chair Cowgirl.WLoop", 0.25f },
                 { "Chair Cowgirl.SLoop", 0.5199027f },
                 { "Chair Cowgirl.OLoop", 0.9880123f },
                 { "Chair Reverse Cowgirl.WLoop", 0.4341354f },
