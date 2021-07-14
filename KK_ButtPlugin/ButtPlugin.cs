@@ -2,13 +2,6 @@
 using BepInEx.Bootstrap;
 using BepInEx.Configuration;
 using BepInEx.Logging;
-using System.Linq;
-using UnityEngine.SceneManagement;
-using HSceneUtility;
-
-using IllusionUtility.GetUtility;
-using UnityEngine;
-using System;
 
 namespace KK_ButtPlugin
 {
@@ -23,6 +16,7 @@ namespace KK_ButtPlugin
         public static ConfigEntry<string> WebSocketAddress { get; private set; }
         public static ConfigEntry<int> MaxStrokesPerMinute { get; private set; }
         public static ConfigEntry<int> LatencyMs { get; private set; }
+        public static ConfigEntry<bool> EnableVibrate { get; private set; }
 
         private void Start()
         {
@@ -42,6 +36,11 @@ namespace KK_ButtPlugin
                 defaultValue: 0,
                 "The difference in latency between your stroker and your display. \n" +
                 "Negative if your stroker has lower latency.");
+            EnableVibrate = Config.Bind(
+                section: "Device",
+                key: "Enable Vibrators",
+                defaultValue: false,
+                "Maps control speed to vibrations");
             Logger = base.Logger;
             Chainloader.ManagerObject.AddComponent<ButtplugController>();
             Hooks.InstallHooks();

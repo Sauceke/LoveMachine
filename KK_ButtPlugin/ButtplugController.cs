@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
+using UnityEngine;
 
 namespace KK_ButtPlugin
 {
@@ -86,44 +88,70 @@ namespace KK_ButtPlugin
         public void OnStartH(HFlag flags)
         {
             this.flags = flags;
-            new Thread(RunLoop)
-            {
-                Priority = ThreadPriority.AboveNormal
-            }
-            .Start();
+            StartCoroutine("RunStroke");
+            StartCoroutine("RunVibrate");
         }
 
-        void OnApplicationQuit()
+        void OnDestroy()
         {
             client.Close();
         }
 
-        private void RunLoop()
+        IEnumerator UntilReady()
         {
             while (flags.lstHeroine.IsNullOrEmpty()
                 || GetHeroine(flags).chaCtrl?.animBody == null
                 || flags.player?.chaCtrl?.animBody == null)
             {
-                Thread.Sleep(1000);
+                yield return new WaitForSeconds(1f);
+                if (flags.isHSceneEnd)
+                {
+                    yield break;
+                }
             }
+        }
+
+        IEnumerator RunVibrate()
+        {
+            yield return StartCoroutine("UntilReady");
+            while (!flags.isHSceneEnd)
+            {
+                if (flags.nowAnimStateName.Equals("OLoop"))
+                {
+                    DoVibrate(1.0f);
+                }
+                else if (!supportedModes.Contains(flags.mode) || !supportedAnimations.Contains(flags.nowAnimStateName))
+                {
+                    // stops vibration when not being lewd
+                    DoVibrate(0.0f);
+                }
+                else
+                {
+                    // vibrate based on the intensity of the player
+                    // minimum vibration above 0 exists so you always feel something along with the animation
+                    DoVibrate(Mathf.Lerp(0.2f, 1.0f, flags.speedCalc));
+                }
+                yield return new WaitForSeconds(.01f);
+            }
+        }
+
+        IEnumerator RunStroke()
+        {
+            yield return StartCoroutine(UntilReady());
             var animator = GetHeroine(flags).chaCtrl.animBody;
             var playerAnimator = flags.player.chaCtrl.animBody;
             double prevNormTime = double.MaxValue;
-            while (true)
+            while (!flags.isHSceneEnd)
             {
-                if (flags.isHSceneEnd)
-                {
-                    flags = null;
-                    break;
-                }
                 if (!supportedModes.Contains(flags.mode)
                     || !supportedAnimations.Contains(flags.nowAnimStateName)
                     || flags.speed < 1)
                 {
-                    Thread.Sleep(100);
+                    yield return new WaitForSeconds(.1f);
                     continue;
                 }
                 var info = animator.GetCurrentAnimatorStateInfo(0);
+
                 // nerf the animation speed so the device can keep up with it
                 // OLoop is faster than the rest, about 280ms per stroke at its original speed
                 playerAnimator.speed = animator.speed = info.IsName("OLoop")
@@ -146,13 +174,13 @@ namespace KK_ButtPlugin
                     {
                         // no idea what's the deal with OLoop
                         // it seems to loop after two strokes
-                        DoStroke(strokeTimeMs, margin);
-                        Thread.Sleep(strokeTimeMs / 2);
+                        yield return StartCoroutine(DoStroke(strokeTimeMs, margin));
+                        yield return new WaitForSeconds(strokeTimeMs / 2000f);
                     }
-                    DoStroke(strokeTimeMs, margin);
+                    yield return StartCoroutine(DoStroke(strokeTimeMs, margin));
                 }
                 prevNormTime = normTime;
-                Thread.Sleep(10);
+                yield return null;
             }
         }
 
@@ -161,16 +189,25 @@ namespace KK_ButtPlugin
             return Math.Min(1, animStrokeTimeSecs * ButtPlugin.MaxStrokesPerMinute.Value / 60f);
         }
 
-        private void DoStroke(int strokeTimeMs, double margin)
+        IEnumerator DoStroke(int strokeTimeMs, double margin)
         {
             client.LinearCmd(
                 position: 1 - margin * 0.7,
                 durationMs: strokeTimeMs / 2);
-            Thread.Sleep(strokeTimeMs / 2);
+            yield return new WaitForSeconds(strokeTimeMs / 2000f);
             client.LinearCmd(
                 position: margin * 0.3,
                 durationMs: strokeTimeMs / 2);
             // skip sleep so we can react to speed changes
+        }
+
+        private void DoVibrate(float intensity)
+        {
+            if (!ButtPlugin.EnableVibrate.Value)
+            {
+                return;
+            }
+            client.VibrateCmd(intensity);
         }
 
         private static SaveData.Heroine GetHeroine(HFlag hflag)
