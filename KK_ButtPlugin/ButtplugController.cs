@@ -88,7 +88,7 @@ namespace KK_ButtPlugin
         public void OnStartH(HFlag flags)
         {
             this.flags = flags;
-            StartCoroutine("RunLoop");
+            StartCoroutine("RunStroke");
             StartCoroutine("RunVibrate");
         }
 
@@ -135,7 +135,7 @@ namespace KK_ButtPlugin
             }
         }
 
-        IEnumerator RunLoop()
+        IEnumerator RunStroke()
         {
             yield return StartCoroutine(UntilReady());
             var animator = GetHeroine(flags).chaCtrl.animBody;
@@ -194,7 +194,7 @@ namespace KK_ButtPlugin
             client.LinearCmd(
                 position: 1 - margin * 0.7,
                 durationMs: strokeTimeMs / 2);
-            yield return new WaitForSeconds(strokeTimeMs / 2000);
+            yield return new WaitForSeconds(strokeTimeMs / 2000f);
             client.LinearCmd(
                 position: margin * 0.3,
                 durationMs: strokeTimeMs / 2);
