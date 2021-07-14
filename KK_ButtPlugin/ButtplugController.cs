@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
 using UnityEngine;
@@ -87,42 +88,32 @@ namespace KK_ButtPlugin
         public void OnStartH(HFlag flags)
         {
             this.flags = flags;
-            // stroke thread
-            new Thread(RunLoop)
-            {
-                Priority = System.Threading.ThreadPriority.AboveNormal
-            }
-            .Start();
-            // vibrate thread
-            new Thread(RunVibrate)
-            {
-                Priority = System.Threading.ThreadPriority.AboveNormal
-            }
-            .Start();
+            StartCoroutine("RunLoop");
+            StartCoroutine("RunVibrate");
         }
 
-        void OnApplicationQuit()
+        void OnDestroy()
         {
             client.Close();
         }
 
-        private void UntilReady()
+        IEnumerator UntilReady()
         {
             while (flags.lstHeroine.IsNullOrEmpty()
                 || GetHeroine(flags).chaCtrl?.animBody == null
                 || flags.player?.chaCtrl?.animBody == null)
             {
-                Thread.Sleep(1000);
+                yield return new WaitForSeconds(1f);
                 if (flags.isHSceneEnd)
                 {
-                    return;
+                    yield break;
                 }
             }
         }
 
-        private void RunVibrate()
+        IEnumerator RunVibrate()
         {
-            UntilReady();
+            yield return StartCoroutine("UntilReady");
             while (!flags.isHSceneEnd)
             {
                 if (flags.nowAnimStateName.Equals("OLoop"))
@@ -140,13 +131,13 @@ namespace KK_ButtPlugin
                     // minimum vibration above 0 exists so you always feel something along with the animation
                     DoVibrate(Mathf.Lerp(0.2f, 1.0f, flags.speedCalc));
                 }
-                Thread.Sleep(100);
+                yield return new WaitForSeconds(.01f);
             }
         }
 
-        private void RunLoop()
+        IEnumerator RunLoop()
         {
-            UntilReady();
+            yield return StartCoroutine(UntilReady());
             var animator = GetHeroine(flags).chaCtrl.animBody;
             var playerAnimator = flags.player.chaCtrl.animBody;
             double prevNormTime = double.MaxValue;
@@ -156,7 +147,7 @@ namespace KK_ButtPlugin
                     || !supportedAnimations.Contains(flags.nowAnimStateName)
                     || flags.speed < 1)
                 {
-                    Thread.Sleep(100);
+                    yield return new WaitForSeconds(.1f);
                     continue;
                 }
                 var info = animator.GetCurrentAnimatorStateInfo(0);
@@ -183,13 +174,13 @@ namespace KK_ButtPlugin
                     {
                         // no idea what's the deal with OLoop
                         // it seems to loop after two strokes
-                        DoStroke(strokeTimeMs, margin);
-                        Thread.Sleep(strokeTimeMs / 2);
+                        yield return StartCoroutine(DoStroke(strokeTimeMs, margin));
+                        yield return new WaitForSeconds(strokeTimeMs / 2000f);
                     }
-                    DoStroke(strokeTimeMs, margin);
+                    yield return StartCoroutine(DoStroke(strokeTimeMs, margin));
                 }
                 prevNormTime = normTime;
-                Thread.Sleep(10);
+                yield return null;
             }
         }
 
@@ -198,12 +189,12 @@ namespace KK_ButtPlugin
             return Math.Min(1, animStrokeTimeSecs * ButtPlugin.MaxStrokesPerMinute.Value / 60f);
         }
 
-        private void DoStroke(int strokeTimeMs, double margin)
+        IEnumerator DoStroke(int strokeTimeMs, double margin)
         {
             client.LinearCmd(
                 position: 1 - margin * 0.7,
                 durationMs: strokeTimeMs / 2);
-            Thread.Sleep(strokeTimeMs / 2);
+            yield return new WaitForSeconds(strokeTimeMs / 2000);
             client.LinearCmd(
                 position: margin * 0.3,
                 durationMs: strokeTimeMs / 2);
