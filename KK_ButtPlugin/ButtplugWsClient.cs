@@ -55,6 +55,27 @@ namespace KK_ButtPlugin
             websocket.Send(JsonMapper.ToJson(new List<object> { command }));
         }
 
+        public void VibrateCmd(double intensity)
+        {
+            var command = new
+            {
+                VibrateCmd = new
+                {
+                    Id = random.Next(),
+                    DeviceIndex = 0,
+                    Speeds = new object[]
+                    {
+                        new
+                        {
+                            Index = 0,
+                            Speed = intensity
+                        }
+                    }
+                }
+            };
+            websocket.Send(JsonMapper.ToJson(new List<object> { command }));
+        }
+
         private void OnOpened(object sender, EventArgs e)
         {
             var handshake = new

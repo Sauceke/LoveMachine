@@ -124,6 +124,20 @@ namespace KK_ButtPlugin
                     continue;
                 }
                 var info = animator.GetCurrentAnimatorStateInfo(0);
+
+                // vibrate based on the intensity of the player 
+                if (ButtPlugin.EnableVibrate.Value)
+                {
+                    if (info.IsName("OLoop"))
+                    {
+                        DoVibrate(1.0f);
+                    }
+                    else
+                    {
+                        DoVibrate(flags.motion);
+                    }
+                }
+
                 // nerf the animation speed so the device can keep up with it
                 // OLoop is faster than the rest, about 280ms per stroke at its original speed
                 playerAnimator.speed = animator.speed = info.IsName("OLoop")
@@ -171,6 +185,11 @@ namespace KK_ButtPlugin
                 position: margin * 0.3,
                 durationMs: strokeTimeMs / 2);
             // skip sleep so we can react to speed changes
+        }
+
+        private void DoVibrate(float intensity)
+        {
+            client.VibrateCmd(UnityEngine.Mathf.SmoothStep(0.0f, 1.0f, intensity));
         }
 
         private static SaveData.Heroine GetHeroine(HFlag hflag)
