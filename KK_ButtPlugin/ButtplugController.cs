@@ -86,7 +86,14 @@ namespace KK_ButtPlugin
         public void OnStartH(HFlag flags)
         {
             this.flags = flags;
+            // stroke thread
             new Thread(RunLoop)
+            {
+                Priority = ThreadPriority.AboveNormal
+            }
+            .Start();
+            // vibrate thread
+            new Thread(RunVibrate)
             {
                 Priority = ThreadPriority.AboveNormal
             }
@@ -98,24 +105,61 @@ namespace KK_ButtPlugin
             client.Close();
         }
 
-        private void RunLoop()
+        private void UntilReady()
         {
             while (flags.lstHeroine.IsNullOrEmpty()
                 || GetHeroine(flags).chaCtrl?.animBody == null
                 || flags.player?.chaCtrl?.animBody == null)
             {
                 Thread.Sleep(1000);
+                if (flags.isHSceneEnd)
+                {
+                    return;
+                }
             }
+        }
+
+        private void RunVibrate()
+        {
+            UntilReady();
+            var animator = GetHeroine(flags).chaCtrl.animBody;
+            var info = animator.GetCurrentAnimatorStateInfo(0);
+            while (!flags.isHSceneEnd)
+            {
+                if (!supportedModes.Contains(flags.mode)
+                    || !supportedAnimations.Contains(flags.nowAnimStateName)
+                    || flags.speed < 1)
+                {
+                    Thread.Sleep(100);
+                    continue;
+                }
+
+                if (info.IsName("OLoop"))
+                {
+                    DoVibrate(1.0f);
+                }
+                else if (info.IsName("Idle"))
+                {
+                    // stops vibration when not being lewd
+                    DoVibrate(0.0f);
+                }
+                else
+                {
+                    // vibrate based on the intensity of the player 
+                    DoVibrate(flags.motion);
+                }
+                Thread.Sleep(100);
+            }
+        }
+
+        private void RunLoop()
+        {
+            UntilReady();
             var animator = GetHeroine(flags).chaCtrl.animBody;
             var playerAnimator = flags.player.chaCtrl.animBody;
             double prevNormTime = double.MaxValue;
-            while (true)
+            while (!flags.isHSceneEnd)
             {
-                if (flags.isHSceneEnd)
-                {
-                    flags = null;
-                    break;
-                }
                 if (!supportedModes.Contains(flags.mode)
                     || !supportedAnimations.Contains(flags.nowAnimStateName)
                     || flags.speed < 1)
@@ -124,19 +168,6 @@ namespace KK_ButtPlugin
                     continue;
                 }
                 var info = animator.GetCurrentAnimatorStateInfo(0);
-
-                // vibrate based on the intensity of the player 
-                if (ButtPlugin.EnableVibrate.Value)
-                {
-                    if (info.IsName("OLoop"))
-                    {
-                        DoVibrate(1.0f);
-                    }
-                    else
-                    {
-                        DoVibrate(flags.motion);
-                    }
-                }
 
                 // nerf the animation speed so the device can keep up with it
                 // OLoop is faster than the rest, about 280ms per stroke at its original speed
@@ -189,7 +220,11 @@ namespace KK_ButtPlugin
 
         private void DoVibrate(float intensity)
         {
-            client.VibrateCmd(UnityEngine.Mathf.SmoothStep(0.0f, 1.0f, intensity));
+            if (!ButtPlugin.EnableVibrate.Value)
+            {
+                return;
+            }
+            client.VibrateCmd(UnityEngine.Mathf.Clamp01(intensity));
         }
 
         private static SaveData.Heroine GetHeroine(HFlag hflag)
