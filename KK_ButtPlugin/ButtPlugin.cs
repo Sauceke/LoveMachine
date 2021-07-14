@@ -2,6 +2,7 @@
 using BepInEx.Bootstrap;
 using BepInEx.Configuration;
 using BepInEx.Logging;
+using KKAPI.MainGame;
 
 namespace KK_ButtPlugin
 {
@@ -42,7 +43,8 @@ namespace KK_ButtPlugin
                 defaultValue: false,
                 "Maps control speed to vibrations");
             Logger = base.Logger;
-            Chainloader.ManagerObject.AddComponent<ButtplugController>();
+
+            GameAPI.RegisterExtraBehaviour<ButtplugController>(GUID);
             Hooks.InstallHooks();
         }
     }

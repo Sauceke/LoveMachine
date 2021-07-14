@@ -12,13 +12,7 @@ namespace KK_ButtPlugin
 
         private static class HSceneTriggers
         {
-            [HarmonyPostfix]
-            [HarmonyPatch(typeof(HFlag), nameof(HFlag.Start))]
-            public static void Start(HFlag __instance)
-            {
-                Chainloader.ManagerObject.GetComponent<ButtplugController>()
-                    .OnStartH(__instance);
-            }
+
         }
     }
 }

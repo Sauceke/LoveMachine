@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Threading;
 using UnityEngine;
+using KKAPI.MainGame;
+using KKAPI.Utilities;
 
 namespace KK_ButtPlugin
 {
-    public class ButtplugController : UnityEngine.MonoBehaviour
+    public class ButtplugController : GameCustomFunctionController
     {
         private static readonly List<HFlag.EMode> supportedModes = new List<HFlag.EMode>
         {
@@ -82,14 +83,26 @@ namespace KK_ButtPlugin
                 { "Lotus (One Leg Up).OLoop", 0.9597445f }
             };
 
-        private readonly ButtplugWsClient client = new ButtplugWsClient();
+        private ButtplugWsClient client;
         private HFlag flags;
-        
-        public void OnStartH(HFlag flags)
+
+        void Awake()
         {
-            this.flags = flags;
+            client = new ButtplugWsClient();
+        }
+
+        override protected void OnStartH(HSceneProc proc, bool freeH)
+        {
+            flags = proc.flags;
             StartCoroutine("RunStroke");
             StartCoroutine("RunVibrate");
+        }
+
+        override protected void OnEndH(HSceneProc proc, bool freeH)
+        {
+            // cleanly terminate buttplug processes
+            StopAllCoroutines();
+            flags = null;
         }
 
         void OnDestroy()
@@ -99,22 +112,16 @@ namespace KK_ButtPlugin
 
         IEnumerator UntilReady()
         {
-            while (flags.lstHeroine.IsNullOrEmpty()
-                || GetHeroine(flags).chaCtrl?.animBody == null
-                || flags.player?.chaCtrl?.animBody == null)
+            while (GetHeroineAnimator(flags) == null || GetPlayerAnimator(flags) == null)
             {
                 yield return new WaitForSeconds(1f);
-                if (flags.isHSceneEnd)
-                {
-                    yield break;
-                }
             }
         }
 
         IEnumerator RunVibrate()
         {
             yield return StartCoroutine("UntilReady");
-            while (!flags.isHSceneEnd)
+            while (true)
             {
                 if (flags.nowAnimStateName.Equals("OLoop"))
                 {
@@ -138,10 +145,10 @@ namespace KK_ButtPlugin
         IEnumerator RunStroke()
         {
             yield return StartCoroutine(UntilReady());
-            var animator = GetHeroine(flags).chaCtrl.animBody;
-            var playerAnimator = flags.player.chaCtrl.animBody;
+            var animator = GetHeroineAnimator(flags);
+            var playerAnimator = GetPlayerAnimator(flags);
             double prevNormTime = double.MaxValue;
-            while (!flags.isHSceneEnd)
+            while (true)
             {
                 if (!supportedModes.Contains(flags.mode)
                     || !supportedAnimations.Contains(flags.nowAnimStateName)
@@ -184,11 +191,6 @@ namespace KK_ButtPlugin
             }
         }
 
-        private float GetSpeedMultiplierFor(float animStrokeTimeSecs)
-        {
-            return Math.Min(1, animStrokeTimeSecs * ButtPlugin.MaxStrokesPerMinute.Value / 60f);
-        }
-
         IEnumerator DoStroke(int strokeTimeMs, double margin)
         {
             client.LinearCmd(
@@ -209,10 +211,19 @@ namespace KK_ButtPlugin
             }
             client.VibrateCmd(intensity);
         }
-
-        private static SaveData.Heroine GetHeroine(HFlag hflag)
+        private float GetSpeedMultiplierFor(float animStrokeTimeSecs)
         {
-            return hflag.lstHeroine[0];
+            return Math.Min(1, animStrokeTimeSecs * ButtPlugin.MaxStrokesPerMinute.Value / 60f);
+        }
+
+        private static Animator GetHeroineAnimator(HFlag hflag)
+        {
+            return HSceneUtils.GetLeadingHeroine(hflag)?.chaCtrl?.animBody;
+        }
+
+        private static Animator GetPlayerAnimator(HFlag hflag)
+        {
+            return hflag.player?.chaCtrl?.animBody;
         }
     }
 }
