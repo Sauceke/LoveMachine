@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading;
+using UnityEngine;
 
 namespace KK_ButtPlugin
 {
@@ -89,13 +90,13 @@ namespace KK_ButtPlugin
             // stroke thread
             new Thread(RunLoop)
             {
-                Priority = ThreadPriority.AboveNormal
+                Priority = System.Threading.ThreadPriority.AboveNormal
             }
             .Start();
             // vibrate thread
             new Thread(RunVibrate)
             {
-                Priority = ThreadPriority.AboveNormal
+                Priority = System.Threading.ThreadPriority.AboveNormal
             }
             .Start();
         }
@@ -122,31 +123,22 @@ namespace KK_ButtPlugin
         private void RunVibrate()
         {
             UntilReady();
-            var animator = GetHeroine(flags).chaCtrl.animBody;
-            var info = animator.GetCurrentAnimatorStateInfo(0);
             while (!flags.isHSceneEnd)
             {
-                if (!supportedModes.Contains(flags.mode)
-                    || !supportedAnimations.Contains(flags.nowAnimStateName)
-                    || flags.speed < 1)
-                {
-                    Thread.Sleep(100);
-                    continue;
-                }
-
-                if (info.IsName("OLoop"))
+                if (flags.nowAnimStateName.Equals("OLoop"))
                 {
                     DoVibrate(1.0f);
                 }
-                else if (info.IsName("Idle"))
+                else if (!supportedModes.Contains(flags.mode) || !supportedAnimations.Contains(flags.nowAnimStateName))
                 {
                     // stops vibration when not being lewd
                     DoVibrate(0.0f);
                 }
                 else
                 {
-                    // vibrate based on the intensity of the player 
-                    DoVibrate(flags.motion);
+                    // vibrate based on the intensity of the player
+                    // minimum vibration above 0 exists so you always feel something along with the animation
+                    DoVibrate(Mathf.Lerp(0.2f, 1.0f, flags.speedCalc));
                 }
                 Thread.Sleep(100);
             }
@@ -224,7 +216,7 @@ namespace KK_ButtPlugin
             {
                 return;
             }
-            client.VibrateCmd(UnityEngine.Mathf.Clamp01(intensity));
+            client.VibrateCmd(intensity);
         }
 
         private static SaveData.Heroine GetHeroine(HFlag hflag)
