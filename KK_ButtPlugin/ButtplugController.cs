@@ -84,7 +84,17 @@ namespace KK_ButtPlugin
 
         private readonly ButtplugWsClient client = new ButtplugWsClient();
         private HFlag flags;
+
+        public List<Device> Devices 
+        {
+            get { return client.Devices; }
+        }
         
+        public bool IsConnected
+        {
+            get { return client.IsConnected; }
+        }
+
         public void OnStartH(HFlag flags)
         {
             this.flags = flags;
@@ -94,7 +104,28 @@ namespace KK_ButtPlugin
 
         void OnDestroy()
         {
+            StopAllCoroutines();
             client.Close();
+        }
+
+        public void Connect()
+        {
+            client.Close(); // close previous connection just in case
+            client.Open();
+
+            Scan();
+        }
+
+        public void Scan()
+        {
+            StartCoroutine("ScanDevices");
+        }
+
+        IEnumerator ScanDevices()
+        {
+            client.StartScan();
+            yield return new WaitForSeconds(15.0f);
+            client.StopScan();
         }
 
         IEnumerator UntilReady()
@@ -133,6 +164,9 @@ namespace KK_ButtPlugin
                 }
                 yield return new WaitForSeconds(.01f);
             }
+            // turn off vibration since there's nothing to animate against
+            // this state can happen if H is ended while the animation is not in Idle
+            DoVibrate(0.0f);
         }
 
         IEnumerator RunStroke()
