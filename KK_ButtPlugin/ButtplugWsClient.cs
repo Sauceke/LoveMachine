@@ -10,7 +10,9 @@ namespace KK_ButtPlugin
     {
         private WebSocket websocket;
         private readonly Random random = new Random();
-        private List<Device> devices; 
+        public List<Device> Devices { get; private set; }
+
+        public bool IsConnected { get; private set; }
 
         public ButtplugWsClient()
         {
@@ -19,6 +21,8 @@ namespace KK_ButtPlugin
 
         public void Open()
         {
+            IsConnected = false;
+            Devices = new List<Device>();
             string address = ButtPlugin.WebSocketAddress.Value;
             ButtPlugin.Logger.LogDebug("Connecting to Buttplug server at " + address);
             websocket = new WebSocket(address);
@@ -30,16 +34,17 @@ namespace KK_ButtPlugin
 
         public void Close()
         {
+            IsConnected = false;
             ButtPlugin.Logger.LogDebug("Disconnecting from Buttplug server.");
             websocket.Close();
-            websocket.Dispose();
+            websocket.Dispose();            
         }
 
         public void LinearCmd(double position, int durationMs)
         {
             var commands = (
-                from device in devices
-                where device.DeviceMessages.LinearCmd != null
+                from device in Devices
+                where device.IsStroker
                 select new
                 {
                     LinearCmd = new
@@ -65,8 +70,8 @@ namespace KK_ButtPlugin
         public void VibrateCmd(double intensity)
         {
             var commands = (
-                from device in devices
-                where device.DeviceMessages.VibrateCmd != null
+                from device in Devices
+                where device.IsVibrator
                 select new
                 {
                     VibrateCmd = new
@@ -114,6 +119,32 @@ namespace KK_ButtPlugin
             websocket.Send(JsonMapper.ToJson(new object[] { deviceListRequest }));
         }
 
+        public void StartScan()
+        {
+            var scanRequest = new
+            {
+                StartScanning = new
+                {
+                    Id = random.Next()
+                }
+            };
+            websocket.Send(JsonMapper.ToJson(new object[] { scanRequest }));
+        }
+
+        public void StopScan()
+        {
+            var scanRequest = new
+            {
+                StopScanning = new
+                {
+                    Id = random.Next()
+                }
+            };
+            websocket.Send(JsonMapper.ToJson(new object[] { scanRequest }));
+        }
+
+
+
         private void OnMessageReceived(object sender, MessageReceivedEventArgs e)
         {
             foreach (JsonData data in JsonMapper.ToObject(e.Message))
@@ -129,8 +160,13 @@ namespace KK_ButtPlugin
                 }
                 else if (data.ContainsKey("DeviceList"))
                 {
-                    devices = JsonMapper.ToObject<DeviceListMessage>(data.ToJson())
+                    Devices = JsonMapper.ToObject<DeviceListMessage>(data.ToJson())
                         .DeviceList.Devices;
+                }
+
+                if (data.ContainsKey("ServerInfo"))
+                {
+                    IsConnected = true;
                 }
             }
         }
@@ -155,17 +191,21 @@ namespace KK_ButtPlugin
         }
     }
 
-    internal class Device
+    public class Device
     {
+        public string DeviceName { get; set; }
         public int DeviceIndex { get; set; }
         public Features DeviceMessages { get; set; }
 
-        internal class Features
+        public bool IsVibrator { get { return DeviceMessages.VibrateCmd != null; } }
+        public bool IsStroker { get { return DeviceMessages.LinearCmd != null; } }
+
+        public class Features
         {
             public Command LinearCmd { get; set; }
             public Command VibrateCmd { get; set; }
 
-            internal class Command
+            public class Command
             {
                 public int FeatureCount { get; set; }
             }
