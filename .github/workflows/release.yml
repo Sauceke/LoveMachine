@@ -31,7 +31,10 @@ jobs:
       run: msbuild KK_ButtPlugin.sln /p:Configuration=Release /p:DeployOnBuild=true /p:PublishProfile=FolderProfile
     
     - name: Zip artifacts
-      run: powershell Compress-Archive -Path bin/* -DestinationPath ButtPlugin.zip
+      run: |-
+        powershell New-Item -Path BepInEx/plugins/KK_ButtPlugin -ItemType Directory;
+        powershell Copy-Item -Path bin/* -Destination BepInEx/plugins/KK_ButtPlugin;
+        powershell Compress-Archive -Path BepInEx -DestinationPath ButtPlugin.zip
 
     - name: Release
       uses: "marvinpinto/action-automatic-releases@latest"
