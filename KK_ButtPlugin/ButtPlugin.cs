@@ -39,7 +39,7 @@ namespace KK_ButtPlugin
             EnableVibrate = Config.Bind(
                 section: "Device",
                 key: "Enable Vibrators",
-                defaultValue: false,
+                defaultValue: true,
                 "Maps control speed to vibrations");
             Logger = base.Logger;
             Chainloader.ManagerObject.AddComponent<ButtplugController>();
