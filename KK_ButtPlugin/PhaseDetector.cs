@@ -1,32 +1,38 @@
 ﻿using IllusionUtility.GetUtility;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
+using UnityEngine;
 
 namespace KK_ButtPlugin
 {
     // measuring tool for syncing toys to animations
     class PhaseDetector
     {
-        public static void RunLoop(HFlag flags)
+        public static IEnumerator RunLoop(HFlag flags, int girlIndex)
         {
-            var animator = GetHeroine(flags).chaCtrl.animBody;
-            var crotch1 = GetHeroine(flags).chaCtrl.objBodyBone.transform
+            yield return new WaitForSeconds(10f);
+            var animator = flags.lstHeroine[girlIndex].chaCtrl.animBody;
+            var crotch1 = flags.lstHeroine[girlIndex].chaCtrl.objBodyBone.transform
                 .FindLoop("cf_n_pee").transform;
             var crotch2 = flags.player.chaCtrl.objBodyBone.transform
                 .FindLoop("k_f_tamaL_00").transform;
             Dictionary<string, float> minDistSqTimes = new Dictionary<string, float> { };
             Dictionary<string, float> minDistSqs = new Dictionary<string, float> { };
             flags.player.chaCtrl.animBody.speed = 0;
-            while (true) {
-                Thread.Sleep(10);
+            while (!flags.isHSceneEnd) {
+                yield return new WaitForSeconds(0.01f);
                 if (!flags.nowAnimStateName.EndsWith("Loop"))
                 {
                     continue;
                 }
-                var distSq = (crotch1.position - crotch2.position).sqrMagnitude;
-                string pose = flags.nowAnimationInfo.nameAnimation + "." + flags.nowAnimStateName;
+                var distSq = crotch1.position.y;
+                // uncomment for measuring distance to pp
+                // distSq = (crotch1.position - crotch2.position).sqrMagnitude;
+                string pose = flags.nowAnimationInfo.nameAnimation + "." + flags.nowAnimStateName
+                    + "." + girlIndex;
                 minDistSqs.TryGetValue(pose, out float minDistSq);
                 if (distSq < minDistSq || minDistSq == 0)
                 {
@@ -41,14 +47,9 @@ namespace KK_ButtPlugin
                     }
                     minDistSqs[pose] = distSq;
                     minDistSqTimes[pose] = time;
-                    ButtPlugin.Logger.LogDebug(DictToString(minDistSqTimes));
+                    ButtPlugin.Logger.LogDebug(girlIndex + ": " + DictToString(minDistSqTimes));
                 }
             }
-        }
-
-        private static SaveData.Heroine GetHeroine(HFlag hflag)
-        {
-            return hflag.lstHeroine[0];
         }
 
         private static string DictToString<K, V>(Dictionary<K, V> dict)

@@ -90,14 +90,18 @@ namespace KK_ButtPlugin
                     GUILayout.Label("Device Name", GUILayout.ExpandWidth(true));
                     GUILayout.Label("Stroker", GUILayout.Width(100));
                     GUILayout.Label("Vibrators", GUILayout.Width(100));
-                GUILayout.EndHorizontal();
+                    GUILayout.Label("Threesome Role", GUILayout.Width(100));
+            GUILayout.EndHorizontal();
             
                 foreach (var device in controller.Devices)
                 {
+                    GUILayout.Space(10);
                     GUILayout.BeginHorizontal(GUILayout.ExpandWidth(true));
                         GUILayout.Label(device.DeviceName, GUILayout.ExpandWidth(true));
                         GUILayout.Toggle(device.IsStroker, "", GUILayout.Width(100));
                         GUILayout.Toggle(device.IsVibrator, "", GUILayout.Width(100));
+                        var options = new string[] { "First girl", "Second girl", "Off" };
+                        device.GirlIndex = GUILayout.SelectionGrid(device.GirlIndex, options, 1);
                     GUILayout.EndHorizontal();
                 }
                 

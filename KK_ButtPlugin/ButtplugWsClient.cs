@@ -40,11 +40,11 @@ namespace KK_ButtPlugin
             websocket.Dispose();            
         }
 
-        public void LinearCmd(double position, int durationMs)
+        public void LinearCmd(double position, int durationMs, int girlIndex)
         {
             var commands = (
                 from device in Devices
-                where device.IsStroker
+                where device.IsStroker && device.GirlIndex == girlIndex
                 select new
                 {
                     LinearCmd = new
@@ -64,7 +64,10 @@ namespace KK_ButtPlugin
                     }
                 }
             ).ToList();
-            websocket.Send(JsonMapper.ToJson(commands));
+            if (!commands.IsNullOrEmpty())
+            {
+                websocket.Send(JsonMapper.ToJson(commands));
+            }
         }
 
         public void VibrateCmd(double intensity)
@@ -90,7 +93,10 @@ namespace KK_ButtPlugin
                     }
                 }
             ).ToList();
-            websocket.Send(JsonMapper.ToJson(commands));
+            if (!commands.IsNullOrEmpty())
+            {
+                websocket.Send(JsonMapper.ToJson(commands));
+            }
         }
 
         private void OnOpened(object sender, EventArgs e)
@@ -143,8 +149,6 @@ namespace KK_ButtPlugin
             websocket.Send(JsonMapper.ToJson(new object[] { scanRequest }));
         }
 
-
-
         private void OnMessageReceived(object sender, MessageReceivedEventArgs e)
         {
             foreach (JsonData data in JsonMapper.ToObject(e.Message))
@@ -162,6 +166,7 @@ namespace KK_ButtPlugin
                 {
                     Devices = JsonMapper.ToObject<DeviceListMessage>(data.ToJson())
                         .DeviceList.Devices;
+                    ButtPlugin.Logger.LogDebug(JsonMapper.ToJson(Devices));
                 }
 
                 if (data.ContainsKey("ServerInfo"))
@@ -195,6 +200,7 @@ namespace KK_ButtPlugin
     {
         public string DeviceName { get; set; }
         public int DeviceIndex { get; set; }
+        public int GirlIndex { get; set; } = 0;
         public Features DeviceMessages { get; set; }
 
         public bool IsVibrator { get { return DeviceMessages.VibrateCmd != null; } }
