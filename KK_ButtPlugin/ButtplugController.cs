@@ -163,7 +163,6 @@ namespace KK_ButtPlugin
                 // sync stroke to animation loop starting over (thanks essu#1145 for the idea)
                 if ((int)(normTime - phase + 2) > (int)(prevNormTime - phase + 2))
                 {
-                    ButtPlugin.Logger.LogDebug(phase);
                     int strokeTimeMs = (int)(strokeTimeSecs * 1000) - 10;
                     // decrease stroke length gradually as speed approaches the device limit
                     double rate = 60f / ButtPlugin.MaxStrokesPerMinute.Value / strokeTimeSecs;
