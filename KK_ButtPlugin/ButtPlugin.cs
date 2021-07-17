@@ -13,6 +13,7 @@ namespace KK_ButtPlugin
         public const string Version = "1.0.0";
 
         public static new ManualLogSource Logger { get; private set; }
+        public static new PluginInfo Info { get; private set; }
 
         public static ConfigEntry<string> WebSocketAddress { get; private set; }
         public static ConfigEntry<int> MaxStrokesPerMinute { get; private set; }
@@ -58,6 +59,7 @@ namespace KK_ButtPlugin
                 )
             );
             Logger = base.Logger;
+            Info = base.Info;
             Chainloader.ManagerObject.AddComponent<ButtplugController>();
             Hooks.InstallHooks();
         }
@@ -91,7 +93,7 @@ namespace KK_ButtPlugin
                     GUILayout.Label("Stroker", GUILayout.Width(100));
                     GUILayout.Label("Vibrators", GUILayout.Width(100));
                     GUILayout.Label("Threesome Role", GUILayout.Width(100));
-            GUILayout.EndHorizontal();
+                GUILayout.EndHorizontal();
             
                 foreach (var device in controller.Devices)
                 {
