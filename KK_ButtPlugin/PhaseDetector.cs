@@ -1,9 +1,8 @@
 ﻿using IllusionUtility.GetUtility;
+using LitJson;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
 using UnityEngine;
 
 namespace KK_ButtPlugin
@@ -47,16 +46,9 @@ namespace KK_ButtPlugin
                     }
                     minDistSqs[pose] = distSq;
                     minDistSqTimes[pose] = time;
-                    ButtPlugin.Logger.LogDebug(girlIndex + ": " + DictToString(minDistSqTimes));
+                    ButtPlugin.Logger.LogDebug(JsonMapper.ToJson(minDistSqTimes));
                 }
             }
-        }
-
-        private static string DictToString<K, V>(Dictionary<K, V> dict)
-        {
-            return dict
-                .Select(pair => "{ \"" + pair.Key + "\", " + pair.Value + "f }")
-                .Aggregate("", (a, b) => a + ",\r\n" + b);
         }
     }
 }
