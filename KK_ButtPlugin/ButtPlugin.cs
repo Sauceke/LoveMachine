@@ -20,7 +20,7 @@ namespace KK_ButtPlugin
         public static ConfigEntry<int> LatencyMs { get; private set; }
         public static ConfigEntry<bool> EnableVibrate { get; private set; }
         public static ConfigEntry<bool> SyncVibrationWithAnimation { get; private set; }
-        public static ConfigEntry<int> VibrationFrequency { get; private set; }
+        public static ConfigEntry<int> VibrationUpdateFrequency { get; private set; }
 
         private void Start()
         {
@@ -53,7 +53,7 @@ namespace KK_ButtPlugin
                 "Maps vibrations to a wave pattern in sync with animations.\n" +
                 "Timings are approximations based on animation length and not precise location of stimulation."
             );
-            VibrationFrequency = Config.Bind(
+            VibrationUpdateFrequency = Config.Bind(
                 section: "Vibration Settings",
                 key: "Update Frequency (per second)",
                 defaultValue: 30,
@@ -76,26 +76,28 @@ namespace KK_ButtPlugin
             );
             Logger = base.Logger;
             Info = base.Info;
-            Chainloader.ManagerObject.AddComponent<ButtplugController>();
+            Chainloader.ManagerObject.AddComponent<ButtplugWsClient>();
+            Chainloader.ManagerObject.AddComponent<ButtplugStrokerController>();
+            Chainloader.ManagerObject.AddComponent<ButtplugVibrationController>();
             Hooks.InstallHooks();
         }
 
         static void DeviceListDrawer(ConfigEntryBase entry)
         {
-            var controller = Chainloader.ManagerObject.GetComponent<ButtplugController>();
+            var serverController = Chainloader.ManagerObject.GetComponent<ButtplugWsClient>();
             
             GUILayout.BeginVertical(GUILayout.ExpandWidth(true));
                 GUILayout.BeginHorizontal();
                     GUILayout.FlexibleSpace();
                     if (GUILayout.Button("Connect", GUILayout.Width(150)))
                     {
-                        controller.Connect();
+                        serverController.Connect();
                     }
-                    if (controller.IsConnected)
+                    if (serverController.IsConnected)
                     {
                         if (GUILayout.Button("Scan", GUILayout.Width(150)))
                         {
-                            controller.Scan();
+                            serverController.Scan();
                         }
                     }
                     GUILayout.FlexibleSpace();
@@ -111,7 +113,7 @@ namespace KK_ButtPlugin
                     GUILayout.Label("Threesome Role", GUILayout.Width(100));
                 GUILayout.EndHorizontal();
             
-                foreach (var device in controller.Devices)
+                foreach (var device in serverController.Devices)
                 {
                     GUILayout.Space(10);
                     GUILayout.BeginHorizontal(GUILayout.ExpandWidth(true));

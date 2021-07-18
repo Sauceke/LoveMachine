@@ -16,7 +16,9 @@ namespace KK_ButtPlugin
             [HarmonyPatch(typeof(HFlag), nameof(HFlag.Start))]
             public static void Start(HFlag __instance)
             {
-                Chainloader.ManagerObject.GetComponent<ButtplugController>()
+                Chainloader.ManagerObject.GetComponent<ButtplugVibrationController>()
+                    .OnStartH(__instance);
+                Chainloader.ManagerObject.GetComponent<ButtplugStrokerController>()
                     .OnStartH(__instance);
             }
         }

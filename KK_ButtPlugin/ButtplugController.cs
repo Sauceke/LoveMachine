@@ -8,73 +8,30 @@ using UnityEngine;
 
 namespace KK_ButtPlugin
 {
-    public class ButtplugController : MonoBehaviour
+    public abstract class ButtplugController : MonoBehaviour
     {
-        private static readonly List<HFlag.EMode> supportedModes = new List<HFlag.EMode>
-        {
-            HFlag.EMode.houshi, HFlag.EMode.sonyu, HFlag.EMode.houshi3P, HFlag.EMode.sonyu3P
-        };
-
-        private static readonly List<string> orgasmAnimations = new List<string>
-        {
-            "OLoop", "A_OLoop",
-
-            // ejaculation
-            "OUT_START", "OUT_LOOP", "IN_START", "IN_LOOP",
-            "M_OUT_Start", "M_OUT_Loop", "M_IN_Start", "M_IN_Loop",
-            "WS_IN_Start", "WS_IN_Loop", "SS_IN_Start", "SS_IN_Loop",
-            "A_WS_IN_Start", "A_WS_IN_Loop", "A_SS_IN_Start", "A_SS_IN_Loop",
-
-            // insertion excitement
-            "Pull", "A_Pull", "Insert", "A_Insert"
-        };
-
-        private static readonly List<string> supportedAnimations = new List<string>
-        {
-            "WLoop", "SLoop",
-            // masturbation
-            "MLoop", 
-            // anal
-            "A_WLoop", "A_SLoop", "A_OLoop",
-
-            // orgasm
-            "OLoop", "A_OLoop",
-            "OUT_START", "OUT_LOOP", "IN_START", "IN_LOOP",
-            "M_OUT_Start", "M_OUT_Loop", "M_IN_Start", "M_IN_Loop",
-            "WS_IN_Start", "WS_IN_Loop", "SS_IN_Start", "SS_IN_Loop",
-            "A_WS_IN_Start", "A_WS_IN_Loop", "A_SS_IN_Start", "A_SS_IN_Loop",
-            
-            // insertion
-            "Pull", "A_Pull", "Insert", "A_Insert"
-        };
-
+        protected ButtplugWsClient client;
+        protected HFlag flags;
         
-        
-
         // animation -> fractional part of normalized time at start of up-stroke
         private Dictionary<string, float> animPhases;
 
-        private readonly ButtplugWsClient client = new ButtplugWsClient();
-        private HFlag flags;
-
-        public List<Device> Devices
+        protected string GetPose(int girlIndex = 0)
         {
-            get { return client.Devices; }
+            return flags.nowAnimationInfo.nameAnimation
+                + "." + flags.nowAnimStateName
+                + "." + girlIndex;
         }
 
-        public bool IsConnected
+        protected float GetPhase(int girlIndex = 0)
         {
-            get { return client.IsConnected; }
+            animPhases.TryGetValue(GetPose(girlIndex), out float phase);
+            return phase;
         }
-
-        public bool IsOrgasm
-        {
-            get { return orgasmAnimations.Contains(flags.nowAnimStateName); }
-        }
-
 
         public void Awake()
         {
+            client = this.gameObject.GetComponent<ButtplugWsClient>();
             string animConfigPath = Path.GetDirectoryName(ButtPlugin.Info.Location)
                 + Path.DirectorySeparatorChar
                 + "animations.json";
@@ -93,50 +50,13 @@ namespace KK_ButtPlugin
             yield return StartCoroutine(UntilReady());
             for (int i = 0; i < flags.lstHeroine.Count; i++)
             {
-                StartCoroutine(RunStroke(girlIndex: i));
+                StartCoroutine(Run(girlIndex: i));
             }
-            StartCoroutine(RunVibrate());
         }
 
         void OnDestroy()
         {
             StopAllCoroutines();
-            client.Close();
-        }
-
-        public void Connect()
-        {
-            client.Close(); // close previous connection just in case
-            client.Open();
-            Scan();
-        }
-
-        public void Scan()
-        {
-            StartCoroutine("ScanDevices");
-        }
-
-        private string GetPose(int girlIndex = 0)
-        {
-            return flags.nowAnimationInfo.nameAnimation
-                + "." + flags.nowAnimStateName
-                + "." + girlIndex;
-        }
-
-        private float GetPhase(int girlIndex = 0)
-        {
-            if (!animPhases.TryGetValue(GetPose(girlIndex), out float phase))
-            {
-                return 0.0f;  // 
-            }
-            return phase;
-        }
-
-        IEnumerator ScanDevices()
-        {
-            client.StartScan();
-            yield return new WaitForSeconds(15.0f);
-            client.StopScan();
         }
 
         IEnumerator UntilReady()
@@ -153,15 +73,81 @@ namespace KK_ButtPlugin
             }
         }
 
-        IEnumerator RunVibrate()
+        abstract protected IEnumerator Run(int girlIndex);
+    }
+
+    public class ButtplugVibrationController : ButtplugController
+    {
+        private static readonly List<HFlag.EMode> supportedModes = new List<HFlag.EMode>
         {
+            HFlag.EMode.houshi, HFlag.EMode.sonyu, HFlag.EMode.houshi3P, HFlag.EMode.sonyu3P
+        };
+
+        private static readonly List<string> supportedAnimations = new List<string>
+        {
+            "WLoop", "SLoop",
+            // masturbation
+            "MLoop", 
+            // anal
+            "A_WLoop", "A_SLoop", "A_OLoop",
+
+            // orgasm
+            "OLoop", "A_OLoop",
+
+            // ejaculation
+            "OUT_START", "OUT_LOOP", "IN_START", "IN_LOOP",
+            "M_OUT_Start", "M_OUT_Loop", "M_IN_Start", "M_IN_Loop",
+            "WS_IN_Start", "WS_IN_Loop", "SS_IN_Start", "SS_IN_Loop",
+            "A_WS_IN_Start", "A_WS_IN_Loop", "A_SS_IN_Start", "A_SS_IN_Loop",
+            
+            // insertion
+            "Pull", "A_Pull", "Insert", "A_Insert"
+        };
+
+        private static readonly List<string> orgasmAnimations = new List<string>
+        {
+            "OLoop", "A_OLoop",
+
+            // ejaculation
+            "OUT_START", "OUT_LOOP", "IN_START", "IN_LOOP",
+            "M_OUT_Start", "M_OUT_Loop", "M_IN_Start", "M_IN_Loop",
+            "WS_IN_Start", "WS_IN_Loop", "SS_IN_Start", "SS_IN_Loop",
+            "A_WS_IN_Start", "A_WS_IN_Loop", "A_SS_IN_Start", "A_SS_IN_Loop",
+
+            // insertion excitement
+            "Pull", "A_Pull", "Insert", "A_Insert"
+        };
+
+        public bool IsOrgasm
+        {
+            get { return orgasmAnimations.Contains(flags.nowAnimStateName); }
+        }
+
+        private void DoVibrate(float intensity)
+        {
+            client.VibrateCmd(intensity);
+        }
+
+        override protected IEnumerator Run(int girlIndex)
+        {
+            // do not support more than one girl for now
+            if (girlIndex > 0)
+            {
+                yield break;
+            }
+
             while (!flags.isHSceneEnd)
             {
+                if (!ButtPlugin.EnableVibrate.Value)
+                {
+                    yield return new WaitForSeconds(1.0f);
+                }
+
                 if (!supportedModes.Contains(flags.mode) || !supportedAnimations.Contains(flags.nowAnimStateName))
                 {
                     // stops vibration when not being lewd
                     DoVibrate(0.0f);
-                    yield return new WaitForSecondsRealtime(1.0f / (float)ButtPlugin.VibrationFrequency.Value);
+                    yield return new WaitForSecondsRealtime(1.0f / (float)ButtPlugin.VibrationUpdateFrequency.Value);
                     continue;
                 }
 
@@ -182,19 +168,37 @@ namespace KK_ButtPlugin
                 {
                     // Simple sin based intensity amplification based on normalized position in looping animation
                     var info = animator.GetCurrentAnimatorStateInfo(0);
-                    var depth = (info.m_NormalizedTime - GetPhase()) % 1;
+                    var depth = (info.normalizedTime - GetPhase()) % 1;
                     strength = Mathf.Sin(Mathf.Lerp(0, Mathf.PI, depth)) + 0.1f;
                 }
 
                 DoVibrate(Mathf.Lerp(minVibration, 1.0f, speed * strength));
-                yield return new WaitForSecondsRealtime(1.0f / (float)ButtPlugin.VibrationFrequency.Value);
+                yield return new WaitForSecondsRealtime(1.0f / (float)ButtPlugin.VibrationUpdateFrequency.Value);
             }
             // turn off vibration since there's nothing to animate against
             // this state can happen if H is ended while the animation is not in Idle
             DoVibrate(0.0f);
         }
+    }
 
-        IEnumerator RunStroke(int girlIndex)
+    public class ButtplugStrokerController : ButtplugController
+    {
+        private static readonly List<HFlag.EMode> supportedModes = new List<HFlag.EMode>
+        {
+            HFlag.EMode.houshi, HFlag.EMode.sonyu, HFlag.EMode.houshi3P, HFlag.EMode.sonyu3P
+        };
+
+        private static readonly List<string> supportedAnimations = new List<string>
+        {
+            "WLoop", "SLoop",
+            // anal
+            "A_WLoop", "A_SLoop", "A_OLoop",
+
+            // orgasm
+            "OLoop", "A_OLoop",
+        };
+
+        override protected IEnumerator Run(int girlIndex)
         {
             var animator = flags.lstHeroine[girlIndex].chaCtrl.animBody;
             var playerAnimator = flags.player.chaCtrl.animBody;
@@ -253,7 +257,7 @@ namespace KK_ButtPlugin
             return Math.Min(1, animStrokeTimeSecs * ButtPlugin.MaxStrokesPerMinute.Value / 60f);
         }
 
-        IEnumerator DoStroke(int strokeTimeMs, double margin, int girlIndex)
+        private IEnumerator DoStroke(int strokeTimeMs, double margin, int girlIndex)
         {
             client.LinearCmd(
                 position: 1 - margin * 0.7,
@@ -264,15 +268,6 @@ namespace KK_ButtPlugin
                 position: margin * 0.3,
                 durationMs: strokeTimeMs / 2,
                 girlIndex);
-        }
-
-        private void DoVibrate(float intensity)
-        {
-            if (!ButtPlugin.EnableVibrate.Value)
-            {
-                return;
-            }
-            client.VibrateCmd(intensity);
         }
     }
 }
