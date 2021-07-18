@@ -145,7 +145,7 @@ namespace KK_ButtPlugin
                     continue;
                 }
 
-                var animator = flags.lstHeroine[0].chaCtrl.animBody;
+                var animator = flags.lstHeroine[girlIndex].chaCtrl.animBody;
 
                 var speed = flags.speedCalc;
                 var strength = 1.0f;
