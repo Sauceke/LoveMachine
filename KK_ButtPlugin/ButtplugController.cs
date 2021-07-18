@@ -123,19 +123,13 @@ namespace KK_ButtPlugin
             get { return orgasmAnimations.Contains(flags.nowAnimStateName); }
         }
 
-        private void DoVibrate(float intensity)
+        private void DoVibrate(float intensity, int girlIndex)
         {
-            client.VibrateCmd(intensity);
+            client.VibrateCmd(intensity, girlIndex);
         }
 
         override protected IEnumerator Run(int girlIndex)
         {
-            // do not support more than one girl for now
-            if (girlIndex > 0)
-            {
-                yield break;
-            }
-
             while (!flags.isHSceneEnd)
             {
                 if (!ButtPlugin.EnableVibrate.Value)
@@ -146,7 +140,7 @@ namespace KK_ButtPlugin
                 if (!supportedModes.Contains(flags.mode) || !supportedAnimations.Contains(flags.nowAnimStateName))
                 {
                     // stops vibration when not being lewd
-                    DoVibrate(0.0f);
+                    DoVibrate(0.0f, girlIndex);
                     yield return new WaitForSecondsRealtime(1.0f / (float)ButtPlugin.VibrationUpdateFrequency.Value);
                     continue;
                 }
@@ -172,12 +166,12 @@ namespace KK_ButtPlugin
                     strength = Mathf.Sin(Mathf.Lerp(0, Mathf.PI, depth)) + 0.1f;
                 }
 
-                DoVibrate(Mathf.Lerp(minVibration, 1.0f, speed * strength));
+                DoVibrate(Mathf.Lerp(minVibration, 1.0f, speed * strength), girlIndex);
                 yield return new WaitForSecondsRealtime(1.0f / (float)ButtPlugin.VibrationUpdateFrequency.Value);
             }
             // turn off vibration since there's nothing to animate against
             // this state can happen if H is ended while the animation is not in Idle
-            DoVibrate(0.0f);
+            DoVibrate(0.0f, girlIndex);
         }
     }
 

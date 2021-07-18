@@ -79,11 +79,11 @@ namespace KK_ButtPlugin
             }
         }
 
-        public void VibrateCmd(double intensity)
+        public void VibrateCmd(double intensity, int girlIndex)
         {
             var commands = (
                 from device in Devices
-                where device.IsVibrator
+                where device.IsVibrator && device.GirlIndex == girlIndex
                 select new
                 {
                     VibrateCmd = new
