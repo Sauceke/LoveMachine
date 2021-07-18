@@ -19,6 +19,8 @@ namespace KK_ButtPlugin
         public static ConfigEntry<int> MaxStrokesPerMinute { get; private set; }
         public static ConfigEntry<int> LatencyMs { get; private set; }
         public static ConfigEntry<bool> EnableVibrate { get; private set; }
+        public static ConfigEntry<bool> SyncVibrationWithAnimation { get; private set; }
+        public static ConfigEntry<int> VibrationFrequency { get; private set; }
 
         private void Start()
         {
@@ -28,21 +30,35 @@ namespace KK_ButtPlugin
                 defaultValue: "ws://localhost:12345/",
                 "The Buttplug server address (requires game restart).");
             MaxStrokesPerMinute = Config.Bind(
-                section: "Device",
+                section: "Stroker Settings",
                 key: "Maximum strokes per minute",
                 defaultValue: 140,
                 "The top speed possible on your stroker at 70% stroke length.");
             LatencyMs = Config.Bind(
-                section: "Device",
+                section: "Stroker Settings",
                 key: "Latency (ms)",
                 defaultValue: 0,
                 "The difference in latency between your stroker and your display. \n" +
                 "Negative if your stroker has lower latency.");
             EnableVibrate = Config.Bind(
-                section: "Device",
+                section: "Vibration Settings",
                 key: "Enable Vibrators",
                 defaultValue: true,
-                "Maps control speed to vibrations");
+                "Maps control speed to vibrations"
+            );
+            SyncVibrationWithAnimation = Config.Bind(
+                section: "Vibration Settings",
+                key: "Vibration With Animation",
+                defaultValue: false,
+                "Maps vibrations to a wave pattern in sync with animations.\n" +
+                "Timings are approximations based on animation length and not precise location of stimulation."
+            );
+            VibrationFrequency = Config.Bind(
+                section: "Vibration Settings",
+                key: "Update Frequency (per second)",
+                defaultValue: 30,
+                "Average times per second we update the vibration state."
+            );
             Config.Bind(
                 section: "Device List",
                 key: "Connected",
@@ -103,7 +119,7 @@ namespace KK_ButtPlugin
                         GUILayout.Toggle(device.IsStroker, "", GUILayout.Width(100));
                         GUILayout.Toggle(device.IsVibrator, "", GUILayout.Width(100));
                         var options = new string[] { "First girl", "Second girl", "Off" };
-                        device.GirlIndex = GUILayout.SelectionGrid(device.GirlIndex, options, 1);
+                        device.GirlIndex = GUILayout.SelectionGrid(device.GirlIndex, options, 1, GUILayout.Width(100));
                     GUILayout.EndHorizontal();
                 }
                 
