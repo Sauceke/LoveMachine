@@ -1,23 +1,32 @@
 ﻿using LitJson;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using WebSocket4Net;
+using UnityEngine;
 
 namespace KK_ButtPlugin
 {
-    public class ButtplugWsClient
+    public class ButtplugWsClient : MonoBehaviour
     {
         private WebSocket websocket;
-        private readonly Random random = new Random();
+        private readonly System.Random random = new System.Random();
         public List<Device> Devices { get; private set; }
 
         public bool IsConnected { get; private set; }
 
-        public ButtplugWsClient()
+        private void Awake()
         {
             Open();
         }
+
+
+        private void OnDestroy()
+        {
+            Close();
+        }
+        
 
         public void Open()
         {
@@ -125,7 +134,7 @@ namespace KK_ButtPlugin
             websocket.Send(JsonMapper.ToJson(new object[] { deviceListRequest }));
         }
 
-        public void StartScan()
+        private void StartScan()
         {
             var scanRequest = new
             {
@@ -137,7 +146,7 @@ namespace KK_ButtPlugin
             websocket.Send(JsonMapper.ToJson(new object[] { scanRequest }));
         }
 
-        public void StopScan()
+        private void StopScan()
         {
             var scanRequest = new
             {
@@ -147,6 +156,25 @@ namespace KK_ButtPlugin
                 }
             };
             websocket.Send(JsonMapper.ToJson(new object[] { scanRequest }));
+        }
+
+        private IEnumerator ScanDevices()
+        {
+            StartScan();
+            yield return new WaitForSeconds(15.0f);
+            StopScan();
+        }
+
+        public void Scan()
+        {
+            StartCoroutine(ScanDevices());
+        }
+
+        public void Connect()
+        {
+            Close(); // close previous connection just in case
+            Open();
+            Scan();
         }
 
         private void OnMessageReceived(object sender, MessageReceivedEventArgs e)

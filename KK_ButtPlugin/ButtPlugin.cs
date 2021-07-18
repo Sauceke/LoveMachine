@@ -19,6 +19,8 @@ namespace KK_ButtPlugin
         public static ConfigEntry<int> MaxStrokesPerMinute { get; private set; }
         public static ConfigEntry<int> LatencyMs { get; private set; }
         public static ConfigEntry<bool> EnableVibrate { get; private set; }
+        public static ConfigEntry<bool> SyncVibrationWithAnimation { get; private set; }
+        public static ConfigEntry<int> VibrationUpdateFrequency { get; private set; }
 
         private void Start()
         {
@@ -28,21 +30,35 @@ namespace KK_ButtPlugin
                 defaultValue: "ws://localhost:12345/",
                 "The Buttplug server address (requires game restart).");
             MaxStrokesPerMinute = Config.Bind(
-                section: "Device",
+                section: "Stroker Settings",
                 key: "Maximum strokes per minute",
                 defaultValue: 140,
                 "The top speed possible on your stroker at 70% stroke length.");
             LatencyMs = Config.Bind(
-                section: "Device",
+                section: "Stroker Settings",
                 key: "Latency (ms)",
                 defaultValue: 0,
                 "The difference in latency between your stroker and your display. \n" +
                 "Negative if your stroker has lower latency.");
             EnableVibrate = Config.Bind(
-                section: "Device",
+                section: "Vibration Settings",
                 key: "Enable Vibrators",
                 defaultValue: true,
-                "Maps control speed to vibrations");
+                "Maps control speed to vibrations"
+            );
+            SyncVibrationWithAnimation = Config.Bind(
+                section: "Vibration Settings",
+                key: "Vibration With Animation",
+                defaultValue: false,
+                "Maps vibrations to a wave pattern in sync with animations.\n" +
+                "Timings are approximations based on animation length and not precise location of stimulation."
+            );
+            VibrationUpdateFrequency = Config.Bind(
+                section: "Vibration Settings",
+                key: "Update Frequency (per second)",
+                defaultValue: 30,
+                "Average times per second we update the vibration state."
+            );
             Config.Bind(
                 section: "Device List",
                 key: "Connected",
@@ -60,26 +76,28 @@ namespace KK_ButtPlugin
             );
             Logger = base.Logger;
             Info = base.Info;
-            Chainloader.ManagerObject.AddComponent<ButtplugController>();
+            Chainloader.ManagerObject.AddComponent<ButtplugWsClient>();
+            Chainloader.ManagerObject.AddComponent<ButtplugStrokerController>();
+            Chainloader.ManagerObject.AddComponent<ButtplugVibrationController>();
             Hooks.InstallHooks();
         }
 
         static void DeviceListDrawer(ConfigEntryBase entry)
         {
-            var controller = Chainloader.ManagerObject.GetComponent<ButtplugController>();
+            var serverController = Chainloader.ManagerObject.GetComponent<ButtplugWsClient>();
             
             GUILayout.BeginVertical(GUILayout.ExpandWidth(true));
                 GUILayout.BeginHorizontal();
                     GUILayout.FlexibleSpace();
                     if (GUILayout.Button("Connect", GUILayout.Width(150)))
                     {
-                        controller.Connect();
+                        serverController.Connect();
                     }
-                    if (controller.IsConnected)
+                    if (serverController.IsConnected)
                     {
                         if (GUILayout.Button("Scan", GUILayout.Width(150)))
                         {
-                            controller.Scan();
+                            serverController.Scan();
                         }
                     }
                     GUILayout.FlexibleSpace();
@@ -95,7 +113,7 @@ namespace KK_ButtPlugin
                     GUILayout.Label("Threesome Role", GUILayout.Width(100));
                 GUILayout.EndHorizontal();
             
-                foreach (var device in controller.Devices)
+                foreach (var device in serverController.Devices)
                 {
                     GUILayout.Space(10);
                     GUILayout.BeginHorizontal(GUILayout.ExpandWidth(true));
@@ -103,7 +121,7 @@ namespace KK_ButtPlugin
                         GUILayout.Toggle(device.IsStroker, "", GUILayout.Width(100));
                         GUILayout.Toggle(device.IsVibrator, "", GUILayout.Width(100));
                         var options = new string[] { "First girl", "Second girl", "Off" };
-                        device.GirlIndex = GUILayout.SelectionGrid(device.GirlIndex, options, 1);
+                        device.GirlIndex = GUILayout.SelectionGrid(device.GirlIndex, options, 1, GUILayout.Width(100));
                     GUILayout.EndHorizontal();
                 }
                 
