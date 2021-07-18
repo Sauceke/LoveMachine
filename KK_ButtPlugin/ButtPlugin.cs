@@ -18,7 +18,7 @@ namespace KK_ButtPlugin
         public static ConfigEntry<string> WebSocketAddress { get; private set; }
         public static ConfigEntry<int> MaxStrokesPerMinute { get; private set; }
         public static ConfigEntry<int> LatencyMs { get; private set; }
-        public static ConfigEntry<bool> EnableVibrate { get; private set; }
+        public static ConfigEntry<VibrationMode> EnableVibrate { get; private set; }
         public static ConfigEntry<bool> SyncVibrationWithAnimation { get; private set; }
         public static ConfigEntry<int> VibrationUpdateFrequency { get; private set; }
 
@@ -43,7 +43,7 @@ namespace KK_ButtPlugin
             EnableVibrate = Config.Bind(
                 section: "Vibration Settings",
                 key: "Enable Vibrators",
-                defaultValue: true,
+                defaultValue: VibrationMode.Both,
                 "Maps control speed to vibrations"
             );
             SyncVibrationWithAnimation = Config.Bind(
@@ -59,6 +59,7 @@ namespace KK_ButtPlugin
                 defaultValue: 30,
                 "Average times per second we update the vibration state."
             );
+
             Config.Bind(
                 section: "Device List",
                 key: "Connected",

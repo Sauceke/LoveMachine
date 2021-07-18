@@ -8,6 +8,14 @@ using UnityEngine;
 
 namespace KK_ButtPlugin
 {
+    public enum VibrationMode
+    {
+        Off = 0_00,
+        Male = 0_01,
+        Female = 0_10,
+        Both = 0_11
+    }
+
     public abstract class ButtplugController : MonoBehaviour
     {
         protected ButtplugWsClient client;
@@ -27,6 +35,16 @@ namespace KK_ButtPlugin
         {
             animPhases.TryGetValue(GetPose(girlIndex), out float phase);
             return phase;
+        }
+
+        public bool IsFemale
+        {
+            get { return (ButtPlugin.EnableVibrate.Value & VibrationMode.Female) == VibrationMode.Female; }
+        }
+
+        public bool IsMale
+        {
+            get { return (ButtPlugin.EnableVibrate.Value & VibrationMode.Male) == VibrationMode.Male; }
         }
 
         public void Awake()
@@ -78,10 +96,33 @@ namespace KK_ButtPlugin
 
     public class ButtplugVibrationController : ButtplugController
     {
-        private static readonly List<HFlag.EMode> supportedModes = new List<HFlag.EMode>
+        private static readonly List<HFlag.EMode> supportedMaleModes = new List<HFlag.EMode>
         {
-            HFlag.EMode.houshi, HFlag.EMode.sonyu, HFlag.EMode.houshi3P, HFlag.EMode.sonyu3P
+            HFlag.EMode.houshi, HFlag.EMode.sonyu, HFlag.EMode.houshi3P, HFlag.EMode.sonyu3P,
         };
+
+        private static readonly List<HFlag.EMode> supportedFemaleModes = new List<HFlag.EMode>
+        {
+            HFlag.EMode.sonyu, HFlag.EMode.sonyu3P,
+            HFlag.EMode.masturbation, HFlag.EMode.lesbian
+        };
+
+        private IEnumerable<HFlag.EMode> supportedModes
+        {
+            get
+            {
+                IEnumerable<HFlag.EMode> modes = new List<HFlag.EMode>();
+                if (IsFemale)
+                {
+                    modes = modes.Concat(supportedFemaleModes);
+                }
+                if (IsMale)
+                {
+                    modes = modes.Concat(supportedMaleModes);
+                }
+                return modes;
+            }
+        }
 
         private static readonly List<string> supportedAnimations = new List<string>
         {
@@ -123,6 +164,16 @@ namespace KK_ButtPlugin
             get { return orgasmAnimations.Contains(flags.nowAnimStateName); }
         }
 
+        public bool IsSupportedMode
+        {
+            get { return supportedModes.Contains(flags.mode); }
+        }
+
+        public bool IsSupportedAnimation
+        {
+            get { return supportedAnimations.Contains(flags.nowAnimStateName); }
+        }
+
         private void DoVibrate(float intensity, int girlIndex)
         {
             client.VibrateCmd(intensity, girlIndex);
@@ -132,12 +183,13 @@ namespace KK_ButtPlugin
         {
             while (!flags.isHSceneEnd)
             {
-                if (!ButtPlugin.EnableVibrate.Value)
+                if (ButtPlugin.EnableVibrate.Value == VibrationMode.Off)
                 {
                     yield return new WaitForSeconds(1.0f);
+                    continue;
                 }
 
-                if (!supportedModes.Contains(flags.mode) || !supportedAnimations.Contains(flags.nowAnimStateName))
+                if (!IsSupportedMode || !IsSupportedAnimation)
                 {
                     // stops vibration when not being lewd
                     DoVibrate(0.0f, girlIndex);
@@ -164,6 +216,29 @@ namespace KK_ButtPlugin
                     var info = animator.GetCurrentAnimatorStateInfo(0);
                     var depth = (info.normalizedTime - GetPhase()) % 1;
                     strength = Mathf.Sin(Mathf.Lerp(0, Mathf.PI, depth)) + 0.1f;
+
+
+                    // masturbation is on a non-speed controlled animation
+                    // it has a fixed order of the animation loops, so we can apply a base strength
+                    //   relative to the intensity of the animation
+                    if (IsFemale && flags.mode == HFlag.EMode.masturbation)
+                    {
+                        if (flags.nowAnimStateName == "WLoop")
+                        {
+                            speed = 0.4f;
+                            minVibration = 0.2f;
+                        }
+                        else if (flags.nowAnimStateName == "MLoop")
+                        {
+                            speed = 0.8f;
+                            minVibration = 0.4f;
+                        }
+                        else if (flags.nowAnimStateName == "SLoop")
+                        {
+                            speed = 1.0f;
+                            minVibration = 0.4f;
+                        }
+                    }
                 }
 
                 DoVibrate(Mathf.Lerp(minVibration, 1.0f, speed * strength), girlIndex);
