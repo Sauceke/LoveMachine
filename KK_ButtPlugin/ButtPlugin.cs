@@ -10,7 +10,7 @@ namespace KK_ButtPlugin
     internal class ButtPlugin : BaseUnityPlugin
     {
         public const string GUID = "Sauceke.ButtPlugin";
-        public const string Version = "1.0.0";
+        public const string Version = "1.2.0";
 
         public static new ManualLogSource Logger { get; private set; }
         public static new PluginInfo Info { get; private set; }
