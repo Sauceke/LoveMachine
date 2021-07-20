@@ -33,6 +33,8 @@ In Plugin Settings > ButtPlugin, you can set the following parameters:
 ### Device List
 * **Connect:** Reconnect to the Buttplug server.
 * **Scan:** Scan for devices.
+* **Stroker:** indicates that the device has back-and-forth movement functionality AND that this functionality is supported by Buttplug.
+* **Vibrators:** indicates that the device has vibrator functionality AND that this functionality is supported by Buttplug.
 * **Threesome role:** Which girl the device is assigned to in a threesome. This also affects other scenes - if a device is assigned to second girl, it will not be activated in Standard scenes.
 
 ### Network
