@@ -36,13 +36,30 @@ jobs:
         powershell Copy-Item -Path bin/* -Destination BepInEx/plugins/KK_ButtPlugin;
         powershell Compress-Archive -Path BepInEx -DestinationPath ButtPlugin.zip
 
-    - name: Release
-      uses: "marvinpinto/action-automatic-releases@latest"
+    - name: Generate changelog
+      id: generate_changelog
+      uses: heinrichreimer/github-changelog-generator-action@v2.1.1
       with:
-        repo_token: "${{ secrets.GITHUB_TOKEN }}"
-        prerelease: false
+        token: ${{ secrets.GITHUB_TOKEN }}
+        
+    - name: Create Release
+      id: create_release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: ${{ github.event.inputs.version }}
+        release_name: Release ${{ github.event.inputs.version }}
+        body: ${{ generate_changelog.outputs.changelog }}
         draft: true
-        automatic_release_tag: ${{ github.event.inputs.version }}
-        files: |
-          ButtPlugin.zip
-
+        prerelease: false
+        
+    - name: Upload Release Asset
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ./ButtPlugin.zip
+        asset_name: ButtPlugin.zip
+        asset_content_type: application/zip
