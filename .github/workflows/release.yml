@@ -36,12 +36,6 @@ jobs:
         powershell Copy-Item -Path bin/* -Destination BepInEx/plugins/KK_ButtPlugin;
         powershell Compress-Archive -Path BepInEx -DestinationPath ButtPlugin.zip
 
-    - name: Generate changelog
-      id: generate_changelog
-      uses: metcalfc/changelog-generator@v0.4.4
-      with:
-        myToken: ${{ secrets.GITHUB_TOKEN }}
-        
     - name: Create Release
       id: create_release
       uses: actions/create-release@v1
@@ -50,7 +44,7 @@ jobs:
       with:
         tag_name: ${{ github.event.inputs.version }}
         release_name: Release ${{ github.event.inputs.version }}
-        body: ${{ steps.generate_changelog.outputs.changelog }}
+        body: write the changelog you lazy fuk
         draft: true
         prerelease: false
         
