@@ -26,7 +26,8 @@ namespace KK_ButtPlugin
 
         protected string GetPose(int girlIndex = 0)
         {
-            return flags.nowAnimationInfo.nameAnimation
+            return flags.nowAnimationInfo.mode
+                + "." + flags.nowAnimationInfo.id
                 + "." + flags.nowAnimStateName
                 + "." + girlIndex;
         }
@@ -214,9 +215,8 @@ namespace KK_ButtPlugin
                 {
                     // Simple sin based intensity amplification based on normalized position in looping animation
                     var info = animator.GetCurrentAnimatorStateInfo(0);
-                    var depth = (info.normalizedTime - GetPhase()) % 1;
+                    var depth = (info.normalizedTime - GetPhase(girlIndex)) % 1;
                     strength = Mathf.Sin(Mathf.Lerp(0, Mathf.PI, depth)) + 0.1f;
-
 
                     // masturbation is on a non-speed controlled animation
                     // it has a fixed order of the animation loops, so we can apply a base strength
