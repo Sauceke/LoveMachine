@@ -3,6 +3,7 @@ name: .NET
 on:
   push:
     branches: [ mastur ]
+    paths: [ 'KK_ButtPlugin/**' ]
   pull_request:
     branches: [ mastur ]
 
