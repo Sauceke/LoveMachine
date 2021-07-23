@@ -213,10 +213,10 @@ namespace KK_ButtPlugin
 
                 if (ButtPlugin.SyncVibrationWithAnimation.Value)
                 {
-                    // Simple sin based intensity amplification based on normalized position in looping animation
+                    // Simple cos based intensity amplification based on normalized position in looping animation
                     var info = animator.GetCurrentAnimatorStateInfo(0);
                     var depth = (info.normalizedTime - GetPhase(girlIndex)) % 1;
-                    strength = Mathf.Sin(Mathf.Lerp(0, Mathf.PI, depth)) + 0.1f;
+                    strength = Mathf.Abs(Mathf.Cos(Mathf.PI * depth)) + 0.1f;
 
                     // masturbation is on a non-speed controlled animation
                     // it has a fixed order of the animation loops, so we can apply a base strength
