@@ -33,7 +33,7 @@ namespace KK_ButtPlugin
             IsConnected = false;
             Devices = new List<Device>();
             string address = ButtPlugin.WebSocketAddress.Value;
-            ButtPlugin.Logger.LogDebug("Connecting to Buttplug server at " + address);
+            ButtPlugin.Logger.LogDebug($"Connecting to Buttplug server at {address}");
             websocket = new WebSocket(address);
             websocket.Opened += OnOpened;
             websocket.MessageReceived += OnMessageReceived;
@@ -110,6 +110,7 @@ namespace KK_ButtPlugin
 
         private void OnOpened(object sender, EventArgs e)
         {
+            ButtPlugin.Logger.LogDebug("Succesfully connected.");
             var handshake = new
             {
                 RequestServerInfo = new
@@ -183,7 +184,7 @@ namespace KK_ButtPlugin
             {
                 if (data.ContainsKey("Error"))
                 {
-                    ButtPlugin.Logger.LogWarning("Buttplug error: " + data.ToJson());
+                    ButtPlugin.Logger.LogWarning($"Buttplug error: {data.ToJson()}");
                 }
                 else if (data.ContainsKey("ServerInfo") || data.ContainsKey("DeviceAdded")
                     || data.ContainsKey("DeviceRemoved"))
@@ -194,22 +195,40 @@ namespace KK_ButtPlugin
                 {
                     Devices = JsonMapper.ToObject<DeviceListMessage>(data.ToJson())
                         .DeviceList.Devices;
-                    ButtPlugin.Logger.LogDebug(JsonMapper.ToJson(Devices));
+                    LogDevices();
                 }
 
                 if (data.ContainsKey("ServerInfo"))
                 {
                     IsConnected = true;
+                    ButtPlugin.Logger.LogDebug("Handshake successful.");
                 }
             }
         }
 
         private void OnError(object sender, SuperSocket.ClientEngine.ErrorEventArgs e)
         {
-            ButtPlugin.Logger.LogWarning("Websocket error: " + e.Exception.Message);
+            ButtPlugin.Logger.LogWarning($"Websocket error: {e.Exception.Message}");
             if (e.Exception.Message.Contains("unreachable"))
             {
-                ButtPlugin.Logger.LogMessage("Error: Failed to connect to Buttplug server");
+                ButtPlugin.Logger.LogMessage("Error: Failed to connect to Buttplug server.");
+            }
+        }
+
+        private void LogDevices()
+        {
+            ButtPlugin.Logger.LogDebug($"List of devices: {JsonMapper.ToJson(Devices)}");
+            if (Devices.IsNullOrEmpty())
+            {
+                ButtPlugin.Logger.LogMessage("Warning: No devices connected to Buttplug.");
+            }
+            foreach (var device in Devices)
+            {
+                if (!device.IsStroker && !device.IsVibrator)
+                {
+                    ButtPlugin.Logger.LogMessage(
+                        $"Warning: device \"{device.DeviceName}\" not supported.");
+                }
             }
         }
     }
