@@ -69,7 +69,28 @@ namespace KK_ButtPlugin
             yield return StartCoroutine(UntilReady());
             for (int i = 0; i < flags.lstHeroine.Count; i++)
             {
-                StartCoroutine(Run(girlIndex: i));
+                StartCoroutine(HandleExceptions(Run(girlIndex: i)));
+            }
+        }
+
+        IEnumerator HandleExceptions(IEnumerator coroutine)
+        {
+            while (TryNext(coroutine))
+            {
+                yield return coroutine.Current;
+            }
+        }
+
+        private bool TryNext(IEnumerator coroutine)
+        {
+            try
+            {
+                return coroutine.MoveNext();
+            }
+            catch (Exception e)
+            {
+                ButtPlugin.Logger.LogError($"Coroutine failed with exception: {e}");
+                throw e;
             }
         }
 
