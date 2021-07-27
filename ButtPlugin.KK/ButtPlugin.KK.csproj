@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{36E78D7D-C987-4E98-B709-149D19C4193A}</ProjectGuid>
+    <ProjectGuid>{8AB7D330-2E67-47D2-8503-3EA98A0AF52C}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>KK_ButtPlugin</RootNamespace>
-    <AssemblyName>KK_ButtPlugin</AssemblyName>
+    <RootNamespace>ButtPlugin.KK</RootNamespace>
+    <AssemblyName>ButtPlugin.KK</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -78,7 +78,11 @@
     <IncludePattern>**\*.cs</IncludePattern>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="$(IncludePattern)" />
+    <Compile Include="Hooks.cs" />
+    <Compile Include="KKButtPlugin.cs" />
+    <Compile Include="KoikatsuButtplugController.cs" />
+    <Compile Include="PhaseDetector.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -86,7 +90,12 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\ButtPlugin.Core\ButtPlugin.Core.csproj">
+      <Project>{36e78d7d-c987-4e98-b709-149d19c4193a}</Project>
+      <Name>ButtPlugin.Core</Name>
+    </ProjectReference>
+  </ItemGroup>
   <ItemGroup>
     <Analyzer Include="..\packages\KoikatuCompatibilityAnalyzer.1.0.1\analyzers\dotnet\cs\KoikatuCompatibilityAnalyzer.dll" />
   </ItemGroup>

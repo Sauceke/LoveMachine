@@ -1,7 +1,7 @@
 ﻿using BepInEx.Bootstrap;
 using HarmonyLib;
 
-namespace KK_ButtPlugin
+namespace ButtPlugin.KK
 {
     internal static class Hooks
     {
@@ -16,9 +16,9 @@ namespace KK_ButtPlugin
             [HarmonyPatch(typeof(HFlag), nameof(HFlag.Start))]
             public static void Start(HFlag __instance)
             {
-                Chainloader.ManagerObject.GetComponent<ButtplugVibrationController>()
+                Chainloader.ManagerObject.GetComponent<KoikatsuButtplugVibrationController>()
                     .OnStartH(__instance);
-                Chainloader.ManagerObject.GetComponent<ButtplugStrokerController>()
+                Chainloader.ManagerObject.GetComponent<KoikatsuButtplugStrokerController>()
                     .OnStartH(__instance);
             }
         }
