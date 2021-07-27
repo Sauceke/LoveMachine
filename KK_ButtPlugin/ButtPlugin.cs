@@ -18,7 +18,7 @@ namespace KK_ButtPlugin
         public static ConfigEntry<string> WebSocketAddress { get; private set; }
         public static ConfigEntry<int> MaxStrokesPerMinute { get; private set; }
         public static ConfigEntry<int> LatencyMs { get; private set; }
-        public static ConfigEntry<VibrationMode> EnableVibrate { get; private set; }
+        public static ConfigEntry<ButtplugController.VibrationMode> EnableVibrate { get; private set; }
         public static ConfigEntry<bool> SyncVibrationWithAnimation { get; private set; }
         public static ConfigEntry<int> VibrationUpdateFrequency { get; private set; }
 
@@ -43,7 +43,7 @@ namespace KK_ButtPlugin
             EnableVibrate = Config.Bind(
                 section: "Vibration Settings",
                 key: "Enable Vibrators",
-                defaultValue: VibrationMode.Both,
+                defaultValue: ButtplugController.VibrationMode.Both,
                 "Maps control speed to vibrations"
             );
             SyncVibrationWithAnimation = Config.Bind(
@@ -78,8 +78,8 @@ namespace KK_ButtPlugin
             Logger = base.Logger;
             Info = base.Info;
             Chainloader.ManagerObject.AddComponent<ButtplugWsClient>();
-            Chainloader.ManagerObject.AddComponent<ButtplugStrokerController>();
-            Chainloader.ManagerObject.AddComponent<ButtplugVibrationController>();
+            Chainloader.ManagerObject.AddComponent<KoikatsuButtplugStrokerController>();
+            Chainloader.ManagerObject.AddComponent<KoikatsuButtplugVibrationController>();
             Hooks.InstallHooks();
         }
 
