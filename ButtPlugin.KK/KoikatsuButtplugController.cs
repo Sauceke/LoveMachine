@@ -226,8 +226,7 @@ namespace ButtPlugin.KK
                 // OLoop is faster than the rest, about 280ms per stroke at its original speed
                 NerfAnimationSpeeds(
                     info().IsName("OLoop") ? 0.28f : 0.375f, animator, playerAnimator);
-                yield return StartCoroutine(WaitForUpStroke(
-                    () => animator.GetCurrentAnimatorStateInfo(0), girlIndex));
+                yield return StartCoroutine(WaitForUpStroke(info, girlIndex));
                 float strokeTimeSecs = GetStrokeTimeSecs(info());
                 if (info().IsName("OLoop"))
                 {
