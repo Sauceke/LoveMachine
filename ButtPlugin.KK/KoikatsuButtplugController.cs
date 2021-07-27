@@ -1,10 +1,11 @@
-﻿using System;
+﻿using ButtPlugin.Core;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-namespace KK_ButtPlugin
+namespace ButtPlugin.KK
 {
     public abstract class KoikatsuButtplugController : ButtplugController
     {
@@ -132,7 +133,7 @@ namespace KK_ButtPlugin
         {
             while (!flags.isHSceneEnd)
             {
-                if (ButtPlugin.EnableVibrate.Value == VibrationMode.Off)
+                if (CoreConfig.EnableVibrate.Value == VibrationMode.Off)
                 {
                     yield return new WaitForSeconds(1.0f);
                     continue;
@@ -142,7 +143,7 @@ namespace KK_ButtPlugin
                 {
                     // stops vibration when not being lewd
                     DoVibrate(0.0f, girlIndex);
-                    yield return new WaitForSecondsRealtime(1.0f / ButtPlugin.VibrationUpdateFrequency.Value);
+                    yield return new WaitForSecondsRealtime(1.0f / CoreConfig.VibrationUpdateFrequency.Value);
                     continue;
                 }
 
@@ -161,7 +162,7 @@ namespace KK_ButtPlugin
                 }
 
                 if (IsFemale && flags.mode == HFlag.EMode.masturbation
-                    && ButtPlugin.SyncVibrationWithAnimation.Value)
+                    && CoreConfig.SyncVibrationWithAnimation.Value)
                 {
                     // masturbation is on a non-speed controlled animation
                     // it has a fixed order of the animation loops, so we can apply a base strength
@@ -183,7 +184,7 @@ namespace KK_ButtPlugin
                     }
                 }
                 DoVibrate(Mathf.Lerp(minVibration, 1.0f, speed * strength), girlIndex);
-                yield return new WaitForSecondsRealtime(1.0f / ButtPlugin.VibrationUpdateFrequency.Value);
+                yield return new WaitForSecondsRealtime(1.0f / CoreConfig.VibrationUpdateFrequency.Value);
             }
             // turn off vibration since there's nothing to animate against
             // this state can happen if H is ended while the animation is not in Idle

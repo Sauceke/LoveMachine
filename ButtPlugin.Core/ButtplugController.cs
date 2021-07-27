@@ -5,9 +5,8 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 
-namespace KK_ButtPlugin
+namespace ButtPlugin.Core
 {
-    
     public abstract class ButtplugController : MonoBehaviour
     {
         protected ButtplugWsClient client;
@@ -23,18 +22,18 @@ namespace KK_ButtPlugin
 
         public bool IsFemale
         {
-            get { return (ButtPlugin.EnableVibrate.Value & VibrationMode.Female) == VibrationMode.Female; }
+            get { return (CoreConfig.EnableVibrate.Value & VibrationMode.Female) == VibrationMode.Female; }
         }
 
         public bool IsMale
         {
-            get { return (ButtPlugin.EnableVibrate.Value & VibrationMode.Male) == VibrationMode.Male; }
+            get { return (CoreConfig.EnableVibrate.Value & VibrationMode.Male) == VibrationMode.Male; }
         }
 
         public void Awake()
         {
             client = gameObject.GetComponent<ButtplugWsClient>();
-            string animConfigPath = Path.GetDirectoryName(ButtPlugin.Info.Location)
+            string animConfigPath = Path.GetDirectoryName(CoreConfig.Info.Location)
                 + Path.DirectorySeparatorChar
                 + AnimConfigJsonName;
             string animConfigJson = File.ReadAllText(animConfigPath);
@@ -71,7 +70,7 @@ namespace KK_ButtPlugin
             }
             catch (Exception e)
             {
-                ButtPlugin.Logger.LogError($"Coroutine failed with exception: {e}");
+                CoreConfig.Logger.LogError($"Coroutine failed with exception: {e}");
                 throw e;
             }
         }
@@ -84,7 +83,7 @@ namespace KK_ButtPlugin
         protected void NerfAnimationSpeeds(float animStrokeTimeSecs, params Animator[] animators)
         {
             float speedMultiplier =
-                Math.Min(1, animStrokeTimeSecs * ButtPlugin.MaxStrokesPerMinute.Value / 60f);
+                Math.Min(1, animStrokeTimeSecs * CoreConfig.MaxStrokesPerMinute.Value / 60f);
             foreach (var animator in animators)
             {
                 animator.speed = speedMultiplier;
@@ -107,7 +106,7 @@ namespace KK_ButtPlugin
             }
             int strokeTimeMs = (int)(strokeTimeSecs * 1000) - 10;
             // decrease stroke length gradually as speed approaches the device limit
-            double rate = 60f / ButtPlugin.MaxStrokesPerMinute.Value / strokeTimeSecs;
+            double rate = 60f / CoreConfig.MaxStrokesPerMinute.Value / strokeTimeSecs;
             double margin = rate * rate * 0.3;
             client.LinearCmd(
                 position: 1 - margin * 0.7,
@@ -126,7 +125,7 @@ namespace KK_ButtPlugin
             float startNormTime = initialState.normalizedTime;
             float phase = GetPhase(girlIndex);
             float strokeTimeSecs = initialState.length / initialState.speed;
-            float latencyNormTime = ButtPlugin.LatencyMs.Value / 1000f / strokeTimeSecs;
+            float latencyNormTime = CoreConfig.LatencyMs.Value / 1000f / strokeTimeSecs;
             phase -= latencyNormTime;
             while ((int)(info().normalizedTime - phase + 2) == (int)(startNormTime - phase + 2))
             {
@@ -136,7 +135,7 @@ namespace KK_ButtPlugin
 
         protected float GetVibrationStrength(AnimatorStateInfo info, int girlIndex)
         {
-            if (ButtPlugin.SyncVibrationWithAnimation.Value)
+            if (CoreConfig.SyncVibrationWithAnimation.Value)
             {
                 // Simple cos based intensity amplification based on normalized position in looping animation
                 float depth = (info.normalizedTime - GetPhase(girlIndex)) % 1;

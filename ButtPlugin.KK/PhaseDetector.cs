@@ -1,11 +1,12 @@
-﻿using IllusionUtility.GetUtility;
+﻿using ButtPlugin.Core;
+using IllusionUtility.GetUtility;
 using LitJson;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace KK_ButtPlugin
+namespace ButtPlugin.KK
 {
     // measuring tool for syncing toys to animations
     class PhaseDetector
@@ -46,7 +47,7 @@ namespace KK_ButtPlugin
                     }
                     minDistSqs[pose] = distSq;
                     minDistSqTimes[pose] = time;
-                    ButtPlugin.Logger.LogDebug(JsonMapper.ToJson(minDistSqTimes));
+                    CoreConfig.Logger.LogDebug(JsonMapper.ToJson(minDistSqTimes));
                 }
             }
         }

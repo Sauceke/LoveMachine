@@ -6,7 +6,7 @@ using System.Linq;
 using WebSocket4Net;
 using UnityEngine;
 
-namespace KK_ButtPlugin
+namespace ButtPlugin.Core
 {
     public class ButtplugWsClient : MonoBehaviour
     {
@@ -21,19 +21,17 @@ namespace KK_ButtPlugin
             Open();
         }
 
-
         private void OnDestroy()
         {
             Close();
         }
-        
 
         public void Open()
         {
             IsConnected = false;
             Devices = new List<Device>();
-            string address = ButtPlugin.WebSocketAddress.Value;
-            ButtPlugin.Logger.LogDebug($"Connecting to Buttplug server at {address}");
+            string address = CoreConfig.WebSocketAddress.Value;
+            CoreConfig.Logger.LogDebug($"Connecting to Buttplug server at {address}");
             websocket = new WebSocket(address);
             websocket.Opened += OnOpened;
             websocket.MessageReceived += OnMessageReceived;
@@ -44,9 +42,9 @@ namespace KK_ButtPlugin
         public void Close()
         {
             IsConnected = false;
-            ButtPlugin.Logger.LogDebug("Disconnecting from Buttplug server.");
+            CoreConfig.Logger.LogDebug("Disconnecting from Buttplug server.");
             websocket.Close();
-            websocket.Dispose();            
+            websocket.Dispose();
         }
 
         public void LinearCmd(double position, int durationMs, int girlIndex)
@@ -73,7 +71,7 @@ namespace KK_ButtPlugin
                     }
                 }
             ).ToList();
-            if (!commands.IsNullOrEmpty())
+            if (commands.Count > 0)
             {
                 websocket.Send(JsonMapper.ToJson(commands));
             }
@@ -102,7 +100,7 @@ namespace KK_ButtPlugin
                     }
                 }
             ).ToList();
-            if (!commands.IsNullOrEmpty())
+            if (commands.Count > 0)
             {
                 websocket.Send(JsonMapper.ToJson(commands));
             }
@@ -110,7 +108,7 @@ namespace KK_ButtPlugin
 
         private void OnOpened(object sender, EventArgs e)
         {
-            ButtPlugin.Logger.LogDebug("Succesfully connected.");
+            CoreConfig.Logger.LogDebug("Succesfully connected.");
             var handshake = new
             {
                 RequestServerInfo = new
@@ -184,7 +182,7 @@ namespace KK_ButtPlugin
             {
                 if (data.ContainsKey("Error"))
                 {
-                    ButtPlugin.Logger.LogWarning($"Buttplug error: {data.ToJson()}");
+                    CoreConfig.Logger.LogWarning($"Buttplug error: {data.ToJson()}");
                 }
                 else if (data.ContainsKey("ServerInfo") || data.ContainsKey("DeviceAdded")
                     || data.ContainsKey("DeviceRemoved"))
@@ -201,32 +199,32 @@ namespace KK_ButtPlugin
                 if (data.ContainsKey("ServerInfo"))
                 {
                     IsConnected = true;
-                    ButtPlugin.Logger.LogDebug("Handshake successful.");
+                    CoreConfig.Logger.LogDebug("Handshake successful.");
                 }
             }
         }
 
         private void OnError(object sender, SuperSocket.ClientEngine.ErrorEventArgs e)
         {
-            ButtPlugin.Logger.LogWarning($"Websocket error: {e.Exception.Message}");
+            CoreConfig.Logger.LogWarning($"Websocket error: {e.Exception.Message}");
             if (e.Exception.Message.Contains("unreachable"))
             {
-                ButtPlugin.Logger.LogMessage("Error: Failed to connect to Buttplug server.");
+                CoreConfig.Logger.LogMessage("Error: Failed to connect to Buttplug server.");
             }
         }
 
         private void LogDevices()
         {
-            ButtPlugin.Logger.LogDebug($"List of devices: {JsonMapper.ToJson(Devices)}");
-            if (Devices.IsNullOrEmpty())
+            CoreConfig.Logger.LogDebug($"List of devices: {JsonMapper.ToJson(Devices)}");
+            if (Devices.Count == 0)
             {
-                ButtPlugin.Logger.LogMessage("Warning: No devices connected to Buttplug.");
+                CoreConfig.Logger.LogMessage("Warning: No devices connected to Buttplug.");
             }
             foreach (var device in Devices)
             {
                 if (!device.IsStroker && !device.IsVibrator)
                 {
-                    ButtPlugin.Logger.LogMessage(
+                    CoreConfig.Logger.LogMessage(
                         $"Warning: device \"{device.DeviceName}\" not supported.");
                 }
             }

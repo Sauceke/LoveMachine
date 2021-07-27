@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30804.86
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ButtPlugin.Core", "ButtPlugin.Core\ButtPlugin.Core.csproj", "{36E78D7D-C987-4E98-B709-149D19C4193A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ButtPlugin.KK", "ButtPlugin.KK\ButtPlugin.KK.csproj", "{8AB7D330-2E67-47D2-8503-3EA98A0AF52C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{36E78D7D-C987-4E98-B709-149D19C4193A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{36E78D7D-C987-4E98-B709-149D19C4193A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{36E78D7D-C987-4E98-B709-149D19C4193A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{36E78D7D-C987-4E98-B709-149D19C4193A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8AB7D330-2E67-47D2-8503-3EA98A0AF52C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8AB7D330-2E67-47D2-8503-3EA98A0AF52C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8AB7D330-2E67-47D2-8503-3EA98A0AF52C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8AB7D330-2E67-47D2-8503-3EA98A0AF52C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {446d456d-8d87-438a-9dac-1b76093e0305}
+	EndGlobalSection
+EndGlobal

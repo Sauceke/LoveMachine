@@ -4,10 +4,10 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("KK_ButtPlugin")]
+[assembly: AssemblyTitle("ButtPlugin.Core")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyCompany("Sauceke")]
-[assembly: AssemblyProduct("KK_ButtPlugin")]
+[assembly: AssemblyProduct("ButtPlugin.Core")]
 [assembly: AssemblyCopyright("2021")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -30,4 +30,4 @@ using System.Runtime.InteropServices;
 // You can specify all the values or you can default the Build and Revision Numbers
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion(KK_ButtPlugin.ButtPlugin.Version)]
+[assembly: AssemblyVersion(ButtPlugin.Core.CoreConfig.Version)]

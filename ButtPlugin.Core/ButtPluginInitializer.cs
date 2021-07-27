@@ -1,66 +1,56 @@
 ﻿using BepInEx;
 using BepInEx.Bootstrap;
 using BepInEx.Configuration;
-using BepInEx.Logging;
 using UnityEngine;
 
-namespace KK_ButtPlugin
+namespace ButtPlugin.Core
 {
-    [BepInPlugin(GUID, "ButtPlugin", Version)]
-    internal class ButtPlugin : BaseUnityPlugin
+    // BepInEx seems to care only for direct subclasses of BaseUnityPlugin, so making a common
+    // plugin base for ButtPlugin is not possible.
+    // This is ugly but my hands are tied.
+    public class ButtPluginInitializer<S, V>
+        where S: ButtplugController
+        where V: ButtplugController
     {
-        public const string GUID = "Sauceke.ButtPlugin";
-        public const string Version = "1.2.0";
-
-        public static new ManualLogSource Logger { get; private set; }
-        public static new PluginInfo Info { get; private set; }
-
-        public static ConfigEntry<string> WebSocketAddress { get; private set; }
-        public static ConfigEntry<int> MaxStrokesPerMinute { get; private set; }
-        public static ConfigEntry<int> LatencyMs { get; private set; }
-        public static ConfigEntry<ButtplugController.VibrationMode> EnableVibrate { get; private set; }
-        public static ConfigEntry<bool> SyncVibrationWithAnimation { get; private set; }
-        public static ConfigEntry<int> VibrationUpdateFrequency { get; private set; }
-
-        private void Start()
+        public static void Start(BaseUnityPlugin plugin)
         {
-            WebSocketAddress = Config.Bind(
+            CoreConfig.WebSocketAddress = plugin.Config.Bind(
                 section: "Network",
                 key: "WebSocket address",
                 defaultValue: "ws://localhost:12345/",
                 "The Buttplug server address (requires game restart).");
-            MaxStrokesPerMinute = Config.Bind(
+            CoreConfig.MaxStrokesPerMinute = plugin.Config.Bind(
                 section: "Stroker Settings",
                 key: "Maximum strokes per minute",
                 defaultValue: 140,
                 "The top speed possible on your stroker at 70% stroke length.");
-            LatencyMs = Config.Bind(
+            CoreConfig.LatencyMs = plugin.Config.Bind(
                 section: "Stroker Settings",
                 key: "Latency (ms)",
                 defaultValue: 0,
                 "The difference in latency between your stroker and your display. \n" +
                 "Negative if your stroker has lower latency.");
-            EnableVibrate = Config.Bind(
+            CoreConfig.EnableVibrate = plugin.Config.Bind(
                 section: "Vibration Settings",
                 key: "Enable Vibrators",
                 defaultValue: ButtplugController.VibrationMode.Both,
                 "Maps control speed to vibrations"
             );
-            SyncVibrationWithAnimation = Config.Bind(
+            CoreConfig.SyncVibrationWithAnimation = plugin.Config.Bind(
                 section: "Vibration Settings",
                 key: "Vibration With Animation",
                 defaultValue: false,
                 "Maps vibrations to a wave pattern in sync with animations.\n" +
                 "Timings are approximations based on animation length and not precise location of stimulation."
             );
-            VibrationUpdateFrequency = Config.Bind(
+            CoreConfig.VibrationUpdateFrequency = plugin.Config.Bind(
                 section: "Vibration Settings",
                 key: "Update Frequency (per second)",
                 defaultValue: 30,
                 "Average times per second we update the vibration state."
             );
 
-            Config.Bind(
+            plugin.Config.Bind(
                 section: "Device List",
                 key: "Connected",
                 defaultValue: "",
@@ -75,12 +65,10 @@ namespace KK_ButtPlugin
                     }
                 )
             );
-            Logger = base.Logger;
-            Info = base.Info;
+            CoreConfig.Info = plugin.Info;
             Chainloader.ManagerObject.AddComponent<ButtplugWsClient>();
-            Chainloader.ManagerObject.AddComponent<KoikatsuButtplugStrokerController>();
-            Chainloader.ManagerObject.AddComponent<KoikatsuButtplugVibrationController>();
-            Hooks.InstallHooks();
+            Chainloader.ManagerObject.AddComponent<S>();
+            Chainloader.ManagerObject.AddComponent<V>();
         }
 
         static void DeviceListDrawer(ConfigEntryBase entry)

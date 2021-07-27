@@ -1,7 +1,7 @@
 ﻿using BepInEx.Bootstrap;
 using HarmonyLib;
 
-namespace KK_ButtPlugin
+namespace ButtPlugin.KK
 {
     internal static class Hooks
     {

@@ -3,7 +3,7 @@ name: .NET
 on:
   push:
     branches: [ mastur ]
-    paths: [ 'KK_ButtPlugin/**' ]
+    paths: [ 'ButtPlugin.*/**' ]
   pull_request:
     branches: [ mastur ]
 
@@ -25,10 +25,10 @@ jobs:
       uses: NuGet/setup-nuget@v1.0.2
      
     - name: Restore NuGet Packages
-      run: nuget restore KK_ButtPlugin.sln
+      run: nuget restore BepisButtPlugin.sln
  
     - name: Build and Publish
-      run: msbuild KK_ButtPlugin.sln /p:Configuration=Release /p:DeployOnBuild=true /p:PublishProfile=FolderProfile
+      run: msbuild BepisButtPlugin.sln /p:Configuration=Release /p:DeployOnBuild=true /p:PublishProfile=FolderProfile
  
     - name: Upload Artifact
       uses: actions/upload-artifact@v1.0.0
