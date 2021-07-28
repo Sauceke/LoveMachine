@@ -187,6 +187,7 @@ namespace ButtPlugin.Core
                 else if (data.ContainsKey("ServerInfo") || data.ContainsKey("DeviceAdded")
                     || data.ContainsKey("DeviceRemoved"))
                 {
+                    Scan();
                     RequestDeviceList();
                 }
                 else if (data.ContainsKey("DeviceList"))
