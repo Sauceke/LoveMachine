@@ -81,14 +81,10 @@
     <Compile Include="Hooks.cs" />
     <Compile Include="KKButtPlugin.cs" />
     <Compile Include="KoikatsuButtplugController.cs" />
-    <Compile Include="PhaseDetector.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-    <None Include="animations-kk.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ButtPlugin.Core\ButtPlugin.Core.csproj">
