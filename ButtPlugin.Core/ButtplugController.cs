@@ -9,7 +9,7 @@ namespace ButtPlugin.Core
 {
     public abstract class ButtplugController : MonoBehaviour
     {
-        protected ButtplugWsClient client;
+        private ButtplugWsClient client;
         
         // animation -> fractional part of normalized time at start of up-stroke
         protected Dictionary<string, float> animPhases;
@@ -45,16 +45,21 @@ namespace ButtPlugin.Core
             StartCoroutine(RunLoops());
         }
 
-        IEnumerator RunLoops()
+        private IEnumerator RunLoops()
         {
-            yield return StartCoroutine(UntilReady());
+            yield return HandleCoroutine(UntilReady());
             for (int i = 0; i < HeroineCount; i++)
             {
-                StartCoroutine(HandleExceptions(Run(girlIndex: i)));
+                HandleCoroutine(Run(girlIndex: i));
             }
         }
 
-        IEnumerator HandleExceptions(IEnumerator coroutine)
+        protected Coroutine HandleCoroutine(IEnumerator coroutine)
+        {
+            return StartCoroutine(HandleExceptions(coroutine));
+        }
+
+        protected IEnumerator HandleExceptions(IEnumerator coroutine)
         {
             while (TryNext(coroutine))
             {
@@ -119,6 +124,11 @@ namespace ButtPlugin.Core
                 girlIndex);
         }
 
+        protected void DoVibrate(float intensity, int girlIndex)
+        {
+            client.VibrateCmd(intensity, girlIndex);
+        }
+
         protected IEnumerator WaitForUpStroke(Func<AnimatorStateInfo> info, int girlIndex)
         {
             var initialState = info();
@@ -146,7 +156,7 @@ namespace ButtPlugin.Core
 
         protected abstract string AnimConfigJsonName { get; }
         protected abstract int HeroineCount { get; }
-        protected abstract string GetPose(int girlIndex = 0);
+        protected abstract string GetPose(int girlIndex);
         protected abstract IEnumerator UntilReady();
         protected abstract IEnumerator Run(int girlIndex);
 

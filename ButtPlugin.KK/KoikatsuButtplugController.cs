@@ -17,7 +17,7 @@ namespace ButtPlugin.KK
             OnStartH();
         }
 
-        protected override string AnimConfigJsonName => "animations.json";
+        protected override string AnimConfigJsonName => "animations-kk.json";
 
         protected override int HeroineCount => flags.lstHeroine.Count;
 
@@ -122,11 +122,6 @@ namespace ButtPlugin.KK
         public bool IsSupportedAnimation
         {
             get { return supportedAnimations.Contains(flags.nowAnimStateName); }
-        }
-
-        private void DoVibrate(float intensity, int girlIndex)
-        {
-            client.VibrateCmd(intensity, girlIndex);
         }
 
         override protected IEnumerator Run(int girlIndex)
