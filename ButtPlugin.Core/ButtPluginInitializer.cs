@@ -24,6 +24,24 @@ namespace ButtPlugin.Core
                 key: "Maximum strokes per minute",
                 defaultValue: 140,
                 "The top speed possible on your stroker at 70% stroke length.");
+            CoreConfig.StrokeZoneMin = plugin.Config.Bind(
+                section: "Stroker Settings",
+                key: "Stroke Zone Min",
+                defaultValue: 30,
+                new ConfigDescription(
+                    "Lowest position the stroker will move to.",
+                    new AcceptableValueRange<int>(0, 100)
+                )
+            );
+            CoreConfig.StrokeZoneMax = plugin.Config.Bind(
+                section: "Stroker Settings",
+                key: "Stroke Zone Max",
+                defaultValue: 70,
+                new ConfigDescription(
+                    "Highest position the stroker will move to.",
+                    new AcceptableValueRange<int>(0, 100)
+                )
+            );
             CoreConfig.LatencyMs = plugin.Config.Bind(
                 section: "Stroker Settings",
                 key: "Latency (ms)",
