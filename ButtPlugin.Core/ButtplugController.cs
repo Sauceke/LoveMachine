@@ -12,12 +12,16 @@ namespace ButtPlugin.Core
         private ButtplugWsClient client;
         
         // animation -> fractional part of normalized time at start of up-stroke
-        protected Dictionary<string, float> animPhases;
+        protected Dictionary<string, float> animPhases = new Dictionary<string, float>();
 
-        protected float GetPhase(int girlIndex = 0)
+        protected float GetPhase(int girlIndex)
         {
-            animPhases.TryGetValue(GetPose(girlIndex), out float phase);
-            return phase;
+            string pose = GetPose(girlIndex);
+            if (!animPhases.ContainsKey(pose))
+            {
+                HandleCoroutine(ComputeAnimationOffset(girlIndex, pose));
+            }
+            return animPhases[pose];
         }
 
         public bool IsFemale
@@ -33,11 +37,6 @@ namespace ButtPlugin.Core
         public void Awake()
         {
             client = gameObject.GetComponent<ButtplugWsClient>();
-            string animConfigPath = Path.GetDirectoryName(CoreConfig.Info.Location)
-                + Path.DirectorySeparatorChar
-                + AnimConfigJsonName;
-            string animConfigJson = File.ReadAllText(animConfigPath);
-            animPhases = JsonMapper.ToObject<Dictionary<string, float>>(animConfigJson);
         }
 
         public void OnStartH()
@@ -154,8 +153,42 @@ namespace ButtPlugin.Core
             return 1f;
         }
 
-        protected abstract string AnimConfigJsonName { get; }
+        protected IEnumerator ComputeAnimationOffset(int girlIndex, string pose)
+        {
+            float minDistanceSq = float.MaxValue;
+            float minDistanceNormTime = 0;
+            var femaleAnimator = GetFemaleAnimator(girlIndex);
+            var maleAnimator = GetMaleAnimator();
+            lock (animPhases) { 
+                for (float normTime = 0; normTime < 1; normTime += .1f)
+                {
+                    femaleAnimator.Play(CurrentAnimationState, AnimationLayer, normTime);
+                    maleAnimator.Play(CurrentAnimationState, AnimationLayer, normTime);
+                    yield return new WaitForEndOfFrame();
+                    foreach (var bone1 in GetMaleBones())
+                    {
+                        foreach (var bone2 in GetFemaleBones(girlIndex))
+                        {
+                            float distanceSq = (bone1.position - bone2.position).sqrMagnitude;
+                            if (distanceSq < minDistanceSq)
+                            {
+                                minDistanceSq = distanceSq;
+                                minDistanceNormTime = normTime;
+                            }
+                        }
+                    }
+                }
+            }
+            animPhases[pose] = minDistanceNormTime;
+        }
+
         protected abstract int HeroineCount { get; }
+        protected abstract int AnimationLayer { get; }
+        protected abstract string CurrentAnimationState { get; }
+        protected abstract Animator GetFemaleAnimator(int girlIndex);
+        protected abstract Animator GetMaleAnimator();
+        protected abstract List<Transform> GetFemaleBones(int girlIndex);
+        protected abstract List<Transform> GetMaleBones();
         protected abstract string GetPose(int girlIndex);
         protected abstract IEnumerator UntilReady();
         protected abstract IEnumerator Run(int girlIndex);

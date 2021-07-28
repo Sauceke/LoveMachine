@@ -1,4 +1,5 @@
 ﻿using ButtPlugin.Core;
+using IllusionUtility.GetUtility;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -9,6 +10,13 @@ namespace ButtPlugin.KK
 {
     public abstract class KoikatsuButtplugController : ButtplugController
     {
+        private readonly List<string> femaleBoneNames = new List<string>
+        {
+            "cf_n_pee", "cf_j_index04_R", "cf_j_index04_L",
+            "cf_J_MouthCavity", "k_f_munenipR_00"
+        };
+        private readonly List<string> maleBoneNames = new List<string> { "k_f_tamaL_00" };
+
         protected HFlag flags;
 
         public void OnStartH(HFlag flags)
@@ -17,9 +25,28 @@ namespace ButtPlugin.KK
             OnStartH();
         }
 
-        protected override string AnimConfigJsonName => "animations-kk.json";
-
         protected override int HeroineCount => flags.lstHeroine.Count;
+
+        protected override int AnimationLayer => 0;
+
+        protected override string CurrentAnimationState => flags.nowAnimStateName;
+
+        protected override Animator GetFemaleAnimator(int girlIndex)
+            => flags.lstHeroine[girlIndex].chaCtrl.animBody;
+
+        protected override Animator GetMaleAnimator() => flags.player.chaCtrl.animBody;
+
+        protected override List<Transform> GetFemaleBones(int girlIndex)
+        {
+            var bodyBone = flags.lstHeroine[girlIndex].chaCtrl.objBodyBone.transform;
+            return femaleBoneNames.Select(name => bodyBone.FindLoop(name).transform).ToList();
+        }
+
+        protected override List<Transform> GetMaleBones()
+        {
+            var bodyBone = flags.player.chaCtrl.objBodyBone.transform;
+            return maleBoneNames.Select(name => bodyBone.FindLoop(name).transform).ToList();
+        }
 
         override protected string GetPose(int girlIndex)
         {

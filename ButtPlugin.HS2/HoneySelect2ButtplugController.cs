@@ -1,15 +1,18 @@
 ﻿using ButtPlugin.Core;
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace ButtPlugin.HS2
 {
     public abstract class HoneySelect2ButtplugController : ButtplugController
     {
-        protected override string AnimConfigJsonName => "animations-hs2.json";
-
         protected override int HeroineCount => Array.FindAll(hScene.GetFemales(), f => f != null).Length;
+
+        protected override int AnimationLayer => throw new NotImplementedException();
+
+        protected override string CurrentAnimationState => throw new NotImplementedException();
 
         protected HScene hScene;
 
@@ -39,6 +42,26 @@ namespace ButtPlugin.HS2
             {
                 yield return new WaitForSeconds(.1f);
             }
+        }
+
+        protected override Animator GetFemaleAnimator(int girlIndex)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override Animator GetMaleAnimator()
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override List<Transform> GetFemaleBones(int girlIndex)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override List<Transform> GetMaleBones()
+        {
+            throw new NotImplementedException();
         }
     }
 
