@@ -216,21 +216,21 @@ namespace ButtPlugin.KK
                     yield return new WaitForSeconds(.1f);
                     continue;
                 }
-                Func<AnimatorStateInfo> info = () => animator.GetCurrentAnimatorStateInfo(0);
+                AnimatorStateInfo info() => animator.GetCurrentAnimatorStateInfo(0);
                 // nerf the animation speed so the device can keep up with it
                 // OLoop is faster than the rest, about 280ms per stroke at its original speed
                 NerfAnimationSpeeds(
                     info().IsName("OLoop") ? 0.28f : 0.375f, animator, playerAnimator);
-                yield return StartCoroutine(WaitForUpStroke(info, girlIndex));
+                yield return HandleCoroutine(WaitForUpStroke(info, girlIndex));
                 float strokeTimeSecs = GetStrokeTimeSecs(info());
                 if (info().IsName("OLoop"))
                 {
                     // no idea what's the deal with OLoop
                     // it seems to loop after two strokes
-                    yield return StartCoroutine(DoStroke(strokeTimeSecs, girlIndex));
+                    yield return HandleCoroutine(DoStroke(strokeTimeSecs, girlIndex));
                     yield return new WaitForSeconds(strokeTimeSecs / 2f);
                 }
-                yield return StartCoroutine(DoStroke(strokeTimeSecs, girlIndex));
+                yield return HandleCoroutine(DoStroke(strokeTimeSecs, girlIndex));
             }
         }
     }
