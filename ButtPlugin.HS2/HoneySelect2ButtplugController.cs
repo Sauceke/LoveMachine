@@ -1,18 +1,50 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using ButtPlugin.Core;
 using UnityEngine;
+using IllusionUtility.GetUtility;
 
 namespace ButtPlugin.HS2
 {
     public abstract class HoneySelect2ButtplugController : ButtplugController
     {
+        private static readonly List<string> femaleBoneNames = new List<string>
+        {
+            "cf_J_Kokan", // pussy
+            "cf_J_Hand_Wrist_s_R", "cf_J_Hand_Wrist_s_L",
+            "cf_J_Mune04_s_R", // right nipple
+            "cf_J_MouthCavity"
+        };
+
+        private static readonly List<string> maleBoneNames = new List<string>
+        {
+            "cm_J_dan_f_L" // left testicle
+        };
+
         protected override int HeroineCount => Array.FindAll(hScene.GetFemales(), f => f != null).Length;
 
-        protected override int AnimationLayer => throw new NotImplementedException();
+        protected override int AnimationLayer => 0;
 
-        protected override string CurrentAnimationState => throw new NotImplementedException();
+        protected override int CurrentAnimationStateHash
+            => hScene.GetFemales()[0].animBody.GetCurrentAnimatorStateInfo(0).fullPathHash;
+
+        protected override Animator GetFemaleAnimator(int girlIndex) => hScene.GetFemales()[girlIndex].animBody;
+
+        protected override Animator GetMaleAnimator() => hScene.GetMales()[0].animBody;
+
+        protected override List<Transform> GetFemaleBones(int girlIndex)
+        {
+            var bodyBone = hScene.GetFemales()[girlIndex].objBodyBone.transform;
+            return femaleBoneNames.Select(name => bodyBone.FindLoop(name).transform).ToList();
+        }
+
+        protected override List<Transform> GetMaleBones()
+        {
+            var bodyBone = hScene.GetMales()[0].objBodyBone.transform;
+            return maleBoneNames.Select(name => bodyBone.FindLoop(name).transform).ToList();
+        }
 
         protected HScene hScene;
 
@@ -42,26 +74,6 @@ namespace ButtPlugin.HS2
             {
                 yield return new WaitForSeconds(.1f);
             }
-        }
-
-        protected override Animator GetFemaleAnimator(int girlIndex)
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override Animator GetMaleAnimator()
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override List<Transform> GetFemaleBones(int girlIndex)
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override List<Transform> GetMaleBones()
-        {
-            throw new NotImplementedException();
         }
     }
 

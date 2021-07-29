@@ -11,10 +11,15 @@ namespace ButtPlugin.KK
     {
         private readonly List<string> femaleBoneNames = new List<string>
         {
-            "cf_n_pee", "cf_j_index04_R", "cf_j_index04_L",
-            "cf_J_MouthCavity", "k_f_munenipR_00"
+            "cf_n_pee", // pussy
+            "cf_j_index04_R", "cf_j_index04_L", // index fingers
+            "cf_J_MouthCavity",
+            "k_f_munenipR_00" // right nipple
         };
-        private readonly List<string> maleBoneNames = new List<string> { "k_f_tamaL_00" };
+        private readonly List<string> maleBoneNames = new List<string>
+        {
+            "k_f_tamaL_00" // left testicle
+        };
 
         protected HFlag flags;
 
@@ -28,7 +33,8 @@ namespace ButtPlugin.KK
 
         protected override int AnimationLayer => 0;
 
-        protected override string CurrentAnimationState => flags.nowAnimStateName;
+        protected override int CurrentAnimationStateHash
+            => Animator.StringToHash(flags.nowAnimStateName);
 
         protected override Animator GetFemaleAnimator(int girlIndex)
             => flags.lstHeroine[girlIndex].chaCtrl.animBody;

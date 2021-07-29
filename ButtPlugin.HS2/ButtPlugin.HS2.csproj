@@ -66,6 +66,9 @@
     <PackageReference Include="IllusionLibs.HoneySelect2.Assembly-CSharp-firstpass">
       <Version>2020.5.29.4</Version>
     </PackageReference>
+    <PackageReference Include="IllusionLibs.HoneySelect2.IL">
+      <Version>2020.5.29.4</Version>
+    </PackageReference>
     <PackageReference Include="IllusionLibs.HoneySelect2.UnityEngine.AnimationModule">
       <Version>2018.4.11.4</Version>
     </PackageReference>
