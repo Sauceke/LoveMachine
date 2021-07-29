@@ -3,8 +3,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using WebSocket4Net;
 using UnityEngine;
+using WebSocket4Net;
 
 namespace ButtPlugin.Core
 {

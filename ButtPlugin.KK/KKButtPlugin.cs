@@ -6,7 +6,7 @@ namespace ButtPlugin.KK
     [BepInPlugin(CoreConfig.GUID, "ButtPlugin", CoreConfig.Version)]
     public class KKButtPlugin : BaseUnityPlugin
     {
-        void Start()
+        private void Start()
         {
             CoreConfig.Logger = Logger;
             ButtPluginInitializer<KoikatsuButtplugStrokerController, KoikatsuButtplugVibrationController>.Start(this);

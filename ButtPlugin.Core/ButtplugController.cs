@@ -1,8 +1,6 @@
-using LitJson;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.IO;
 using UnityEngine;
 
 namespace ButtPlugin.Core
@@ -79,7 +77,7 @@ namespace ButtPlugin.Core
             }
         }
 
-        void OnDestroy()
+        private void OnDestroy()
         {
             StopAllCoroutines();
         }

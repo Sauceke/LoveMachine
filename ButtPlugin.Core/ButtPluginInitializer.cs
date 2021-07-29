@@ -71,7 +71,7 @@ namespace ButtPlugin.Core
             Chainloader.ManagerObject.AddComponent<V>();
         }
 
-        static void DeviceListDrawer(ConfigEntryBase entry)
+        private static void DeviceListDrawer(ConfigEntryBase entry)
         {
             var serverController = Chainloader.ManagerObject.GetComponent<ButtplugWsClient>();
             

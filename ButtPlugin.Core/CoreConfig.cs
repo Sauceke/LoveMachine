@@ -1,10 +1,6 @@
 ﻿using BepInEx;
 using BepInEx.Configuration;
 using BepInEx.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace ButtPlugin.Core
 {

@@ -1,6 +1,5 @@
 ﻿using ButtPlugin.Core;
 using IllusionUtility.GetUtility;
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -48,7 +47,7 @@ namespace ButtPlugin.KK
             return maleBoneNames.Select(name => bodyBone.FindLoop(name).transform).ToList();
         }
 
-        override protected string GetPose(int girlIndex)
+        protected override string GetPose(int girlIndex)
         {
             return flags.nowAnimationInfo.mode
                 + "." + flags.nowAnimationInfo.id
@@ -56,7 +55,7 @@ namespace ButtPlugin.KK
                 + "." + girlIndex;
         }
 
-        override protected IEnumerator UntilReady()
+        protected override IEnumerator UntilReady()
         {
             while (flags.lstHeroine.IsNullOrEmpty()
                 || flags.lstHeroine.Any(girl => girl.chaCtrl?.animBody == null)
@@ -151,7 +150,7 @@ namespace ButtPlugin.KK
             get { return supportedAnimations.Contains(flags.nowAnimStateName); }
         }
 
-        override protected IEnumerator Run(int girlIndex)
+        protected override IEnumerator Run(int girlIndex)
         {
             while (!flags.isHSceneEnd)
             {
@@ -230,7 +229,7 @@ namespace ButtPlugin.KK
             "OLoop", "A_OLoop",
         };
 
-        override protected IEnumerator Run(int girlIndex)
+        protected override IEnumerator Run(int girlIndex)
         {
             var animator = flags.lstHeroine[girlIndex].chaCtrl.animBody;
             var playerAnimator = flags.player.chaCtrl.animBody;
