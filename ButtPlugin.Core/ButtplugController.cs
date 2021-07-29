@@ -19,7 +19,10 @@ namespace ButtPlugin.Core
             {
                 HandleCoroutine(ComputeAnimationOffset(girlIndex, pose));
             }
-            return animPhases[pose];
+            // this will return 0 for a few frames if the phase wasn't in the cache
+            // not ideal, but waiting here would deadlock and I don't see a better option
+            animPhases.TryGetValue(pose, out float phase);
+            return phase;
         }
 
         public bool IsFemale
