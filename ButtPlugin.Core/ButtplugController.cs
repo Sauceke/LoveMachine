@@ -159,22 +159,20 @@ namespace ButtPlugin.Core
             float minDistanceNormTime = 0;
             var femaleAnimator = GetFemaleAnimator(girlIndex);
             var maleAnimator = GetMaleAnimator();
-            lock (animPhases) { 
-                for (float normTime = 0; normTime < 1; normTime += .1f)
+            for (float normTime = 0; normTime < 1; normTime += .1f)
+            {
+                femaleAnimator.Play(CurrentAnimationState, AnimationLayer, normTime);
+                maleAnimator.Play(CurrentAnimationState, AnimationLayer, normTime);
+                yield return new WaitForEndOfFrame();
+                foreach (var bone1 in GetMaleBones())
                 {
-                    femaleAnimator.Play(CurrentAnimationState, AnimationLayer, normTime);
-                    maleAnimator.Play(CurrentAnimationState, AnimationLayer, normTime);
-                    yield return new WaitForEndOfFrame();
-                    foreach (var bone1 in GetMaleBones())
+                    foreach (var bone2 in GetFemaleBones(girlIndex))
                     {
-                        foreach (var bone2 in GetFemaleBones(girlIndex))
+                        float distanceSq = (bone1.position - bone2.position).sqrMagnitude;
+                        if (distanceSq < minDistanceSq)
                         {
-                            float distanceSq = (bone1.position - bone2.position).sqrMagnitude;
-                            if (distanceSq < minDistanceSq)
-                            {
-                                minDistanceSq = distanceSq;
-                                minDistanceNormTime = normTime;
-                            }
+                            minDistanceSq = distanceSq;
+                            minDistanceNormTime = normTime;
                         }
                     }
                 }
