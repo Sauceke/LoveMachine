@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -159,8 +159,8 @@ namespace ButtPlugin.Core
             var maleAnimator = GetMaleAnimator();
             for (float normTime = 0; normTime < 1; normTime += .1f)
             {
-                femaleAnimator.Play(CurrentAnimationState, AnimationLayer, normTime);
-                maleAnimator.Play(CurrentAnimationState, AnimationLayer, normTime);
+                femaleAnimator.Play(CurrentAnimationStateHash, AnimationLayer, normTime);
+                maleAnimator.Play(CurrentAnimationStateHash, AnimationLayer, normTime);
                 yield return new WaitForEndOfFrame();
                 foreach (var bone1 in GetMaleBones())
                 {
@@ -180,7 +180,7 @@ namespace ButtPlugin.Core
 
         protected abstract int HeroineCount { get; }
         protected abstract int AnimationLayer { get; }
-        protected abstract string CurrentAnimationState { get; }
+        protected abstract int CurrentAnimationStateHash { get; }
         protected abstract Animator GetFemaleAnimator(int girlIndex);
         protected abstract Animator GetMaleAnimator();
         protected abstract List<Transform> GetFemaleBones(int girlIndex);
