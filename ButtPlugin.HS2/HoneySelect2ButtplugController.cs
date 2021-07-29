@@ -1,7 +1,7 @@
-﻿using ButtPlugin.Core;
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using ButtPlugin.Core;
 using UnityEngine;
 
 namespace ButtPlugin.HS2
