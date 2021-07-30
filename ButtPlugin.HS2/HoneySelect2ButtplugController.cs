@@ -23,7 +23,20 @@ namespace ButtPlugin.HS2
             "cm_J_dan_f_L" // left testicle
         };
 
-        protected override int HeroineCount => Array.FindAll(hScene.GetFemales(), f => f != null).Length;
+        private static readonly List<string> idleAnimations = new List<string>
+        {
+            "Idle", "WIdle", "SIdle", "Insert", "D_Idle", "D_Insert",
+            "Orgasm_A", "Orgasm_IN_A", "Orgasm_OUT_A", "Drink_A", "Vomit_A", "OrgasmM_OUT_A",
+            "D_Orgasm_A", "D_Orgasm_OUT_A", "D_Orgasm_IN_A", "D_OrgasmM_OUT_A"
+        };
+
+        private static readonly List<string> orgasmAnimations = new List<string>
+        {
+            "OLoop", "D_OLoop"
+        };
+
+        protected override int HeroineCount
+            => Array.FindAll(hScene.GetFemales(), f => f != null).Length;
 
         protected override int AnimationLayer => 0;
 
@@ -75,6 +88,18 @@ namespace ButtPlugin.HS2
                 yield return new WaitForSeconds(.1f);
             }
         }
+
+        protected bool IsIdle(Animator animator)
+        {
+            return idleAnimations.Any(
+                name => animator.GetCurrentAnimatorStateInfo(0).IsName(name));
+        }
+
+        protected bool IsOrgasm(Animator animator)
+        {
+            return orgasmAnimations.Any(
+                name => animator.GetCurrentAnimatorStateInfo(0).IsName(name));
+        }
     }
 
     public class HoneySelect2ButtplugVibrationController : HoneySelect2ButtplugController
@@ -94,11 +119,25 @@ namespace ButtPlugin.HS2
     {
         protected override IEnumerator Run(int girlIndex)
         {
+            var femaleAnimator = GetFemaleAnimator(girlIndex);
             while (true)
             {
+                if (IsIdle(femaleAnimator))
+                {
+                    yield return new WaitForSeconds(.1f);
+                    continue;
+                }
                 AnimatorStateInfo info() => hScene.GetFemales()[girlIndex].getAnimatorStateInfo(0);
                 yield return HandleCoroutine(WaitForUpStroke(info, girlIndex));
-                yield return HandleCoroutine(DoStroke(GetStrokeTimeSecs(info()), girlIndex));
+                float strokeTimeSecs = GetStrokeTimeSecs(info());
+                if (IsOrgasm(femaleAnimator))
+                {
+                    // like in KK, OLoop has 2 strokes in it
+                    strokeTimeSecs /= 2f;
+                    yield return HandleCoroutine(DoStroke(strokeTimeSecs, girlIndex));
+                    yield return new WaitForSeconds(strokeTimeSecs / 2f);
+                }
+                yield return HandleCoroutine(DoStroke(strokeTimeSecs, girlIndex));
             }
         }
     }
