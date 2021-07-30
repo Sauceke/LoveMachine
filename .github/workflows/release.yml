@@ -60,7 +60,7 @@ jobs:
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
         asset_path: ./KK_ButtPlugin.zip
-        asset_name: ButtPlugin for Koikatsu
+        asset_name: ButtPlugin_for_Koikatsu.zip
         asset_content_type: application/zip
 
     - name: Upload Honey Select 2 Plugin
@@ -70,5 +70,5 @@ jobs:
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
         asset_path: ./HS2_ButtPlugin.zip
-        asset_name: ButtPlugin for Honey Select 2
+        asset_name: ButtPlugin_for_Honey_Select_2.zip
         asset_content_type: application/zip
