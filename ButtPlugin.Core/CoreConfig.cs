@@ -7,7 +7,7 @@ namespace ButtPlugin.Core
     public class CoreConfig
     {
         public const string GUID = "Sauceke.ButtPlugin";
-        public const string Version = "1.2.0";
+        public const string Version = "2.0.0";
 
         public static ManualLogSource Logger { get; set; }
         public static PluginInfo Info { get; internal set; }
