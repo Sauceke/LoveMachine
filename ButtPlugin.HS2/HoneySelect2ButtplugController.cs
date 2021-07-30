@@ -70,6 +70,8 @@ namespace ButtPlugin.HS2
         public void OnEndH()
         {
             StopAllCoroutines();
+            DoVibrate(0, girlIndex: 0);
+            DoVibrate(0, girlIndex: 1);
         }
 
         protected override string GetPose(int girlIndex)
@@ -112,12 +114,13 @@ namespace ButtPlugin.HS2
             {
                 if (IsIdle(GetFemaleAnimator(girlIndex)))
                 {
+                    DoVibrate(0, girlIndex);
                     yield return new WaitForSeconds(.1f);
                     continue;
                 }
                 AnimatorStateInfo info = hScene.GetFemales()[girlIndex].getAnimatorStateInfo(0);
-                DoVibrate(GetVibrationStrength(info, girlIndex), girlIndex);
-                yield return new WaitForSecondsRealtime(1.0f / CoreConfig.VibrationUpdateFrequency.Value);
+                yield return VibrateWithAnimation(
+                    info, girlIndex, intensity: 1, minVibration: 0.2f);
             }
         }
     }

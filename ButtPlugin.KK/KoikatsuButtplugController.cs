@@ -178,7 +178,6 @@ namespace ButtPlugin.KK
 
                 var speed = flags.speedCalc;
                 var info = animator.GetCurrentAnimatorStateInfo(0);
-                var strength = GetVibrationStrength(info, girlIndex);
                 var minVibration = 0.2f;
 
                 // service mode goes into OLoop once male excitement exceeds its threshold
@@ -210,8 +209,7 @@ namespace ButtPlugin.KK
                             break;
                     }
                 }
-                DoVibrate(Mathf.Lerp(minVibration, 1.0f, speed * strength), girlIndex);
-                yield return new WaitForSecondsRealtime(1.0f / CoreConfig.VibrationUpdateFrequency.Value);
+                yield return HandleCoroutine(VibrateWithAnimation(info, girlIndex, speed, minVibration));
             }
             // turn off vibration since there's nothing to animate against
             // this state can happen if H is ended while the animation is not in Idle

@@ -12,17 +12,14 @@ namespace ButtPlugin.Core
         // animation -> fractional part of normalized time at start of up-stroke
         protected Dictionary<string, float> animPhases = new Dictionary<string, float>();
 
-        protected float GetPhase(int girlIndex)
+        protected IEnumerator CalculatePhase(int girlIndex, Action<float> callback)
         {
             string pose = GetPose(girlIndex);
             if (!animPhases.ContainsKey(pose))
             {
-                HandleCoroutine(ComputeAnimationOffset(girlIndex, pose));
+                yield return HandleCoroutine(ComputeAnimationOffset(girlIndex, pose));
             }
-            // this will return 0 for a few frames if the phase wasn't in the cache
-            // not ideal, but waiting here would deadlock and I don't see a better option
-            animPhases.TryGetValue(pose, out float phase);
-            return phase;
+            callback(animPhases[pose]);
         }
 
         public bool IsFemale
@@ -136,7 +133,8 @@ namespace ButtPlugin.Core
         {
             var initialState = info();
             float startNormTime = initialState.normalizedTime;
-            float phase = GetPhase(girlIndex);
+            float phase = 0;
+            yield return HandleCoroutine(CalculatePhase(girlIndex, result => phase = result));
             float strokeTimeSecs = GetStrokeTimeSecs(initialState);
             float latencyNormTime = CoreConfig.LatencyMs.Value / 1000f / strokeTimeSecs;
             phase -= latencyNormTime;
@@ -146,18 +144,23 @@ namespace ButtPlugin.Core
             }
         }
 
-        protected float GetVibrationStrength(AnimatorStateInfo info, int girlIndex)
+        protected IEnumerator VibrateWithAnimation(AnimatorStateInfo info, int girlIndex,
+            float intensity, float minVibration)
         {
+            float strength = 1f;
             if (CoreConfig.SyncVibrationWithAnimation.Value)
             {
                 // Simple cos based intensity amplification based on normalized position in looping animation
-                float depth = (info.normalizedTime - GetPhase(girlIndex)) % 1;
-                return Mathf.Abs(Mathf.Cos(Mathf.PI * depth)) + 0.1f;
+                float phase = 0;
+                yield return HandleCoroutine(CalculatePhase(girlIndex, result => phase = result));
+                float depth = (info.normalizedTime - phase) % 1;
+                strength = Mathf.Abs(Mathf.Cos(Mathf.PI * depth)) + 0.1f;
             }
-            return 1f;
+            DoVibrate(Mathf.Lerp(minVibration, 1.0f, strength * intensity), girlIndex);
+            yield return new WaitForSecondsRealtime(1.0f / CoreConfig.VibrationUpdateFrequency.Value);
         }
 
-        protected IEnumerator ComputeAnimationOffset(int girlIndex, string pose)
+        private IEnumerator ComputeAnimationOffset(int girlIndex, string pose)
         {
             float minDistanceSq = float.MaxValue;
             float minDistanceNormTime = 0;
