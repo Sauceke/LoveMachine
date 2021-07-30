@@ -39,7 +39,7 @@ namespace ButtPlugin.Core
             CoreConfig.SyncVibrationWithAnimation = plugin.Config.Bind(
                 section: "Vibration Settings",
                 key: "Vibration With Animation",
-                defaultValue: false,
+                defaultValue: true,
                 "Maps vibrations to a wave pattern in sync with animations.\n" +
                 "Timings are approximations based on animation length and not precise location of stimulation."
             );

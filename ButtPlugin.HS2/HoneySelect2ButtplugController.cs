@@ -119,8 +119,8 @@ namespace ButtPlugin.HS2
                     continue;
                 }
                 AnimatorStateInfo info = hScene.GetFemales()[girlIndex].getAnimatorStateInfo(0);
-                yield return VibrateWithAnimation(
-                    info, girlIndex, intensity: 1, minVibration: 0.2f);
+                yield return HandleCoroutine(VibrateWithAnimation(
+                    info, girlIndex, intensity: 1f, minVibration: 0.2f));
             }
         }
     }

@@ -18,6 +18,8 @@ namespace ButtPlugin.HS2
             {
                 Chainloader.ManagerObject.GetComponent<HoneySelect2ButtplugStrokerController>()
                     .OnStartH(__instance);
+                Chainloader.ManagerObject.GetComponent<HoneySelect2ButtplugVibrationController>()
+                    .OnStartH(__instance);
             }
 
             [HarmonyPostfix]
@@ -25,6 +27,8 @@ namespace ButtPlugin.HS2
             public static void End()
             {
                 Chainloader.ManagerObject.GetComponent<HoneySelect2ButtplugStrokerController>()
+                    .OnEndH();
+                Chainloader.ManagerObject.GetComponent<HoneySelect2ButtplugVibrationController>()
                     .OnEndH();
             }
         }
