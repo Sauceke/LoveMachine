@@ -97,18 +97,21 @@ namespace ButtPlugin.Core
 
         protected float GetStrokeTimeSecs(AnimatorStateInfo info)
         {
-            return info.length / info.speed;
+            float strokeTimeSecs = info.length / info.speed;
+            // sometimes the length of an animation becomes Infinity in KK
+            // sometimes the speed becomes 0 in HS2
+            // this is a catch-all for god knows what other things that can
+            // possibly go wrong and cause the stroking coroutine to hang
+            if (strokeTimeSecs > 10 || strokeTimeSecs < 0.001f
+                || float.IsNaN(strokeTimeSecs))
+            {
+                return .01f;
+            }
+            return strokeTimeSecs;
         }
 
         protected IEnumerator DoStroke(float strokeTimeSecs, int girlIndex)
         {
-            // sometimes the length of an animation becomes Infinity in KK
-            // this is a catch-all for god knows what other things that can
-            // possibly go wrong and cause this coroutine to hang
-            if (strokeTimeSecs > 10)
-            {
-                yield break;
-            }
             int strokeTimeMs = (int)(strokeTimeSecs * 1000) - 10;
             // decrease stroke length gradually as speed approaches the device limit
             double rate = 60f / CoreConfig.MaxStrokesPerMinute.Value / strokeTimeSecs;
@@ -134,7 +137,7 @@ namespace ButtPlugin.Core
             var initialState = info();
             float startNormTime = initialState.normalizedTime;
             float phase = GetPhase(girlIndex);
-            float strokeTimeSecs = initialState.length / initialState.speed;
+            float strokeTimeSecs = GetStrokeTimeSecs(initialState);
             float latencyNormTime = CoreConfig.LatencyMs.Value / 1000f / strokeTimeSecs;
             phase -= latencyNormTime;
             while ((int)(info().normalizedTime - phase + 2) == (int)(startNormTime - phase + 2))
