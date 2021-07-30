@@ -110,6 +110,11 @@ namespace ButtPlugin.HS2
         {
             while (true)
             {
+                if (IsIdle(GetFemaleAnimator(girlIndex)))
+                {
+                    yield return new WaitForSeconds(.1f);
+                    continue;
+                }
                 AnimatorStateInfo info = hScene.GetFemales()[girlIndex].getAnimatorStateInfo(0);
                 DoVibrate(GetVibrationStrength(info, girlIndex), girlIndex);
                 yield return new WaitForSecondsRealtime(1.0f / CoreConfig.VibrationUpdateFrequency.Value);
