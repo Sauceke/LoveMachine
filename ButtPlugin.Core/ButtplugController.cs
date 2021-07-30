@@ -17,6 +17,7 @@ namespace ButtPlugin.Core
             string pose = GetPose(girlIndex);
             if (!animPhases.ContainsKey(pose))
             {
+                animPhases[pose] = 0; // avoid multiple interleaving calls
                 yield return HandleCoroutine(ComputeAnimationOffset(girlIndex, pose));
             }
             callback(animPhases[pose]);
