@@ -16,7 +16,7 @@ Prerequisites:
 * Install [Intiface Desktop](https://intiface.com/desktop/).
 * Install [BepInEx 5.3](https://github.com/BepInEx/BepInEx/releases) or later.
 
-**If you currently have v1.1.0 or v1.1.0 installed:** Delete ``Koikatsu Party\BepInEx\plugins\KK_ButtPlugin.dll`` before proceeding.
+**If you currently have v1.0.0 or v1.1.0 installed:** Delete ``Koikatsu Party\BepInEx\plugins\KK_ButtPlugin.dll`` before proceeding.
 
 Go to the [latest release page](https://github.com/Sauceke/BepInEx.ButtPlugin/releases), download the ZIP that corresponds to the game you want to patch, and drag the BepInEx folder from the zip file into your game's installation folder (it already has a BepInEx folder, but do it anyway). If you've done it right, there should be a folder in your game's directory called ``BepInEx\plugins\KK_ButtPlugin`` with some DLL files inside.
 
