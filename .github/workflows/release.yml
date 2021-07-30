@@ -25,16 +25,21 @@ jobs:
       uses: NuGet/setup-nuget@v1.0.2
      
     - name: Restore NuGet Packages
-      run: nuget restore KK_ButtPlugin.sln
+      run: nuget restore BepInExButtPlugin.sln
  
     - name: Build and Publish
-      run: msbuild KK_ButtPlugin.sln /p:Configuration=Release /p:DeployOnBuild=true /p:PublishProfile=FolderProfile
+      run: msbuild BepInExButtPlugin.sln /p:Configuration=Release /p:DeployOnBuild=true /p:PublishProfile=FolderProfile
     
     - name: Zip artifacts
       run: |-
         powershell New-Item -Path BepInEx/plugins/KK_ButtPlugin -ItemType Directory;
-        powershell Copy-Item -Path bin/* -Destination BepInEx/plugins/KK_ButtPlugin;
-        powershell Compress-Archive -Path BepInEx -DestinationPath ButtPlugin.zip
+        powershell Copy-Item -Path bin/ButtPlugin.KK/* -Destination BepInEx/plugins/KK_ButtPlugin;
+        powershell Compress-Archive -Path BepInEx -DestinationPath KK_ButtPlugin.zip
+        powershell Remove-Item -Path BepInEx/plugins/KK_ButtPlugin -Recurse
+        powershell New-Item -Path BepInEx/plugins/HS2_ButtPlugin -ItemType Directory;
+        powershell Copy-Item -Path bin/ButtPlugin.HS2/* -Destination BepInEx/plugins/HS2_ButtPlugin;
+        powershell Compress-Archive -Path BepInEx -DestinationPath HS2_ButtPlugin.zip
+        powershell Remove-Item -Path BepInEx/plugins/HS2_ButtPlugin -Recurse
 
     - name: Create Release
       id: create_release
@@ -48,12 +53,22 @@ jobs:
         draft: true
         prerelease: false
         
-    - name: Upload Release Asset
+    - name: Upload Koikatsu Plugin
       uses: actions/upload-release-asset@v1
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: ./ButtPlugin.zip
-        asset_name: ButtPlugin.zip
+        asset_path: ./KK_ButtPlugin.zip
+        asset_name: ButtPlugin for Koikatsu
+        asset_content_type: application/zip
+
+    - name: Upload Honey Select 2 Plugin
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ./HS2_ButtPlugin.zip
+        asset_name: ButtPlugin for Honey Select 2
         asset_content_type: application/zip
