@@ -160,7 +160,7 @@ namespace ButtPlugin.Core
         private IEnumerator ScanDevices()
         {
             StartScan();
-            yield return new WaitForSeconds(15.0f);
+            yield return new WaitForSeconds(30.0f);
             StopScan();
         }
 
