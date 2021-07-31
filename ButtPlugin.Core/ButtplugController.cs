@@ -10,7 +10,7 @@ namespace ButtPlugin.Core
         private ButtplugWsClient client;
         
         // animation -> fractional part of normalized time at start of up-stroke
-        protected Dictionary<string, float> animPhases = new Dictionary<string, float>();
+        protected static Dictionary<string, float> animPhases = new Dictionary<string, float>();
 
         protected IEnumerator CalculatePhase(int girlIndex, Action<float> callback)
         {
