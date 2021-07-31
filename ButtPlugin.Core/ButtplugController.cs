@@ -12,15 +12,15 @@ namespace ButtPlugin.Core
         // animation -> fractional part of normalized time at start of up-stroke
         protected static Dictionary<string, float> animPhases = new Dictionary<string, float>();
 
-        protected IEnumerator CalculatePhase(int girlIndex, Action<float> callback)
+        protected float GetPhase(int girlIndex)
         {
             string pose = GetPose(girlIndex);
             if (!animPhases.ContainsKey(pose))
             {
                 animPhases[pose] = 0; // avoid multiple interleaving calls
-                yield return HandleCoroutine(ComputeAnimationOffset(girlIndex, pose));
+                HandleCoroutine(ComputeAnimationOffset(girlIndex, pose));
             }
-            callback(animPhases[pose]);
+            return animPhases[pose];
         }
 
         public bool IsFemale
@@ -134,8 +134,7 @@ namespace ButtPlugin.Core
         {
             var initialState = info();
             float startNormTime = initialState.normalizedTime;
-            float phase = 0;
-            yield return HandleCoroutine(CalculatePhase(girlIndex, result => phase = result));
+            float phase = GetPhase(girlIndex);
             float strokeTimeSecs = GetStrokeTimeSecs(initialState);
             float latencyNormTime = CoreConfig.LatencyMs.Value / 1000f / strokeTimeSecs;
             phase -= latencyNormTime;
@@ -152,8 +151,7 @@ namespace ButtPlugin.Core
             if (CoreConfig.SyncVibrationWithAnimation.Value)
             {
                 // Simple cos based intensity amplification based on normalized position in looping animation
-                float phase = 0;
-                yield return HandleCoroutine(CalculatePhase(girlIndex, result => phase = result));
+                float phase = GetPhase(girlIndex);
                 float depth = (info.normalizedTime - phase) % 1;
                 strength = Mathf.Abs(Mathf.Cos(Mathf.PI * depth)) + 0.1f;
             }
