@@ -62,4 +62,14 @@ Currently, most of these settings will only work in Koikatsu. HF2 support later.
 * **Update Frequency (per second):** How often to send commands to vibrators. Too often might DoS your vibrator, too scarcely will feel erratic.
 * **Vibration With Animation:** If enabled, vibration intensity will oscillate up and down in sync with the action. If disabled, the intensity will depend on how fast you go, but it will otherwise stay the same.
 
+## Contributors
 
+### Code contributors
+* nhydock
+* Sauceke
+
+### Sponsors
+* Wel Adunno
+
+## Acknowledgements
+This mod would not have been possible without the [BepInEx](https://github.com/BepInEx) plugin framework and, of course, the [Buttplug](https://buttplug.io/) project.
