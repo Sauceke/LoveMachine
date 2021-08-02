@@ -106,6 +106,36 @@ namespace ButtPlugin.Core
             }
         }
 
+        public void RotateCmd(double speed, bool clockwise, int girlIndex)
+        {
+            var commands = (
+                from device in Devices
+                where device.IsRotator && device.GirlIndex == girlIndex
+                select new
+                {
+                    RotateCmd = new
+                    {
+                        Id = random.Next(),
+                        DeviceIndex = device.DeviceIndex,
+                        Rotations = (
+                            from featureIndex in Enumerable.Range(0,
+                                device.DeviceMessages.RotateCmd.FeatureCount)
+                            select new
+                            {
+                                Index = featureIndex,
+                                Speed = speed,
+                                Clockwise = clockwise
+                            }
+                        ).ToList()
+                    }
+                }
+            ).ToList();
+            if (commands.Count > 0)
+            {
+                websocket.Send(JsonMapper.ToJson(commands));
+            }
+        }
+
         private void OnOpened(object sender, EventArgs e)
         {
             CoreConfig.Logger.LogDebug("Succesfully connected.");
@@ -223,7 +253,7 @@ namespace ButtPlugin.Core
             }
             foreach (var device in Devices)
             {
-                if (!device.IsStroker && !device.IsVibrator)
+                if (!device.IsStroker && !device.IsVibrator && !device.IsRotator)
                 {
                     CoreConfig.Logger.LogMessage(
                         $"Warning: device \"{device.DeviceName}\" not supported.");
@@ -251,11 +281,13 @@ namespace ButtPlugin.Core
 
         public bool IsVibrator { get { return DeviceMessages.VibrateCmd != null; } }
         public bool IsStroker { get { return DeviceMessages.LinearCmd != null; } }
+        public bool IsRotator { get { return DeviceMessages.RotateCmd != null; } }
 
         public class Features
         {
             public Command LinearCmd { get; set; }
             public Command VibrateCmd { get; set; }
+            public Command RotateCmd { get; set; }
 
             public class Command
             {

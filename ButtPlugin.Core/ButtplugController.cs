@@ -110,6 +110,17 @@ namespace ButtPlugin.Core
 
         protected IEnumerator DoStroke(float strokeTimeSecs, int girlIndex)
         {
+            HandleCoroutine(DoRotate(strokeTimeSecs, girlIndex));
+            yield return HandleCoroutine(DoLinear(strokeTimeSecs, girlIndex));
+        }
+
+        protected void DoVibrate(float intensity, int girlIndex)
+        {
+            client.VibrateCmd(intensity, girlIndex);
+        }
+
+        private IEnumerator DoLinear(float strokeTimeSecs, int girlIndex)
+        {
             int strokeTimeMs = (int)(strokeTimeSecs * 1000) - 10;
             // decrease stroke length gradually as speed approaches the device limit
             double rate = 60f / CoreConfig.MaxStrokesPerMinute.Value / strokeTimeSecs;
@@ -125,9 +136,23 @@ namespace ButtPlugin.Core
                 girlIndex);
         }
 
-        protected void DoVibrate(float intensity, int girlIndex)
+        private IEnumerator DoRotate(float strokeTimeSecs, int girlIndex)
         {
-            client.VibrateCmd(intensity, girlIndex);
+            float speed = Mathf.Lerp(0.3f, 1f, 0.4f / strokeTimeSecs);
+            client.RotateCmd(
+                speed: speed,
+                clockwise: false,
+                girlIndex);
+            yield return new WaitForSeconds(strokeTimeSecs / 2f);
+            client.RotateCmd(
+                speed: speed,
+                clockwise: true,
+                girlIndex);
+            yield return new WaitForSeconds(strokeTimeSecs / 2f);
+            client.RotateCmd(
+                speed: 0,
+                clockwise: false,
+                girlIndex);
         }
 
         protected IEnumerator WaitForUpStroke(Func<AnimatorStateInfo> info, int girlIndex)
