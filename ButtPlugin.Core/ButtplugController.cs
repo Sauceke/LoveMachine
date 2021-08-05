@@ -113,14 +113,17 @@ namespace ButtPlugin.Core
             int strokeTimeMs = (int)(strokeTimeSecs * 1000) - 10;
             // decrease stroke length gradually as speed approaches the device limit
             double rate = 60f / CoreConfig.MaxStrokesPerMinute.Value / strokeTimeSecs;
-            double margin = rate * rate * 0.3;
+            double min = Mathf.InverseLerp(0, 100, CoreConfig.StrokeZoneMin.Value);
+            double max = Mathf.InverseLerp(0, 100, CoreConfig.StrokeZoneMax.Value);
+            double length = max - min;
+            double margin = rate * rate * length;
             client.LinearCmd(
-                position: 1 - margin * 0.7,
+                position: max - margin * (1.0 - length),
                 durationMs: strokeTimeMs / 2,
                 girlIndex);
             yield return new WaitForSeconds(strokeTimeSecs / 2f);
             client.LinearCmd(
-                position: margin * 0.3,
+                position: min + margin * length,
                 durationMs: strokeTimeMs / 2,
                 girlIndex);
         }
