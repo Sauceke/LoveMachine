@@ -3,8 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using ButtPlugin.Core;
-using UnityEngine;
 using IllusionUtility.GetUtility;
+using UnityEngine;
 
 namespace ButtPlugin.HS2
 {
