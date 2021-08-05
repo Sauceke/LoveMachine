@@ -69,6 +69,7 @@ Currently, most of these settings will only work in Koikatsu. HF2 support later.
 * Sauceke
 
 ### Sponsors
+* Taka Yami
 * Wel Adunno
 
 ## Acknowledgements
