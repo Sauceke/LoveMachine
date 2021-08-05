@@ -52,7 +52,7 @@ namespace ButtPlugin.Core
             }
         }
 
-        protected Coroutine HandleCoroutine(IEnumerator coroutine)
+        protected internal Coroutine HandleCoroutine(IEnumerator coroutine)
         {
             return StartCoroutine(HandleExceptions(coroutine));
         }
@@ -108,22 +108,24 @@ namespace ButtPlugin.Core
             return strokeTimeSecs;
         }
 
-        protected IEnumerator DoStroke(float strokeTimeSecs, int girlIndex)
+        protected internal IEnumerator DoStroke(float strokeTimeSecs, int girlIndex)
         {
             int strokeTimeMs = (int)(strokeTimeSecs * 1000) - 10;
+            float minSlow = Mathf.InverseLerp(0, 100, CoreConfig.SlowStrokeZoneMin.Value);
+            float maxSlow = Mathf.InverseLerp(0, 100, CoreConfig.SlowStrokeZoneMax.Value);
+            float minFast = Mathf.InverseLerp(0, 100, CoreConfig.FastStrokeZoneMin.Value);
+            float maxFast = Mathf.InverseLerp(0, 100, CoreConfig.FastStrokeZoneMax.Value);
             // decrease stroke length gradually as speed approaches the device limit
-            double rate = 60f / CoreConfig.MaxStrokesPerMinute.Value / strokeTimeSecs;
-            double min = Mathf.InverseLerp(0, 100, CoreConfig.StrokeZoneMin.Value);
-            double max = Mathf.InverseLerp(0, 100, CoreConfig.StrokeZoneMax.Value);
-            double length = max - min;
-            double margin = rate * rate * length;
+            float rate = 60f / CoreConfig.MaxStrokesPerMinute.Value / strokeTimeSecs;
+            float min = Mathf.Lerp(minSlow, minFast, rate);
+            float max = Mathf.Lerp(maxSlow, maxFast, rate);
             client.LinearCmd(
-                position: max - margin * (1.0 - length),
+                position: max,
                 durationMs: strokeTimeMs / 2,
                 girlIndex);
             yield return new WaitForSeconds(strokeTimeSecs / 2f);
             client.LinearCmd(
-                position: min + margin * length,
+                position: min,
                 durationMs: strokeTimeMs / 2,
                 girlIndex);
         }

@@ -15,8 +15,10 @@ namespace ButtPlugin.Core
         public static ConfigEntry<string> WebSocketAddress { get; internal set; }
         public static ConfigEntry<int> MaxStrokesPerMinute { get; internal set; }
         public static ConfigEntry<int> LatencyMs { get; internal set; }
-        public static ConfigEntry<int> StrokeZoneMin { get; internal set; }
-        public static ConfigEntry<int> StrokeZoneMax { get; internal set; }
+        public static ConfigEntry<int> SlowStrokeZoneMin { get; internal set; }
+        public static ConfigEntry<int> SlowStrokeZoneMax { get; internal set; }
+        public static ConfigEntry<int> FastStrokeZoneMin { get; internal set; }
+        public static ConfigEntry<int> FastStrokeZoneMax { get; internal set; }
 
         public static ConfigEntry<ButtplugController.VibrationMode> EnableVibrate { get; internal set; }
         public static ConfigEntry<bool> SyncVibrationWithAnimation { get; internal set; }
