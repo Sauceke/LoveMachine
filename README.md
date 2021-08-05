@@ -18,14 +18,14 @@ Prerequisites:
 
 **If you currently have v1.0.0 or v1.1.0 installed:** Delete ``Koikatsu Party\BepInEx\plugins\KK_ButtPlugin.dll`` before proceeding.
 
-Go to the [latest release page](https://github.com/Sauceke/BepInEx.ButtPlugin/releases), download the ZIP that corresponds to the game you want to patch, and drag the BepInEx folder from the zip file into your game's installation folder (it already has a BepInEx folder, but do it anyway). If you've done it right, there should be a folder in your game's directory called ``BepInEx\plugins\KK_ButtPlugin`` with some DLL files inside.
+Go to the [latest release page](https://github.com/Sauceke/BepInEx.ButtPlugin/releases), download the ZIP that corresponds to the game you want to patch, and drag the BepInEx folder from the zip file into your game's installation folder (it already has a BepInEx folder, but do it anyway). If you've done it right, there should be a folder in your game's directory called ``BepInEx\plugins\KK_ButtPlugin`` or ``BepInEx\plugins\HS2_ButtPlugin`` with some DLL files inside.
 
 ## How to use
 1. Open Intiface Desktop.
 1. Click Server Status > Start Server.
 1. Turn on the device you want to use. You might have to pair it as well.
 1. Start the game in either desktop or VR mode.
-1. You're welcome.
+1. You're welcome. 😏
 
 ## How it works, limitations
 * ButtPlugin analyzes the movement of certain bones in female characters (hands, crotch, breasts, mouth).
@@ -50,7 +50,7 @@ In Plugin Settings > ButtPlugin, you can set the following parameters:
 
 ### Stroker settings
 * **Latency (ms):** The latency between your display and your device. Set a negative value if your device is faster than your display. (No way to calibrate, you have to "experiment".)
-* **Maximum strokes per minute:** The maximum speed your stroker is capable of (or your slowest stroker if you have more than one). Based on this value, ButtPlugin will slow down H scene animations if necessary, to keep the immersion. (You'll still be in control of speed, but it will be relative to how fast your toy can go.) The part right before climax will also be slowed down. Keep in mind that the plugin never goes below 70% stroke length, so choose a number your device can reliably maintain at that setting.
+* **Maximum strokes per minute:** The maximum speed your stroker is capable of (or your slowest stroker if you have more than one). Based on this value, ButtPlugin will slow down H scene animations if necessary, to keep the immersion. (You'll still be in control of speed, but it will be relative to how fast your toy can go.) The part right before climax will also be slowed down.
 
 ### Vibration settings
 Currently, most of these settings will only work in Koikatsu. HF2 support later.
