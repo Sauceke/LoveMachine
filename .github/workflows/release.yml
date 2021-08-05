@@ -28,7 +28,7 @@ jobs:
       run: nuget restore BepInExButtPlugin.sln
  
     - name: Build and Publish
-      run: msbuild BepInExButtPlugin.sln /p:Configuration=Release /p:DeployOnBuild=true /p:PublishProfile=FolderProfile
+      run: msbuild BepInExButtPlugin.sln /p:Configuration=Release /p:DeployOnBuild=true /p:PublishProfile=FolderProfile /p:Version=${{ github.event.inputs.version }}
     
     - name: Zip artifacts
       run: |-
@@ -47,8 +47,8 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        tag_name: ${{ github.event.inputs.version }}
-        release_name: Release ${{ github.event.inputs.version }}
+        tag_name: v${{ github.event.inputs.version }}
+        release_name: Release v${{ github.event.inputs.version }}
         body: write the changelog you lazy fuk
         draft: true
         prerelease: false
