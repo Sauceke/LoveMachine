@@ -10,6 +10,7 @@ on:
 jobs:
   release:
     runs-on: windows-2019
+    timeout-minutes: 5
     
     env:
       ACTIONS_ALLOW_UNSECURE_COMMANDS: true
