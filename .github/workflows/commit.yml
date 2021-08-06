@@ -37,4 +37,5 @@ jobs:
       with:
         name: Published artifacts
         path: bin
+        retention-days: 3
 
