@@ -13,9 +13,10 @@ namespace ButtPlugin.HS2
         private static readonly List<string> femaleBoneNames = new List<string>
         {
             "cf_J_Kokan", // pussy
-            "cf_J_Hand_Wrist_s_R", "cf_J_Hand_Wrist_s_L",
+            "cf_J_Hand_Wrist_s_R", "cf_J_Hand_Wrist_s_L", // wrists
             "cf_J_Mune04_s_R", // right nipple
-            "cf_J_MouthCavity"
+            "cf_J_MouthCavity", // mouth
+            "cf_J_Toes01_L", "cf_J_Toes01_R" // toes
         };
 
         private static readonly List<string> maleBoneNames = new List<string>

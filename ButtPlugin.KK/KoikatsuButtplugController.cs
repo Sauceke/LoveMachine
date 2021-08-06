@@ -13,8 +13,9 @@ namespace ButtPlugin.KK
         {
             "cf_n_pee", // pussy
             "cf_j_index04_R", "cf_j_index04_L", // index fingers
-            "cf_J_MouthCavity",
-            "k_f_munenipR_00" // right nipple
+            "cf_J_MouthCavity", // mouth
+            "k_f_munenipR_00", // right nipple
+            "k_f_toeR_00", "k_f_toeL_00" // big toes
         };
         private readonly List<string> maleBoneNames = new List<string>
         {
