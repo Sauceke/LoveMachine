@@ -6,7 +6,7 @@ Adds support for [buttplug.io](https://buttplug.io/) compatible strokers and vib
 The full list of devices supported by the Buttplug project is maintained [here](https://iostindex.com/?filter0ButtplugSupport=4). This plugin is for **linear** (moving back-and-forth) and **vibrating** devices; other types of sex toys will not work with this plugin, even if they are on the list. PRs for extending coverage are welcome.
 
 The following devices were used for testing at various points during this project's development:
-* The Handy
+* [The Handy](https://www.thehandy.com/?ref=saucekebenfield&utm_source=saucekebenfield&utm_medium=affiliate&utm_campaign=The+Handy+Affiliate+program)
 * KIIROO KEON
 * Lovense Diamo
 * The Xbox gamepad
