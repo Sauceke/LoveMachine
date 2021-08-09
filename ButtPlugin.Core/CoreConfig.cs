@@ -23,5 +23,8 @@ namespace ButtPlugin.Core
         public static ConfigEntry<ButtplugController.VibrationMode> EnableVibrate { get; internal set; }
         public static ConfigEntry<bool> SyncVibrationWithAnimation { get; internal set; }
         public static ConfigEntry<int> VibrationUpdateFrequency { get; internal set; }
+
+        public static ConfigEntry<KeyboardShortcut> KillSwitch { get; internal set; }
+        public static ConfigEntry<KeyboardShortcut> ResumeSwitch { get; internal set; }
     }
 }

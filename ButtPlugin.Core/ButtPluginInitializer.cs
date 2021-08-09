@@ -87,7 +87,16 @@ namespace ButtPlugin.Core
                 key: "Update Frequency (per second)",
                 defaultValue: 30,
                 "Average times per second we update the vibration state.");
-
+            CoreConfig.KillSwitch = plugin.Config.Bind(
+                section: "Kill Switch",
+                key: "Emergency Stop Key Binding",
+                defaultValue: new KeyboardShortcut(KeyCode.Space),
+                "Shortcut to stop all devices immediately.");
+            CoreConfig.ResumeSwitch = plugin.Config.Bind(
+                section: "Kill Switch",
+                key: "Resume Key Binding",
+                defaultValue: new KeyboardShortcut(KeyCode.F8),
+                "Shortcut to resume device activities.");
             plugin.Config.Bind(
                 section: "Device List",
                 key: "Connected",

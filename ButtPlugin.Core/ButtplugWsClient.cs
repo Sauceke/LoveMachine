@@ -37,10 +37,12 @@ namespace ButtPlugin.Core
             websocket.MessageReceived += OnMessageReceived;
             websocket.Error += OnError;
             websocket.Open();
+            StartCoroutine(KillSwitch.RunLoop());
         }
 
         public void Close()
         {
+            StopAllCoroutines();
             IsConnected = false;
             CoreConfig.Logger.LogDebug("Disconnecting from Buttplug server.");
             websocket.Close();
@@ -49,6 +51,10 @@ namespace ButtPlugin.Core
 
         public void LinearCmd(double position, int durationMs, int girlIndex)
         {
+            if (KillSwitch.Pushed)
+            {
+                return;
+            }
             var commands = (
                 from device in Devices
                 where device.IsStroker && device.GirlIndex == girlIndex
@@ -79,6 +85,11 @@ namespace ButtPlugin.Core
 
         public void VibrateCmd(double intensity, int girlIndex)
         {
+            if (KillSwitch.Pushed && intensity != 0f)
+            {
+                VibrateCmd(0f, girlIndex);
+                return;
+            }
             var commands = (
                 from device in Devices
                 where device.IsVibrator && device.GirlIndex == girlIndex
@@ -227,6 +238,25 @@ namespace ButtPlugin.Core
                 {
                     CoreConfig.Logger.LogMessage(
                         $"Warning: device \"{device.DeviceName}\" not supported.");
+                }
+            }
+        }
+
+        private static class KillSwitch
+        {
+            public static bool Pushed { get; private set; }
+
+            public static IEnumerator RunLoop()
+            {
+                while (true)
+                {
+                    Pushed &= !CoreConfig.ResumeSwitch.Value.IsPressed();
+                    if (CoreConfig.KillSwitch.Value.IsDown())
+                    {
+                        CoreConfig.Logger.LogMessage("ButtPlugin: Emergency stop pressed.");
+                        Pushed = true;
+                    }
+                    yield return null;
                 }
             }
         }
