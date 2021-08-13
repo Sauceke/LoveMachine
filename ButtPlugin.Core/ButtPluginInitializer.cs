@@ -121,8 +121,6 @@ namespace ButtPlugin.Core
         private static void DeviceListDrawer(ConfigEntryBase entry)
         {
             var serverController = Chainloader.ManagerObject.GetComponent<ButtplugWsClient>();
-            
-            
             GUILayout.BeginVertical(GUILayout.ExpandWidth(true));
                 GUILayout.BeginHorizontal();
                     GUILayout.FlexibleSpace();
@@ -172,7 +170,7 @@ namespace ButtPlugin.Core
                                 TestStrokerAsync(device, true);
                             }
                         GUILayout.EndVertical();
-                GUILayout.EndHorizontal();
+                    GUILayout.EndHorizontal();
                 }
                 
             GUILayout.EndVertical();
