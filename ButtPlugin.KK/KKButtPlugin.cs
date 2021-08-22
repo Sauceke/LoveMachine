@@ -8,8 +8,20 @@ namespace ButtPlugin.KK
     {
         private void Start()
         {
+            var girls = new string[] { "First girl", "Second girl", "Off" };
+            var actions = new string[]
+            {
+                "Sex", "Left Breast", "Right Breast", "Touch Groin", "Touch Anal", "Left Butt", "Right Butt"
+            };
             CoreConfig.Logger = Logger;
-            ButtPluginInitializer<KoikatsuButtplugStrokerController, KoikatsuButtplugVibrationController>.Start(this);
+            ButtPluginInitializer.Initialize(
+                plugin: this,
+                girlMappingHeader: "Threesome Role",
+                girlMappingOptions: girls,
+                actionMappingHeader: "Action Mapping",
+                actionMappingOptions: actions,
+                typeof(KoikatsuButtplugStrokerController),
+                typeof(KoikatsuButtplugVibrationController));
             Hooks.InstallHooks();
         }
     }

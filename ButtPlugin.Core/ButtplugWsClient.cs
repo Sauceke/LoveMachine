@@ -49,7 +49,7 @@ namespace ButtPlugin.Core
             websocket.Dispose();
         }
 
-        public void LinearCmd(double position, int durationMs, int girlIndex)
+        public void LinearCmd(double position, int durationMs, int girlIndex, int actionIndex = 0)
         {
             if (KillSwitch.Pushed)
             {
@@ -57,7 +57,9 @@ namespace ButtPlugin.Core
             }
             var commands = (
                 from device in Devices
-                where device.IsStroker && device.GirlIndex == girlIndex
+                where device.IsStroker
+                    && device.GirlIndex == girlIndex
+                    && device.ActionIndex == actionIndex
                 select new
                 {
                     LinearCmd = new
@@ -83,7 +85,7 @@ namespace ButtPlugin.Core
             }
         }
 
-        public void VibrateCmd(double intensity, int girlIndex)
+        public void VibrateCmd(double intensity, int girlIndex, int actionIndex = 0)
         {
             if (KillSwitch.Pushed && intensity != 0f)
             {
@@ -92,7 +94,9 @@ namespace ButtPlugin.Core
             }
             var commands = (
                 from device in Devices
-                where device.IsVibrator && device.GirlIndex == girlIndex
+                where device.IsVibrator
+                    && device.GirlIndex == girlIndex
+                    && device.ActionIndex == actionIndex
                 select new
                 {
                     VibrateCmd = new
@@ -277,6 +281,7 @@ namespace ButtPlugin.Core
         public string DeviceName { get; set; }
         public int DeviceIndex { get; set; }
         public int GirlIndex { get; set; } = 0;
+        public int ActionIndex { get; set; } = 0;
         public Features DeviceMessages { get; set; }
 
         public bool IsVibrator { get { return DeviceMessages.VibrateCmd != null; } }

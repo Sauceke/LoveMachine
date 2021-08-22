@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using BepInEx;
 using BepInEx.Bootstrap;
 using BepInEx.Configuration;
@@ -9,13 +10,34 @@ namespace ButtPlugin.Core
     // BepInEx seems to care only for direct subclasses of BaseUnityPlugin, so making a common
     // plugin base for ButtPlugin is not possible.
     // This is ugly but my hands are tied.
-    public class ButtPluginInitializer<S, V>
-        where S: ButtplugController
-        where V: ButtplugController
+    public class ButtPluginInitializer
     {
-        public static void Start(BaseUnityPlugin plugin)
+        private BaseUnityPlugin plugin;
+        private string girlMappingHeader;
+        private string[] girlMappingOptions;
+        private string actionMappingHeader;
+        private string[] actionMappingOptions;
+        private Type[] controllers;
+
+        public static void Initialize(BaseUnityPlugin plugin,
+            string girlMappingHeader, string[] girlMappingOptions,
+            string actionMappingHeader, string[] actionMappingOptions,
+            params Type[] controllers)
         {
-            
+            new ButtPluginInitializer
+            {
+                plugin = plugin,
+                girlMappingHeader = girlMappingHeader,
+                girlMappingOptions = girlMappingOptions,
+                actionMappingHeader = actionMappingHeader,
+                actionMappingOptions = actionMappingOptions,
+                controllers = controllers
+            }
+            .Start();
+        }
+
+        private void Start()
+        {
             CoreConfig.WebSocketAddress = plugin.Config.Bind(
                 section: "Network",
                 key: "WebSocket address",
@@ -114,11 +136,13 @@ namespace ButtPlugin.Core
             );
             CoreConfig.Info = plugin.Info;
             Chainloader.ManagerObject.AddComponent<ButtplugWsClient>();
-            Chainloader.ManagerObject.AddComponent<S>();
-            Chainloader.ManagerObject.AddComponent<V>();
+            foreach (var controller in controllers)
+            {
+                Chainloader.ManagerObject.AddComponent(controller);
+            }
         }
 
-        private static void DeviceListDrawer(ConfigEntryBase entry)
+        private void DeviceListDrawer(ConfigEntryBase entry)
         {
             var serverController = Chainloader.ManagerObject.GetComponent<ButtplugWsClient>();
             GUILayout.BeginVertical(GUILayout.ExpandWidth(true));
@@ -145,7 +169,14 @@ namespace ButtPlugin.Core
                     GUILayout.Label("Device Name", GUILayout.ExpandWidth(true));
                     GUILayout.Label("Stroker", GUILayout.Width(100));
                     GUILayout.Label("Vibrators", GUILayout.Width(100));
-                    GUILayout.Label("Threesome Role", GUILayout.Width(100));
+                    if (girlMappingHeader != null)
+                    {
+                        GUILayout.Label(girlMappingHeader, GUILayout.Width(100));
+                    }
+                    if (actionMappingHeader != null)
+                    {
+                        GUILayout.Label(actionMappingHeader, GUILayout.Width(100));
+                    }
                     GUILayout.FlexibleSpace();
                     GUILayout.Label("Test Device", GUILayout.Width(100));
                 GUILayout.EndHorizontal();
@@ -157,8 +188,22 @@ namespace ButtPlugin.Core
                         GUILayout.Label(device.DeviceName, GUILayout.ExpandWidth(true));
                         GUILayout.Toggle(device.IsStroker, "", GUILayout.Width(100));
                         GUILayout.Toggle(device.IsVibrator, "", GUILayout.Width(100));
-                        var options = new string[] { "First girl", "Second girl", "Off" };
-                        device.GirlIndex = GUILayout.SelectionGrid(device.GirlIndex, options, 1, GUILayout.Width(100));
+                        if (girlMappingOptions != null)
+                        {
+                            device.GirlIndex = GUILayout.SelectionGrid(
+                                selected: device.GirlIndex,
+                                girlMappingOptions,
+                                xCount: 1,
+                                GUILayout.Width(100));
+                        }
+                        if (actionMappingOptions != null)
+                        {
+                            device.ActionIndex = GUILayout.SelectionGrid(
+                                selected: device.ActionIndex,
+                                actionMappingOptions,
+                                xCount: 1,
+                                GUILayout.Width(100));
+                        }
                         GUILayout.FlexibleSpace();
                         GUILayout.BeginVertical(GUILayout.ExpandHeight(true));
                             if (GUILayout.Button("Test Slow"))
@@ -176,15 +221,15 @@ namespace ButtPlugin.Core
             GUILayout.EndVertical();
         }
 
-        private static void TestStrokerAsync(Device device, bool fast)
+        private void TestStrokerAsync(Device device, bool fast)
         {
-            var controller = Chainloader.ManagerObject.GetComponent<S>();
+            var controller = Chainloader.ManagerObject.GetComponents<ButtplugController>()[0];
             controller.HandleCoroutine(TestStroker(device, fast));
         }
 
-        private static IEnumerator TestStroker(Device device, bool fast)
+        private IEnumerator TestStroker(Device device, bool fast)
         {
-            var controller = Chainloader.ManagerObject.GetComponent<S>();
+            var controller = Chainloader.ManagerObject.GetComponents<ButtplugController>()[0];
             float strokeTimeSecs = 60f / CoreConfig.MaxStrokesPerMinute.Value;
             if (!fast)
             {

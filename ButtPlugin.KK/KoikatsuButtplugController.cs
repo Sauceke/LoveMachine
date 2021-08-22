@@ -216,6 +216,26 @@ namespace ButtPlugin.KK
             // this state can happen if H is ended while the animation is not in Idle
             DoVibrate(0.0f, girlIndex);
         }
+
+        private IEnumerator RunAibu(int girlIndex)
+        {
+            float updateTimeSecs = 0.1f;
+            while (!flags.isHSceneEnd)
+            {
+                for (int i = 0; i < 6; i++)
+                {
+                    DoVibrate(
+                        intensity: flags.xy[i].y,
+                        girlIndex,
+                        actionIndex: i + 1);
+                }
+                yield return new WaitForSeconds(updateTimeSecs);
+            }
+            for (int i = 0; i < 6; i++)
+            {
+                DoVibrate(0.0f, girlIndex, actionIndex: i);
+            }
+        }
     }
 
     public class KoikatsuButtplugStrokerController : KoikatsuButtplugController
@@ -236,6 +256,7 @@ namespace ButtPlugin.KK
 
         protected override IEnumerator Run(int girlIndex)
         {
+            HandleCoroutine(RunAibu(girlIndex));
             var animator = flags.lstHeroine[girlIndex].chaCtrl.animBody;
             var playerAnimator = flags.player.chaCtrl.animBody;
             while (!flags.isHSceneEnd)
@@ -262,6 +283,23 @@ namespace ButtPlugin.KK
                     yield return new WaitForSeconds(strokeTimeSecs / 2f);
                 }
                 yield return HandleCoroutine(DoStroke(strokeTimeSecs, girlIndex));
+            }
+        }
+
+        private IEnumerator RunAibu(int girlIndex)
+        {
+            float updateTimeSecs = 0.1f;
+            while (!flags.isHSceneEnd)
+            {
+                for (int i = 0; i < 6; i++)
+                {
+                    MoveStroker(
+                        position: flags.xy[i].y,
+                        durationSecs: updateTimeSecs,
+                        girlIndex,
+                        actionIndex: i + 1);
+                }
+                yield return new WaitForSeconds(updateTimeSecs);
             }
         }
     }
