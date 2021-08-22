@@ -130,9 +130,15 @@ namespace ButtPlugin.Core
                 girlIndex);
         }
 
-        protected void DoVibrate(float intensity, int girlIndex)
+        protected void MoveStroker(float position, float durationSecs, int girlIndex, int actionIndex)
         {
-            client.VibrateCmd(intensity, girlIndex);
+            int durationMs = (int)(durationSecs * 1000);
+            client.LinearCmd(position, durationMs, girlIndex, actionIndex);
+        }
+
+        protected void DoVibrate(float intensity, int girlIndex, int actionIndex = 0)
+        {
+            client.VibrateCmd(intensity, girlIndex, actionIndex);
         }
 
         protected IEnumerator WaitForUpStroke(Func<AnimatorStateInfo> info, int girlIndex)

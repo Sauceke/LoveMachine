@@ -8,8 +8,16 @@ namespace ButtPlugin.HS2
     {
         private void Start()
         {
+            var girls = new string[] { "First girl", "Second girl", "Off" };
             CoreConfig.Logger = Logger;
-            ButtPluginInitializer<HoneySelect2ButtplugStrokerController, HoneySelect2ButtplugVibrationController>.Start(this);
+            ButtPluginInitializer.Initialize(
+                plugin: this,
+                girlMappingHeader: "Threesome Role",
+                girlMappingOptions: girls,
+                actionMappingHeader: null,
+                actionMappingOptions: null,
+                typeof(HoneySelect2ButtplugStrokerController),
+                typeof(HoneySelect2ButtplugVibrationController));
             Hooks.InstallHooks();
         }
     }
