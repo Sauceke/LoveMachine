@@ -38,13 +38,30 @@ namespace ButtPlugin.Core
 
         private void Start()
         {
+            InitSettings();
+            Chainloader.ManagerObject.AddComponent<ButtplugWsClient>();
+            foreach (var controller in controllers)
+            {
+                Chainloader.ManagerObject.AddComponent(controller);
+            }
+        }
+
+        private void InitSettings()
+        {
+            //
+            // Network settings
+            //
             CoreConfig.WebSocketAddress = plugin.Config.Bind(
-                section: "Network",
+                section: "Network Settings",
                 key: "WebSocket address",
                 defaultValue: "ws://localhost:12345/",
                 "The Buttplug server address (requires game restart).");
+            //
+            // Stroker settings
+            //
+            string strokerSettingsTitle = "Stroker Settings";
             CoreConfig.MaxStrokesPerMinute = plugin.Config.Bind(
-                section: "Stroker Settings",
+                section: strokerSettingsTitle,
                 key: "Maximum strokes per minute",
                 defaultValue: 140,
                 new ConfigDescription(
@@ -53,7 +70,7 @@ namespace ButtPlugin.Core
                     new AcceptableValueRange<int>(0, 300),
                     new ConfigurationManagerAttributes { Order = 10 }));
             CoreConfig.LatencyMs = plugin.Config.Bind(
-                section: "Stroker Settings",
+                section: strokerSettingsTitle,
                 key: "Latency (ms)",
                 defaultValue: 0,
                 new ConfigDescription(
@@ -62,7 +79,7 @@ namespace ButtPlugin.Core
                     new AcceptableValueRange<int>(-500, 500),
                     new ConfigurationManagerAttributes { Order = 9 }));
             CoreConfig.SlowStrokeZoneMin = plugin.Config.Bind(
-                section: "Stroker Settings",
+                section: strokerSettingsTitle,
                 key: "Slow Stroke Zone Min",
                 defaultValue: 0,
                 new ConfigDescription(
@@ -70,7 +87,7 @@ namespace ButtPlugin.Core
                     new AcceptableValueRange<int>(0, 100),
                     new ConfigurationManagerAttributes { Order = 8 }));
             CoreConfig.SlowStrokeZoneMax = plugin.Config.Bind(
-                section: "Stroker Settings",
+                section: strokerSettingsTitle,
                 key: "Slow Stroke Zone Max",
                 defaultValue: 100,
                 new ConfigDescription(
@@ -78,7 +95,7 @@ namespace ButtPlugin.Core
                     new AcceptableValueRange<int>(0, 100),
                     new ConfigurationManagerAttributes { Order = 7 }));
             CoreConfig.FastStrokeZoneMin = plugin.Config.Bind(
-                section: "Stroker Settings",
+                section: strokerSettingsTitle,
                 key: "Fast Stroke Zone Min",
                 defaultValue: 10,
                 new ConfigDescription(
@@ -86,60 +103,69 @@ namespace ButtPlugin.Core
                     new AcceptableValueRange<int>(0, 100),
                     new ConfigurationManagerAttributes { Order = 6 }));
             CoreConfig.FastStrokeZoneMax = plugin.Config.Bind(
-                section: "Stroker Settings",
+                section: strokerSettingsTitle,
                 key: "Fast Stroke Zone Max",
                 defaultValue: 80,
                 new ConfigDescription(
                     "Highest position the stroker will move to when going fast.",
                     new AcceptableValueRange<int>(0, 100),
                     new ConfigurationManagerAttributes { Order = 5 }));
+            //
+            // Vibrator settings
+            //
+            string vibrationSettingsTitle = "Vibration Settings";
             CoreConfig.EnableVibrate = plugin.Config.Bind(
-                section: "Vibration Settings",
+                section: vibrationSettingsTitle,
                 key: "Enable Vibrators",
                 defaultValue: ButtplugController.VibrationMode.Both,
                 "Maps control speed to vibrations");
             CoreConfig.SyncVibrationWithAnimation = plugin.Config.Bind(
-                section: "Vibration Settings",
+                section: vibrationSettingsTitle,
                 key: "Vibration With Animation",
                 defaultValue: true,
-                "Maps vibrations to a wave pattern in sync with animations.\n" +
-                "Timings are approximations based on animation length and not precise location of stimulation.");
+                "Maps vibrations to a wave pattern in sync with animations.");
             CoreConfig.VibrationUpdateFrequency = plugin.Config.Bind(
-                section: "Vibration Settings",
+                section: vibrationSettingsTitle,
                 key: "Update Frequency (per second)",
                 defaultValue: 30,
                 "Average times per second we update the vibration state.");
+            //
+            // Kill switch settings
+            //
+            string killSwitchSettingsTitle = "Kill Switch Settings";
             CoreConfig.KillSwitch = plugin.Config.Bind(
-                section: "Kill Switch",
+                section: killSwitchSettingsTitle,
                 key: "Emergency Stop Key Binding",
                 defaultValue: new KeyboardShortcut(KeyCode.Space),
                 "Shortcut to stop all devices immediately.");
             CoreConfig.ResumeSwitch = plugin.Config.Bind(
-                section: "Kill Switch",
+                section: killSwitchSettingsTitle,
                 key: "Resume Key Binding",
                 defaultValue: new KeyboardShortcut(KeyCode.F8),
                 "Shortcut to resume device activities.");
-            plugin.Config.Bind(
-                section: "Device List",
+            //
+            // Device list settings
+            //
+            string deviceListTitle = "Device List";
+            CoreConfig.DeviceSettingsJson = plugin.Config.Bind(
+                section: deviceListTitle,
                 key: "Connected",
-                defaultValue: "",
+                defaultValue: "[]",
                 new ConfigDescription(
                     "",
                     null,
-                    new ConfigurationManagerAttributes { 
+                    new ConfigurationManagerAttributes
+                    {
                         CustomDrawer = DeviceListDrawer,
                         HideSettingName = true,
-                        HideDefaultButton = true,
-                        Order = 999  // show device list at the end
+                        HideDefaultButton = true
                     }
                 )
             );
-            CoreConfig.Info = plugin.Info;
-            Chainloader.ManagerObject.AddComponent<ButtplugWsClient>();
-            foreach (var controller in controllers)
-            {
-                Chainloader.ManagerObject.AddComponent(controller);
-            }
+            CoreConfig.SaveDeviceSettings = plugin.Config.Bind(
+                section: deviceListTitle,
+                key: "Save device assignments",
+                defaultValue: false);
         }
 
         private void DeviceListDrawer(ConfigEntryBase entry)

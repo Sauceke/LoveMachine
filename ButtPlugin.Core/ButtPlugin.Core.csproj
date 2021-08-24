@@ -73,6 +73,8 @@
     <Compile Include="ButtplugWsClient.cs" />
     <Compile Include="ConfigurationManagerAttributes.cs" />
     <Compile Include="CoreConfig.cs" />
+    <Compile Include="Device.cs" />
+    <Compile Include="DeviceManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
