@@ -10,7 +10,6 @@ namespace ButtPlugin.Core
         public const string Version = ButtPluginVersionInfo.Version;
 
         public static ManualLogSource Logger { get; set; }
-        public static PluginInfo Info { get; internal set; }
 
         public static ConfigEntry<string> WebSocketAddress { get; internal set; }
         public static ConfigEntry<int> MaxStrokesPerMinute { get; internal set; }
@@ -19,6 +18,8 @@ namespace ButtPlugin.Core
         public static ConfigEntry<int> SlowStrokeZoneMax { get; internal set; }
         public static ConfigEntry<int> FastStrokeZoneMin { get; internal set; }
         public static ConfigEntry<int> FastStrokeZoneMax { get; internal set; }
+        public static ConfigEntry<bool> SaveDeviceSettings { get; internal set; }
+        public static ConfigEntry<string> DeviceSettingsJson { get; internal set; }
 
         public static ConfigEntry<ButtplugController.VibrationMode> EnableVibrate { get; internal set; }
         public static ConfigEntry<bool> SyncVibrationWithAnimation { get; internal set; }

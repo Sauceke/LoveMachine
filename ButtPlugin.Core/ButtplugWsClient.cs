@@ -47,6 +47,7 @@ namespace ButtPlugin.Core
             CoreConfig.Logger.LogDebug("Disconnecting from Buttplug server.");
             websocket.Close();
             websocket.Dispose();
+            DeviceManager.SaveDeviceSettings(Devices);
         }
 
         public void LinearCmd(double position, int durationMs, int girlIndex, int actionIndex = 0)
@@ -209,6 +210,7 @@ namespace ButtPlugin.Core
                 {
                     Devices = JsonMapper.ToObject<DeviceListMessage>(data.ToJson())
                         .DeviceList.Devices;
+                    DeviceManager.LoadDeviceSettings(Devices);
                     LogDevices();
                 }
 
@@ -262,39 +264,6 @@ namespace ButtPlugin.Core
                     }
                     yield return null;
                 }
-            }
-        }
-    }
-
-    internal class DeviceListMessage
-    {
-        public DeviceListWrapper DeviceList { get; set; }
-
-        internal class DeviceListWrapper
-        {
-            public List<Device> Devices { get; set; }
-        }
-    }
-
-    public class Device
-    {
-        public string DeviceName { get; set; }
-        public int DeviceIndex { get; set; }
-        public int GirlIndex { get; set; } = 0;
-        public int ActionIndex { get; set; } = 0;
-        public Features DeviceMessages { get; set; }
-
-        public bool IsVibrator { get { return DeviceMessages.VibrateCmd != null; } }
-        public bool IsStroker { get { return DeviceMessages.LinearCmd != null; } }
-
-        public class Features
-        {
-            public Command LinearCmd { get; set; }
-            public Command VibrateCmd { get; set; }
-
-            public class Command
-            {
-                public int FeatureCount { get; set; }
             }
         }
     }
