@@ -8,7 +8,7 @@ namespace ButtPlugin.Core
     public abstract class ButtplugController : MonoBehaviour
     {
         private ButtplugWsClient client;
-        
+
         // animation -> fractional part of normalized time at start of up-stroke
         protected static Dictionary<string, float> animPhases = new Dictionary<string, float>();
 

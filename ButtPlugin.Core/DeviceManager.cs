@@ -3,7 +3,7 @@ using LitJson;
 
 namespace ButtPlugin.Core
 {
-    class DeviceManager
+    internal class DeviceManager
     {
         public static void SaveDeviceSettings(List<Device> devices)
         {

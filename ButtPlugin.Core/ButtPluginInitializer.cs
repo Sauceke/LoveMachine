@@ -172,7 +172,9 @@ namespace ButtPlugin.Core
         {
             var serverController = Chainloader.ManagerObject.GetComponent<ButtplugWsClient>();
             GUILayout.BeginVertical(GUILayout.ExpandWidth(true));
+            {
                 GUILayout.BeginHorizontal();
+                {
                     GUILayout.FlexibleSpace();
                     if (GUILayout.Button("Connect", GUILayout.Width(150)))
                     {
@@ -186,12 +188,14 @@ namespace ButtPlugin.Core
                         }
                     }
                     GUILayout.FlexibleSpace();
+                }
                 GUILayout.EndHorizontal();
 
                 GUILayout.Space(12);
 
                 // table header
                 GUILayout.BeginHorizontal(GUILayout.ExpandWidth(true));
+                {
                     GUILayout.Label("Device Name", GUILayout.ExpandWidth(true));
                     GUILayout.Label("Stroker", GUILayout.Width(100));
                     GUILayout.Label("Vibrators", GUILayout.Width(100));
@@ -205,12 +209,14 @@ namespace ButtPlugin.Core
                     }
                     GUILayout.FlexibleSpace();
                     GUILayout.Label("Test Device", GUILayout.Width(100));
+                }
                 GUILayout.EndHorizontal();
-            
+
                 foreach (var device in serverController.Devices)
                 {
                     GUILayout.Space(10);
                     GUILayout.BeginHorizontal(GUILayout.ExpandWidth(true));
+                    {
                         GUILayout.Label(device.DeviceName, GUILayout.ExpandWidth(true));
                         GUILayout.Toggle(device.IsStroker, "", GUILayout.Width(100));
                         GUILayout.Toggle(device.IsVibrator, "", GUILayout.Width(100));
@@ -232,6 +238,7 @@ namespace ButtPlugin.Core
                         }
                         GUILayout.FlexibleSpace();
                         GUILayout.BeginVertical(GUILayout.ExpandHeight(true));
+                        {
                             if (GUILayout.Button("Test Slow"))
                             {
                                 TestStrokerAsync(device, false);
@@ -240,10 +247,12 @@ namespace ButtPlugin.Core
                             {
                                 TestStrokerAsync(device, true);
                             }
+                        }
                         GUILayout.EndVertical();
+                    }
                     GUILayout.EndHorizontal();
                 }
-                
+            }
             GUILayout.EndVertical();
         }
 
