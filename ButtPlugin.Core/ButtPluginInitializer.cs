@@ -191,10 +191,10 @@ namespace ButtPlugin.Core
                 }
                 GUILayout.EndHorizontal();
 
-                float totalWidth = GUILayoutUtility.GetWindowsBounds().width * .9f;
                 GUILayout.Space(12);
 
                 // table header
+                float totalWidth = GUILayoutUtility.GetWindowsBounds().width * .9f;
                 int columns = 6;
                 float columnWidth = totalWidth / columns;
                 GUILayout.BeginHorizontal(GUILayout.ExpandWidth(true));
