@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using BepInEx;
 using LitJson;
 using UnityEngine;
 using WebSocket4Net;
@@ -130,7 +131,7 @@ namespace ButtPlugin.Core
                 RequestServerInfo = new
                 {
                     Id = random.Next(),
-                    ClientName = "Koikatsu",
+                    ClientName = Paths.ProcessName,
                     MessageVersion = 1
                 }
             };
