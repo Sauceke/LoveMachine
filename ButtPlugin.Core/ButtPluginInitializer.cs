@@ -191,24 +191,26 @@ namespace ButtPlugin.Core
                 }
                 GUILayout.EndHorizontal();
 
+                float totalWidth = GUILayoutUtility.GetWindowsBounds().width * .9f;
                 GUILayout.Space(12);
 
                 // table header
+                int columns = 6;
+                float columnWidth = totalWidth / columns;
                 GUILayout.BeginHorizontal(GUILayout.ExpandWidth(true));
                 {
-                    GUILayout.Label("Device Name", GUILayout.ExpandWidth(true));
-                    GUILayout.Label("Stroker", GUILayout.Width(100));
-                    GUILayout.Label("Vibrators", GUILayout.Width(100));
+                    GUILayout.Label("Device Name", GUILayout.Width(columnWidth));
+                    GUILayout.Label("Stroker", GUILayout.Width(columnWidth));
+                    GUILayout.Label("Vibrators", GUILayout.Width(columnWidth));
                     if (girlMappingHeader != null)
                     {
-                        GUILayout.Label(girlMappingHeader, GUILayout.Width(100));
+                        GUILayout.Label(girlMappingHeader, GUILayout.Width(columnWidth));
                     }
                     if (actionMappingHeader != null)
                     {
-                        GUILayout.Label(actionMappingHeader, GUILayout.Width(100));
+                        GUILayout.Label(actionMappingHeader, GUILayout.Width(columnWidth));
                     }
-                    GUILayout.FlexibleSpace();
-                    GUILayout.Label("Test Device", GUILayout.Width(100));
+                    GUILayout.Label("Test Device", GUILayout.Width(columnWidth));
                 }
                 GUILayout.EndHorizontal();
 
@@ -217,16 +219,16 @@ namespace ButtPlugin.Core
                     GUILayout.Space(10);
                     GUILayout.BeginHorizontal(GUILayout.ExpandWidth(true));
                     {
-                        GUILayout.Label(device.DeviceName, GUILayout.ExpandWidth(true));
-                        GUILayout.Toggle(device.IsStroker, "", GUILayout.Width(100));
-                        GUILayout.Toggle(device.IsVibrator, "", GUILayout.Width(100));
+                        GUILayout.Label(device.DeviceName, GUILayout.Width(columnWidth));
+                        GUILayout.Toggle(device.IsStroker, "", GUILayout.Width(columnWidth));
+                        GUILayout.Toggle(device.IsVibrator, "", GUILayout.Width(columnWidth));
                         if (girlMappingOptions != null)
                         {
                             device.GirlIndex = GUILayout.SelectionGrid(
                                 selected: device.GirlIndex,
                                 girlMappingOptions,
                                 xCount: 1,
-                                GUILayout.Width(100));
+                                GUILayout.Width(columnWidth));
                         }
                         if (actionMappingOptions != null)
                         {
@@ -234,9 +236,8 @@ namespace ButtPlugin.Core
                                 selected: device.ActionIndex,
                                 actionMappingOptions,
                                 xCount: 1,
-                                GUILayout.Width(100));
+                                GUILayout.Width(columnWidth));
                         }
-                        GUILayout.FlexibleSpace();
                         GUILayout.BeginVertical(GUILayout.ExpandHeight(true));
                         {
                             if (GUILayout.Button("Test Slow"))
