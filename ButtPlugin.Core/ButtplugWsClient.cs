@@ -239,6 +239,10 @@ namespace ButtPlugin.Core
             {
                 CoreConfig.Logger.LogMessage("Warning: No devices connected to Buttplug.");
             }
+            else
+            {
+                CoreConfig.Logger.LogMessage($"{Devices.Count} device(s) connected to Buttplug.");
+            }
             foreach (var device in Devices)
             {
                 if (!device.IsStroker && !device.IsVibrator)
