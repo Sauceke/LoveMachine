@@ -14,6 +14,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.editorconfig = .editorconfig
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ButtPlugin.KKS", "ButtPlugin.KKS\ButtPlugin.KKS.csproj", "{E3D1C1B7-C9CB-4DFC-B36D-72BFFE73CAC3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -32,6 +34,10 @@ Global
 		{31858493-D5C5-4D05-A202-929ABA457558}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{31858493-D5C5-4D05-A202-929ABA457558}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{31858493-D5C5-4D05-A202-929ABA457558}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E3D1C1B7-C9CB-4DFC-B36D-72BFFE73CAC3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E3D1C1B7-C9CB-4DFC-B36D-72BFFE73CAC3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E3D1C1B7-C9CB-4DFC-B36D-72BFFE73CAC3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E3D1C1B7-C9CB-4DFC-B36D-72BFFE73CAC3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
