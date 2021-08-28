@@ -41,6 +41,10 @@ jobs:
         powershell Copy-Item -Path bin/ButtPlugin.HS2/* -Destination BepInEx/plugins/HS2_ButtPlugin;
         powershell Compress-Archive -Path BepInEx -DestinationPath HS2_ButtPlugin.zip
         powershell Remove-Item -Path BepInEx/plugins/HS2_ButtPlugin -Recurse
+        powershell New-Item -Path BepInEx/plugins/KKS_ButtPlugin -ItemType Directory;
+        powershell Copy-Item -Path bin/ButtPlugin.KKS/* -Destination BepInEx/plugins/KKS_ButtPlugin;
+        powershell Compress-Archive -Path BepInEx -DestinationPath KKS_ButtPlugin.zip
+        powershell Remove-Item -Path BepInEx/plugins/KKS_ButtPlugin -Recurse
 
     - name: Create Release
       id: create_release
@@ -62,6 +66,16 @@ jobs:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
         asset_path: ./KK_ButtPlugin.zip
         asset_name: ButtPlugin_for_Koikatsu.zip
+        asset_content_type: application/zip
+
+    - name: Upload Koikatsu Sunshine Plugin
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ./KKS_ButtPlugin.zip
+        asset_name: ButtPlugin_for_Koikatsu_Sunshine.zip
         asset_content_type: application/zip
 
     - name: Upload Honey Select 2 Plugin
