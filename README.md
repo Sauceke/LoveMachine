@@ -69,8 +69,10 @@ Currently, most of these settings will only work in Koikatsu. HF2 support later.
 * Sauceke
 
 ### Sponsors
+* EPTG
 * Taka Yami
 * Wel Adunno
+* yamada tarou
 
 ## Acknowledgements
 This mod would not have been possible without the [BepInEx](https://github.com/BepInEx) plugin framework and, of course, the [Buttplug](https://buttplug.io/) project.
