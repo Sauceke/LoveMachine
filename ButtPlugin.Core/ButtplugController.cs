@@ -195,6 +195,9 @@ namespace ButtPlugin.Core
                 }
             }
             animPhases[pose] = minDistanceNormTime;
+            // rewind so that non-looping animations don't end abruptly
+            femaleAnimator.Play(CurrentAnimationStateHash, AnimationLayer, 0);
+            maleAnimator.Play(CurrentAnimationStateHash, AnimationLayer, 0);
         }
 
         protected abstract int HeroineCount { get; }
