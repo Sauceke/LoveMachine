@@ -12,8 +12,8 @@ jobs:
     steps:
       - name: Checkout repo
         uses: actions/checkout@v2
-          with:
-            token: ${{ secrets.PAT }}
+        with:
+          token: ${{ secrets.PAT }}
 
       - name: Copy readme files
         run: cp doc/* .
