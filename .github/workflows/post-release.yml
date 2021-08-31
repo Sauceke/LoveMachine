@@ -22,6 +22,5 @@ jobs:
           branch: mastur
           message: Update readme files
           add: '*.md'
-          committer_name: GitHub Actions
-          committer_email: actions@github.com
-
+          author_name: Sauceke
+          author_email: 76826783+Sauceke@users.noreply.github.com
