@@ -1,0 +1,24 @@
+name: Post-release workflow
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  update_docs:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v2
+
+      - name: Copy readme files
+        run: cp doc/* .
+
+      - name: Commit
+        uses: EndBug/add-and-commit@v7
+        with:
+          default_author: github_actions
+          message: Update readme files
+          add: '*.md'
+      
