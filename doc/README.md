@@ -33,28 +33,45 @@ Go to the [latest release page](https://github.com/Sauceke/BepInEx.ButtPlugin/re
 * ButtPlugin analyzes the movement of certain bones in female characters (hands, crotch, breasts, mouth).
 * To do this, we hijack the animator for 10 frames each time a new animation loop is loaded, to do a quick calibration. You will see the animation glitch for a split second when this happens.
 * The stroking movement (and the intensity oscillation for vibrators) will be matched to the movements of the bone closest to the male character's balls as recorded during calibration (this messes up syncing with ball licking animations, but works for just about everything else).
-* As the whole thing is based on bone positions, this will only work for reasonably sized characters (no lewding 7 inch fairies).
+* As the whole thing is based on bone positions, this will only work for reasonably sized and proportioned characters. Abusing SliderUnlocker is not recommended.
 * If you change poses during calibration, it kind of makes a mess of the whole thing and you can only fix it by restarting the game. Make sure you don't interfere with the calibration process.
 
 ## Configuration
-<img src="https://user-images.githubusercontent.com/76826783/126218961-e75500a1-bff4-4ac5-aa52-80f435461a8b.jpg">
+<img src="https://user-images.githubusercontent.com/76826783/131505753-61cbc277-693d-487d-abfb-341faa27c964.png" width=50%>
+
 In Plugin Settings > ButtPlugin, you can set the following parameters:
 
 ### Device List
+This is where all your devices connected to Buttplug are listed.
 * **Connect:** Reconnect to the Buttplug server.
 * **Scan:** Scan for devices.
 * **Stroker:** indicates that the device has back-and-forth movement functionality AND that this functionality is supported by Buttplug.
 * **Vibrators:** indicates that the device has vibrator functionality AND that this functionality is supported by Buttplug.
-* **Threesome role:** Which girl the device is assigned to in a threesome. This also affects other scenes - if a device is assigned to second girl, it will not be activated in Standard scenes.
+* **Threesome Role:** Which girl the device is assigned to in a threesome. This also affects other scenes - if a device is assigned to second girl, it will not be activated in Standard scenes.
+* **Action Mapping:** When multiple actions are available (such as fondling/fingering in Koikatsu), here you can set which action the device should react to.
+* **Test Slow:** Tests the device with 3 slow strokes
+* **Test Fast:** Tests the device with 3 fast strokes
+* **Save device assignments:** If enabled, the Threesome Role and Action Mapping will be saved for all devices. Disabled by default.
 
-### Network
+### Kill Switch Settings
+Safety measure to avoid hurting yourself if the sex gets too rough or something goes wrong. By default, pressing Spacebar will immediately stop all connected devices.
+* **Emergency Stop Key Binding:** Sets the keystroke for activating the kill switch (Space by default).
+* **Resume Key Binding:** Sets the keystroke for deactivating the kill switch (F8 by default).
+
+### Network Settings
 * **WebSocket address:** The Buttplug server address (usually localhost:12345).
 
-### Stroker settings
+### Stroker Settings
 * **Latency (ms):** The latency between your display and your device. Set a negative value if your device is faster than your display. (No way to calibrate, you have to "experiment".)
 * **Maximum strokes per minute:** The maximum speed your stroker is capable of (or your slowest stroker if you have more than one). Based on this value, ButtPlugin will slow down H scene animations if necessary, to keep the immersion. (You'll still be in control of speed, but it will be relative to how fast your toy can go.) The part right before climax will also be slowed down.
 
-### Vibration settings
+You can define two "stroke zones", one for fast movement and one for slow movement. These zones gradually change into one another as the speed increases/decreases.
+* **Slow Stroke Zone Min:** The lowest (i. e. deepest) position your stroker will move to when going slow.
+* **Slow Stroke Zone Max:** The highest position your stroker will move to when going slow.
+* **Fast Stroke Zone Min:** The lowest (i. e. deepest) position your stroker will move to when going fast.
+* **Fast Stroke Zone Max:** The highest position your stroker will move to when going fast.
+
+### Vibration Settings
 Currently, most of these settings will only work in Koikatsu. HF2 support later.
 * **Enable Vibrators:**
   * Male: vibrators will only react to what the male character feels
