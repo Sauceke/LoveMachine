@@ -90,6 +90,7 @@ Currently, most of these settings will only work in Koikatsu. HF2 support later.
 ### Sponsors
 * EPTG
 * Taka Yami
+* tanu
 * Wel Adunno
 * yamada tarou
 
