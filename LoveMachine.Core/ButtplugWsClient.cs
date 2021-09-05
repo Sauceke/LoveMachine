@@ -7,7 +7,7 @@ using LitJson;
 using UnityEngine;
 using WebSocket4Net;
 
-namespace ButtPlugin.Core
+namespace LoveMachine.Core
 {
     public class ButtplugWsClient : MonoBehaviour
     {
@@ -264,7 +264,7 @@ namespace ButtPlugin.Core
                     Pushed &= !CoreConfig.ResumeSwitch.Value.IsPressed();
                     if (CoreConfig.KillSwitch.Value.IsDown())
                     {
-                        CoreConfig.Logger.LogMessage("ButtPlugin: Emergency stop pressed.");
+                        CoreConfig.Logger.LogMessage("LoveMachine: Emergency stop pressed.");
                         Pushed = true;
                     }
                     yield return null;

@@ -1,4 +1,4 @@
-# BepInEx ButtPlugin ([日本語](マニュアル.md))
+# BepInEx LoveMachine ([日本語](マニュアル.md))
 Adds support for [buttplug.io](https://buttplug.io/) compatible strokers and vibrators in the following games:
 * Koikatsu (VR too)
 * Honey Select 2 (VR too)
@@ -18,9 +18,7 @@ Prerequisites:
 * Install [Intiface Desktop](https://intiface.com/desktop/).
 * Install [BepInEx 5.3](https://github.com/BepInEx/BepInEx/releases) or later.
 
-**If you currently have v1.0.0 or v1.1.0 installed:** Delete ``Koikatsu Party\BepInEx\plugins\KK_ButtPlugin.dll`` before proceeding.
-
-Go to the [latest release page](https://github.com/Sauceke/BepInEx.ButtPlugin/releases), download the ZIP that corresponds to the game you want to patch, and drag the BepInEx folder from the zip file into your game's installation folder (it already has a BepInEx folder, but do it anyway). If you've done it right, there should be a folder in your game's directory called ``BepInEx\plugins\KK_ButtPlugin`` or ``BepInEx\plugins\HS2_ButtPlugin`` with some DLL files inside.
+Go to the [latest release page](https://github.com/Sauceke/BepInEx.LoveMachine/releases), download the ZIP that corresponds to the game you want to patch, and drag the BepInEx folder from the zip file into your game's installation folder (it already has a BepInEx folder, but do it anyway). If you've done it right, there should be a folder in your game's directory called ``BepInEx\plugins\KK_LoveMachine`` or ``BepInEx\plugins\HS2_LoveMachine`` with some DLL files inside.
 
 ## How to use
 1. Open Intiface Desktop.
@@ -30,7 +28,7 @@ Go to the [latest release page](https://github.com/Sauceke/BepInEx.ButtPlugin/re
 1. You're welcome. 😏
 
 ## How it works, limitations
-* ButtPlugin analyzes the movement of certain bones in female characters (hands, crotch, breasts, mouth).
+* LoveMachine analyzes the movement of certain bones in female characters (hands, crotch, breasts, mouth).
 * To do this, we hijack the animator for 10 frames each time a new animation loop is loaded, to do a quick calibration. You will see the animation glitch for a split second when this happens.
 * The stroking movement (and the intensity oscillation for vibrators) will be matched to the movements of the bone closest to the male character's balls as recorded during calibration (this messes up syncing with ball licking animations, but works for just about everything else).
 * As the whole thing is based on bone positions, this will only work for reasonably sized and proportioned characters. Abusing SliderUnlocker is not recommended.
@@ -39,7 +37,7 @@ Go to the [latest release page](https://github.com/Sauceke/BepInEx.ButtPlugin/re
 ## Configuration
 <img src="https://user-images.githubusercontent.com/76826783/131505753-61cbc277-693d-487d-abfb-341faa27c964.png" width=50%>
 
-In Plugin Settings > ButtPlugin, you can set the following parameters:
+In Plugin Settings > LoveMachine, you can set the following parameters:
 
 ### Device List
 This is where all your devices connected to Buttplug are listed.
@@ -63,7 +61,7 @@ Safety measure to avoid hurting yourself if the sex gets too rough or something 
 
 ### Stroker Settings
 * **Latency (ms):** The latency between your display and your device. Set a negative value if your device is faster than your display. (No way to calibrate, you have to "experiment".)
-* **Maximum strokes per minute:** The maximum speed your stroker is capable of (or your slowest stroker if you have more than one). Based on this value, ButtPlugin will slow down H scene animations if necessary, to keep the immersion. (You'll still be in control of speed, but it will be relative to how fast your toy can go.) The part right before climax will also be slowed down.
+* **Maximum strokes per minute:** The maximum speed your stroker is capable of (or your slowest stroker if you have more than one). Based on this value, LoveMachine will slow down H scene animations if necessary, to keep the immersion. (You'll still be in control of speed, but it will be relative to how fast your toy can go.) The part right before climax will also be slowed down.
 
 You can define two "stroke zones", one for fast movement and one for slow movement. These zones gradually change into one another as the speed increases/decreases.
 * **Slow Stroke Zone Min:** The lowest (i. e. deepest) position your stroker will move to when going slow.

@@ -26,25 +26,16 @@ jobs:
       uses: NuGet/setup-nuget@v1.0.2
      
     - name: Restore NuGet Packages
-      run: nuget restore BepInExButtPlugin.sln
+      run: nuget restore BepInEx.LoveMachine.sln
  
     - name: Build and Publish
-      run: msbuild BepInExButtPlugin.sln /p:Configuration=Release /p:DeployOnBuild=true /p:PublishProfile=FolderProfile /p:Version=${{ github.event.inputs.version }}
+      run: msbuild BepInEx.LoveMachine.sln /p:Configuration=Release /p:DeployOnBuild=true /p:PublishProfile=FolderProfile /p:Version=${{ github.event.inputs.version }}
     
     - name: Zip artifacts
       run: |-
-        powershell New-Item -Path BepInEx/plugins/KK_ButtPlugin -ItemType Directory;
-        powershell Copy-Item -Path bin/ButtPlugin.KK/* -Destination BepInEx/plugins/KK_ButtPlugin;
-        powershell Compress-Archive -Path BepInEx -DestinationPath KK_ButtPlugin.zip
-        powershell Remove-Item -Path BepInEx/plugins/KK_ButtPlugin -Recurse
-        powershell New-Item -Path BepInEx/plugins/HS2_ButtPlugin -ItemType Directory;
-        powershell Copy-Item -Path bin/ButtPlugin.HS2/* -Destination BepInEx/plugins/HS2_ButtPlugin;
-        powershell Compress-Archive -Path BepInEx -DestinationPath HS2_ButtPlugin.zip
-        powershell Remove-Item -Path BepInEx/plugins/HS2_ButtPlugin -Recurse
-        powershell New-Item -Path BepInEx/plugins/KKS_ButtPlugin -ItemType Directory;
-        powershell Copy-Item -Path bin/ButtPlugin.KKS/* -Destination BepInEx/plugins/KKS_ButtPlugin;
-        powershell Compress-Archive -Path BepInEx -DestinationPath KKS_ButtPlugin.zip
-        powershell Remove-Item -Path BepInEx/plugins/KKS_ButtPlugin -Recurse
+        powershell Compress-Archive -Path bin/LoveMachine.KK/BepInEx -DestinationPath KK_LoveMachine.zip
+        powershell Compress-Archive -Path bin/LoveMachine.HS2/BepInEx -DestinationPath HS2_LoveMachine.zip
+        powershell Compress-Archive -Path bin/LoveMachine.KKS/BepInEx -DestinationPath KKS_LoveMachine.zip
 
     - name: Create Release
       id: create_release
@@ -64,8 +55,8 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: ./KK_ButtPlugin.zip
-        asset_name: ButtPlugin_for_Koikatsu.zip
+        asset_path: ./KK_LoveMachine.zip
+        asset_name: LoveMachine_for_Koikatsu.zip
         asset_content_type: application/zip
 
     - name: Upload Koikatsu Sunshine Plugin
@@ -74,8 +65,8 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: ./KKS_ButtPlugin.zip
-        asset_name: ButtPlugin_for_Koikatsu_Sunshine.zip
+        asset_path: ./KKS_LoveMachine.zip
+        asset_name: LoveMachine_for_Koikatsu_Sunshine.zip
         asset_content_type: application/zip
 
     - name: Upload Honey Select 2 Plugin
@@ -84,6 +75,6 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: ./HS2_ButtPlugin.zip
-        asset_name: ButtPlugin_for_Honey_Select_2.zip
+        asset_path: ./HS2_LoveMachine.zip
+        asset_name: LoveMachine_for_Honey_Select_2.zip
         asset_content_type: application/zip

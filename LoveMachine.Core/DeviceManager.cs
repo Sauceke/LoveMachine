@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using LitJson;
 
-namespace ButtPlugin.Core
+namespace LoveMachine.Core
 {
     internal class DeviceManager
     {

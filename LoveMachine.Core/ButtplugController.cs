@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace ButtPlugin.Core
+namespace LoveMachine.Core
 {
     public abstract class ButtplugController : MonoBehaviour
     {

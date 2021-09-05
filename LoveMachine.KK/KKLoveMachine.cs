@@ -1,10 +1,10 @@
 ﻿using BepInEx;
-using ButtPlugin.Core;
+using LoveMachine.Core;
 
-namespace ButtPlugin.KK
+namespace LoveMachine.KK
 {
-    [BepInPlugin(CoreConfig.GUID, "ButtPlugin", CoreConfig.Version)]
-    public class KKButtPlugin : BaseUnityPlugin
+    [BepInPlugin(CoreConfig.GUID, "LoveMachine", CoreConfig.Version)]
+    public class KKLoveMachine : BaseUnityPlugin
     {
         private void Start()
         {
@@ -14,7 +14,7 @@ namespace ButtPlugin.KK
                 "Sex", "Left Breast", "Right Breast", "Touch Groin", "Touch Anal", "Left Butt", "Right Butt"
             };
             CoreConfig.Logger = Logger;
-            ButtPluginInitializer.Initialize(
+            PluginInitializer.Initialize(
                 plugin: this,
                 girlMappingHeader: "Threesome Role",
                 girlMappingOptions: girls,
@@ -25,4 +25,9 @@ namespace ButtPlugin.KK
             Hooks.InstallHooks();
         }
     }
+
+    // To avoid conflict with the old plugin
+    // 2.1.0 was the last ButtPlugin version so this should get priority from BepInEx
+    [BepInPlugin("Sauceke.ButtPlugin", "ButtPlugin", "2.1.1")]
+    internal class EmptyPlugin : BaseUnityPlugin { }
 }

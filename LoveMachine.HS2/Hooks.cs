@@ -1,7 +1,7 @@
 ﻿using BepInEx.Bootstrap;
 using HarmonyLib;
 
-namespace ButtPlugin.HS2
+namespace LoveMachine.HS2
 {
     internal static class Hooks
     {

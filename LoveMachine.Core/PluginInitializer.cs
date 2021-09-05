@@ -5,12 +5,12 @@ using BepInEx.Bootstrap;
 using BepInEx.Configuration;
 using UnityEngine;
 
-namespace ButtPlugin.Core
+namespace LoveMachine.Core
 {
     // BepInEx seems to care only for direct subclasses of BaseUnityPlugin, so making a common
-    // plugin base for ButtPlugin is not possible.
+    // plugin base for LoveMachine is not possible.
     // This is ugly but my hands are tied.
-    public class ButtPluginInitializer
+    public class PluginInitializer
     {
         private BaseUnityPlugin plugin;
         private string girlMappingHeader;
@@ -24,7 +24,7 @@ namespace ButtPlugin.Core
             string actionMappingHeader, string[] actionMappingOptions,
             params Type[] controllers)
         {
-            new ButtPluginInitializer
+            new PluginInitializer
             {
                 plugin = plugin,
                 girlMappingHeader = girlMappingHeader,
@@ -66,7 +66,7 @@ namespace ButtPlugin.Core
                 defaultValue: 140,
                 new ConfigDescription(
                     "The top speed possible on your stroker in your preferred Fast Stroke Zone.\n" +
-                    "ButtPlugin will slow down animations if necessary based on this value.",
+                    "LoveMachine will slow down animations if necessary based on this value.",
                     new AcceptableValueRange<int>(0, 300),
                     new ConfigurationManagerAttributes { Order = 10 }));
             CoreConfig.LatencyMs = plugin.Config.Bind(

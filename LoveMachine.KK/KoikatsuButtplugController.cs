@@ -1,11 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using ButtPlugin.Core;
+using LoveMachine.Core;
 using IllusionUtility.GetUtility;
 using UnityEngine;
 
-namespace ButtPlugin.KK
+namespace LoveMachine.KK
 {
     public abstract class KoikatsuButtplugController : ButtplugController
     {

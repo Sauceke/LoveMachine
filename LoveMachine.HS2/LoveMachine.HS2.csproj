@@ -7,8 +7,8 @@
     <ProjectGuid>{31858493-D5C5-4D05-A202-929ABA457558}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ButtPlugin.HS2</RootNamespace>
-    <AssemblyName>ButtPlugin.HS2</AssemblyName>
+    <RootNamespace>LoveMachine.HS2</RootNamespace>
+    <AssemblyName>LoveMachine.HS2</AssemblyName>
     <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -18,7 +18,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\bin\ButtPlugin.HS2\</OutputPath>
+    <OutputPath>..\bin\LoveMachine.HS2\BepInEx\plugins\HS2_LoveMachine\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -27,7 +27,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>..\bin\ButtPlugin.HS2\</OutputPath>
+    <OutputPath>..\bin\LoveMachine.HS2\BepInEx\plugins\HS2_LoveMachine\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -44,13 +44,13 @@
   <ItemGroup>
     <Compile Include="HoneySelect2ButtplugController.cs" />
     <Compile Include="Hooks.cs" />
-    <Compile Include="HS2ButtPlugin.cs" />
+    <Compile Include="HS2LoveMachine.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ButtPlugin.Core\ButtPlugin.Core.csproj">
+    <ProjectReference Include="..\LoveMachine.Core\LoveMachine.Core.csproj">
       <Project>{36E78D7D-C987-4E98-B709-149D19C4193A}</Project>
-      <Name>ButtPlugin.Core</Name>
+      <Name>LoveMachine.Core</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

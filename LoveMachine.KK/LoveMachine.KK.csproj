@@ -7,8 +7,8 @@
     <ProjectGuid>{8AB7D330-2E67-47D2-8503-3EA98A0AF52C}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ButtPlugin.KK</RootNamespace>
-    <AssemblyName>ButtPlugin.KK</AssemblyName>
+    <RootNamespace>LoveMachine.KK</RootNamespace>
+    <AssemblyName>LoveMachine.KK</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -19,21 +19,23 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>embedded</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\bin\ButtPlugin.KK\</OutputPath>
+    <OutputPath>..\bin\LoveMachine.KK\BepInEx\plugins\KK_LoveMachine\</OutputPath>
     <DefineConstants>TRACE;DEBUG;KK</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <PlatformTarget>AnyCPU</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>embedded</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>..\bin\ButtPlugin.KK\</OutputPath>
+    <OutputPath>..\bin\LoveMachine.KK\BepInEx\plugins\KK_LoveMachine\</OutputPath>
     <DefineConstants>TRACE;KK</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <DebugSymbols>true</DebugSymbols>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <PlatformTarget>AnyCPU</PlatformTarget>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="0Harmony, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
@@ -79,7 +81,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Hooks.cs" />
-    <Compile Include="KKButtPlugin.cs" />
+    <Compile Include="KKLoveMachine.cs" />
     <Compile Include="KoikatsuButtplugController.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -87,9 +89,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ButtPlugin.Core\ButtPlugin.Core.csproj">
+    <ProjectReference Include="..\LoveMachine.Core\LoveMachine.Core.csproj">
       <Project>{36e78d7d-c987-4e98-b709-149d19c4193a}</Project>
-      <Name>ButtPlugin.Core</Name>
+      <Name>LoveMachine.Core</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
