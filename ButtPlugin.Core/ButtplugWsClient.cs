@@ -32,7 +32,7 @@ namespace ButtPlugin.Core
             IsConnected = false;
             Devices = new List<Device>();
             string address = CoreConfig.WebSocketAddress.Value;
-            CoreConfig.Logger.LogDebug($"Connecting to Buttplug server at {address}");
+            CoreConfig.Logger.LogDebug($"Connecting to Intiface server at {address}");
             websocket = new WebSocket(address);
             websocket.Opened += OnOpened;
             websocket.MessageReceived += OnMessageReceived;
@@ -45,7 +45,7 @@ namespace ButtPlugin.Core
         {
             StopAllCoroutines();
             IsConnected = false;
-            CoreConfig.Logger.LogDebug("Disconnecting from Buttplug server.");
+            CoreConfig.Logger.LogDebug("Disconnecting from Intiface server.");
             websocket.Close();
             websocket.Dispose();
             DeviceManager.SaveDeviceSettings(Devices);
@@ -199,7 +199,7 @@ namespace ButtPlugin.Core
             {
                 if (data.ContainsKey("Error"))
                 {
-                    CoreConfig.Logger.LogWarning($"Buttplug error: {data.ToJson()}");
+                    CoreConfig.Logger.LogWarning($"Error from Intiface: {data.ToJson()}");
                 }
                 else if (data.ContainsKey("ServerInfo") || data.ContainsKey("DeviceAdded")
                     || data.ContainsKey("DeviceRemoved"))
@@ -228,7 +228,7 @@ namespace ButtPlugin.Core
             CoreConfig.Logger.LogWarning($"Websocket error: {e.Exception.Message}");
             if (e.Exception.Message.Contains("unreachable"))
             {
-                CoreConfig.Logger.LogMessage("Error: Failed to connect to Buttplug server.");
+                CoreConfig.Logger.LogMessage("Error: Failed to connect to Intiface server.");
             }
         }
 
@@ -237,11 +237,11 @@ namespace ButtPlugin.Core
             CoreConfig.Logger.LogDebug($"List of devices: {JsonMapper.ToJson(Devices)}");
             if (Devices.Count == 0)
             {
-                CoreConfig.Logger.LogMessage("Warning: No devices connected to Buttplug.");
+                CoreConfig.Logger.LogMessage("Warning: No devices connected to Intiface.");
             }
             else
             {
-                CoreConfig.Logger.LogMessage($"{Devices.Count} device(s) connected to Buttplug.");
+                CoreConfig.Logger.LogMessage($"{Devices.Count} device(s) connected to Intiface.");
             }
             foreach (var device in Devices)
             {
