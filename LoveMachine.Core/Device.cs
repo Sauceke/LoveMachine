@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace ButtPlugin.Core
+namespace LoveMachine.Core
 {
     public class Device
     {

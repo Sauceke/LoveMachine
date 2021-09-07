@@ -7,8 +7,8 @@
     <ProjectGuid>{E3D1C1B7-C9CB-4DFC-B36D-72BFFE73CAC3}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ButtPlugin.KKS</RootNamespace>
-    <AssemblyName>ButtPlugin.KKS</AssemblyName>
+    <RootNamespace>LoveMachine.KKS</RootNamespace>
+    <AssemblyName>LoveMachine.KKS</AssemblyName>
     <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -19,7 +19,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\bin\ButtPlugin.KKS\</OutputPath>
+    <OutputPath>..\bin\LoveMachine.KKS\BepInEx\plugins\KKS_LoveMachine\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -28,7 +28,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>..\bin\ButtPlugin.KKS\</OutputPath>
+    <OutputPath>..\bin\LoveMachine.KKS\BepInEx\plugins\KKS_LoveMachine\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -81,18 +81,18 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="../ButtPlugin.KK/Hooks.cs" />
-    <Compile Include="../ButtPlugin.KK/KKButtPlugin.cs" />
-    <Compile Include="../ButtPlugin.KK/KoikatsuButtplugController.cs" />
+    <Compile Include="../LoveMachine.KK/Hooks.cs" />
+    <Compile Include="../LoveMachine.KK/KKLoveMachine.cs" />
+    <Compile Include="../LoveMachine.KK/KoikatsuButtplugController.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ButtPlugin.Core\ButtPlugin.Core.csproj">
+    <ProjectReference Include="..\LoveMachine.Core\LoveMachine.Core.csproj">
       <Project>{36e78d7d-c987-4e98-b709-149d19c4193a}</Project>
-      <Name>ButtPlugin.Core</Name>
+      <Name>LoveMachine.Core</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

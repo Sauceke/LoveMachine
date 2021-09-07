@@ -1,12 +1,13 @@
 ﻿using BepInEx.Configuration;
 using BepInEx.Logging;
 
-namespace ButtPlugin.Core
+namespace LoveMachine.Core
 {
     public class CoreConfig
     {
-        public const string GUID = "Sauceke.ButtPlugin";
-        public const string Version = ButtPluginVersionInfo.Version;
+        public const string PluginName = "LoveMachine";
+        public const string GUID = "Sauceke.LoveMachine";
+        public const string Version = VersionInfo.Version;
 
         public static ManualLogSource Logger { get; set; }
 

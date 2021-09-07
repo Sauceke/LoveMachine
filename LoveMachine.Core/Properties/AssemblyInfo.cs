@@ -1,17 +1,15 @@
 ﻿using System.Reflection;
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
-using ButtPlugin.Core;
+using LoveMachine.Core;
 
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("ButtPlugin.KKS")]
+[assembly: AssemblyTitle(CoreConfig.PluginName + ".Core")]
 [assembly: AssemblyDescription("")]
-[assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Sauceke")]
-[assembly: AssemblyProduct("ButtPlugin.KKS")]
-[assembly: AssemblyCopyright("Copyright ©  2021")]
+[assembly: AssemblyProduct(CoreConfig.PluginName + ".Core")]
+[assembly: AssemblyCopyright("2021")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -21,7 +19,7 @@ using ButtPlugin.Core;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("e3d1c1b7-c9cb-4dfc-b36d-72bffe73cac3")]
+[assembly: Guid("e1b294bd-871e-4a18-ac5a-c1f748b3ee38")]
 
 // Version information for an assembly consists of the following four values:
 //
