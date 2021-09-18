@@ -176,6 +176,7 @@ namespace LoveMachine.Core
             float minDistanceNormTime = 0;
             var femaleAnimator = GetFemaleAnimator(girlIndex);
             var maleAnimator = GetMaleAnimator();
+            var boneName = "";
             for (float normTime = 0; normTime < 1; normTime += .1f)
             {
                 femaleAnimator.Play(CurrentAnimationStateHash, AnimationLayer, normTime);
@@ -190,10 +191,12 @@ namespace LoveMachine.Core
                         {
                             minDistanceSq = distanceSq;
                             minDistanceNormTime = normTime;
+                            boneName = bone2.name;
                         }
                     }
                 }
             }
+            CoreConfig.Logger.LogDebug($"Active female bone for pose {pose} is {boneName}.");
             animPhases[pose] = minDistanceNormTime;
             // rewind so that non-looping animations don't end abruptly
             femaleAnimator.Play(CurrentAnimationStateHash, AnimationLayer, 0);

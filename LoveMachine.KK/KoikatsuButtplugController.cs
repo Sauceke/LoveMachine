@@ -56,8 +56,11 @@ namespace LoveMachine.KK
 
         protected override string GetPose(int girlIndex)
         {
-            return flags.nowAnimationInfo.mode
-                + "." + flags.nowAnimationInfo.id
+            // Sideloaded animations all have the same id and name.
+            // The only surefire way to uniquely identify an animation seems to be the hash code,
+            // since it's based on object reference.
+            return flags.nowAnimationInfo.GetHashCode()
+                + "." + flags.nowAnimationInfo.nameAnimation
                 + "." + flags.nowAnimStateName
                 + "." + girlIndex;
         }
