@@ -184,7 +184,7 @@ namespace LoveMachine.Core
                     {
                         if (GUILayout.Button("Scan", GUILayout.Width(150)))
                         {
-                            serverController.Scan();
+                            serverController.StartScan();
                         }
                     }
                     GUILayout.FlexibleSpace();

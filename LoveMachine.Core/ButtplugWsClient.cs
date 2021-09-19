@@ -24,6 +24,7 @@ namespace LoveMachine.Core
 
         private void OnDestroy()
         {
+            StopScan();
             Close();
         }
 
@@ -150,7 +151,7 @@ namespace LoveMachine.Core
             websocket.Send(JsonMapper.ToJson(new object[] { deviceListRequest }));
         }
 
-        private void StartScan()
+        public void StartScan()
         {
             var scanRequest = new
             {
@@ -174,23 +175,10 @@ namespace LoveMachine.Core
             websocket.Send(JsonMapper.ToJson(new object[] { scanRequest }));
         }
 
-        private IEnumerator ScanDevices()
-        {
-            StartScan();
-            yield return new WaitForSeconds(30.0f);
-            StopScan();
-        }
-
-        public void Scan()
-        {
-            StartCoroutine(ScanDevices());
-        }
-
         public void Connect()
         {
             Close(); // close previous connection just in case
             Open();
-            Scan();
         }
 
         private void OnMessageReceived(object sender, MessageReceivedEventArgs e)
@@ -204,7 +192,6 @@ namespace LoveMachine.Core
                 else if (data.ContainsKey("ServerInfo") || data.ContainsKey("DeviceAdded")
                     || data.ContainsKey("DeviceRemoved"))
                 {
-                    Scan();
                     RequestDeviceList();
                 }
                 else if (data.ContainsKey("DeviceList"))
@@ -219,6 +206,7 @@ namespace LoveMachine.Core
                 {
                     IsConnected = true;
                     CoreConfig.Logger.LogDebug("Handshake successful.");
+                    StartScan();
                 }
             }
         }
