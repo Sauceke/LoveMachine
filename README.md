@@ -35,16 +35,18 @@ Go to the [latest release page](https://github.com/Sauceke/BepInEx.LoveMachine/r
 * If you change poses during calibration, it kind of makes a mess of the whole thing and you can only fix it by restarting the game. Make sure you don't interfere with the calibration process.
 
 ## Configuration
-<img src="https://user-images.githubusercontent.com/76826783/131505753-61cbc277-693d-487d-abfb-341faa27c964.png" width=50%>
-
 In Plugin Settings > LoveMachine, you can set the following parameters:
 
+### Animation Settings (Koikatsu and KKS only)
+* **Reduce animation speeds:** If enabled, LoveMachine will try to ensure animations will never get faster than what your device is capable of (see Maximum strokes per minute). Turned on by default. May interfere with other mods.
+* **Simplify animations:** If enabled, LoveMachine will remove motion blending from animations. Motion blending messes up the timing algorithm, so this setting is essential if you want real immersion, especially with Sideloader animations. Turned on by default. May interfere with other mods, though unlikely.
+
 ### Device List
-This is where all your devices connected to Buttplug are listed.
-* **Connect:** Reconnect to the Buttplug server.
+This is where all your devices connected to Intiface are listed.
+* **Connect:** Reconnect to the Intiface server.
 * **Scan:** Scan for devices.
-* **Stroker:** indicates that the device has back-and-forth movement functionality AND that this functionality is supported by Buttplug.
-* **Vibrators:** indicates that the device has vibrator functionality AND that this functionality is supported by Buttplug.
+* **Stroker:** indicates that the device has back-and-forth movement functionality AND that this functionality is supported by Intiface.
+* **Vibrators:** indicates that the device has vibrator functionality AND that this functionality is supported by Intiface.
 * **Threesome Role:** Which girl the device is assigned to in a threesome. This also affects other scenes - if a device is assigned to second girl, it will not be activated in Standard scenes.
 * **Action Mapping:** When multiple actions are available (such as fondling/fingering in Koikatsu), here you can set which action the device should react to.
 * **Test Slow:** Tests the device with 3 slow strokes
@@ -89,6 +91,7 @@ Currently, most of these settings will only work in Koikatsu. HF2 support later.
 * EPTG
 * Taka Yami
 * tanu
+* uruurian
 * Wel Adunno
 * yamada tarou
 
