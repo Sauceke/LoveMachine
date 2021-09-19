@@ -16,6 +16,8 @@ namespace LoveMachine.KK
             [HarmonyPatch(typeof(HFlag), nameof(HFlag.Start))]
             public static void Start(HFlag __instance)
             {
+                Chainloader.ManagerObject.GetComponent<KoikatsuButtplugAnimationController>()
+                    .OnStartH(__instance);
                 Chainloader.ManagerObject.GetComponent<KoikatsuButtplugVibrationController>()
                     .OnStartH(__instance);
                 Chainloader.ManagerObject.GetComponent<KoikatsuButtplugStrokerController>()
