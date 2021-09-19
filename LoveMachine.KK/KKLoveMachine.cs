@@ -1,4 +1,5 @@
 ﻿using BepInEx;
+using BepInEx.Configuration;
 using LoveMachine.Core;
 
 namespace LoveMachine.KK
@@ -6,6 +7,9 @@ namespace LoveMachine.KK
     [BepInPlugin(CoreConfig.GUID, "LoveMachine", CoreConfig.Version)]
     public class KKLoveMachine : BaseUnityPlugin
     {
+        public static ConfigEntry<bool> ReduceAnimationSpeeds;
+        public static ConfigEntry<bool> SuppressAnimationBlending;
+
         private void Start()
         {
             var girls = new string[] { "First girl", "Second girl", "Off" };
@@ -20,8 +24,21 @@ namespace LoveMachine.KK
                 girlMappingOptions: girls,
                 actionMappingHeader: "Action Mapping",
                 actionMappingOptions: actions,
+                typeof(KoikatsuButtplugAnimationController),
                 typeof(KoikatsuButtplugStrokerController),
                 typeof(KoikatsuButtplugVibrationController));
+            string animationSettingsTitle = "Animation Settings";
+            ReduceAnimationSpeeds = Config.Bind(
+                section: animationSettingsTitle,
+                key: "Reduce animation speeds",
+                defaultValue: true,
+                "Whether to slow down animations to a speed your stroker can handle");
+            SuppressAnimationBlending = Config.Bind(
+                section: animationSettingsTitle,
+                key: "Simplify animations",
+                defaultValue: true,
+                "Some animations are too complex and cannot be tracked precisely.\n" +
+                "This setting will make such animations simpler for better immersion.");
             Hooks.InstallHooks();
         }
     }

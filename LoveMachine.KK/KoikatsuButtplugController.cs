@@ -80,6 +80,31 @@ namespace LoveMachine.KK
         }
     }
 
+    public class KoikatsuButtplugAnimationController : KoikatsuButtplugController
+    {
+        protected override IEnumerator Run(int girlIndex)
+        {
+            var animator = GetFemaleAnimator(girlIndex);
+            var playerAnimator = GetMaleAnimator();
+            while (!flags.isHSceneEnd)
+            {
+                var info = animator.GetCurrentAnimatorStateInfo(0);
+                if (KKLoveMachine.ReduceAnimationSpeeds.Value)
+                {
+                    // nerf the animation speed so the device can keep up with it
+                    // OLoop is faster than the rest, about 280ms per stroke at its original speed
+                    NerfAnimationSpeeds(info.IsName("OLoop") ? 0.28f : 0.375f,
+                        animator, playerAnimator);
+                }
+                if (KKLoveMachine.SuppressAnimationBlending.Value)
+                {
+                    flags.curveMotion = new AnimationCurve(new Keyframe[] { new Keyframe() });
+                }
+                yield return new WaitForSeconds(.5f);
+            }
+        }
+    }
+
     public class KoikatsuButtplugVibrationController : KoikatsuButtplugController
     {
         private static readonly List<HFlag.EMode> supportedMaleModes = new List<HFlag.EMode>
@@ -260,8 +285,8 @@ namespace LoveMachine.KK
         protected override IEnumerator Run(int girlIndex)
         {
             HandleCoroutine(RunAibu(girlIndex));
-            var animator = flags.lstHeroine[girlIndex].chaCtrl.animBody;
-            var playerAnimator = flags.player.chaCtrl.animBody;
+            var animator = GetFemaleAnimator(girlIndex);
+            var playerAnimator = GetMaleAnimator();
             while (!flags.isHSceneEnd)
             {
                 if (!supportedModes.Contains(flags.mode)
@@ -272,10 +297,6 @@ namespace LoveMachine.KK
                     continue;
                 }
                 AnimatorStateInfo info() => animator.GetCurrentAnimatorStateInfo(0);
-                // nerf the animation speed so the device can keep up with it
-                // OLoop is faster than the rest, about 280ms per stroke at its original speed
-                NerfAnimationSpeeds(
-                    info().IsName("OLoop") ? 0.28f : 0.375f, animator, playerAnimator);
                 yield return HandleCoroutine(WaitForUpStroke(info, girlIndex));
                 float strokeTimeSecs = GetStrokeTimeSecs(info());
                 if (info().IsName("OLoop"))
