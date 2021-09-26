@@ -9,20 +9,28 @@ namespace LoveMachine.KK
 {
     public abstract class KoikatsuButtplugController : ButtplugController
     {
-        private readonly List<string> femaleBoneNames = new List<string>
+        private const string MaleBoneName = "k_f_tamaL_00"; // left testicle
+
+        internal static readonly Dictionary<string, string> femaleBones
+            = new Dictionary<string, string>
         {
-            "cf_n_pee", // pussy
-            "cf_j_index04_R", "cf_j_index04_L", // index fingers
-            "cf_J_MouthCavity", // mouth
-            "k_f_munenipR_00", // right nipple
-            "k_f_toeR_00", "k_f_toeL_00" // big toes
-        };
-        private readonly List<string> maleBoneNames = new List<string>
-        {
-            "k_f_tamaL_00" // left testicle
+            { "k_f_munenipL_00" , "Left Breast"},
+            { "k_f_munenipR_00", "Right Breast"},
+            { "cf_n_pee", "Pussy"},
+            { "k_f_ana_00", "Anus"},
+            { "k_f_siriL_00", "Left Butt"},
+            { "k_f_siriR_00", "Right Butt"},
+            { "cf_J_MouthCavity", "Mouth"},
+            { "cf_j_index04_L", "Left Hand"},
+            { "cf_j_index04_R", "Right Hand"},
+            { "k_f_toeL_00", "Left Foot"},
+            { "k_f_toeR_00", "Right Foot"},
         };
 
         protected HFlag flags;
+
+        protected abstract void HandleFondle(float y, int girlIndex, int boneIndex,
+            float timeSecs);
 
         public void OnStartH(HFlag flags)
         {
@@ -45,13 +53,13 @@ namespace LoveMachine.KK
         protected override List<Transform> GetFemaleBones(int girlIndex)
         {
             var bodyBone = flags.lstHeroine[girlIndex].chaCtrl.objBodyBone.transform;
-            return femaleBoneNames.Select(name => bodyBone.FindLoop(name).transform).ToList();
+            return femaleBones.Keys.Select(name => bodyBone.FindLoop(name).transform).ToList();
         }
 
-        protected override List<Transform> GetMaleBones()
+        protected override Transform GetMaleBone()
         {
             var bodyBone = flags.player.chaCtrl.objBodyBone.transform;
-            return maleBoneNames.Select(name => bodyBone.FindLoop(name).transform).ToList();
+            return bodyBone.FindLoop(MaleBoneName).transform;
         }
 
         protected override string GetPose(int girlIndex)
@@ -78,11 +86,42 @@ namespace LoveMachine.KK
                 }
             }
         }
+
+        protected IEnumerator RunAibu(int girlIndex, int boneIndex)
+        {
+            if (boneIndex == 0 || boneIndex > flags.xy.Length)
+            {
+                yield break;
+            }
+            float updateTimeSecs = 0.1f;
+            float previousY = 0f;
+            while (!flags.isHSceneEnd)
+            {
+                var y = flags.xy[boneIndex - 1].y;
+                if (previousY != y)
+                {
+                    HandleFondle(
+                        y,
+                        girlIndex,
+                        boneIndex: boneIndex,
+                        timeSecs: updateTimeSecs);
+                    previousY = y;
+                }
+                yield return new WaitForSeconds(updateTimeSecs);
+            }
+            for (int i = 0; i < 6; i++)
+            {
+                DoVibrate(0.0f, girlIndex, boneIndex: i);
+            }
+        }
     }
 
     public class KoikatsuButtplugAnimationController : KoikatsuButtplugController
     {
-        protected override IEnumerator Run(int girlIndex)
+        protected override void HandleFondle(float y, int girlIndex, int boneIndex,
+            float timeSecs) {}
+
+        protected override IEnumerator Run(int girlIndex, int boneIndex)
         {
             var animator = GetFemaleAnimator(girlIndex);
             var playerAnimator = GetMaleAnimator();
@@ -185,8 +224,9 @@ namespace LoveMachine.KK
             get { return supportedAnimations.Contains(flags.nowAnimStateName); }
         }
 
-        protected override IEnumerator Run(int girlIndex)
+        protected override IEnumerator Run(int girlIndex, int boneIndex)
         {
+            HandleCoroutine(RunAibu(girlIndex, boneIndex));
             while (!flags.isHSceneEnd)
             {
                 if (CoreConfig.EnableVibrate.Value == VibrationMode.Off)
@@ -238,31 +278,17 @@ namespace LoveMachine.KK
                             break;
                     }
                 }
-                yield return HandleCoroutine(VibrateWithAnimation(info, girlIndex, speed, minVibration));
+                yield return HandleCoroutine(VibrateWithAnimation(info, girlIndex, boneIndex,
+                    speed, minVibration));
             }
             // turn off vibration since there's nothing to animate against
             // this state can happen if H is ended while the animation is not in Idle
             DoVibrate(0.0f, girlIndex);
         }
 
-        private IEnumerator RunAibu(int girlIndex)
+        protected override void HandleFondle(float y, int girlIndex, int boneIndex, float timeSecs)
         {
-            float updateTimeSecs = 0.1f;
-            while (!flags.isHSceneEnd)
-            {
-                for (int i = 0; i < 6; i++)
-                {
-                    DoVibrate(
-                        intensity: flags.xy[i].y,
-                        girlIndex,
-                        actionIndex: i + 1);
-                }
-                yield return new WaitForSeconds(updateTimeSecs);
-            }
-            for (int i = 0; i < 6; i++)
-            {
-                DoVibrate(0.0f, girlIndex, actionIndex: i);
-            }
+            DoVibrate(intensity: y,  girlIndex, boneIndex: boneIndex);
         }
     }
 
@@ -282,9 +308,9 @@ namespace LoveMachine.KK
             "OLoop", "A_OLoop",
         };
 
-        protected override IEnumerator Run(int girlIndex)
+        protected override IEnumerator Run(int girlIndex, int boneIndex)
         {
-            HandleCoroutine(RunAibu(girlIndex));
+            HandleCoroutine(RunAibu(girlIndex, boneIndex));
             var animator = GetFemaleAnimator(girlIndex);
             var playerAnimator = GetMaleAnimator();
             while (!flags.isHSceneEnd)
@@ -297,34 +323,22 @@ namespace LoveMachine.KK
                     continue;
                 }
                 AnimatorStateInfo info() => animator.GetCurrentAnimatorStateInfo(0);
-                yield return HandleCoroutine(WaitForUpStroke(info, girlIndex));
+                yield return HandleCoroutine(WaitForUpStroke(info, girlIndex, boneIndex));
                 float strokeTimeSecs = GetStrokeTimeSecs(info());
                 if (info().IsName("OLoop"))
                 {
                     // no idea what's the deal with OLoop
                     // it seems to loop after two strokes
-                    yield return HandleCoroutine(DoStroke(strokeTimeSecs, girlIndex));
+                    yield return HandleCoroutine(DoStroke(strokeTimeSecs, girlIndex, boneIndex));
                     yield return new WaitForSeconds(strokeTimeSecs / 2f);
                 }
-                yield return HandleCoroutine(DoStroke(strokeTimeSecs, girlIndex));
+                yield return HandleCoroutine(DoStroke(strokeTimeSecs, girlIndex, boneIndex));
             }
         }
 
-        private IEnumerator RunAibu(int girlIndex)
+        protected override void HandleFondle(float y, int girlIndex, int boneIndex, float timeSecs)
         {
-            float updateTimeSecs = 0.1f;
-            while (!flags.isHSceneEnd)
-            {
-                for (int i = 0; i < 6; i++)
-                {
-                    MoveStroker(
-                        position: flags.xy[i].y,
-                        durationSecs: updateTimeSecs,
-                        girlIndex,
-                        actionIndex: i + 1);
-                }
-                yield return new WaitForSeconds(updateTimeSecs);
-            }
+            MoveStroker(position: y, timeSecs, girlIndex, boneIndex);
         }
     }
 }

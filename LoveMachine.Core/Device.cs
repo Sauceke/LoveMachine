@@ -7,7 +7,7 @@ namespace LoveMachine.Core
         public string DeviceName { get; set; }
         public int DeviceIndex { get; set; }
         public int GirlIndex { get; set; } = 0;
-        public int ActionIndex { get; set; } = 0;
+        public int BoneIndex { get; set; } = 0;
         public Features DeviceMessages { get; set; }
 
         public bool IsVibrator { get { return DeviceMessages.VibrateCmd != null; } }
@@ -39,19 +39,19 @@ namespace LoveMachine.Core
     {
         public string DeviceName { get; private set; }
         public int GirlIndex { get; private set; }
-        public int ActionIndex { get; private set; }
+        public int BoneIndex { get; private set; }
 
         public DeviceSettings(Device device)
         {
             DeviceName = device.DeviceName;
             GirlIndex = device.GirlIndex;
-            ActionIndex = device.ActionIndex;
+            BoneIndex = device.BoneIndex;
         }
 
         public void Apply(Device device)
         {
             device.GirlIndex = GirlIndex;
-            device.ActionIndex = ActionIndex;
+            device.BoneIndex = BoneIndex;
         }
     }
 }
