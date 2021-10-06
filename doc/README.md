@@ -1,4 +1,6 @@
 # BepInEx LoveMachine ([日本語](マニュアル.md))
+[![.NET](https://github.com/Sauceke/BepInEx.LoveMachine/actions/workflows/commit.yml/badge.svg)](https://github.com/Sauceke/BepInEx.LoveMachine/actions/workflows/commit.yml)
+
 Adds support for [buttplug.io](https://buttplug.io/) compatible strokers and vibrators in the following games:
 * Koikatsu (VR too)
 * Honey Select 2 (VR too)
