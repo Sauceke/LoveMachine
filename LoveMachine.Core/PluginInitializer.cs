@@ -85,7 +85,13 @@ namespace LoveMachine.Core
                 new ConfigDescription(
                     "Lowest position the stroker will move to when going slow.",
                     new AcceptableValueRange<int>(0, 100),
-                    new ConfigurationManagerAttributes { Order = 8 }));
+                    new ConfigurationManagerAttributes
+                    {
+                        Order = 8,
+                        CustomDrawer = entry => { },
+                        HideSettingName = true,
+                        HideDefaultButton = true
+                    }));
             CoreConfig.SlowStrokeZoneMax = plugin.Config.Bind(
                 section: strokerSettingsTitle,
                 key: "Slow Stroke Zone Max",
@@ -93,7 +99,13 @@ namespace LoveMachine.Core
                 new ConfigDescription(
                     "Highest position the stroker will move to when going slow.",
                     new AcceptableValueRange<int>(0, 100),
-                    new ConfigurationManagerAttributes { Order = 7 }));
+                    new ConfigurationManagerAttributes
+                    {
+                        Order = 7,
+                        CustomDrawer = entry => { },
+                        HideSettingName = true,
+                        HideDefaultButton = true
+                    }));
             CoreConfig.FastStrokeZoneMin = plugin.Config.Bind(
                 section: strokerSettingsTitle,
                 key: "Fast Stroke Zone Min",
@@ -101,7 +113,12 @@ namespace LoveMachine.Core
                 new ConfigDescription(
                     "Lowest position the stroker will move to when going fast.",
                     new AcceptableValueRange<int>(0, 100),
-                    new ConfigurationManagerAttributes { Order = 6 }));
+                    new ConfigurationManagerAttributes {
+                        Order = 6,
+                        CustomDrawer = entry => { },
+                        HideSettingName = true,
+                        HideDefaultButton = true
+                    }));
             CoreConfig.FastStrokeZoneMax = plugin.Config.Bind(
                 section: strokerSettingsTitle,
                 key: "Fast Stroke Zone Max",
@@ -109,7 +126,41 @@ namespace LoveMachine.Core
                 new ConfigDescription(
                     "Highest position the stroker will move to when going fast.",
                     new AcceptableValueRange<int>(0, 100),
-                    new ConfigurationManagerAttributes { Order = 5 }));
+                    new ConfigurationManagerAttributes
+                    {
+                        Order = 5,
+                        CustomDrawer = entry => { },
+                        HideSettingName = true,
+                        HideDefaultButton = true
+                    }));
+            plugin.Config.Bind(
+                section: strokerSettingsTitle,
+                key: "Stroke Zone (Slow)",
+                defaultValue: "Ignore this",
+                new ConfigDescription(
+                    "Range of stroking movement when going slow",
+                    tags: new ConfigurationManagerAttributes
+                    {
+                        Order = 4,
+                        CustomDrawer = SlowStrokeZoneDrawer,
+                        HideDefaultButton = true,
+                    }
+                )
+            );
+            plugin.Config.Bind(
+                section: strokerSettingsTitle,
+                key: "Stroke Zone (Fast)",
+                defaultValue: "Ignore this",
+                new ConfigDescription(
+                    "Range of stroking movement when going fast",
+                    tags: new ConfigurationManagerAttributes
+                    {
+                        Order = 3,
+                        CustomDrawer = FastStrokeZoneDrawer,
+                        HideDefaultButton = true
+                    }
+                )
+            );
             //
             // Vibrator settings
             //
@@ -153,8 +204,7 @@ namespace LoveMachine.Core
                 defaultValue: "[]",
                 new ConfigDescription(
                     "",
-                    null,
-                    new ConfigurationManagerAttributes
+                    tags: new ConfigurationManagerAttributes
                     {
                         CustomDrawer = DeviceListDrawer,
                         HideSettingName = true,
@@ -257,6 +307,48 @@ namespace LoveMachine.Core
             GUILayout.EndVertical();
         }
 
+        private void SlowStrokeZoneDrawer(ConfigEntryBase entry)
+        {
+            float labelWidth = GUI.skin.label.CalcSize(new GUIContent("100%")).x;
+            GUILayout.BeginHorizontal();
+            {
+                float lower = CoreConfig.SlowStrokeZoneMin.Value;
+                float upper = CoreConfig.SlowStrokeZoneMax.Value;
+                GUILayout.Label(lower + "%", GUILayout.Width(labelWidth));
+                RangeSlider.Create(ref lower, ref upper, 0, 100);
+                GUILayout.Label(upper + "%", GUILayout.Width(labelWidth));
+                if (GUILayout.Button("Reset", GUILayout.ExpandWidth(false)))
+                {
+                    lower = (int)CoreConfig.SlowStrokeZoneMin.DefaultValue;
+                    upper = (int)CoreConfig.SlowStrokeZoneMax.DefaultValue;
+                }
+                CoreConfig.SlowStrokeZoneMin.Value = (int)lower;
+                CoreConfig.SlowStrokeZoneMax.Value = (int)upper;
+            }
+            GUILayout.EndHorizontal();
+        }
+
+        private void FastStrokeZoneDrawer(ConfigEntryBase entry)
+        {
+            float labelWidth = GUI.skin.label.CalcSize(new GUIContent("100%")).x;
+            GUILayout.BeginHorizontal();
+            {
+                float lower = CoreConfig.FastStrokeZoneMin.Value;
+                float upper = CoreConfig.FastStrokeZoneMax.Value;
+                GUILayout.Label(lower + "%", GUILayout.Width(labelWidth));
+                RangeSlider.Create(ref lower, ref upper, 0, 100);
+                GUILayout.Label(upper + "%", GUILayout.Width(labelWidth));
+                if (GUILayout.Button("Reset", GUILayout.ExpandWidth(false)))
+                {
+                    lower = (int)CoreConfig.FastStrokeZoneMin.DefaultValue;
+                    upper = (int)CoreConfig.FastStrokeZoneMax.DefaultValue;
+                }
+                CoreConfig.FastStrokeZoneMin.Value = (int)lower;
+                CoreConfig.FastStrokeZoneMax.Value = (int)upper;
+            }
+            GUILayout.EndHorizontal();
+        }
+        
         private void TestStrokerAsync(Device device, bool fast)
         {
             var controller = Chainloader.ManagerObject.GetComponents<ButtplugController>()[0];

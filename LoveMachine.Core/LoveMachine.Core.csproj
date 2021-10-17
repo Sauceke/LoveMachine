@@ -69,6 +69,7 @@
   <ItemGroup>
     <Compile Include="ButtplugController.cs" />
     <Compile Include="PluginInitializer.cs" />
+    <Compile Include="RangeSlider.cs" />
     <Compile Include="VersionInfo.cs" />
     <Compile Include="ButtplugWsClient.cs" />
     <Compile Include="ConfigurationManagerAttributes.cs" />
