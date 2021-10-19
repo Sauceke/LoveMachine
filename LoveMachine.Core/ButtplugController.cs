@@ -108,13 +108,16 @@ namespace LoveMachine.Core
             return strokeTimeSecs;
         }
 
-        protected internal IEnumerator DoStroke(float strokeTimeSecs, int girlIndex)
+        protected internal IEnumerator DoStroke(float strokeTimeSecs, int girlIndex, bool forceHard = false)
         {
             int strokeTimeMs = (int)(strokeTimeSecs * 1000) - 10;
             float minSlow = Mathf.InverseLerp(0, 100, CoreConfig.SlowStrokeZoneMin.Value);
             float maxSlow = Mathf.InverseLerp(0, 100, CoreConfig.SlowStrokeZoneMax.Value);
             float minFast = Mathf.InverseLerp(0, 100, CoreConfig.FastStrokeZoneMin.Value);
             float maxFast = Mathf.InverseLerp(0, 100, CoreConfig.FastStrokeZoneMax.Value);
+            float hardness = forceHard || IsHardSex
+                ? Mathf.InverseLerp(0, 100, CoreConfig.HardSexIntensity.Value)
+                : 0;
             // decrease stroke length gradually as speed approaches the device limit
             float rate = 60f / CoreConfig.MaxStrokesPerMinute.Value / strokeTimeSecs;
             float min = Mathf.Lerp(minSlow, minFast, rate);
@@ -123,10 +126,10 @@ namespace LoveMachine.Core
                 position: max,
                 durationMs: strokeTimeMs / 2,
                 girlIndex);
-            yield return new WaitForSeconds(strokeTimeSecs / 2f);
+            yield return new WaitForSeconds(strokeTimeSecs / 2f * (1 + hardness / 4f));
             client.LinearCmd(
                 position: min,
-                durationMs: strokeTimeMs / 2,
+                durationMs: (int)(strokeTimeMs / 2f / (1 + hardness)),
                 girlIndex);
         }
 
@@ -204,6 +207,7 @@ namespace LoveMachine.Core
         }
 
         protected abstract int HeroineCount { get; }
+        protected abstract bool IsHardSex { get; }
         protected abstract int AnimationLayer { get; }
         protected abstract int CurrentAnimationStateHash { get; }
         protected abstract Animator GetFemaleAnimator(int girlIndex);
