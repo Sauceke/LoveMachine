@@ -14,7 +14,7 @@ namespace LoveMachine.KK
         private void Start()
         {
             var girls = new string[] { "First girl", "Second girl", "Off" };
-            var actions = new string[] { "Closest" }
+            var actions = new string[] { "Auto" }
                 .Concat(KoikatsuButtplugController.femaleBones.Values)
                 .ToArray();
             CoreConfig.Logger = Logger;

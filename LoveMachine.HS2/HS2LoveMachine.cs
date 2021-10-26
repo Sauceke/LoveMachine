@@ -10,7 +10,7 @@ namespace LoveMachine.HS2
         private void Start()
         {
             var girls = new string[] { "First girl", "Second girl", "Off" };
-            var actions = new string[] { "Closest" }
+            var actions = new string[] { "Auto" }
                 .Concat(HoneySelect2ButtplugController.femaleBones.Values)
                 .ToArray();
             CoreConfig.Logger = Logger;

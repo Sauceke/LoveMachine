@@ -160,7 +160,7 @@ namespace LoveMachine.Core
             CoreConfig.HardSexIntensity = plugin.Config.Bind(
                section: strokerSettingsTitle,
                key: "Hard Sex Intensity",
-               defaultValue: 0,
+               defaultValue: 50,
                new ConfigDescription(
                    "Makes hard sex animations feel hard",
                    new AcceptableValueRange<int>(0, 100),
