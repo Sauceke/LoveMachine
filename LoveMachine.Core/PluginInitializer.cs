@@ -144,9 +144,7 @@ namespace LoveMachine.Core
                         Order = 4,
                         CustomDrawer = SlowStrokeZoneDrawer,
                         HideDefaultButton = true,
-                    }
-                )
-            );
+                    }));
             plugin.Config.Bind(
                 section: strokerSettingsTitle,
                 key: "Stroke Zone (Fast)",
@@ -158,9 +156,15 @@ namespace LoveMachine.Core
                         Order = 3,
                         CustomDrawer = FastStrokeZoneDrawer,
                         HideDefaultButton = true
-                    }
-                )
-            );
+                    }));
+            CoreConfig.HardSexIntensity = plugin.Config.Bind(
+               section: strokerSettingsTitle,
+               key: "Hard Sex Intensity",
+               defaultValue: 0,
+               new ConfigDescription(
+                   "Makes hard sex animations feel hard",
+                   new AcceptableValueRange<int>(0, 100),
+                   new ConfigurationManagerAttributes { Order = 2 }));
             //
             // Vibrator settings
             //
@@ -209,9 +213,7 @@ namespace LoveMachine.Core
                         CustomDrawer = DeviceListDrawer,
                         HideSettingName = true,
                         HideDefaultButton = true
-                    }
-                )
-            );
+                    }));
             CoreConfig.SaveDeviceSettings = plugin.Config.Bind(
                 section: deviceListTitle,
                 key: "Save device assignments",
@@ -292,11 +294,15 @@ namespace LoveMachine.Core
                         {
                             if (GUILayout.Button("Test Slow"))
                             {
-                                TestStrokerAsync(device, false);
+                                TestStrokerAsync(device, fast: false, hard: false);
                             }
                             if (GUILayout.Button("Test Fast"))
                             {
-                                TestStrokerAsync(device, true);
+                                TestStrokerAsync(device, fast: true, hard: false);
+                            }
+                            if (GUILayout.Button("Test Hard"))
+                            {
+                                TestStrokerAsync(device, fast: false, hard: true);
                             }
                         }
                         GUILayout.EndVertical();
@@ -349,13 +355,13 @@ namespace LoveMachine.Core
             GUILayout.EndHorizontal();
         }
         
-        private void TestStrokerAsync(Device device, bool fast)
+        private void TestStrokerAsync(Device device, bool fast, bool hard)
         {
             var controller = Chainloader.ManagerObject.GetComponents<ButtplugController>()[0];
-            controller.HandleCoroutine(TestStroker(device, fast));
+            controller.HandleCoroutine(TestStroker(device, fast, hard));
         }
 
-        private IEnumerator TestStroker(Device device, bool fast)
+        private IEnumerator TestStroker(Device device, bool fast, bool hard)
         {
             var controller = Chainloader.ManagerObject.GetComponents<ButtplugController>()[0];
             float strokeTimeSecs = 60f / CoreConfig.MaxStrokesPerMinute.Value;
@@ -366,7 +372,7 @@ namespace LoveMachine.Core
             for (int i = 0; i < 3; i++)
             {
                 yield return controller.HandleCoroutine(
-                    controller.DoStroke(strokeTimeSecs, device.GirlIndex, device.BoneIndex));
+                    controller.DoStroke(strokeTimeSecs, device.GirlIndex, device.BoneIndex, hard));
                 yield return new WaitForSeconds(strokeTimeSecs / 2);
             }
         }

@@ -40,12 +40,14 @@ namespace LoveMachine.HS2
         protected override int HeroineCount
             => Array.FindAll(hScene.GetFemales(), f => f != null).Length;
 
+        protected override bool IsHardSex => GetFemaleAnimator(0)?.GetCurrentAnimatorStateInfo(0).IsName("SLoop") ?? false;
+
         protected override int AnimationLayer => 0;
 
         protected override int CurrentAnimationStateHash
             => hScene.GetFemales()[0].animBody.GetCurrentAnimatorStateInfo(0).fullPathHash;
 
-        protected override Animator GetFemaleAnimator(int girlIndex) => hScene.GetFemales()[girlIndex].animBody;
+        protected override Animator GetFemaleAnimator(int girlIndex) => hScene?.GetFemales()[girlIndex]?.animBody;
 
         protected override Animator GetMaleAnimator() => hScene.GetMales()[0].animBody;
 
