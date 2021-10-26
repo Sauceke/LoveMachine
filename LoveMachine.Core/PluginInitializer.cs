@@ -282,8 +282,8 @@ namespace LoveMachine.Core
                         }
                         if (actionMappingOptions != null)
                         {
-                            device.ActionIndex = GUILayout.SelectionGrid(
-                                selected: device.ActionIndex,
+                            device.BoneIndex = GUILayout.SelectionGrid(
+                                selected: device.BoneIndex,
                                 actionMappingOptions,
                                 xCount: 1,
                                 GUILayout.Width(columnWidth));
@@ -366,7 +366,7 @@ namespace LoveMachine.Core
             for (int i = 0; i < 3; i++)
             {
                 yield return controller.HandleCoroutine(
-                    controller.DoStroke(strokeTimeSecs, device.GirlIndex));
+                    controller.DoStroke(strokeTimeSecs, device.GirlIndex, device.BoneIndex));
                 yield return new WaitForSeconds(strokeTimeSecs / 2);
             }
         }
