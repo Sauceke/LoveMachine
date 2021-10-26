@@ -1,4 +1,5 @@
-﻿using BepInEx;
+﻿using System.Linq;
+using BepInEx;
 using LoveMachine.Core;
 
 namespace LoveMachine.HS2
@@ -9,13 +10,16 @@ namespace LoveMachine.HS2
         private void Start()
         {
             var girls = new string[] { "First girl", "Second girl", "Off" };
+            var actions = new string[] { "Closest" }
+                .Concat(HoneySelect2ButtplugController.femaleBones.Values)
+                .ToArray();
             CoreConfig.Logger = Logger;
             PluginInitializer.Initialize(
                 plugin: this,
                 girlMappingHeader: "Threesome Role",
                 girlMappingOptions: girls,
-                actionMappingHeader: null,
-                actionMappingOptions: null,
+                actionMappingHeader: "Body Part",
+                actionMappingOptions: actions,
                 typeof(HoneySelect2ButtplugStrokerController),
                 typeof(HoneySelect2ButtplugVibrationController));
             Hooks.InstallHooks();
