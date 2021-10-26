@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace LoveMachine.Core
@@ -12,15 +13,21 @@ namespace LoveMachine.Core
         // animation -> fractional part of normalized time at start of up-stroke
         protected static Dictionary<string, float> animPhases = new Dictionary<string, float>();
 
-        protected float GetPhase(int girlIndex)
+        private string GetExactPose(int girlIndex, int boneIndex)
         {
-            string pose = GetPose(girlIndex);
+            return GetPose(girlIndex) + "." + boneIndex;
+        }
+
+        protected float GetPhase(int girlIndex, int boneIndex)
+        {
+            string pose = GetExactPose(girlIndex, -1);
             if (!animPhases.ContainsKey(pose))
             {
                 animPhases[pose] = 0; // avoid multiple interleaving calls
-                HandleCoroutine(ComputeAnimationOffset(girlIndex, pose));
+                HandleCoroutine(ComputeAnimationOffsets(girlIndex));
             }
-            return animPhases[pose];
+            animPhases.TryGetValue(GetExactPose(girlIndex, boneIndex), out float phase);
+            return phase;
         }
 
         public bool IsFemale
@@ -46,9 +53,12 @@ namespace LoveMachine.Core
         private IEnumerator RunLoops()
         {
             yield return HandleCoroutine(UntilReady());
-            for (int i = 0; i < HeroineCount; i++)
+            for (int girlIndex = 0; girlIndex < HeroineCount; girlIndex++)
             {
-                HandleCoroutine(Run(girlIndex: i));
+                for (int boneIndex = 0; boneIndex < GetFemaleBones(girlIndex).Count + 1; boneIndex++)
+                {
+                    HandleCoroutine(Run(girlIndex, boneIndex));
+                }
             }
         }
 
@@ -108,7 +118,7 @@ namespace LoveMachine.Core
             return strokeTimeSecs;
         }
 
-        protected internal IEnumerator DoStroke(float strokeTimeSecs, int girlIndex, bool forceHard = false)
+        protected internal IEnumerator DoStroke(float strokeTimeSecs, int girlIndex, int boneIndex, bool forceHard = false)
         {
             int strokeTimeMs = (int)(strokeTimeSecs * 1000) - 10;
             float minSlow = Mathf.InverseLerp(0, 100, CoreConfig.SlowStrokeZoneMin.Value);
@@ -125,30 +135,32 @@ namespace LoveMachine.Core
             client.LinearCmd(
                 position: max,
                 durationMs: strokeTimeMs / 2,
-                girlIndex);
+                girlIndex,
+                boneIndex);
             yield return new WaitForSeconds(strokeTimeSecs / 2f * (1 + hardness / 4f));
             client.LinearCmd(
                 position: min,
                 durationMs: (int)(strokeTimeMs / 2f / (1 + hardness)),
-                girlIndex);
+                girlIndex,
+                boneIndex);
         }
 
-        protected void MoveStroker(float position, float durationSecs, int girlIndex, int actionIndex)
+        protected void MoveStroker(float position, float durationSecs, int girlIndex, int boneIndex)
         {
             int durationMs = (int)(durationSecs * 1000);
-            client.LinearCmd(position, durationMs, girlIndex, actionIndex);
+            client.LinearCmd(position, durationMs, girlIndex, boneIndex);
         }
 
-        protected void DoVibrate(float intensity, int girlIndex, int actionIndex = 0)
+        protected void DoVibrate(float intensity, int girlIndex, int boneIndex = 0)
         {
-            client.VibrateCmd(intensity, girlIndex, actionIndex);
+            client.VibrateCmd(intensity, girlIndex, boneIndex);
         }
 
-        protected IEnumerator WaitForUpStroke(Func<AnimatorStateInfo> info, int girlIndex)
+        protected IEnumerator WaitForUpStroke(Func<AnimatorStateInfo> info, int girlIndex, int boneIndex)
         {
             var initialState = info();
             float startNormTime = initialState.normalizedTime;
-            float phase = GetPhase(girlIndex);
+            float phase = GetPhase(girlIndex, boneIndex);
             float strokeTimeSecs = GetStrokeTimeSecs(initialState);
             float latencyNormTime = CoreConfig.LatencyMs.Value / 1000f / strokeTimeSecs;
             phase -= latencyNormTime;
@@ -159,13 +171,13 @@ namespace LoveMachine.Core
         }
 
         protected IEnumerator VibrateWithAnimation(AnimatorStateInfo info, int girlIndex,
-            float intensity, float minVibration)
+            int boneIndex, float intensity, float minVibration)
         {
             float strength = 1f;
             if (CoreConfig.SyncVibrationWithAnimation.Value)
             {
                 // Simple cos based intensity amplification based on normalized position in looping animation
-                float phase = GetPhase(girlIndex);
+                float phase = GetPhase(girlIndex, boneIndex);
                 float depth = (info.normalizedTime - phase) % 1;
                 strength = Mathf.Abs(Mathf.Cos(Mathf.PI * depth)) + 0.1f;
             }
@@ -173,34 +185,42 @@ namespace LoveMachine.Core
             yield return new WaitForSecondsRealtime(1.0f / CoreConfig.VibrationUpdateFrequency.Value);
         }
 
-        private IEnumerator ComputeAnimationOffset(int girlIndex, string pose)
+        private IEnumerator ComputeAnimationOffsets(int girlIndex)
         {
-            float minDistanceSq = float.MaxValue;
-            float minDistanceNormTime = 0;
             var femaleAnimator = GetFemaleAnimator(girlIndex);
             var maleAnimator = GetMaleAnimator();
-            var boneName = "";
+            var boneM = GetMaleBone();
+            var femaleBones = GetFemaleBones(girlIndex);
+            var measurements = new List<Measurement>();
             for (float normTime = 0; normTime < 1; normTime += .1f)
             {
                 femaleAnimator.Play(CurrentAnimationStateHash, AnimationLayer, normTime);
                 maleAnimator.Play(CurrentAnimationStateHash, AnimationLayer, normTime);
                 yield return new WaitForEndOfFrame();
-                foreach (var bone1 in GetMaleBones())
+                for (int i = 0; i < femaleBones.Count; i++)
                 {
-                    foreach (var bone2 in GetFemaleBones(girlIndex))
-                    {
-                        float distanceSq = (bone1.position - bone2.position).sqrMagnitude;
-                        if (distanceSq < minDistanceSq)
+                    var boneF = femaleBones[i];
+                    float distanceSq = (boneM.position - boneF.position).sqrMagnitude;
+                    measurements.Add(new Measurement
                         {
-                            minDistanceSq = distanceSq;
-                            minDistanceNormTime = normTime;
-                            boneName = bone2.name;
-                        }
-                    }
+                            BoneIndex = i,
+                            Time = normTime,
+                            DistanceSq = distanceSq
+                        });
                 }
             }
-            CoreConfig.Logger.LogDebug($"Active female bone for pose {pose} is {boneName}.");
-            animPhases[pose] = minDistanceNormTime;
+            for (int i = 0; i < femaleBones.Count; i++)
+            {
+                animPhases[GetExactPose(girlIndex, i + 1)] = measurements
+                    .Where(entry => entry.BoneIndex == i)
+                    .OrderBy(entry => entry.DistanceSq)
+                    .FirstOrDefault()
+                    .Time;
+            }
+            animPhases[GetExactPose(girlIndex, 0)] = measurements
+                    .OrderBy(entry => entry.DistanceSq)
+                    .FirstOrDefault()
+                    .Time;
             // rewind so that non-looping animations don't end abruptly
             femaleAnimator.Play(CurrentAnimationStateHash, AnimationLayer, 0);
             maleAnimator.Play(CurrentAnimationStateHash, AnimationLayer, 0);
@@ -213,10 +233,10 @@ namespace LoveMachine.Core
         protected abstract Animator GetFemaleAnimator(int girlIndex);
         protected abstract Animator GetMaleAnimator();
         protected abstract List<Transform> GetFemaleBones(int girlIndex);
-        protected abstract List<Transform> GetMaleBones();
+        protected abstract Transform GetMaleBone();
         protected abstract string GetPose(int girlIndex);
         protected abstract IEnumerator UntilReady();
-        protected abstract IEnumerator Run(int girlIndex);
+        protected abstract IEnumerator Run(int girlIndex, int boneIndex);
 
         public enum VibrationMode
         {
@@ -224,6 +244,13 @@ namespace LoveMachine.Core
             Male = 0_01,
             Female = 0_10,
             Both = 0_11
+        }
+
+        private struct Measurement
+        {
+            public int BoneIndex { get; set; }
+            public float Time { get; set; }
+            public float DistanceSq { get; set; }
         }
     }
 }

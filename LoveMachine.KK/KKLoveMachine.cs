@@ -1,4 +1,5 @@
-﻿using BepInEx;
+﻿using System.Linq;
+using BepInEx;
 using BepInEx.Configuration;
 using LoveMachine.Core;
 
@@ -13,16 +14,15 @@ namespace LoveMachine.KK
         private void Start()
         {
             var girls = new string[] { "First girl", "Second girl", "Off" };
-            var actions = new string[]
-            {
-                "Sex", "Left Breast", "Right Breast", "Touch Groin", "Touch Anal", "Left Butt", "Right Butt"
-            };
+            var actions = new string[] { "Closest" }
+                .Concat(KoikatsuButtplugController.femaleBones.Values)
+                .ToArray();
             CoreConfig.Logger = Logger;
             PluginInitializer.Initialize(
                 plugin: this,
                 girlMappingHeader: "Threesome Role",
                 girlMappingOptions: girls,
-                actionMappingHeader: "Action Mapping",
+                actionMappingHeader: "Body Part",
                 actionMappingOptions: actions,
                 typeof(KoikatsuButtplugAnimationController),
                 typeof(KoikatsuButtplugStrokerController),

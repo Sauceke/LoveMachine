@@ -10,18 +10,19 @@ namespace LoveMachine.HS2
 {
     public abstract class HoneySelect2ButtplugController : ButtplugController
     {
-        private static readonly List<string> femaleBoneNames = new List<string>
-        {
-            "cf_J_Kokan", // pussy
-            "cf_J_Hand_Wrist_s_R", "cf_J_Hand_Wrist_s_L", // wrists
-            "cf_J_Mune04_s_R", // right nipple
-            "cf_J_MouthCavity", // mouth
-            "cf_J_Toes01_L", "cf_J_Toes01_R" // toes
-        };
+        private const string MaleBoneName = "cm_J_dan_f_L"; // left testicle
 
-        private static readonly List<string> maleBoneNames = new List<string>
+        internal static readonly Dictionary<string, string> femaleBones
+            = new Dictionary<string, string>
         {
-            "cm_J_dan_f_L" // left testicle
+                { "cf_J_Kokan", "Pussy" },
+                { "cf_J_Hand_Wrist_s_R", "Right Hand" },
+                { "cf_J_Hand_Wrist_s_L", "Left Hand" },
+                { "cf_J_Mune04_s_R", "Right Breast" },
+                { "cf_J_Mune04_s_L", "Left Breast" },
+                { "cf_J_MouthCavity", "Mouth" },
+                { "cf_J_Toes01_L", "Right Foot" },
+                { "cf_J_Toes01_R", "Left Foot" }
         };
 
         private static readonly List<string> idleAnimations = new List<string>
@@ -53,13 +54,13 @@ namespace LoveMachine.HS2
         protected override List<Transform> GetFemaleBones(int girlIndex)
         {
             var bodyBone = hScene.GetFemales()[girlIndex].objBodyBone.transform;
-            return femaleBoneNames.Select(name => bodyBone.FindLoop(name).transform).ToList();
+            return femaleBones.Keys.Select(name => bodyBone.FindLoop(name).transform).ToList();
         }
 
-        protected override List<Transform> GetMaleBones()
+        protected override Transform GetMaleBone()
         {
             var bodyBone = hScene.GetMales()[0].objBodyBone.transform;
-            return maleBoneNames.Select(name => bodyBone.FindLoop(name).transform).ToList();
+            return bodyBone.FindLoop(MaleBoneName).transform;
         }
 
         protected HScene hScene;
@@ -111,7 +112,7 @@ namespace LoveMachine.HS2
 
     public class HoneySelect2ButtplugVibrationController : HoneySelect2ButtplugController
     {
-        protected override IEnumerator Run(int girlIndex)
+        protected override IEnumerator Run(int girlIndex, int boneIndex)
         {
             while (true)
             {
@@ -123,14 +124,14 @@ namespace LoveMachine.HS2
                 }
                 AnimatorStateInfo info = hScene.GetFemales()[girlIndex].getAnimatorStateInfo(0);
                 yield return HandleCoroutine(VibrateWithAnimation(
-                    info, girlIndex, intensity: 1f, minVibration: 0.2f));
+                    info, girlIndex, boneIndex, intensity: 1f, minVibration: 0.2f));
             }
         }
     }
 
     public class HoneySelect2ButtplugStrokerController : HoneySelect2ButtplugController
     {
-        protected override IEnumerator Run(int girlIndex)
+        protected override IEnumerator Run(int girlIndex, int boneIndex)
         {
             var femaleAnimator = GetFemaleAnimator(girlIndex);
             while (true)
@@ -141,16 +142,16 @@ namespace LoveMachine.HS2
                     continue;
                 }
                 AnimatorStateInfo info() => hScene.GetFemales()[girlIndex].getAnimatorStateInfo(0);
-                yield return HandleCoroutine(WaitForUpStroke(info, girlIndex));
+                yield return HandleCoroutine(WaitForUpStroke(info, girlIndex, boneIndex));
                 float strokeTimeSecs = GetStrokeTimeSecs(info());
                 if (IsOrgasm(femaleAnimator))
                 {
                     // like in KK, OLoop has 2 strokes in it
                     strokeTimeSecs /= 2f;
-                    yield return HandleCoroutine(DoStroke(strokeTimeSecs, girlIndex));
+                    yield return HandleCoroutine(DoStroke(strokeTimeSecs, girlIndex, boneIndex));
                     yield return new WaitForSeconds(strokeTimeSecs / 2f);
                 }
-                yield return HandleCoroutine(DoStroke(strokeTimeSecs, girlIndex));
+                yield return HandleCoroutine(DoStroke(strokeTimeSecs, girlIndex, boneIndex));
             }
         }
     }
