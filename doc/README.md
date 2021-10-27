@@ -50,10 +50,10 @@ This is where all your devices connected to Intiface are listed.
 * **Stroker:** indicates that the device has back-and-forth movement functionality AND that this functionality is supported by Intiface.
 * **Vibrators:** indicates that the device has vibrator functionality AND that this functionality is supported by Intiface.
 * **Threesome Role:** Which girl the device is assigned to in a threesome. This also affects other scenes - if a device is assigned to second girl, it will not be activated in Standard scenes.
-* **Action Mapping:** When multiple actions are available (such as fondling/fingering in Koikatsu), here you can set which action the device should react to.
+* **Body Part:** Selects the body part that will be tracked by the device. Defaults to Auto (which means it will find the one closest to the player's balls). Can be used to re-enact TJ/FJ with alternating movement using two devices. In Koikatsu and KKS, it also tracks fondling/fingering movements.
 * **Test Slow:** Tests the device with 3 slow strokes
 * **Test Fast:** Tests the device with 3 fast strokes
-* **Save device assignments:** If enabled, the Threesome Role and Action Mapping will be saved for all devices. Disabled by default.
+* **Save device assignments:** If enabled, the Threesome Role and Body Part attributes will be saved for all devices. Disabled by default.
 
 ### Kill Switch Settings
 Safety measure to avoid hurting yourself if the sex gets too rough or something goes wrong. By default, pressing Spacebar will immediately stop all connected devices.
@@ -68,10 +68,11 @@ Safety measure to avoid hurting yourself if the sex gets too rough or something 
 * **Maximum strokes per minute:** The maximum speed your stroker is capable of (or your slowest stroker if you have more than one). Based on this value, LoveMachine will slow down H scene animations if necessary, to keep the immersion. (You'll still be in control of speed, but it will be relative to how fast your toy can go.) The part right before climax will also be slowed down.
 
 You can define two "stroke zones", one for fast movement and one for slow movement. These zones gradually change into one another as the speed increases/decreases.
-* **Slow Stroke Zone Min:** The lowest (i. e. deepest) position your stroker will move to when going slow.
-* **Slow Stroke Zone Max:** The highest position your stroker will move to when going slow.
-* **Fast Stroke Zone Min:** The lowest (i. e. deepest) position your stroker will move to when going fast.
-* **Fast Stroke Zone Max:** The highest position your stroker will move to when going fast.
+* **Slow Stroke Zone:** The range of the stroking motion when going slow. 0% is the top, 100% is the bottom.
+* **Fast Stroke Zone:** The range of the stroking motion when going fast. 0% is the top, 100% is the bottom.
+
+If you get bored of the "standard" features of this plugin, try experimenting a bit with the following setting:
+* **Hard Sex Intensity:** How fast your stroker will fall during hard sex animations. 100% is twice as fast as 0% and feels much rougher (at least on a Handy). I'm not responsible for any injuries that may occur due to the use of LoveMachine.
 
 ### Vibration Settings
 Currently, most of these settings will only work in Koikatsu. HF2 support later.
