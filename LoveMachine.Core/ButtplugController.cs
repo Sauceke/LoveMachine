@@ -202,11 +202,11 @@ namespace LoveMachine.Core
                     var boneF = femaleBones[i];
                     float distanceSq = (boneM.position - boneF.position).sqrMagnitude;
                     measurements.Add(new Measurement
-                        {
-                            BoneIndex = i,
-                            Time = normTime,
-                            DistanceSq = distanceSq
-                        });
+                    {
+                        BoneIndex = i,
+                        Time = normTime,
+                        DistanceSq = distanceSq
+                    });
                 }
             }
             for (int i = 0; i < femaleBones.Count; i++)

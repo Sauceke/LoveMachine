@@ -2,8 +2,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using LoveMachine.Core;
 using IllusionUtility.GetUtility;
+using LoveMachine.Core;
 using UnityEngine;
 
 namespace LoveMachine.HS2

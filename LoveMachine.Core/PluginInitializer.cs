@@ -48,6 +48,7 @@ namespace LoveMachine.Core
 
         private void InitSettings()
         {
+            int order = 1000;
             //
             // Network settings
             //
@@ -68,7 +69,7 @@ namespace LoveMachine.Core
                     "The top speed possible on your stroker in your preferred Fast Stroke Zone.\n" +
                     "LoveMachine will slow down animations if necessary based on this value.",
                     new AcceptableValueRange<int>(0, 300),
-                    new ConfigurationManagerAttributes { Order = 10 }));
+                    new ConfigurationManagerAttributes { Order = order-- }));
             CoreConfig.LatencyMs = plugin.Config.Bind(
                 section: strokerSettingsTitle,
                 key: "Latency (ms)",
@@ -77,7 +78,7 @@ namespace LoveMachine.Core
                     "The difference in latency between your stroker and your display.\n" +
                     "Negative if your stroker has lower latency than your display.",
                     new AcceptableValueRange<int>(-500, 500),
-                    new ConfigurationManagerAttributes { Order = 9 }));
+                    new ConfigurationManagerAttributes { Order = order-- }));
             CoreConfig.SlowStrokeZoneMin = plugin.Config.Bind(
                 section: strokerSettingsTitle,
                 key: "Slow Stroke Zone Min",
@@ -87,7 +88,7 @@ namespace LoveMachine.Core
                     new AcceptableValueRange<int>(0, 100),
                     new ConfigurationManagerAttributes
                     {
-                        Order = 8,
+                        Order = order--,
                         CustomDrawer = entry => { },
                         HideSettingName = true,
                         HideDefaultButton = true
@@ -101,7 +102,7 @@ namespace LoveMachine.Core
                     new AcceptableValueRange<int>(0, 100),
                     new ConfigurationManagerAttributes
                     {
-                        Order = 7,
+                        Order = order--,
                         CustomDrawer = entry => { },
                         HideSettingName = true,
                         HideDefaultButton = true
@@ -113,8 +114,9 @@ namespace LoveMachine.Core
                 new ConfigDescription(
                     "Lowest position the stroker will move to when going fast.",
                     new AcceptableValueRange<int>(0, 100),
-                    new ConfigurationManagerAttributes {
-                        Order = 6,
+                    new ConfigurationManagerAttributes
+                    {
+                        Order = order--,
                         CustomDrawer = entry => { },
                         HideSettingName = true,
                         HideDefaultButton = true
@@ -128,7 +130,7 @@ namespace LoveMachine.Core
                     new AcceptableValueRange<int>(0, 100),
                     new ConfigurationManagerAttributes
                     {
-                        Order = 5,
+                        Order = order--,
                         CustomDrawer = entry => { },
                         HideSettingName = true,
                         HideDefaultButton = true
@@ -141,7 +143,7 @@ namespace LoveMachine.Core
                     "Range of stroking movement when going slow",
                     tags: new ConfigurationManagerAttributes
                     {
-                        Order = 4,
+                        Order = order--,
                         CustomDrawer = SlowStrokeZoneDrawer,
                         HideDefaultButton = true,
                     }));
@@ -153,7 +155,7 @@ namespace LoveMachine.Core
                     "Range of stroking movement when going fast",
                     tags: new ConfigurationManagerAttributes
                     {
-                        Order = 3,
+                        Order = order--,
                         CustomDrawer = FastStrokeZoneDrawer,
                         HideDefaultButton = true
                     }));
@@ -164,7 +166,7 @@ namespace LoveMachine.Core
                new ConfigDescription(
                    "Makes hard sex animations feel hard",
                    new AcceptableValueRange<int>(0, 100),
-                   new ConfigurationManagerAttributes { Order = 2 }));
+                   new ConfigurationManagerAttributes { Order = order-- }));
             //
             // Vibrator settings
             //
@@ -354,7 +356,7 @@ namespace LoveMachine.Core
             }
             GUILayout.EndHorizontal();
         }
-        
+
         private void TestStrokerAsync(Device device, bool fast, bool hard)
         {
             var controller = Chainloader.ManagerObject.GetComponents<ButtplugController>()[0];

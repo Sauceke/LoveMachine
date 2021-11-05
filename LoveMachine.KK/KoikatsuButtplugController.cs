@@ -1,8 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using LoveMachine.Core;
 using IllusionUtility.GetUtility;
+using LoveMachine.Core;
 using UnityEngine;
 
 namespace LoveMachine.KK
@@ -121,7 +121,8 @@ namespace LoveMachine.KK
     public class KoikatsuButtplugAnimationController : KoikatsuButtplugController
     {
         protected override void HandleFondle(float y, int girlIndex, int boneIndex,
-            float timeSecs) {}
+            float timeSecs)
+        { }
 
         protected override IEnumerator Run(int girlIndex, int boneIndex)
         {
@@ -290,7 +291,7 @@ namespace LoveMachine.KK
 
         protected override void HandleFondle(float y, int girlIndex, int boneIndex, float timeSecs)
         {
-            DoVibrate(intensity: y,  girlIndex, boneIndex: boneIndex);
+            DoVibrate(intensity: y, girlIndex, boneIndex: boneIndex);
         }
     }
 

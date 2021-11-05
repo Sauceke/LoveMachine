@@ -6,18 +6,19 @@ namespace UnityEngine
     {
         private static readonly GUIStyle sliderStyle = GUI.skin.horizontalSlider;
         private static readonly GUIStyle thumbStyle = GUI.skin.horizontalSliderThumb;
-        private static readonly GUIStyle bandStyle = new GUIStyle {
-            normal = new GUIStyleState {
+        private static readonly GUIStyle bandStyle = new GUIStyle
+        {
+            normal = new GUIStyleState
+            {
                 background = BandTexture()
             }
         };
-
-        readonly Rect position;
-        float value1;
-        float value2;
-        readonly float min;
-        readonly float max;
-        readonly int id;
+        private readonly Rect position;
+        private float value1;
+        private float value2;
+        private readonly float min;
+        private readonly float max;
+        private readonly int id;
 
         public RangeSlider(Rect position, float value1, float value2, float min, float max, int id)
         {
