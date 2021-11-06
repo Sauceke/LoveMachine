@@ -52,7 +52,7 @@ namespace LoveMachine.Core
             DeviceManager.SaveDeviceSettings(Devices);
         }
 
-        public void LinearCmd(double position, int durationMs, int girlIndex, int boneIndex = 0)
+        public void LinearCmd(double position, float durationSecs, int girlIndex, int boneIndex = 0)
         {
             if (KillSwitch.Pushed)
             {
@@ -75,7 +75,7 @@ namespace LoveMachine.Core
                             select new
                             {
                                 Index = featureIndex,
-                                Duration = durationMs,
+                                Duration = (int) (durationSecs * 1000),
                                 Position = position
                             }
                         ).ToList()

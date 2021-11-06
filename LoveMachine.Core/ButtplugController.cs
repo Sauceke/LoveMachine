@@ -120,7 +120,6 @@ namespace LoveMachine.Core
 
         protected internal IEnumerator DoStroke(float strokeTimeSecs, int girlIndex, int boneIndex, bool forceHard = false)
         {
-            int strokeTimeMs = (int)(strokeTimeSecs * 1000) - 10;
             float minSlow = Mathf.InverseLerp(0, 100, CoreConfig.SlowStrokeZoneMin.Value);
             float maxSlow = Mathf.InverseLerp(0, 100, CoreConfig.SlowStrokeZoneMax.Value);
             float minFast = Mathf.InverseLerp(0, 100, CoreConfig.FastStrokeZoneMin.Value);
@@ -132,23 +131,23 @@ namespace LoveMachine.Core
             float rate = 60f / CoreConfig.MaxStrokesPerMinute.Value / strokeTimeSecs;
             float min = Mathf.Lerp(minSlow, minFast, rate);
             float max = Mathf.Lerp(maxSlow, maxFast, rate);
+            float downStrokeTimeSecs = Mathf.Lerp(strokeTimeSecs / 2f, strokeTimeSecs / 4f, hardness);
             client.LinearCmd(
                 position: max,
-                durationMs: strokeTimeMs / 2,
+                durationSecs: strokeTimeSecs / 2f - 0.01f,
                 girlIndex,
                 boneIndex);
-            yield return new WaitForSeconds(strokeTimeSecs / 2f * (1 + hardness / 4f));
+            yield return new WaitForSeconds(strokeTimeSecs * 0.75f - downStrokeTimeSecs / 2f);
             client.LinearCmd(
                 position: min,
-                durationMs: (int)(strokeTimeMs / 2f / (1 + hardness)),
+                durationSecs: downStrokeTimeSecs - 0.01f,
                 girlIndex,
                 boneIndex);
         }
 
         protected void MoveStroker(float position, float durationSecs, int girlIndex, int boneIndex)
         {
-            int durationMs = (int)(durationSecs * 1000);
-            client.LinearCmd(position, durationMs, girlIndex, boneIndex);
+            client.LinearCmd(position, durationSecs, girlIndex, boneIndex);
         }
 
         protected void DoVibrate(float intensity, int girlIndex, int boneIndex = 0)
