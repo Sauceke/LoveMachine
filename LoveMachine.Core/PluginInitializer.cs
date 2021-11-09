@@ -302,17 +302,20 @@ namespace LoveMachine.Core
                         }
                         GUILayout.BeginVertical(GUILayout.ExpandHeight(true));
                         {
-                            if (GUILayout.Button("Test Slow"))
+                            if (device.IsStroker)
                             {
-                                TestStrokerAsync(device, fast: false, hard: false);
-                            }
-                            if (GUILayout.Button("Test Fast"))
-                            {
-                                TestStrokerAsync(device, fast: true, hard: false);
-                            }
-                            if (GUILayout.Button("Test Hard"))
-                            {
-                                TestStrokerAsync(device, fast: false, hard: true);
+                                if (GUILayout.Button("Test Slow"))
+                                {
+                                    TestStrokerAsync(device, fast: false, hard: false);
+                                }
+                                if (GUILayout.Button("Test Fast"))
+                                {
+                                    TestStrokerAsync(device, fast: true, hard: false);
+                                }
+                                if (GUILayout.Button("Test Hard"))
+                                {
+                                    TestStrokerAsync(device, fast: false, hard: true);
+                                }
                             }
                         }
                         GUILayout.EndVertical();
