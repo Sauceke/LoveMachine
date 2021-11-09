@@ -75,7 +75,7 @@ namespace LoveMachine.Core
                             select new
                             {
                                 Index = featureIndex,
-                                Duration = (int) (durationSecs * 1000),
+                                Duration = (int)(durationSecs * 1000),
                                 Position = position
                             }
                         ).ToList()

@@ -137,7 +137,8 @@ namespace LoveMachine.Core
                 durationSecs: strokeTimeSecs / 2f - 0.01f,
                 girlIndex,
                 boneIndex);
-            yield return new WaitForSeconds(strokeTimeSecs * 0.75f - downStrokeTimeSecs / 2f);
+            // needs to be real time so we can test devices even when the game is paused
+            yield return new WaitForSecondsRealtime(strokeTimeSecs * 0.75f - downStrokeTimeSecs / 2f);
             client.LinearCmd(
                 position: min,
                 durationSecs: downStrokeTimeSecs - 0.01f,

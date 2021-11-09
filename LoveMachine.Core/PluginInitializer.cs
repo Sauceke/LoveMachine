@@ -373,9 +373,9 @@ namespace LoveMachine.Core
             }
             for (int i = 0; i < 3; i++)
             {
-                yield return controller.HandleCoroutine(
+                controller.HandleCoroutine(
                     controller.DoStroke(strokeTimeSecs, device.GirlIndex, device.BoneIndex, hard));
-                yield return new WaitForSeconds(strokeTimeSecs / 2);
+                yield return new WaitForSecondsRealtime(strokeTimeSecs);
             }
         }
     }
