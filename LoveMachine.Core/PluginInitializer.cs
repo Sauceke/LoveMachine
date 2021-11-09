@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using BepInEx;
 using BepInEx.Bootstrap;
 using BepInEx.Configuration;
@@ -18,6 +19,7 @@ namespace LoveMachine.Core
         private string actionMappingHeader;
         private string[] actionMappingOptions;
         private Type[] controllers;
+        private List<Device> cachedDeviceList;
 
         public static void Initialize(BaseUnityPlugin plugin,
             string girlMappingHeader, string[] girlMappingOptions,
@@ -268,7 +270,13 @@ namespace LoveMachine.Core
                 }
                 GUILayout.EndHorizontal();
 
-                foreach (var device in serverController.Devices)
+                // imgui doesn't expect the layout to change outside of layout events
+                if (Event.current.type == EventType.Layout)
+                {
+                    cachedDeviceList = serverController.Devices;
+                }
+
+                foreach (var device in cachedDeviceList)
                 {
                     GUILayout.Space(10);
                     GUILayout.BeginHorizontal(GUILayout.ExpandWidth(true));
