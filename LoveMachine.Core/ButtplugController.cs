@@ -57,6 +57,9 @@ namespace LoveMachine.Core
             {
                 for (int boneIndex = 0; boneIndex < GetFemaleBones(girlIndex).Count + 1; boneIndex++)
                 {
+                    CoreConfig.Logger.LogDebug("Starting monitoring loop in controller" +
+                        $"{this.GetType().Name} for girl index {girlIndex} and bone index" +
+                        $"{boneIndex}.");
                     HandleCoroutine(Run(girlIndex, boneIndex));
                 }
             }

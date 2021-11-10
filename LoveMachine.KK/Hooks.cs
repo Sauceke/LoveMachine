@@ -1,5 +1,6 @@
 ﻿using BepInEx.Bootstrap;
 using HarmonyLib;
+using LoveMachine.Core;
 
 namespace LoveMachine.KK
 {
@@ -16,6 +17,7 @@ namespace LoveMachine.KK
             [HarmonyPatch(typeof(HFlag), nameof(HFlag.Start))]
             public static void Start(HFlag __instance)
             {
+                CoreConfig.Logger.LogDebug("H Scene started.");
                 Chainloader.ManagerObject.GetComponent<KoikatsuButtplugAnimationController>()
                     .OnStartH(__instance);
                 Chainloader.ManagerObject.GetComponent<KoikatsuButtplugVibrationController>()

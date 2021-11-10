@@ -81,12 +81,14 @@ namespace LoveMachine.KK
                 || flags.lstHeroine.Any(girl => girl.chaCtrl?.animBody == null)
                 || flags.player?.chaCtrl?.animBody == null)
             {
+                CoreConfig.Logger.LogDebug("Waiting for H Scene to be initialized...");
                 yield return new WaitForSeconds(1f);
                 if (flags.isHSceneEnd)
                 {
                     yield break;
                 }
             }
+            CoreConfig.Logger.LogDebug("H Scene is now initialized.");
         }
 
         protected IEnumerator RunAibu(int girlIndex, int boneIndex)
