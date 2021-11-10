@@ -92,6 +92,7 @@ Currently, most of these settings will only work in Koikatsu. HF2 support later.
 
 ### Sponsors
 * EPTG
+* Shakes
 * Taibe
 * Taka Yami
 * tanu
