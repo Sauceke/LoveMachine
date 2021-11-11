@@ -154,12 +154,14 @@ namespace LoveMachine.KK
         private static readonly List<HFlag.EMode> supportedMaleModes = new List<HFlag.EMode>
         {
             HFlag.EMode.houshi, HFlag.EMode.sonyu, HFlag.EMode.houshi3P, HFlag.EMode.sonyu3P,
+            HFlag.EMode.houshi3PMMF, HFlag.EMode.sonyu3PMMF
         };
 
         private static readonly List<HFlag.EMode> supportedFemaleModes = new List<HFlag.EMode>
         {
             HFlag.EMode.sonyu, HFlag.EMode.sonyu3P,
-            HFlag.EMode.masturbation, HFlag.EMode.lesbian
+            HFlag.EMode.masturbation, HFlag.EMode.lesbian,
+            HFlag.EMode.sonyu3PMMF
         };
 
         private IEnumerable<HFlag.EMode> supportedModes
@@ -301,7 +303,8 @@ namespace LoveMachine.KK
     {
         private static readonly List<HFlag.EMode> supportedModes = new List<HFlag.EMode>
         {
-            HFlag.EMode.houshi, HFlag.EMode.sonyu, HFlag.EMode.houshi3P, HFlag.EMode.sonyu3P
+            HFlag.EMode.houshi, HFlag.EMode.sonyu, HFlag.EMode.houshi3P, HFlag.EMode.sonyu3P,
+            HFlag.EMode.houshi3PMMF, HFlag.EMode.sonyu3PMMF
         };
 
         private static readonly List<string> supportedAnimations = new List<string>
