@@ -74,8 +74,13 @@ namespace LoveMachine.HS2
         public void OnEndH()
         {
             StopAllCoroutines();
-            DoVibrate(0, girlIndex: 0);
-            DoVibrate(0, girlIndex: 1);
+            for (int girlIndex = 0; girlIndex < HeroineCount; girlIndex++)
+            {
+                for (int boneIndex = 0; boneIndex < GetFemaleBones(girlIndex).Count + 1; boneIndex++)
+                {
+                    DoVibrate(0f, girlIndex, boneIndex);
+                }
+            }
         }
 
         protected override string GetPose(int girlIndex)
@@ -118,7 +123,7 @@ namespace LoveMachine.HS2
             {
                 if (IsIdle(GetFemaleAnimator(girlIndex)))
                 {
-                    DoVibrate(0, girlIndex);
+                    DoVibrate(0, girlIndex, boneIndex);
                     yield return new WaitForSeconds(.1f);
                     continue;
                 }

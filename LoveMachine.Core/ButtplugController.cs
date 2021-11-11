@@ -154,7 +154,7 @@ namespace LoveMachine.Core
             client.LinearCmd(position, durationSecs, girlIndex, boneIndex);
         }
 
-        protected void DoVibrate(float intensity, int girlIndex, int boneIndex = 0)
+        protected void DoVibrate(float intensity, int girlIndex, int boneIndex)
         {
             client.VibrateCmd(intensity, girlIndex, boneIndex);
         }
@@ -184,7 +184,7 @@ namespace LoveMachine.Core
                 float depth = (info.normalizedTime - phase) % 1;
                 strength = Mathf.Abs(Mathf.Cos(Mathf.PI * depth)) + 0.1f;
             }
-            DoVibrate(Mathf.Lerp(minVibration, 1.0f, strength * intensity), girlIndex);
+            DoVibrate(Mathf.Lerp(minVibration, 1.0f, strength * intensity), girlIndex, boneIndex);
             yield return new WaitForSecondsRealtime(1.0f / CoreConfig.VibrationUpdateFrequency.Value);
         }
 

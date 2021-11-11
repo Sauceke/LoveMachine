@@ -243,7 +243,7 @@ namespace LoveMachine.KK
                 if (!IsSupportedMode || !IsSupportedAnimation)
                 {
                     // stops vibration when not being lewd
-                    DoVibrate(0.0f, girlIndex);
+                    DoVibrate(0.0f, girlIndex, boneIndex);
                     yield return new WaitForSecondsRealtime(1.0f / CoreConfig.VibrationUpdateFrequency.Value);
                     continue;
                 }
@@ -288,7 +288,7 @@ namespace LoveMachine.KK
             }
             // turn off vibration since there's nothing to animate against
             // this state can happen if H is ended while the animation is not in Idle
-            DoVibrate(0.0f, girlIndex);
+            DoVibrate(0.0f, girlIndex, boneIndex);
         }
 
         protected override void HandleFondle(float y, int girlIndex, int boneIndex, float timeSecs)
