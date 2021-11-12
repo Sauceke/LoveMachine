@@ -174,7 +174,7 @@ namespace LoveMachine.Core
         }
 
         protected IEnumerator VibrateWithAnimation(AnimatorStateInfo info, int girlIndex,
-            int boneIndex, float intensity, float minVibration)
+            int boneIndex, float scale)
         {
             float strength = 1f;
             if (CoreConfig.SyncVibrationWithAnimation.Value)
@@ -184,7 +184,10 @@ namespace LoveMachine.Core
                 float depth = (info.normalizedTime - phase) % 1;
                 strength = Mathf.Abs(Mathf.Cos(Mathf.PI * depth)) + 0.1f;
             }
-            DoVibrate(Mathf.Lerp(minVibration, 1.0f, strength * intensity), girlIndex, boneIndex);
+            float intensityPercent = Mathf.Lerp(CoreConfig.VibrationIntensityMin.Value,
+                CoreConfig.VibrationIntensityMax.Value, strength * scale);
+            float intensity = Mathf.InverseLerp(0f, 100f, intensityPercent);
+            DoVibrate(intensity, girlIndex, boneIndex);
             yield return new WaitForSecondsRealtime(1.0f / CoreConfig.VibrationUpdateFrequency.Value);
         }
 

@@ -273,20 +273,17 @@ namespace LoveMachine.KK
                     {
                         case "WLoop":
                             speed = 0.4f;
-                            minVibration = 0.2f;
                             break;
                         case "MLoop":
                             speed = 0.8f;
-                            minVibration = 0.4f;
                             break;
                         case "SLoop":
                             speed = 1.0f;
-                            minVibration = 0.4f;
                             break;
                     }
                 }
                 yield return HandleCoroutine(VibrateWithAnimation(info, girlIndex, boneIndex,
-                    speed, minVibration));
+                    speed));
             }
             // turn off vibration since there's nothing to animate against
             // this state can happen if H is ended while the animation is not in Idle

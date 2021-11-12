@@ -186,8 +186,45 @@ namespace LoveMachine.Core
             CoreConfig.VibrationUpdateFrequency = plugin.Config.Bind(
                 section: vibrationSettingsTitle,
                 key: "Update Frequency (per second)",
-                defaultValue: 30,
+                defaultValue: 10,
                 "Average times per second we update the vibration state.");
+            plugin.Config.Bind(
+                section: vibrationSettingsTitle,
+                key: "Vibration Intensity Range",
+                defaultValue: "Ignore this",
+                new ConfigDescription(
+                    "Vibration intensity will oscillate between these two values.",
+                    tags: new ConfigurationManagerAttributes
+                    {
+                        CustomDrawer = VibrationIntensityDrawer,
+                        HideDefaultButton = true,
+                    }));
+            CoreConfig.VibrationIntensityMin = plugin.Config.Bind(
+                section: vibrationSettingsTitle,
+                key: "Vibration Intensity Min",
+                defaultValue: 0,
+                new ConfigDescription(
+                    "Lowest vibration intensity.",
+                    new AcceptableValueRange<int>(0, 100),
+                    new ConfigurationManagerAttributes
+                    {
+                        CustomDrawer = entry => { },
+                        HideSettingName = true,
+                        HideDefaultButton = true
+                    }));
+            CoreConfig.VibrationIntensityMax = plugin.Config.Bind(
+                section: vibrationSettingsTitle,
+                key: "Vibration Intensity Max",
+                defaultValue: 100,
+                new ConfigDescription(
+                    "Highest vibration intensity.",
+                    new AcceptableValueRange<int>(0, 100),
+                    new ConfigurationManagerAttributes
+                    {
+                        CustomDrawer = entry => { },
+                        HideSettingName = true,
+                        HideDefaultButton = true
+                    }));
             //
             // Kill switch settings
             //
@@ -328,42 +365,36 @@ namespace LoveMachine.Core
 
         private void SlowStrokeZoneDrawer(ConfigEntryBase entry)
         {
-            float labelWidth = GUI.skin.label.CalcSize(new GUIContent("100%")).x;
-            GUILayout.BeginHorizontal();
-            {
-                float lower = CoreConfig.SlowStrokeZoneMin.Value;
-                float upper = CoreConfig.SlowStrokeZoneMax.Value;
-                GUILayout.Label(lower + "%", GUILayout.Width(labelWidth));
-                RangeSlider.Create(ref lower, ref upper, 0, 100);
-                GUILayout.Label(upper + "%", GUILayout.Width(labelWidth));
-                if (GUILayout.Button("Reset", GUILayout.ExpandWidth(false)))
-                {
-                    lower = (int)CoreConfig.SlowStrokeZoneMin.DefaultValue;
-                    upper = (int)CoreConfig.SlowStrokeZoneMax.DefaultValue;
-                }
-                CoreConfig.SlowStrokeZoneMin.Value = (int)lower;
-                CoreConfig.SlowStrokeZoneMax.Value = (int)upper;
-            }
-            GUILayout.EndHorizontal();
+            DrawRangeSlider(CoreConfig.SlowStrokeZoneMin, CoreConfig.SlowStrokeZoneMax);
         }
 
         private void FastStrokeZoneDrawer(ConfigEntryBase entry)
         {
+            DrawRangeSlider(CoreConfig.FastStrokeZoneMin, CoreConfig.FastStrokeZoneMax);
+        }
+
+        private void VibrationIntensityDrawer(ConfigEntryBase obj)
+        {
+            DrawRangeSlider(CoreConfig.VibrationIntensityMin, CoreConfig.VibrationIntensityMax);
+        }
+
+        private void DrawRangeSlider(ConfigEntry<int> min, ConfigEntry<int> max)
+        {
             float labelWidth = GUI.skin.label.CalcSize(new GUIContent("100%")).x;
             GUILayout.BeginHorizontal();
             {
-                float lower = CoreConfig.FastStrokeZoneMin.Value;
-                float upper = CoreConfig.FastStrokeZoneMax.Value;
+                float lower = min.Value;
+                float upper = max.Value;
                 GUILayout.Label(lower + "%", GUILayout.Width(labelWidth));
                 RangeSlider.Create(ref lower, ref upper, 0, 100);
                 GUILayout.Label(upper + "%", GUILayout.Width(labelWidth));
                 if (GUILayout.Button("Reset", GUILayout.ExpandWidth(false)))
                 {
-                    lower = (int)CoreConfig.FastStrokeZoneMin.DefaultValue;
-                    upper = (int)CoreConfig.FastStrokeZoneMax.DefaultValue;
+                    lower = (int)min.DefaultValue;
+                    upper = (int)max.DefaultValue;
                 }
-                CoreConfig.FastStrokeZoneMin.Value = (int)lower;
-                CoreConfig.FastStrokeZoneMax.Value = (int)upper;
+                min.Value = (int)lower;
+                max.Value = (int)upper;
             }
             GUILayout.EndHorizontal();
         }
