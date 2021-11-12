@@ -129,7 +129,7 @@ namespace LoveMachine.HS2
                 }
                 AnimatorStateInfo info = hScene.GetFemales()[girlIndex].getAnimatorStateInfo(0);
                 yield return HandleCoroutine(VibrateWithAnimation(
-                    info, girlIndex, boneIndex, intensity: 1f, minVibration: 0.2f));
+                    info, girlIndex, boneIndex, scale: 1f));
             }
         }
     }
