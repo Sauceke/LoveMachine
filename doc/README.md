@@ -11,6 +11,7 @@ Buttplug.io supports [over 180 devices](https://iostindex.com/?filter0ButtplugSu
 * KIIROO KEON
 * Lovense Max 2
 * Lovense Diamo
+* Lovense Domi 2
 * The Xbox gamepad
 
 This plugin is for **linear** (moving back-and-forth) and **vibrating** devices; other types of sex toys will not work with this plugin, even if they are supported by buttplug.io. PRs for extending coverage are welcome.
