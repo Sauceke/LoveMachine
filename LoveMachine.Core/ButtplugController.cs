@@ -198,10 +198,10 @@ namespace LoveMachine.Core
             var boneM = GetMaleBone();
             var femaleBones = GetFemaleBones(girlIndex);
             var measurements = new List<Measurement>();
-            for (float normTime = 0; normTime < 1; normTime += .1f)
+            yield return new WaitForSeconds(0.1f);
+            float currentTime = femaleAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime;
+            while (femaleAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime - 1 < currentTime)
             {
-                femaleAnimator.Play(CurrentAnimationStateHash, AnimationLayer, normTime);
-                maleAnimator.Play(CurrentAnimationStateHash, AnimationLayer, normTime);
                 yield return new WaitForEndOfFrame();
                 for (int i = 0; i < femaleBones.Count; i++)
                 {
@@ -210,7 +210,7 @@ namespace LoveMachine.Core
                     measurements.Add(new Measurement
                     {
                         BoneIndex = i,
-                        Time = normTime,
+                        Time = femaleAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime,
                         DistanceSq = distanceSq
                     });
                 }
@@ -227,9 +227,6 @@ namespace LoveMachine.Core
                     .OrderBy(entry => entry.DistanceSq)
                     .FirstOrDefault()
                     .Time;
-            // rewind so that non-looping animations don't end abruptly
-            femaleAnimator.Play(CurrentAnimationStateHash, AnimationLayer, 0);
-            maleAnimator.Play(CurrentAnimationStateHash, AnimationLayer, 0);
         }
 
         protected abstract int HeroineCount { get; }
