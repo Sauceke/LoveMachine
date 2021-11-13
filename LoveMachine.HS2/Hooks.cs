@@ -1,5 +1,7 @@
-﻿using BepInEx.Bootstrap;
+﻿using System;
+using BepInEx.Bootstrap;
 using HarmonyLib;
+using LoveMachine.Core;
 
 namespace LoveMachine.HS2
 {
@@ -16,20 +18,20 @@ namespace LoveMachine.HS2
             [HarmonyPatch(typeof(HScene), nameof(HScene.Start))]
             public static void Start(HScene __instance)
             {
-                Chainloader.ManagerObject.GetComponent<HoneySelect2ButtplugStrokerController>()
-                    .OnStartH(__instance);
-                Chainloader.ManagerObject.GetComponent<HoneySelect2ButtplugVibrationController>()
-                    .OnStartH(__instance);
+                CoreConfig.Logger.LogDebug("H Scene started.");
+                Array.ForEach(
+                    Chainloader.ManagerObject.GetComponents<HoneySelect2ButtplugController>(),
+                    ctrl => ctrl.OnStartH(__instance));
             }
 
             [HarmonyPostfix]
             [HarmonyPatch(typeof(HScene), nameof(HScene.EndProc))]
             public static void End()
             {
-                Chainloader.ManagerObject.GetComponent<HoneySelect2ButtplugStrokerController>()
-                    .OnEndH();
-                Chainloader.ManagerObject.GetComponent<HoneySelect2ButtplugVibrationController>()
-                    .OnEndH();
+                CoreConfig.Logger.LogDebug("H Scene ended.");
+                Array.ForEach(
+                    Chainloader.ManagerObject.GetComponents<HoneySelect2ButtplugController>(),
+                    ctrl => ctrl.OnEndH());
             }
         }
     }

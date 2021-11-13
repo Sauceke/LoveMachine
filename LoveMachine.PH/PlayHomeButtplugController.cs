@@ -39,6 +39,8 @@ namespace LoveMachine.PH
         protected override int CurrentAnimationStateHash =>
             GetFemaleAnimator(0).GetCurrentAnimatorStateInfo(0).fullPathHash;
 
+        protected override bool IsHSceneInterrupted => false;
+
         protected override Animator GetFemaleAnimator(int girlIndex) =>
             scene.mainMembers.females[girlIndex].body.Anime;
 
@@ -73,24 +75,15 @@ namespace LoveMachine.PH
                 + girlIndex;
         }
 
-        protected bool IsIdle => !activeHStates.Contains(scene.mainMembers.StateMgr.nowStateID);
+        protected override int GetStrokesPerAnimationCycle(int girlIndex) => 1;
+
+        protected override bool IsIdle(int _) =>
+            !activeHStates.Contains(scene.mainMembers.StateMgr.nowStateID);
 
         internal void OnStartH(H_Scene scene)
         {
             this.scene = scene;
             OnStartH();
-        }
-
-        internal void OnEndH()
-        {
-            StopAllCoroutines();
-            for (int girlIndex = 0; girlIndex < HeroineCount; girlIndex++)
-            {
-                for (int boneIndex = 0; boneIndex < GetFemaleBones(girlIndex).Count + 1; boneIndex++)
-                {
-                    DoVibrate(0f, girlIndex, boneIndex);
-                }
-            }
         }
 
         protected override IEnumerator UntilReady()
@@ -109,37 +102,12 @@ namespace LoveMachine.PH
     public class PlayHomeButtplugVibrationController : PlayHomeButtplugController
     {
         protected override IEnumerator Run(int girlIndex, int boneIndex)
-        {
-            while (true)
-            {
-                if (IsIdle)
-                {
-                    DoVibrate(0f, girlIndex, boneIndex);
-                    yield return new WaitForSeconds(.1f);
-                    continue;
-                }
-                AnimatorStateInfo info = GetFemaleAnimator(girlIndex).GetCurrentAnimatorStateInfo(0);
-                yield return HandleCoroutine(VibrateWithAnimation(info, girlIndex, boneIndex, 1f));
-            }
-        }
+            => RunVibratorLoop(girlIndex, boneIndex);
     }
 
     public class PlayHomeButtplugStrokerController : PlayHomeButtplugController
     {
         protected override IEnumerator Run(int girlIndex, int boneIndex)
-        {
-            while (true)
-            {
-                if (IsIdle)
-                {
-                    yield return new WaitForSeconds(.1f);
-                    continue;
-                }
-                AnimatorStateInfo info() => GetFemaleAnimator(girlIndex).GetCurrentAnimatorStateInfo(0);
-                yield return HandleCoroutine(WaitForUpStroke(info, girlIndex, boneIndex));
-                float strokeTimeSecs = GetStrokeTimeSecs(info());
-                yield return HandleCoroutine(DoStroke(strokeTimeSecs, girlIndex, boneIndex));
-            }
-        }
+            => RunStrokerLoop(girlIndex, boneIndex);
     }
 }
