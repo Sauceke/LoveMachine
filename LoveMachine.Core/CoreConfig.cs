@@ -22,7 +22,6 @@ namespace LoveMachine.Core
         public static ConfigEntry<bool> SaveDeviceSettings { get; internal set; }
         public static ConfigEntry<string> DeviceSettingsJson { get; internal set; }
 
-        public static ConfigEntry<ButtplugController.VibrationMode> EnableVibrate { get; internal set; }
         public static ConfigEntry<bool> SyncVibrationWithAnimation { get; internal set; }
         public static ConfigEntry<int> VibrationUpdateFrequency { get; internal set; }
         public static ConfigEntry<int> VibrationIntensityMin { get; internal set; }

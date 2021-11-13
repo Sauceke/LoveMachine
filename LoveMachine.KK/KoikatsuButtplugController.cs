@@ -165,42 +165,16 @@ namespace LoveMachine.KK
 
     public class KoikatsuButtplugVibrationController : KoikatsuButtplugController
     {
-        private static readonly List<HFlag.EMode> supportedMaleModes = new List<HFlag.EMode>
+        private static readonly List<HFlag.EMode> houshiModes = new List<HFlag.EMode>
         {
-            HFlag.EMode.houshi, HFlag.EMode.sonyu, HFlag.EMode.houshi3P, HFlag.EMode.sonyu3P,
-            HFlag.EMode.houshi3PMMF, HFlag.EMode.sonyu3PMMF
+            HFlag.EMode.houshi, HFlag.EMode.houshi3P, HFlag.EMode.houshi3PMMF
         };
 
-        private static readonly List<HFlag.EMode> supportedFemaleModes = new List<HFlag.EMode>
+        private static readonly List<HFlag.EMode> supportedModes = new List<HFlag.EMode>
         {
-            HFlag.EMode.sonyu, HFlag.EMode.sonyu3P,
-            HFlag.EMode.sonyu3PMMF
-        };
-
-        private IEnumerable<HFlag.EMode> supportedModes
-        {
-            get
-            {
-                IEnumerable<HFlag.EMode> modes = new List<HFlag.EMode>();
-                if (IsFemale)
-                {
-                    modes = modes.Concat(supportedFemaleModes);
-                }
-                if (IsMale)
-                {
-                    modes = modes.Concat(supportedMaleModes);
-                }
-                return modes;
-            }
+            HFlag.EMode.sonyu, HFlag.EMode.sonyu3P, HFlag.EMode.sonyu3PMMF
         }
-
-        private static readonly List<string> supportedAnimations = new List<string>
-        {
-            "WLoop", "SLoop",
-            // anal
-            "A_WLoop", "A_SLoop", "A_OLoop"
-        }
-        .Union(orgasmAnimations).ToList();
+        .Union(houshiModes).ToList();
 
         private static readonly List<string> orgasmAnimations = new List<string>
         {
@@ -215,6 +189,29 @@ namespace LoveMachine.KK
             // insertion excitement
             "Pull", "A_Pull", "Insert", "A_Insert"
         };
+
+        private static readonly List<string> supportedAnimations = new List<string>
+        {
+            "WLoop", "SLoop",
+            // anal
+            "A_WLoop", "A_SLoop", "A_OLoop"
+        }
+        .Union(orgasmAnimations).ToList();
+
+        protected override float VibrationIntensity
+        {
+            get
+            {
+                if (IsOrgasm || houshiModes.Contains(flags.mode))
+                {
+                    return 1f;
+                }
+                return flags.speedCalc;
+            }
+        }
+
+        protected override bool IsIdle(int girlIndex)
+            => !IsSupportedMode || !IsSupportedAnimation;
 
         public bool IsOrgasm
         {
@@ -232,46 +229,10 @@ namespace LoveMachine.KK
         }
 
         protected override IEnumerator Run(int girlIndex, int boneIndex)
-        {
-            while (!flags.isHSceneEnd)
-            {
-                if (CoreConfig.EnableVibrate.Value == VibrationMode.Off)
-                {
-                    yield return new WaitForSeconds(1.0f);
-                    continue;
-                }
-
-                if (!IsSupportedMode || !IsSupportedAnimation)
-                {
-                    // stops vibration when not being lewd
-                    DoVibrate(0.0f, girlIndex, boneIndex);
-                    yield return new WaitForSecondsRealtime(1.0f / CoreConfig.VibrationUpdateFrequency.Value);
-                    continue;
-                }
-                var speed = flags.speedCalc;
-
-                // service mode goes into OLoop once male excitement exceeds its threshold
-                if (IsOrgasm)
-                {
-                    speed = 1.0f;
-                }
-
-                yield return HandleCoroutine(VibrateWithAnimation(girlIndex, boneIndex, speed));
-            }
-            // turn off vibration since there's nothing to animate against
-            // this state can happen if H is ended while the animation is not in Idle
-            DoVibrate(0.0f, girlIndex, boneIndex);
-        }
+            => RunVibratorLoop(girlIndex, boneIndex);
 
         protected override void HandleFondle(float y, int girlIndex, int boneIndex, float timeSecs)
-        {
-            DoVibrate(intensity: y, girlIndex, boneIndex: boneIndex);
-        }
-
-        protected override bool IsIdle(int girlIndex)
-        {
-            throw new System.NotImplementedException();
-        }
+            => DoVibrate(intensity: y, girlIndex, boneIndex: boneIndex);
     }
 
     public class KoikatsuButtplugStrokerController : KoikatsuButtplugController
@@ -296,9 +257,7 @@ namespace LoveMachine.KK
                     || flags.speed < 1;
 
         protected override void HandleFondle(float y, int girlIndex, int boneIndex, float timeSecs)
-        {
-            MoveStroker(position: y, timeSecs, girlIndex, boneIndex);
-        }
+            => MoveStroker(position: y, timeSecs, girlIndex, boneIndex);
 
         protected override IEnumerator Run(int girlIndex, int boneIndex)
              => RunStrokerLoop(girlIndex, boneIndex);

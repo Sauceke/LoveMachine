@@ -14,9 +14,7 @@ namespace LoveMachine.Core
         protected static Dictionary<string, float> animPhases = new Dictionary<string, float>();
 
         private string GetExactPose(int girlIndex, int boneIndex)
-        {
-            return GetPose(girlIndex) + "." + boneIndex;
-        }
+            => GetPose(girlIndex) + "." + boneIndex;
 
         protected float GetPhase(int girlIndex, int boneIndex)
         {
@@ -30,25 +28,12 @@ namespace LoveMachine.Core
             return phase;
         }
 
-        public bool IsFemale
-        {
-            get { return (CoreConfig.EnableVibrate.Value & VibrationMode.Female) == VibrationMode.Female; }
-        }
-
-        public bool IsMale
-        {
-            get { return (CoreConfig.EnableVibrate.Value & VibrationMode.Male) == VibrationMode.Male; }
-        }
-
         public void Awake()
         {
             client = gameObject.GetComponent<ButtplugWsClient>();
         }
 
-        public void OnStartH()
-        {
-            StartCoroutine(RunLoops());
-        }
+        public void OnStartH() => StartCoroutine(RunLoops());
 
         public void OnEndH()
         {
@@ -69,8 +54,8 @@ namespace LoveMachine.Core
             {
                 for (int boneIndex = 0; boneIndex < GetFemaleBones(girlIndex).Count + 1; boneIndex++)
                 {
-                    CoreConfig.Logger.LogDebug("Starting monitoring loop in controller" +
-                        $"{this.GetType().Name} for girl index {girlIndex} and bone index" +
+                    CoreConfig.Logger.LogDebug("Starting monitoring loop in controller " +
+                        $"{GetType().Name} for girl index {girlIndex} and bone index " +
                         $"{boneIndex}.");
                     HandleCoroutine(Run(girlIndex, boneIndex));
                 }
@@ -99,7 +84,7 @@ namespace LoveMachine.Core
 
         protected IEnumerator RunVibratorLoop(int girlIndex, int boneIndex)
         {
-            while (true)
+            while (!IsHSceneInterrupted)
             {
                 if (IsIdle(girlIndex))
                 {
@@ -107,8 +92,12 @@ namespace LoveMachine.Core
                     yield return new WaitForSeconds(.1f);
                     continue;
                 }
-                yield return HandleCoroutine(VibrateWithAnimation(girlIndex, boneIndex, scale: 1f));
+                yield return HandleCoroutine(VibrateWithAnimation(girlIndex, boneIndex,
+                    VibrationIntensity));
             }
+            // turn off vibration since there's nothing to animate against
+            // this state can happen if H is ended while the animation is not in Idle
+            DoVibrate(0.0f, girlIndex, boneIndex);
         }
 
         protected internal Coroutine HandleCoroutine(IEnumerator coroutine)
@@ -137,10 +126,7 @@ namespace LoveMachine.Core
             }
         }
 
-        private void OnDestroy()
-        {
-            StopAllCoroutines();
-        }
+        private void OnDestroy() => StopAllCoroutines();
 
         protected void NerfAnimationSpeeds(float animStrokeTimeSecs, params Animator[] animators)
         {
@@ -287,6 +273,8 @@ namespace LoveMachine.Core
         protected abstract int CurrentAnimationStateHash { get; }
         protected abstract bool IsHSceneInterrupted { get; }
 
+        protected virtual float VibrationIntensity { get; } = 1f;
+
         protected abstract Animator GetFemaleAnimator(int girlIndex);
         protected abstract Animator GetMaleAnimator();
         protected abstract List<Transform> GetFemaleBones(int girlIndex);
@@ -295,16 +283,7 @@ namespace LoveMachine.Core
         protected abstract int GetStrokesPerAnimationCycle(int girlIndex);
         protected abstract bool IsIdle(int girlIndex);
         protected abstract IEnumerator UntilReady();
-
         protected abstract IEnumerator Run(int girlIndex, int boneIndex);
-
-        public enum VibrationMode
-        {
-            Off = 0_00,
-            Male = 0_01,
-            Female = 0_10,
-            Both = 0_11
-        }
 
         private struct Measurement
         {

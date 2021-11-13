@@ -173,11 +173,6 @@ namespace LoveMachine.Core
             // Vibrator settings
             //
             string vibrationSettingsTitle = "Vibration Settings";
-            CoreConfig.EnableVibrate = plugin.Config.Bind(
-                section: vibrationSettingsTitle,
-                key: "Enable Vibrators",
-                defaultValue: ButtplugController.VibrationMode.Both,
-                "Maps control speed to vibrations");
             CoreConfig.SyncVibrationWithAnimation = plugin.Config.Bind(
                 section: vibrationSettingsTitle,
                 key: "Vibration With Animation",
