@@ -1,4 +1,5 @@
-﻿using BepInEx.Bootstrap;
+﻿using System;
+using BepInEx.Bootstrap;
 using HarmonyLib;
 using LoveMachine.Core;
 
@@ -18,12 +19,9 @@ namespace LoveMachine.KK
             public static void Start(HFlag __instance)
             {
                 CoreConfig.Logger.LogDebug("H Scene started.");
-                Chainloader.ManagerObject.GetComponent<KoikatsuButtplugAnimationController>()
-                    .OnStartH(__instance);
-                Chainloader.ManagerObject.GetComponent<KoikatsuButtplugVibrationController>()
-                    .OnStartH(__instance);
-                Chainloader.ManagerObject.GetComponent<KoikatsuButtplugStrokerController>()
-                    .OnStartH(__instance);
+                Array.ForEach(
+                    Chainloader.ManagerObject.GetComponents<KoikatsuButtplugController>(),
+                    ctrl => ctrl.OnStartH(__instance));
             }
         }
     }

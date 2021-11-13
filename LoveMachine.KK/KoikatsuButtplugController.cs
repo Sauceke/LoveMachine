@@ -14,7 +14,7 @@ namespace LoveMachine.KK
         internal static readonly Dictionary<string, string> femaleBones
             = new Dictionary<string, string>
         {
-            { "k_f_munenipL_00" , "Left Breast"},
+            { "k_f_munenipL_00", "Left Breast"},
             { "k_f_munenipR_00", "Right Breast"},
             { "cf_n_pee", "Pussy"},
             { "k_f_ana_00", "Anus"},
@@ -43,6 +43,11 @@ namespace LoveMachine.KK
         protected override bool IsHardSex => flags?.nowAnimStateName?.Contains("SLoop") ?? false;
 
         protected override int AnimationLayer => 0;
+
+        protected override bool IsHSceneInterrupted => flags.isHSceneEnd;
+
+        protected override int GetStrokesPerAnimationCycle(int girlIndex) =>
+            GetAnimatorStateInfo(girlIndex).IsName("OLoop") ? 2 : 1;
 
         protected override int CurrentAnimationStateHash
             => Animator.StringToHash(flags.nowAnimStateName);
@@ -73,6 +78,12 @@ namespace LoveMachine.KK
                 + "." + flags.nowAnimationInfo.nameAnimation
                 + "." + flags.nowAnimStateName
                 + "." + girlIndex;
+        }
+
+        protected override float GetStrokeTimeSecs(int girlIndex)
+        {
+            float scale = GetAnimatorStateInfo(girlIndex).IsName("OLoop") ? 2 : 1;
+            return base.GetStrokeTimeSecs(girlIndex) * scale;
         }
 
         protected override IEnumerator UntilReady()
@@ -126,6 +137,9 @@ namespace LoveMachine.KK
             float timeSecs)
         { }
 
+        protected override bool IsIdle(int girlIndex)
+            => throw new System.NotImplementedException();
+
         protected override IEnumerator Run(int girlIndex, int boneIndex)
         {
             var animator = GetFemaleAnimator(girlIndex);
@@ -160,7 +174,6 @@ namespace LoveMachine.KK
         private static readonly List<HFlag.EMode> supportedFemaleModes = new List<HFlag.EMode>
         {
             HFlag.EMode.sonyu, HFlag.EMode.sonyu3P,
-            HFlag.EMode.masturbation, HFlag.EMode.lesbian,
             HFlag.EMode.sonyu3PMMF
         };
 
@@ -184,23 +197,10 @@ namespace LoveMachine.KK
         private static readonly List<string> supportedAnimations = new List<string>
         {
             "WLoop", "SLoop",
-            // masturbation
-            "MLoop", 
             // anal
-            "A_WLoop", "A_SLoop", "A_OLoop",
-
-            // orgasm
-            "OLoop", "A_OLoop",
-
-            // ejaculation
-            "OUT_START", "OUT_LOOP", "IN_START", "IN_LOOP",
-            "M_OUT_Start", "M_OUT_Loop", "M_IN_Start", "M_IN_Loop",
-            "WS_IN_Start", "WS_IN_Loop", "SS_IN_Start", "SS_IN_Loop",
-            "A_WS_IN_Start", "A_WS_IN_Loop", "A_SS_IN_Start", "A_SS_IN_Loop",
-            
-            // insertion
-            "Pull", "A_Pull", "Insert", "A_Insert"
-        };
+            "A_WLoop", "A_SLoop", "A_OLoop"
+        }
+        .Union(orgasmAnimations).ToList();
 
         private static readonly List<string> orgasmAnimations = new List<string>
         {
@@ -233,7 +233,6 @@ namespace LoveMachine.KK
 
         protected override IEnumerator Run(int girlIndex, int boneIndex)
         {
-            HandleCoroutine(RunAibu(girlIndex, boneIndex));
             while (!flags.isHSceneEnd)
             {
                 if (CoreConfig.EnableVibrate.Value == VibrationMode.Off)
@@ -249,41 +248,15 @@ namespace LoveMachine.KK
                     yield return new WaitForSecondsRealtime(1.0f / CoreConfig.VibrationUpdateFrequency.Value);
                     continue;
                 }
-
-                var animator = flags.lstHeroine[girlIndex].chaCtrl.animBody;
-
                 var speed = flags.speedCalc;
-                var info = animator.GetCurrentAnimatorStateInfo(0);
-                var minVibration = 0.2f;
 
                 // service mode goes into OLoop once male excitement exceeds its threshold
                 if (IsOrgasm)
                 {
                     speed = 1.0f;
-                    minVibration = 0.6f;
                 }
 
-                if (IsFemale && flags.mode == HFlag.EMode.masturbation
-                    && CoreConfig.SyncVibrationWithAnimation.Value)
-                {
-                    // masturbation is on a non-speed controlled animation
-                    // it has a fixed order of the animation loops, so we can apply a base strength
-                    //   relative to the intensity of the animation
-                    switch (flags.nowAnimStateName)
-                    {
-                        case "WLoop":
-                            speed = 0.4f;
-                            break;
-                        case "MLoop":
-                            speed = 0.8f;
-                            break;
-                        case "SLoop":
-                            speed = 1.0f;
-                            break;
-                    }
-                }
-                yield return HandleCoroutine(VibrateWithAnimation(info, girlIndex, boneIndex,
-                    speed));
+                yield return HandleCoroutine(VibrateWithAnimation(girlIndex, boneIndex, speed));
             }
             // turn off vibration since there's nothing to animate against
             // this state can happen if H is ended while the animation is not in Idle
@@ -293,6 +266,11 @@ namespace LoveMachine.KK
         protected override void HandleFondle(float y, int girlIndex, int boneIndex, float timeSecs)
         {
             DoVibrate(intensity: y, girlIndex, boneIndex: boneIndex);
+        }
+
+        protected override bool IsIdle(int girlIndex)
+        {
+            throw new System.NotImplementedException();
         }
     }
 
@@ -313,37 +291,28 @@ namespace LoveMachine.KK
             "OLoop", "A_OLoop",
         };
 
-        protected override IEnumerator Run(int girlIndex, int boneIndex)
-        {
-            HandleCoroutine(RunAibu(girlIndex, boneIndex));
-            var animator = GetFemaleAnimator(girlIndex);
-            var playerAnimator = GetMaleAnimator();
-            while (!flags.isHSceneEnd)
-            {
-                if (!supportedModes.Contains(flags.mode)
+        protected override bool IsIdle(int girlIndex) => !supportedModes.Contains(flags.mode)
                     || !supportedAnimations.Contains(flags.nowAnimStateName)
-                    || flags.speed < 1)
-                {
-                    yield return new WaitForSeconds(.1f);
-                    continue;
-                }
-                AnimatorStateInfo info() => animator.GetCurrentAnimatorStateInfo(0);
-                yield return HandleCoroutine(WaitForUpStroke(info, girlIndex, boneIndex));
-                float strokeTimeSecs = GetStrokeTimeSecs(info());
-                if (info().IsName("OLoop"))
-                {
-                    // no idea what's the deal with OLoop
-                    // it seems to loop after two strokes
-                    yield return HandleCoroutine(DoStroke(strokeTimeSecs, girlIndex, boneIndex));
-                    yield return new WaitForSeconds(strokeTimeSecs / 2f);
-                }
-                yield return HandleCoroutine(DoStroke(strokeTimeSecs, girlIndex, boneIndex));
-            }
-        }
+                    || flags.speed < 1;
 
         protected override void HandleFondle(float y, int girlIndex, int boneIndex, float timeSecs)
         {
             MoveStroker(position: y, timeSecs, girlIndex, boneIndex);
         }
+
+        protected override IEnumerator Run(int girlIndex, int boneIndex)
+             => RunStrokerLoop(girlIndex, boneIndex);
+    }
+
+    public class KoikatsuButtplugAibuVibrationController : KoikatsuButtplugVibrationController
+    {
+        protected override IEnumerator Run(int girlIndex, int boneIndex)
+            => RunAibu(girlIndex, boneIndex);
+    }
+
+    public class KoikatsuButtplugAibuStrokerController : KoikatsuButtplugStrokerController
+    {
+        protected override IEnumerator Run(int girlIndex, int boneIndex)
+             => RunAibu(girlIndex, boneIndex);
     }
 }

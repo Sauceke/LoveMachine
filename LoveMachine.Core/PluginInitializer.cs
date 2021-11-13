@@ -416,7 +416,7 @@ namespace LoveMachine.Core
             for (int i = 0; i < 3; i++)
             {
                 controller.HandleCoroutine(
-                    controller.DoStroke(strokeTimeSecs, device.GirlIndex, device.BoneIndex, hard));
+                    controller.DoStroke(device.GirlIndex, device.BoneIndex, strokeTimeSecs, hard));
                 yield return new WaitForSecondsRealtime(strokeTimeSecs);
             }
         }

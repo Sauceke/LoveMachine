@@ -37,17 +37,23 @@ namespace LoveMachine.HS2
             "OLoop", "D_OLoop"
         };
 
+        protected HScene hScene;
+
         protected override int HeroineCount
             => Array.FindAll(hScene.GetFemales(), f => f != null).Length;
 
-        protected override bool IsHardSex => GetFemaleAnimator(0)?.GetCurrentAnimatorStateInfo(0).IsName("SLoop") ?? false;
+        protected override bool IsHardSex
+            => GetFemaleAnimator(0)?.GetCurrentAnimatorStateInfo(0).IsName("SLoop") ?? false;
 
         protected override int AnimationLayer => 0;
 
         protected override int CurrentAnimationStateHash
-            => hScene.GetFemales()[0].animBody.GetCurrentAnimatorStateInfo(0).fullPathHash;
+            => GetFemaleAnimator(0).GetCurrentAnimatorStateInfo(0).fullPathHash;
 
-        protected override Animator GetFemaleAnimator(int girlIndex) => hScene?.GetFemales()[girlIndex]?.animBody;
+        protected override bool IsHSceneInterrupted => false;
+
+        protected override Animator GetFemaleAnimator(int girlIndex)
+            => hScene?.GetFemales()[girlIndex]?.animBody;
 
         protected override Animator GetMaleAnimator() => hScene.GetMales()[0].animBody;
 
@@ -63,25 +69,14 @@ namespace LoveMachine.HS2
             return bodyBone.FindLoop(MaleBoneName).transform;
         }
 
-        protected HScene hScene;
-
         public void OnStartH(HScene scene)
         {
             hScene = scene;
             OnStartH();
         }
 
-        public void OnEndH()
-        {
-            StopAllCoroutines();
-            for (int girlIndex = 0; girlIndex < HeroineCount; girlIndex++)
-            {
-                for (int boneIndex = 0; boneIndex < GetFemaleBones(girlIndex).Count + 1; boneIndex++)
-                {
-                    DoVibrate(0f, girlIndex, boneIndex);
-                }
-            }
-        }
+        protected override int GetStrokesPerAnimationCycle(int girlIndex)
+            => IsOrgasm(GetFemaleAnimator(girlIndex)) ? 2 : 1;
 
         protected override string GetPose(int girlIndex)
         {
@@ -102,62 +97,22 @@ namespace LoveMachine.HS2
             }
         }
 
-        protected bool IsIdle(Animator animator)
-        {
-            return idleAnimations.Any(
-                name => animator.GetCurrentAnimatorStateInfo(0).IsName(name));
-        }
+        protected override bool IsIdle(int girlIndex) => idleAnimations.Any(
+            name => GetFemaleAnimator(girlIndex).GetCurrentAnimatorStateInfo(0).IsName(name));
 
         protected bool IsOrgasm(Animator animator)
-        {
-            return orgasmAnimations.Any(
-                name => animator.GetCurrentAnimatorStateInfo(0).IsName(name));
-        }
+            => orgasmAnimations.Any(name => animator.GetCurrentAnimatorStateInfo(0).IsName(name));
     }
 
     public class HoneySelect2ButtplugVibrationController : HoneySelect2ButtplugController
     {
         protected override IEnumerator Run(int girlIndex, int boneIndex)
-        {
-            while (true)
-            {
-                if (IsIdle(GetFemaleAnimator(girlIndex)))
-                {
-                    DoVibrate(0, girlIndex, boneIndex);
-                    yield return new WaitForSeconds(.1f);
-                    continue;
-                }
-                AnimatorStateInfo info = hScene.GetFemales()[girlIndex].getAnimatorStateInfo(0);
-                yield return HandleCoroutine(VibrateWithAnimation(
-                    info, girlIndex, boneIndex, scale: 1f));
-            }
-        }
+            => RunVibratorLoop(girlIndex, boneIndex);
     }
 
     public class HoneySelect2ButtplugStrokerController : HoneySelect2ButtplugController
     {
         protected override IEnumerator Run(int girlIndex, int boneIndex)
-        {
-            var femaleAnimator = GetFemaleAnimator(girlIndex);
-            while (true)
-            {
-                if (IsIdle(femaleAnimator))
-                {
-                    yield return new WaitForSeconds(.1f);
-                    continue;
-                }
-                AnimatorStateInfo info() => hScene.GetFemales()[girlIndex].getAnimatorStateInfo(0);
-                yield return HandleCoroutine(WaitForUpStroke(info, girlIndex, boneIndex));
-                float strokeTimeSecs = GetStrokeTimeSecs(info());
-                if (IsOrgasm(femaleAnimator))
-                {
-                    // like in KK, OLoop has 2 strokes in it
-                    strokeTimeSecs /= 2f;
-                    yield return HandleCoroutine(DoStroke(strokeTimeSecs, girlIndex, boneIndex));
-                    yield return new WaitForSeconds(strokeTimeSecs / 2f);
-                }
-                yield return HandleCoroutine(DoStroke(strokeTimeSecs, girlIndex, boneIndex));
-            }
-        }
+            => RunStrokerLoop(girlIndex, boneIndex);
     }
 }
