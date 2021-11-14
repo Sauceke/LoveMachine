@@ -2,10 +2,11 @@
 [![.NET](https://github.com/Sauceke/BepInEx.LoveMachine/actions/workflows/commit.yml/badge.svg)](https://github.com/Sauceke/BepInEx.LoveMachine/actions/workflows/commit.yml)
 
 Adds support for [buttplug.io](https://buttplug.io/) compatible strokers and vibrators in the following games:
-* Koikatsu (VR too)
-* Honey Select 2 (VR too)
+* Koikatsu (VR and Darkness DLC too)
+* Koikatsu Party (VR too)
 * Koikatsu Sunshine (VR too)
-* PlayHome
+* Honey Select 2 (VR too)
+* PlayHome (VR too)
 
 Buttplug.io supports [over 180 devices](https://iostindex.com/?filter0ButtplugSupport=4). Some of the devices that were actually tested with the mod:
 * [The Handy](https://www.thehandy.com/?ref=saucekebenfield&utm_source=saucekebenfield&utm_medium=affiliate&utm_campaign=The+Handy+Affiliate+program)
@@ -15,7 +16,7 @@ Buttplug.io supports [over 180 devices](https://iostindex.com/?filter0ButtplugSu
 * Lovense Domi 2
 * The Xbox gamepad
 
-This plugin is for **linear** (moving back-and-forth) and **vibrating** devices; other types of sex toys will not work with this plugin, even if they are supported by buttplug.io. PRs for extending coverage are welcome.
+This plugin is for **linear** (moving back-and-forth) and **vibrating** devices; other types of sex toys will not work with this plugin, even if they are supported by buttplug.io.
 
 ## Installation
 Prerequisites:
@@ -78,17 +79,14 @@ If you get bored of the "standard" features of this plugin, try experimenting a 
 * **Hard Sex Intensity:** How fast your stroker will fall during hard sex animations. 100% is twice as fast as 0% and feels much rougher (at least on a Handy). I'm not responsible for any injuries that may occur due to the use of LoveMachine.
 
 ### Vibration Settings
-Currently, most of these settings will only work in Koikatsu. HF2 support later.
-* **Enable Vibrators:**
-  * Male: vibrators will only react to what the male character feels
-  * Female: vibrators will only react to what the female character feels
-  * Both: vibrators will react to everything
-  * Off: vibrators will not engage
-* **Update Frequency (per second):** How often to send commands to vibrators. Too often might DoS your vibrator, too scarcely will feel erratic.
+* **Update Frequency (per second):** How often to send commands to vibrators. Too often might DoS your vibrator, too scarcely will feel erratic. Defaults to 10.
 * **Vibration With Animation:** If enabled, vibration intensity will oscillate up and down in sync with the action. If disabled, the intensity will depend on how fast you go, but it will otherwise stay the same.
 * **Vibration Intensity Range:** If Vibration With Animation is enabled, vibration intensity will oscillate between these two values.
 
-## Contributors
+## Contributing
+PRs for onboarding new games are welcome. The process is relatively simple and requires barely any coding. See the PlayHome implementation for reference. PRs for supporting new device types are also welcome.
+
+This mod is provided free of charge, but I do accept donations. If you'd like to boost my morale, please check me out on [Patreon](https://www.patreon.com/sauceke).
 
 ### Code contributors
 * nhydock
