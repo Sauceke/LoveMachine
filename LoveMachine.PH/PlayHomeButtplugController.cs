@@ -64,13 +64,7 @@ namespace LoveMachine.PH
             {
                 return "none";
             }
-            var style = scene.mainMembers.StyleData;
-            return style.position + "."
-                + style.state + "."
-                + style.type + "."
-                + style.detailFlag + "."
-                + style.initiative + "."
-                + style.member + "."
+            return scene.mainMembers.StyleData.id + "."
                 + GetFemaleAnimator(girlIndex).GetCurrentAnimatorStateInfo(0).fullPathHash + "."
                 + girlIndex;
         }
@@ -88,7 +82,7 @@ namespace LoveMachine.PH
 
         protected override IEnumerator UntilReady()
         {
-            while (scene.mainMembers?.PoseData == null
+            while (scene.mainMembers?.StyleData == null
                 || scene.mainMembers.females.IsNullOrEmpty()
                 || scene.mainMembers.males.IsNullOrEmpty()
                 || scene.mainMembers.females[0] == null
