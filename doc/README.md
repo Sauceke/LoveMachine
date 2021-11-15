@@ -93,6 +93,8 @@ This mod is provided free of charge, but I do accept donations. If you'd like to
 * Sauceke
 
 ### Sponsors
+* [ManlyMarco](https://github.com/ManlyMarco)
+* Benos Hentai
 * EPTG
 * Shakes
 * Taibe
