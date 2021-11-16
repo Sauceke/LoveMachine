@@ -37,6 +37,7 @@ jobs:
         powershell Compress-Archive -Path bin/LoveMachine.KKS/BepInEx -DestinationPath KKS_LoveMachine.zip
         powershell Compress-Archive -Path bin/LoveMachine.HS2/BepInEx -DestinationPath HS2_LoveMachine.zip
         powershell Compress-Archive -Path bin/LoveMachine.PH/BepInEx -DestinationPath PH_LoveMachine.zip
+        powershell Compress-Archive -Path bin/LoveMachine.AGH/BepInEx -DestinationPath AGH_LoveMachine.zip
 
     - name: Create Release
       id: create_release
@@ -88,4 +89,14 @@ jobs:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
         asset_path: ./PH_LoveMachine.zip
         asset_name: LoveMachine_for_PlayHome.zip
+        asset_content_type: application/zip
+
+    - name: Upload Houkago Rinkan Chuudoku Plugin
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ./AGH_LoveMachine.zip
+        asset_name: LoveMachine_for_Houkago_Rinkan_Chuudoku.zip
         asset_content_type: application/zip

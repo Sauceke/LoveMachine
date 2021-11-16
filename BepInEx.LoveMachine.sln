@@ -18,6 +18,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LoveMachine.KKS", "LoveMach
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LoveMachine.PH", "LoveMachine.PH\LoveMachine.PH.csproj", "{8FDD1A5C-E7CD-493B-A182-CB82821EDE44}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LoveMachine.AGH", "LoveMachine.AGH\LoveMachine.AGH.csproj", "{EE4E9234-F7E8-49DF-8096-1E5612E730DC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -44,6 +46,10 @@ Global
 		{8FDD1A5C-E7CD-493B-A182-CB82821EDE44}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8FDD1A5C-E7CD-493B-A182-CB82821EDE44}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8FDD1A5C-E7CD-493B-A182-CB82821EDE44}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EE4E9234-F7E8-49DF-8096-1E5612E730DC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EE4E9234-F7E8-49DF-8096-1E5612E730DC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EE4E9234-F7E8-49DF-8096-1E5612E730DC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EE4E9234-F7E8-49DF-8096-1E5612E730DC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
