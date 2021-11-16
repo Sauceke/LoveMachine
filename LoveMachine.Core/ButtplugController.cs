@@ -38,6 +38,7 @@ namespace LoveMachine.Core
         public void OnEndH()
         {
             StopAllCoroutines();
+            animPhases.Clear();
             for (int girlIndex = 0; girlIndex < HeroineCount; girlIndex++)
             {
                 for (int boneIndex = 0; boneIndex < GetFemaleBones(girlIndex).Count + 1; boneIndex++)
