@@ -20,7 +20,7 @@ namespace LoveMachine.AGH
 
         protected override Animator GetFemaleAnimator(int girlIndex)
             => GameObject.Find("CH01/CH0001")?.GetComponent<Animator>()
-            ?? GameObject.Find("CH02/CH0002").GetComponent<Animator>();
+            ?? GameObject.Find("CH02/CH0002")?.GetComponent<Animator>();
 
         protected override List<Transform> GetFemaleBones(int girlIndex)
         {
@@ -45,7 +45,7 @@ namespace LoveMachine.AGH
 
         protected override int GetStrokesPerAnimationCycle(int girlIndex) => 1;
 
-        protected override bool IsIdle(int girlIndex) => false;
+        protected override bool IsIdle(int girlIndex) => GetFemaleAnimator(girlIndex) == null;
 
         protected override IEnumerator UntilReady()
         {
