@@ -29,7 +29,7 @@ namespace LoveMachine.AGH
             {
                 // there are CH01 prefixed bones under CH02, wtf
                 GameObject.Find(chara + "CH01_pussy00").transform,
-                GameObject.Find(chara + "CH01_mouthIN").transform,
+                GameObject.Find(chara + "CH01_face").transform,
                 GameObject.Find(chara + "CH01_nipple").transform
             };
         }
