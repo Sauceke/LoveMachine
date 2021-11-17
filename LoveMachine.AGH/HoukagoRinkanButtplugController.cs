@@ -31,7 +31,7 @@ namespace LoveMachine.AGH
                 GameObject.Find(chara + "CH01_pussy00").transform
             };
         }
-        
+
         protected override Animator GetMaleAnimator() => null;
 
         protected override Transform GetMaleBone()
