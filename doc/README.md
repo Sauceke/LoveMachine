@@ -41,7 +41,6 @@ The Space key acts as a kill switch for all devices while in-game. To reactivate
 * LoveMachine analyzes the movement of certain bones in female characters (hands, crotch, breasts, mouth) at the start of each animation loop, to determine the exact timing of the up-strokes.
 * The stroking movement (and the intensity oscillation for vibrators) will be matched to the movements of the bone closest to the male character's balls as recorded during calibration (this messes up syncing with ball licking animations, but works for just about everything else).
 * As the whole thing is based on bone positions, this will only work for reasonably sized and proportioned characters. Abusing SliderUnlocker is not recommended.
-* If you change poses during calibration, it kind of makes a mess of the whole thing and you can only fix it by restarting the game. Make sure you don't interfere with the calibration process.
 
 ## Configuration
 In Plugin Settings > LoveMachine, you can set the following parameters:
