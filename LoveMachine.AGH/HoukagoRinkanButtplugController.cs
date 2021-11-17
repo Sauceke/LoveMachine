@@ -28,9 +28,7 @@ namespace LoveMachine.AGH
             return new List<Transform>
             {
                 // there are CH01 prefixed bones under CH02, wtf
-                GameObject.Find(chara + "CH01_pussy00").transform,
-                GameObject.Find(chara + "CH01_face").transform,
-                GameObject.Find(chara + "CH01_nipple").transform
+                GameObject.Find(chara + "CH01_pussy00").transform
             };
         }
         

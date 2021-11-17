@@ -229,6 +229,7 @@ namespace LoveMachine.Core
 
         private IEnumerator ComputeAnimationOffsets(int girlIndex)
         {
+            string pose = GetExactPose(girlIndex, -1);
             var femaleAnimator = GetFemaleAnimator(girlIndex);
             var maleAnimator = GetMaleAnimator();
             var boneM = GetMaleBone();
@@ -251,18 +252,26 @@ namespace LoveMachine.Core
                     });
                 }
             }
+            if (GetExactPose(girlIndex, -1) != pose)
+            {
+                CoreConfig.Logger.LogWarning($"Pose {pose} interrupted; canceling calibration.");
+                animPhases.Remove(pose);
+                yield break;
+            }
             for (int i = 0; i < femaleBones.Count; i++)
             {
                 animPhases[GetExactPose(girlIndex, i + 1)] = measurements
                     .Where(entry => entry.BoneIndex == i)
                     .OrderBy(entry => entry.DistanceSq)
                     .FirstOrDefault()
-                    .Time;
+                    .Time % 1;
             }
-            animPhases[GetExactPose(girlIndex, 0)] = measurements
-                    .OrderBy(entry => entry.DistanceSq)
-                    .FirstOrDefault()
-                    .Time;
+            var closest = measurements
+                .OrderBy(entry => entry.DistanceSq)
+                .FirstOrDefault();
+            animPhases[GetExactPose(girlIndex, 0)] = closest.Time % 1;
+            CoreConfig.Logger.LogDebug($"Calibration for pose {pose} completed, closest bone " +
+                $"index: {closest.BoneIndex}.");
         }
 
         protected AnimatorStateInfo GetAnimatorStateInfo(int girlIndex) =>
