@@ -50,8 +50,6 @@ namespace LoveMachine.PH
             return femaleBones.Keys.Select(name => bodyBone.FindLoop(name).transform).ToList();
         }
 
-        protected override Animator GetMaleAnimator() => scene.mainMembers.males[0].body.Anime;
-
         protected override Transform GetMaleBone()
         {
             var bodyBone = scene.mainMembers.males[0].objBodyBone.transform;

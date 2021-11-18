@@ -32,8 +32,6 @@ namespace LoveMachine.AGH
             };
         }
 
-        protected override Animator GetMaleAnimator() => null;
-
         protected override Transform GetMaleBone()
             => GameObject.Find("PC01/PC/HS_kiten_PC/PC00Bip/PC00Bip Pelvis").transform;
 

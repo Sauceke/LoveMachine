@@ -231,7 +231,6 @@ namespace LoveMachine.Core
         {
             string pose = GetExactPose(girlIndex, -1);
             var femaleAnimator = GetFemaleAnimator(girlIndex);
-            var maleAnimator = GetMaleAnimator();
             var boneM = GetMaleBone();
             var femaleBones = GetFemaleBones(girlIndex);
             var measurements = new List<Measurement>();
@@ -286,7 +285,6 @@ namespace LoveMachine.Core
         protected virtual float VibrationIntensity { get; } = 1f;
 
         protected abstract Animator GetFemaleAnimator(int girlIndex);
-        protected abstract Animator GetMaleAnimator();
         protected abstract List<Transform> GetFemaleBones(int girlIndex);
         protected abstract Transform GetMaleBone();
         protected abstract string GetPose(int girlIndex);

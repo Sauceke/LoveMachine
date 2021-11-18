@@ -55,8 +55,6 @@ namespace LoveMachine.KK
         protected override Animator GetFemaleAnimator(int girlIndex)
             => flags.lstHeroine[girlIndex].chaCtrl.animBody;
 
-        protected override Animator GetMaleAnimator() => flags.player.chaCtrl.animBody;
-
         protected override List<Transform> GetFemaleBones(int girlIndex)
         {
             var bodyBone = flags.lstHeroine[girlIndex].chaCtrl.objBodyBone.transform;
@@ -143,7 +141,7 @@ namespace LoveMachine.KK
         protected override IEnumerator Run(int girlIndex, int boneIndex)
         {
             var animator = GetFemaleAnimator(girlIndex);
-            var playerAnimator = GetMaleAnimator();
+            var playerAnimator = flags.player.chaCtrl.animBody;
             while (!flags.isHSceneEnd)
             {
                 var info = animator.GetCurrentAnimatorStateInfo(0);

@@ -55,8 +55,6 @@ namespace LoveMachine.HS2
         protected override Animator GetFemaleAnimator(int girlIndex)
             => hScene?.GetFemales()[girlIndex]?.animBody;
 
-        protected override Animator GetMaleAnimator() => hScene.GetMales()[0].animBody;
-
         protected override List<Transform> GetFemaleBones(int girlIndex)
         {
             var bodyBone = hScene.GetFemales()[girlIndex].objBodyBone.transform;
