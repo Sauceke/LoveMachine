@@ -4,6 +4,8 @@ using LoveMachine.Core;
 
 namespace LoveMachine.HS2
 {
+    [BepInProcess("HoneySelect2")]
+    [BepInProcess("HoneySelect2VR")]
     [BepInPlugin(CoreConfig.GUID, CoreConfig.PluginName, CoreConfig.Version)]
     internal class HS2LoveMachine : BaseUnityPlugin
     {

@@ -5,6 +5,10 @@ using LoveMachine.Core;
 
 namespace LoveMachine.KK
 {
+    [BepInProcess("Koikatu")]
+    [BepInProcess("KoikatuVR")]
+    [BepInProcess("Koikatsu Party")]
+    [BepInProcess("Koikatsu Party VR")]
     [BepInPlugin(CoreConfig.GUID, "LoveMachine", CoreConfig.Version)]
     public class KKLoveMachine : BaseUnityPlugin
     {
