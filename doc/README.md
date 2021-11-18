@@ -96,6 +96,7 @@ This mod is provided free of charge, but I do accept donations. If you'd like to
 
 ### Sponsors
 * [ManlyMarco](https://github.com/ManlyMarco)
+* AkronusWings
 * Benos Hentai
 * EPTG
 * Shakes
