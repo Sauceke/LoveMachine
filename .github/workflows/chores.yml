@@ -35,7 +35,7 @@ jobs:
         committer: github-actions[bot] <github-actions[bot]@users.noreply.github.com>
         author: github-actions[bot] <github-actions[bot]@users.noreply.github.com>
         branch: package-update
-        base: ${{ github.head_ref }}
+        base: mastur
         delete-branch: true
         title: 'Update NuGet dependencies'
         body: Bringing the latest and greatest of everything.
