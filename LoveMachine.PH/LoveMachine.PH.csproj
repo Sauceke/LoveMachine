@@ -35,9 +35,9 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="0Harmony, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\IllusionLibs.BepInEx.Harmony.2.0.6\lib\net35\0Harmony.dll</HintPath>
-      <Private>False</Private>
+    <Reference Include="0Harmony, Version=2.5.4.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\packages\IllusionLibs.BepInEx.Harmony.2.5.4\lib\net35\0Harmony.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="Assembly-CSharp, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\IllusionLibs.PlayHome.Assembly-CSharp.2018.3.11.4\lib\net35\Assembly-CSharp.dll</HintPath>
@@ -47,13 +47,9 @@
       <HintPath>..\packages\IllusionLibs.PlayHome.Assembly-CSharp-firstpass.2018.3.11.4\lib\net35\Assembly-CSharp-firstpass.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="BepInEx, Version=5.3.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\IllusionLibs.BepInEx.5.3.0\lib\net35\BepInEx.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="BepInEx.Harmony, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\IllusionLibs.BepInEx.Harmony.2.0.6\lib\net35\BepInEx.Harmony.dll</HintPath>
-      <Private>False</Private>
+    <Reference Include="BepInEx, Version=5.4.15.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\packages\IllusionLibs.BepInEx.5.4.15\lib\net35\BepInEx.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -90,7 +86,9 @@
     <Error Condition="!Exists('..\packages\IllusionLibs.PlayHome.Assembly-CSharp.2018.3.11.4\build\IllusionLibs.PlayHome.Assembly-CSharp.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\IllusionLibs.PlayHome.Assembly-CSharp.2018.3.11.4\build\IllusionLibs.PlayHome.Assembly-CSharp.targets'))" />
     <Error Condition="!Exists('..\packages\IllusionLibs.PlayHome.Assembly-CSharp-firstpass.2018.3.11.4\build\IllusionLibs.PlayHome.Assembly-CSharp-firstpass.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\IllusionLibs.PlayHome.Assembly-CSharp-firstpass.2018.3.11.4\build\IllusionLibs.PlayHome.Assembly-CSharp-firstpass.targets'))" />
     <Error Condition="!Exists('..\packages\IllusionLibs.PlayHome.UnityEngine.5.5.5.4\build\IllusionLibs.PlayHome.UnityEngine.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\IllusionLibs.PlayHome.UnityEngine.5.5.5.4\build\IllusionLibs.PlayHome.UnityEngine.targets'))" />
+    <Error Condition="!Exists('..\packages\IllusionLibs.BepInEx.Harmony.2.5.4\build\IllusionLibs.BepInEx.Harmony.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\IllusionLibs.BepInEx.Harmony.2.5.4\build\IllusionLibs.BepInEx.Harmony.targets'))" />
   </Target>
   <Import Project="..\packages\IllusionLibs.PlayHome.Assembly-CSharp-firstpass.2018.3.11.4\build\IllusionLibs.PlayHome.Assembly-CSharp-firstpass.targets" Condition="Exists('..\packages\IllusionLibs.PlayHome.Assembly-CSharp-firstpass.2018.3.11.4\build\IllusionLibs.PlayHome.Assembly-CSharp-firstpass.targets')" />
   <Import Project="..\packages\IllusionLibs.PlayHome.UnityEngine.5.5.5.4\build\IllusionLibs.PlayHome.UnityEngine.targets" Condition="Exists('..\packages\IllusionLibs.PlayHome.UnityEngine.5.5.5.4\build\IllusionLibs.PlayHome.UnityEngine.targets')" />
+  <Import Project="..\packages\IllusionLibs.BepInEx.Harmony.2.5.4\build\IllusionLibs.BepInEx.Harmony.targets" Condition="Exists('..\packages\IllusionLibs.BepInEx.Harmony.2.5.4\build\IllusionLibs.BepInEx.Harmony.targets')" />
 </Project>
