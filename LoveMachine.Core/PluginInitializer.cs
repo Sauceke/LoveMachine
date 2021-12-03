@@ -282,7 +282,7 @@ namespace LoveMachine.Core
                 GUILayout.Space(12);
 
                 // table header
-                float totalWidth = GUILayoutUtility.GetWindowsBounds().width * .9f;
+                float totalWidth = Mathf.Min(Screen.width, 650) * .9f;
                 int columns = 6;
                 float columnWidth = totalWidth / columns;
                 GUILayout.BeginHorizontal(GUILayout.ExpandWidth(true));
