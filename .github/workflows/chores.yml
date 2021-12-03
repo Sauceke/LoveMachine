@@ -19,17 +19,14 @@ jobs:
     - name: Setup MSBuild Path
       uses: warrenbuckley/Setup-MSBuild@v1
       
-    - name: Setup NuGet
-      uses: NuGet/setup-nuget@v1.0.2
+    - name: Setup dotnet
+      uses: actions/setup-dotnet@v1
      
-    - name: Restore NuGet Packages
-      run: nuget restore BepInEx.LoveMachine.sln
+    - name: Install dotnet-outdated
+      run: dotnet tool install --global dotnet-outdated
     
-    - name: Update NuGet Packages
-      run: nuget update BepInEx.LoveMachine.sln
-    
-    - name: Restore NuGet Packages again because why not
-      run: nuget restore BepInEx.LoveMachine.sln
+    - name: Run dotnet-outdated
+      run: dotnet outdated --version-lock major --upgrade
 
     - name: Build and Publish
       run: msbuild BepInEx.LoveMachine.sln /p:Configuration=Release /p:DeployOnBuild=true /p:PublishProfile=FolderProfile
