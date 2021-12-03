@@ -35,36 +35,12 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="0Harmony, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\IllusionLibs.BepInEx.Harmony.2.0.6\lib\net35\0Harmony.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Assembly-CSharp, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\IllusionLibs.PlayHome.Assembly-CSharp.2018.3.11.4\lib\net35\Assembly-CSharp.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Assembly-CSharp-firstpass, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\IllusionLibs.PlayHome.Assembly-CSharp-firstpass.2018.3.11.4\lib\net35\Assembly-CSharp-firstpass.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="BepInEx, Version=5.3.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\IllusionLibs.BepInEx.5.3.0\lib\net35\BepInEx.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="BepInEx.Harmony, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\IllusionLibs.BepInEx.Harmony.2.0.6\lib\net35\BepInEx.Harmony.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
-    <Reference Include="UnityEngine, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\IllusionLibs.PlayHome.UnityEngine.5.5.5.4\lib\net35\UnityEngine.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="PlayHomeButtplugController.cs" />
@@ -73,24 +49,29 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\LoveMachine.Core\LoveMachine.Core.csproj">
       <Project>{36E78D7D-C987-4E98-B709-149D19C4193A}</Project>
       <Name>LoveMachine.Core</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="IllusionLibs.BepInEx" ExcludeAssets="runtime">
+      <Version>5.3.0</Version>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="IllusionLibs.BepInEx.Harmony" ExcludeAssets="runtime">
+      <Version>2.0.6</Version>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="IllusionLibs.PlayHome.Assembly-CSharp">
+      <Version>2018.3.11.4</Version>
+    </PackageReference>
+    <PackageReference Include="IllusionLibs.PlayHome.Assembly-CSharp-firstpass">
+      <Version>2018.3.11.4</Version>
+    </PackageReference>
+    <PackageReference Include="IllusionLibs.PlayHome.UnityEngine" ExcludeAssets="runtime">
+      <Version>5.5.5.4</Version>
+    </PackageReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <Import Project="..\packages\IllusionLibs.PlayHome.Assembly-CSharp.2018.3.11.4\build\IllusionLibs.PlayHome.Assembly-CSharp.targets" Condition="Exists('..\packages\IllusionLibs.PlayHome.Assembly-CSharp.2018.3.11.4\build\IllusionLibs.PlayHome.Assembly-CSharp.targets')" />
-  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
-    <PropertyGroup>
-      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
-    </PropertyGroup>
-    <Error Condition="!Exists('..\packages\IllusionLibs.PlayHome.Assembly-CSharp.2018.3.11.4\build\IllusionLibs.PlayHome.Assembly-CSharp.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\IllusionLibs.PlayHome.Assembly-CSharp.2018.3.11.4\build\IllusionLibs.PlayHome.Assembly-CSharp.targets'))" />
-    <Error Condition="!Exists('..\packages\IllusionLibs.PlayHome.Assembly-CSharp-firstpass.2018.3.11.4\build\IllusionLibs.PlayHome.Assembly-CSharp-firstpass.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\IllusionLibs.PlayHome.Assembly-CSharp-firstpass.2018.3.11.4\build\IllusionLibs.PlayHome.Assembly-CSharp-firstpass.targets'))" />
-    <Error Condition="!Exists('..\packages\IllusionLibs.PlayHome.UnityEngine.5.5.5.4\build\IllusionLibs.PlayHome.UnityEngine.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\IllusionLibs.PlayHome.UnityEngine.5.5.5.4\build\IllusionLibs.PlayHome.UnityEngine.targets'))" />
-  </Target>
-  <Import Project="..\packages\IllusionLibs.PlayHome.Assembly-CSharp-firstpass.2018.3.11.4\build\IllusionLibs.PlayHome.Assembly-CSharp-firstpass.targets" Condition="Exists('..\packages\IllusionLibs.PlayHome.Assembly-CSharp-firstpass.2018.3.11.4\build\IllusionLibs.PlayHome.Assembly-CSharp-firstpass.targets')" />
-  <Import Project="..\packages\IllusionLibs.PlayHome.UnityEngine.5.5.5.4\build\IllusionLibs.PlayHome.UnityEngine.targets" Condition="Exists('..\packages\IllusionLibs.PlayHome.UnityEngine.5.5.5.4\build\IllusionLibs.PlayHome.UnityEngine.targets')" />
 </Project>

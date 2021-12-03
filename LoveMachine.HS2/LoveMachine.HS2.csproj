@@ -58,22 +58,22 @@
       <Version>5.4.8</Version>
       <ExcludeAssets>runtime</ExcludeAssets>
     </PackageReference>
-    <PackageReference Include="IllusionLibs.BepInEx.Harmony">
+    <PackageReference Include="IllusionLibs.BepInEx.Harmony" ExcludeAssets="runtime">
       <Version>2.3.2</Version>
     </PackageReference>
-    <PackageReference Include="IllusionLibs.HoneySelect2.Assembly-CSharp">
+    <PackageReference Include="IllusionLibs.HoneySelect2.Assembly-CSharp" ExcludeAssets="runtime">
       <Version>2020.5.29.4</Version>
     </PackageReference>
     <PackageReference Include="IllusionLibs.HoneySelect2.Assembly-CSharp-firstpass">
       <Version>2020.5.29.4</Version>
     </PackageReference>
-    <PackageReference Include="IllusionLibs.HoneySelect2.IL">
+    <PackageReference Include="IllusionLibs.HoneySelect2.IL" ExcludeAssets="runtime">
       <Version>2020.5.29.4</Version>
     </PackageReference>
-    <PackageReference Include="IllusionLibs.HoneySelect2.UnityEngine.AnimationModule">
+    <PackageReference Include="IllusionLibs.HoneySelect2.UnityEngine.AnimationModule" ExcludeAssets="runtime">
       <Version>2018.4.11.4</Version>
     </PackageReference>
-    <PackageReference Include="IllusionLibs.HoneySelect2.UnityEngine.CoreModule">
+    <PackageReference Include="IllusionLibs.HoneySelect2.UnityEngine.CoreModule" ExcludeAssets="runtime">
       <Version>2018.4.11.4</Version>
     </PackageReference>
   </ItemGroup>
