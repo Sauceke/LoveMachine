@@ -58,10 +58,12 @@
       <Version>5.3.0</Version>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
+    <PackageReference Include="BepInEx.Core" Version="5.4.11" />
     <PackageReference Include="HarmonyX" ExcludeAssets="runtime">
       <Version>2.0.6</Version>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
+    <PackageReference Include="HarmonyX" Version="2.6.1" />
     <PackageReference Include="LitJson">
       <Version>0.17.0</Version>
       <PrivateAssets>all</PrivateAssets>
@@ -70,6 +72,7 @@
       <Version>5.6.0</Version>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
+    <PackageReference Include="UnityEngine.Core" Version="5.6.1" />
     <PackageReference Include="WebSocket4Net">
       <Version>0.15.2</Version>
       <PrivateAssets>all</PrivateAssets>

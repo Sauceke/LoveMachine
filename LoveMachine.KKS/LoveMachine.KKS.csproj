@@ -67,15 +67,19 @@
       <Version>5.4.8</Version>
       <ExcludeAssets>runtime</ExcludeAssets>
     </PackageReference>
+    <PackageReference Include="IllusionLibs.BepInEx" Version="5.4.15" />
     <PackageReference Include="IllusionLibs.BepInEx.Harmony" ExcludeAssets="runtime">
       <Version>2.3.2</Version>
     </PackageReference>
+    <PackageReference Include="IllusionLibs.BepInEx.Harmony" Version="2.5.4" />
     <PackageReference Include="IllusionLibs.KoikatsuSunshine.Assembly-CSharp">
       <Version>2021.8.27.2</Version>
     </PackageReference>
+    <PackageReference Include="IllusionLibs.KoikatsuSunshine.Assembly-CSharp" Version="2021.9.17" />
     <PackageReference Include="IllusionLibs.KoikatsuSunshine.Assembly-CSharp-firstpass">
       <Version>2021.8.27.2</Version>
     </PackageReference>
+    <PackageReference Include="IllusionLibs.KoikatsuSunshine.Assembly-CSharp-firstpass" Version="2021.9.17" />
     <PackageReference Include="IllusionLibs.KoikatsuSunshine.UnityEngine.AnimationModule" ExcludeAssets="runtime">
       <Version>2019.4.9</Version>
     </PackageReference>

@@ -58,9 +58,11 @@
       <Version>5.4.8</Version>
       <ExcludeAssets>runtime</ExcludeAssets>
     </PackageReference>
+    <PackageReference Include="IllusionLibs.BepInEx" Version="5.4.15" />
     <PackageReference Include="IllusionLibs.BepInEx.Harmony" ExcludeAssets="runtime">
       <Version>2.3.2</Version>
     </PackageReference>
+    <PackageReference Include="IllusionLibs.BepInEx.Harmony" Version="2.5.4" />
     <PackageReference Include="IllusionLibs.HoneySelect2.Assembly-CSharp" ExcludeAssets="runtime">
       <Version>2020.5.29.4</Version>
     </PackageReference>
