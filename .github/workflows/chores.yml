@@ -28,6 +28,12 @@ jobs:
     - name: Update NuGet Packages
       run: nuget update BepInEx.LoveMachine.sln
     
+    - name: Restore NuGet Packages again because why not
+      run: nuget restore BepInEx.LoveMachine.sln
+
+    - name: Build and Publish
+      run: msbuild BepInEx.LoveMachine.sln /p:Configuration=Release /p:DeployOnBuild=true /p:PublishProfile=FolderProfile
+
     - name: Create Pull Request
       uses: peter-evans/create-pull-request@v3
       with:
