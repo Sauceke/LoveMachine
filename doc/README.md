@@ -2,14 +2,15 @@
 [![.NET](https://github.com/Sauceke/BepInEx.LoveMachine/actions/workflows/commit.yml/badge.svg)](https://github.com/Sauceke/BepInEx.LoveMachine/actions/workflows/commit.yml)
 
 Adds support for [buttplug.io](https://buttplug.io/) compatible strokers and vibrators in the following games:
-| Game                           | Publisher  | VR supported |
-|--------------------------------|------------|--------------|
-| Koikatsu                       | Illusion   | Yes          |
-| Koikatsu Party                 | Illusion   | Yes          |
-| Koikatsu Sunshine              | Illusion   | Yes          |
-| Honey Select 2                 | Illusion   | Yes          |
-| PlayHome                       | Illusion   | Yes          |
-| After Service Gangbang Addicts | MICONISOMI | Yes, wtih [AGHVR](https://github.com/Eusth/AGHVR) |
+| Game                           | Developer        | VR supported |
+|--------------------------------|------------------|--------------|
+| Koikatsu                       | Illusion         | Yes          |
+| Koikatsu Party                 | Illusion         | Yes          |
+| Koikatsu Sunshine              | Illusion         | Yes          |
+| Honey Select 2                 | Illusion         | Yes          |
+| PlayHome                       | Illusion         | Yes          |
+| After Service Gangbang Addicts | MICONISOMI       | Yes, wtih [AGHVR](https://github.com/Eusth/AGHVR) |
+| Our Apartment                  | Momoiro Software | No           |
 
 Buttplug.io supports [over 180 devices](https://iostindex.com/?filter0ButtplugSupport=4). Some of the devices that were actually tested with the mod:
 * [The Handy](https://www.thehandy.com/?ref=saucekebenfield&utm_source=saucekebenfield&utm_medium=affiliate&utm_campaign=The+Handy+Affiliate+program)
