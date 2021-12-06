@@ -1,5 +1,6 @@
 # BepInEx LoveMachine ([日本語](マニュアル.md))
 [![.NET](https://github.com/Sauceke/BepInEx.LoveMachine/actions/workflows/commit.yml/badge.svg)](https://github.com/Sauceke/BepInEx.LoveMachine/actions/workflows/commit.yml)
+[![Download](https://img.shields.io/github/downloads/Sauceke/BepInEx.LoveMachine/total)](https://github.com/Sauceke/BepInEx.LoveMachine/releases)
 
 Adds support for [buttplug.io](https://buttplug.io/) compatible strokers and vibrators in the following games:
 | Game                           | Developer        | VR supported |
@@ -15,9 +16,10 @@ Adds support for [buttplug.io](https://buttplug.io/) compatible strokers and vib
 Buttplug.io supports [over 180 devices](https://iostindex.com/?filter0ButtplugSupport=4). Some of the devices that were actually tested with the mod:
 * [The Handy](https://www.thehandy.com/?ref=saucekebenfield&utm_source=saucekebenfield&utm_medium=affiliate&utm_campaign=The+Handy+Affiliate+program)
 * KIIROO KEON
-* Lovense Max 2
-* Lovense Diamo
-* Lovense Domi 2
+* [Lovense Gush](https://www.lovense.com/r/f7lki7)
+* [Lovense Max 2](https://www.lovense.com/r/k8bbja)
+* [Lovense Diamo](https://www.lovense.com/r/54xpc7)
+* [Lovense Domi 2](https://www.lovense.com/r/77i51d)
 * The Xbox gamepad
 
 This plugin is for **linear** (moving back-and-forth) and **vibrating** devices; other types of sex toys will not work with this plugin, even if they are supported by buttplug.io.
