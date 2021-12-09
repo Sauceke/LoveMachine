@@ -23,10 +23,13 @@ namespace LoveMachine.OA
                 { "index1.r", "Right Hand" }
             };
         private const string MaleBoneName = "cc_balls1.l";
+        private static readonly string[] layerNames =
+        {
+            "Base SexSim", "From Behind SexSim", "Couch Missionary SexSim"
+        };
 
         private Traverse<Animator> npcAnimator;
         private Traverse<bool> isSex;
-        private Traverse<bool> isGrind;
         private Traverse<float> speed;
         private Traverse<int> maxSpeed;
 
@@ -35,7 +38,6 @@ namespace LoveMachine.OA
             var managerTraverse = Traverse.Create(manager);
             npcAnimator = managerTraverse.Field<Animator>("npcAnimator");
             isSex = managerTraverse.Field<bool>("isSex");
-            isGrind = managerTraverse.Field<bool>("isGrind");
             speed = managerTraverse.Field("mainPlayer").Field<float>("currentSpeed");
             maxSpeed = managerTraverse.Field("mainPlayer").Field<int>("maxSpeed");
             OnStartH();
@@ -43,8 +45,7 @@ namespace LoveMachine.OA
 
         protected override int HeroineCount => 1; // Just Naomi
 
-        protected override bool IsHardSex =>
-            speed.Value > maxSpeed.Value / 2f && !isGrind.Value;
+        protected override bool IsHardSex => speed.Value > maxSpeed.Value / 2f;
 
         protected override int AnimationLayer
         {
@@ -53,7 +54,8 @@ namespace LoveMachine.OA
                 var animator = npcAnimator.Value;
                 for (int i = 0; i < animator.layerCount; i++)
                 {
-                    if (animator.GetLayerWeight(i) == 1f)
+                    if (layerNames.Contains(animator.GetLayerName(i))
+                        && animator.GetLayerWeight(i) == 1f)
                     {
                         return i;
                     }
