@@ -230,13 +230,12 @@ namespace LoveMachine.Core
         private IEnumerator ComputeAnimationOffsets(int girlIndex)
         {
             string pose = GetExactPose(girlIndex, -1);
-            var femaleAnimator = GetFemaleAnimator(girlIndex);
             var boneM = GetMaleBone();
             var femaleBones = GetFemaleBones(girlIndex);
             var measurements = new List<Measurement>();
             yield return new WaitForSeconds(0.1f);
-            float currentTime = femaleAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime;
-            while (femaleAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime - 1 < currentTime)
+            float currentTime = GetAnimatorStateInfo(girlIndex).normalizedTime;
+            while (GetAnimatorStateInfo(girlIndex).normalizedTime - 1 < currentTime)
             {
                 yield return new WaitForEndOfFrame();
                 for (int i = 0; i < femaleBones.Count; i++)
@@ -246,7 +245,7 @@ namespace LoveMachine.Core
                     measurements.Add(new Measurement
                     {
                         BoneIndex = i,
-                        Time = femaleAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime,
+                        Time = GetAnimatorStateInfo(girlIndex).normalizedTime,
                         DistanceSq = distanceSq
                     });
                 }
@@ -269,8 +268,9 @@ namespace LoveMachine.Core
                 .OrderBy(entry => entry.DistanceSq)
                 .FirstOrDefault();
             animPhases[GetExactPose(girlIndex, 0)] = closest.Time % 1;
-            CoreConfig.Logger.LogDebug($"Calibration for pose {pose} completed, closest bone " +
-                $"index: {closest.BoneIndex}.");
+            CoreConfig.Logger.LogDebug($"Calibration for pose {pose} completed. " +
+                $"{measurements.Count / femaleBones.Count} frames inspected. " +
+                $"Closest bone index: {closest.BoneIndex}, offset: {closest.Time % 1}.");
         }
 
         protected AnimatorStateInfo GetAnimatorStateInfo(int girlIndex) =>
