@@ -33,14 +33,16 @@ jobs:
     
     - name: Zip artifacts
       run: |
-        powershell Compress-Archive -Path bin/LoveMachine.KK/BepInEx -DestinationPath LoveMachine_for_Koikatsu.zip
-        powershell Compress-Archive -Path bin/LoveMachine.KKS/BepInEx -DestinationPath LoveMachine_for_Koikatsu_Sunshine.zip
-        powershell Compress-Archive -Path bin/LoveMachine.HS2/BepInEx -DestinationPath LoveMachine_for_Honey_Select_2.zip
-        powershell Compress-Archive -Path bin/LoveMachine.PH/BepInEx -DestinationPath LoveMachine_for_PlayHome.zip
-        powershell Compress-Archive -Path bin/LoveMachine.AGH/BepInEx -DestinationPath LoveMachine_for_Houkago_Rinkan_Chuudoku.zip
-        powershell Compress-Archive -Path bin/LoveMachine.OA/BepInEx -DestinationPath LoveMachine_for_Our_Apartment.zip
+        mkdir assets
+        powershell Compress-Archive -Path bin/LoveMachine.KK/BepInEx -DestinationPath assets/LoveMachine_for_Koikatsu.zip
+        powershell Compress-Archive -Path bin/LoveMachine.KKS/BepInEx -DestinationPath assets/LoveMachine_for_Koikatsu_Sunshine.zip
+        powershell Compress-Archive -Path bin/LoveMachine.HS2/BepInEx -DestinationPath assets/LoveMachine_for_Honey_Select_2.zip
+        powershell Compress-Archive -Path bin/LoveMachine.PH/BepInEx -DestinationPath assets/LoveMachine_for_PlayHome.zip
+        powershell Compress-Archive -Path bin/LoveMachine.AGH/BepInEx -DestinationPath assets/LoveMachine_for_Houkago_Rinkan_Chuudoku.zip
+        powershell Compress-Archive -Path bin/LoveMachine.OA/BepInEx -DestinationPath assets/LoveMachine_for_Our_Apartment.zip
 
     - name: Create Release
+      id: create_release
       uses: actions/create-release@v1
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -50,10 +52,12 @@ jobs:
         body: write the changelog you lazy fuk
         draft: true
         prerelease: false
-        
-    - name: Upload All Plugins
-      uses: alexellis/upload-assets@0.2.2
+
+    - name: Upload Release Assets
+      id: upload-release-assets
+      uses: dwenegar/upload-release-assets@v1
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        asset_paths: '["LoveMachine_*.zip"]'
+        release_id: ${{ steps.create_release.outputs.id }}
+        assets_path: assets
