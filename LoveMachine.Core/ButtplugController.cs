@@ -279,7 +279,6 @@ namespace LoveMachine.Core
         protected abstract int HeroineCount { get; }
         protected abstract bool IsHardSex { get; }
         protected abstract int AnimationLayer { get; }
-        protected abstract int CurrentAnimationStateHash { get; }
         protected abstract bool IsHSceneInterrupted { get; }
 
         protected virtual float VibrationIntensity { get; } = 1f;

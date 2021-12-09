@@ -22,7 +22,7 @@ namespace LoveMachine.OA
                 { "index1.l", "Left Hand" },
                 { "index1.r", "Right Hand" }
             };
-        private const string MaleBoneName = "cc_balls1.l"; 
+        private const string MaleBoneName = "cc_balls1.l";
 
         private Traverse<Animator> npcAnimator;
         private Traverse<bool> isSex;
@@ -51,7 +51,7 @@ namespace LoveMachine.OA
             get
             {
                 var animator = npcAnimator.Value;
-                for (int i=0; i<animator.layerCount; i++)
+                for (int i = 0; i < animator.layerCount; i++)
                 {
                     if (animator.GetLayerWeight(i) == 1f)
                     {
@@ -61,8 +61,6 @@ namespace LoveMachine.OA
                 throw new Exception("Active animation layer not found");
             }
         }
-
-        protected override int CurrentAnimationStateHash => throw new NotImplementedException();
 
         protected override bool IsHSceneInterrupted => false;
 

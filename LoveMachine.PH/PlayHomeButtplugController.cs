@@ -36,9 +36,6 @@ namespace LoveMachine.PH
 
         protected override int AnimationLayer => 0;
 
-        protected override int CurrentAnimationStateHash =>
-            GetFemaleAnimator(0).GetCurrentAnimatorStateInfo(0).fullPathHash;
-
         protected override bool IsHSceneInterrupted => false;
 
         protected override Animator GetFemaleAnimator(int girlIndex) =>

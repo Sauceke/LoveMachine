@@ -49,9 +49,6 @@ namespace LoveMachine.KK
         protected override int GetStrokesPerAnimationCycle(int girlIndex) =>
             GetAnimatorStateInfo(girlIndex).IsName("OLoop") ? 2 : 1;
 
-        protected override int CurrentAnimationStateHash
-            => Animator.StringToHash(flags.nowAnimStateName);
-
         protected override Animator GetFemaleAnimator(int girlIndex)
             => flags.lstHeroine[girlIndex].chaCtrl.animBody;
 
