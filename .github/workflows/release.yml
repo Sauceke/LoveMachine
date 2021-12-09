@@ -32,15 +32,15 @@ jobs:
       run: msbuild BepInEx.LoveMachine.sln /p:Configuration=Release /p:DeployOnBuild=true /p:PublishProfile=FolderProfile /p:Version=${{ github.event.inputs.version }}
     
     - name: Zip artifacts
-      run: |-
-        powershell Compress-Archive -Path bin/LoveMachine.KK/BepInEx -DestinationPath KK_LoveMachine.zip
-        powershell Compress-Archive -Path bin/LoveMachine.KKS/BepInEx -DestinationPath KKS_LoveMachine.zip
-        powershell Compress-Archive -Path bin/LoveMachine.HS2/BepInEx -DestinationPath HS2_LoveMachine.zip
-        powershell Compress-Archive -Path bin/LoveMachine.PH/BepInEx -DestinationPath PH_LoveMachine.zip
-        powershell Compress-Archive -Path bin/LoveMachine.AGH/BepInEx -DestinationPath AGH_LoveMachine.zip
+      run: |
+        powershell Compress-Archive -Path bin/LoveMachine.KK/BepInEx -DestinationPath LoveMachine_for_Koikatsu.zip
+        powershell Compress-Archive -Path bin/LoveMachine.KKS/BepInEx -DestinationPath LoveMachine_for_Koikatsu_Sunshine.zip
+        powershell Compress-Archive -Path bin/LoveMachine.HS2/BepInEx -DestinationPath LoveMachine_for_Honey_Select_2.zip
+        powershell Compress-Archive -Path bin/LoveMachine.PH/BepInEx -DestinationPath LoveMachine_for_PlayHome.zip
+        powershell Compress-Archive -Path bin/LoveMachine.AGH/BepInEx -DestinationPath LoveMachine_for_Houkago_Rinkan_Chuudoku.zip
+        powershell Compress-Archive -Path bin/LoveMachine.OA/BepInEx -DestinationPath LoveMachine_for_Our_Apartment.zip
 
     - name: Create Release
-      id: create_release
       uses: actions/create-release@v1
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -51,52 +51,9 @@ jobs:
         draft: true
         prerelease: false
         
-    - name: Upload Koikatsu Plugin
-      uses: actions/upload-release-asset@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: ./KK_LoveMachine.zip
-        asset_name: LoveMachine_for_Koikatsu.zip
-        asset_content_type: application/zip
-
-    - name: Upload Koikatsu Sunshine Plugin
-      uses: actions/upload-release-asset@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: ./KKS_LoveMachine.zip
-        asset_name: LoveMachine_for_Koikatsu_Sunshine.zip
-        asset_content_type: application/zip
-
-    - name: Upload Honey Select 2 Plugin
-      uses: actions/upload-release-asset@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: ./HS2_LoveMachine.zip
-        asset_name: LoveMachine_for_Honey_Select_2.zip
-        asset_content_type: application/zip
-
-    - name: Upload PlayHome Plugin
-      uses: actions/upload-release-asset@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: ./PH_LoveMachine.zip
-        asset_name: LoveMachine_for_PlayHome.zip
-        asset_content_type: application/zip
-
-    - name: Upload Houkago Rinkan Chuudoku Plugin
-      uses: actions/upload-release-asset@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: ./AGH_LoveMachine.zip
-        asset_name: LoveMachine_for_Houkago_Rinkan_Chuudoku.zip
-        asset_content_type: application/zip
+    - name: Upload All Plugins
+        uses: alexellis/upload-assets@0.2.2
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        with:
+          asset_paths: '["LoveMachine_*.zip"]'
