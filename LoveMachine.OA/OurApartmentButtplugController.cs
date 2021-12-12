@@ -30,16 +30,12 @@ namespace LoveMachine.OA
 
         private Traverse<Animator> npcAnimator;
         private Traverse<bool> isSex;
-        private Traverse<float> speed;
-        private Traverse<int> maxSpeed;
 
         public void OnStartH(MonoBehaviour manager)
         {
             var managerTraverse = Traverse.Create(manager);
             npcAnimator = managerTraverse.Field<Animator>("npcAnimator");
             isSex = managerTraverse.Field<bool>("isSex");
-            speed = managerTraverse.Field("mainPlayer").Field<float>("currentSpeed");
-            maxSpeed = managerTraverse.Field("mainPlayer").Field<int>("maxSpeed");
             OnStartH();
         }
 
@@ -77,7 +73,8 @@ namespace LoveMachine.OA
         protected override string GetPose(int girlIndex)
             => npcAnimator.Value.GetCurrentAnimatorClipInfo(AnimationLayer)[0].clip.name;
 
-        protected override int GetStrokesPerAnimationCycle(int girlIndex) => 1;
+        protected override int GetStrokesPerAnimationCycle(int girlIndex) =>
+            GetPose(0).Contains("HeadDown") ? 2 : 1;
 
         protected override bool IsIdle(int girlIndex) => !isSex.Value;
 
