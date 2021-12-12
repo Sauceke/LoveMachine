@@ -45,8 +45,7 @@ namespace LoveMachine.OA
 
         protected override int HeroineCount => 1; // Just Naomi
 
-        protected override bool IsHardSex => speed.Value > maxSpeed.Value / 2f;
-
+        protected override bool IsHardSex => GetPose(0).Contains("Pump2");
         protected override int AnimationLayer
         {
             get
