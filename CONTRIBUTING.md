@@ -1,5 +1,23 @@
+# Contributing
+
+Everybody is welcome to add new stuff to this project, only a few things to keep in mind.
+
 ## Code Style
 
 Use Visual Studio's Code Cleanup tool with the following profile:
 
-![cleanup settings](https://user-images.githubusercontent.com/76826783/127459790-661e816c-d561-4e76-ba8a-db450b67cfa5.png)
+|Included fixers|
+|--------------|
+|Format document|
+|Sort usings|
+|Remove unnecessary usings|
+|Remove unnecessary casts|
+|Add accessibility modifiers|
+|Sort accessibility modifiers|
+|Make private fields readonly when possible|
+
+## Document your changes
+
+Edit `doc/README.md` to reflect your changes if necessary.
+
+Do not edit the `README.md` in the repository root! That file is updated automatically after each release.
