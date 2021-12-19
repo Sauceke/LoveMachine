@@ -33,7 +33,7 @@ namespace LoveMachine.AGH
             => GameObject.Find("PC01/PC/HS_kiten_PC/PC00Bip/PC00Bip Pelvis").transform;
 
         protected override string GetPose(int girlIndex)
-            => GetFemaleAnimator(girlIndex).GetCurrentAnimatorStateInfo(0).fullPathHash + "."
+            => GetFemaleAnimator(girlIndex).GetCurrentAnimatorClipInfo(0)[0].clip.name + "."
                 + girlIndex;
 
         protected override bool IsIdle(int girlIndex) => GetFemaleAnimator(girlIndex) == null;
