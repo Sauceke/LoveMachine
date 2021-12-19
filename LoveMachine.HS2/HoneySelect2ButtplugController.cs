@@ -70,9 +70,6 @@ namespace LoveMachine.HS2
             OnStartH();
         }
 
-        protected override int GetStrokesPerAnimationCycle(int girlIndex)
-            => IsOrgasm(GetFemaleAnimator(girlIndex)) ? 2 : 1;
-
         protected override string GetPose(int girlIndex)
         {
             // couldn't find accessor for animation name so going with hash

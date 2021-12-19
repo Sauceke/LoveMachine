@@ -10,13 +10,16 @@ namespace LoveMachine.Core
     {
         private ButtplugWsClient client;
 
-        // animation -> fractional part of normalized time at start of up-stroke
+        // exact pose -> fractional part of normalized time at start of up-stroke
         protected static Dictionary<string, float> animPhases = new Dictionary<string, float>();
+
+        // exact pose -> number of strokes per loop
+        protected static Dictionary<string, int> animFreqs = new Dictionary<string, int>();
 
         private string GetExactPose(int girlIndex, int boneIndex)
             => GetPose(girlIndex) + "." + boneIndex;
 
-        protected float GetPhase(int girlIndex, int boneIndex)
+        private float GetPhase(int girlIndex, int boneIndex)
         {
             string pose = GetExactPose(girlIndex, -1);
             if (!animPhases.ContainsKey(pose))
@@ -26,6 +29,12 @@ namespace LoveMachine.Core
             }
             animPhases.TryGetValue(GetExactPose(girlIndex, boneIndex), out float phase);
             return phase;
+        }
+
+        private int GetStrokesPerAnimationCycle(int girlIndex, int boneIndex)
+        {
+            animFreqs.TryGetValue(GetExactPose(girlIndex, boneIndex), out int strokes);
+            return strokes == 0 ? 1 : strokes;
         }
 
         public void Awake()
@@ -73,8 +82,8 @@ namespace LoveMachine.Core
                     continue;
                 }
                 yield return HandleCoroutine(WaitForUpStroke(girlIndex, boneIndex));
-                float strokeTimeSecs = GetStrokeTimeSecs(girlIndex);
-                for (int i = 0; i < GetStrokesPerAnimationCycle(girlIndex) - 1; i++)
+                float strokeTimeSecs = GetStrokeTimeSecs(girlIndex, boneIndex);
+                for (int i = 0; i < GetStrokesPerAnimationCycle(girlIndex, boneIndex) - 1; i++)
                 {
                     HandleCoroutine(DoStroke(girlIndex, boneIndex, strokeTimeSecs));
                     yield return new WaitForSecondsRealtime(strokeTimeSecs);
@@ -139,11 +148,11 @@ namespace LoveMachine.Core
             }
         }
 
-        protected virtual float GetStrokeTimeSecs(int girlIndex)
+        protected virtual float GetStrokeTimeSecs(int girlIndex, int boneIndex)
         {
             var info = GetAnimatorStateInfo(girlIndex);
             float strokeTimeSecs = info.length / info.speed
-                / GetStrokesPerAnimationCycle(girlIndex);
+                / GetStrokesPerAnimationCycle(girlIndex, boneIndex);
             // sometimes the length of an animation becomes Infinity in KK
             // sometimes the speed becomes 0 in HS2
             // this is a catch-all for god knows what other things that can
@@ -200,7 +209,7 @@ namespace LoveMachine.Core
             AnimatorStateInfo info() => GetAnimatorStateInfo(girlIndex);
             float startNormTime = info().normalizedTime;
             float phase = GetPhase(girlIndex, boneIndex);
-            float strokeTimeSecs = GetStrokeTimeSecs(girlIndex);
+            float strokeTimeSecs = GetStrokeTimeSecs(girlIndex, boneIndex);
             float latencyNormTime = CoreConfig.LatencyMs.Value / 1000f / strokeTimeSecs;
             phase -= latencyNormTime;
             while ((int)(info().normalizedTime - phase + 2) == (int)(startNormTime - phase + 2))
@@ -263,14 +272,36 @@ namespace LoveMachine.Core
                     .OrderBy(entry => entry.DistanceSq)
                     .FirstOrDefault()
                     .Time % 1;
+                animFreqs[GetExactPose(girlIndex, i + 1)] = GetFrequency(measurements
+                    .Where(entry => entry.BoneIndex == i)
+                    .OrderBy(entry => entry.Time)
+                    .Select(entry => entry.DistanceSq));
             }
             var closest = measurements
                 .OrderBy(entry => entry.DistanceSq)
                 .FirstOrDefault();
             animPhases[GetExactPose(girlIndex, 0)] = closest.Time % 1;
+            animFreqs[GetExactPose(girlIndex, 0)] =
+                animFreqs[GetExactPose(girlIndex, closest.BoneIndex + 1)];
             CoreConfig.Logger.LogDebug($"Calibration for pose {pose} completed. " +
                 $"{measurements.Count / femaleBones.Count} frames inspected. " +
-                $"Closest bone index: {closest.BoneIndex}, offset: {closest.Time % 1}.");
+                $"Closest bone index: {closest.BoneIndex}, offset: {closest.Time % 1}, " +
+                $"frequency: {animFreqs[GetExactPose(girlIndex, 0)]}. ");
+        }
+
+        private static int GetFrequency(IEnumerable<float> samples)
+        {
+            // get frequency using Fourier series
+            var dfsMagnitudes = new List<float>();
+            // probably no game has more than 10 strokes in a loop
+            for (int k = 1; k < 10; k++)
+            {
+                float freq = 2f * Mathf.PI / samples.Count() * k;
+                float re = samples.Select((amp, index) => amp * Mathf.Cos(freq * index)).Sum();
+                float im = samples.Select((amp, index) => amp * Mathf.Sin(freq * index)).Sum();
+                dfsMagnitudes.Add(re * re + im * im);
+            }
+            return dfsMagnitudes.IndexOf(dfsMagnitudes.Max()) + 1;
         }
 
         protected AnimatorStateInfo GetAnimatorStateInfo(int girlIndex) =>
@@ -287,7 +318,6 @@ namespace LoveMachine.Core
         protected abstract List<Transform> GetFemaleBones(int girlIndex);
         protected abstract Transform GetMaleBone();
         protected abstract string GetPose(int girlIndex);
-        protected abstract int GetStrokesPerAnimationCycle(int girlIndex);
         protected abstract bool IsIdle(int girlIndex);
         protected abstract IEnumerator UntilReady();
         protected abstract IEnumerator Run(int girlIndex, int boneIndex);

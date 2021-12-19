@@ -73,9 +73,6 @@ namespace LoveMachine.OA
         protected override string GetPose(int girlIndex)
             => npcAnimator.Value.GetCurrentAnimatorClipInfo(AnimationLayer)[0].clip.name;
 
-        protected override int GetStrokesPerAnimationCycle(int girlIndex) =>
-            GetPose(0).Contains("HeadDown") ? 2 : 1;
-
         protected override bool IsIdle(int girlIndex) => !isSex.Value;
 
         protected override IEnumerator UntilReady()

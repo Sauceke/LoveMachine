@@ -64,8 +64,6 @@ namespace LoveMachine.PH
                 + girlIndex;
         }
 
-        protected override int GetStrokesPerAnimationCycle(int girlIndex) => 1;
-
         protected override bool IsIdle(int _) =>
             !activeHStates.Contains(scene.mainMembers.StateMgr.nowStateID);
 

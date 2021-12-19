@@ -36,8 +36,6 @@ namespace LoveMachine.AGH
             => GetFemaleAnimator(girlIndex).GetCurrentAnimatorStateInfo(0).fullPathHash + "."
                 + girlIndex;
 
-        protected override int GetStrokesPerAnimationCycle(int girlIndex) => 1;
-
         protected override bool IsIdle(int girlIndex) => GetFemaleAnimator(girlIndex) == null;
 
         protected override IEnumerator UntilReady()

@@ -46,9 +46,6 @@ namespace LoveMachine.KK
 
         protected override bool IsHSceneInterrupted => flags.isHSceneEnd;
 
-        protected override int GetStrokesPerAnimationCycle(int girlIndex) =>
-            GetAnimatorStateInfo(girlIndex).IsName("OLoop") ? 2 : 1;
-
         protected override Animator GetFemaleAnimator(int girlIndex)
             => flags.lstHeroine[girlIndex].chaCtrl.animBody;
 
@@ -75,10 +72,10 @@ namespace LoveMachine.KK
                 + "." + girlIndex;
         }
 
-        protected override float GetStrokeTimeSecs(int girlIndex)
+        protected override float GetStrokeTimeSecs(int girlIndex, int boneIndex)
         {
             float scale = GetAnimatorStateInfo(girlIndex).IsName("OLoop") ? 2 : 1;
-            return base.GetStrokeTimeSecs(girlIndex) * scale;
+            return base.GetStrokeTimeSecs(girlIndex, boneIndex) * scale;
         }
 
         protected override IEnumerator UntilReady()
