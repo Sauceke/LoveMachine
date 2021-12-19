@@ -291,6 +291,11 @@ namespace LoveMachine.Core
 
         private static int GetFrequency(IEnumerable<float> samples)
         {
+            // catch flatlines
+            if (samples.Max() - samples.Min() <= 0.000001f)
+            {
+                return 1;
+            }
             // get frequency using Fourier series
             var dfsMagnitudes = new List<float>();
             // probably no game has more than 10 strokes in a loop
