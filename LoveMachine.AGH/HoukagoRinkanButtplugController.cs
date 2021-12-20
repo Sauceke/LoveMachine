@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using LoveMachine.Core;
 using UnityEngine;
 
@@ -7,6 +8,22 @@ namespace LoveMachine.AGH
 {
     public abstract class HoukagoRinkanButtplugController : ButtplugController
     {
+        private static readonly List<string> SayaBones = new List<string>
+        {
+            "CH01/CH0001/CH01_pussy00",
+            "bip01 L Finger1Nub",
+            "BF01_tongue01",
+            "HS_Breast_LL"
+        };
+
+        private static readonly List<string> ElenaBones = new List<string>
+        {
+            "CH02/CH0002/CH01_pussy00",
+            "bip01 L Finger1Nub_02",
+            "BF01_tongue01_02",
+            "HS_Breast_LL_02"
+        };
+
         protected override int HeroineCount => 1;
 
         protected override bool IsHardSex => true;
@@ -16,18 +33,12 @@ namespace LoveMachine.AGH
         protected override bool IsHSceneInterrupted => false;
 
         protected override Animator GetFemaleAnimator(int girlIndex)
-            => GameObject.Find("CH01/CH0001")?.GetComponent<Animator>()
-            ?? GameObject.Find("CH02/CH0002")?.GetComponent<Animator>();
+            => (GameObject.Find("CH01/CH0001") ?? GameObject.Find("CH02/CH0002"))
+                .GetComponent<Animator>();
 
         protected override List<Transform> GetFemaleBones(int girlIndex)
-        {
-            var chara = GameObject.Find("CH01") != null ? "CH01/CH0001/" : "CH02/CH0002/";
-            return new List<Transform>
-            {
-                // there are CH01 prefixed bones under CH02, wtf
-                GameObject.Find(chara + "CH01_pussy00").transform
-            };
-        }
+            => (GameObject.Find("CH01") != null ? SayaBones : ElenaBones)
+                .Select(bone => GameObject.Find(bone).transform).ToList();
 
         protected override Transform GetMaleBone()
             => GameObject.Find("PC01/PC/HS_kiten_PC/PC00Bip/PC00Bip Pelvis").transform;
