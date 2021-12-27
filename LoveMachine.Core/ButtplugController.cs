@@ -70,18 +70,20 @@ namespace LoveMachine.Core
                     HandleCoroutine(Run(girlIndex, boneIndex));
                 }
             }
+            yield return new WaitUntil(() => IsHSceneInterrupted);
+            OnEndH();
         }
 
         protected IEnumerator RunStrokerLoop(int girlIndex, int boneIndex)
         {
-            while (!IsHSceneInterrupted)
+            while (true)
             {
                 if (IsIdle(girlIndex))
                 {
                     yield return new WaitForSeconds(.1f);
                     continue;
                 }
-                yield return HandleCoroutine(WaitForUpStroke(girlIndex, boneIndex));
+                yield return WaitForUpStroke(girlIndex, boneIndex);
                 float strokeTimeSecs = GetStrokeTimeSecs(girlIndex, boneIndex);
                 for (int i = 0; i < GetStrokesPerAnimationCycle(girlIndex, boneIndex) - 1; i++)
                 {
@@ -94,7 +96,7 @@ namespace LoveMachine.Core
 
         protected IEnumerator RunVibratorLoop(int girlIndex, int boneIndex)
         {
-            while (!IsHSceneInterrupted)
+            while (true)
             {
                 if (IsIdle(girlIndex))
                 {
@@ -105,9 +107,6 @@ namespace LoveMachine.Core
                 yield return HandleCoroutine(VibrateWithAnimation(girlIndex, boneIndex,
                     VibrationIntensity));
             }
-            // turn off vibration since there's nothing to animate against
-            // this state can happen if H is ended while the animation is not in Idle
-            DoVibrate(0.0f, girlIndex, boneIndex);
         }
 
         protected internal Coroutine HandleCoroutine(IEnumerator coroutine)
@@ -204,7 +203,7 @@ namespace LoveMachine.Core
             client.VibrateCmd(intensity, girlIndex, boneIndex);
         }
 
-        protected IEnumerator WaitForUpStroke(int girlIndex, int boneIndex)
+        protected CustomYieldInstruction WaitForUpStroke(int girlIndex, int boneIndex)
         {
             AnimatorStateInfo info() => GetAnimatorStateInfo(girlIndex);
             float startNormTime = info().normalizedTime;
@@ -212,10 +211,8 @@ namespace LoveMachine.Core
             float strokeTimeSecs = GetStrokeTimeSecs(girlIndex, boneIndex);
             float latencyNormTime = CoreConfig.LatencyMs.Value / 1000f / strokeTimeSecs;
             phase -= latencyNormTime;
-            while ((int)(info().normalizedTime - phase + 2) == (int)(startNormTime - phase + 2))
-            {
-                yield return new WaitForSeconds(.01f);
-            }
+            return new WaitWhile(() =>
+                (int)(info().normalizedTime - phase + 2) == (int)(startNormTime - phase + 2));
         }
 
         protected IEnumerator VibrateWithAnimation(int girlIndex, int boneIndex, float scale)
