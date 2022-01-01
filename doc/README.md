@@ -26,12 +26,13 @@ This plugin is for **linear** (moving back-and-forth) and **vibrating** devices;
 
 ## Installation
 Prerequisites:
-* Install [Intiface Desktop](https://intiface.com/desktop/).
-* Install [BepInEx 5.3](https://github.com/BepInEx/BepInEx/releases) or later.
+* Install [Intiface Desktop](https://intiface.com/desktop/) v27 or later.
+* Install [BepInEx](https://github.com/BepInEx/BepInEx/releases) 5.3 or later.
+* [Optional] Install [BepInEx.ConfigurationManager](https://github.com/BepInEx/BepInEx.ConfigurationManager/releases) v16.4 or later.
 
 Go to the [latest release page](https://github.com/Sauceke/BepInEx.LoveMachine/releases), download the ZIP that corresponds to the game you want to patch, and extract it into your game's installation folder. If you've done it right, there should be a folder in your game's directory called ``BepInEx\plugins\KK_LoveMachine`` or something similar.
 
-**For After Service Gangbang Addicts,** please install the **32 bit** version of [BepInEx](https://github.com/BepInEx/BepInEx/releases). Download the ZIP whose name starts with ``BepInEx_x86...`` and extract it into your game folder. Then extract ``LoveMachine_for_Houkago_Rinkan_Chuudoku.zip`` into your game folder.
+⚠ **For After Service Gangbang Addicts,** please install the **32 bit** version of [BepInEx](https://github.com/BepInEx/BepInEx/releases). Download the ZIP whose name starts with ``BepInEx_x86...`` and extract it into your game folder. Then extract ``LoveMachine_for_Houkago_Rinkan_Chuudoku.zip`` into your game folder.
 
 ## How to use
 1. Open Intiface Desktop.
