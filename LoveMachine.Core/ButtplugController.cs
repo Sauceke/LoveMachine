@@ -64,7 +64,7 @@ namespace LoveMachine.Core
             {
                 for (int boneIndex = 0; boneIndex < GetFemaleBones(girlIndex).Count + 1; boneIndex++)
                 {
-                    CoreConfig.Logger.LogDebug("Starting monitoring loop in controller " +
+                    CoreConfig.Logger.LogInfo("Starting monitoring loop in controller " +
                         $"{GetType().Name} for girl index {girlIndex} and bone index " +
                         $"{boneIndex}.");
                     HandleCoroutine(Run(girlIndex, boneIndex));
@@ -280,7 +280,7 @@ namespace LoveMachine.Core
             animPhases[GetExactPose(girlIndex, 0)] = closest.Time % 1;
             animFreqs[GetExactPose(girlIndex, 0)] =
                 animFreqs[GetExactPose(girlIndex, closest.BoneIndex + 1)];
-            CoreConfig.Logger.LogDebug($"Calibration for pose {pose} completed. " +
+            CoreConfig.Logger.LogInfo($"Calibration for pose {pose} completed. " +
                 $"{measurements.Count / femaleBones.Count} frames inspected. " +
                 $"Closest bone index: {closest.BoneIndex}, offset: {closest.Time % 1}, " +
                 $"frequency: {animFreqs[GetExactPose(girlIndex, 0)]}. ");

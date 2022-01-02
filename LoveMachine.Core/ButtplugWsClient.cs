@@ -33,7 +33,7 @@ namespace LoveMachine.Core
             IsConnected = false;
             Devices = new List<Device>();
             string address = CoreConfig.WebSocketAddress.Value;
-            CoreConfig.Logger.LogDebug($"Connecting to Intiface server at {address}");
+            CoreConfig.Logger.LogInfo($"Connecting to Intiface server at {address}");
             websocket = new WebSocket(address);
             websocket.Opened += OnOpened;
             websocket.MessageReceived += OnMessageReceived;
@@ -46,7 +46,7 @@ namespace LoveMachine.Core
         {
             StopAllCoroutines();
             IsConnected = false;
-            CoreConfig.Logger.LogDebug("Disconnecting from Intiface server.");
+            CoreConfig.Logger.LogInfo("Disconnecting from Intiface server.");
             websocket.Close();
             websocket.Dispose();
             DeviceManager.SaveDeviceSettings(Devices);
@@ -126,7 +126,7 @@ namespace LoveMachine.Core
 
         private void OnOpened(object sender, EventArgs e)
         {
-            CoreConfig.Logger.LogDebug("Succesfully connected.");
+            CoreConfig.Logger.LogInfo("Succesfully connected to Intiface.");
             var handshake = new
             {
                 RequestServerInfo = new
@@ -205,7 +205,7 @@ namespace LoveMachine.Core
                 if (data.ContainsKey("ServerInfo"))
                 {
                     IsConnected = true;
-                    CoreConfig.Logger.LogDebug("Handshake successful.");
+                    CoreConfig.Logger.LogInfo("Handshake successful.");
                     StartScan();
                 }
             }
@@ -222,7 +222,7 @@ namespace LoveMachine.Core
 
         private void LogDevices()
         {
-            CoreConfig.Logger.LogDebug($"List of devices: {JsonMapper.ToJson(Devices)}");
+            CoreConfig.Logger.LogInfo($"List of devices: {JsonMapper.ToJson(Devices)}");
             if (Devices.Count == 0)
             {
                 CoreConfig.Logger.LogMessage("Warning: No devices connected to Intiface.");
