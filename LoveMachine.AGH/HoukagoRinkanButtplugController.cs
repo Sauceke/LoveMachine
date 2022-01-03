@@ -10,7 +10,7 @@ namespace LoveMachine.AGH
     {
         private static readonly List<string> SayaBones = new List<string>
         {
-            "CH01/CH0001/CH01_pussy00",
+            "HS01_cli",
             "bip01 L Finger1Nub",
             "BF01_tongue01",
             "HS_Breast_LL"
@@ -18,7 +18,7 @@ namespace LoveMachine.AGH
 
         private static readonly List<string> ElenaBones = new List<string>
         {
-            "CH02/CH0002/CH01_pussy00",
+            "HS01_cli_02",
             "bip01 L Finger1Nub_02",
             "BF01_tongue01_02",
             "HS_Breast_LL_02"
@@ -41,7 +41,7 @@ namespace LoveMachine.AGH
                 .Select(bone => GameObject.Find(bone).transform).ToList();
 
         protected override Transform GetMaleBone()
-            => GameObject.Find("PC01/PC/HS_kiten_PC/PC00Bip/PC00Bip Pelvis").transform;
+            => GameObject.Find("BP00_tamaL").transform;
 
         protected override string GetPose(int girlIndex)
             => GetFemaleAnimator(girlIndex).GetCurrentAnimatorClipInfo(0)[0].clip.name + "."
