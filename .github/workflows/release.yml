@@ -42,7 +42,7 @@ jobs:
     - name: Build Installer
       run: |
         cd Installer
-        "C:\Program Files (x86)\Inno Setup 6\ISCC.exe" InstallScript.iss
+        & "C:\Program Files (x86)\Inno Setup 6\ISCC.exe" InstallScript.iss
         cd ..
     
     - name: Zip artifacts
