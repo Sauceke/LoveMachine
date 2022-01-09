@@ -29,8 +29,6 @@ jobs:
       run: |
           mkdir C:\innosetup
           curl -o C:\innosetup\innosetup.exe https://files.jrsoftware.org/is/6/innosetup-6.2.0.exe
-          dir C:\
-          dir C:\innosetup
           C:\innosetup\innosetup.exe /VERYSILENT /NORESTART /ALLUSERS
     
     - name: Restore NuGet Packages
