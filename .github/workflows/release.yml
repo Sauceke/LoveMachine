@@ -31,7 +31,7 @@ jobs:
           curl -o C:\innosetup\innosetup.exe https://files.jrsoftware.org/is/6/innosetup-6.2.0.exe
           dir C:\
           dir C:\innosetup
-          C:\innosetup\innosetup.ex /VERYSILENT /NORESTART /ALLUSERS
+          C:\innosetup\innosetup.exe /VERYSILENT /NORESTART /ALLUSERS
     
     - name: Restore NuGet Packages
       run: nuget restore LoveMachine.sln
