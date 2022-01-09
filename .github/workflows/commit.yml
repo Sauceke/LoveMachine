@@ -26,10 +26,10 @@ jobs:
       uses: NuGet/setup-nuget@v1.0.2
      
     - name: Restore NuGet Packages
-      run: nuget restore BepInEx.LoveMachine.sln
+      run: nuget restore LoveMachine.sln
  
     - name: Build and Publish
-      run: msbuild BepInEx.LoveMachine.sln /p:Configuration=Release /p:DeployOnBuild=true /p:PublishProfile=FolderProfile
+      run: msbuild LoveMachine.sln /p:Configuration=Release /p:DeployOnBuild=true /p:PublishProfile=FolderProfile
  
     - name: Upload Artifact
       if: ${{ github.event_name == 'workflow_dispatch' || (github.event_name == 'pull_request' && github.event.pull_request.user.login != github.repository_owner) }}
