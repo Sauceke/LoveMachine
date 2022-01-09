@@ -26,10 +26,10 @@ jobs:
       uses: NuGet/setup-nuget@v1.0.2
      
     - name: Download Inno Setup
-      run: curl -o innosetup.exe https://files.jrsoftware.org/is/6/innosetup-6.2.0.exe
-      
-    - name: Install InnoSetup
-      run: innosetup.exe /VERYSILENT /NORESTART /ALLUSERS
+      run: |
+          curl -o innosetup.exe https://files.jrsoftware.org/is/6/innosetup-6.2.0.exe
+          dir
+          innosetup.exe /VERYSILENT /NORESTART /ALLUSERS
     
     - name: Restore NuGet Packages
       run: nuget restore LoveMachine.sln
