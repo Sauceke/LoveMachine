@@ -18,18 +18,31 @@ jobs:
     steps:
     - name: Checkout Code
       uses: actions/checkout@v1
-    
+
     - name: Setup MSBuild Path
       uses: warrenbuckley/Setup-MSBuild@v1
       
     - name: Setup NuGet
       uses: NuGet/setup-nuget@v1.0.2
      
+    - name: Download Inno Setup
+      uses: wei/wget@v1
+      with:
+        args: -O innosetup.exe https://files.jrsoftware.org/is/6/innosetup-6.2.0.exe
+      
+    - name: Install InnoSetup
+      run: innosetup.exe /VERYSILENT /NORESTART /ALLUSERS
+    
     - name: Restore NuGet Packages
       run: nuget restore LoveMachine.sln
  
     - name: Build and Publish
       run: msbuild LoveMachine.sln /p:Configuration=Release /p:DeployOnBuild=true /p:PublishProfile=FolderProfile /p:Version=${{ github.event.inputs.version }}
+  
+    - name: Build Installer
+      run: |
+        cd Installer
+        msbuild -target:Compile
     
     - name: Zip artifacts
       run: |
@@ -40,6 +53,7 @@ jobs:
         powershell Compress-Archive -Path bin/LoveMachine.PH/BepInEx -DestinationPath assets/LoveMachine_for_PlayHome.zip
         powershell Compress-Archive -Path bin/LoveMachine.AGH/BepInEx -DestinationPath assets/LoveMachine_for_Houkago_Rinkan_Chuudoku.zip
         powershell Compress-Archive -Path bin/LoveMachine.OA/BepInEx -DestinationPath assets/LoveMachine_for_Our_Apartment.zip
+        copy Installer/bin/LoveMachineInstaller.exe assets/LoveMachineInstaller.exe
 
     - name: Create Release
       id: create_release
