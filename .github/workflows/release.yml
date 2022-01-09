@@ -42,7 +42,8 @@ jobs:
     - name: Build Installer
       run: |
         cd Installer
-        msbuild -target:Compile
+        "C:\Program Files (x86)\Inno Setup 6\ISCC.exe" InstallScript.iss
+        cd ..
     
     - name: Zip artifacts
       run: |
