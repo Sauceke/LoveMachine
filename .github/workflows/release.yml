@@ -27,9 +27,8 @@ jobs:
      
     - name: Download Inno Setup
       run: |
-          mkdir C:\innosetup
-          curl -o C:\innosetup\innosetup.exe https://files.jrsoftware.org/is/6/innosetup-6.2.0.exe
-          C:\innosetup\innosetup.exe /VERYSILENT /NORESTART /ALLUSERS
+        Invoke-WebRequest -Uri https://files.jrsoftware.org/is/6/innosetup-6.2.0.exe -OutFile .\innosetup.exe
+        & .\innosetup.exe /VERYSILENT /NORESTART /ALLUSERS
     
     - name: Restore NuGet Packages
       run: nuget restore LoveMachine.sln
@@ -42,9 +41,8 @@ jobs:
         cd Installer
         Invoke-WebRequest -Uri https://github.com/BepInEx/BepInEx/releases/download/v5.4.18/BepInEx_x86_5.4.18.0.zip -OutFile .\BepInEx32.zip
         Invoke-WebRequest -Uri https://github.com/BepInEx/BepInEx/releases/download/v5.4.18/BepInEx_x64_5.4.18.0.zip -OutFile .\BepInEx64.zip
-        powershell Get-FileHash .\BepInEx32.zip
-        7z x .\BepInEx32.zip -oBepInEx32
-        7z x .\BepInEx64.zip -oBepInEx64
+        Expand-Archive -Path .\BepInEx32.zip -DestinationPath .\BepInEx32
+        Expand-Archive -Path .\BepInEx64.zip -DestinationPath .\BepInEx64
         cd ..
 
     - name: Build Installer
@@ -56,12 +54,12 @@ jobs:
     - name: Zip artifacts
       run: |
         mkdir assets
-        7z a assets/LoveMachine_for_Koikatsu.zip bin/LoveMachine.KK/BepInEx
-        7z a assets/LoveMachine_for_Koikatsu_Sunshine.zip bin/LoveMachine.KKS/BepInEx
-        7z a assets/LoveMachine_for_Honey_Select_2.zip bin/LoveMachine.HS2/BepInEx
-        7z a assets/LoveMachine_for_PlayHome.zip bin/LoveMachine.PH/BepInEx
-        7z a assets/LoveMachine_for_Houkago_Rinkan_Chuudoku.zip bin/LoveMachine.AGH/BepInEx
-        7z a assets/LoveMachine_for_Our_Apartment.zip bin/LoveMachine.OA/BepInEx
+        Compress-Archive -Path bin/LoveMachine.KK/BepInEx -DestinationPath assets/LoveMachine_for_Koikatsu.zip
+        Compress-Archive -Path bin/LoveMachine.KKS/BepInEx -DestinationPath assets/LoveMachine_for_Koikatsu_Sunshine.zip
+        Compress-Archive -Path bin/LoveMachine.HS2/BepInEx -DestinationPath assets/LoveMachine_for_Honey_Select_2.zip
+        Compress-Archive -Path bin/LoveMachine.PH/BepInEx -DestinationPath assets/LoveMachine_for_PlayHome.zip
+        Compress-Archive -Path bin/LoveMachine.AGH/BepInEx -DestinationPath assets/LoveMachine_for_Houkago_Rinkan_Chuudoku.zip
+        Compress-Archive -Path bin/LoveMachine.OA/BepInEx -DestinationPath assets/LoveMachine_for_Our_Apartment.zip
         copy Installer/bin/LoveMachineInstaller.exe assets/LoveMachineInstaller.exe
 
     - name: Create Release
