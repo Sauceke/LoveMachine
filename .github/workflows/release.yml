@@ -42,8 +42,8 @@ jobs:
         cd Installer
         curl -o .\BepInEx32.zip https://github.com/BepInEx/BepInEx/releases/download/v5.4.18/BepInEx_x86_5.4.18.0.zip
         curl -o .\BepInEx64.zip https://github.com/BepInEx/BepInEx/releases/download/v5.4.18/BepInEx_x64_5.4.18.0.zip
-        Expand-Archive -Path .\BepInEx32.zip -DestinationPath .\BepInEx32
-        Expand-Archive -Path .\BepInEx64.zip -DestinationPath .\BepInEx64
+        powershell Expand-Archive -Path .\BepInEx32.zip -DestinationPath .\BepInEx32
+        powershell Expand-Archive -Path .\BepInEx64.zip -DestinationPath .\BepInEx64
         & "C:\Program Files (x86)\Inno Setup 6\ISCC.exe" InstallScript.iss
         cd ..
     
