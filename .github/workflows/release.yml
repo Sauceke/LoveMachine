@@ -42,22 +42,20 @@ jobs:
         cd Installer
         curl -o .\BepInEx32.zip https://github.com/BepInEx/BepInEx/releases/download/v5.4.18/BepInEx_x86_5.4.18.0.zip
         curl -o .\BepInEx64.zip https://github.com/BepInEx/BepInEx/releases/download/v5.4.18/BepInEx_x64_5.4.18.0.zip
-        dir
-        get-acl .\BepInEx32.zip | fl
-        powershell Expand-Archive -Path .\BepInEx32.zip -DestinationPath .\BepInEx32
-        powershell Expand-Archive -Path .\BepInEx64.zip -DestinationPath .\BepInEx64
+        7z x .\BepInEx32.zip -o.\BepInEx32
+        7z x .\BepInEx64.zip -o.\BepInEx64
         & "C:\Program Files (x86)\Inno Setup 6\ISCC.exe" InstallScript.iss
         cd ..
     
     - name: Zip artifacts
       run: |
         mkdir assets
-        Compress-Archive -Path bin/LoveMachine.KK/BepInEx -DestinationPath assets/LoveMachine_for_Koikatsu.zip
-        Compress-Archive -Path bin/LoveMachine.KKS/BepInEx -DestinationPath assets/LoveMachine_for_Koikatsu_Sunshine.zip
-        Compress-Archive -Path bin/LoveMachine.HS2/BepInEx -DestinationPath assets/LoveMachine_for_Honey_Select_2.zip
-        Compress-Archive -Path bin/LoveMachine.PH/BepInEx -DestinationPath assets/LoveMachine_for_PlayHome.zip
-        Compress-Archive -Path bin/LoveMachine.AGH/BepInEx -DestinationPath assets/LoveMachine_for_Houkago_Rinkan_Chuudoku.zip
-        Compress-Archive -Path bin/LoveMachine.OA/BepInEx -DestinationPath assets/LoveMachine_for_Our_Apartment.zip
+        7z a assets/LoveMachine_for_Koikatsu.zip bin/LoveMachine.KK/BepInEx
+        7z a assets/LoveMachine_for_Koikatsu_Sunshine.zip bin/LoveMachine.KKS/BepInEx
+        7z a assets/LoveMachine_for_Honey_Select_2.zip bin/LoveMachine.HS2/BepInEx
+        7z a assets/LoveMachine_for_PlayHome.zip bin/LoveMachine.PH/BepInEx
+        7z a assets/LoveMachine_for_Houkago_Rinkan_Chuudoku.zip bin/LoveMachine.AGH/BepInEx
+        7z a assets/LoveMachine_for_Our_Apartment.zip bin/LoveMachine.OA/BepInEx
         copy Installer/bin/LoveMachineInstaller.exe assets/LoveMachineInstaller.exe
 
     - name: Create Release
