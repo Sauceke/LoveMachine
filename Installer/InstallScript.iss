@@ -1,11 +1,13 @@
 #define PluginBuildDir SourcePath + "..\bin\"
+#define BepInEx32Dir SourcePath + "BepInEx32"
+#define BepInEx64Dir SourcePath + "BepInEx64"
 #define AppVersion GetVersionNumbersString(PluginBuildDir + "LoveMachine.Core\LoveMachine.Core.dll")
 
 #define PluginInfoIni SourcePath + "\PluginInfo.ini"
 #define PluginInfoIniNameKey "Name"
 #define PluginInfoIniRegSubKeyKey "RegSubKey"
 #define PluginInfoIniRegNameKey "RegName"
-#define PluginInfoIniArchitectureKey "RegName"
+#define PluginInfoIniArchitectureKey "Architecture"
 
 ; We have a lot of plugins, so we just find them all and put them in here
 ; This way the script will handle new plugins by itself and we can forget about it
@@ -53,27 +55,34 @@ OutputDir=bin
 OutputBaseFilename=LoveMachineInstaller
 WizardStyle=modern
 DisableDirPage=yes
-SetupLogging=yes
 
 [Files]
-#sub FileEntry
+; BepInEx files
+#sub BepInExFileEntry
+    Source: "{#BepInEx32Dir}\*"; DestDir: {code:GetDir|{#I}}; Flags: recursesubdirs; Check: ShouldInstallBepInEx({#I}, 'x86')
+    Source: "{#BepInEx64Dir}\*"; DestDir: {code:GetDir|{#I}}; Flags: recursesubdirs; Check: ShouldInstallBepInEx({#I}, 'x64')
+#endsub
+#if DirExists(BepInEx32Dir) && DirExists(BepInEx64Dir)
+    #for {I = 0; I < PluginCount; I++} BepInExFileEntry
+#endif
+
+; LoveMachine files
+#sub PluginFileEntry
     Source: "{#PluginBuildDir}{#GetPluginId(I)}\*"; DestDir: {code:GetDir|{#I}}; Flags: recursesubdirs; Check: IsDirSelected({#I})
 #endsub
-#for {I = 0; I < PluginCount; I++} FileEntry
+#for {I = 0; I < PluginCount; I++} PluginFileEntry
 
 [Icons]
 Name: "{group}\Inno_Setup_Project"; Filename: "{app}\Inno_Setup_Project.exe"
 
 [Code]
-#define PageSize 4
 const
-    PageSize = {#PageSize};
+    PageSize = 4;
     PluginCount = {#PluginCount};
 var
     { The directory prompts don't fit all in one page, so we need more pages }
     { This is way too many pages but whatever }
     DirPages: array[0..{#PluginCount}] of TInputDirWizardPage;
-    DownloadPage: TDownloadWizardPage;
     Old_WizardForm_NextButton_OnClick: TNotifyEvent;
 
 { The ID of the plugin at the given index (e. g. 'LoveMachine.KK') }
@@ -98,10 +107,18 @@ begin
     end;
 end;
 
+function GetGameArchitecture(Index: Integer): String;
+begin
+    case Index of
+        #sub ArchitectureMapping
+            {#I}: Result := '{#GetGameArchitecture(I)}';
+        #endsub
+        #for {I = 0; I < PluginCount; I++} ArchitectureMapping
+    end;
+end;
+
 { Tries to guess the root directory of the game at the given index }
 function GuessGamePath(Index: Integer): String;
-var
-    GameExe: TFindRec;
 begin
     case Index of
         #sub PathMapping
@@ -134,12 +151,20 @@ begin
     Result := GetDir(IntToStr(Index)) <> '';
 end;
 
+function ShouldInstallBepInEx(Index: Integer; Architecture: String): Boolean;
+var
+    BepInExConfigDir: String;
+begin
+    BepInExConfigDir := AddBackslash(GetDir(IntToStr(Index))) + 'BepInEx\config';
+    Result := (not DirExists(BepInExConfigDir)) and (GetGameArchitecture(Index) = Architecture);
+end;
+
 function GetPreviousDataKey(Index: Integer): String;
 begin
     Result := 'GameDir.' + GetPluginId(Index);
 end;
 
-procedure AddDirPrompts();
+procedure AddDirPrompts;
 var
     Index: Integer;
     Page: Integer;
@@ -190,7 +215,7 @@ end;
 
 procedure InitializeWizard;
 begin
-    AddDirPrompts();
+    AddDirPrompts;
     Old_WizardForm_NextButton_OnClick := WizardForm.NextButton.OnClick;
     WizardForm.NextButton.OnClick := @New_WizardForm_NextButton_OnClick;
 end;
