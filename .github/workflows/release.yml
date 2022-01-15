@@ -40,18 +40,22 @@ jobs:
     - name: Build Installer
       run: |
         cd Installer
+        curl -o .\BepInEx32.zip https://github.com/BepInEx/BepInEx/releases/download/v5.4.18/BepInEx_x86_5.4.18.0.zip
+        curl -o .\BepInEx64.zip https://github.com/BepInEx/BepInEx/releases/download/v5.4.18/BepInEx_x64_5.4.18.0.zip
+        Expand-Archive -Path .\BepInEx32.zip -DestinationPath .\BepInEx32
+        Expand-Archive -Path .\BepInEx64.zip -DestinationPath .\BepInEx64
         & "C:\Program Files (x86)\Inno Setup 6\ISCC.exe" InstallScript.iss
         cd ..
     
     - name: Zip artifacts
       run: |
         mkdir assets
-        powershell Compress-Archive -Path bin/LoveMachine.KK/BepInEx -DestinationPath assets/LoveMachine_for_Koikatsu.zip
-        powershell Compress-Archive -Path bin/LoveMachine.KKS/BepInEx -DestinationPath assets/LoveMachine_for_Koikatsu_Sunshine.zip
-        powershell Compress-Archive -Path bin/LoveMachine.HS2/BepInEx -DestinationPath assets/LoveMachine_for_Honey_Select_2.zip
-        powershell Compress-Archive -Path bin/LoveMachine.PH/BepInEx -DestinationPath assets/LoveMachine_for_PlayHome.zip
-        powershell Compress-Archive -Path bin/LoveMachine.AGH/BepInEx -DestinationPath assets/LoveMachine_for_Houkago_Rinkan_Chuudoku.zip
-        powershell Compress-Archive -Path bin/LoveMachine.OA/BepInEx -DestinationPath assets/LoveMachine_for_Our_Apartment.zip
+        Compress-Archive -Path bin/LoveMachine.KK/BepInEx -DestinationPath assets/LoveMachine_for_Koikatsu.zip
+        Compress-Archive -Path bin/LoveMachine.KKS/BepInEx -DestinationPath assets/LoveMachine_for_Koikatsu_Sunshine.zip
+        Compress-Archive -Path bin/LoveMachine.HS2/BepInEx -DestinationPath assets/LoveMachine_for_Honey_Select_2.zip
+        Compress-Archive -Path bin/LoveMachine.PH/BepInEx -DestinationPath assets/LoveMachine_for_PlayHome.zip
+        Compress-Archive -Path bin/LoveMachine.AGH/BepInEx -DestinationPath assets/LoveMachine_for_Houkago_Rinkan_Chuudoku.zip
+        Compress-Archive -Path bin/LoveMachine.OA/BepInEx -DestinationPath assets/LoveMachine_for_Our_Apartment.zip
         copy Installer/bin/LoveMachineInstaller.exe assets/LoveMachineInstaller.exe
 
     - name: Create Release
