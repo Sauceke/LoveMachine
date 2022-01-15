@@ -55,6 +55,7 @@ OutputDir=bin
 OutputBaseFilename=LoveMachineInstaller
 WizardStyle=modern
 DisableDirPage=yes
+DisableWelcomePage=no
 
 [Files]
 ; BepInEx files
@@ -68,7 +69,7 @@ DisableDirPage=yes
 
 ; LoveMachine files
 #sub PluginFileEntry
-    Source: "{#PluginBuildDir}{#GetPluginId(I)}\*"; DestDir: {code:GetDir|{#I}}; Flags: recursesubdirs; Check: IsDirSelected({#I})
+    Source: "{#PluginBuildDir}{#GetPluginId(I)}\*"; DestDir: {code:GetDir|{#I}}; Flags: recursesubdirs ignoreversion; Check: IsDirSelected({#I})
 #endsub
 #for {I = 0; I < PluginCount; I++} PluginFileEntry
 
@@ -213,8 +214,19 @@ begin
     end;
 end;
 
+procedure CheckIntiface;
+var
+    ErrorCode: Integer;
+begin
+    if not DirExists(AddBackslash(ExpandConstant('{localappdata}')) + 'IntifaceDesktop') then
+        if MsgBox('LoveMachine requires Intiface to be installed. Install it now?', mbConfirmation, MB_YESNO) = IDYES then
+            if not ShellExec('open', 'https://intiface.com/desktop/', '', '', SW_SHOW, ewNoWait, ErrorCode) then
+                MsgBox(SysErrorMessage(ErrorCode), mbError, MB_OK);
+end;
+
 procedure InitializeWizard;
 begin
+    CheckIntiface;
     AddDirPrompts;
     Old_WizardForm_NextButton_OnClick := WizardForm.NextButton.OnClick;
     WizardForm.NextButton.OnClick := @New_WizardForm_NextButton_OnClick;
