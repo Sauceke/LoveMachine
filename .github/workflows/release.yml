@@ -14,6 +14,10 @@ jobs:
     
     env:
       ACTIONS_ALLOW_UNSECURE_COMMANDS: true
+      INNO_SETUP_URL: https://files.jrsoftware.org/is/6/innosetup-6.2.0.exe
+      BEPINEX_32_URL: https://github.com/BepInEx/BepInEx/releases/download/v5.4.18/BepInEx_x86_5.4.18.0.zip
+      BEPINEX_64_URL: https://github.com/BepInEx/BepInEx/releases/download/v5.4.18/BepInEx_x64_5.4.18.0.zip
+      BEPINEX_CONF_MGR_URL: https://github.com/BepInEx/BepInEx.ConfigurationManager/releases/download/v16.4/BepInEx.ConfigurationManager_v16.4.zip
     
     steps:
     - name: Checkout Code
@@ -27,7 +31,7 @@ jobs:
      
     - name: Download Inno Setup
       run: |
-        Invoke-WebRequest -Uri https://files.jrsoftware.org/is/6/innosetup-6.2.0.exe -OutFile .\innosetup.exe
+        Invoke-WebRequest -Uri ${{env.INNO_SETUP_URL}} -OutFile .\innosetup.exe
         & .\innosetup.exe /VERYSILENT /NORESTART /ALLUSERS
     
     - name: Restore NuGet Packages
@@ -39,10 +43,13 @@ jobs:
     - name: Download BepInEx
       run: |
         cd Installer
-        Invoke-WebRequest -Uri https://github.com/BepInEx/BepInEx/releases/download/v5.4.18/BepInEx_x86_5.4.18.0.zip -OutFile .\BepInEx32.zip
-        Invoke-WebRequest -Uri https://github.com/BepInEx/BepInEx/releases/download/v5.4.18/BepInEx_x64_5.4.18.0.zip -OutFile .\BepInEx64.zip
+        Invoke-WebRequest -Uri ${{env.BEPINEX_32_URL}} -OutFile .\BepInEx32.zip
+        Invoke-WebRequest -Uri ${{env.BEPINEX_64_URL}} -OutFile .\BepInEx64.zip
+        Invoke-WebRequest -Uri ${{env.BEPINEX_CONF_MGR_URL}} -OutFile .\BepInEx.ConfigurationManager.zip
         Expand-Archive -Path .\BepInEx32.zip -DestinationPath .\BepInEx32
         Expand-Archive -Path .\BepInEx64.zip -DestinationPath .\BepInEx64
+        Expand-Archive -Path .\BepInEx.ConfigurationManager.zip -DestinationPath .\BepInEx32
+        Expand-Archive -Path .\BepInEx.ConfigurationManager.zip -DestinationPath .\BepInEx64
         cd ..
 
     - name: Build Installer
