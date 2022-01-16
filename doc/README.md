@@ -1,6 +1,8 @@
 # BepInEx LoveMachine ([日本語](マニュアル.md))
 [![.NET](https://github.com/Sauceke/BepInEx.LoveMachine/actions/workflows/commit.yml/badge.svg)](https://github.com/Sauceke/BepInEx.LoveMachine/actions/workflows/commit.yml)
-[![Download](https://img.shields.io/github/downloads/Sauceke/BepInEx.LoveMachine/total)](https://github.com/Sauceke/BepInEx.LoveMachine/releases)
+[![Download](https://img.shields.io/github/downloads/Sauceke/BepInEx.LoveMachine/total)](https://github.com/Sauceke/BepInEx.LoveMachine/releases/latest/download/LoveMachineInstaller.exe)
+
+[⬇ Download](https://github.com/Sauceke/BepInEx.LoveMachine/releases/latest/download/LoveMachineInstaller.exe)
 
 Adds support for [buttplug.io](https://buttplug.io/) compatible strokers and vibrators in the following games:
 | Game                           | Developer        | VR supported |
@@ -25,14 +27,8 @@ Buttplug.io supports [over 180 devices](https://iostindex.com/?filter0ButtplugSu
 This plugin is for **linear** (moving back-and-forth) and **vibrating** devices; other types of sex toys will not work with this plugin, even if they are supported by buttplug.io.
 
 ## Installation
-Prerequisites:
-* Install [Intiface Desktop](https://intiface.com/desktop/) v27 or later.
-* Install [BepInEx](https://github.com/BepInEx/BepInEx/releases) 5.3 or later.
-* [Optional] Install [BepInEx.ConfigurationManager](https://github.com/BepInEx/BepInEx.ConfigurationManager/releases) v16.4 or later.
 
-Go to the [latest release page](https://github.com/Sauceke/BepInEx.LoveMachine/releases), download the ZIP that corresponds to the game you want to patch, and extract it into your game's installation folder. If you've done it right, there should be a folder in your game's directory called ``BepInEx\plugins\KK_LoveMachine`` or something similar.
-
-⚠ **For After Service Gangbang Addicts,** please install the **32 bit** version of [BepInEx](https://github.com/BepInEx/BepInEx/releases). Download the ZIP whose name starts with ``BepInEx_x86...`` and extract it into your game folder. Then extract ``LoveMachine_for_Houkago_Rinkan_Chuudoku.zip`` into your game folder.
+Download and run the [installer](https://github.com/Sauceke/BepInEx.LoveMachine/releases/latest/download/LoveMachineInstaller.exe).
 
 ## How to use
 1. Open Intiface Desktop.
