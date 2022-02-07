@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using LitJson;
 using UnityEngine;
 
 namespace LoveMachine.Core
@@ -284,6 +285,8 @@ namespace LoveMachine.Core
                 $"{measurements.Count / femaleBones.Count} frames inspected. " +
                 $"Closest bone index: {closest.BoneIndex}, offset: {closest.Time % 1}, " +
                 $"frequency: {animFreqs[GetExactPose(girlIndex, 0)]}. ");
+            CoreConfig.Logger.LogDebug(
+                $"Raw measurement data for pose {pose}: {JsonMapper.ToJson(measurements)}");
         }
 
         private static int GetFrequency(IEnumerable<float> samples)
