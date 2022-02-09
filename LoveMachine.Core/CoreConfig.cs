@@ -10,6 +10,7 @@ namespace LoveMachine.Core
         public const string Version = VersionInfo.Version;
 
         public static ManualLogSource Logger { get; set; }
+        public static string PluginDirectoryPath { get; set; }
 
         public static ConfigEntry<string> WebSocketAddress { get; internal set; }
         public static ConfigEntry<int> MaxStrokesPerMinute { get; internal set; }

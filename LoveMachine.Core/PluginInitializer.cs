@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using BepInEx;
 using BepInEx.Bootstrap;
 using BepInEx.Configuration;
@@ -41,7 +42,11 @@ namespace LoveMachine.Core
         private void Start()
         {
             InitSettings();
+            CoreConfig.PluginDirectoryPath = Path.GetDirectoryName(plugin.Info.Location)
+                .TrimEnd(Path.DirectorySeparatorChar)
+                + Path.DirectorySeparatorChar;
             Chainloader.ManagerObject.AddComponent<ButtplugWsClient>();
+            Chainloader.ManagerObject.AddComponent<CalorDepthPOC>();
             foreach (var controller in controllers)
             {
                 Chainloader.ManagerObject.AddComponent(controller);

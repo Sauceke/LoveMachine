@@ -20,16 +20,18 @@ namespace LoveMachine.Core
         private string GetExactPose(int girlIndex, int boneIndex)
             => GetPose(girlIndex) + "." + boneIndex;
 
-        private float GetPhase(int girlIndex, int boneIndex)
+        protected bool TryGetPhase(int girlIndex, int boneIndex, out float phase)
         {
-            string pose = GetExactPose(girlIndex, -1);
-            if (!animPhases.ContainsKey(pose))
+            string pose = GetExactPose(girlIndex, 0);
+            float placeholder = -1f;
+            if (!animPhases.TryGetValue(pose, out phase))
             {
-                animPhases[pose] = 0; // avoid multiple interleaving calls
+                animPhases[pose] = placeholder; // avoid multiple interleaving calls
                 HandleCoroutine(ComputeAnimationOffsets(girlIndex));
+                return false;
             }
-            animPhases.TryGetValue(GetExactPose(girlIndex, boneIndex), out float phase);
-            return phase;
+            return animPhases.TryGetValue(GetExactPose(girlIndex, boneIndex), out phase)
+                && phase != placeholder;
         }
 
         private int GetStrokesPerAnimationCycle(int girlIndex, int boneIndex)
@@ -144,7 +146,7 @@ namespace LoveMachine.Core
                 Math.Min(1, animStrokeTimeSecs * CoreConfig.MaxStrokesPerMinute.Value / 60f);
             foreach (var animator in animators)
             {
-                animator.speed = speedMultiplier;
+                animator.speed = Mathf.Min(animator.speed, speedMultiplier);
             }
         }
 
@@ -208,12 +210,12 @@ namespace LoveMachine.Core
         {
             AnimatorStateInfo info() => GetAnimatorStateInfo(girlIndex);
             float startNormTime = info().normalizedTime;
-            float phase = GetPhase(girlIndex, boneIndex);
             float strokeTimeSecs = GetStrokeTimeSecs(girlIndex, boneIndex);
             float latencyNormTime = CoreConfig.LatencyMs.Value / 1000f / strokeTimeSecs;
-            phase -= latencyNormTime;
-            return new WaitWhile(() =>
-                (int)(info().normalizedTime - phase + 2) == (int)(startNormTime - phase + 2));
+            bool timeToStroke() => TryGetPhase(girlIndex, boneIndex, out float phase)
+                && (int)(info().normalizedTime - phase + latencyNormTime + 2)
+                    > (int)(startNormTime - phase + latencyNormTime + 2);
+            return new WaitUntil(timeToStroke);
         }
 
         protected IEnumerator VibrateWithAnimation(int girlIndex, int boneIndex, float scale)
@@ -223,7 +225,10 @@ namespace LoveMachine.Core
             if (CoreConfig.SyncVibrationWithAnimation.Value)
             {
                 // Simple cos based intensity amplification based on normalized position in looping animation
-                float phase = GetPhase(girlIndex, boneIndex);
+                if (!TryGetPhase(girlIndex, boneIndex, out float phase))
+                {
+                    phase = 0;
+                }
                 float depth = (info().normalizedTime - phase) % 1;
                 strength = Mathf.Abs(Mathf.Cos(Mathf.PI * depth)) + 0.1f;
             }
@@ -236,9 +241,9 @@ namespace LoveMachine.Core
 
         private IEnumerator ComputeAnimationOffsets(int girlIndex)
         {
-            string pose = GetExactPose(girlIndex, -1);
             var boneM = GetMaleBone();
             var femaleBones = GetFemaleBones(girlIndex);
+            string pose = GetExactPose(girlIndex, 0);
             var measurements = new List<Measurement>();
             yield return new WaitForSeconds(0.1f);
             float currentTime = GetAnimatorStateInfo(girlIndex).normalizedTime;
@@ -257,7 +262,7 @@ namespace LoveMachine.Core
                     });
                 }
             }
-            if (GetExactPose(girlIndex, -1) != pose)
+            if (pose != GetExactPose(girlIndex, 0))
             {
                 CoreConfig.Logger.LogWarning($"Pose {pose} interrupted; canceling calibration.");
                 animPhases.Remove(pose);

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using BepInEx.Bootstrap;
 using IllusionUtility.GetUtility;
 using LoveMachine.Core;
 using UnityEngine;
@@ -265,5 +266,57 @@ namespace LoveMachine.KK
     {
         protected override IEnumerator Run(int girlIndex, int boneIndex)
              => RunAibu(girlIndex, boneIndex);
+    }
+
+    public class KoikatsuButtplugAibuDepthController : KoikatsuButtplugController
+    {
+        protected override void HandleFondle(float y, int girlIndex, int boneIndex, float timeSecs)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        protected override bool IsIdle(int girlIndex)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        protected override IEnumerator Run(int girlIndex, int boneIndex)
+        {
+            if (girlIndex != 0 || boneIndex != 0)
+            {
+                yield break;
+            }
+            var calor = Chainloader.ManagerObject.GetComponent<CalorDepthPOC>();
+            while (true)
+            {
+                yield return new WaitForEndOfFrame();
+                if (!TryGetPhase(0, 0, out float phase))
+                {
+                    GetFemaleAnimator(0).speed = 1;
+                    flags.player.chaCtrl.animBody.speed = 1;
+                    continue;
+                }
+                if (!calor.TryGetNewDepth(out float depth))
+                {
+                    continue;
+                }
+                GetFemaleAnimator(0).speed = 0;
+                flags.player.chaCtrl.animBody.speed = 0;
+                float targetNormTime = (phase + 1.5f - depth / 2f) % 1f;
+                float startNormTime = GetFemaleAnimator(0).GetCurrentAnimatorStateInfo(AnimationLayer)
+                    .normalizedTime % 1f;
+                int steps = 20;
+                float step = (targetNormTime - startNormTime) / steps;
+                for (int i = 1; i <= steps; i++)
+                {
+                    float normTime = startNormTime + step * i;
+                    var animStateHash = GetAnimatorStateInfo(0).fullPathHash;
+                    GetFemaleAnimator(0).Play(animStateHash, AnimationLayer, normTime);
+                    flags.player.chaCtrl.animBody.Play(animStateHash, AnimationLayer, normTime);
+                    yield return new WaitForEndOfFrame();
+                }
+            }
+        }
+
     }
 }

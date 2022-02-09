@@ -34,7 +34,8 @@ namespace LoveMachine.KK
                 typeof(KoikatsuButtplugStrokerController),
                 typeof(KoikatsuButtplugVibrationController),
                 typeof(KoikatsuButtplugAibuStrokerController),
-                typeof(KoikatsuButtplugAibuVibrationController));
+                typeof(KoikatsuButtplugAibuVibrationController),
+                typeof(KoikatsuButtplugAibuDepthController));
             string animationSettingsTitle = "Animation Settings";
             ReduceAnimationSpeeds = Config.Bind(
                 section: animationSettingsTitle,
