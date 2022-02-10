@@ -16,8 +16,12 @@ Adds support for [buttplug.io](https://buttplug.io/) compatible strokers and vib
 | Our Apartment                  | Momoiro Software | No           |
 
 Buttplug.io supports [over 180 devices](https://iostindex.com/?filter0ButtplugSupport=4). Some of the devices that were actually tested with the mod:
+
+Strokers
 * [The Handy](https://www.thehandy.com/?ref=saucekebenfield&utm_source=saucekebenfield&utm_medium=affiliate&utm_campaign=The+Handy+Affiliate+program)
 * KIIROO KEON
+
+Vibrators
 * [Lovense Gush](https://www.lovense.com/r/f7lki7)
 * [Lovense Max 2](https://www.lovense.com/r/k8bbja)
 * [Lovense Diamo](https://www.lovense.com/r/54xpc7)
@@ -101,8 +105,10 @@ This mod is provided free of charge, but I do accept donations. If you'd like to
 * AkronusWings
 * Benos Hentai
 * CBN ヴい
+* CROM
 * EPTG
 * Greg
+* RP君
 * Shakes
 * Taibe
 * Taka Yami
