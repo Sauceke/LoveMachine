@@ -61,8 +61,8 @@ namespace LoveMachine.Core
             var commands = (
                 from device in Devices
                 where device.IsStroker
-                    && device.GirlIndex == girlIndex
-                    && device.BoneIndex == boneIndex
+                    && device.Settings.GirlIndex == girlIndex
+                    && device.Settings.BoneIndex == boneIndex
                 select new
                 {
                     LinearCmd = new
@@ -98,8 +98,8 @@ namespace LoveMachine.Core
             var commands = (
                 from device in Devices
                 where device.IsVibrator
-                    && device.GirlIndex == girlIndex
-                    && device.BoneIndex == boneIndex
+                    && device.Settings.GirlIndex == girlIndex
+                    && device.Settings.BoneIndex == boneIndex
                 select new
                 {
                     VibrateCmd = new

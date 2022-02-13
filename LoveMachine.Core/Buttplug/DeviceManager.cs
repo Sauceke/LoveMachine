@@ -23,13 +23,13 @@ namespace LoveMachine.Core
                     device => string.Equals(device.DeviceName, setting.DeviceName));
                 if (matchingDeviceIndex != -1)
                 {
-                    settings[i] = new DeviceSettings(devicesCopy[matchingDeviceIndex]);
+                    settings[i] = devicesCopy[matchingDeviceIndex].Settings;
                     devicesCopy.RemoveAt(matchingDeviceIndex);
                 }
             }
             foreach (var remainingDevice in devicesCopy)
             {
-                settings.Add(new DeviceSettings(remainingDevice));
+                settings.Add(remainingDevice.Settings);
             }
             CoreConfig.DeviceSettingsJson.Value = JsonMapper.ToJson(settings);
         }
@@ -48,7 +48,7 @@ namespace LoveMachine.Core
                     setting => string.Equals(device.DeviceName, setting.DeviceName));
                 if (matchingSettingIndex != -1)
                 {
-                    settings[matchingSettingIndex].Apply(device);
+                    device.Settings = settings[matchingSettingIndex];
                     settings.RemoveAt(matchingSettingIndex);
                 }
             }

@@ -323,16 +323,16 @@ namespace LoveMachine.Core
                         GUILayout.Toggle(device.IsVibrator, "", GUILayout.Width(columnWidth));
                         if (girlMappingOptions != null)
                         {
-                            device.GirlIndex = GUILayout.SelectionGrid(
-                                selected: device.GirlIndex,
+                            device.Settings.GirlIndex = GUILayout.SelectionGrid(
+                                selected: device.Settings.GirlIndex,
                                 girlMappingOptions,
                                 xCount: 1,
                                 GUILayout.Width(columnWidth));
                         }
                         if (actionMappingOptions != null)
                         {
-                            device.BoneIndex = GUILayout.SelectionGrid(
-                                selected: device.BoneIndex,
+                            device.Settings.BoneIndex = GUILayout.SelectionGrid(
+                                selected: device.Settings.BoneIndex,
                                 actionMappingOptions,
                                 xCount: 1,
                                 GUILayout.Width(columnWidth));
@@ -416,7 +416,8 @@ namespace LoveMachine.Core
             for (int i = 0; i < 3; i++)
             {
                 controller.HandleCoroutine(
-                    controller.DoStroke(device.GirlIndex, device.BoneIndex, strokeTimeSecs, hard));
+                    controller.DoStroke(device.Settings.GirlIndex, device.Settings.BoneIndex,
+                        strokeTimeSecs, hard));
                 yield return new WaitForSecondsRealtime(strokeTimeSecs);
             }
         }

@@ -42,16 +42,18 @@
     <Reference Include="System.XML" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AnimationTools\AnimationAnalyzer.cs" />
     <Compile Include="ButtplugController.cs" />
-    <Compile Include="CalorDepthPOC.cs" />
+    <Compile Include="Lovense\CalorDepthPOC.cs" />
+    <Compile Include="AnimationTools\CoroutineHandler.cs" />
     <Compile Include="PluginInitializer.cs" />
     <Compile Include="RangeSlider.cs" />
     <Compile Include="VersionInfo.cs" />
-    <Compile Include="ButtplugWsClient.cs" />
+    <Compile Include="Buttplug\ButtplugWsClient.cs" />
     <Compile Include="ConfigurationManagerAttributes.cs" />
     <Compile Include="CoreConfig.cs" />
-    <Compile Include="Device.cs" />
-    <Compile Include="DeviceManager.cs" />
+    <Compile Include="Buttplug\Device.cs" />
+    <Compile Include="Buttplug\DeviceManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -80,7 +82,7 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="CalorBleConsoleScript.txt">
+    <Content Include="Lovense\CalorBleConsoleScript.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

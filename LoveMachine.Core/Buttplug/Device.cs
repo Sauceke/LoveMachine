@@ -2,12 +2,22 @@
 
 namespace LoveMachine.Core
 {
-    public class Device
+    public class DeviceSettings
     {
         public string DeviceName { get; set; }
-        public int DeviceIndex { get; set; }
         public int GirlIndex { get; set; } = 0;
         public int BoneIndex { get; set; } = 0;
+    }
+
+    public class Device
+    {
+        public string DeviceName
+        {
+            get => Settings.DeviceName;
+            set => Settings.DeviceName = value;
+        }
+        public int DeviceIndex { get; set; }
+        public DeviceSettings Settings { get; set; } = new DeviceSettings();
         public Features DeviceMessages { get; set; }
 
         public bool IsVibrator { get { return DeviceMessages.VibrateCmd != null; } }
@@ -32,26 +42,6 @@ namespace LoveMachine.Core
         internal class DeviceListWrapper
         {
             public List<Device> Devices { get; set; }
-        }
-    }
-
-    public struct DeviceSettings
-    {
-        public string DeviceName { get; private set; }
-        public int GirlIndex { get; private set; }
-        public int BoneIndex { get; private set; }
-
-        public DeviceSettings(Device device)
-        {
-            DeviceName = device.DeviceName;
-            GirlIndex = device.GirlIndex;
-            BoneIndex = device.BoneIndex;
-        }
-
-        public void Apply(Device device)
-        {
-            device.GirlIndex = GirlIndex;
-            device.BoneIndex = BoneIndex;
         }
     }
 }
