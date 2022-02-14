@@ -13,19 +13,8 @@ namespace LoveMachine.Core
                 CoreConfig.DeviceSettingsJson.Value = "[]";
                 return;
             }
-            List<DeviceSettings> settings;
-            try
-            {
-                settings = JsonMapper
-                    .ToObject<List<DeviceSettings>>(CoreConfig.DeviceSettingsJson.Value);
-            }
-            catch (Exception e)
-            {
-                CoreConfig.Logger.LogError("Failed to parse device settings.");
-                CoreConfig.Logger.LogError(e.GetType());
-                CoreConfig.DeviceSettingsJson.Value = "[]";
-                return;
-            }
+            List<DeviceSettings> settings =
+                JsonMapper.ToObject<List<DeviceSettings>>(CoreConfig.DeviceSettingsJson.Value);
             List<Device> devicesCopy = new List<Device>(devices);
             devices = null;
             for (int i = 0; i < settings.Count; i++)
@@ -52,18 +41,8 @@ namespace LoveMachine.Core
             {
                 return;
             }
-            List<DeviceSettings> settings;
-            try
-            {
-                settings = JsonMapper
-                    .ToObject<List<DeviceSettings>>(CoreConfig.DeviceSettingsJson.Value);
-            }
-            catch (Exception e)
-            {
-                CoreConfig.Logger.LogError("Failed to parse device settings.");
-                CoreConfig.Logger.LogError(e.GetType());
-                return;
-            }
+            List<DeviceSettings> settings =
+                JsonMapper.ToObject<List<DeviceSettings>>(CoreConfig.DeviceSettingsJson.Value);
             foreach (var device in devices)
             {
                 var matchingSettingIndex = settings.FindIndex(
