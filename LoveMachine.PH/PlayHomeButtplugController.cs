@@ -60,9 +60,8 @@ namespace LoveMachine.PH
             {
                 return "none";
             }
-            return scene.mainMembers.StyleData.id + "."
-                + GetFemaleAnimator(girlIndex).GetCurrentAnimatorStateInfo(0).fullPathHash + "."
-                + girlIndex;
+            return scene.mainMembers.StyleData.id
+                 + "." + GetFemaleAnimator(girlIndex).GetCurrentAnimatorStateInfo(0).fullPathHash;
         }
 
         protected override bool IsIdle(int _) =>

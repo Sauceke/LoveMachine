@@ -74,8 +74,7 @@ namespace LoveMachine.HS2
         {
             // couldn't find accessor for animation name so going with hash
             return hScene.ctrlFlag.nowAnimationInfo.id
-                + "." + hScene.GetFemales()[girlIndex].getAnimatorStateInfo(0).fullPathHash
-                + "." + girlIndex;
+                + "." + hScene.GetFemales()[girlIndex].getAnimatorStateInfo(0).fullPathHash;
         }
 
         protected override IEnumerator UntilReady()

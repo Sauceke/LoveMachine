@@ -44,8 +44,7 @@ namespace LoveMachine.AGH
             => GameObject.Find("BP00_tamaL").transform;
 
         protected override string GetPose(int girlIndex)
-            => GetFemaleAnimator(girlIndex).GetCurrentAnimatorClipInfo(0)[0].clip.name + "."
-                + girlIndex;
+            => GetFemaleAnimator(girlIndex).GetCurrentAnimatorClipInfo(0)[0].clip.name;
 
         protected override bool IsIdle(int girlIndex) => GetFemaleAnimator(girlIndex) == null;
 

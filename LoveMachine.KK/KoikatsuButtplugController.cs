@@ -74,8 +74,7 @@ namespace LoveMachine.KK
             // since it's based on object reference.
             return flags.nowAnimationInfo.GetHashCode()
                 + "." + flags.nowAnimationInfo.nameAnimation
-                + "." + flags.nowAnimStateName
-                + "." + girlIndex;
+                + "." + flags.nowAnimStateName;
         }
 
         protected override float GetStrokeTimeSecs(int girlIndex, Bone bone)
@@ -287,7 +286,7 @@ namespace LoveMachine.KK
             while (true)
             {
                 yield return new WaitForEndOfFrame();
-                if (!TryGetPhase(0, 0, out float phase))
+                if (!TryGetWaveInfo(0, 0, out var result))
                 {
                     GetFemaleAnimator(0).speed = 1;
                     flags.player.chaCtrl.animBody.speed = 1;
@@ -299,7 +298,7 @@ namespace LoveMachine.KK
                 }
                 GetFemaleAnimator(0).speed = 0;
                 flags.player.chaCtrl.animBody.speed = 0;
-                float targetNormTime = (phase + 1.5f - depth / 2f) % 1f;
+                float targetNormTime = (result.Phase + 1.5f - depth / 2f) % 1f;
                 float startNormTime = GetFemaleAnimator(0).GetCurrentAnimatorStateInfo(AnimationLayer)
                     .normalizedTime % 1f;
                 int steps = 20;

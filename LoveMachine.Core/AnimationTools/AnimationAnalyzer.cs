@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -7,11 +8,13 @@ namespace LoveMachine.Core
 {
     public abstract class AnimationAnalyzer : CoroutineHandler
     {
-        // exact pose -> fractional part of normalized time at start of up-stroke
-        private static Dictionary<string, float> animPhases = new Dictionary<string, float>();
+        // pose -> result
+        private static readonly Dictionary<string, WaveInfo> resultCache
+            = new Dictionary<string, WaveInfo>();
 
-        // exact pose -> number of strokes per loop
-        private static Dictionary<string, int> animFreqs = new Dictionary<string, int>();
+        // girl index -> thing that runs calibration
+        private static readonly Dictionary<int, CoroutineHandler> containers
+            = new Dictionary<int, CoroutineHandler>();
 
         protected abstract int AnimationLayer { get; }
         protected abstract Animator GetFemaleAnimator(int girlIndex);
@@ -19,40 +22,23 @@ namespace LoveMachine.Core
         protected abstract Transform GetMaleBone();
         protected abstract string GetPose(int girlIndex);
 
-        protected AnimatorStateInfo GetAnimatorStateInfo(int girlIndex) =>
-            GetFemaleAnimator(girlIndex).GetCurrentAnimatorStateInfo(AnimationLayer);
+        protected AnimatorStateInfo GetAnimatorStateInfo(int girlIndex)
+            => GetFemaleAnimator(girlIndex).GetCurrentAnimatorStateInfo(AnimationLayer);
 
-        protected IEnumerable<Bone> GetSupportedBones(int girlIndex) =>
-            Enumerable.Concat(new[] { Bone.Auto }, GetFemaleBones(girlIndex).Keys);
+        protected IEnumerable<Bone> GetSupportedBones(int girlIndex)
+            => Enumerable.Concat(new[] { Bone.Auto }, GetFemaleBones(girlIndex).Keys);
 
         private string GetExactPose(int girlIndex, Bone bone)
-            => GetPose(girlIndex) + "." + bone;
+            => $"{GetPose(girlIndex)}.girl{girlIndex}.{bone}";
 
-        protected bool TryGetPhase(int girlIndex, Bone bone, out float phase)
-        {
-            string pose = GetExactPose(girlIndex, 0);
-            float placeholder = -1f;
-            if (!animPhases.TryGetValue(pose, out phase))
-            {
-                animPhases[pose] = placeholder; // avoid multiple interleaving calls
-                HandleCoroutine(ComputeAnimationOffsets(girlIndex));
-                return false;
-            }
-            return animPhases.TryGetValue(GetExactPose(girlIndex, bone), out phase)
-                && phase != placeholder;
-        }
-
-        protected int GetStrokesPerAnimationCycle(int girlIndex, Bone bone)
-        {
-            animFreqs.TryGetValue(GetExactPose(girlIndex, bone), out int strokes);
-            return strokes == 0 ? 1 : strokes;
-        }
+        protected bool TryGetWaveInfo(int girlIndex, Bone bone, out WaveInfo result)
+            => resultCache.TryGetValue(GetExactPose(girlIndex, bone), out result);
 
         protected virtual float GetStrokeTimeSecs(int girlIndex, Bone bone)
         {
             var info = GetAnimatorStateInfo(girlIndex);
-            float strokeTimeSecs = info.length / info.speed
-                / GetStrokesPerAnimationCycle(girlIndex, bone);
+            int freq = TryGetWaveInfo(girlIndex, bone, out var result) ? result.Frequency : 1;
+            float strokeTimeSecs = info.length / info.speed / freq;
             // sometimes the length of an animation becomes Infinity in KK
             // sometimes the speed becomes 0 in HS2
             // this is a catch-all for god knows what other things that can
@@ -65,11 +51,47 @@ namespace LoveMachine.Core
             return strokeTimeSecs;
         }
 
-        private IEnumerator ComputeAnimationOffsets(int girlIndex)
+        protected void StartAnalyze(int girlIndex)
+        {
+            if (!containers.TryGetValue(girlIndex, out var container))
+            {
+                containers[girlIndex] = container = gameObject.AddComponent<CoroutineHandler>();
+            }
+            // never run the same coroutine twice, even if the last one wasn't cleaned up
+            container.StopAllCoroutines();
+            container.HandleCoroutine(RunAnalysisLoop(girlIndex));
+        }
+
+        protected void StopAnalyze(int girlIndex)
+        {
+            if (!containers.TryGetValue(girlIndex, out var container))
+            {
+                return;
+            }
+            container.StopAllCoroutines();
+        }
+
+        private IEnumerator RunAnalysisLoop(int girlIndex)
+        {
+            void updateDictionary(Dictionary<Bone, WaveInfo> results) => results.ToList()
+                .ForEach(kvp => resultCache[GetExactPose(girlIndex, kvp.Key)] = kvp.Value);
+            while (true)
+            {
+                if (TryGetWaveInfo(girlIndex, Bone.Auto, out var _))
+                {
+                    yield return new WaitForSecondsRealtime(0.1f);
+                    continue;
+                }
+                yield return HandleCoroutine(AnalyzeAnimation(girlIndex, updateDictionary));
+            }
+        }
+
+        private IEnumerator AnalyzeAnimation(int girlIndex,
+            Action<Dictionary<Bone, WaveInfo>> onSuccess)
         {
             var boneM = GetMaleBone();
             var femaleBones = GetFemaleBones(girlIndex);
-            string pose = GetExactPose(girlIndex, 0);
+            string pose = GetExactPose(girlIndex, Bone.Auto);
             var measurements = new List<Measurement>();
             yield return new WaitForSeconds(0.1f);
             float startTime = GetAnimatorStateInfo(girlIndex).normalizedTime;
@@ -88,34 +110,40 @@ namespace LoveMachine.Core
                     });
                 }
             }
-            if (pose != GetExactPose(girlIndex, 0))
+            if (pose != GetExactPose(girlIndex, Bone.Auto))
             {
                 CoreConfig.Logger.LogWarning($"Pose {pose} interrupted; canceling calibration.");
-                animPhases.Remove(pose);
                 yield break;
             }
+            var results = new Dictionary<Bone, WaveInfo>();
             foreach (var bone in femaleBones.Keys)
             {
-                animPhases[GetExactPose(girlIndex, bone)] = measurements
-                    .Where(entry => entry.Bone == bone)
-                    .OrderBy(entry => entry.DistanceSq)
-                    .FirstOrDefault()
-                    .Time % 1;
-                animFreqs[GetExactPose(girlIndex, bone)] = GetFrequency(measurements
-                    .Where(entry => entry.Bone == bone)
-                    .OrderBy(entry => entry.Time)
-                    .Select(entry => entry.DistanceSq));
+                results[bone] = new WaveInfo
+                {
+                    Phase = measurements
+                        .Where(entry => entry.Bone == bone)
+                        .OrderBy(entry => entry.DistanceSq)
+                        .FirstOrDefault()
+                        .Time % 1,
+                    Frequency = GetFrequency(measurements
+                        .Where(entry => entry.Bone == bone)
+                        .OrderBy(entry => entry.Time)
+                        .Select(entry => entry.DistanceSq))
+                };
             }
             var closest = measurements
                 .OrderBy(entry => entry.DistanceSq)
                 .FirstOrDefault();
-            animPhases[GetExactPose(girlIndex, Bone.Auto)] = closest.Time % 1;
-            animFreqs[GetExactPose(girlIndex, Bone.Auto)] =
-                animFreqs[GetExactPose(girlIndex, closest.Bone)];
+            results[Bone.Auto] = new WaveInfo
+            {
+                Phase = results[closest.Bone].Phase,
+                Frequency = results[closest.Bone].Frequency
+            };
+            onSuccess(results);
             CoreConfig.Logger.LogInfo($"Calibration for pose {pose} completed. " +
                 $"{measurements.Count / femaleBones.Count} frames inspected. " +
-                $"Closest bone: {closest.Bone}, offset: {closest.Time % 1}, " +
-                $"frequency: {animFreqs[GetExactPose(girlIndex, 0)]}. ");
+                $"Closest bone: {closest.Bone}, offset: {results[Bone.Auto].Phase}, " +
+                $"frequency: {results[Bone.Auto].Frequency}. ");
             CoreConfig.Logger.LogDebug(
                 $"Raw measurement data for pose {pose}: {JsonUtility.ToJson(measurements)}");
         }
@@ -140,10 +168,9 @@ namespace LoveMachine.Core
             return dfsMagnitudes.IndexOf(dfsMagnitudes.Max()) + 1;
         }
 
-        internal void ClearMeasurements()
+        internal void ClearCache()
         {
-            animPhases.Clear();
-            animFreqs.Clear();
+            resultCache.Clear();
         }
 
         private struct Measurement
@@ -151,6 +178,14 @@ namespace LoveMachine.Core
             public Bone Bone { get; set; }
             public float Time { get; set; }
             public float DistanceSq { get; set; }
+        }
+
+        public struct WaveInfo
+        {
+            public float Phase { get; set; }
+            public int Frequency { get; set; }
+            public float Crest { get; set; }
+            public float Trough { get; set; }
         }
     }
 }

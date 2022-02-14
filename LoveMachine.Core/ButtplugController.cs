@@ -28,14 +28,15 @@ namespace LoveMachine.Core
         public void OnEndH()
         {
             StopAllCoroutines();
-            ClearMeasurements();
             for (int girlIndex = 0; girlIndex < HeroineCount; girlIndex++)
             {
+                StopAnalyze(girlIndex);
                 foreach (var bone in GetSupportedBones(girlIndex))
                 {
                     DoVibrate(0f, girlIndex, bone);
                 }
             }
+            ClearCache();
         }
 
         private IEnumerator RunLoops()
@@ -43,6 +44,7 @@ namespace LoveMachine.Core
             yield return HandleCoroutine(UntilReady());
             for (int girlIndex = 0; girlIndex < HeroineCount; girlIndex++)
             {
+                StartAnalyze(girlIndex);
                 foreach (var bone in GetSupportedBones(girlIndex))
                 {
                     CoreConfig.Logger.LogInfo("Starting monitoring loop in controller " +
@@ -65,7 +67,8 @@ namespace LoveMachine.Core
                 }
                 yield return WaitForUpStroke(girlIndex, bone);
                 float strokeTimeSecs = GetStrokeTimeSecs(girlIndex, bone);
-                for (int i = 0; i < GetStrokesPerAnimationCycle(girlIndex, bone) - 1; i++)
+                TryGetWaveInfo(girlIndex, bone, out var result);
+                for (int i = 0; i < result.Frequency - 1; i++)
                 {
                     HandleCoroutine(DoStroke(girlIndex, bone, strokeTimeSecs));
                     yield return new WaitForSecondsRealtime(strokeTimeSecs);
@@ -146,9 +149,9 @@ namespace LoveMachine.Core
             float startNormTime = info().normalizedTime;
             float strokeTimeSecs = GetStrokeTimeSecs(girlIndex, bone);
             float latencyNormTime = CoreConfig.LatencyMs.Value / 1000f / strokeTimeSecs;
-            bool timeToStroke() => TryGetPhase(girlIndex, bone, out float phase)
-                && (int)(info().normalizedTime - phase + latencyNormTime + 10f)
-                    != (int)(startNormTime - phase + latencyNormTime + 10f);
+            bool timeToStroke() => TryGetWaveInfo(girlIndex, bone, out var result)
+                && (int)(info().normalizedTime - result.Phase + latencyNormTime + 10f)
+                    != (int)(startNormTime - result.Phase + latencyNormTime + 10f);
             return new WaitUntil(timeToStroke);
         }
 
@@ -159,10 +162,7 @@ namespace LoveMachine.Core
             if (CoreConfig.SyncVibrationWithAnimation.Value)
             {
                 // Simple cos based intensity amplification based on normalized position in looping animation
-                if (!TryGetPhase(girlIndex, bone, out float phase))
-                {
-                    phase = 0;
-                }
+                float phase = TryGetWaveInfo(girlIndex, bone, out var result) ? result.Phase : 0f;
                 float depth = (info().normalizedTime - phase) % 1;
                 strength = Mathf.Abs(Mathf.Cos(Mathf.PI * depth)) + 0.1f;
             }

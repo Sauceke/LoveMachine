@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace LoveMachine.Core
 {
-    public abstract class CoroutineHandler : MonoBehaviour
+    public class CoroutineHandler : MonoBehaviour
     {
         protected internal Coroutine HandleCoroutine(IEnumerator coroutine)
         {

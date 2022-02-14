@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using BepInEx;
+﻿using BepInEx;
 using BepInEx.Configuration;
 using LoveMachine.Core;
 
