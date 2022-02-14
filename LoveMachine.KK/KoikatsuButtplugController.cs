@@ -282,7 +282,7 @@ namespace LoveMachine.KK
             {
                 yield break;
             }
-            var calor = Chainloader.ManagerObject.GetComponent<CalorDepthPOC>();
+            var calor = gameObject.GetComponent<CalorDepthPOC>();
             while (true)
             {
                 yield return new WaitForEndOfFrame();
@@ -292,7 +292,7 @@ namespace LoveMachine.KK
                     flags.player.chaCtrl.animBody.speed = 1;
                     continue;
                 }
-                if (!calor.TryGetNewDepth(out float depth))
+                if (!calor.TryGetNewDepth(peek: false, out float depth))
                 {
                     continue;
                 }
@@ -305,6 +305,10 @@ namespace LoveMachine.KK
                 float step = (targetNormTime - startNormTime) / steps;
                 for (int i = 1; i <= steps; i++)
                 {
+                    if (calor.TryGetNewDepth(peek: true, out _))
+                    {
+                        break;
+                    }
                     float normTime = startNormTime + step * i;
                     var animStateHash = GetAnimatorStateInfo(0).fullPathHash;
                     GetFemaleAnimator(0).Play(animStateHash, AnimationLayer, normTime);
@@ -313,6 +317,5 @@ namespace LoveMachine.KK
                 }
             }
         }
-
     }
 }

@@ -82,11 +82,6 @@
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
   </ItemGroup>
-  <ItemGroup>
-    <Content Include="Lovense\CalorBleConsoleScript.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- taken from https://stackoverflow.com/a/66594320 -->
   <Target Name="EmbedVersion" BeforeTargets="BeforeBuild">
