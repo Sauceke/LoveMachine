@@ -15,17 +15,20 @@ namespace LoveMachine.Core
 
         protected abstract int AnimationLayer { get; }
         protected abstract Animator GetFemaleAnimator(int girlIndex);
-        protected abstract List<Transform> GetFemaleBones(int girlIndex);
+        protected abstract Dictionary<Bone, Transform> GetFemaleBones(int girlIndex);
         protected abstract Transform GetMaleBone();
         protected abstract string GetPose(int girlIndex);
 
         protected AnimatorStateInfo GetAnimatorStateInfo(int girlIndex) =>
             GetFemaleAnimator(girlIndex).GetCurrentAnimatorStateInfo(AnimationLayer);
 
-        private string GetExactPose(int girlIndex, int boneIndex)
-            => GetPose(girlIndex) + "." + boneIndex;
+        protected IEnumerable<Bone> GetSupportedBones(int girlIndex) =>
+            Enumerable.Concat(new[] { Bone.Auto }, GetFemaleBones(girlIndex).Keys);
 
-        protected bool TryGetPhase(int girlIndex, int boneIndex, out float phase)
+        private string GetExactPose(int girlIndex, Bone bone)
+            => GetPose(girlIndex) + "." + bone;
+
+        protected bool TryGetPhase(int girlIndex, Bone bone, out float phase)
         {
             string pose = GetExactPose(girlIndex, 0);
             float placeholder = -1f;
@@ -35,21 +38,21 @@ namespace LoveMachine.Core
                 HandleCoroutine(ComputeAnimationOffsets(girlIndex));
                 return false;
             }
-            return animPhases.TryGetValue(GetExactPose(girlIndex, boneIndex), out phase)
+            return animPhases.TryGetValue(GetExactPose(girlIndex, bone), out phase)
                 && phase != placeholder;
         }
 
-        protected int GetStrokesPerAnimationCycle(int girlIndex, int boneIndex)
+        protected int GetStrokesPerAnimationCycle(int girlIndex, Bone bone)
         {
-            animFreqs.TryGetValue(GetExactPose(girlIndex, boneIndex), out int strokes);
+            animFreqs.TryGetValue(GetExactPose(girlIndex, bone), out int strokes);
             return strokes == 0 ? 1 : strokes;
         }
 
-        protected virtual float GetStrokeTimeSecs(int girlIndex, int boneIndex)
+        protected virtual float GetStrokeTimeSecs(int girlIndex, Bone bone)
         {
             var info = GetAnimatorStateInfo(girlIndex);
             float strokeTimeSecs = info.length / info.speed
-                / GetStrokesPerAnimationCycle(girlIndex, boneIndex);
+                / GetStrokesPerAnimationCycle(girlIndex, bone);
             // sometimes the length of an animation becomes Infinity in KK
             // sometimes the speed becomes 0 in HS2
             // this is a catch-all for god knows what other things that can
@@ -69,17 +72,17 @@ namespace LoveMachine.Core
             string pose = GetExactPose(girlIndex, 0);
             var measurements = new List<Measurement>();
             yield return new WaitForSeconds(0.1f);
-            float currentTime = GetAnimatorStateInfo(girlIndex).normalizedTime;
-            while (GetAnimatorStateInfo(girlIndex).normalizedTime - 1 < currentTime)
+            float startTime = GetAnimatorStateInfo(girlIndex).normalizedTime;
+            while (GetAnimatorStateInfo(girlIndex).normalizedTime - 1 < startTime)
             {
                 yield return new WaitForEndOfFrame();
-                for (int i = 0; i < femaleBones.Count; i++)
+                foreach (var entry in femaleBones)
                 {
-                    var boneF = femaleBones[i];
+                    var boneF = entry.Value;
                     float distanceSq = (boneM.position - boneF.position).sqrMagnitude;
                     measurements.Add(new Measurement
                     {
-                        BoneIndex = i,
+                        Bone = entry.Key,
                         Time = GetAnimatorStateInfo(girlIndex).normalizedTime,
                         DistanceSq = distanceSq
                     });
@@ -91,27 +94,27 @@ namespace LoveMachine.Core
                 animPhases.Remove(pose);
                 yield break;
             }
-            for (int i = 0; i < femaleBones.Count; i++)
+            foreach (var bone in femaleBones.Keys)
             {
-                animPhases[GetExactPose(girlIndex, i + 1)] = measurements
-                    .Where(entry => entry.BoneIndex == i)
+                animPhases[GetExactPose(girlIndex, bone)] = measurements
+                    .Where(entry => entry.Bone == bone)
                     .OrderBy(entry => entry.DistanceSq)
                     .FirstOrDefault()
                     .Time % 1;
-                animFreqs[GetExactPose(girlIndex, i + 1)] = GetFrequency(measurements
-                    .Where(entry => entry.BoneIndex == i)
+                animFreqs[GetExactPose(girlIndex, bone)] = GetFrequency(measurements
+                    .Where(entry => entry.Bone == bone)
                     .OrderBy(entry => entry.Time)
                     .Select(entry => entry.DistanceSq));
             }
             var closest = measurements
                 .OrderBy(entry => entry.DistanceSq)
                 .FirstOrDefault();
-            animPhases[GetExactPose(girlIndex, 0)] = closest.Time % 1;
-            animFreqs[GetExactPose(girlIndex, 0)] =
-                animFreqs[GetExactPose(girlIndex, closest.BoneIndex + 1)];
+            animPhases[GetExactPose(girlIndex, Bone.Auto)] = closest.Time % 1;
+            animFreqs[GetExactPose(girlIndex, Bone.Auto)] =
+                animFreqs[GetExactPose(girlIndex, closest.Bone)];
             CoreConfig.Logger.LogInfo($"Calibration for pose {pose} completed. " +
                 $"{measurements.Count / femaleBones.Count} frames inspected. " +
-                $"Closest bone index: {closest.BoneIndex}, offset: {closest.Time % 1}, " +
+                $"Closest bone: {closest.Bone}, offset: {closest.Time % 1}, " +
                 $"frequency: {animFreqs[GetExactPose(girlIndex, 0)]}. ");
             CoreConfig.Logger.LogDebug(
                 $"Raw measurement data for pose {pose}: {JsonUtility.ToJson(measurements)}");
@@ -145,7 +148,7 @@ namespace LoveMachine.Core
 
         private struct Measurement
         {
-            public int BoneIndex { get; set; }
+            public Bone Bone { get; set; }
             public float Time { get; set; }
             public float DistanceSq { get; set; }
         }

@@ -16,7 +16,7 @@ namespace LoveMachine.Core
 
         protected abstract bool IsIdle(int girlIndex);
         protected abstract IEnumerator UntilReady();
-        protected abstract IEnumerator Run(int girlIndex, int boneIndex);
+        protected abstract IEnumerator Run(int girlIndex, Bone bone);
 
         public void Awake()
         {
@@ -31,9 +31,9 @@ namespace LoveMachine.Core
             ClearMeasurements();
             for (int girlIndex = 0; girlIndex < HeroineCount; girlIndex++)
             {
-                for (int boneIndex = 0; boneIndex < GetFemaleBones(girlIndex).Count + 1; boneIndex++)
+                foreach (var bone in GetSupportedBones(girlIndex))
                 {
-                    DoVibrate(0f, girlIndex, boneIndex);
+                    DoVibrate(0f, girlIndex, bone);
                 }
             }
         }
@@ -43,19 +43,18 @@ namespace LoveMachine.Core
             yield return HandleCoroutine(UntilReady());
             for (int girlIndex = 0; girlIndex < HeroineCount; girlIndex++)
             {
-                for (int boneIndex = 0; boneIndex < GetFemaleBones(girlIndex).Count + 1; boneIndex++)
+                foreach (var bone in GetSupportedBones(girlIndex))
                 {
                     CoreConfig.Logger.LogInfo("Starting monitoring loop in controller " +
-                        $"{GetType().Name} for girl index {girlIndex} and bone index " +
-                        $"{boneIndex}.");
-                    HandleCoroutine(Run(girlIndex, boneIndex));
+                        $"{GetType().Name} for girl index {girlIndex} and bone {bone}. ");
+                    HandleCoroutine(Run(girlIndex, bone));
                 }
             }
             yield return new WaitUntil(() => IsHSceneInterrupted);
             OnEndH();
         }
 
-        protected IEnumerator RunStrokerLoop(int girlIndex, int boneIndex)
+        protected IEnumerator RunStrokerLoop(int girlIndex, Bone bone)
         {
             while (true)
             {
@@ -64,28 +63,28 @@ namespace LoveMachine.Core
                     yield return new WaitForSeconds(.1f);
                     continue;
                 }
-                yield return WaitForUpStroke(girlIndex, boneIndex);
-                float strokeTimeSecs = GetStrokeTimeSecs(girlIndex, boneIndex);
-                for (int i = 0; i < GetStrokesPerAnimationCycle(girlIndex, boneIndex) - 1; i++)
+                yield return WaitForUpStroke(girlIndex, bone);
+                float strokeTimeSecs = GetStrokeTimeSecs(girlIndex, bone);
+                for (int i = 0; i < GetStrokesPerAnimationCycle(girlIndex, bone) - 1; i++)
                 {
-                    HandleCoroutine(DoStroke(girlIndex, boneIndex, strokeTimeSecs));
+                    HandleCoroutine(DoStroke(girlIndex, bone, strokeTimeSecs));
                     yield return new WaitForSecondsRealtime(strokeTimeSecs);
                 }
-                yield return HandleCoroutine(DoStroke(girlIndex, boneIndex, strokeTimeSecs));
+                yield return HandleCoroutine(DoStroke(girlIndex, bone, strokeTimeSecs));
             }
         }
 
-        protected IEnumerator RunVibratorLoop(int girlIndex, int boneIndex)
+        protected IEnumerator RunVibratorLoop(int girlIndex, Bone bone)
         {
             while (true)
             {
                 if (IsIdle(girlIndex))
                 {
-                    DoVibrate(0f, girlIndex, boneIndex);
+                    DoVibrate(0f, girlIndex, bone);
                     yield return new WaitForSeconds(.1f);
                     continue;
                 }
-                yield return HandleCoroutine(VibrateWithAnimation(girlIndex, boneIndex,
+                yield return HandleCoroutine(VibrateWithAnimation(girlIndex, bone,
                     VibrationIntensity));
             }
         }
@@ -102,7 +101,7 @@ namespace LoveMachine.Core
             }
         }
 
-        protected internal IEnumerator DoStroke(int girlIndex, int boneIndex,
+        protected internal IEnumerator DoStroke(int girlIndex, Bone bone,
             float strokeTimeSecs, bool forceHard = false)
         {
             float minSlow = Mathf.InverseLerp(0, 100, CoreConfig.SlowStrokeZoneMin.Value);
@@ -117,50 +116,50 @@ namespace LoveMachine.Core
             float min = Mathf.Lerp(minSlow, minFast, rate);
             float max = Mathf.Lerp(maxSlow, maxFast, rate);
             float downStrokeTimeSecs = Mathf.Lerp(strokeTimeSecs / 2f, strokeTimeSecs / 4f, hardness);
-            client.LinearCmd(
+            MoveStroker(
                 position: max,
                 durationSecs: strokeTimeSecs / 2f - 0.01f,
                 girlIndex,
-                boneIndex);
+                bone);
             // needs to be real time so we can test devices even when the game is paused
             yield return new WaitForSecondsRealtime(strokeTimeSecs * 0.75f - downStrokeTimeSecs / 2f);
-            client.LinearCmd(
+            MoveStroker(
                 position: min,
                 durationSecs: downStrokeTimeSecs - 0.01f,
                 girlIndex,
-                boneIndex);
+                bone);
         }
 
-        protected void MoveStroker(float position, float durationSecs, int girlIndex, int boneIndex)
+        protected void MoveStroker(float position, float durationSecs, int girlIndex, Bone bone)
         {
-            client.LinearCmd(position, durationSecs, girlIndex, boneIndex);
+            client.LinearCmd(position, durationSecs, girlIndex, bone);
         }
 
-        protected void DoVibrate(float intensity, int girlIndex, int boneIndex)
+        protected void DoVibrate(float intensity, int girlIndex, Bone bone)
         {
-            client.VibrateCmd(intensity, girlIndex, boneIndex);
+            client.VibrateCmd(intensity, girlIndex, bone);
         }
 
-        protected CustomYieldInstruction WaitForUpStroke(int girlIndex, int boneIndex)
+        protected CustomYieldInstruction WaitForUpStroke(int girlIndex, Bone bone)
         {
             AnimatorStateInfo info() => GetAnimatorStateInfo(girlIndex);
             float startNormTime = info().normalizedTime;
-            float strokeTimeSecs = GetStrokeTimeSecs(girlIndex, boneIndex);
+            float strokeTimeSecs = GetStrokeTimeSecs(girlIndex, bone);
             float latencyNormTime = CoreConfig.LatencyMs.Value / 1000f / strokeTimeSecs;
-            bool timeToStroke() => TryGetPhase(girlIndex, boneIndex, out float phase)
+            bool timeToStroke() => TryGetPhase(girlIndex, bone, out float phase)
                 && (int)(info().normalizedTime - phase + latencyNormTime + 10f)
                     != (int)(startNormTime - phase + latencyNormTime + 10f);
             return new WaitUntil(timeToStroke);
         }
 
-        protected IEnumerator VibrateWithAnimation(int girlIndex, int boneIndex, float scale)
+        protected IEnumerator VibrateWithAnimation(int girlIndex, Bone bone, float scale)
         {
             AnimatorStateInfo info() => GetAnimatorStateInfo(girlIndex);
             float strength = 1f;
             if (CoreConfig.SyncVibrationWithAnimation.Value)
             {
                 // Simple cos based intensity amplification based on normalized position in looping animation
-                if (!TryGetPhase(girlIndex, boneIndex, out float phase))
+                if (!TryGetPhase(girlIndex, bone, out float phase))
                 {
                     phase = 0;
                 }
@@ -170,7 +169,7 @@ namespace LoveMachine.Core
             float intensityPercent = Mathf.Lerp(CoreConfig.VibrationIntensityMin.Value,
                 CoreConfig.VibrationIntensityMax.Value, strength * scale);
             float intensity = Mathf.InverseLerp(0f, 100f, intensityPercent);
-            DoVibrate(intensity, girlIndex, boneIndex);
+            DoVibrate(intensity, girlIndex, bone);
             yield return new WaitForSecondsRealtime(1.0f / CoreConfig.VibrationUpdateFrequency.Value);
         }
     }

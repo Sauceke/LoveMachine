@@ -13,8 +13,6 @@ namespace LoveMachine.AGH
                 plugin: this,
                 girlMappingHeader: null,
                 girlMappingOptions: null,
-                actionMappingHeader: null,
-                actionMappingOptions: null,
                 typeof(HoukagoRinkanButtplugStrokerController),
                 typeof(HoukagoRinkanButtplugVibrationController));
             Hooks.InstallHooks();

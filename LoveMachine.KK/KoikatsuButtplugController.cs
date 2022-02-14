@@ -12,26 +12,30 @@ namespace LoveMachine.KK
     {
         private const string MaleBoneName = "k_f_tamaL_00"; // left testicle
 
-        internal static readonly Dictionary<string, string> femaleBones
-            = new Dictionary<string, string>
+        private static readonly Dictionary<Bone, string> femaleBones
+            = new Dictionary<Bone, string>
         {
-            { "k_f_munenipL_00", "Left Breast"},
-            { "k_f_munenipR_00", "Right Breast"},
-            { "cf_n_pee", "Pussy"},
-            { "k_f_ana_00", "Anus"},
-            { "k_f_siriL_00", "Left Butt"},
-            { "k_f_siriR_00", "Right Butt"},
-            { "cf_J_MouthCavity", "Mouth"},
-            { "cf_j_index04_L", "Left Hand"},
-            { "cf_j_index04_R", "Right Hand"},
-            { "k_f_toeL_00", "Left Foot"},
-            { "k_f_toeR_00", "Right Foot"},
+            { Bone.LeftBreast, "k_f_munenipL_00" },
+            { Bone.RightBreast, "k_f_munenipR_00" },
+            { Bone.Vagina, "cf_n_pee" },
+            { Bone.Anus, "k_f_ana_00" },
+            { Bone.LeftButt, "k_f_siriL_00" },
+            { Bone.RightButt, "k_f_siriR_00" },
+            { Bone.Mouth, "cf_J_MouthCavity" },
+            { Bone.LeftHand, "cf_j_index04_L" },
+            { Bone.RightHand, "cf_j_index04_R" },
+            { Bone.LeftFoot, "k_f_toeL_00" },
+            { Bone.RightFoot, "k_f_toeR_00" },
+        };
+
+        private static readonly List<Bone> aibuBones = new List<Bone>
+        {
+            Bone.LeftBreast, Bone.RightBreast, Bone.Vagina, Bone.Anus, Bone.LeftButt, Bone.RightButt
         };
 
         protected HFlag flags;
 
-        protected abstract void HandleFondle(float y, int girlIndex, int boneIndex,
-            float timeSecs);
+        protected abstract void HandleFondle(float y, int girlIndex, Bone bone, float timeSecs);
 
         public void OnStartH(HFlag flags)
         {
@@ -50,10 +54,11 @@ namespace LoveMachine.KK
         protected override Animator GetFemaleAnimator(int girlIndex)
             => flags.lstHeroine[girlIndex].chaCtrl.animBody;
 
-        protected override List<Transform> GetFemaleBones(int girlIndex)
+        protected override Dictionary<Bone, Transform> GetFemaleBones(int girlIndex)
         {
             var bodyBone = flags.lstHeroine[girlIndex].chaCtrl.objBodyBone.transform;
-            return femaleBones.Keys.Select(name => bodyBone.FindLoop(name).transform).ToList();
+            return femaleBones.ToDictionary(kvp => kvp.Key,
+                kvp => bodyBone.FindLoop(kvp.Value).transform);
         }
 
         protected override Transform GetMaleBone()
@@ -73,10 +78,10 @@ namespace LoveMachine.KK
                 + "." + girlIndex;
         }
 
-        protected override float GetStrokeTimeSecs(int girlIndex, int boneIndex)
+        protected override float GetStrokeTimeSecs(int girlIndex, Bone bone)
         {
             float scale = GetAnimatorStateInfo(girlIndex).IsName("OLoop") ? 2 : 1;
-            return base.GetStrokeTimeSecs(girlIndex, boneIndex) * scale;
+            return base.GetStrokeTimeSecs(girlIndex, bone) * scale;
         }
 
         protected override IEnumerator UntilReady()
@@ -95,9 +100,9 @@ namespace LoveMachine.KK
             CoreConfig.Logger.LogDebug("H Scene is now initialized.");
         }
 
-        protected IEnumerator RunAibu(int girlIndex, int boneIndex)
+        protected IEnumerator RunAibu(int girlIndex, Bone bone)
         {
-            if (boneIndex == 0 || boneIndex > flags.xy.Length)
+            if (!aibuBones.Contains(bone))
             {
                 yield break;
             }
@@ -105,35 +110,31 @@ namespace LoveMachine.KK
             float previousY = 0f;
             while (!flags.isHSceneEnd)
             {
-                var y = flags.xy[boneIndex - 1].y;
+                var y = flags.xy[aibuBones.IndexOf(bone)].y;
                 if (previousY != y)
                 {
                     HandleFondle(
                         y,
                         girlIndex,
-                        boneIndex: boneIndex,
+                        bone: bone,
                         timeSecs: updateTimeSecs);
                     previousY = y;
                 }
                 yield return new WaitForSeconds(updateTimeSecs);
             }
-            for (int i = 0; i < 6; i++)
-            {
-                DoVibrate(0.0f, girlIndex, boneIndex: i);
-            }
+            aibuBones.ForEach(b => DoVibrate(0.0f, girlIndex, bone: b));
         }
     }
 
     public class KoikatsuButtplugAnimationController : KoikatsuButtplugController
     {
-        protected override void HandleFondle(float y, int girlIndex, int boneIndex,
-            float timeSecs)
-        { }
+        protected override void HandleFondle(float y, int girlIndex, Bone bone, float timeSecs)
+            => throw new System.NotImplementedException();
 
         protected override bool IsIdle(int girlIndex)
             => throw new System.NotImplementedException();
 
-        protected override IEnumerator Run(int girlIndex, int boneIndex)
+        protected override IEnumerator Run(int girlIndex, Bone bone)
         {
             var animator = GetFemaleAnimator(girlIndex);
             var playerAnimator = flags.player.chaCtrl.animBody;
@@ -221,11 +222,11 @@ namespace LoveMachine.KK
             get { return supportedAnimations.Contains(flags.nowAnimStateName); }
         }
 
-        protected override IEnumerator Run(int girlIndex, int boneIndex)
-            => RunVibratorLoop(girlIndex, boneIndex);
+        protected override IEnumerator Run(int girlIndex, Bone bone)
+            => RunVibratorLoop(girlIndex, bone);
 
-        protected override void HandleFondle(float y, int girlIndex, int boneIndex, float timeSecs)
-            => DoVibrate(intensity: y, girlIndex, boneIndex: boneIndex);
+        protected override void HandleFondle(float y, int girlIndex, Bone bone, float timeSecs)
+            => DoVibrate(intensity: y, girlIndex, bone);
     }
 
     public class KoikatsuButtplugStrokerController : KoikatsuButtplugController
@@ -249,40 +250,36 @@ namespace LoveMachine.KK
                     || !supportedAnimations.Contains(flags.nowAnimStateName)
                     || flags.speed < 1;
 
-        protected override void HandleFondle(float y, int girlIndex, int boneIndex, float timeSecs)
-            => MoveStroker(position: y, timeSecs, girlIndex, boneIndex);
+        protected override void HandleFondle(float y, int girlIndex, Bone bone, float timeSecs)
+            => MoveStroker(position: y, timeSecs, girlIndex, bone);
 
-        protected override IEnumerator Run(int girlIndex, int boneIndex)
-             => RunStrokerLoop(girlIndex, boneIndex);
+        protected override IEnumerator Run(int girlIndex, Bone bone)
+             => RunStrokerLoop(girlIndex, bone);
     }
 
     public class KoikatsuButtplugAibuVibrationController : KoikatsuButtplugVibrationController
     {
-        protected override IEnumerator Run(int girlIndex, int boneIndex)
-            => RunAibu(girlIndex, boneIndex);
+        protected override IEnumerator Run(int girlIndex, Bone bone)
+            => RunAibu(girlIndex, bone);
     }
 
     public class KoikatsuButtplugAibuStrokerController : KoikatsuButtplugStrokerController
     {
-        protected override IEnumerator Run(int girlIndex, int boneIndex)
-             => RunAibu(girlIndex, boneIndex);
+        protected override IEnumerator Run(int girlIndex, Bone bone)
+             => RunAibu(girlIndex, bone);
     }
 
     public class KoikatsuButtplugAibuDepthController : KoikatsuButtplugController
     {
-        protected override void HandleFondle(float y, int girlIndex, int boneIndex, float timeSecs)
-        {
-            throw new System.NotImplementedException();
-        }
+        protected override void HandleFondle(float y, int girlIndex, Bone bone, float timeSecs)
+            => throw new System.NotImplementedException();
 
         protected override bool IsIdle(int girlIndex)
-        {
-            throw new System.NotImplementedException();
-        }
+            => throw new System.NotImplementedException();
 
-        protected override IEnumerator Run(int girlIndex, int boneIndex)
+        protected override IEnumerator Run(int girlIndex, Bone bone)
         {
-            if (girlIndex != 0 || boneIndex != 0)
+            if (girlIndex != 0 || bone != Bone.Auto)
             {
                 yield break;
             }

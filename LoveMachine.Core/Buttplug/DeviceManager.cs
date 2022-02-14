@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using LitJson;
 
 namespace LoveMachine.Core
@@ -12,8 +13,19 @@ namespace LoveMachine.Core
                 CoreConfig.DeviceSettingsJson.Value = "[]";
                 return;
             }
-            List<DeviceSettings> settings =
-                JsonMapper.ToObject<List<DeviceSettings>>(CoreConfig.DeviceSettingsJson.Value);
+            List<DeviceSettings> settings;
+            try
+            {
+                settings = JsonMapper
+                    .ToObject<List<DeviceSettings>>(CoreConfig.DeviceSettingsJson.Value);
+            }
+            catch (Exception e)
+            {
+                CoreConfig.Logger.LogError("Failed to parse device settings.");
+                CoreConfig.Logger.LogError(e.GetType());
+                CoreConfig.DeviceSettingsJson.Value = "[]";
+                return;
+            }
             List<Device> devicesCopy = new List<Device>(devices);
             devices = null;
             for (int i = 0; i < settings.Count; i++)
@@ -40,8 +52,18 @@ namespace LoveMachine.Core
             {
                 return;
             }
-            List<DeviceSettings> settings =
-                JsonMapper.ToObject<List<DeviceSettings>>(CoreConfig.DeviceSettingsJson.Value);
+            List<DeviceSettings> settings;
+            try
+            {
+                settings = JsonMapper
+                    .ToObject<List<DeviceSettings>>(CoreConfig.DeviceSettingsJson.Value);
+            }
+            catch (Exception e)
+            {
+                CoreConfig.Logger.LogError("Failed to parse device settings.");
+                CoreConfig.Logger.LogError(e.GetType());
+                return;
+            }
             foreach (var device in devices)
             {
                 var matchingSettingIndex = settings.FindIndex(

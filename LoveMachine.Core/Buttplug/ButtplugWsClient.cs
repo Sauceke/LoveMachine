@@ -52,7 +52,8 @@ namespace LoveMachine.Core
             DeviceManager.SaveDeviceSettings(Devices);
         }
 
-        public void LinearCmd(double position, float durationSecs, int girlIndex, int boneIndex = 0)
+        public void LinearCmd(double position, float durationSecs, int girlIndex,
+            Bone bone = Bone.Auto)
         {
             if (KillSwitch.Pushed)
             {
@@ -62,7 +63,7 @@ namespace LoveMachine.Core
                 from device in Devices
                 where device.IsStroker
                     && device.Settings.GirlIndex == girlIndex
-                    && device.Settings.BoneIndex == boneIndex
+                    && device.Settings.Bone == bone
                 select new
                 {
                     LinearCmd = new
@@ -88,7 +89,7 @@ namespace LoveMachine.Core
             }
         }
 
-        public void VibrateCmd(double intensity, int girlIndex, int boneIndex = 0)
+        public void VibrateCmd(double intensity, int girlIndex, Bone bone = Bone.Auto)
         {
             if (KillSwitch.Pushed && intensity != 0f)
             {
@@ -99,7 +100,7 @@ namespace LoveMachine.Core
                 from device in Devices
                 where device.IsVibrator
                     && device.Settings.GirlIndex == girlIndex
-                    && device.Settings.BoneIndex == boneIndex
+                    && device.Settings.Bone == bone
                 select new
                 {
                     VibrateCmd = new

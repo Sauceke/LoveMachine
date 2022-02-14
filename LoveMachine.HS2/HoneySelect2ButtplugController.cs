@@ -12,17 +12,17 @@ namespace LoveMachine.HS2
     {
         private const string MaleBoneName = "cm_J_dan_f_L"; // left testicle
 
-        internal static readonly Dictionary<string, string> femaleBones
-            = new Dictionary<string, string>
+        private static readonly Dictionary<Bone, string> femaleBones
+            = new Dictionary<Bone, string>
         {
-                { "cf_J_Kokan", "Pussy" },
-                { "cf_J_Hand_Wrist_s_R", "Right Hand" },
-                { "cf_J_Hand_Wrist_s_L", "Left Hand" },
-                { "cf_J_Mune04_s_R", "Right Breast" },
-                { "cf_J_Mune04_s_L", "Left Breast" },
-                { "cf_J_MouthCavity", "Mouth" },
-                { "cf_J_Toes01_L", "Right Foot" },
-                { "cf_J_Toes01_R", "Left Foot" }
+                { Bone.Vagina, "cf_J_Kokan" },
+                { Bone.RightHand, "cf_J_Hand_Wrist_s_R" },
+                { Bone.LeftHand, "cf_J_Hand_Wrist_s_L" },
+                { Bone.RightBreast, "cf_J_Mune04_s_R" },
+                { Bone.LeftBreast, "cf_J_Mune04_s_L" },
+                { Bone.Mouth, "cf_J_MouthCavity" },
+                { Bone.RightFoot, "cf_J_Toes01_L" },
+                { Bone.LeftFoot, "cf_J_Toes01_R" }
         };
 
         private static readonly List<string> idleAnimations = new List<string>
@@ -52,10 +52,10 @@ namespace LoveMachine.HS2
         protected override Animator GetFemaleAnimator(int girlIndex)
             => hScene?.GetFemales()[girlIndex]?.animBody;
 
-        protected override List<Transform> GetFemaleBones(int girlIndex)
+        protected override Dictionary<Bone, Transform> GetFemaleBones(int girlIndex)
         {
             var bodyBone = hScene.GetFemales()[girlIndex].objBodyBone.transform;
-            return femaleBones.Keys.Select(name => bodyBone.FindLoop(name).transform).ToList();
+            return femaleBones.ToDictionary(kvp => kvp.Key, kvp => bodyBone.FindLoop(kvp.Value));
         }
 
         protected override Transform GetMaleBone()
@@ -98,13 +98,13 @@ namespace LoveMachine.HS2
 
     public class HoneySelect2ButtplugVibrationController : HoneySelect2ButtplugController
     {
-        protected override IEnumerator Run(int girlIndex, int boneIndex)
-            => RunVibratorLoop(girlIndex, boneIndex);
+        protected override IEnumerator Run(int girlIndex, Bone bone)
+            => RunVibratorLoop(girlIndex, bone);
     }
 
     public class HoneySelect2ButtplugStrokerController : HoneySelect2ButtplugController
     {
-        protected override IEnumerator Run(int girlIndex, int boneIndex)
-            => RunStrokerLoop(girlIndex, boneIndex);
+        protected override IEnumerator Run(int girlIndex, Bone bone)
+            => RunStrokerLoop(girlIndex, bone);
     }
 }

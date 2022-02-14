@@ -6,7 +6,7 @@ namespace LoveMachine.Core
     {
         public string DeviceName { get; set; }
         public int GirlIndex { get; set; } = 0;
-        public int BoneIndex { get; set; } = 0;
+        public Bone Bone { get; set; } = Bone.Auto;
     }
 
     public class Device

@@ -44,6 +44,7 @@
   <ItemGroup>
     <Compile Include="AnimationTools\AnimationAnalyzer.cs" />
     <Compile Include="ButtplugController.cs" />
+    <Compile Include="Common\Bone.cs" />
     <Compile Include="Lovense\CalorDepthPOC.cs" />
     <Compile Include="AnimationTools\CoroutineHandler.cs" />
     <Compile Include="PluginInitializer.cs" />

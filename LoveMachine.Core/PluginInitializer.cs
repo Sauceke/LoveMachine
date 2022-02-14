@@ -2,6 +2,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using System.Text.RegularExpressions;
 using BepInEx;
 using BepInEx.Bootstrap;
 using BepInEx.Configuration;
@@ -14,17 +16,18 @@ namespace LoveMachine.Core
     // This is ugly but my hands are tied.
     public class PluginInitializer
     {
+        private static readonly string[] boneNames = Enum.GetNames(typeof(Bone))
+            .Select(camelCase => Regex.Replace(camelCase, ".([A-Z])", " $1"))
+            .ToArray();
+
         private BaseUnityPlugin plugin;
         private string girlMappingHeader;
         private string[] girlMappingOptions;
-        private string actionMappingHeader;
-        private string[] actionMappingOptions;
         private Type[] controllers;
         private List<Device> cachedDeviceList;
 
         public static void Initialize(BaseUnityPlugin plugin,
             string girlMappingHeader, string[] girlMappingOptions,
-            string actionMappingHeader, string[] actionMappingOptions,
             params Type[] controllers)
         {
             new PluginInitializer
@@ -32,8 +35,6 @@ namespace LoveMachine.Core
                 plugin = plugin,
                 girlMappingHeader = girlMappingHeader,
                 girlMappingOptions = girlMappingOptions,
-                actionMappingHeader = actionMappingHeader,
-                actionMappingOptions = actionMappingOptions,
                 controllers = controllers
             }
             .Start();
@@ -299,10 +300,7 @@ namespace LoveMachine.Core
                     {
                         GUILayout.Label(girlMappingHeader, GUILayout.Width(columnWidth));
                     }
-                    if (actionMappingHeader != null)
-                    {
-                        GUILayout.Label(actionMappingHeader, GUILayout.Width(columnWidth));
-                    }
+                    GUILayout.Label("Body Part", GUILayout.Width(columnWidth));
                     GUILayout.Label("Test Device", GUILayout.Width(columnWidth));
                 }
                 GUILayout.EndHorizontal();
@@ -329,14 +327,11 @@ namespace LoveMachine.Core
                                 xCount: 1,
                                 GUILayout.Width(columnWidth));
                         }
-                        if (actionMappingOptions != null)
-                        {
-                            device.Settings.BoneIndex = GUILayout.SelectionGrid(
-                                selected: device.Settings.BoneIndex,
-                                actionMappingOptions,
-                                xCount: 1,
-                                GUILayout.Width(columnWidth));
-                        }
+                        device.Settings.Bone = (Bone)GUILayout.SelectionGrid(
+                            selected: (int)device.Settings.Bone,
+                            boneNames,
+                            xCount: 1,
+                            GUILayout.Width(columnWidth));
                         GUILayout.BeginVertical(GUILayout.ExpandHeight(true));
                         {
                             if (device.IsStroker)
@@ -416,7 +411,7 @@ namespace LoveMachine.Core
             for (int i = 0; i < 3; i++)
             {
                 controller.HandleCoroutine(
-                    controller.DoStroke(device.Settings.GirlIndex, device.Settings.BoneIndex,
+                    controller.DoStroke(device.Settings.GirlIndex, device.Settings.Bone,
                         strokeTimeSecs, hard));
                 yield return new WaitForSecondsRealtime(strokeTimeSecs);
             }

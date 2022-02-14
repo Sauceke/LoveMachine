@@ -20,16 +20,11 @@ namespace LoveMachine.KK
         private void Start()
         {
             var girls = new string[] { "First girl", "Second girl", "Off" };
-            var actions = new string[] { "Auto" }
-                .Concat(KoikatsuButtplugController.femaleBones.Values)
-                .ToArray();
             CoreConfig.Logger = Logger;
             PluginInitializer.Initialize(
                 plugin: this,
                 girlMappingHeader: "Threesome Role",
                 girlMappingOptions: girls,
-                actionMappingHeader: "Body Part",
-                actionMappingOptions: actions,
                 typeof(KoikatsuButtplugAnimationController),
                 typeof(KoikatsuButtplugStrokerController),
                 typeof(KoikatsuButtplugVibrationController),

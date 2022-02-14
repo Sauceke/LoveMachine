@@ -9,16 +9,11 @@ namespace LoveMachine.OA
     {
         private void Start()
         {
-            var actions = new string[] { "Auto" }
-                .Concat(OurApartmentButtplugController.femaleBones.Values)
-                .ToArray();
             CoreConfig.Logger = Logger;
             PluginInitializer.Initialize(
                 plugin: this,
                 girlMappingHeader: null,
                 girlMappingOptions: null,
-                actionMappingHeader: "Body Part",
-                actionMappingOptions: actions,
                 typeof(OurApartmentButtplugStrokerController),
                 typeof(OurApartmentButtplugVibrationController));
             Hooks.InstallHooks();

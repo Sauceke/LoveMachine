@@ -12,17 +12,17 @@ namespace LoveMachine.PH
     {
         internal const string MaleBoneName = "k_m_tamaC_00";
 
-        internal static readonly Dictionary<string, string> femaleBones
-            = new Dictionary<string, string>
+        internal static readonly Dictionary<Bone, string> femaleBones
+            = new Dictionary<Bone, string>
         {
-            { "k_f_munenipL_00", "Left Breast"},
-            { "k_f_munenipR_00", "Right Breast"},
-            { "k_f_kokan_00", "Pussy"},
-            { "cf_J_MouthCavity", "Mouth" },
-            { "cf_J_Hand_Index01_L", "Left Hand"},
-            { "cf_J_Hand_Index01_R", "Right Hand"},
-            { "k_f_toeL_00", "Left Foot"},
-            { "k_f_toeR_00", "Right Foot"}
+            { Bone.LeftBreast, "k_f_munenipL_00" },
+            { Bone.RightBreast, "k_f_munenipR_00" },
+            { Bone.Vagina, "k_f_kokan_00" },
+            { Bone.Mouth, "cf_J_MouthCavity" },
+            { Bone.LeftHand, "cf_J_Hand_Index01_L" },
+            { Bone.RightHand, "cf_J_Hand_Index01_R" },
+            { Bone.LeftFoot, "k_f_toeL_00" },
+            { Bone.RightFoot, "k_f_toeR_00" },
         };
 
         private static readonly List<H_STATE> activeHStates
@@ -41,10 +41,11 @@ namespace LoveMachine.PH
         protected override Animator GetFemaleAnimator(int girlIndex) =>
             scene.mainMembers.females[girlIndex].body.Anime;
 
-        protected override List<Transform> GetFemaleBones(int girlIndex)
+        protected override Dictionary<Bone, Transform> GetFemaleBones(int girlIndex)
         {
             var bodyBone = scene.mainMembers.females[girlIndex].objBodyBone.transform;
-            return femaleBones.Keys.Select(name => bodyBone.FindLoop(name).transform).ToList();
+            return femaleBones.ToDictionary(kvp => kvp.Key,
+                kvp => bodyBone.FindLoop(kvp.Value).transform);
         }
 
         protected override Transform GetMaleBone()
@@ -88,13 +89,13 @@ namespace LoveMachine.PH
 
     public class PlayHomeButtplugVibrationController : PlayHomeButtplugController
     {
-        protected override IEnumerator Run(int girlIndex, int boneIndex)
-            => RunVibratorLoop(girlIndex, boneIndex);
+        protected override IEnumerator Run(int girlIndex, Bone bone)
+            => RunVibratorLoop(girlIndex, bone);
     }
 
     public class PlayHomeButtplugStrokerController : PlayHomeButtplugController
     {
-        protected override IEnumerator Run(int girlIndex, int boneIndex)
-            => RunStrokerLoop(girlIndex, boneIndex);
+        protected override IEnumerator Run(int girlIndex, Bone bone)
+            => RunStrokerLoop(girlIndex, bone);
     }
 }

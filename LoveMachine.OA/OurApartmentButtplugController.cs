@@ -10,17 +10,17 @@ namespace LoveMachine.OA
 {
     public abstract class OurApartmentButtplugController : ButtplugController
     {
-        internal static readonly Dictionary<string, string> femaleBones
-            = new Dictionary<string, string>
+        private static readonly Dictionary<Bone, string> femaleBones
+            = new Dictionary<Bone, string>
             {
-                { "cc_pussy_clit", "Pussy" },
-                { "cc_boob.l", "Left Breast" },
-                { "cc_boob.r", "Right Breast" },
-                { "c_teeth_top.x", "Mouth" },
-                { "c_toes_thumb1.l", "Left Foot" },
-                { "c_toes_thumb1.r", "Right Foot" },
-                { "index1.l", "Left Hand" },
-                { "index1.r", "Right Hand" }
+                { Bone.Vagina, "cc_pussy_clit" },
+                { Bone.LeftBreast, "cc_boob.l" },
+                { Bone.RightBreast, "cc_boob.r" },
+                { Bone.Mouth, "c_teeth_top.x" },
+                { Bone.LeftFoot, "c_toes_thumb1.l" },
+                { Bone.RightFoot, "c_toes_thumb1.r" },
+                { Bone.LeftHand, "index1.l" },
+                { Bone.RightHand, "index1.r" }
             };
         private const string MaleBoneName = "cc_balls1.l";
         private static readonly string[] layerNames =
@@ -63,10 +63,9 @@ namespace LoveMachine.OA
 
         protected override Animator GetFemaleAnimator(int girlIndex) => npcAnimator.Value;
 
-        protected override List<Transform> GetFemaleBones(int girlIndex)
-            => femaleBones.Keys
-                .Select(name => GameObject.Find(name).transform)
-                .ToList();
+        protected override Dictionary<Bone, Transform> GetFemaleBones(int girlIndex)
+            => femaleBones.ToDictionary(kvp => kvp.Key,
+                kvp => GameObject.Find(kvp.Value).transform);
 
         protected override Transform GetMaleBone() => GameObject.Find(MaleBoneName).transform;
 
@@ -83,13 +82,13 @@ namespace LoveMachine.OA
 
     public class OurApartmentButtplugVibrationController : OurApartmentButtplugController
     {
-        protected override IEnumerator Run(int girlIndex, int boneIndex)
-            => RunVibratorLoop(girlIndex, boneIndex);
+        protected override IEnumerator Run(int girlIndex, Bone bone)
+            => RunVibratorLoop(girlIndex, bone);
     }
 
     public class OurApartmentButtplugStrokerController : OurApartmentButtplugController
     {
-        protected override IEnumerator Run(int girlIndex, int boneIndex)
-            => RunStrokerLoop(girlIndex, boneIndex);
+        protected override IEnumerator Run(int girlIndex, Bone bone)
+            => RunStrokerLoop(girlIndex, bone);
     }
 }

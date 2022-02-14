@@ -8,20 +8,20 @@ namespace LoveMachine.AGH
 {
     public abstract class HoukagoRinkanButtplugController : ButtplugController
     {
-        private static readonly List<string> SayaBones = new List<string>
+        private static readonly Dictionary<Bone, string> sayaBones = new Dictionary<Bone, string>
         {
-            "HS01_cli",
-            "bip01 L Finger1Nub",
-            "BF01_tongue01",
-            "HS_Breast_LL"
+            { Bone.Vagina, "HS01_cli" },
+            { Bone.LeftHand, "bip01 L Finger1Nub" },
+            { Bone.Mouth, "BF01_tongue01" },
+            { Bone.LeftBreast, "HS_Breast_LL" },
         };
 
-        private static readonly List<string> ElenaBones = new List<string>
+        private static readonly Dictionary<Bone, string> elenaBones = new Dictionary<Bone, string>
         {
-            "HS01_cli_02",
-            "bip01 L Finger1Nub_02",
-            "BF01_tongue01_02",
-            "HS_Breast_LL_02"
+            { Bone.Vagina, "HS01_cli_02" },
+            { Bone.LeftHand, "bip01 L Finger1Nub_02" },
+            { Bone.Mouth, "BF01_tongue01_02" },
+            { Bone.LeftBreast, "HS_Breast_LL_02" },
         };
 
         protected override int HeroineCount => 1;
@@ -36,9 +36,9 @@ namespace LoveMachine.AGH
             => (GameObject.Find("CH01/CH0001") ?? GameObject.Find("CH02/CH0002"))
                 .GetComponent<Animator>();
 
-        protected override List<Transform> GetFemaleBones(int girlIndex)
-            => (GameObject.Find("CH01") != null ? SayaBones : ElenaBones)
-                .Select(bone => GameObject.Find(bone).transform).ToList();
+        protected override Dictionary<Bone, Transform> GetFemaleBones(int _girlIndex)
+            => (GameObject.Find("CH01") != null ? sayaBones : elenaBones)
+                .ToDictionary(kvp => kvp.Key, kvp => GameObject.Find(kvp.Value).transform);
 
         protected override Transform GetMaleBone()
             => GameObject.Find("BP00_tamaL").transform;
@@ -57,13 +57,13 @@ namespace LoveMachine.AGH
 
     public class HoukagoRinkanButtplugVibrationController : HoukagoRinkanButtplugController
     {
-        protected override IEnumerator Run(int girlIndex, int boneIndex)
-            => RunVibratorLoop(girlIndex, boneIndex);
+        protected override IEnumerator Run(int girlIndex, Bone bone)
+            => RunVibratorLoop(girlIndex, bone);
     }
 
     public class HoukagoRinkanButtplugStrokerController : HoukagoRinkanButtplugController
     {
-        protected override IEnumerator Run(int girlIndex, int boneIndex)
-            => RunStrokerLoop(girlIndex, boneIndex);
+        protected override IEnumerator Run(int girlIndex, Bone bone)
+            => RunStrokerLoop(girlIndex, bone);
     }
 }
