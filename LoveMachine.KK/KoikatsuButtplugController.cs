@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using BepInEx.Bootstrap;
 using IllusionUtility.GetUtility;
 using LoveMachine.Core;
 using UnityEngine;
@@ -270,11 +269,18 @@ namespace LoveMachine.KK
 
     public class KoikatsuButtplugAibuDepthController : KoikatsuButtplugController
     {
+        private CalorDepthPOC calor;
+
         protected override void HandleFondle(float y, int girlIndex, Bone bone, float timeSecs)
             => throw new System.NotImplementedException();
 
         protected override bool IsIdle(int girlIndex)
             => throw new System.NotImplementedException();
+
+        private void Init()
+        {
+            calor = gameObject.GetComponent<CalorDepthPOC>();
+        }
 
         protected override IEnumerator Run(int girlIndex, Bone bone)
         {
@@ -282,11 +288,11 @@ namespace LoveMachine.KK
             {
                 yield break;
             }
-            var calor = gameObject.GetComponent<CalorDepthPOC>();
+            Init();
             while (true)
             {
                 yield return new WaitForEndOfFrame();
-                if (!TryGetWaveInfo(0, 0, out var result))
+                if (!TryGetWaveInfo(0, Bone.Auto, out var result))
                 {
                     GetFemaleAnimator(0).speed = 1;
                     flags.player.chaCtrl.animBody.speed = 1;
@@ -295,6 +301,19 @@ namespace LoveMachine.KK
                 if (!calor.TryGetNewDepth(peek: false, out float depth))
                 {
                     continue;
+                }
+                if (depth < 0 && flags.nowAnimStateName != "Idle")
+                {
+                    flags.click = HFlag.ClickKind.pull;
+                    continue;
+                }
+                if (flags.nowAnimStateName == "Idle")
+                {
+                    flags.click = HFlag.ClickKind.insert;
+                    yield return new WaitForSeconds(5f);
+                    flags.click = HFlag.ClickKind.modeChange;
+                    flags.speedCalc = 0.5f;
+                    yield return new WaitForSeconds(2f);
                 }
                 GetFemaleAnimator(0).speed = 0;
                 flags.player.chaCtrl.animBody.speed = 0;
