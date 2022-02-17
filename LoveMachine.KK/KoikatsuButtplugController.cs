@@ -270,6 +270,13 @@ namespace LoveMachine.KK
     public class KoikatsuDepthController<T> : KoikatsuButtplugController
         where T : IDepthSensor
     {
+        private static readonly List<string> supportedAnimations = new List<string>
+        {
+            "WLoop", "SLoop",
+            // anal
+            "A_WLoop", "A_SLoop", "A_OLoop"
+        };
+
         private T depthSensor;
 
         protected override void HandleFondle(float y, int girlIndex, Bone bone, float timeSecs)
@@ -300,24 +307,32 @@ namespace LoveMachine.KK
                 }
                 if (!TryGetWaveInfo(0, Bone.Auto, out var waveInfo))
                 {
-                    GetFemaleAnimator(0).speed = 1;
-                    flags.player.chaCtrl.animBody.speed = 1;
+                    SetSpeed(1f);
                     continue;
                 }
-                if (!depthSensor.TryGetNewDepth(peek: false, out float depth) || depth < 0)
+                if (!depthSensor.TryGetNewDepth(peek: false, out float depth) || depth < 0f)
                 {
                     continue;
                 }
                 if (flags.nowAnimStateName == "Idle")
                 {
+                    CoreConfig.Logger.LogInfo("Got positive depth reading. Inserting.");
+                    if (!flags.IsNamaInsertOK())
+                    {
+                        flags.isCondom = true;
+                    }
                     flags.click = HFlag.ClickKind.insert;
                     yield return new WaitForSeconds(5f);
                     flags.click = HFlag.ClickKind.modeChange;
                     flags.speedCalc = 0.5f;
                     yield return new WaitForSeconds(2f);
                 }
-                GetFemaleAnimator(0).speed = 0;
-                flags.player.chaCtrl.animBody.speed = 0;
+                if (!supportedAnimations.Contains(flags.nowAnimStateName))
+                {
+                    SetSpeed(1f);
+                    continue;
+                }
+                SetSpeed(0f);
                 float targetNormTime = waveInfo.Phase + 0.5f - depth / waveInfo.Frequency / 2f;
                 float startNormTime = GetFemaleAnimator(0).GetCurrentAnimatorStateInfo(AnimationLayer)
                     .normalizedTime;
@@ -332,13 +347,19 @@ namespace LoveMachine.KK
                 for (int i = 1; i <= steps; i++)
                 {
                     SkipToTime(startNormTime + step * i);
-                    if (depthSensor.TryGetNewDepth(peek: true, out _))
+                    if (depthSensor.TryGetNewDepth(peek: true, out depth) && depth >= 0)
                     {
                         break;
                     }
                     yield return new WaitForEndOfFrame();
                 }
             }
+        }
+
+        private void SetSpeed(float speed)
+        {
+            GetFemaleAnimator(0).speed = speed;
+            flags.player.chaCtrl.animBody.speed = speed;
         }
 
         private void SkipToTime(float normalizedTime)
