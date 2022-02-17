@@ -47,7 +47,6 @@ namespace LoveMachine.Core
                 .TrimEnd(Path.DirectorySeparatorChar)
                 + Path.DirectorySeparatorChar;
             Chainloader.ManagerObject.AddComponent<ButtplugWsClient>();
-            Chainloader.ManagerObject.AddComponent<CalorDepthPOC>();
             foreach (var controller in controllers)
             {
                 Chainloader.ManagerObject.AddComponent(controller);

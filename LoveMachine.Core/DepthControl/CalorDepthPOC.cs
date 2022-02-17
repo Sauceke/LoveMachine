@@ -9,7 +9,7 @@ using UnityEngine;
 
 namespace LoveMachine.Core
 {
-    public class CalorDepthPOC : MonoBehaviour
+    public class CalorDepthPOC : MonoBehaviour, IDepthSensor
     {
         private const string executableName = "BLEConsole.exe";
         private const string script =
@@ -70,14 +70,20 @@ namespace LoveMachine.Core
             stdin = new StreamWriter(bleConsole.StandardInput.BaseStream, Encoding.ASCII);
             stdin.WriteLine(script);
             stdin.Flush();
+            // can't do in coroutine, StandardOutput.Read blocks
             new Thread(Poll).Start();
+        }
+
+        private void OnDestroy()
+        {
+            bleConsole.Kill();
         }
 
         private void Poll()
         {
             int nextChar;
             string data = "";
-            while (-1 != (nextChar = bleConsole.StandardOutput.Read()))
+            while ((nextChar = bleConsole.StandardOutput.Read()) != -1)
             {
                 data += (char)nextChar;
                 switch ((char)nextChar)

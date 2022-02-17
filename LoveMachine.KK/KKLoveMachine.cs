@@ -1,4 +1,5 @@
 ﻿using BepInEx;
+using BepInEx.Bootstrap;
 using BepInEx.Configuration;
 using LoveMachine.Core;
 
@@ -29,7 +30,10 @@ namespace LoveMachine.KK
                 typeof(KoikatsuButtplugVibrationController),
                 typeof(KoikatsuButtplugAibuStrokerController),
                 typeof(KoikatsuButtplugAibuVibrationController),
-                typeof(KoikatsuButtplugAibuDepthController));
+                typeof(KoikatsuCalorDepthController),
+                typeof(KoikatsuHotdogDepthController));
+            Chainloader.ManagerObject.AddComponent<CalorDepthPOC>();
+            Chainloader.ManagerObject.AddComponent<HotdogDepthPOC>();
             string animationSettingsTitle = "Animation Settings";
             ReduceAnimationSpeeds = Config.Bind(
                 section: animationSettingsTitle,

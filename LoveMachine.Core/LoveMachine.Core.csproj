@@ -45,8 +45,10 @@
     <Compile Include="AnimationTools\AnimationAnalyzer.cs" />
     <Compile Include="ButtplugController.cs" />
     <Compile Include="Common\Bone.cs" />
-    <Compile Include="Lovense\CalorDepthPOC.cs" />
+    <Compile Include="DepthControl\HotdogDepthPOC.cs" />
+    <Compile Include="DepthControl\CalorDepthPOC.cs" />
     <Compile Include="Common\CoroutineHandler.cs" />
+    <Compile Include="DepthControl\IDepthSensor.cs" />
     <Compile Include="PluginInitializer.cs" />
     <Compile Include="RangeSlider.cs" />
     <Compile Include="VersionInfo.cs" />

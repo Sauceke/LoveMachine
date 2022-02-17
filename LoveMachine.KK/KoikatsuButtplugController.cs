@@ -267,9 +267,10 @@ namespace LoveMachine.KK
              => RunAibu(girlIndex, bone);
     }
 
-    public class KoikatsuButtplugAibuDepthController : KoikatsuButtplugController
+    public class KoikatsuDepthController<T> : KoikatsuButtplugController
+        where T : IDepthSensor
     {
-        private CalorDepthPOC calor;
+        private T depthSensor;
 
         protected override void HandleFondle(float y, int girlIndex, Bone bone, float timeSecs)
             => throw new System.NotImplementedException();
@@ -279,7 +280,7 @@ namespace LoveMachine.KK
 
         private void Init()
         {
-            calor = gameObject.GetComponent<CalorDepthPOC>();
+            depthSensor = gameObject.GetComponent<T>();
         }
 
         protected override IEnumerator Run(int girlIndex, Bone bone)
@@ -292,19 +293,19 @@ namespace LoveMachine.KK
             while (true)
             {
                 yield return new WaitForEndOfFrame();
-                if (!TryGetWaveInfo(0, Bone.Auto, out var result))
+                if (!depthSensor.IsDeviceConnected)
+                {
+                    yield return new WaitForSecondsRealtime(1f);
+                    continue;
+                }
+                if (!TryGetWaveInfo(0, Bone.Auto, out var waveInfo))
                 {
                     GetFemaleAnimator(0).speed = 1;
                     flags.player.chaCtrl.animBody.speed = 1;
                     continue;
                 }
-                if (!calor.TryGetNewDepth(peek: false, out float depth))
+                if (!depthSensor.TryGetNewDepth(peek: false, out float depth) || depth < 0)
                 {
-                    continue;
-                }
-                if (depth < 0 && flags.nowAnimStateName != "Idle")
-                {
-                    flags.click = HFlag.ClickKind.pull;
                     continue;
                 }
                 if (flags.nowAnimStateName == "Idle")
@@ -317,24 +318,38 @@ namespace LoveMachine.KK
                 }
                 GetFemaleAnimator(0).speed = 0;
                 flags.player.chaCtrl.animBody.speed = 0;
-                float targetNormTime = (result.Phase + 1.5f - depth / 2f) % 1f;
+                float targetNormTime = waveInfo.Phase + 0.5f - depth / waveInfo.Frequency / 2f;
                 float startNormTime = GetFemaleAnimator(0).GetCurrentAnimatorStateInfo(AnimationLayer)
-                    .normalizedTime % 1f;
-                int steps = 20;
-                float step = (targetNormTime - startNormTime) / steps;
+                    .normalizedTime;
+                if (startNormTime < waveInfo.Phase || startNormTime > waveInfo.Phase + 0.5f)
+                {
+                    startNormTime = targetNormTime;
+                    SkipToTime(targetNormTime);
+                }
+                float delta = targetNormTime - startNormTime;
+                float step = Mathf.Sign(delta) / 40f;
+                int steps = (int) (delta / step);
                 for (int i = 1; i <= steps; i++)
                 {
-                    if (calor.TryGetNewDepth(peek: true, out _))
+                    SkipToTime(startNormTime + step * i);
+                    if (depthSensor.TryGetNewDepth(peek: true, out _))
                     {
                         break;
                     }
-                    float normTime = startNormTime + step * i;
-                    var animStateHash = GetAnimatorStateInfo(0).fullPathHash;
-                    GetFemaleAnimator(0).Play(animStateHash, AnimationLayer, normTime);
-                    flags.player.chaCtrl.animBody.Play(animStateHash, AnimationLayer, normTime);
                     yield return new WaitForEndOfFrame();
                 }
             }
         }
+
+        private void SkipToTime(float normalizedTime)
+        {
+            int animStateHash = GetAnimatorStateInfo(0).fullPathHash;
+            GetFemaleAnimator(0).Play(animStateHash, AnimationLayer, normalizedTime);
+            flags.player.chaCtrl.animBody.Play(animStateHash, AnimationLayer, normalizedTime);
+        }
     }
+
+    public class KoikatsuCalorDepthController : KoikatsuDepthController<CalorDepthPOC> { }
+
+    public class KoikatsuHotdogDepthController : KoikatsuDepthController<HotdogDepthPOC> { }
 }
