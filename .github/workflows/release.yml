@@ -61,19 +61,19 @@ jobs:
         Compress-Archive -Path bin/LoveMachine.PH/BepInEx -DestinationPath assets/LoveMachine_for_PlayHome.zip
         Compress-Archive -Path bin/LoveMachine.AGH/BepInEx -DestinationPath assets/LoveMachine_for_Houkago_Rinkan_Chuudoku.zip
         Compress-Archive -Path bin/LoveMachine.OA/BepInEx -DestinationPath assets/LoveMachine_for_Our_Apartment.zip
-        copy Installer/bin/LoveMachineInstaller.exe assets/LoveMachineInstaller.exe
 
     - name: Download BLEConsole (for the installer only)
       run: |
         curl -L https://github.com/sensboston/BLEConsole/releases/download/v1.5.6/BLEConsole.exe --output ./BLEConsole.exe
-        cp ./BLEConsole.exe bin/LoveMachine.KK/BepInEx/plugins/KK_LoveMachine
-        cp ./BLEConsole.exe bin/LoveMachine.KKS/BepInEx/plugins/KKS_LoveMachine
+        copy ./BLEConsole.exe bin/LoveMachine.KK/BepInEx/plugins/KK_LoveMachine
+        copy ./BLEConsole.exe bin/LoveMachine.KKS/BepInEx/plugins/KKS_LoveMachine
 
     - name: Build Installer
       run: |
         cd Installer
         & "C:\Program Files (x86)\Inno Setup 6\ISCC.exe" InstallScript.iss
         cd ..
+        copy Installer/bin/LoveMachineInstaller.exe assets/LoveMachineInstaller.exe
 
     - name: Create Release
       id: create_release
