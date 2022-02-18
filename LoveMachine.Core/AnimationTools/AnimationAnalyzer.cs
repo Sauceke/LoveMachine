@@ -17,6 +17,8 @@ namespace LoveMachine.Core
             = new Dictionary<int, CoroutineHandler>();
 
         protected abstract int AnimationLayer { get; }
+
+        protected abstract bool IsIdle(int girlIndex);
         protected abstract Animator GetFemaleAnimator(int girlIndex);
         protected abstract Dictionary<Bone, Transform> GetFemaleBones(int girlIndex);
         protected abstract Transform GetMaleBone();
@@ -77,7 +79,7 @@ namespace LoveMachine.Core
                 .ForEach(kvp => resultCache[GetExactPose(girlIndex, kvp.Key)] = kvp.Value);
             while (true)
             {
-                if (TryGetWaveInfo(girlIndex, Bone.Auto, out var _))
+                if (TryGetWaveInfo(girlIndex, Bone.Auto, out var _) || IsIdle(girlIndex))
                 {
                     yield return new WaitForSecondsRealtime(0.1f);
                     continue;

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using HarmonyLib;
@@ -55,7 +54,8 @@ namespace LoveMachine.OA
                         return i;
                     }
                 }
-                throw new Exception("Active animation layer not found");
+                CoreConfig.Logger.LogWarning("Active animation layer not found");
+                return 0;
             }
         }
 
