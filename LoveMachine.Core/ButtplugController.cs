@@ -14,6 +14,7 @@ namespace LoveMachine.Core
 
         protected virtual float VibrationIntensity { get; } = 1f;
 
+        protected abstract bool IsIdle(int girlIndex);
         protected abstract IEnumerator UntilReady();
         protected abstract IEnumerator Run(int girlIndex, Bone bone);
 

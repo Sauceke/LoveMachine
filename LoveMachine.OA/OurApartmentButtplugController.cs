@@ -54,7 +54,6 @@ namespace LoveMachine.OA
                         return i;
                     }
                 }
-                CoreConfig.Logger.LogWarning("Active animation layer not found");
                 return -1;
             }
         }
@@ -67,12 +66,15 @@ namespace LoveMachine.OA
             => femaleBones.ToDictionary(kvp => kvp.Key,
                 kvp => GameObject.Find(kvp.Value).transform);
 
-        protected override Transform GetMaleBone() => GameObject.Find(MaleBoneName).transform;
+        protected override Transform GetMaleBone()
+            => GameObject.Find(MaleBoneName)?.transform ?? transform;
 
         protected override string GetPose(int girlIndex)
-            => npcAnimator.Value.GetCurrentAnimatorClipInfo(AnimationLayer)[0].clip.name;
+            => AnimationLayer < 0
+                ? "unknown_pose"
+                : npcAnimator.Value.GetCurrentAnimatorClipInfo(AnimationLayer)[0].clip.name;
 
-        protected override bool IsIdle(int girlIndex) => !isSex.Value || AnimationLayer < 0;
+        protected override bool IsIdle(int girlIndex) => !isSex.Value;
 
         protected override IEnumerator UntilReady()
         {

@@ -18,7 +18,6 @@ namespace LoveMachine.Core
 
         protected abstract int AnimationLayer { get; }
 
-        protected abstract bool IsIdle(int girlIndex);
         protected abstract Animator GetFemaleAnimator(int girlIndex);
         protected abstract Dictionary<Bone, Transform> GetFemaleBones(int girlIndex);
         protected abstract Transform GetMaleBone();
@@ -35,12 +34,16 @@ namespace LoveMachine.Core
 
         protected bool TryGetWaveInfo(int girlIndex, Bone bone, out WaveInfo result)
         {
-            if (IsIdle(girlIndex))
+            try
             {
+                return resultCache.TryGetValue(GetExactPose(girlIndex, bone), out result);
+            }
+            catch (Exception e)
+            {
+                CoreConfig.Logger.LogError($"Error while trying to get wave info: {e}");
                 result = new WaveInfo();
                 return false;
             }
-            return resultCache.TryGetValue(GetExactPose(girlIndex, bone), out result);
         }
 
         protected virtual float GetStrokeTimeSecs(int girlIndex, Bone bone)
@@ -86,12 +89,13 @@ namespace LoveMachine.Core
                 .ForEach(kvp => resultCache[GetExactPose(girlIndex, kvp.Key)] = kvp.Value);
             while (true)
             {
-                if (TryGetWaveInfo(girlIndex, Bone.Auto, out var _) || IsIdle(girlIndex))
+                if (TryGetWaveInfo(girlIndex, Bone.Auto, out var _))
                 {
                     yield return new WaitForSecondsRealtime(0.1f);
                     continue;
                 }
-                yield return HandleCoroutine(AnalyzeAnimation(girlIndex, updateDictionary));
+                yield return HandleCoroutine(AnalyzeAnimation(girlIndex, updateDictionary),
+                    suppressExceptions: true);
             }
         }
 
@@ -153,8 +157,6 @@ namespace LoveMachine.Core
                 $"{measurements.Count / femaleBones.Count} frames inspected. " +
                 $"Closest bone: {closest.Bone}, offset: {results[Bone.Auto].Phase}, " +
                 $"frequency: {results[Bone.Auto].Frequency}. ");
-            CoreConfig.Logger.LogDebug(
-                $"Raw measurement data for pose {pose}: {JsonUtility.ToJson(measurements)}");
         }
 
         private static int GetFrequency(IEnumerable<float> samples)

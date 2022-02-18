@@ -6,20 +6,20 @@ namespace LoveMachine.Core
 {
     public class CoroutineHandler : MonoBehaviour
     {
-        protected internal Coroutine HandleCoroutine(IEnumerator coroutine)
+        protected internal Coroutine HandleCoroutine(IEnumerator coroutine, bool suppressExceptions = false)
         {
-            return StartCoroutine(HandleExceptions(coroutine));
+            return StartCoroutine(HandleExceptions(coroutine, suppressExceptions));
         }
 
-        protected IEnumerator HandleExceptions(IEnumerator coroutine)
+        private IEnumerator HandleExceptions(IEnumerator coroutine, bool suppressExceptions)
         {
-            while (TryNext(coroutine))
+            while (TryNext(coroutine, suppressExceptions))
             {
                 yield return coroutine.Current;
             }
         }
 
-        private bool TryNext(IEnumerator coroutine)
+        private bool TryNext(IEnumerator coroutine, bool suppressExceptions)
         {
             try
             {
@@ -28,6 +28,10 @@ namespace LoveMachine.Core
             catch (Exception e)
             {
                 CoreConfig.Logger.LogError($"Coroutine failed with exception: {e}");
+                if (suppressExceptions)
+                {
+                    return false;
+                }
                 throw e;
             }
         }
