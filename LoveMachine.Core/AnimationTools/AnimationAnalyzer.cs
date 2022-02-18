@@ -34,7 +34,14 @@ namespace LoveMachine.Core
             => $"{GetPose(girlIndex)}.girl{girlIndex}.{bone}";
 
         protected bool TryGetWaveInfo(int girlIndex, Bone bone, out WaveInfo result)
-            => resultCache.TryGetValue(GetExactPose(girlIndex, bone), out result);
+        {
+            if (IsIdle(girlIndex))
+            {
+                result = new WaveInfo();
+                return false;
+            }
+            return resultCache.TryGetValue(GetExactPose(girlIndex, bone), out result);
+        }
 
         protected virtual float GetStrokeTimeSecs(int girlIndex, Bone bone)
         {

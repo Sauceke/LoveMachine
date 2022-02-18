@@ -55,7 +55,7 @@ namespace LoveMachine.OA
                     }
                 }
                 CoreConfig.Logger.LogWarning("Active animation layer not found");
-                return 0;
+                return -1;
             }
         }
 
@@ -72,7 +72,7 @@ namespace LoveMachine.OA
         protected override string GetPose(int girlIndex)
             => npcAnimator.Value.GetCurrentAnimatorClipInfo(AnimationLayer)[0].clip.name;
 
-        protected override bool IsIdle(int girlIndex) => !isSex.Value;
+        protected override bool IsIdle(int girlIndex) => !isSex.Value || AnimationLayer < 0;
 
         protected override IEnumerator UntilReady()
         {
