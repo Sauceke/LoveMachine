@@ -56,6 +56,7 @@ OutputBaseFilename=LoveMachineInstaller
 WizardStyle=modern
 DisableDirPage=yes
 DisableWelcomePage=no
+InfoBeforeFile=Readme.rtf
 
 [Files]
 ; BepInEx files
