@@ -16,14 +16,19 @@ namespace LoveMachine.Core
 
         private readonly List<SerialPort> ports = new List<SerialPort>();
         private SerialPort hotdogPort;
-
-        private float depth;
+        private float? depth = null;
 
         public bool IsDeviceConnected { get; private set; } = false;
 
         public bool TryGetNewDepth(bool peek, out float newDepth)
         {
-            newDepth = depth < 0.1f ? -1 : Mathf.InverseLerp(0.1f, 1f, depth);
+            if (!depth.HasValue)
+            {
+                newDepth = 0f;
+                return false;
+            }
+            newDepth = depth < 0.1f ? -1 : Mathf.InverseLerp(0.1f, 1f, depth.Value);
+            depth = peek ? depth : null;
             return true;
         }
 
@@ -64,6 +69,7 @@ namespace LoveMachine.Core
         {
             while (true)
             {
+                yield return new WaitForSecondsRealtime(0.1f);
                 foreach (var port in ports)
                 {
                     string line = GetLastLine(port);
@@ -79,7 +85,6 @@ namespace LoveMachine.Core
                     IsDeviceConnected = true;
                     yield break;
                 }
-                yield return new WaitForSecondsRealtime(0.1f);
             }
         }
 
@@ -87,13 +92,19 @@ namespace LoveMachine.Core
         {
             while (hotdogPort.IsOpen)
             {
+                yield return new WaitForEndOfFrame();
                 string line = GetLastLine(hotdogPort);
                 string[] lineParsed = line.Split(Separator);
-                if (lineParsed.Length == 3 && lineParsed[1] == DepthKey)
+                if (lineParsed.Length != 3 || lineParsed[1] != DepthKey)
                 {
-                    depth = float.Parse(lineParsed[2]);
+                    continue;
                 }
-                yield return new WaitForEndOfFrame();
+                if (!float.TryParse(lineParsed[2], out float result))
+                {
+                    CoreConfig.Logger.LogWarning($"Malformed Hotdog output {line}");
+                    continue;
+                }
+                depth = result;
             }
         }
 

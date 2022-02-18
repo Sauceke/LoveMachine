@@ -1,5 +1,4 @@
-﻿using System.Collections.Concurrent;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.IO;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -27,27 +26,24 @@ namespace LoveMachine.Core
 
         private Process bleConsole;
         private StreamWriter stdin;
-        private ConcurrentQueue<float> depthReadings;
+        private float? depth = null;
 
         public bool IsDeviceConnected { get; private set; } = false;
 
         public bool TryGetNewDepth(bool peek, out float newDepth)
         {
-            newDepth = float.NaN;
-            while (depthReadings.TryDequeue(out float depth))
+            if (!depth.HasValue)
             {
-                newDepth = depth;
+                newDepth = 0f;
+                return false;
             }
-            if (peek)
-            {
-                depthReadings.Enqueue(newDepth);
-            }
-            return !float.IsNaN(newDepth);
+            newDepth = depth.Value;
+            depth = peek ? depth : null;
+            return true;
         }
 
         private void Start()
         {
-            depthReadings = new ConcurrentQueue<float>();
             string bleConsolePath = CoreConfig.PluginDirectoryPath + executableName;
             if (!File.Exists(bleConsolePath))
             {
@@ -112,9 +108,8 @@ namespace LoveMachine.Core
             {
                 IsDeviceConnected = true;
                 int level = int.Parse(match.Groups[1].Value);
-                float depth = level == 0 ? -1f : (level - 1) / 2f;
-                CoreConfig.Logger.LogDebug($"Depth: {depth}");
-                depthReadings.Enqueue(depth);
+                depth = level == 0 ? -1f : (level - 1) / 2f;
+                CoreConfig.Logger.LogDebug($"Calor depth reading: {depth}");
             }
         }
     }

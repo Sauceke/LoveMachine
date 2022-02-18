@@ -277,7 +277,16 @@ namespace LoveMachine.KK
             "A_WLoop", "A_SLoop", "A_OLoop"
         };
 
+        private static readonly List<string> penetrableAnimations = new List<string>
+        {
+            "Idle", "OUT_A"
+        };
+
         private T depthSensor;
+
+        private bool IsControllable => supportedAnimations.Contains(flags.nowAnimStateName);
+
+        private bool IsPenetrable => penetrableAnimations.Contains(flags.nowAnimStateName);
 
         protected override void HandleFondle(float y, int girlIndex, Bone bone, float timeSecs)
             => throw new System.NotImplementedException();
@@ -314,20 +323,17 @@ namespace LoveMachine.KK
                 {
                     continue;
                 }
-                if (flags.nowAnimStateName == "Idle")
+                if (IsPenetrable)
                 {
                     CoreConfig.Logger.LogInfo("Got positive depth reading. Inserting.");
-                    if (!flags.IsNamaInsertOK())
-                    {
-                        flags.isCondom = true;
-                    }
+                    flags.isCondom = true;
                     flags.click = HFlag.ClickKind.insert;
                     yield return new WaitForSeconds(5f);
                     flags.click = HFlag.ClickKind.modeChange;
                     flags.speedCalc = 0.5f;
                     yield return new WaitForSeconds(2f);
                 }
-                if (!supportedAnimations.Contains(flags.nowAnimStateName))
+                if (!IsControllable)
                 {
                     SetSpeed(1f);
                     continue;
