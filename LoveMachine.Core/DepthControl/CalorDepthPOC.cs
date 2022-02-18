@@ -47,7 +47,7 @@ namespace LoveMachine.Core
             string bleConsolePath = CoreConfig.PluginDirectoryPath + executableName;
             if (!File.Exists(bleConsolePath))
             {
-                CoreConfig.Logger.LogInfo("Will not run BLEConsole as it is not installed.");
+                CoreConfig.Logger.LogInfo("BLEConsole not installed, so can't run it.");
                 return;
             }
             bleConsole = new Process();

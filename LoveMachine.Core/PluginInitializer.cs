@@ -40,6 +40,11 @@ namespace LoveMachine.Core
             .Start();
         }
 
+        public static void MakeGUILabel(string text)
+        {
+            GUILayout.Label(text);
+        }
+
         private void Start()
         {
             InitSettings();

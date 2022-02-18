@@ -16,6 +16,8 @@ namespace LoveMachine.KK
     {
         public static ConfigEntry<bool> ReduceAnimationSpeeds;
         public static ConfigEntry<bool> SuppressAnimationBlending;
+        public static ConfigEntry<bool> EnableCalorDepthControl;
+        public static ConfigEntry<bool> EnableHotdogDepthControl;
 
         private void Start()
         {
@@ -32,8 +34,15 @@ namespace LoveMachine.KK
                 typeof(KoikatsuButtplugAibuVibrationController),
                 typeof(KoikatsuCalorDepthController),
                 typeof(KoikatsuHotdogDepthController));
-            Chainloader.ManagerObject.AddComponent<CalorDepthPOC>();
-            Chainloader.ManagerObject.AddComponent<HotdogDepthPOC>();
+            AddExperimentalSettings();
+            if (EnableCalorDepthControl.Value)
+            {
+                Chainloader.ManagerObject.AddComponent<CalorDepthPOC>();
+            }
+            if (EnableHotdogDepthControl.Value)
+            {
+                Chainloader.ManagerObject.AddComponent<HotdogDepthPOC>();
+            }
             string animationSettingsTitle = "Animation Settings";
             ReduceAnimationSpeeds = Config.Bind(
                 section: animationSettingsTitle,
@@ -47,6 +56,39 @@ namespace LoveMachine.KK
                 "Some animations are too complex and cannot be tracked precisely.\n" +
                 "This setting will make such animations simpler for better immersion.");
             Hooks.InstallHooks();
+        }
+
+        private void AddExperimentalSettings()
+        {
+            string experimentalTitle = "Experimental Features";
+            string experimentalNote = "These settings will only take effect after " +
+                "restarting the game. It is recommended that you close Intiface when " +
+                "using any of these features.";
+            Config.Bind(
+                section: experimentalTitle,
+                key: "a",
+                defaultValue: 0,
+                new ConfigDescription(
+                    "",
+                    new AcceptableValueRange<int>(0, 100),
+                    new ConfigurationManagerAttributes
+                    {
+                        Order = 100,
+                        CustomDrawer = entry => PluginInitializer.MakeGUILabel(experimentalNote),
+                        HideSettingName = true,
+                        HideDefaultButton = true
+                    })
+                );
+            EnableCalorDepthControl = Config.Bind(
+                section: experimentalTitle,
+                key: "Enable Lovense Calor depth control",
+                defaultValue: false,
+                "Use a Lovense Calor device for depth control");
+            EnableHotdogDepthControl = Config.Bind(
+                section: experimentalTitle,
+                key: "Enable Hotdog depth control (KKS only)",
+                defaultValue: false,
+                "Use a Hotdog device for depth control");
         }
     }
 

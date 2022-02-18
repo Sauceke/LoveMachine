@@ -294,18 +294,18 @@ namespace LoveMachine.KK
         protected override bool IsIdle(int girlIndex)
             => throw new System.NotImplementedException();
 
-        private void Init()
-        {
-            depthSensor = gameObject.GetComponent<T>();
-        }
-
         protected override IEnumerator Run(int girlIndex, Bone bone)
         {
             if (girlIndex != 0 || bone != Bone.Auto)
             {
                 yield break;
             }
-            Init();
+            depthSensor = gameObject.GetComponent<T>();
+            if (depthSensor == null)
+            {
+                CoreConfig.Logger.LogInfo($"{GetType()} is disabled.");
+                yield break;
+            }
             while (true)
             {
                 yield return new WaitForEndOfFrame();
@@ -349,7 +349,7 @@ namespace LoveMachine.KK
                 }
                 float delta = targetNormTime - startNormTime;
                 float step = Mathf.Sign(delta) / 40f;
-                int steps = (int) (delta / step);
+                int steps = (int)(delta / step);
                 for (int i = 1; i <= steps; i++)
                 {
                     SkipToTime(startNormTime + step * i);
