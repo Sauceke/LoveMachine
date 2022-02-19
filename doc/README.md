@@ -15,7 +15,9 @@ Adds support for [buttplug.io](https://buttplug.io/) compatible strokers and vib
 | After Service Gangbang Addicts | MICONISOMI       | Yes, wtih [AGHVR](https://github.com/Eusth/AGHVR) |
 | Our Apartment                  | Momoiro Software | No           |
 
-Buttplug.io supports [over 180 devices](https://iostindex.com/?filter0ButtplugSupport=4). Some of the devices that were actually tested with the mod:
+Buttplug.io supports [over 180 devices](https://iostindex.com/?filter0ButtplugSupport=4). This plugin is for **linear** (moving back-and-forth) and **vibrating** sex toys, with [experimental support for two depth sensing devices](#depth-control).
+
+Some of the devices that were actually tested with the mod:
 
 Strokers
 * [The Handy](https://www.thehandy.com/?ref=saucekebenfield&utm_source=saucekebenfield&utm_medium=affiliate&utm_campaign=The+Handy+Affiliate+program)
@@ -28,11 +30,8 @@ Vibrators
 * [Lovense Domi 2](https://www.lovense.com/r/77i51d)
 * The Xbox gamepad
 
-This plugin is for **linear** (moving back-and-forth) and **vibrating** devices; other types of sex toys will not work with this plugin, even if they are supported by buttplug.io.
-
 ## Installation
-
-Download and run the [installer](https://github.com/Sauceke/BepInEx.LoveMachine/releases/latest/download/LoveMachineInstaller.exe).
+Download and run the [installer](https://github.com/Sauceke/BepInEx.LoveMachine/releases/latest/download/LoveMachineInstaller.exe). If you encounter the "Windows protected your PC" message, click More info > Run anyway.
 
 ## How to use
 1. Open Intiface Desktop.
@@ -47,6 +46,15 @@ The Space key acts as a kill switch for all devices while in-game. To reactivate
 * LoveMachine analyzes the movement of certain bones in female characters (hands, crotch, breasts, mouth) at the start of each animation loop, to determine the exact timing of the up-strokes.
 * The stroking movement (and the intensity oscillation for vibrators) will be matched to the movements of the bone closest to the male character's balls as recorded during calibration (this messes up syncing with ball licking animations, but works for just about everything else).
 * As the whole thing is based on bone positions, this will only work for reasonably sized and proportioned characters. Abusing SliderUnlocker is not recommended.
+
+## Depth control
+We have experimental support for two depth sensing toys:
+* [Lovense Calor](https://www.lovense.com/r/vu65q6)
+* The [Hotdog](https://github.com/Sauceke/hotdog), a DIY device for transparent sleeves
+
+The Calor works in Koikatsu and Koikatsu Sunshine, while the Hotdog only works in Koikatsu Sunshine. Both were only tested with penetrative scenes. Depth control support in other games will come later.
+
+Both devices are **disabled by default**, you first have to enable them in [Plugin Settings > LoveMachine > Experimental Features](#experimental-features), then **restart the game**.
 
 ## Configuration
 In Plugin Settings > LoveMachine, you can set the following parameters:
@@ -66,6 +74,11 @@ This is where all your devices connected to Intiface are listed.
 * **Test Slow:** Tests the device with 3 slow strokes
 * **Test Fast:** Tests the device with 3 fast strokes
 * **Save device assignments:** If enabled, the Threesome Role and Body Part attributes will be saved for all devices. Disabled by default.
+
+### Experimental Features
+Since these features may mess with some of your peripherals, they are turned off by default. After turning them on, you also have to restart the game for the changes to take effect. It is best if you close Intiface while using these features.
+* **Enable Lovense Calor depth control:** Enables control of H scenes using depth data from a [Lovense Calor](https://www.lovense.com/r/vu65q6).
+* **Enable Hotdog depth control (KKS only):** Enables control of H scenes using depth data from a [Hotdog](https://github.com/Sauceke/hotdog).
 
 ### Kill Switch Settings
 Safety measure to avoid hurting yourself if the sex gets too rough or something goes wrong. By default, pressing Spacebar will immediately stop all connected devices.
