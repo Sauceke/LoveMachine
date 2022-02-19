@@ -54,7 +54,9 @@ We have experimental support for two depth sensing toys:
 
 The Calor works in Koikatsu and Koikatsu Sunshine, while the Hotdog only works in Koikatsu Sunshine. Both were only tested with penetrative scenes. Depth control support in other games will come later.
 
-Both devices are **disabled by default**, you first have to enable them in [Plugin Settings > LoveMachine > Experimental Features](#experimental-features), then **restart the game**.
+Both devices are **disabled by default**, you first have to enable the one you are using in [Plugin Settings > LoveMachine > Experimental Features](#experimental-features), then **restart the game**.
+
+Whichever of the two you use, you need to turn it on **before** starting the game. No additional steps needed to connect either one, the plugin should find them automatically.
 
 ## Configuration
 In Plugin Settings > LoveMachine, you can set the following parameters:
