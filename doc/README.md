@@ -128,6 +128,7 @@ This mod is provided free of charge, but I do accept donations. If you'd like to
 * Taibe
 * Taka Yami
 * tanu
+* tutinoko
 * uruurian
 * Wel Adunno
 * yamada tarou
