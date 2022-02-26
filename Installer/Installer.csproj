@@ -1,0 +1,76 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{4B9643EE-CF9E-463A-8C8D-B9CD486788B6}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>Installer</RootNamespace>
+    <AssemblyName>Installer</AssemblyName>
+    <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\LoveMachine.AGH\LoveMachine.AGH.csproj">
+      <Project>{ee4e9234-f7e8-49df-8096-1e5612e730dc}</Project>
+      <Name>LoveMachine.AGH</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LoveMachine.Core\LoveMachine.Core.csproj">
+      <Project>{36e78d7d-c987-4e98-b709-149d19c4193a}</Project>
+      <Name>LoveMachine.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LoveMachine.HS2\LoveMachine.HS2.csproj">
+      <Project>{31858493-d5c5-4d05-a202-929aba457558}</Project>
+      <Name>LoveMachine.HS2</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LoveMachine.IO\LoveMachine.IO.csproj">
+      <Project>{af9e6f6f-5cf3-4e01-bcc8-8122dafc374b}</Project>
+      <Name>LoveMachine.IO</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LoveMachine.KKS\LoveMachine.KKS.csproj">
+      <Project>{e3d1c1b7-c9cb-4dfc-b36d-72bffe73cac3}</Project>
+      <Name>LoveMachine.KKS</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LoveMachine.KK\LoveMachine.KK.csproj">
+      <Project>{8ab7d330-2e67-47d2-8503-3ea98a0af52c}</Project>
+      <Name>LoveMachine.KK</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LoveMachine.OA\LoveMachine.OA.csproj">
+      <Project>{0e4427fd-cdd6-4ac1-80ef-234c2c4241d7}</Project>
+      <Name>LoveMachine.OA</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LoveMachine.PH\LoveMachine.PH.csproj">
+      <Project>{8fdd1a5c-e7cd-493b-a182-cb82821ede44}</Project>
+      <Name>LoveMachine.PH</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Target Name="BuildInstaller" AfterTargets="AfterBuild" Condition=" '$(Configuration)' == 'Debug' ">
+    <Exec Command="&quot;C:\Program Files (x86)\Inno Setup 6\ISCC.exe&quot; InstallScript.iss" />
+    <Exec Command=".\bin\LoveMachineInstaller.exe" />
+  </Target>
+</Project>
