@@ -86,6 +86,7 @@ var
     { This is way too many pages but whatever }
     DirPages: array[0..{#PluginCount}] of TInputDirWizardPage;
     Old_WizardForm_NextButton_OnClick: TNotifyEvent;
+    PlaceholderDir: String;
 
 { The ID of the plugin at the given index (e. g. 'LoveMachine.KK') }
 function GetPluginId(Index: Integer): String;
@@ -166,6 +167,42 @@ begin
     Result := 'GameDir.' + GetPluginId(Index);
 end;
 
+function ValidateGameDir(Path: String): Boolean;
+var
+    FindRec: TFindRec;
+    WarningMsg: String;
+begin
+    Result := True;
+    if (not FindFirst(AddBackslash(Path) + '*_Data', FindRec)) and (Path <> PlaceholderDir) then
+    begin
+        WarningMsg := Format('Path %s does not appear to be a valid game directory.', [Path]);
+        MsgBox(WarningMsg, mbError, MB_OK);
+        Result := False;
+    end;
+end;
+
+function OnDirPageNextClick(Page: TWizardPage): Boolean;
+var
+    DirPage: TInputDirWizardPage;
+    IndexInPage: Integer;
+begin
+    Result := True;
+    DirPage := Page as TInputDirWizardPage;
+    try
+        for IndexInPage := 0 to PageSize - 1 do
+        begin
+            if not ValidateGameDir(DirPage.Values[IndexInPage]) then
+            begin
+                Result := False;
+                break;
+            end;
+        end;
+    except
+        { there is no way to get the length of TInputDirWizardPage.Values }
+        { so just go for an out of bounds error and fucking swallow it }
+    end;
+end;
+
 procedure AddDirPrompts;
 var
     Index: Integer;
@@ -189,6 +226,7 @@ begin
         DirPages[Page].Add(GetGameName(Index));
         DirPages[Page].Values[IndexInPage] :=
             GetPreviousData(GetPreviousDataKey(Index), GuessGamePath(Index));
+        DirPages[Page].OnNextButtonClick := @OnDirPageNextClick;
     end;
 end;
 
@@ -204,13 +242,13 @@ begin
         GetPageAndIndex(Index, Page, IndexInPage);
         if DirPages[Page].Values[IndexInPage] = '' then
             { Force value to pass validation }
-            DirPages[Page].Values[IndexInPage] := WizardDirValue;
+            DirPages[Page].Values[IndexInPage] := PlaceholderDir;
     end;
     Old_WizardForm_NextButton_OnClick(Sender);
     for Index := 0 to PluginCount - 1 do
     begin
         GetPageAndIndex(Index, Page, IndexInPage);
-        if DirPages[Page].Values[IndexInPage] = WizardDirValue then
+        if DirPages[Page].Values[IndexInPage] = PlaceholderDir then
             DirPages[Page].Values[IndexInPage] := '';
     end;
 end;
@@ -227,6 +265,7 @@ end;
 
 procedure InitializeWizard;
 begin
+    PlaceholderDir := ExpandConstant('{tmp}');
     CheckIntiface;
     AddDirPrompts;
     Old_WizardForm_NextButton_OnClick := WizardForm.NextButton.OnClick;
