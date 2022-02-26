@@ -14,6 +14,7 @@ Adds support for [buttplug.io](https://buttplug.io/) compatible strokers and vib
 | PlayHome                       | Illusion         | Yes          |
 | After Service Gangbang Addicts | MICONISOMI       | Yes, wtih [AGHVR](https://github.com/Eusth/AGHVR) |
 | Our Apartment                  | Momoiro Software | No           |
+| Insult Order                   | MICONISOMI       | Yes, wtih [IOVR](https://github.com/Eusth/IOVR) |
 
 Buttplug.io supports [over 180 devices](https://iostindex.com/?filter0ButtplugSupport=4). This plugin is for **linear** (moving back-and-forth) and **vibrating** sex toys, with [experimental support for two depth sensing devices](#depth-control).
 
