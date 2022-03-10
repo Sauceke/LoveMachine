@@ -25,8 +25,7 @@ namespace LoveMachine.PH
             { Bone.RightFoot, "k_f_toeR_00" },
         };
 
-        private static readonly List<H_STATE> activeHStates
-            = new List<H_STATE> { H_STATE.LOOP, H_STATE.SPURT };
+        private static readonly H_STATE[] activeHStates = { H_STATE.LOOP, H_STATE.SPURT };
 
         protected H_Scene scene;
 
@@ -37,6 +36,8 @@ namespace LoveMachine.PH
         protected override int AnimationLayer => 0;
 
         protected override bool IsHSceneInterrupted => false;
+
+        protected override float PenisSize => 0.2f;
 
         protected override Animator GetFemaleAnimator(int girlIndex) =>
             scene.mainMembers.females[girlIndex].body.Anime;

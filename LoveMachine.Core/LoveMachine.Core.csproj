@@ -42,7 +42,7 @@
     <Reference Include="System.XML" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AnimationTools\AnimationAnalyzer.cs" />
+    <Compile Include="Animation\AnimationAnalyzer.cs" />
     <Compile Include="ButtplugController.cs" />
     <Compile Include="Common\Bone.cs" />
     <Compile Include="DepthControl\HotdogDepthPOC.cs" />
@@ -50,10 +50,10 @@
     <Compile Include="Common\CoroutineHandler.cs" />
     <Compile Include="DepthControl\IDepthSensor.cs" />
     <Compile Include="PluginInitializer.cs" />
-    <Compile Include="RangeSlider.cs" />
+    <Compile Include="Common\RangeSlider.cs" />
     <Compile Include="VersionInfo.cs" />
     <Compile Include="Buttplug\ButtplugWsClient.cs" />
-    <Compile Include="ConfigurationManagerAttributes.cs" />
+    <Compile Include="Common\ConfigurationManagerAttributes.cs" />
     <Compile Include="CoreConfig.cs" />
     <Compile Include="Buttplug\Device.cs" />
     <Compile Include="Buttplug\DeviceManager.cs" />

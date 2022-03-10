@@ -49,6 +49,8 @@ namespace LoveMachine.HS2
 
         protected override bool IsHSceneInterrupted => false;
 
+        protected override float PenisSize => 0.4f;
+
         protected override Animator GetFemaleAnimator(int girlIndex)
             => hScene?.GetFemales()[girlIndex]?.animBody;
 

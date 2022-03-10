@@ -50,6 +50,8 @@ namespace LoveMachine.KK
 
         protected override bool IsHSceneInterrupted => flags.isHSceneEnd;
 
+        protected override float PenisSize => 0.1f;
+
         protected override Animator GetFemaleAnimator(int girlIndex)
             => flags.lstHeroine[girlIndex].chaCtrl.animBody;
 

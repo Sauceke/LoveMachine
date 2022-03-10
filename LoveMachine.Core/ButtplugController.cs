@@ -12,7 +12,8 @@ namespace LoveMachine.Core
         protected abstract bool IsHardSex { get; }
         protected abstract bool IsHSceneInterrupted { get; }
 
-        protected virtual float VibrationIntensity { get; } = 1f;
+        protected virtual float PenisSize => 0f;
+        protected virtual float VibrationIntensity => 1f;
 
         protected abstract bool IsIdle(int girlIndex);
         protected abstract IEnumerator UntilReady();
@@ -67,13 +68,16 @@ namespace LoveMachine.Core
                 }
                 yield return WaitForUpStroke(girlIndex, bone);
                 float strokeTimeSecs = GetStrokeTimeSecs(girlIndex, bone);
-                TryGetWaveInfo(girlIndex, bone, out var result);
-                for (int i = 0; i < result.Frequency - 1; i++)
+                TryGetWaveInfo(girlIndex, bone, out var waveInfo);
+                float relativeLength = (waveInfo.Crest - waveInfo.Trough) / PenisSize;
+                float scale = Mathf.Lerp(1f - CoreConfig.StrokeLengthRealism.Value, 1f,
+                    relativeLength);
+                for (int i = 0; i < waveInfo.Frequency - 1; i++)
                 {
-                    HandleCoroutine(DoStroke(girlIndex, bone, strokeTimeSecs));
+                    HandleCoroutine(DoStroke(girlIndex, bone, strokeTimeSecs, scale));
                     yield return new WaitForSecondsRealtime(strokeTimeSecs);
                 }
-                yield return HandleCoroutine(DoStroke(girlIndex, bone, strokeTimeSecs));
+                yield return HandleCoroutine(DoStroke(girlIndex, bone, strokeTimeSecs, scale));
             }
         }
 
@@ -104,21 +108,43 @@ namespace LoveMachine.Core
             }
         }
 
-        protected internal IEnumerator DoStroke(int girlIndex, Bone bone,
-            float strokeTimeSecs, bool forceHard = false)
+        protected virtual float GetStrokeTimeSecs(int girlIndex, Bone bone)
+        {
+            var info = GetAnimatorStateInfo(girlIndex);
+            int freq = TryGetWaveInfo(girlIndex, bone, out var result) ? result.Frequency : 1;
+            float strokeTimeSecs = info.length / info.speed / freq;
+            // sometimes the length of an animation becomes Infinity in KK
+            // sometimes the speed becomes 0 in HS2
+            // this is a catch-all for god knows what other things that can
+            // possibly go wrong and cause the stroking coroutine to hang
+            if (strokeTimeSecs > 10 || strokeTimeSecs < 0.001f
+                || float.IsNaN(strokeTimeSecs))
+            {
+                return .01f;
+            }
+            return strokeTimeSecs;
+        }
+
+        private void GetStrokeZone(float strokeTimeSecs, float scale, out float min, out float max)
         {
             float minSlow = Mathf.InverseLerp(0, 100, CoreConfig.SlowStrokeZoneMin.Value);
             float maxSlow = Mathf.InverseLerp(0, 100, CoreConfig.SlowStrokeZoneMax.Value);
             float minFast = Mathf.InverseLerp(0, 100, CoreConfig.FastStrokeZoneMin.Value);
             float maxFast = Mathf.InverseLerp(0, 100, CoreConfig.FastStrokeZoneMax.Value);
+            // decrease stroke length gradually as speed approaches the device limit
+            float rate = 60f / CoreConfig.MaxStrokesPerMinute.Value / strokeTimeSecs;
+            min = Mathf.Lerp(minSlow, minFast, rate) * scale;
+            max = Mathf.Lerp(maxSlow, maxFast, rate) * scale;
+        }
+
+        protected internal IEnumerator DoStroke(int girlIndex, Bone bone,
+            float strokeTimeSecs, float scale = 1f, bool forceHard = false)
+        {
             float hardness = forceHard || IsHardSex
                 ? Mathf.InverseLerp(0, 100, CoreConfig.HardSexIntensity.Value)
                 : 0;
-            // decrease stroke length gradually as speed approaches the device limit
-            float rate = 60f / CoreConfig.MaxStrokesPerMinute.Value / strokeTimeSecs;
-            float min = Mathf.Lerp(minSlow, minFast, rate);
-            float max = Mathf.Lerp(maxSlow, maxFast, rate);
             float downStrokeTimeSecs = Mathf.Lerp(strokeTimeSecs / 2f, strokeTimeSecs / 4f, hardness);
+            GetStrokeZone(strokeTimeSecs, scale, out float min, out float max);
             MoveStroker(
                 position: max,
                 durationSecs: strokeTimeSecs / 2f - 0.01f,
