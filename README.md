@@ -14,6 +14,7 @@ Adds support for [buttplug.io](https://buttplug.io/) compatible strokers and vib
 | PlayHome                       | Illusion         | Yes          |
 | After Service Gangbang Addicts | MICONISOMI       | Yes, wtih [AGHVR](https://github.com/Eusth/AGHVR) |
 | Our Apartment                  | Momoiro Software | No           |
+| Insult Order                   | MICONISOMI       | Yes, wtih [IOVR](https://github.com/Eusth/IOVR) |
 
 Buttplug.io supports [over 180 devices](https://iostindex.com/?filter0ButtplugSupport=4). This plugin is for **linear** (moving back-and-forth) and **vibrating** sex toys, with [experimental support for two depth sensing devices](#depth-control).
 
@@ -54,7 +55,9 @@ We have experimental support for two depth sensing toys:
 
 The Calor works in Koikatsu and Koikatsu Sunshine, while the Hotdog only works in Koikatsu Sunshine. Both were only tested with penetrative scenes. Depth control support in other games will come later.
 
-Both devices are **disabled by default**, you first have to enable them in [Plugin Settings > LoveMachine > Experimental Features](#experimental-features), then **restart the game**.
+Both devices are **disabled by default**, you first have to enable the one you are using in [Plugin Settings > LoveMachine > Experimental Features](#experimental-features), then **restart the game**.
+
+Whichever of the two you use, you need to turn it on **before** starting the game. No additional steps needed to connect either one, the plugin should find them automatically.
 
 ## Configuration
 In Plugin Settings > LoveMachine, you can set the following parameters:
@@ -93,10 +96,11 @@ Safety measure to avoid hurting yourself if the sex gets too rough or something 
 * **Maximum strokes per minute:** The maximum speed your stroker is capable of (or your slowest stroker if you have more than one). Based on this value, LoveMachine will slow down H scene animations if necessary, to keep the immersion. (You'll still be in control of speed, but it will be relative to how fast your toy can go.) The part right before climax will also be slowed down.
 
 You can define two "stroke zones", one for fast movement and one for slow movement. These zones gradually change into one another as the speed increases/decreases.
-* **Slow Stroke Zone:** The range of the stroking motion when going slow. 0% is the top, 100% is the bottom.
-* **Fast Stroke Zone:** The range of the stroking motion when going fast. 0% is the top, 100% is the bottom.
+* **Slow Stroke Zone:** The range of the stroking motion when going slow. 0% is the bottom, 100% is the top.
+* **Fast Stroke Zone:** The range of the stroking motion when going fast. 0% is the bottom, 100% is the top.
 
-If you get bored of the "standard" features of this plugin, try experimenting a bit with the following setting:
+If you get bored of the "standard" features of this plugin, try experimenting a bit with the following settings:
+* **Stroke Length Realism:** How much the stroke length should match the animation. 0% means every stroke will use the full available length. 100% means every stroke will be scaled to its in-game length.
 * **Hard Sex Intensity:** How fast your stroker will fall during hard sex animations. 100% is twice as fast as 0% and feels much rougher (at least on a Handy). I'm not responsible for any injuries that may occur due to the use of LoveMachine.
 
 ### Vibration Settings
@@ -117,6 +121,7 @@ This mod is provided free of charge, but I do accept donations. If you'd like to
 * [ManlyMarco](https://github.com/ManlyMarco)
 * AkronusWings
 * Benos Hentai
+* Bri
 * CBN ヴい
 * CROM
 * EPTG
@@ -126,6 +131,7 @@ This mod is provided free of charge, but I do accept donations. If you'd like to
 * Taibe
 * Taka Yami
 * tanu
+* tutinoko
 * uruurian
 * Wel Adunno
 * yamada tarou
