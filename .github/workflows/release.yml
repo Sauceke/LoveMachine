@@ -61,6 +61,7 @@ jobs:
         Compress-Archive -Path bin/LoveMachine.PH/BepInEx -DestinationPath assets/LoveMachine_for_PlayHome.zip
         Compress-Archive -Path bin/LoveMachine.AGH/BepInEx -DestinationPath assets/LoveMachine_for_Houkago_Rinkan_Chuudoku.zip
         Compress-Archive -Path bin/LoveMachine.OA/BepInEx -DestinationPath assets/LoveMachine_for_Our_Apartment.zip
+        Compress-Archive -Path bin/LoveMachine.IO/BepInEx -DestinationPath assets/LoveMachine_for_Insult_Order.zip
 
     - name: Download BLEConsole (for the installer only)
       run: |
