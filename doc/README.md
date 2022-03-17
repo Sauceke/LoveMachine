@@ -1,4 +1,4 @@
-# LoveMachine for BepInEx ([日本語](マニュアル.md))
+# BepInEx LoveMachine ([日本語](マニュアル.md))
 [![.NET](https://github.com/Sauceke/BepInEx.LoveMachine/actions/workflows/commit.yml/badge.svg)](https://github.com/Sauceke/BepInEx.LoveMachine/actions/workflows/commit.yml)
 [![Download](https://img.shields.io/github/downloads/Sauceke/BepInEx.LoveMachine/total)](https://github.com/Sauceke/BepInEx.LoveMachine/releases/latest/download/LoveMachineInstaller.exe)
 
