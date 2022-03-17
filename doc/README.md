@@ -96,10 +96,11 @@ Safety measure to avoid hurting yourself if the sex gets too rough or something 
 * **Maximum strokes per minute:** The maximum speed your stroker is capable of (or your slowest stroker if you have more than one). Based on this value, LoveMachine will slow down H scene animations if necessary, to keep the immersion. (You'll still be in control of speed, but it will be relative to how fast your toy can go.) The part right before climax will also be slowed down.
 
 You can define two "stroke zones", one for fast movement and one for slow movement. These zones gradually change into one another as the speed increases/decreases.
-* **Slow Stroke Zone:** The range of the stroking motion when going slow. 0% is the top, 100% is the bottom.
-* **Fast Stroke Zone:** The range of the stroking motion when going fast. 0% is the top, 100% is the bottom.
+* **Slow Stroke Zone:** The range of the stroking motion when going slow. 0% is the bottom, 100% is the top.
+* **Fast Stroke Zone:** The range of the stroking motion when going fast. 0% is the bottom, 100% is the top.
 
-If you get bored of the "standard" features of this plugin, try experimenting a bit with the following setting:
+If you get bored of the "standard" features of this plugin, try experimenting a bit with the following settings:
+* **Stroke Length Realism:** How much the stroke length should match the animation. 0% means every stroke will use the full available length. 100% means every stroke will be scaled to its in-game length.
 * **Hard Sex Intensity:** How fast your stroker will fall during hard sex animations. 100% is twice as fast as 0% and feels much rougher (at least on a Handy). I'm not responsible for any injuries that may occur due to the use of LoveMachine.
 
 ### Vibration Settings
