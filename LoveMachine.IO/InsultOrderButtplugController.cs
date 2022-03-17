@@ -26,6 +26,8 @@ namespace LoveMachine.IO
 
         protected override bool IsHSceneInterrupted => false;
 
+        protected override float PenisSize => 0.5f;
+
         protected override int AnimationLayer => 0;
 
         private GameObject Heroine => GameObject.Find("CH01/CH0001") ?? GameObject.Find("CH02/CH0002");

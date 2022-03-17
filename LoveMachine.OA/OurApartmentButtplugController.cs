@@ -41,6 +41,7 @@ namespace LoveMachine.OA
         protected override int HeroineCount => 1; // Just Naomi
 
         protected override bool IsHardSex => GetPose(0).Contains("Pump2");
+
         protected override int AnimationLayer
         {
             get
@@ -59,6 +60,8 @@ namespace LoveMachine.OA
         }
 
         protected override bool IsHSceneInterrupted => false;
+
+        protected override float PenisSize => 0.2f;
 
         protected override Animator GetFemaleAnimator(int girlIndex) => npcAnimator.Value;
 

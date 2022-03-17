@@ -171,6 +171,15 @@ namespace LoveMachine.Core
                         CustomDrawer = FastStrokeZoneDrawer,
                         HideDefaultButton = true
                     }));
+            CoreConfig.StrokeLengthRealism = plugin.Config.Bind(
+                section: strokerSettingsTitle,
+                key: "Stroke Length Realism",
+                defaultValue: 0f,
+                 new ConfigDescription(
+                   "0%: every stroke is full-length\n" +
+                   "100%: strokes are as long as they appear in-game",
+                   new AcceptableValueRange<float>(0, 1),
+                   new ConfigurationManagerAttributes { Order = order-- }));
             CoreConfig.HardSexIntensity = plugin.Config.Bind(
                section: strokerSettingsTitle,
                key: "Hard Sex Intensity",
@@ -416,7 +425,7 @@ namespace LoveMachine.Core
             {
                 controller.HandleCoroutine(
                     controller.DoStroke(device.Settings.GirlIndex, device.Settings.Bone,
-                        strokeTimeSecs, hard));
+                        strokeTimeSecs, forceHard: hard));
                 yield return new WaitForSecondsRealtime(strokeTimeSecs);
             }
         }

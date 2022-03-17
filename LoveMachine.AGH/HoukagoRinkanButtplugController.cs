@@ -32,6 +32,8 @@ namespace LoveMachine.AGH
 
         protected override bool IsHSceneInterrupted => false;
 
+        protected override float PenisSize => 0.5f;
+
         protected override Animator GetFemaleAnimator(int girlIndex)
             => (GameObject.Find("CH01/CH0001") ?? GameObject.Find("CH02/CH0002"))
                 .GetComponent<Animator>();

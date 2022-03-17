@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using LitJson;
 using UnityEngine;
 
 namespace LoveMachine.Core
@@ -46,23 +47,6 @@ namespace LoveMachine.Core
             }
         }
 
-        protected virtual float GetStrokeTimeSecs(int girlIndex, Bone bone)
-        {
-            var info = GetAnimatorStateInfo(girlIndex);
-            int freq = TryGetWaveInfo(girlIndex, bone, out var result) ? result.Frequency : 1;
-            float strokeTimeSecs = info.length / info.speed / freq;
-            // sometimes the length of an animation becomes Infinity in KK
-            // sometimes the speed becomes 0 in HS2
-            // this is a catch-all for god knows what other things that can
-            // possibly go wrong and cause the stroking coroutine to hang
-            if (strokeTimeSecs > 10 || strokeTimeSecs < 0.001f
-                || float.IsNaN(strokeTimeSecs))
-            {
-                return .01f;
-            }
-            return strokeTimeSecs;
-        }
-
         protected void StartAnalyze(int girlIndex)
         {
             if (!containers.TryGetValue(girlIndex, out var container))
@@ -105,7 +89,7 @@ namespace LoveMachine.Core
             var boneM = GetMaleBone();
             var femaleBones = GetFemaleBones(girlIndex);
             string pose = GetExactPose(girlIndex, Bone.Auto);
-            var measurements = new List<Measurement>();
+            var samples = new List<Sample>();
             yield return new WaitForSeconds(0.1f);
             float startTime = GetAnimatorStateInfo(girlIndex).normalizedTime;
             while (GetAnimatorStateInfo(girlIndex).normalizedTime - 1 < startTime)
@@ -114,12 +98,12 @@ namespace LoveMachine.Core
                 foreach (var entry in femaleBones)
                 {
                     var boneF = entry.Value;
-                    float distanceSq = (boneM.position - boneF.position).sqrMagnitude;
-                    measurements.Add(new Measurement
+                    float distance = (boneM.position - boneF.position).magnitude;
+                    samples.Add(new Sample
                     {
                         Bone = entry.Key,
                         Time = GetAnimatorStateInfo(girlIndex).normalizedTime,
-                        DistanceSq = distanceSq
+                        Distance = distance
                     });
                 }
             }
@@ -131,32 +115,32 @@ namespace LoveMachine.Core
             var results = new Dictionary<Bone, WaveInfo>();
             foreach (var bone in femaleBones.Keys)
             {
+                var bonePath = samples.Where(entry => entry.Bone == bone);
                 results[bone] = new WaveInfo
                 {
-                    Phase = measurements
-                        .Where(entry => entry.Bone == bone)
-                        .OrderBy(entry => entry.DistanceSq)
+                    Phase = bonePath
+                        .OrderBy(entry => entry.Distance)
                         .FirstOrDefault()
                         .Time % 1,
-                    Frequency = GetFrequency(measurements
-                        .Where(entry => entry.Bone == bone)
+                    Frequency = GetFrequency(bonePath
                         .OrderBy(entry => entry.Time)
-                        .Select(entry => entry.DistanceSq))
+                        .Select(entry => entry.Distance)),
+                    Crest = bonePath
+                        .Select(entry => entry.Distance)
+                        .Max(),
+                    Trough = bonePath
+                        .Select(entry => entry.Distance)
+                        .Min()
                 };
             }
-            var closest = measurements
-                .OrderBy(entry => entry.DistanceSq)
+            var closest = samples
+                .OrderBy(entry => entry.Distance)
                 .FirstOrDefault();
-            results[Bone.Auto] = new WaveInfo
-            {
-                Phase = results[closest.Bone].Phase,
-                Frequency = results[closest.Bone].Frequency
-            };
+            results[Bone.Auto] = results[closest.Bone];
             onSuccess(results);
             CoreConfig.Logger.LogInfo($"Calibration for pose {pose} completed. " +
-                $"{measurements.Count / femaleBones.Count} frames inspected. " +
-                $"Closest bone: {closest.Bone}, offset: {results[Bone.Auto].Phase}, " +
-                $"frequency: {results[Bone.Auto].Frequency}. ");
+                $"{samples.Count / femaleBones.Count} frames inspected. " +
+                $"Closest bone: {closest.Bone}, result: {JsonMapper.ToJson(results[Bone.Auto])}.");
         }
 
         private static int GetFrequency(IEnumerable<float> samples)
@@ -184,14 +168,14 @@ namespace LoveMachine.Core
             resultCache.Clear();
         }
 
-        private struct Measurement
+        private struct Sample
         {
             public Bone Bone { get; set; }
             public float Time { get; set; }
-            public float DistanceSq { get; set; }
+            public float Distance { get; set; }
         }
 
-        public struct WaveInfo
+        protected struct WaveInfo
         {
             public float Phase { get; set; }
             public int Frequency { get; set; }
