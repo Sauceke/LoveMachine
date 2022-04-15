@@ -189,8 +189,9 @@ namespace LoveMachine.Core
             {
                 // Simple cos based intensity amplification based on normalized position in looping animation
                 float phase = TryGetWaveInfo(girlIndex, bone, out var result) ? result.Phase : 0f;
-                float depth = (info().normalizedTime - phase) % 1;
-                strength = Mathf.Abs(Mathf.Cos(Mathf.PI * depth)) + 0.1f;
+                float time = (info().normalizedTime - phase) % 1;
+                float frequency = result.Frequency;
+                strength = Mathf.Abs(Mathf.Cos(Mathf.PI * time * frequency)) + 0.1f;
             }
             float intensityPercent = Mathf.Lerp(CoreConfig.VibrationIntensityMin.Value,
                 CoreConfig.VibrationIntensityMax.Value, strength * scale);
