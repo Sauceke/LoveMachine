@@ -27,6 +27,15 @@ namespace LoveMachine.Core
         protected AnimatorStateInfo GetAnimatorStateInfo(int girlIndex)
             => GetFemaleAnimator(girlIndex).GetCurrentAnimatorStateInfo(AnimationLayer);
 
+        protected virtual void GetAnimState(int girlIndex, out float normalizedTime,
+            out float length, out float speed)
+        {
+            var info = GetAnimatorStateInfo(girlIndex);
+            normalizedTime = info.normalizedTime;
+            length = info.length;
+            speed = info.speed;
+        }
+
         protected IEnumerable<Bone> GetSupportedBones(int girlIndex)
             => Enumerable.Concat(new[] { Bone.Auto }, GetFemaleBones(girlIndex).Keys);
 
@@ -78,6 +87,7 @@ namespace LoveMachine.Core
                     yield return new WaitForSecondsRealtime(0.1f);
                     continue;
                 }
+                CoreConfig.Logger.LogDebug("New animation playing, starting to analyze.");
                 yield return HandleCoroutine(AnalyzeAnimation(girlIndex, updateDictionary),
                     suppressExceptions: true);
             }
@@ -91,10 +101,12 @@ namespace LoveMachine.Core
             string pose = GetExactPose(girlIndex, Bone.Auto);
             var samples = new List<Sample>();
             yield return new WaitForSeconds(0.1f);
-            float startTime = GetAnimatorStateInfo(girlIndex).normalizedTime;
-            while (GetAnimatorStateInfo(girlIndex).normalizedTime - 1 < startTime)
+            GetAnimState(girlIndex, out float startTime, out _, out _);
+            float currentTime = startTime;
+            while (currentTime - 1 < startTime)
             {
                 yield return new WaitForEndOfFrame();
+                GetAnimState(girlIndex, out currentTime, out _, out _);
                 foreach (var entry in femaleBones)
                 {
                     var boneF = entry.Value;
@@ -102,7 +114,7 @@ namespace LoveMachine.Core
                     samples.Add(new Sample
                     {
                         Bone = entry.Key,
-                        Time = GetAnimatorStateInfo(girlIndex).normalizedTime,
+                        Time = currentTime,
                         Distance = distance
                     });
                 }

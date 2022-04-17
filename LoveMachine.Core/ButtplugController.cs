@@ -110,9 +110,9 @@ namespace LoveMachine.Core
 
         protected virtual float GetStrokeTimeSecs(int girlIndex, Bone bone)
         {
-            var info = GetAnimatorStateInfo(girlIndex);
+            GetAnimState(girlIndex, out _, out float length, out float speed);
             int freq = TryGetWaveInfo(girlIndex, bone, out var result) ? result.Frequency : 1;
-            float strokeTimeSecs = info.length / info.speed / freq;
+            float strokeTimeSecs = length / speed / freq;
             // sometimes the length of an animation becomes Infinity in KK
             // sometimes the speed becomes 0 in HS2
             // this is a catch-all for god knows what other things that can
@@ -171,25 +171,28 @@ namespace LoveMachine.Core
 
         protected CustomYieldInstruction WaitForUpStroke(int girlIndex, Bone bone)
         {
-            AnimatorStateInfo info() => GetAnimatorStateInfo(girlIndex);
-            float startNormTime = info().normalizedTime;
+            float normalizedTime() {
+                GetAnimState(girlIndex, out float time, out _, out _);
+                return time;
+            }
+            float startNormTime = normalizedTime();
             float strokeTimeSecs = GetStrokeTimeSecs(girlIndex, bone);
             float latencyNormTime = CoreConfig.LatencyMs.Value / 1000f / strokeTimeSecs;
             bool timeToStroke() => TryGetWaveInfo(girlIndex, bone, out var result)
-                && (int)(info().normalizedTime - result.Phase + latencyNormTime + 10f)
+                && (int)(normalizedTime() - result.Phase + latencyNormTime + 10f)
                     != (int)(startNormTime - result.Phase + latencyNormTime + 10f);
             return new WaitUntil(timeToStroke);
         }
 
         protected IEnumerator VibrateWithAnimation(int girlIndex, Bone bone, float scale)
         {
-            AnimatorStateInfo info() => GetAnimatorStateInfo(girlIndex);
+            GetAnimState(girlIndex, out float normalizedTime, out _, out _);
             float strength = 1f;
             if (CoreConfig.SyncVibrationWithAnimation.Value)
             {
                 // Simple cos based intensity amplification based on normalized position in looping animation
                 float phase = TryGetWaveInfo(girlIndex, bone, out var result) ? result.Phase : 0f;
-                float time = (info().normalizedTime - phase) % 1;
+                float time = (normalizedTime - phase) % 1;
                 float frequency = result.Frequency;
                 strength = Mathf.Abs(Mathf.Cos(Mathf.PI * time * frequency)) + 0.1f;
             }
