@@ -16,7 +16,7 @@ jobs:
           token: ${{ secrets.PAT }}
 
       - name: Copy readme files
-        run: cp doc/* .
+        run: cp doc/*.md .github
 
       - name: Commit
         uses: EndBug/add-and-commit@v7

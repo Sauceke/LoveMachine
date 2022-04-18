@@ -20,4 +20,4 @@ Use Visual Studio's Code Cleanup tool with the following profile:
 
 Edit `doc/README.md` to reflect your changes if necessary.
 
-Do not edit the `README.md` in the repository root! That file is updated automatically after each release.
+Do not edit the `.github/README.md` file! That file is updated automatically after each release.
