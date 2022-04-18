@@ -7,14 +7,15 @@
 Adds support for [buttplug.io](https://buttplug.io/) compatible strokers and vibrators in the following games:
 | Game                           | Developer        | VR supported |
 |--------------------------------|------------------|--------------|
+| Custom Order Maid 3D 2         | Kiss             | Yes          |
+| Honey Select 2                 | Illusion         | Yes          |
+| Houkago Rinkan Chuudoku        | Miconisomi       | Yes, wtih [AGHVR](https://github.com/Eusth/AGHVR) |
+| Insult Order                   | Miconisomi       | Yes, wtih [IOVR](https://github.com/Eusth/IOVR) |
 | Koikatsu                       | Illusion         | Yes          |
 | Koikatsu Party                 | Illusion         | Yes          |
 | Koikatsu Sunshine              | Illusion         | Yes          |
-| Honey Select 2                 | Illusion         | Yes          |
-| PlayHome                       | Illusion         | Yes          |
-| After Service Gangbang Addicts | MICONISOMI       | Yes, wtih [AGHVR](https://github.com/Eusth/AGHVR) |
 | Our Apartment                  | Momoiro Software | No           |
-| Insult Order                   | MICONISOMI       | Yes, wtih [IOVR](https://github.com/Eusth/IOVR) |
+| PlayHome                       | Illusion         | Yes          |
 
 Buttplug.io supports [over 180 devices](https://iostindex.com/?filter0ButtplugSupport=4). This plugin is for **linear** (moving back-and-forth) and **vibrating** sex toys, with [experimental support for two depth sensing devices](#depth-control).
 
