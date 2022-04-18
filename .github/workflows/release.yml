@@ -18,39 +18,34 @@ jobs:
       BEPINEX_32_URL: https://github.com/BepInEx/BepInEx/releases/download/v5.4.18/BepInEx_x86_5.4.18.0.zip
       BEPINEX_64_URL: https://github.com/BepInEx/BepInEx/releases/download/v5.4.18/BepInEx_x64_5.4.18.0.zip
       BEPINEX_CONF_MGR_URL: https://github.com/BepInEx/BepInEx.ConfigurationManager/releases/download/v16.4/BepInEx.ConfigurationManager_v16.4.zip
+      BLECONSOLE_PATH: https://github.com/sensboston/BLEConsole/releases/download/v1.5.6/BLEConsole.exe
     
     steps:
-    - name: Checkout Code
+    - name: Checkout code
       uses: actions/checkout@v1
 
-    - name: Setup MSBuild Path
+    - name: Setup MSBuild path
       uses: warrenbuckley/Setup-MSBuild@v1
       
     - name: Setup NuGet
       uses: NuGet/setup-nuget@v1.0.2
-     
-    - name: Download Inno Setup
+
+    - name: Cache external downloads
+      uses: actions/cache@v3
+      with:
+        path: innosetup.exe
+        key: downloads-1
+
+    - name: Download and install Inno Setup
       run: |
-        Invoke-WebRequest -Uri ${{env.INNO_SETUP_URL}} -OutFile .\innosetup.exe
-        & .\innosetup.exe /VERYSILENT /NORESTART /ALLUSERS
+        If (-Not(Test-Path innosetup.exe)) { Invoke-WebRequest -Uri ${{env.INNO_SETUP_URL}} -OutFile innosetup.exe }
+        & innosetup.exe /VERYSILENT /NORESTART /ALLUSERS
     
     - name: Restore NuGet Packages
       run: nuget restore LoveMachine.sln
  
     - name: Build and Publish
       run: msbuild LoveMachine.sln /p:Configuration=Release /p:DeployOnBuild=true /p:PublishProfile=FolderProfile /p:Version=${{ github.event.inputs.version }}
-  
-    - name: Download BepInEx
-      run: |
-        cd Installer
-        Invoke-WebRequest -Uri ${{env.BEPINEX_32_URL}} -OutFile .\BepInEx32.zip
-        Invoke-WebRequest -Uri ${{env.BEPINEX_64_URL}} -OutFile .\BepInEx64.zip
-        Invoke-WebRequest -Uri ${{env.BEPINEX_CONF_MGR_URL}} -OutFile .\BepInEx.ConfigurationManager.zip
-        Expand-Archive -Path .\BepInEx32.zip -DestinationPath .\BepInEx32
-        Expand-Archive -Path .\BepInEx64.zip -DestinationPath .\BepInEx64
-        Expand-Archive -Path .\BepInEx.ConfigurationManager.zip -DestinationPath .\BepInEx32
-        Expand-Archive -Path .\BepInEx.ConfigurationManager.zip -DestinationPath .\BepInEx64
-        cd ..
 
     - name: Zip artifacts
       run: |
@@ -64,20 +59,30 @@ jobs:
         Compress-Archive -Path bin/LoveMachine.IO/BepInEx -DestinationPath assets/LoveMachine_for_Insult_Order.zip
         Compress-Archive -Path bin/LoveMachine.COM3D2/BepInEx -DestinationPath assets/LoveMachine_for_Custom_Order_Maid_3D_2.zip
 
+    - name: Download BepInEx
+      working-directory: Installer
+      run: |
+        Invoke-WebRequest -Uri ${{env.BEPINEX_32_URL}} -OutFile BepInEx32.zip
+        Invoke-WebRequest -Uri ${{env.BEPINEX_64_URL}} -OutFile BepInEx64.zip
+        Invoke-WebRequest -Uri ${{env.BEPINEX_CONF_MGR_URL}} -OutFile BepInEx.ConfigurationManager.zip
+        Expand-Archive -Path BepInEx32.zip -DestinationPath BepInEx32
+        Expand-Archive -Path BepInEx64.zip -DestinationPath BepInEx64
+        Expand-Archive -Path BepInEx.ConfigurationManager.zip -DestinationPath BepInEx32
+        Expand-Archive -Path BepInEx.ConfigurationManager.zip -DestinationPath BepInEx64
+
     - name: Download BLEConsole (for the installer only)
       run: |
-        curl -L https://github.com/sensboston/BLEConsole/releases/download/v1.5.6/BLEConsole.exe --output ./BLEConsole.exe
-        copy ./BLEConsole.exe bin/LoveMachine.KK/BepInEx/plugins/KK_LoveMachine
-        copy ./BLEConsole.exe bin/LoveMachine.KKS/BepInEx/plugins/KKS_LoveMachine
+        Invoke-WebRequest -Uri ${{env.BLECONSOLE_PATH}} -OutFile BLEConsole.exe
+        copy BLEConsole.exe bin/LoveMachine.KK/BepInEx/plugins/KK_LoveMachine
+        copy BLEConsole.exe bin/LoveMachine.KKS/BepInEx/plugins/KKS_LoveMachine
 
-    - name: Build Installer
+    - name: Build installer
+      working-directory: Installer
       run: |
-        cd Installer
         & "C:\Program Files (x86)\Inno Setup 6\ISCC.exe" InstallScript.iss
-        cd ..
-        copy Installer/bin/LoveMachineInstaller.exe assets/LoveMachineInstaller.exe
+        copy bin/LoveMachineInstaller.exe ../assets/LoveMachineInstaller.exe
 
-    - name: Create Release
+    - name: Create release
       id: create_release
       uses: actions/create-release@v1
       env:
@@ -89,7 +94,7 @@ jobs:
         draft: true
         prerelease: false
 
-    - name: Upload Release Assets
+    - name: Upload release assets
       id: upload-release-assets
       uses: dwenegar/upload-release-assets@v1
       env:
