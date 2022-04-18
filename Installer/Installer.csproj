@@ -39,6 +39,10 @@
       <Project>{ee4e9234-f7e8-49df-8096-1e5612e730dc}</Project>
       <Name>LoveMachine.AGH</Name>
     </ProjectReference>
+    <ProjectReference Include="..\LoveMachine.COM3D2\LoveMachine.COM3D2.csproj">
+      <Project>{e160ce73-ddab-4f86-9c8d-502752eaa144}</Project>
+      <Name>LoveMachine.COM3D2</Name>
+    </ProjectReference>
     <ProjectReference Include="..\LoveMachine.Core\LoveMachine.Core.csproj">
       <Project>{36e78d7d-c987-4e98-b709-149d19c4193a}</Project>
       <Name>LoveMachine.Core</Name>
@@ -67,6 +71,13 @@
       <Project>{8fdd1a5c-e7cd-493b-a182-cb82821ede44}</Project>
       <Name>LoveMachine.PH</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="InstallScript.iss" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="PluginInfo.ini" />
+    <None Include="Readme.rtf" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="BuildInstaller" AfterTargets="AfterBuild" Condition=" '$(Configuration)' == 'Debug' ">
