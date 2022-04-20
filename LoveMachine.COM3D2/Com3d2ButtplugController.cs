@@ -15,11 +15,11 @@ namespace LoveMachine.COM3D2
 
         protected override int HeroineCount => 1;
 
-        protected override bool IsHardSex => false;
+        protected override bool IsHardSex => GetPose(0).Contains('2');
 
         protected override bool IsHSceneInterrupted => false;
 
-        protected override int AnimationLayer => 0;
+        protected override int AnimationLayer => throw new NotImplementedException();
 
         protected override Animator GetFemaleAnimator(int girlIndex) =>
             throw new NotImplementedException();
