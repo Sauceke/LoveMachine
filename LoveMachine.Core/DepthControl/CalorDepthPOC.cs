@@ -95,6 +95,7 @@ namespace LoveMachine.Core
                         break;
                 }
             }
+            CoreConfig.Logger.LogDebug($"Last line from BLEConsole: {data}");
         }
 
         private void ProcessOutput(string data)
