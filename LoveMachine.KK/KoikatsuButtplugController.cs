@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace LoveMachine.KK
 {
-    public abstract class KoikatsuButtplugController : ButtplugController
+    internal abstract class KoikatsuButtplugController : ButtplugController
     {
         private const string MaleBoneName = "k_f_tamaL_00"; // left testicle
 
@@ -134,7 +134,7 @@ namespace LoveMachine.KK
         }
     }
 
-    public class KoikatsuButtplugAnimationController : KoikatsuButtplugController
+    internal class KoikatsuButtplugAnimationController : KoikatsuButtplugController
     {
         protected override void HandleFondle(float y, int girlIndex, Bone bone, float timeSecs)
             => throw new System.NotImplementedException();
@@ -165,7 +165,7 @@ namespace LoveMachine.KK
         }
     }
 
-    public class KoikatsuButtplugVibrationController : KoikatsuButtplugController
+    internal class KoikatsuButtplugVibrationController : KoikatsuButtplugController
     {
         private static readonly List<HFlag.EMode> houshiModes = new List<HFlag.EMode>
         {
@@ -228,9 +228,9 @@ namespace LoveMachine.KK
             => DoVibrate(intensity: y, girlIndex, bone);
     }
 
-    public class KoikatsuButtplugStrokerController : KoikatsuButtplugController
+    internal class KoikatsuButtplugStrokerController : KoikatsuButtplugController
     {
-        private static readonly List<HFlag.EMode> supportedModes = new List<HFlag.EMode>
+        private static readonly HFlag.EMode[] supportedModes =
         {
             HFlag.EMode.houshi, HFlag.EMode.sonyu, HFlag.EMode.houshi3P, HFlag.EMode.sonyu3P,
             HFlag.EMode.houshi3PMMF, HFlag.EMode.sonyu3PMMF
@@ -259,19 +259,19 @@ namespace LoveMachine.KK
              => RunStrokerLoop(girlIndex, bone);
     }
 
-    public class KoikatsuButtplugAibuVibrationController : KoikatsuButtplugVibrationController
+    internal class KoikatsuButtplugAibuVibrationController : KoikatsuButtplugVibrationController
     {
         protected override IEnumerator Run(int girlIndex, Bone bone)
             => RunAibu(girlIndex, bone);
     }
 
-    public class KoikatsuButtplugAibuStrokerController : KoikatsuButtplugStrokerController
+    internal class KoikatsuButtplugAibuStrokerController : KoikatsuButtplugStrokerController
     {
         protected override IEnumerator Run(int girlIndex, Bone bone)
              => RunAibu(girlIndex, bone);
     }
 
-    public class KoikatsuDepthController<T> : KoikatsuButtplugController
+    internal class KoikatsuDepthController<T> : KoikatsuButtplugController
         where T : IDepthSensor
     {
         private static readonly List<string> supportedAnimations = new List<string>
@@ -380,7 +380,7 @@ namespace LoveMachine.KK
         }
     }
 
-    public class KoikatsuCalorDepthController : KoikatsuDepthController<CalorDepthPOC> { }
+    internal class KoikatsuCalorDepthController : KoikatsuDepthController<CalorDepthPOC> { }
 
-    public class KoikatsuHotdogDepthController : KoikatsuDepthController<HotdogDepthPOC> { }
+    internal class KoikatsuHotdogDepthController : KoikatsuDepthController<HotdogDepthPOC> { }
 }

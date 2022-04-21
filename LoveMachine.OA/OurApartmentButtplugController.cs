@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace LoveMachine.OA
 {
-    public abstract class OurApartmentButtplugController : ButtplugController
+    internal abstract class OurApartmentButtplugController : ButtplugController
     {
         private static readonly Dictionary<Bone, string> femaleBones
             = new Dictionary<Bone, string>
@@ -85,13 +85,13 @@ namespace LoveMachine.OA
         }
     }
 
-    public class OurApartmentButtplugVibrationController : OurApartmentButtplugController
+    internal class OurApartmentButtplugVibrationController : OurApartmentButtplugController
     {
         protected override IEnumerator Run(int girlIndex, Bone bone)
             => RunVibratorLoop(girlIndex, bone);
     }
 
-    public class OurApartmentButtplugStrokerController : OurApartmentButtplugController
+    internal class OurApartmentButtplugStrokerController : OurApartmentButtplugController
     {
         protected override IEnumerator Run(int girlIndex, Bone bone)
             => RunStrokerLoop(girlIndex, bone);

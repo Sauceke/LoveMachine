@@ -164,7 +164,7 @@ namespace LoveMachine.Core
                 girlIndex,
                 bone);
         }
-        
+
         private IEnumerator EmulateOrgasmWithStroker(int girlIndex, Bone bone)
         {
             while (IsOrgasming(girlIndex))
@@ -175,7 +175,7 @@ namespace LoveMachine.Core
                 yield return new WaitForSecondsRealtime(0.1f);
             }
         }
-        
+
         protected void MoveStroker(float position, float durationSecs, int girlIndex, Bone bone)
         {
             client.LinearCmd(position, durationSecs, girlIndex, bone);
@@ -188,7 +188,8 @@ namespace LoveMachine.Core
 
         protected CustomYieldInstruction WaitForUpStroke(int girlIndex, Bone bone)
         {
-            float normalizedTime() {
+            float normalizedTime()
+            {
                 GetAnimState(girlIndex, out float time, out _, out _);
                 return time;
             }

@@ -8,7 +8,7 @@ using UnityEngine;
 
 namespace LoveMachine.PH
 {
-    public abstract class PlayHomeButtplugController : ButtplugController
+    internal abstract class PlayHomeButtplugController : ButtplugController
     {
         internal const string MaleBoneName = "k_m_tamaC_00";
 
@@ -87,13 +87,13 @@ namespace LoveMachine.PH
         }
     }
 
-    public class PlayHomeButtplugVibrationController : PlayHomeButtplugController
+    internal class PlayHomeButtplugVibrationController : PlayHomeButtplugController
     {
         protected override IEnumerator Run(int girlIndex, Bone bone)
             => RunVibratorLoop(girlIndex, bone);
     }
 
-    public class PlayHomeButtplugStrokerController : PlayHomeButtplugController
+    internal class PlayHomeButtplugStrokerController : PlayHomeButtplugController
     {
         protected override IEnumerator Run(int girlIndex, Bone bone)
             => RunStrokerLoop(girlIndex, bone);

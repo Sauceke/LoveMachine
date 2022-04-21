@@ -15,8 +15,10 @@ namespace LoveMachine.COM3D2
 
         private readonly string[] idlePoseNames = { "taiki", "nade", "shaseigo" };
 
+        // TODO 3some, groups
         protected override int HeroineCount => 1;
 
+        // TOOD animation name numbering is not consistent, need to make some sense out of it
         protected override bool IsHardSex => GetPose(0).Contains('2');
 
         protected override bool IsHSceneInterrupted => false;
@@ -25,7 +27,7 @@ namespace LoveMachine.COM3D2
 
         protected override Animator GetFemaleAnimator(int girlIndex) =>
             throw new NotImplementedException();
-        
+
         private float lastPartialTime = 0f;
         private int totalTime = 0;
 

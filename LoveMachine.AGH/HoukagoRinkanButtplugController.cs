@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace LoveMachine.AGH
 {
-    public abstract class HoukagoRinkanButtplugController : ButtplugController
+    internal abstract class HoukagoRinkanButtplugController : ButtplugController
     {
         private static readonly Dictionary<Bone, string> sayaBones = new Dictionary<Bone, string>
         {
@@ -56,13 +56,13 @@ namespace LoveMachine.AGH
         }
     }
 
-    public class HoukagoRinkanButtplugVibrationController : HoukagoRinkanButtplugController
+    internal class HoukagoRinkanButtplugVibrationController : HoukagoRinkanButtplugController
     {
         protected override IEnumerator Run(int girlIndex, Bone bone)
             => RunVibratorLoop(girlIndex, bone);
     }
 
-    public class HoukagoRinkanButtplugStrokerController : HoukagoRinkanButtplugController
+    internal class HoukagoRinkanButtplugStrokerController : HoukagoRinkanButtplugController
     {
         protected override IEnumerator Run(int girlIndex, Bone bone)
             => RunStrokerLoop(girlIndex, bone);

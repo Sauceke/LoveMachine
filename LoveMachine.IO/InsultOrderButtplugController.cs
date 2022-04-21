@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace LoveMachine.IO
 {
-    public abstract class InsultOrderButtplugController : ButtplugController
+    internal abstract class InsultOrderButtplugController : ButtplugController
     {
         private static readonly Dictionary<Bone, string> femaleBones = new Dictionary<Bone, string>
         {
@@ -30,7 +30,8 @@ namespace LoveMachine.IO
 
         protected override int AnimationLayer => 0;
 
-        private GameObject Heroine => GameObject.Find("CH01/CH0001") ?? GameObject.Find("CH02/CH0002");
+        private GameObject Heroine =>
+            GameObject.Find("CH01/CH0001") ?? GameObject.Find("CH02/CH0002");
 
         protected override Animator GetFemaleAnimator(int _) => Heroine?.GetComponent<Animator>();
 
@@ -57,13 +58,13 @@ namespace LoveMachine.IO
             => gameObject.GetComponentsInChildren<Transform>().FirstOrDefault(t => t.name == name);
     }
 
-    public class InsultOrderButtplugVibrationController : InsultOrderButtplugController
+    internal class InsultOrderButtplugVibrationController : InsultOrderButtplugController
     {
         protected override IEnumerator Run(int girlIndex, Bone bone)
             => RunVibratorLoop(girlIndex, bone);
     }
 
-    public class InsultOrderButtplugStrokerController : InsultOrderButtplugController
+    internal class InsultOrderButtplugStrokerController : InsultOrderButtplugController
     {
         protected override IEnumerator Run(int girlIndex, Bone bone)
             => RunStrokerLoop(girlIndex, bone);
