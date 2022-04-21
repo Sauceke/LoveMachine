@@ -13,6 +13,8 @@ namespace LoveMachine.COM3D2
                         "Bip01 Spine1/Bip01 Spine1a";
         private const string PelvisF = "Offset/_BO_body001/Bip01/Bip01 Pelvis";
 
+        private readonly string[] idlePoseNames = { "taiki", "nade", "shaseigo" };
+
         protected override int HeroineCount => 1;
 
         protected override bool IsHardSex => GetPose(0).Contains('2');
@@ -95,7 +97,7 @@ namespace LoveMachine.COM3D2
         protected override bool IsIdle(int girlIndex)
         {
             string pose = GetPose(girlIndex);
-            return pose.Contains("taiki") || pose.Contains("nade");
+            return idlePoseNames.Any(pose.Contains);
         }
 
         protected override IEnumerator UntilReady()
