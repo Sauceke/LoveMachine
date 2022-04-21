@@ -27,6 +27,14 @@ namespace LoveMachine.KK
             { Bone.RightFoot, "k_f_toeR_00" },
         };
 
+        protected static readonly List<string> orgasmAnimations = new List<string>
+        {
+            "OUT_START", "OUT_LOOP", "IN_START", "IN_LOOP",
+            "M_OUT_Start", "M_OUT_Loop", "M_IN_Start", "M_IN_Loop",
+            "WS_IN_Start", "WS_IN_Loop", "SS_IN_Start", "SS_IN_Loop",
+            "A_WS_IN_Start", "A_WS_IN_Loop", "A_SS_IN_Start", "A_SS_IN_Loop",
+        };
+
         private static readonly List<Bone> aibuBones = new List<Bone>
         {
             Bone.LeftBreast, Bone.RightBreast, Bone.Vagina, Bone.Anus, Bone.LeftButt, Bone.RightButt
@@ -170,33 +178,26 @@ namespace LoveMachine.KK
         }
         .Union(houshiModes).ToList();
 
-        private static readonly List<string> orgasmAnimations = new List<string>
+        private static readonly List<string> extendedOrgasmAnimations = new List<string>
         {
             "OLoop", "A_OLoop",
-
-            // ejaculation
-            "OUT_START", "OUT_LOOP", "IN_START", "IN_LOOP",
-            "M_OUT_Start", "M_OUT_Loop", "M_IN_Start", "M_IN_Loop",
-            "WS_IN_Start", "WS_IN_Loop", "SS_IN_Start", "SS_IN_Loop",
-            "A_WS_IN_Start", "A_WS_IN_Loop", "A_SS_IN_Start", "A_SS_IN_Loop",
-
             // insertion excitement
             "Pull", "A_Pull", "Insert", "A_Insert"
-        };
+        }.Union(orgasmAnimations).ToList();
 
         private static readonly List<string> supportedAnimations = new List<string>
         {
             "WLoop", "SLoop",
             // anal
-            "A_WLoop", "A_SLoop", "A_OLoop"
+            "A_WLoop", "A_SLoop"
         }
-        .Union(orgasmAnimations).ToList();
+        .Union(extendedOrgasmAnimations).ToList();
 
         protected override float VibrationIntensity
         {
             get
             {
-                if (IsOrgasm || houshiModes.Contains(flags.mode))
+                if (IsOrgasming(girlIndex: 0) || houshiModes.Contains(flags.mode))
                 {
                     return 1f;
                 }
@@ -207,10 +208,8 @@ namespace LoveMachine.KK
         protected override bool IsIdle(int girlIndex)
             => !IsSupportedMode || !IsSupportedAnimation;
 
-        public bool IsOrgasm
-        {
-            get { return orgasmAnimations.Contains(flags.nowAnimStateName); }
-        }
+        protected override bool IsOrgasming(int girlIndex) =>
+            extendedOrgasmAnimations.Contains(flags.nowAnimStateName);
 
         public bool IsSupportedMode
         {
@@ -244,11 +243,14 @@ namespace LoveMachine.KK
             "A_WLoop", "A_SLoop", "A_OLoop",
             // orgasm
             "OLoop", "A_OLoop",
-        };
+        }.Union(orgasmAnimations).ToList();
 
         protected override bool IsIdle(int girlIndex) => !supportedModes.Contains(flags.mode)
                     || !supportedAnimations.Contains(flags.nowAnimStateName)
                     || flags.speed < 1;
+
+        protected override bool IsOrgasming(int girlIndex) =>
+            orgasmAnimations.Contains(flags.nowAnimStateName);
 
         protected override void HandleFondle(float y, int girlIndex, Bone bone, float timeSecs)
             => MoveStroker(position: y, timeSecs, girlIndex, bone);

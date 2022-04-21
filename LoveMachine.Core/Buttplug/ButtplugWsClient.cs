@@ -52,8 +52,7 @@ namespace LoveMachine.Core
             DeviceManager.SaveDeviceSettings(Devices);
         }
 
-        public void LinearCmd(double position, float durationSecs, int girlIndex,
-            Bone bone = Bone.Auto)
+        public void LinearCmd(double position, float durationSecs, int girlIndex, Bone bone)
         {
             if (KillSwitch.Pushed)
             {
@@ -89,11 +88,11 @@ namespace LoveMachine.Core
             }
         }
 
-        public void VibrateCmd(double intensity, int girlIndex, Bone bone = Bone.Auto)
+        public void VibrateCmd(double intensity, int girlIndex, Bone bone)
         {
             if (KillSwitch.Pushed && intensity != 0f)
             {
-                VibrateCmd(0f, girlIndex);
+                VibrateCmd(0f, girlIndex, bone);
                 return;
             }
             var commands = (

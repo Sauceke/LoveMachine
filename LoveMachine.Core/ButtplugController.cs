@@ -19,6 +19,8 @@ namespace LoveMachine.Core
         protected abstract IEnumerator UntilReady();
         protected abstract IEnumerator Run(int girlIndex, Bone bone);
 
+        protected virtual bool IsOrgasming(int girlIndex) => false;
+
         public void Awake()
         {
             client = gameObject.GetComponent<ButtplugWsClient>();
@@ -65,6 +67,10 @@ namespace LoveMachine.Core
                 {
                     yield return new WaitForSeconds(.1f);
                     continue;
+                }
+                if (IsOrgasming(girlIndex))
+                {
+                    yield return HandleCoroutine(EmulateOrgasmWithStroker(girlIndex, bone));
                 }
                 yield return WaitForUpStroke(girlIndex, bone);
                 float strokeTimeSecs = GetStrokeTimeSecs(girlIndex, bone);
@@ -158,7 +164,18 @@ namespace LoveMachine.Core
                 girlIndex,
                 bone);
         }
-
+        
+        private IEnumerator EmulateOrgasmWithStroker(int girlIndex, Bone bone)
+        {
+            while (IsOrgasming(girlIndex))
+            {
+                MoveStroker(1f, 60f / CoreConfig.MaxStrokesPerMinute.Value, girlIndex, bone);
+                yield return new WaitForSecondsRealtime(0.1f);
+                MoveStroker(0f, 60f / CoreConfig.MaxStrokesPerMinute.Value, girlIndex, bone);
+                yield return new WaitForSecondsRealtime(0.1f);
+            }
+        }
+        
         protected void MoveStroker(float position, float durationSecs, int girlIndex, Bone bone)
         {
             client.LinearCmd(position, durationSecs, girlIndex, bone);

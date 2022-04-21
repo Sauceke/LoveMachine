@@ -32,11 +32,6 @@ namespace LoveMachine.HS2
             "D_Orgasm_A", "D_Orgasm_OUT_A", "D_Orgasm_IN_A", "D_OrgasmM_OUT_A"
         };
 
-        private static readonly List<string> orgasmAnimations = new List<string>
-        {
-            "OLoop", "D_OLoop"
-        };
-
         protected HScene hScene;
 
         protected override int HeroineCount
@@ -92,9 +87,6 @@ namespace LoveMachine.HS2
 
         protected override bool IsIdle(int girlIndex) => idleAnimations.Any(
             name => GetFemaleAnimator(girlIndex).GetCurrentAnimatorStateInfo(0).IsName(name));
-
-        protected bool IsOrgasm(Animator animator)
-            => orgasmAnimations.Any(name => animator.GetCurrentAnimatorStateInfo(0).IsName(name));
     }
 
     public class HoneySelect2ButtplugVibrationController : HoneySelect2ButtplugController
@@ -105,7 +97,19 @@ namespace LoveMachine.HS2
 
     public class HoneySelect2ButtplugStrokerController : HoneySelect2ButtplugController
     {
-        protected override IEnumerator Run(int girlIndex, Bone bone)
-            => RunStrokerLoop(girlIndex, bone);
+        private static readonly List<string> orgasmAnimations = new List<string>
+        {
+            "Orgasm", "Orgasm_IN", "Orgasm_OUT", "Drink", "Vomit", "OrgasmM_OUT",
+            "D_Orgasm", "D_Orgasm_OUT", "D_Orgasm_IN", "D_OrgasmM_OUT"
+        };
+
+        protected override bool IsOrgasming(int girlIndex)
+        {
+            var anim = GetFemaleAnimator(girlIndex);
+            return orgasmAnimations.Any(name => anim.GetCurrentAnimatorStateInfo(0).IsName(name));
+        }
+
+        protected override IEnumerator Run(int girlIndex, Bone bone) =>
+            RunStrokerLoop(girlIndex, bone);
     }
 }
