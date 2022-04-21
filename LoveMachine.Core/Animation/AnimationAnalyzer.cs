@@ -145,14 +145,17 @@ namespace LoveMachine.Core
                         .Min()
                 };
             }
-            var closest = samples
-                .OrderBy(entry => entry.Distance)
-                .FirstOrDefault();
-            results[Bone.Auto] = results[closest.Bone];
+            // Prefer bones that are close and move a lot. Being close is more important.
+            var autoBone = results
+                .OrderBy(entry => entry.Value.Trough * entry.Value.Trough
+                    / (entry.Value.Crest - entry.Value.Trough))
+                .FirstOrDefault()
+                .Key;
+            results[Bone.Auto] = results[autoBone];
             onSuccess(results);
             CoreConfig.Logger.LogInfo($"Calibration for pose {pose} completed. " +
                 $"{samples.Count / femaleBones.Count} frames inspected. " +
-                $"Closest bone: {closest.Bone}, result: {JsonMapper.ToJson(results[Bone.Auto])}.");
+                $"Leading bone: {autoBone}, result: {JsonMapper.ToJson(results[Bone.Auto])}.");
         }
 
         private static int GetFrequency(IEnumerable<float> samples)
