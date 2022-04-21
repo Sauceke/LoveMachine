@@ -13,7 +13,8 @@ namespace LoveMachine.COM3D2
                 plugin: this,
                 girlMappingHeader: null,
                 girlMappingOptions: null,
-                typeof(Com3d2ButtplugController));
+                typeof(Com3d2ButtplugVibeController),
+                typeof(Com3d2ButtplugStrokerController));
             Hooks.InstallHooks();
         }
     }

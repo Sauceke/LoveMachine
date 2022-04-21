@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace LoveMachine.COM3D2
 {
-    public class Com3d2ButtplugController : ButtplugController
+    internal abstract class Com3d2ButtplugController : ButtplugController
     {
         private const string SpineF = "Offset/_BO_body001/Bip01/Bip01 Spine/Bip01 Spine0a/" +
                         "Bip01 Spine1/Bip01 Spine1a";
@@ -98,12 +98,21 @@ namespace LoveMachine.COM3D2
             return pose.Contains("taiki") || pose.Contains("nade");
         }
 
-        protected override IEnumerator Run(int girlIndex, Bone bone) =>
-            RunStrokerLoop(girlIndex, bone);
-
         protected override IEnumerator UntilReady()
         {
             yield return new WaitForSecondsRealtime(5f);
         }
+    }
+
+    internal class Com3d2ButtplugVibeController : Com3d2ButtplugController
+    {
+        protected override IEnumerator Run(int girlIndex, Bone bone) =>
+            RunVibratorLoop(girlIndex, bone);
+    }
+
+    internal class Com3d2ButtplugStrokerController : Com3d2ButtplugController
+    {
+        protected override IEnumerator Run(int girlIndex, Bone bone) =>
+            RunStrokerLoop(girlIndex, bone);
     }
 }
