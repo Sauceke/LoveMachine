@@ -33,7 +33,7 @@ jobs:
     - name: Download and install Inno Setup
       run: |
         Invoke-WebRequest -Uri ${{env.INNO_SETUP_URL}} -OutFile innosetup.exe
-        & innosetup.exe /VERYSILENT /NORESTART /ALLUSERS
+        & ./innosetup.exe /VERYSILENT /NORESTART /ALLUSERS
     
     - name: Restore NuGet Packages
       run: nuget restore LoveMachine.sln
