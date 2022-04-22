@@ -12,8 +12,7 @@ namespace LoveMachine.PH
     {
         internal const string MaleBoneName = "k_m_tamaC_00";
 
-        internal static readonly Dictionary<Bone, string> femaleBones
-            = new Dictionary<Bone, string>
+        internal static readonly Dictionary<Bone, string> femaleBones = new Dictionary<Bone, string>
         {
             { Bone.LeftBreast, "k_f_munenipL_00" },
             { Bone.RightBreast, "k_f_munenipR_00" },
@@ -55,15 +54,11 @@ namespace LoveMachine.PH
             return bodyBone.FindLoop(MaleBoneName).transform;
         }
 
-        protected override string GetPose(int girlIndex)
-        {
-            if (scene.mainMembers.StyleData == null)
-            {
-                return "none";
-            }
-            return scene.mainMembers.StyleData.id
-                 + "." + GetFemaleAnimator(girlIndex).GetCurrentAnimatorStateInfo(0).fullPathHash;
-        }
+        protected override string GetPose(int girlIndex) =>
+            scene.mainMembers.StyleData == null
+                ? "none"
+                : scene.mainMembers.StyleData.id + "." +
+                    GetFemaleAnimator(girlIndex).GetCurrentAnimatorStateInfo(0).fullPathHash;
 
         protected override bool IsIdle(int _) =>
             !activeHStates.Contains(scene.mainMembers.StateMgr.nowStateID);
@@ -89,13 +84,13 @@ namespace LoveMachine.PH
 
     internal class PlayHomeButtplugVibrationController : PlayHomeButtplugController
     {
-        protected override IEnumerator Run(int girlIndex, Bone bone)
-            => RunVibratorLoop(girlIndex, bone);
+        protected override IEnumerator Run(int girlIndex, Bone bone) =>
+            RunVibratorLoop(girlIndex, bone);
     }
 
     internal class PlayHomeButtplugStrokerController : PlayHomeButtplugController
     {
-        protected override IEnumerator Run(int girlIndex, Bone bone)
-            => RunStrokerLoop(girlIndex, bone);
+        protected override IEnumerator Run(int girlIndex, Bone bone) =>
+            RunStrokerLoop(girlIndex, bone);
     }
 }

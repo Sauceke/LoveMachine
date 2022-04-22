@@ -9,18 +9,17 @@ namespace LoveMachine.OA
 {
     internal abstract class OurApartmentButtplugController : ButtplugController
     {
-        private static readonly Dictionary<Bone, string> femaleBones
-            = new Dictionary<Bone, string>
-            {
-                { Bone.Vagina, "cc_pussy_clit" },
-                { Bone.LeftBreast, "cc_boob.l" },
-                { Bone.RightBreast, "cc_boob.r" },
-                { Bone.Mouth, "c_teeth_top.x" },
-                { Bone.LeftFoot, "c_toes_thumb1.l" },
-                { Bone.RightFoot, "c_toes_thumb1.r" },
-                { Bone.LeftHand, "index1.l" },
-                { Bone.RightHand, "index1.r" }
-            };
+        private static readonly Dictionary<Bone, string> femaleBones = new Dictionary<Bone, string>
+        {
+            { Bone.Vagina, "cc_pussy_clit" },
+            { Bone.LeftBreast, "cc_boob.l" },
+            { Bone.RightBreast, "cc_boob.r" },
+            { Bone.Mouth, "c_teeth_top.x" },
+            { Bone.LeftFoot, "c_toes_thumb1.l" },
+            { Bone.RightFoot, "c_toes_thumb1.r" },
+            { Bone.LeftHand, "index1.l" },
+            { Bone.RightHand, "index1.r" }
+        };
         private const string MaleBoneName = "cc_balls1.l";
         private static readonly string[] layerNames =
         {
@@ -65,15 +64,14 @@ namespace LoveMachine.OA
 
         protected override Animator GetFemaleAnimator(int girlIndex) => npcAnimator.Value;
 
-        protected override Dictionary<Bone, Transform> GetFemaleBones(int girlIndex)
-            => femaleBones.ToDictionary(kvp => kvp.Key,
-                kvp => GameObject.Find(kvp.Value).transform);
+        protected override Dictionary<Bone, Transform> GetFemaleBones(int girlIndex) =>
+            femaleBones.ToDictionary(kvp => kvp.Key, kvp => GameObject.Find(kvp.Value).transform);
 
-        protected override Transform GetMaleBone()
-            => GameObject.Find(MaleBoneName)?.transform ?? transform;
+        protected override Transform GetMaleBone() =>
+            GameObject.Find(MaleBoneName)?.transform ?? transform;
 
-        protected override string GetPose(int girlIndex)
-            => AnimationLayer < 0
+        protected override string GetPose(int girlIndex) =>
+            AnimationLayer < 0
                 ? "unknown_pose"
                 : npcAnimator.Value.GetCurrentAnimatorClipInfo(AnimationLayer)[0].clip.name;
 
@@ -87,13 +85,13 @@ namespace LoveMachine.OA
 
     internal class OurApartmentButtplugVibrationController : OurApartmentButtplugController
     {
-        protected override IEnumerator Run(int girlIndex, Bone bone)
-            => RunVibratorLoop(girlIndex, bone);
+        protected override IEnumerator Run(int girlIndex, Bone bone) =>
+            RunVibratorLoop(girlIndex, bone);
     }
 
     internal class OurApartmentButtplugStrokerController : OurApartmentButtplugController
     {
-        protected override IEnumerator Run(int girlIndex, Bone bone)
-            => RunStrokerLoop(girlIndex, bone);
+        protected override IEnumerator Run(int girlIndex, Bone bone) =>
+            RunStrokerLoop(girlIndex, bone);
     }
 }

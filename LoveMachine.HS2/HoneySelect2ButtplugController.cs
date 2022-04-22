@@ -12,17 +12,16 @@ namespace LoveMachine.HS2
     {
         private const string MaleBoneName = "cm_J_dan_f_L"; // left testicle
 
-        private static readonly Dictionary<Bone, string> femaleBones
-            = new Dictionary<Bone, string>
+        private static readonly Dictionary<Bone, string> femaleBones = new Dictionary<Bone, string>
         {
-                { Bone.Vagina, "cf_J_Kokan" },
-                { Bone.RightHand, "cf_J_Hand_Wrist_s_R" },
-                { Bone.LeftHand, "cf_J_Hand_Wrist_s_L" },
-                { Bone.RightBreast, "cf_J_Mune04_s_R" },
-                { Bone.LeftBreast, "cf_J_Mune04_s_L" },
-                { Bone.Mouth, "cf_J_MouthCavity" },
-                { Bone.RightFoot, "cf_J_Toes01_L" },
-                { Bone.LeftFoot, "cf_J_Toes01_R" }
+            { Bone.Vagina, "cf_J_Kokan" },
+            { Bone.RightHand, "cf_J_Hand_Wrist_s_R" },
+            { Bone.LeftHand, "cf_J_Hand_Wrist_s_L" },
+            { Bone.RightBreast, "cf_J_Mune04_s_R" },
+            { Bone.LeftBreast, "cf_J_Mune04_s_L" },
+            { Bone.Mouth, "cf_J_MouthCavity" },
+            { Bone.RightFoot, "cf_J_Toes01_L" },
+            { Bone.LeftFoot, "cf_J_Toes01_R" }
         };
 
         private static readonly string[] idleAnimations =
@@ -34,11 +33,11 @@ namespace LoveMachine.HS2
 
         protected HScene hScene;
 
-        protected override int HeroineCount
-            => Array.FindAll(hScene.GetFemales(), f => f != null).Length;
+        protected override int HeroineCount =>
+            Array.FindAll(hScene.GetFemales(), f => f != null).Length;
 
-        protected override bool IsHardSex
-            => GetFemaleAnimator(0)?.GetCurrentAnimatorStateInfo(0).IsName("SLoop") ?? false;
+        protected override bool IsHardSex =>
+            GetFemaleAnimator(0)?.GetCurrentAnimatorStateInfo(0).IsName("SLoop") ?? false;
 
         protected override int AnimationLayer => 0;
 
@@ -46,8 +45,8 @@ namespace LoveMachine.HS2
 
         protected override float PenisSize => 0.4f;
 
-        protected override Animator GetFemaleAnimator(int girlIndex)
-            => hScene?.GetFemales()[girlIndex]?.animBody;
+        protected override Animator GetFemaleAnimator(int girlIndex) =>
+            hScene?.GetFemales()[girlIndex]?.animBody;
 
         protected override Dictionary<Bone, Transform> GetFemaleBones(int girlIndex)
         {
@@ -67,12 +66,10 @@ namespace LoveMachine.HS2
             OnStartH();
         }
 
-        protected override string GetPose(int girlIndex)
-        {
+        protected override string GetPose(int girlIndex) => 
             // couldn't find accessor for animation name so going with hash
-            return hScene.ctrlFlag.nowAnimationInfo.id
+            hScene.ctrlFlag.nowAnimationInfo.id
                 + "." + hScene.GetFemales()[girlIndex].getAnimatorStateInfo(0).fullPathHash;
-        }
 
         protected override IEnumerator UntilReady()
         {
@@ -91,8 +88,8 @@ namespace LoveMachine.HS2
 
     internal class HoneySelect2ButtplugVibrationController : HoneySelect2ButtplugController
     {
-        protected override IEnumerator Run(int girlIndex, Bone bone)
-            => RunVibratorLoop(girlIndex, bone);
+        protected override IEnumerator Run(int girlIndex, Bone bone) =>
+            RunVibratorLoop(girlIndex, bone);
     }
 
     internal class HoneySelect2ButtplugStrokerController : HoneySelect2ButtplugController

@@ -11,8 +11,7 @@ namespace LoveMachine.KK
     {
         private const string MaleBoneName = "k_f_tamaL_00"; // left testicle
 
-        private static readonly Dictionary<Bone, string> femaleBones
-            = new Dictionary<Bone, string>
+        private static readonly Dictionary<Bone, string> femaleBones = new Dictionary<Bone, string>
         {
             { Bone.LeftBreast, "k_f_munenipL_00" },
             { Bone.RightBreast, "k_f_munenipR_00" },
@@ -60,8 +59,8 @@ namespace LoveMachine.KK
 
         protected override float PenisSize => 0.1f;
 
-        protected override Animator GetFemaleAnimator(int girlIndex)
-            => flags.lstHeroine[girlIndex].chaCtrl.animBody;
+        protected override Animator GetFemaleAnimator(int girlIndex) =>
+            flags.lstHeroine[girlIndex].chaCtrl.animBody;
 
         protected override Dictionary<Bone, Transform> GetFemaleBones(int girlIndex)
         {
@@ -76,15 +75,13 @@ namespace LoveMachine.KK
             return bodyBone.FindLoop(MaleBoneName).transform;
         }
 
-        protected override string GetPose(int girlIndex)
-        {
+        protected override string GetPose(int girlIndex) =>
             // Sideloaded animations all have the same id and name.
             // The only surefire way to uniquely identify an animation seems to be the hash code,
             // since it's based on object reference.
-            return flags.nowAnimationInfo.GetHashCode()
+            flags.nowAnimationInfo.GetHashCode()
                 + "." + flags.nowAnimationInfo.nameAnimation
                 + "." + flags.nowAnimStateName;
-        }
 
         protected override float GetStrokeTimeSecs(int girlIndex, Bone bone)
         {
@@ -136,11 +133,11 @@ namespace LoveMachine.KK
 
     internal class KoikatsuButtplugAnimationController : KoikatsuButtplugController
     {
-        protected override void HandleFondle(float y, int girlIndex, Bone bone, float timeSecs)
-            => throw new System.NotImplementedException();
+        protected override void HandleFondle(float y, int girlIndex, Bone bone, float timeSecs) =>
+            throw new System.NotImplementedException();
 
-        protected override bool IsIdle(int girlIndex)
-            => throw new System.NotImplementedException();
+        protected override bool IsIdle(int girlIndex) =>
+            throw new System.NotImplementedException();
 
         protected override IEnumerator Run(int girlIndex, Bone bone)
         {
@@ -193,39 +190,24 @@ namespace LoveMachine.KK
         }
         .Union(extendedOrgasmAnimations).ToList();
 
-        protected override float VibrationIntensity
-        {
-            get
-            {
-                if (IsOrgasming(girlIndex: 0) || houshiModes.Contains(flags.mode))
-                {
-                    return 1f;
-                }
-                return flags.speedCalc;
-            }
-        }
+        protected override float VibrationIntensity =>
+            IsOrgasming(girlIndex: 0) || houshiModes.Contains(flags.mode) ? 1f : flags.speedCalc;
 
-        protected override bool IsIdle(int girlIndex)
-            => !IsSupportedMode || !IsSupportedAnimation;
+        protected override bool IsIdle(int girlIndex) =>
+            !IsSupportedMode || !IsSupportedAnimation;
 
         protected override bool IsOrgasming(int girlIndex) =>
             extendedOrgasmAnimations.Contains(flags.nowAnimStateName);
 
-        public bool IsSupportedMode
-        {
-            get { return supportedModes.Contains(flags.mode); }
-        }
+        public bool IsSupportedMode => supportedModes.Contains(flags.mode);
 
-        public bool IsSupportedAnimation
-        {
-            get { return supportedAnimations.Contains(flags.nowAnimStateName); }
-        }
+        public bool IsSupportedAnimation => supportedAnimations.Contains(flags.nowAnimStateName);
 
-        protected override IEnumerator Run(int girlIndex, Bone bone)
-            => RunVibratorLoop(girlIndex, bone);
+        protected override IEnumerator Run(int girlIndex, Bone bone) =>
+            RunVibratorLoop(girlIndex, bone);
 
-        protected override void HandleFondle(float y, int girlIndex, Bone bone, float timeSecs)
-            => DoVibrate(intensity: y, girlIndex, bone);
+        protected override void HandleFondle(float y, int girlIndex, Bone bone, float timeSecs) =>
+            DoVibrate(intensity: y, girlIndex, bone);
     }
 
     internal class KoikatsuButtplugStrokerController : KoikatsuButtplugController
@@ -252,23 +234,23 @@ namespace LoveMachine.KK
         protected override bool IsOrgasming(int girlIndex) =>
             orgasmAnimations.Contains(flags.nowAnimStateName);
 
-        protected override void HandleFondle(float y, int girlIndex, Bone bone, float timeSecs)
-            => MoveStroker(position: y, timeSecs, girlIndex, bone);
+        protected override void HandleFondle(float y, int girlIndex, Bone bone, float timeSecs) =>
+            MoveStroker(position: y, timeSecs, girlIndex, bone);
 
-        protected override IEnumerator Run(int girlIndex, Bone bone)
-             => RunStrokerLoop(girlIndex, bone);
+        protected override IEnumerator Run(int girlIndex, Bone bone) =>
+            RunStrokerLoop(girlIndex, bone);
     }
 
     internal class KoikatsuButtplugAibuVibrationController : KoikatsuButtplugVibrationController
     {
-        protected override IEnumerator Run(int girlIndex, Bone bone)
-            => RunAibu(girlIndex, bone);
+        protected override IEnumerator Run(int girlIndex, Bone bone) =>
+            RunAibu(girlIndex, bone);
     }
 
     internal class KoikatsuButtplugAibuStrokerController : KoikatsuButtplugStrokerController
     {
-        protected override IEnumerator Run(int girlIndex, Bone bone)
-             => RunAibu(girlIndex, bone);
+        protected override IEnumerator Run(int girlIndex, Bone bone) =>
+            RunAibu(girlIndex, bone);
     }
 
     internal class KoikatsuDepthController<T> : KoikatsuButtplugController
@@ -292,11 +274,11 @@ namespace LoveMachine.KK
 
         private bool IsPenetrable => penetrableAnimations.Contains(flags.nowAnimStateName);
 
-        protected override void HandleFondle(float y, int girlIndex, Bone bone, float timeSecs)
-            => throw new System.NotImplementedException();
+        protected override void HandleFondle(float y, int girlIndex, Bone bone, float timeSecs) =>
+            throw new System.NotImplementedException();
 
-        protected override bool IsIdle(int girlIndex)
-            => throw new System.NotImplementedException();
+        protected override bool IsIdle(int girlIndex) =>
+            throw new System.NotImplementedException();
 
         protected override IEnumerator Run(int girlIndex, Bone bone)
         {
@@ -344,7 +326,8 @@ namespace LoveMachine.KK
                 }
                 SetSpeed(0f);
                 float targetNormTime = waveInfo.Phase + 0.5f - depth / waveInfo.Frequency / 2f;
-                float startNormTime = GetFemaleAnimator(0).GetCurrentAnimatorStateInfo(AnimationLayer)
+                float startNormTime = GetFemaleAnimator(0)
+                    .GetCurrentAnimatorStateInfo(AnimationLayer)
                     .normalizedTime;
                 if (startNormTime < waveInfo.Phase || startNormTime > waveInfo.Phase + 0.5f)
                 {

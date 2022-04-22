@@ -34,19 +34,18 @@ namespace LoveMachine.AGH
 
         protected override float PenisSize => 0.5f;
 
-        protected override Animator GetFemaleAnimator(int girlIndex)
-            => (GameObject.Find("CH01/CH0001") ?? GameObject.Find("CH02/CH0002"))
+        protected override Animator GetFemaleAnimator(int girlIndex) =>
+            (GameObject.Find("CH01/CH0001") ?? GameObject.Find("CH02/CH0002"))
                 .GetComponent<Animator>();
 
-        protected override Dictionary<Bone, Transform> GetFemaleBones(int _girlIndex)
-            => (GameObject.Find("CH01") != null ? sayaBones : elenaBones)
+        protected override Dictionary<Bone, Transform> GetFemaleBones(int _girlIndex) =>
+            (GameObject.Find("CH01") != null ? sayaBones : elenaBones)
                 .ToDictionary(kvp => kvp.Key, kvp => GameObject.Find(kvp.Value).transform);
 
-        protected override Transform GetMaleBone()
-            => GameObject.Find("BP00_tamaL").transform;
+        protected override Transform GetMaleBone() => GameObject.Find("BP00_tamaL").transform;
 
-        protected override string GetPose(int girlIndex)
-            => GetFemaleAnimator(girlIndex).GetCurrentAnimatorClipInfo(0)[0].clip.name;
+        protected override string GetPose(int girlIndex) =>
+            GetFemaleAnimator(girlIndex).GetCurrentAnimatorClipInfo(0)[0].clip.name;
 
         protected override bool IsIdle(int girlIndex) => GetFemaleAnimator(girlIndex) == null;
 
@@ -58,13 +57,13 @@ namespace LoveMachine.AGH
 
     internal class HoukagoRinkanButtplugVibrationController : HoukagoRinkanButtplugController
     {
-        protected override IEnumerator Run(int girlIndex, Bone bone)
-            => RunVibratorLoop(girlIndex, bone);
+        protected override IEnumerator Run(int girlIndex, Bone bone) =>
+            RunVibratorLoop(girlIndex, bone);
     }
 
     internal class HoukagoRinkanButtplugStrokerController : HoukagoRinkanButtplugController
     {
-        protected override IEnumerator Run(int girlIndex, Bone bone)
-            => RunStrokerLoop(girlIndex, bone);
+        protected override IEnumerator Run(int girlIndex, Bone bone) =>
+            RunStrokerLoop(girlIndex, bone);
     }
 }

@@ -40,10 +40,7 @@ namespace LoveMachine.Core
             .Start();
         }
 
-        public static void MakeGUILabel(string text)
-        {
-            GUILayout.Label(text);
-        }
+        public static void MakeGUILabel(string text) => GUILayout.Label(text);
 
         private void Start()
         {
@@ -371,20 +368,14 @@ namespace LoveMachine.Core
             GUILayout.EndVertical();
         }
 
-        private void SlowStrokeZoneDrawer(ConfigEntryBase entry)
-        {
+        private void SlowStrokeZoneDrawer(ConfigEntryBase entry) =>
             DrawRangeSlider(CoreConfig.SlowStrokeZoneMin, CoreConfig.SlowStrokeZoneMax);
-        }
 
-        private void FastStrokeZoneDrawer(ConfigEntryBase entry)
-        {
+        private void FastStrokeZoneDrawer(ConfigEntryBase entry) =>
             DrawRangeSlider(CoreConfig.FastStrokeZoneMin, CoreConfig.FastStrokeZoneMax);
-        }
 
-        private void VibrationIntensityDrawer(ConfigEntryBase obj)
-        {
+        private void VibrationIntensityDrawer(ConfigEntryBase obj) =>
             DrawRangeSlider(CoreConfig.VibrationIntensityMin, CoreConfig.VibrationIntensityMax);
-        }
 
         private void DrawRangeSlider(ConfigEntry<int> min, ConfigEntry<int> max)
         {

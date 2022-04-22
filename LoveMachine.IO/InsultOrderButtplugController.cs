@@ -44,8 +44,8 @@ namespace LoveMachine.IO
 
         protected override Transform GetMaleBone() => GameObject.Find("BP00_tamaL").transform;
 
-        protected override string GetPose(int girlIndex)
-            => GetFemaleAnimator(girlIndex).GetCurrentAnimatorClipInfo(0)[0].clip.name;
+        protected override string GetPose(int girlIndex) =>
+            GetFemaleAnimator(girlIndex).GetCurrentAnimatorClipInfo(0)[0].clip.name;
 
         protected override bool IsIdle(int girlIndex) => GetFemaleAnimator(girlIndex) == null;
 
@@ -54,19 +54,19 @@ namespace LoveMachine.IO
             yield return new WaitForSecondsRealtime(5f);
         }
 
-        private static Transform FindRecursive(GameObject gameObject, string name)
-            => gameObject.GetComponentsInChildren<Transform>().FirstOrDefault(t => t.name == name);
+        private static Transform FindRecursive(GameObject gameObject, string name) =>
+            gameObject.GetComponentsInChildren<Transform>().FirstOrDefault(t => t.name == name);
     }
 
     internal class InsultOrderButtplugVibrationController : InsultOrderButtplugController
     {
-        protected override IEnumerator Run(int girlIndex, Bone bone)
-            => RunVibratorLoop(girlIndex, bone);
+        protected override IEnumerator Run(int girlIndex, Bone bone) =>
+            RunVibratorLoop(girlIndex, bone);
     }
 
     internal class InsultOrderButtplugStrokerController : InsultOrderButtplugController
     {
-        protected override IEnumerator Run(int girlIndex, Bone bone)
-            => RunStrokerLoop(girlIndex, bone);
+        protected override IEnumerator Run(int girlIndex, Bone bone) =>
+            RunStrokerLoop(girlIndex, bone);
     }
 }

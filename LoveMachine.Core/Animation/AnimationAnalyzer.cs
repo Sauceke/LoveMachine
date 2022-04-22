@@ -10,12 +10,12 @@ namespace LoveMachine.Core
     public abstract class AnimationAnalyzer : CoroutineHandler
     {
         // pose -> result
-        private static readonly Dictionary<string, WaveInfo> resultCache
-            = new Dictionary<string, WaveInfo>();
+        private static readonly Dictionary<string, WaveInfo> resultCache =
+            new Dictionary<string, WaveInfo>();
 
         // girl index -> thing that runs calibration
-        private static readonly Dictionary<int, CoroutineHandler> containers
-            = new Dictionary<int, CoroutineHandler>();
+        private static readonly Dictionary<int, CoroutineHandler> containers =
+            new Dictionary<int, CoroutineHandler>();
 
         protected abstract int AnimationLayer { get; }
 
@@ -24,8 +24,8 @@ namespace LoveMachine.Core
         protected abstract Transform GetMaleBone();
         protected abstract string GetPose(int girlIndex);
 
-        protected AnimatorStateInfo GetAnimatorStateInfo(int girlIndex)
-            => GetFemaleAnimator(girlIndex).GetCurrentAnimatorStateInfo(AnimationLayer);
+        protected AnimatorStateInfo GetAnimatorStateInfo(int girlIndex) =>
+            GetFemaleAnimator(girlIndex).GetCurrentAnimatorStateInfo(AnimationLayer);
 
         protected virtual void GetAnimState(int girlIndex, out float normalizedTime,
             out float length, out float speed)
@@ -36,11 +36,11 @@ namespace LoveMachine.Core
             speed = info.speed;
         }
 
-        protected IEnumerable<Bone> GetSupportedBones(int girlIndex)
-            => Enumerable.Concat(new[] { Bone.Auto }, GetFemaleBones(girlIndex).Keys);
+        protected IEnumerable<Bone> GetSupportedBones(int girlIndex) =>
+            Enumerable.Concat(new[] { Bone.Auto }, GetFemaleBones(girlIndex).Keys);
 
-        private string GetExactPose(int girlIndex, Bone bone)
-            => $"{GetPose(girlIndex)}.girl{girlIndex}.{bone}";
+        private string GetExactPose(int girlIndex, Bone bone) =>
+            $"{GetPose(girlIndex)}.girl{girlIndex}.{bone}";
 
         protected bool TryGetWaveInfo(int girlIndex, Bone bone, out WaveInfo result)
         {
@@ -178,10 +178,7 @@ namespace LoveMachine.Core
             return dfsMagnitudes.IndexOf(dfsMagnitudes.Max()) + 1;
         }
 
-        internal void ClearCache()
-        {
-            resultCache.Clear();
-        }
+        internal void ClearCache() => resultCache.Clear();
 
         private struct Sample
         {

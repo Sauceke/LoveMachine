@@ -17,10 +17,7 @@ namespace LoveMachine.Core
 
         public bool IsConnected { get; private set; }
 
-        private void Awake()
-        {
-            Open();
-        }
+        private void Awake() => Open();
 
         private void OnDestroy()
         {
