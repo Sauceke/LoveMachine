@@ -72,7 +72,12 @@ namespace LoveMachine.Core
                 {
                     yield return HandleCoroutine(EmulateOrgasmWithStroker(girlIndex, bone));
                 }
+                string pose = GetPose(girlIndex);
                 yield return WaitForUpStroke(girlIndex, bone);
+                if (GetPose(girlIndex) != pose)
+                {
+                    continue;
+                }
                 float strokeTimeSecs = GetStrokeTimeSecs(girlIndex, bone);
                 TryGetWaveInfo(girlIndex, bone, out var waveInfo);
                 float relativeLength = (waveInfo.Crest - waveInfo.Trough) / PenisSize;
@@ -173,6 +178,7 @@ namespace LoveMachine.Core
                 yield return new WaitForSecondsRealtime(0.1f);
                 MoveStroker(0f, 60f / CoreConfig.MaxStrokesPerMinute.Value, girlIndex, bone);
                 yield return new WaitForSecondsRealtime(0.1f);
+
             }
         }
 
@@ -193,12 +199,14 @@ namespace LoveMachine.Core
                 GetAnimState(girlIndex, out float time, out _, out _);
                 return time;
             }
+            string startPose = GetPose(girlIndex);
             float startNormTime = normalizedTime();
             float strokeTimeSecs = GetStrokeTimeSecs(girlIndex, bone);
             float latencyNormTime = CoreConfig.LatencyMs.Value / 1000f / strokeTimeSecs;
-            bool timeToStroke() => TryGetWaveInfo(girlIndex, bone, out var result)
-                && (int)(normalizedTime() - result.Phase + latencyNormTime + 10f)
-                    != (int)(startNormTime - result.Phase + latencyNormTime + 10f);
+            bool timeToStroke() => GetPose(girlIndex) != startPose
+                || (TryGetWaveInfo(girlIndex, bone, out var result)
+                    && (int)(normalizedTime() - result.Phase + latencyNormTime + 10f)
+                        != (int)(startNormTime - result.Phase + latencyNormTime + 10f));
             return new WaitUntil(timeToStroke);
         }
 
