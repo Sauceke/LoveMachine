@@ -116,6 +116,7 @@ This mod is provided free of charge, but I do accept donations. If you'd like to
 
 ### Code contributors
 * nhydock
+* RPKU
 * Sauceke
 
 ### Sponsors
