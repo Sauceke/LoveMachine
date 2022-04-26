@@ -9,15 +9,13 @@ namespace LoveMachine.COM3D2
 {
     internal abstract class Com3d2ButtplugController : ButtplugController
     {
-        // Delete some parent path
         private const string SpineF = "Bip01/Bip01 Spine/Bip01 Spine0a/" +
                         "Bip01 Spine1/Bip01 Spine1a";
         private const string PelvisF = "Bip01/Bip01 Pelvis";
 
         private readonly string[] idlePoseNames = { "taiki", "nade", "shaseigo" };
 
-        // TODO 3some, groups
-        protected override int HeroineCount => 1;
+        protected override int HeroineCount => FindCharaObject($"Maid[1]") == null ? 1 : 2;
 
         // TOOD animation name numbering is not consistent, need to make some sense out of it
         protected override bool IsHardSex => GetPose(0).Contains('2');
