@@ -66,118 +66,56 @@ namespace LoveMachine.COM3D2
             return null;
         }
 
-        // This time I will keep the path of maids and man
         protected override Dictionary<Bone, Transform> GetFemaleBones(int girlIndex)
-            => new Dictionary<Bone, Transform>
+        {
+            var maid = FindCharaObject($"Maid[{girlIndex}]");
+            return new Dictionary<Bone, Transform>
             {
-                { Bone.Vagina, FindComponentObject("Maid[", PelvisF + "/_IK_vagina").transform },
+                { Bone.Vagina, FindBoneByPath(maid, PelvisF + "/_IK_vagina") },
                 {
                     Bone.RightHand,
-                    FindComponentObject("Maid[", SpineF + "/Bip01 R Clavicle/Bip01 R UpperArm/" +
-                        "Bip01 R Forearm/Bip01 R Hand/_IK_handR").transform
+                    FindBoneByPath(maid, SpineF + "/Bip01 R Clavicle/Bip01 R UpperArm/" +
+                        "Bip01 R Forearm/Bip01 R Hand")
                 },
                 {
                     Bone.Mouth,
-                    FindComponentObject("Maid[", SpineF + "/Bip01 Neck/Bip01 Head/_SM_face007/MouthUp").transform
+                    FindBoneByPath(maid, SpineF + "/Bip01 Neck/Bip01 Head/_SM_face007/MouthUp")
                 },
-                { Bone.LeftBreast, FindComponentObject("Maid[", SpineF + "/Mune_L/_IK_muneL").transform },
-                { Bone.RightBreast, FindComponentObject("Maid[", SpineF + "/Mune_R/_IK_muneR").transform },
+                { Bone.LeftBreast, FindBoneByPath(maid, SpineF + "/Mune_L/_IK_muneL") },
+                { Bone.RightBreast, FindBoneByPath(maid, SpineF + "/Mune_R/_IK_muneR") },
                 {
                     Bone.RightFoot,
-                    FindComponentObject("Maid[", PelvisF + "/Bip01 L Thigh/Bip01 L Calf/_IK_calfL").transform
+                    FindBoneByPath(maid, PelvisF + "/Bip01 L Thigh/Bip01 L Calf/_IK_calfL")
                 },
                 {
                     Bone.LeftFoot,
-                    FindComponentObject("Maid[", PelvisF + "/Bip01 R Thigh/Bip01 R Calf/_IK_calfR").transform
+                    FindBoneByPath(maid, PelvisF + "/Bip01 R Thigh/Bip01 R Calf/_IK_calfR")
                 }
             };
-
-        // Just delete the parent path
-        protected override Transform GetMaleBone() =>
-            FindComponentObject("Man[", "ManBip/ManBip Pelvis/chinkoCenter/tamabukuro")
-                .transform;
-        
-        /**
-         * Find the root character object, the gameobject may not be find by just using GameObject.Find()
-         *  pattern - "Maid[" or "Man["
-         */
-        private List<GameObject> FindCharaObject(string pattern) {
-            GameObject characterRootObject = GameObject.Find("__GameMain__/Character/Active/AllOffset");
-            List<GameObject> list = new List<GameObject>();
-            if (characterRootObject != null)
-            {
-                int childCount = characterRootObject.transform.childCount;
-                for (int i = 0; i < childCount; i++)
-                {
-                    Transform child = characterRootObject.transform.GetChild(i);
-                    if (child != null && child.gameObject != null && child.gameObject.name.StartsWith(pattern))
-                    {
-                        GameObject gameObject = child.gameObject;
-                        if (gameObject != null)
-                        {
-                            Transform transform = gameObject.transform.Find("Offset");
-                            if (transform != null && transform.childCount > 0)
-                            {
-                                GameObject childGameObject = transform.GetChild(0).gameObject;
-                                if (childGameObject != null && childGameObject.gameObject != null)
-                                {
-                                    list.Add(childGameObject);
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-            return list;
         }
-        
-        /**
-         * Find the gameObject by the component path, the function will try to find the root object everytime
-         * may consider optimize the program by only find root chara object once.
-         *  pattern - "Maid[" or "Man["
-         *  path - the path of component
-         */
-        private Transform FindComponentObject(string pattern, string path)
+
+        protected override Transform GetMaleBone() => FindBoneByPath(FindCharaObject("Man[0]"),
+                "ManBip/ManBip Pelvis/chinkoCenter/tamabukuro");
+
+        private static Transform FindCharaObject(string pattern) =>
+            GameObject.Find("__GameMain__/Character/Active/AllOffset").transform.Cast<Transform>()
+                .Where(child => child?.gameObject?.name?.StartsWith(pattern) ?? false)
+                .Select(child => child.Find("Offset")?.GetChild(0))
+                .FirstOrDefault();
+
+        private static Transform FindBoneByPath(Transform character, string path)
         {
             // Find the root character object
-            CoreConfig.Logger.LogInfo("Try to find object: " + pattern + " " + path);
-            List<GameObject> list = FindCharaObject(pattern);
-            Transform trans = null;
-            
-            // Try to find the component by the complete path
-            foreach (GameObject rootObject in list)
-            {
-                trans = rootObject.transform.Find(path);
-                if (trans != null)
-                {
-                    break;
-                }
-            }
-            
-            // If the program can not find the component, it will try to use the name of the component to match every child of the root chara by recursion
-            if (trans == null)
-            {
-                foreach (GameObject rootObject in list)
-                {
-                    string[] paths = path.Split('/');
-                    CoreConfig.Logger.LogInfo("Path is invaild, try to find " + paths[paths.Length - 1]);
-                    trans = FindChild(rootObject.transform, paths[paths.Length - 1].Trim());
-                    if (trans != null)
-                    {
-                        CoreConfig.Logger.LogInfo("Find unnamed object: " + GetGameObjectPath(trans.gameObject));
-                        break;
-                    }
-                }
-                if (trans == null)
-                    CoreConfig.Logger.LogWarning("the object is null");
-            }
-            return trans;
+            var bone = character.transform.Find(path)
+                // If the program can not find the component, it will try to use the name of the
+                // component to match every child of the root chara by recursion
+                ?? FindDeepChildByName(character.transform, path.Split('/').Last());
+            CoreConfig.Logger.LogDebug($"Requested path: {path}, " +
+                $"found path: {GetGameObjectPath(bone.gameObject)}");
+            return bone;
         }
-        
-        /**
-         * Get the absolute path of the gameobject
-         */
-        public static string GetGameObjectPath(GameObject obj)
+
+        private static string GetGameObjectPath(GameObject obj)
         {
             string path = "/" + obj.name;
             while (obj.transform.parent != null)
@@ -187,26 +125,10 @@ namespace LoveMachine.COM3D2
             }
             return path;
         }
-        
-        /**
-         * Find the child with target name by recursion
-         *  _t - parent game object
-         *  name - name of target child game object
-         */
-        public static Transform FindChild(Transform _t, string name)
-        {
-            Transform target = null;
-            foreach (Transform t in _t)
-            {
-                if (t.name.Trim().Equals(name))
-                    target = t;
-                if (t.childCount > 0)
-                    target = FindChild(t, name);
-                if (target != null)
-                    break;
-            }
-            return target;
-        }
+
+        public static Transform FindDeepChildByName(Transform transform, string name) =>
+            transform.gameObject.GetComponentsInChildren<Transform>()
+                .Where(child => child.name == name).FirstOrDefault();
 
         protected override string GetPose(int girlIndex) => GetActiveState()?.name;
 
