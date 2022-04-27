@@ -47,22 +47,13 @@ namespace LoveMachine.COM3D2
             return;
         }
 
-        private AnimationState GetActiveState()
-        {
-            var animations = FindObjectsOfType<Animation>()
-                .Where(animation => animation.name == "_BO_mbody");
-            foreach (var animation in animations)
-            {
-                foreach (AnimationState state in animation)
-                {
-                    if (animation.IsPlaying(state.name))
-                    {
-                        return state;
-                    }
-                }
-            }
-            return null;
-        }
+        private AnimationState GetActiveState() => FindObjectsOfType<Animation>()
+            .Where(animation => animation.name == "_BO_mbody")
+            .SelectMany(animation => animation.Cast<AnimationState>()
+                .Where(state => animation.IsPlaying(state.name)))
+            .OrderBy(state => state.length)
+            .ThenBy(state => state.name)
+            .FirstOrDefault();
 
         protected override Dictionary<Bone, Transform> GetFemaleBones(int girlIndex)
         {
