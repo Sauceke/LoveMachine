@@ -77,11 +77,13 @@ namespace LoveMachine.COM3D2
                 { Bone.RightBreast, FindBoneByPath(maid, SpineF + "/Mune_R/_IK_muneR") },
                 {
                     Bone.RightFoot,
-                    FindBoneByPath(maid, PelvisF + "/Bip01 L Thigh/Bip01 L Calf/_IK_calfL")
+                    FindBoneByPath(maid, PelvisF +
+                        "/Bip01 L Thigh/Bip01 L Calf/Bip01 L Foot/Bip01 L Toe0")
                 },
                 {
                     Bone.LeftFoot,
-                    FindBoneByPath(maid, PelvisF + "/Bip01 R Thigh/Bip01 R Calf/_IK_calfR")
+                    FindBoneByPath(maid, PelvisF +
+                        "/Bip01 R Thigh/Bip01 R Calf/Bip01 R Foot/Bip01 R Toe0")
                 }
             };
         }
