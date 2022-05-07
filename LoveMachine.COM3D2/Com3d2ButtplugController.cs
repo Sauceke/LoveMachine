@@ -24,8 +24,10 @@ namespace LoveMachine.COM3D2
 
         protected override int AnimationLayer => throw new NotImplementedException();
 
-        protected override CustomYieldInstruction WaitAfterPoseChange =>
-            new WaitForSecondsRealtime(1f);
+        protected override IEnumerator WaitAfterPoseChange()
+        {
+            yield return new WaitForSeconds(1f);
+        }
 
         protected override Animator GetFemaleAnimator(int girlIndex) =>
             throw new NotImplementedException();
