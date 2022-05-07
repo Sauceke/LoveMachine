@@ -24,6 +24,11 @@ namespace LoveMachine.Core
         protected abstract Transform GetMaleBone();
         protected abstract string GetPose(int girlIndex);
 
+        protected virtual IEnumerator WaitAfterPoseChange()
+        {
+            yield return new WaitForSeconds(0.1f);
+        }
+
         protected AnimatorStateInfo GetAnimatorStateInfo(int girlIndex) =>
             GetFemaleAnimator(girlIndex).GetCurrentAnimatorStateInfo(AnimationLayer);
 
@@ -100,7 +105,7 @@ namespace LoveMachine.Core
             var femaleBones = GetFemaleBones(girlIndex);
             string pose = GetExactPose(girlIndex, Bone.Auto);
             var samples = new List<Sample>();
-            yield return new WaitForSeconds(0.1f);
+            yield return HandleCoroutine(WaitAfterPoseChange());
             GetAnimState(girlIndex, out float startTime, out _, out _);
             float currentTime = startTime;
             while (currentTime - 1 < startTime)

@@ -11,8 +11,8 @@ namespace LoveMachine.COM3D2
             CoreConfig.Logger = Logger;
             PluginInitializer.Initialize(
                 plugin: this,
-                girlMappingHeader: null,
-                girlMappingOptions: null,
+                girlMappingHeader: "Threesome Role",
+                girlMappingOptions: new string[] { "First girl", "Second girl", "Off" },
                 typeof(Com3d2ButtplugVibeController),
                 typeof(Com3d2ButtplugStrokerController));
             Hooks.InstallHooks();
