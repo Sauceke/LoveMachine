@@ -37,6 +37,7 @@ namespace LoveMachine.Core
                 foreach (var bone in GetSupportedBones(girlIndex))
                 {
                     DoVibrate(0f, girlIndex, bone);
+                    client.RotateCmd(0f, true, girlIndex, bone);
                 }
             }
             ClearCache();
@@ -104,6 +105,35 @@ namespace LoveMachine.Core
                 }
                 yield return HandleCoroutine(VibrateWithAnimation(girlIndex, bone,
                     VibrationIntensity));
+            }
+        }
+
+        protected IEnumerator RunRotatorLoop(int girlIndex, Bone bone)
+        {
+            System.Random random = new System.Random();
+            bool clockwise = true;
+
+            while (true)
+            {
+                if (IsIdle(girlIndex))
+                {
+                    client.RotateCmd(0, clockwise, girlIndex, bone);
+                    yield return new WaitForSeconds(.1f);
+                    continue;
+                }
+                float strokeTimeSecs = GetStrokeTimeSecs(girlIndex, bone);
+                TryGetWaveInfo(girlIndex, bone, out var waveInfo);
+                for (int i = 0; i < waveInfo.Frequency - 1; i++)
+                {
+                    HandleCoroutine(DoRotate(girlIndex, bone, clockwise, strokeTimeSecs));
+                    yield return new WaitForSecondsRealtime(strokeTimeSecs);
+                }
+                yield return HandleCoroutine(DoRotate(girlIndex, bone, clockwise, strokeTimeSecs));
+
+                if (random.NextDouble() <= CoreConfig.RotationDirectionChangeChance.Value)
+                {
+                    clockwise = !clockwise;
+                }
             }
         }
 
@@ -193,6 +223,17 @@ namespace LoveMachine.Core
         protected void DoVibrate(float intensity, int girlIndex, Bone bone)
         {
             client.VibrateCmd(intensity, girlIndex, bone);
+        }
+
+        protected internal IEnumerator DoRotate(int girlIndex, Bone bone, bool clockwise, float strokeTimeSecs)
+        {
+            float downStrokeTimeSecs = strokeTimeSecs / 2f;
+
+            float downSpeed = Mathf.Lerp(0.3f, 1f, 0.4f / strokeTimeSecs) * CoreConfig.RotationSpeedRatio.Value;
+            float upSpeed = downSpeed * 0.8f;
+            client.RotateCmd(downSpeed, clockwise, girlIndex, bone);
+            yield return new WaitForSecondsRealtime(downStrokeTimeSecs);
+            client.RotateCmd(upSpeed, !clockwise, girlIndex, bone);
         }
 
         protected CustomYieldInstruction WaitForUpStroke(int girlIndex, Bone bone)

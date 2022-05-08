@@ -253,6 +253,27 @@ namespace LoveMachine.Core
                         HideDefaultButton = true
                     }));
             //
+            // Rotator settings
+            //
+            string rotationSettingsTitle = "Rotation Settings";
+            CoreConfig.RotationSpeedRatio = plugin.Config.Bind(
+                section: rotationSettingsTitle,
+                key: "Rotation Speed Ratio",
+                defaultValue: 0.5f,
+                 new ConfigDescription(
+                   "0%: No rotation\n" +
+                   "100%: Full speed rotation",
+                   new AcceptableValueRange<float>(0, 1)));
+            CoreConfig.RotationDirectionChangeChance = plugin.Config.Bind(
+                section: rotationSettingsTitle,
+                key: "Rotation Direction Change Chance",
+                defaultValue: 0.3f,
+                 new ConfigDescription(
+                   "The direction of rotation changes with the probability of this setting",
+                   new AcceptableValueRange<float>(0, 1),
+                   new ConfigurationManagerAttributes { Order = order-- }));
+
+            //
             // Kill switch settings
             //
             string killSwitchSettingsTitle = "Kill Switch Settings";
@@ -315,13 +336,14 @@ namespace LoveMachine.Core
 
                 // table header
                 float totalWidth = Mathf.Min(Screen.width, 650) * .9f;
-                int columns = 6;
+                int columns = 7;
                 float columnWidth = totalWidth / columns;
                 GUILayout.BeginHorizontal(GUILayout.ExpandWidth(true));
                 {
                     GUILayout.Label("Device Name", GUILayout.Width(columnWidth));
                     GUILayout.Label("Stroker", GUILayout.Width(columnWidth));
                     GUILayout.Label("Vibrators", GUILayout.Width(columnWidth));
+                    GUILayout.Label("Rotators", GUILayout.Width(columnWidth));
                     if (girlMappingHeader != null)
                     {
                         GUILayout.Label(girlMappingHeader, GUILayout.Width(columnWidth));
@@ -345,6 +367,7 @@ namespace LoveMachine.Core
                         GUILayout.Label(device.DeviceName, GUILayout.Width(columnWidth));
                         GUILayout.Toggle(device.IsStroker, "", GUILayout.Width(columnWidth));
                         GUILayout.Toggle(device.IsVibrator, "", GUILayout.Width(columnWidth));
+                        GUILayout.Toggle(device.IsRotator, "", GUILayout.Width(columnWidth));
                         if (girlMappingOptions != null)
                         {
                             device.Settings.GirlIndex = GUILayout.SelectionGrid(
@@ -373,6 +396,17 @@ namespace LoveMachine.Core
                                 if (GUILayout.Button("Test Hard"))
                                 {
                                     TestStrokerAsync(device, fast: false, hard: true);
+                                }
+                            }
+                            if (device.IsRotator)
+                            {
+                                if (GUILayout.Button("Test Slow"))
+                                {
+                                    TestRotatorAsync(device, fast: false);
+                                }
+                                if (GUILayout.Button("Test Fast"))
+                                {
+                                    TestRotatorAsync(device, fast: true);
                                 }
                             }
                         }
@@ -435,6 +469,29 @@ namespace LoveMachine.Core
                         strokeTimeSecs, forceHard: hard));
                 yield return new WaitForSecondsRealtime(strokeTimeSecs);
             }
+        }
+
+        private void TestRotatorAsync(Device device, bool fast)
+        {
+            var controller = Chainloader.ManagerObject.GetComponents<ButtplugController>()[0];
+            controller.HandleCoroutine(TestRotator(device, fast));
+        }
+
+        private IEnumerator TestRotator(Device device, bool fast)
+        {
+            var controller = Chainloader.ManagerObject.GetComponents<ButtplugController>()[0];
+            float strokeTimeSecs = 60f / CoreConfig.MaxStrokesPerMinute.Value;
+            if (!fast)
+            {
+                strokeTimeSecs *= 2;
+            }
+            for (int i = 0; i < 3; i++)
+            {
+                controller.HandleCoroutine(controller.DoRotate(device.Settings.GirlIndex, device.Settings.Bone, true, strokeTimeSecs));
+                yield return new WaitForSecondsRealtime(strokeTimeSecs);
+            }
+
+            controller.HandleCoroutine(controller.DoRotate(device.Settings.GirlIndex, device.Settings.Bone, true, 0));
         }
     }
 }
