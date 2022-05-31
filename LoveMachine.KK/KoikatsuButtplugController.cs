@@ -28,7 +28,7 @@ namespace LoveMachine.KK
 
         protected static readonly List<string> orgasmAnimations = new List<string>
         {
-            "OUT_START", "OUT_LOOP", "IN_START", "IN_LOOP",
+            "OUT_START", "OUT_LOOP", "IN_START", "IN_LOOP", "IN_Start", "IN_Loop",
             "M_OUT_Start", "M_OUT_Loop", "M_IN_Start", "M_IN_Loop",
             "WS_IN_Start", "WS_IN_Loop", "SS_IN_Start", "SS_IN_Loop",
             "A_WS_IN_Start", "A_WS_IN_Loop", "A_SS_IN_Start", "A_SS_IN_Loop",
