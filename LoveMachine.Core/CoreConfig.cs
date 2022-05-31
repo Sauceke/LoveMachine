@@ -20,6 +20,8 @@ namespace LoveMachine.Core
         public static ConfigEntry<int> FastStrokeZoneMin { get; internal set; }
         public static ConfigEntry<int> FastStrokeZoneMax { get; internal set; }
         public static ConfigEntry<float> StrokeLengthRealism { get; internal set; }
+        public static ConfigEntry<float> OrgasmDepth { get; internal set; }
+        public static ConfigEntry<int> OrgasmShakingFrequency { get; internal set; }
         public static ConfigEntry<int> HardSexIntensity { get; internal set; }
         public static ConfigEntry<bool> SaveDeviceSettings { get; internal set; }
         public static ConfigEntry<string> DeviceSettingsJson { get; internal set; }

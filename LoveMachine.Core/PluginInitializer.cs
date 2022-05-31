@@ -175,7 +175,7 @@ namespace LoveMachine.Core
                  new ConfigDescription(
                    "0%: every stroke is full-length\n" +
                    "100%: strokes are as long as they appear in-game",
-                   new AcceptableValueRange<float>(0, 1),
+                   new AcceptableValueRange<float>(0f, 1f),
                    new ConfigurationManagerAttributes { Order = order-- }));
             CoreConfig.HardSexIntensity = plugin.Config.Bind(
                section: strokerSettingsTitle,
@@ -184,6 +184,22 @@ namespace LoveMachine.Core
                new ConfigDescription(
                    "Makes hard sex animations feel hard",
                    new AcceptableValueRange<int>(0, 100),
+                   new ConfigurationManagerAttributes { Order = order-- }));
+            CoreConfig.OrgasmDepth = plugin.Config.Bind(
+               section: strokerSettingsTitle,
+               key: "Orgasm Depth",
+               defaultValue: 0.2f,
+               new ConfigDescription(
+                   "Stroker position when orgasming (lower = deeper)",
+                   new AcceptableValueRange<float>(0f, 1f),
+                   new ConfigurationManagerAttributes { Order = order-- }));
+            CoreConfig.OrgasmShakingFrequency = plugin.Config.Bind(
+               section: strokerSettingsTitle,
+               key: "Orgasm Shaking Frequency",
+               defaultValue: 10,
+               new ConfigDescription(
+                   "Amount of strokes per second when orgasming",
+                   new AcceptableValueRange<int>(0, 15),
                    new ConfigurationManagerAttributes { Order = order-- }));
             //
             // Vibrator settings

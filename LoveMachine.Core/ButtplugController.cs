@@ -172,12 +172,15 @@ namespace LoveMachine.Core
 
         private IEnumerator EmulateOrgasmWithStroker(int girlIndex, Bone bone)
         {
+            float bottom = CoreConfig.OrgasmDepth.Value;
+            float time = 0.5f / CoreConfig.OrgasmShakingFrequency.Value;
+            float top = bottom + CoreConfig.MaxStrokesPerMinute.Value / 60f / 2 * time;
             while (IsOrgasming(girlIndex))
             {
-                MoveStroker(1f, 60f / CoreConfig.MaxStrokesPerMinute.Value, girlIndex, bone);
-                yield return new WaitForSecondsRealtime(0.1f);
-                MoveStroker(0f, 60f / CoreConfig.MaxStrokesPerMinute.Value, girlIndex, bone);
-                yield return new WaitForSecondsRealtime(0.1f);
+                MoveStroker(top, time, girlIndex, bone);
+                yield return new WaitForSecondsRealtime(time);
+                MoveStroker(bottom, time, girlIndex, bone);
+                yield return new WaitForSecondsRealtime(time);
 
             }
         }
