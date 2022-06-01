@@ -105,6 +105,8 @@ You can define two "stroke zones", one for fast movement and one for slow moveme
 If you get bored of the "standard" features of this plugin, try experimenting a bit with the following settings:
 * **Stroke Length Realism:** How much the stroke length should match the animation. 0% means every stroke will use the full available length. 100% means every stroke will be scaled to its in-game length.
 * **Hard Sex Intensity:** How fast your stroker will fall during hard sex animations. 100% is twice as fast as 0% and feels much rougher (at least on a Handy). I'm not responsible for any injuries that may occur due to the use of LoveMachine.
+* **Orgasm Depth:** The position of the stroker during orgasm.
+* **Orgasm Shaking Frequency:** How many strokes to do per second during orgasm.
 
 ### Vibration Settings
 * **Update Frequency (per second):** How often to send commands to vibrators. Too often might DoS your vibrator, too scarcely will feel erratic. Defaults to 10.
