@@ -7,14 +7,15 @@
 Adds support for [buttplug.io](https://buttplug.io/) compatible strokers and vibrators in the following games:
 | Game                           | Developer        | VR supported |
 |--------------------------------|------------------|--------------|
+| Custom Order Maid 3D 2         | Kiss             | Yes          |
+| Honey Select 2                 | Illusion         | Yes          |
+| Houkago Rinkan Chuudoku        | Miconisomi       | Yes, wtih [AGHVR](https://github.com/Eusth/AGHVR) |
+| Insult Order                   | Miconisomi       | Yes, wtih [IOVR](https://github.com/Eusth/IOVR) |
 | Koikatsu                       | Illusion         | Yes          |
 | Koikatsu Party                 | Illusion         | Yes          |
 | Koikatsu Sunshine              | Illusion         | Yes          |
-| Honey Select 2                 | Illusion         | Yes          |
-| PlayHome                       | Illusion         | Yes          |
-| After Service Gangbang Addicts | MICONISOMI       | Yes, wtih [AGHVR](https://github.com/Eusth/AGHVR) |
 | Our Apartment                  | Momoiro Software | No           |
-| Insult Order                   | MICONISOMI       | Yes, wtih [IOVR](https://github.com/Eusth/IOVR) |
+| PlayHome                       | Illusion         | Yes          |
 
 Buttplug.io supports [over 180 devices](https://iostindex.com/?filter0ButtplugSupport=4). This plugin is for **linear** (moving back-and-forth) and **vibrating** sex toys, with [experimental support for two depth sensing devices](#depth-control).
 
@@ -42,6 +43,8 @@ Download and run the [installer](https://github.com/Sauceke/BepInEx.LoveMachine/
 1. Start an H scene and enjoy 😏
 
 The Space key acts as a kill switch for all devices while in-game. To reactivate your devices, press F8. Both of these key bindings can be modified under Plugin Settings > LoveMachine > Kill Switch Settings.
+
+⚠ In certain games, the kill switch may not work if the BepInEx console is open while playing in VR, because it can steal focus from the game window. It is recommended to disable the console.
 
 ## How it works, limitations
 * LoveMachine analyzes the movement of certain bones in female characters (hands, crotch, breasts, mouth) at the start of each animation loop, to determine the exact timing of the up-strokes.
@@ -102,6 +105,8 @@ You can define two "stroke zones", one for fast movement and one for slow moveme
 If you get bored of the "standard" features of this plugin, try experimenting a bit with the following settings:
 * **Stroke Length Realism:** How much the stroke length should match the animation. 0% means every stroke will use the full available length. 100% means every stroke will be scaled to its in-game length.
 * **Hard Sex Intensity:** How fast your stroker will fall during hard sex animations. 100% is twice as fast as 0% and feels much rougher (at least on a Handy). I'm not responsible for any injuries that may occur due to the use of LoveMachine.
+* **Orgasm Depth:** The position of the stroker during orgasm.
+* **Orgasm Shaking Frequency:** How many strokes to do per second during orgasm.
 
 ### Vibration Settings
 * **Update Frequency (per second):** How often to send commands to vibrators. Too often might DoS your vibrator, too scarcely will feel erratic. Defaults to 10.
@@ -115,6 +120,7 @@ This mod is provided free of charge, but I do accept donations. If you'd like to
 
 ### Code contributors
 * nhydock
+* RPKU
 * Sauceke
 
 ### Sponsors
@@ -125,16 +131,24 @@ This mod is provided free of charge, but I do accept donations. If you'd like to
 * CBN ヴい
 * CROM
 * EPTG
+* funnychicken
+* GOU YOSIHIRO
 * Greg
+* kai harayama
+* Nemi
 * RP君
 * Shakes
 * Taibe
 * Taka Yami
 * tanu
 * tutinoko
+* TrashTaste
 * uruurian
 * Wel Adunno
 * yamada tarou
+* 郁弥 中村
+* 终晓
+* ふ
 
 ## Acknowledgements
 This mod would not have been possible without the [BepInEx](https://github.com/BepInEx) plugin framework and, of course, the [Buttplug](https://buttplug.io/) project.
