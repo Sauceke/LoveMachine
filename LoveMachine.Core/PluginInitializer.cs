@@ -199,7 +199,7 @@ namespace LoveMachine.Core
                defaultValue: 10,
                new ConfigDescription(
                    "Amount of strokes per second when orgasming",
-                   new AcceptableValueRange<int>(0, 15),
+                   new AcceptableValueRange<int>(3, 15),
                    new ConfigurationManagerAttributes { Order = order-- }));
             //
             // Vibrator settings
