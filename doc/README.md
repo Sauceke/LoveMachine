@@ -130,16 +130,23 @@ This mod is provided free of charge, but I do accept donations. If you'd like to
 * CROM
 * EPTG
 * funnychicken
+* GOU YOSIHIRO
 * Greg
+* kai harayama
+* Nemi
 * RP君
 * Shakes
 * Taibe
 * Taka Yami
 * tanu
 * tutinoko
+* TrashTaste
 * uruurian
 * Wel Adunno
 * yamada tarou
+* 郁弥 中村
+* 终晓
+* ふ
 
 ## Acknowledgements
 This mod would not have been possible without the [BepInEx](https://github.com/BepInEx) plugin framework and, of course, the [Buttplug](https://buttplug.io/) project.
