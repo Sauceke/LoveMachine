@@ -152,7 +152,7 @@ namespace LoveMachine.Core
             }
             // Prefer bones that are close and move a lot. Being close is more important.
             var autoBone = results
-                .OrderBy(entry => entry.Value.Trough * entry.Value.Trough
+                .OrderBy(entry => Mathf.Pow(entry.Value.Trough, 3)
                     / (entry.Value.Crest - entry.Value.Trough))
                 .FirstOrDefault()
                 .Key;
