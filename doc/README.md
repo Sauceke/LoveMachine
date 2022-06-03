@@ -2,9 +2,10 @@
 [![.NET](https://github.com/Sauceke/BepInEx.LoveMachine/actions/workflows/commit.yml/badge.svg)](https://github.com/Sauceke/BepInEx.LoveMachine/actions/workflows/commit.yml)
 [![Download](https://img.shields.io/github/downloads/Sauceke/BepInEx.LoveMachine/total)](https://github.com/Sauceke/BepInEx.LoveMachine/releases/latest/download/LoveMachineInstaller.exe)
 
-[⬇ Download](https://github.com/Sauceke/BepInEx.LoveMachine/releases/latest/download/LoveMachineInstaller.exe)
+| [⬇ Download](https://github.com/Sauceke/BepInEx.LoveMachine/releases/latest/download/LoveMachineInstaller.exe) |
+|---|
 
-Adds support for [buttplug.io](https://buttplug.io/) compatible strokers and vibrators in the following games:
+Adds support for [some computer-controlled sex toys](#supported-devices) in the following games:
 
 | Game                           | Developer        | VR supported |
 |--------------------------------|------------------|--------------|
@@ -18,7 +19,10 @@ Adds support for [buttplug.io](https://buttplug.io/) compatible strokers and vib
 | Our Apartment                  | Momoiro Software | No           |
 | PlayHome                       | Illusion         | Yes          |
 
-Buttplug.io supports [over 180 devices](https://iostindex.com/?filter0ButtplugSupport=4). This plugin is for **linear** (moving back-and-forth) and **vibrating** sex toys, with [experimental support for two depth sensing devices](#depth-control).
+## Supported devices
+LoveMachine relies on the [Buttplug.io project](https://github.com/buttplugio/buttplug) to communicate with toys. At the time of writing, Buttplug.io supports over 200 devices.
+
+This plugin is for **linear** (moving back-and-forth) and **vibrating** sex toys, with [experimental support for two depth sensing devices](#depth-control).
 
 Some of the devices that were actually tested with the mod:
 
