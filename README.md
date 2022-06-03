@@ -3,7 +3,9 @@
 [![Download](https://img.shields.io/github/downloads/Sauceke/BepInEx.LoveMachine/total)](https://github.com/Sauceke/BepInEx.LoveMachine/releases/latest/download/LoveMachineInstaller.exe)
 
 <kbd>
-  <a href="https://github.com/Sauceke/BepInEx.LoveMachine/releases/latest/download/LoveMachineInstaller.exe">⬇ Download</a>
+  <h2>
+    <a href="https://github.com/Sauceke/BepInEx.LoveMachine/releases/latest/download/LoveMachineInstaller.exe">⬇ Download</a>
+  </h2>
 </kbd>
 
 <p></p>
