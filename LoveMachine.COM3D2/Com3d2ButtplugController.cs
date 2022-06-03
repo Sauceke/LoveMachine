@@ -52,8 +52,8 @@ namespace LoveMachine.COM3D2
             return;
         }
 
-        private AnimationState GetActiveState() => FindObjectsOfType<Animation>()
-            .Where(animation => animation.name == "_BO_mbody")
+        private AnimationState GetActiveState() => FindCharaObject("Man[0]")
+            .GetComponentsInChildren<Animation>()
             .SelectMany(animation => animation.Cast<AnimationState>()
                 .Where(state => animation.IsPlaying(state.name)))
             .OrderBy(state => state.length)
