@@ -5,6 +5,7 @@
 [⬇ Download](https://github.com/Sauceke/BepInEx.LoveMachine/releases/latest/download/LoveMachineInstaller.exe)
 
 Adds support for [buttplug.io](https://buttplug.io/) compatible strokers and vibrators in the following games:
+
 | Game                           | Developer        | VR supported |
 |--------------------------------|------------------|--------------|
 | Custom Order Maid 3D 2         | Kiss             | Yes          |
