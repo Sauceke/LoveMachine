@@ -3,7 +3,7 @@
 [![Download](https://img.shields.io/github/downloads/Sauceke/BepInEx.LoveMachine/total)](https://github.com/Sauceke/BepInEx.LoveMachine/releases/latest/download/LoveMachineInstaller.exe)
 
 | [⬇ Download](https://github.com/Sauceke/BepInEx.LoveMachine/releases/latest/download/LoveMachineInstaller.exe) |
-|---|
+|-----------|
 
 Adds support for [some computer-controlled sex toys](#supported-devices) in the following games:
 
