@@ -17,7 +17,8 @@ namespace LoveMachine.PH
                 girlMappingHeader: "Threesome Role",
                 girlMappingOptions: girls,
                 typeof(PlayHomeButtplugVibrationController),
-                typeof(PlayHomeButtplugStrokerController));
+                typeof(PlayHomeButtplugStrokerController),
+                typeof(PlayHomeButtplugRotatorController));
             Hooks.InstallHooks();
         }
     }
