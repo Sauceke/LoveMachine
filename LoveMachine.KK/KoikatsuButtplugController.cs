@@ -59,6 +59,9 @@ namespace LoveMachine.KK
 
         protected override float PenisSize => 0.1f;
 
+        protected override bool IsOrgasming(int girlIndex) =>
+            orgasmAnimations.Contains(flags.nowAnimStateName);
+
         protected override Animator GetFemaleAnimator(int girlIndex) =>
             flags.lstHeroine[girlIndex].chaCtrl.animBody;
 
@@ -231,14 +234,20 @@ namespace LoveMachine.KK
                     || !supportedAnimations.Contains(flags.nowAnimStateName)
                     || flags.speed < 1;
 
-        protected override bool IsOrgasming(int girlIndex) =>
-            orgasmAnimations.Contains(flags.nowAnimStateName);
-
         protected override void HandleFondle(float y, int girlIndex, Bone bone, float timeSecs) =>
             MoveStroker(position: y, timeSecs, girlIndex, bone);
 
         protected override IEnumerator Run(int girlIndex, Bone bone) =>
             RunStrokerLoop(girlIndex, bone);
+    }
+
+    internal class KoikatsuButtplugRotatorController : KoikatsuButtplugStrokerController
+    {
+        protected override void HandleFondle(float y, int girlIndex, Bone bone, float timeSecs) =>
+            throw new System.NotImplementedException();
+
+        protected override IEnumerator Run(int girlIndex, Bone bone) =>
+            RunRotatorLoop(girlIndex, bone);
     }
 
     internal class KoikatsuButtplugAibuVibrationController : KoikatsuButtplugVibrationController

@@ -31,6 +31,8 @@ namespace LoveMachine.Core
         public static ConfigEntry<int> VibrationIntensityMin { get; internal set; }
         public static ConfigEntry<int> VibrationIntensityMax { get; internal set; }
 
+        public static ConfigEntry<float> RotationSpeedRatio { get; internal set; }
+        public static ConfigEntry<float> RotationDirectionChangeChance { get; internal set; }
         public static ConfigEntry<KeyboardShortcut> KillSwitch { get; internal set; }
         public static ConfigEntry<KeyboardShortcut> ResumeSwitch { get; internal set; }
     }

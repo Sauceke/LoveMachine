@@ -14,7 +14,8 @@ namespace LoveMachine.IO
                 girlMappingHeader: null,
                 girlMappingOptions: null,
                 typeof(InsultOrderButtplugVibrationController),
-                typeof(InsultOrderButtplugStrokerController));
+                typeof(InsultOrderButtplugStrokerController),
+                typeof(InsultOrderButtplugRotatorController));
             Hooks.InstallHooks();
         }
     }

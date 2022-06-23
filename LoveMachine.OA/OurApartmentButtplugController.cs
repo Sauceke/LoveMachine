@@ -94,4 +94,10 @@ namespace LoveMachine.OA
         protected override IEnumerator Run(int girlIndex, Bone bone) =>
             RunStrokerLoop(girlIndex, bone);
     }
+
+    internal class OurApartmentButtplugRotatorController : OurApartmentButtplugController
+    {
+        protected override IEnumerator Run(int girlIndex, Bone bone) =>
+            RunRotatorLoop(girlIndex, bone);
+    }
 }

@@ -16,6 +16,7 @@ namespace LoveMachine.KK
                 typeof(KoikatsuButtplugAnimationController),
                 typeof(KoikatsuButtplugStrokerController),
                 typeof(KoikatsuButtplugVibrationController),
+                typeof(KoikatsuButtplugRotatorController),
                 typeof(KoikatsuButtplugAibuStrokerController),
                 typeof(KoikatsuButtplugAibuVibrationController),
                 typeof(KoikatsuCalorDepthController));

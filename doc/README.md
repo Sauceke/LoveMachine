@@ -22,7 +22,7 @@ Adds support for [some computer-controlled sex toys](#supported-devices) in the 
 ## Supported devices
 LoveMachine relies on the [Buttplug.io project](https://github.com/buttplugio/buttplug) to communicate with toys. At the time of writing, Buttplug.io supports over 200 devices.
 
-This plugin is for **linear** (moving back-and-forth) and **vibrating** sex toys, with [experimental support for two depth sensing devices](#depth-control).
+This plugin is for **linear** (moving back-and-forth), **vibrating** and **rotating** sex toys, with [experimental support for two depth sensing devices](#depth-control).
 
 Some of the devices that were actually tested with the mod:
 
@@ -127,6 +127,7 @@ This mod is provided free of charge, but I do accept donations. If you'd like to
 * nhydock
 * RPKU
 * Sauceke
+* hogefugamoga
 
 ### Sponsors
 * [ManlyMarco](https://github.com/ManlyMarco)

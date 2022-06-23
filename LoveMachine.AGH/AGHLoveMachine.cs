@@ -14,7 +14,8 @@ namespace LoveMachine.AGH
                 girlMappingHeader: null,
                 girlMappingOptions: null,
                 typeof(HoukagoRinkanButtplugStrokerController),
-                typeof(HoukagoRinkanButtplugVibrationController));
+                typeof(HoukagoRinkanButtplugVibrationController),
+                typeof(HoukagoRinkanButtplugRotatorController));
             Hooks.InstallHooks();
         }
     }

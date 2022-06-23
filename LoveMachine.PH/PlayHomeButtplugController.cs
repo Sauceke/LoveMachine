@@ -93,4 +93,10 @@ namespace LoveMachine.PH
         protected override IEnumerator Run(int girlIndex, Bone bone) =>
             RunStrokerLoop(girlIndex, bone);
     }
+
+    internal class PlayHomeButtplugRotatorController : PlayHomeButtplugController
+    {
+        protected override IEnumerator Run(int girlIndex, Bone bone) =>
+            RunRotatorLoop(girlIndex, bone);
+    }
 }

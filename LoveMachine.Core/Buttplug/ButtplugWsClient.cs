@@ -121,6 +121,43 @@ namespace LoveMachine.Core
             }
         }
 
+        public void RotateCmd(float speed, bool clockwise, int girlIndex, Bone bone)
+        {
+            if (KillSwitch.Pushed && speed != 0f)
+            {
+                RotateCmd(0f, true, girlIndex, bone);
+                return;
+            }
+            var commands = (
+                from device in Devices
+                where device.IsRotator
+                    && device.Settings.GirlIndex == girlIndex
+                    && device.Settings.Bone == bone
+                select new
+                {
+                    RotateCmd = new
+                    {
+                        Id = random.Next(),
+                        DeviceIndex = device.DeviceIndex,
+                        Rotations = (
+                            from featureIndex in Enumerable.Range(0,
+                                device.DeviceMessages.RotateCmd.FeatureCount)
+                            select new
+                            {
+                                Index = featureIndex,
+                                Speed = speed,
+                                Clockwise = clockwise
+                            }
+                        ).ToList()
+                    }
+                }
+            ).ToList();
+            if (commands.Count > 0)
+            {
+                websocket.Send(JsonMapper.ToJson(commands));
+            }
+        }
+
         private void OnOpened(object sender, EventArgs e)
         {
             CoreConfig.Logger.LogInfo("Succesfully connected to Intiface.");
@@ -230,7 +267,7 @@ namespace LoveMachine.Core
             }
             foreach (var device in Devices)
             {
-                if (!device.IsStroker && !device.IsVibrator)
+                if (!device.IsStroker && !device.IsVibrator && !device.IsRotator)
                 {
                     CoreConfig.Logger.LogMessage(
                         $"Warning: device \"{device.DeviceName}\" not supported.");

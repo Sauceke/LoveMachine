@@ -69,4 +69,10 @@ namespace LoveMachine.IO
         protected override IEnumerator Run(int girlIndex, Bone bone) =>
             RunStrokerLoop(girlIndex, bone);
     }
+
+    internal class InsultOrderButtplugRotatorController : InsultOrderButtplugController
+    {
+        protected override IEnumerator Run(int girlIndex, Bone bone) =>
+            RunRotatorLoop(girlIndex, bone);
+    }
 }

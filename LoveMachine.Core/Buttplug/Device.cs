@@ -23,10 +23,12 @@ namespace LoveMachine.Core
         public bool IsVibrator { get { return DeviceMessages.VibrateCmd != null; } }
         public bool IsStroker { get { return DeviceMessages.LinearCmd != null; } }
 
+        public bool IsRotator { get { return DeviceMessages.RotateCmd != null; } }
         public class Features
         {
             public Command LinearCmd { get; set; }
             public Command VibrateCmd { get; set; }
+            public Command RotateCmd { get; set; }
 
             public class Command
             {
