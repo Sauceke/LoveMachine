@@ -118,6 +118,9 @@ If you get bored of the "standard" features of this plugin, try experimenting a 
 * **Vibration With Animation:** If enabled, vibration intensity will oscillate up and down in sync with the action. If disabled, the intensity will depend on how fast you go, but it will otherwise stay the same.
 * **Vibration Intensity Range:** If Vibration With Animation is enabled, vibration intensity will oscillate between these two values.
 
+## Contributing
+PRs for onboarding new games are welcome. The process is relatively simple and requires barely any coding. See the PlayHome implementation for reference. PRs for supporting new device types are also welcome.
+
 This mod is provided free of charge, but I do accept donations. If you'd like to boost my morale, please check me out on [Patreon](https://www.patreon.com/sauceke).
 
 ### Code contributors
