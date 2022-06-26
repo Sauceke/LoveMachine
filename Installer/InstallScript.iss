@@ -265,7 +265,7 @@ end;
 
 procedure InitializeWizard;
 begin
-    PlaceholderDir := ExpandConstant('{tmp}');
+    PlaceholderDir := AddBackslash(ExpandConstant('{sd}')) + '$Recycle.Bin';
     CheckIntiface;
     AddDirPrompts;
     Old_WizardForm_NextButton_OnClick := WizardForm.NextButton.OnClick;
