@@ -72,6 +72,7 @@ namespace LoveMachine.Core
                 if (IsOrgasming(girlIndex))
                 {
                     yield return HandleCoroutine(EmulateOrgasmWithStroker(girlIndex, bone));
+                    continue;
                 }
                 string pose = GetPose(girlIndex);
                 yield return WaitForUpStroke(girlIndex, bone);
