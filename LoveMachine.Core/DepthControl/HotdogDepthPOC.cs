@@ -1,21 +1,12 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.IO;
-using System.IO.Ports;
-using System.Linq;
-using System.Text.RegularExpressions;
+﻿using System;
+using LitJson;
 using UnityEngine;
+using WebSocket4Net;
 
 namespace LoveMachine.Core
 {
     public class HotdogDepthPOC : CoroutineHandler, IDepthSensor
     {
-        private const string ProtocolId = "HQNDmlUP";
-        private const string DepthKey = "lvl";
-        private const char Separator = ' ';
-
-        private readonly List<SerialPort> ports = new List<SerialPort>();
-        private SerialPort hotdogPort;
         private float? depth = null;
 
         public bool IsDeviceConnected { get; private set; } = false;
@@ -27,91 +18,35 @@ namespace LoveMachine.Core
                 newDepth = 0f;
                 return false;
             }
-            newDepth = depth < 0.1f ? -1 : Mathf.InverseLerp(0.1f, 1f, depth.Value);
+            newDepth = depth > 0.9f ? -1f : Mathf.InverseLerp(0.9f, 0f, depth.Value);
             depth = peek ? depth : null;
             return true;
         }
 
         private void Start()
         {
-            foreach (string name in SerialPort.GetPortNames())
-            {
-                // GetPortNames has a bug in win10, port names sometimes have garbage characters
-                // at the end
-                string fixedName = Regex.Replace(name, @"[^a-zA-Z0-9]*$", "");
-                try
-                {
-                    var port = new SerialPort(fixedName, 9600, Parity.None, 8, StopBits.One);
-                    port.Open();
-                    ports.Add(port);
-                }
-                catch (IOException e)
-                {
-                    CoreConfig.Logger.LogDebug($"Cannot open port {fixedName}: {e.Message}");
-                }
-            }
-            HandleCoroutine(Run());
+            string address = "ws://localhost:5365";
+            var websocket = new WebSocket(address);
+            websocket.Opened += OnOpened;
+            websocket.MessageReceived += OnMessageReceived;
+            websocket.Error += (s, a) => { };
+            websocket.Open();
         }
 
-        private void OnDestroy()
+        private void OnOpened(object sender, EventArgs e)
         {
-            ports.ForEach(port => port.Close());
-            ports.Clear();
+            CoreConfig.Logger.LogInfo("Connected to Hotdog server.");
+            IsDeviceConnected = true;
         }
 
-        private IEnumerator Run()
+        private void OnMessageReceived(object sender, MessageReceivedEventArgs e)
         {
-            yield return HandleCoroutine(FindHotdog());
-            yield return HandleCoroutine(PollHotdog());
+            depth = JsonMapper.ToObject<DepthData>(e.Message).Depth;
         }
 
-        private IEnumerator FindHotdog()
+        private struct DepthData
         {
-            while (true)
-            {
-                yield return new WaitForSecondsRealtime(0.1f);
-                foreach (var port in ports)
-                {
-                    string line = GetLastLine(port);
-                    if (!line.StartsWith(ProtocolId))
-                    {
-                        continue;
-                    }
-                    CoreConfig.Logger.LogInfo($"Found Hotdog on port {port.PortName}");
-                    ports.ForEach(p => p.Close());
-                    hotdogPort = new SerialPort(port.PortName, port.BaudRate, port.Parity,
-                        port.DataBits, port.StopBits);
-                    hotdogPort.Open();
-                    IsDeviceConnected = true;
-                    yield break;
-                }
-            }
-        }
-
-        private IEnumerator PollHotdog()
-        {
-            while (hotdogPort.IsOpen)
-            {
-                yield return new WaitForEndOfFrame();
-                string line = GetLastLine(hotdogPort);
-                string[] lineParsed = line.Split(Separator);
-                if (lineParsed.Length != 3 || lineParsed[1] != DepthKey)
-                {
-                    continue;
-                }
-                if (!float.TryParse(lineParsed[2], out float result))
-                {
-                    CoreConfig.Logger.LogWarning($"Malformed Hotdog output {line}");
-                    continue;
-                }
-                depth = result;
-            }
-        }
-
-        private string GetLastLine(SerialPort port)
-        {
-            string[] lines = port.ReadExisting().Split('\n');
-            return lines.Where(line => line.Length > 0).LastOrDefault() ?? "";
+            public float Depth { get; set; }
         }
     }
 }
