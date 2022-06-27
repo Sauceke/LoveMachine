@@ -48,7 +48,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Hooks.cs" />
-    <Compile Include="KKInitializer.cs" />
     <Compile Include="KKLoveMachine.cs" />
     <Compile Include="KoikatsuButtplugController.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

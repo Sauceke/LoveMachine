@@ -54,7 +54,6 @@
     <Compile Include="..\LoveMachine.KK\KoikatsuButtplugController.cs">
       <Link>KoikatsuButtplugController.cs</Link>
     </Compile>
-    <Compile Include="KKSInitializer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

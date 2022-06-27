@@ -1,4 +1,5 @@
 ﻿using BepInEx;
+using BepInEx.Bootstrap;
 using BepInEx.Configuration;
 using LoveMachine.Core;
 
@@ -11,7 +12,7 @@ namespace LoveMachine.KK
     [BepInProcess("KoikatsuSunshine")]
     [BepInProcess("KoikatsuSunshine_VR")]
     [BepInPlugin(CoreConfig.GUID, "LoveMachine", CoreConfig.Version)]
-    public partial class KKLoveMachine : BaseUnityPlugin
+    public class KKLoveMachine : BaseUnityPlugin
     {
         public static ConfigEntry<bool> ReduceAnimationSpeeds;
         public static ConfigEntry<bool> SuppressAnimationBlending;
@@ -20,7 +21,29 @@ namespace LoveMachine.KK
 
         private void Start()
         {
-            DoGameSpecificInit();
+            var girls = new string[] { "First girl", "Second girl", "Off" };
+            CoreConfig.Logger = Logger;
+            PluginInitializer.Initialize(
+                plugin: this,
+                girlMappingHeader: "Threesome Role",
+                girlMappingOptions: girls,
+                typeof(KoikatsuButtplugAnimationController),
+                typeof(KoikatsuButtplugStrokerController),
+                typeof(KoikatsuButtplugVibrationController),
+                typeof(KoikatsuButtplugRotatorController),
+                typeof(KoikatsuButtplugAibuStrokerController),
+                typeof(KoikatsuButtplugAibuVibrationController),
+                typeof(KoikatsuCalorDepthController),
+                typeof(KoikatsuHotdogDepthController));
+            AddExperimentalSettings();
+            if (EnableCalorDepthControl.Value)
+            {
+                Chainloader.ManagerObject.AddComponent<CalorDepthPOC>();
+            }
+            if (EnableHotdogDepthControl.Value)
+            {
+                Chainloader.ManagerObject.AddComponent<HotdogDepthPOC>();
+            }
             string animationSettingsTitle = "Animation Settings";
             ReduceAnimationSpeeds = Config.Bind(
                 section: animationSettingsTitle,
@@ -64,7 +87,7 @@ namespace LoveMachine.KK
                 "Use a Lovense Calor device for depth control");
             EnableHotdogDepthControl = Config.Bind(
                 section: experimentalTitle,
-                key: "Enable Hotdog depth control (KKS only)",
+                key: "Enable Hotdog depth control",
                 defaultValue: false,
                 "Use a Hotdog device for depth control");
         }
