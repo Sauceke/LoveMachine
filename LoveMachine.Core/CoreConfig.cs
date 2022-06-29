@@ -35,5 +35,12 @@ namespace LoveMachine.Core
         public static ConfigEntry<float> RotationDirectionChangeChance { get; internal set; }
         public static ConfigEntry<KeyboardShortcut> KillSwitch { get; internal set; }
         public static ConfigEntry<KeyboardShortcut> ResumeSwitch { get; internal set; }
+
+        // experimental stuff for KK/KKS
+        public static ConfigEntry<bool> ReduceAnimationSpeeds;
+        public static ConfigEntry<bool> SuppressAnimationBlending;
+        public static ConfigEntry<bool> EnableCalorDepthControl;
+        public static ConfigEntry<bool> EnableHotdogDepthControl;
+        public static ConfigEntry<string> HotdogServerAddress;
     }
 }

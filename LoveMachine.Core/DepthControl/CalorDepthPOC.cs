@@ -4,11 +4,10 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 using Holf.AllForOne;
-using UnityEngine;
 
 namespace LoveMachine.Core
 {
-    public class CalorDepthPOC : MonoBehaviour, IDepthSensor
+    public class CalorDepthPOC : DepthPOC
     {
         private const string executableName = "BLEConsole.exe";
         private const string script =
@@ -26,22 +25,7 @@ namespace LoveMachine.Core
 
         private Process bleConsole;
         private StreamWriter stdin;
-        private float? depth = null;
-
-        public bool IsDeviceConnected { get; private set; } = false;
-
-        public bool TryGetNewDepth(bool peek, out float newDepth)
-        {
-            if (!depth.HasValue)
-            {
-                newDepth = 0f;
-                return false;
-            }
-            newDepth = depth.Value;
-            depth = peek ? depth : null;
-            return true;
-        }
-
+        
         private void Start()
         {
             string bleConsolePath = CoreConfig.PluginDirectoryPath + executableName;
@@ -109,8 +93,7 @@ namespace LoveMachine.Core
             {
                 IsDeviceConnected = true;
                 int level = int.Parse(match.Groups[1].Value);
-                depth = level == 0 ? -1f : (level - 1) / 2f;
-                CoreConfig.Logger.LogDebug($"Calor depth reading: {depth}");
+                Depth = level / 3f;
             }
         }
     }

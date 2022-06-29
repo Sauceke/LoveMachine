@@ -14,11 +14,6 @@ namespace LoveMachine.KK
     [BepInPlugin(CoreConfig.GUID, "LoveMachine", CoreConfig.Version)]
     public class KKLoveMachine : BaseUnityPlugin
     {
-        public static ConfigEntry<bool> ReduceAnimationSpeeds;
-        public static ConfigEntry<bool> SuppressAnimationBlending;
-        public static ConfigEntry<bool> EnableCalorDepthControl;
-        public static ConfigEntry<bool> EnableHotdogDepthControl;
-
         private void Start()
         {
             var girls = new string[] { "First girl", "Second girl", "Off" };
@@ -36,21 +31,21 @@ namespace LoveMachine.KK
                 typeof(KoikatsuCalorDepthController),
                 typeof(KoikatsuHotdogDepthController));
             AddExperimentalSettings();
-            if (EnableCalorDepthControl.Value)
+            if (CoreConfig.EnableCalorDepthControl.Value)
             {
                 Chainloader.ManagerObject.AddComponent<CalorDepthPOC>();
             }
-            if (EnableHotdogDepthControl.Value)
+            if (CoreConfig.EnableHotdogDepthControl.Value)
             {
                 Chainloader.ManagerObject.AddComponent<HotdogDepthPOC>();
             }
             string animationSettingsTitle = "Animation Settings";
-            ReduceAnimationSpeeds = Config.Bind(
+            CoreConfig.ReduceAnimationSpeeds = Config.Bind(
                 section: animationSettingsTitle,
                 key: "Reduce animation speeds",
                 defaultValue: true,
                 "Whether to slow down animations to a speed your stroker can handle");
-            SuppressAnimationBlending = Config.Bind(
+            CoreConfig.SuppressAnimationBlending = Config.Bind(
                 section: animationSettingsTitle,
                 key: "Simplify animations",
                 defaultValue: true,
@@ -80,16 +75,21 @@ namespace LoveMachine.KK
                         HideDefaultButton = true
                     })
                 );
-            EnableCalorDepthControl = Config.Bind(
+            CoreConfig.EnableCalorDepthControl = Config.Bind(
                 section: experimentalTitle,
                 key: "Enable Lovense Calor depth control",
                 defaultValue: false,
                 "Use a Lovense Calor device for depth control");
-            EnableHotdogDepthControl = Config.Bind(
+            CoreConfig.EnableHotdogDepthControl = Config.Bind(
                 section: experimentalTitle,
                 key: "Enable Hotdog depth control",
                 defaultValue: false,
                 "Use a Hotdog device for depth control");
+            CoreConfig.HotdogServerAddress = Config.Bind(
+                section: experimentalTitle,
+                key: "Hotdog server address",
+                defaultValue: "ws://localhost:5365",
+                "The address of the Hotdog server");
         }
     }
 

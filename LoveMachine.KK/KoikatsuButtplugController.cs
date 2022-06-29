@@ -149,14 +149,14 @@ namespace LoveMachine.KK
             while (!flags.isHSceneEnd)
             {
                 var info = animator.GetCurrentAnimatorStateInfo(0);
-                if (KKLoveMachine.ReduceAnimationSpeeds.Value)
+                if (CoreConfig.ReduceAnimationSpeeds.Value)
                 {
                     // nerf the animation speed so the device can keep up with it
                     // OLoop is faster than the rest, about 280ms per stroke at its original speed
                     NerfAnimationSpeeds(info.IsName("OLoop") ? 0.28f : 0.375f,
                         animator, playerAnimator);
                 }
-                if (KKLoveMachine.SuppressAnimationBlending.Value)
+                if (CoreConfig.SuppressAnimationBlending.Value)
                 {
                     flags.curveMotion = new AnimationCurve(new Keyframe[] { new Keyframe() });
                 }
@@ -261,118 +261,4 @@ namespace LoveMachine.KK
         protected override IEnumerator Run(int girlIndex, Bone bone) =>
             RunAibu(girlIndex, bone);
     }
-
-    internal class KoikatsuDepthController<T> : KoikatsuButtplugController
-        where T : IDepthSensor
-    {
-        private static readonly List<string> supportedAnimations = new List<string>
-        {
-            "WLoop", "SLoop",
-            // anal
-            "A_WLoop", "A_SLoop", "A_OLoop"
-        };
-
-        private static readonly List<string> penetrableAnimations = new List<string>
-        {
-            "Idle", "OUT_A"
-        };
-
-        private T depthSensor;
-
-        private bool IsControllable => supportedAnimations.Contains(flags.nowAnimStateName);
-
-        private bool IsPenetrable => penetrableAnimations.Contains(flags.nowAnimStateName);
-
-        protected override void HandleFondle(float y, int girlIndex, Bone bone, float timeSecs) =>
-            throw new System.NotImplementedException();
-
-        protected override bool IsIdle(int girlIndex) =>
-            throw new System.NotImplementedException();
-
-        protected override IEnumerator Run(int girlIndex, Bone bone)
-        {
-            if (girlIndex != 0 || bone != Bone.Auto)
-            {
-                yield break;
-            }
-            depthSensor = gameObject.GetComponent<T>();
-            if (depthSensor == null)
-            {
-                CoreConfig.Logger.LogInfo($"{GetType()} is disabled.");
-                yield break;
-            }
-            while (true)
-            {
-                yield return new WaitForEndOfFrame();
-                if (!depthSensor.IsDeviceConnected)
-                {
-                    yield return new WaitForSecondsRealtime(1f);
-                    continue;
-                }
-                if (!TryGetWaveInfo(0, Bone.Auto, out var waveInfo))
-                {
-                    SetSpeed(1f);
-                    continue;
-                }
-                if (!depthSensor.TryGetNewDepth(peek: false, out float depth) || depth < 0f)
-                {
-                    continue;
-                }
-                if (IsPenetrable)
-                {
-                    CoreConfig.Logger.LogInfo("Got positive depth reading. Inserting.");
-                    flags.isCondom = true;
-                    flags.click = HFlag.ClickKind.insert;
-                    yield return new WaitForSeconds(5f);
-                    flags.click = HFlag.ClickKind.modeChange;
-                    flags.speedCalc = 0.5f;
-                    yield return new WaitForSeconds(2f);
-                }
-                if (!IsControllable)
-                {
-                    SetSpeed(1f);
-                    continue;
-                }
-                SetSpeed(0f);
-                float targetNormTime = waveInfo.Phase + 0.5f - depth / waveInfo.Frequency / 2f;
-                float startNormTime = GetFemaleAnimator(0)
-                    .GetCurrentAnimatorStateInfo(AnimationLayer)
-                    .normalizedTime;
-                if (startNormTime < waveInfo.Phase || startNormTime > waveInfo.Phase + 0.5f)
-                {
-                    startNormTime = targetNormTime;
-                    SkipToTime(targetNormTime);
-                }
-                float delta = targetNormTime - startNormTime;
-                float step = Mathf.Sign(delta) / 40f;
-                int steps = (int)(delta / step);
-                for (int i = 1; i <= steps; i++)
-                {
-                    SkipToTime(startNormTime + step * i);
-                    if (depthSensor.TryGetNewDepth(peek: true, out depth) && depth >= 0)
-                    {
-                        break;
-                    }
-                    yield return new WaitForEndOfFrame();
-                }
-            }
-        }
-
-        private void SetSpeed(float speed)
-        {
-            GetFemaleAnimator(0).speed = speed;
-            flags.player.chaCtrl.animBody.speed = speed;
-        }
-
-        private void SkipToTime(float normalizedTime)
-        {
-            int animStateHash = GetAnimatorStateInfo(0).fullPathHash;
-            GetFemaleAnimator(0).Play(animStateHash, AnimationLayer, normalizedTime);
-            flags.player.chaCtrl.animBody.Play(animStateHash, AnimationLayer, normalizedTime);
-        }
-    }
-
-    internal class KoikatsuCalorDepthController : KoikatsuDepthController<CalorDepthPOC> { }
-
-    internal class KoikatsuHotdogDepthController : KoikatsuDepthController<HotdogDepthPOC> { }
 }
