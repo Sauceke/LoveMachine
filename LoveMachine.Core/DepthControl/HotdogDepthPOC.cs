@@ -1,5 +1,6 @@
 ﻿using System;
 using LitJson;
+using SuperSocket.ClientEngine;
 using WebSocket4Net;
 
 namespace LoveMachine.Core
@@ -14,7 +15,7 @@ namespace LoveMachine.Core
             websocket = new WebSocket(address);
             websocket.Opened += OnOpened;
             websocket.MessageReceived += OnMessageReceived;
-            websocket.Error += (s, a) => { };
+            websocket.Error += OnError;
             websocket.Open();
         }
 
@@ -33,6 +34,11 @@ namespace LoveMachine.Core
         private void OnMessageReceived(object sender, MessageReceivedEventArgs e)
         {
             Depth = 1 - JsonMapper.ToObject<DepthData>(e.Message).Depth;
+        }
+
+        private void OnError(object sender, ErrorEventArgs e)
+        {
+            CoreConfig.Logger.LogWarning($"Hotdog websocket error: {e.Exception}");
         }
 
         private struct DepthData

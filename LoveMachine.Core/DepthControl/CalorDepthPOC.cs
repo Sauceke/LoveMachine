@@ -4,6 +4,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 using Holf.AllForOne;
+using UnityEngine;
 
 namespace LoveMachine.Core
 {
@@ -93,7 +94,7 @@ namespace LoveMachine.Core
             {
                 IsDeviceConnected = true;
                 int level = int.Parse(match.Groups[1].Value);
-                Depth = level / 3f;
+                Depth = Mathf.Max(level - 1, 0) / 2f;
             }
         }
     }
