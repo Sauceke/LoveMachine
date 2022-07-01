@@ -10,19 +10,19 @@ Adds support for [some computer-controlled sex toys](#supported-devices) in the 
 | Game                           | Developer        | VR supported |
 |--------------------------------|------------------|--------------|
 | Custom Order Maid 3D 2         | Kiss             | Yes          |
-| Honey Select 2                 | Illusion         | Yes          |
-| Houkago Rinkan Chuudoku        | Miconisomi       | Yes, wtih [AGHVR](https://github.com/Eusth/AGHVR) |
-| Insult Order                   | Miconisomi       | Yes, wtih [IOVR](https://github.com/Eusth/IOVR) |
+| [Honey Select 2](https://www.dlsite.com/pro/dlaf/=/t/n/link/work/aid/sauceke/locale/en_US/id/VJ013722.html/?locale=en_US) | Illusion | Yes |
+| [Houkago Rinkan Chuudoku](https://www.dlsite.com/maniax/dlaf/=/t/n/link/work/aid/sauceke/locale/en_US/id/RJ189924.html/?locale=en_US) | Miconisomi | Yes, wtih [AGHVR](https://github.com/Eusth/AGHVR) |
+| [Insult Order](https://www.dlsite.com/maniax/dlaf/=/t/n/link/work/aid/sauceke/locale/en_US/id/RJ220246.html/?locale=en_US) | Miconisomi | Yes, wtih [IOVR](https://github.com/Eusth/IOVR) |
 | Koikatsu                       | Illusion         | Yes          |
 | Koikatsu Party                 | Illusion         | Yes          |
 | Koikatsu Sunshine              | Illusion         | Yes          |
-| Our Apartment                  | Momoiro Software | No           |
+| [Our Apartment](https://momoirosoft.itch.io/our-apartment) | Momoiro Software | No |
 | PlayHome                       | Illusion         | Yes          |
 
 ## Supported devices
 LoveMachine relies on the [Buttplug.io project](https://github.com/buttplugio/buttplug) to communicate with toys. At the time of writing, Buttplug.io supports over 200 devices.
 
-This plugin is for **linear** (moving back-and-forth) and **vibrating** sex toys, with [experimental support for two depth sensing devices](#depth-control).
+This plugin is for **linear** (moving back-and-forth), **vibrating** and **rotating** sex toys, with [experimental support for two depth sensing devices](#depth-control).
 
 Some of the devices that were actually tested with the mod:
 
@@ -36,6 +36,9 @@ Vibrators
 * [Lovense Diamo](https://www.lovense.com/r/54xpc7)
 * [Lovense Domi 2](https://www.lovense.com/r/77i51d)
 * The Xbox gamepad
+
+Rotators
+* Vorze A10 Cyclone
 
 ## Installation
 Download and run the [installer](https://github.com/Sauceke/BepInEx.LoveMachine/releases/latest/download/LoveMachineInstaller.exe). If you encounter the "Windows protected your PC" message, click More info > Run anyway.
@@ -65,7 +68,7 @@ The Calor works in Koikatsu and Koikatsu Sunshine, while the Hotdog only works i
 
 Both devices are **disabled by default**, you first have to enable the one you are using in [Plugin Settings > LoveMachine > Experimental Features](#experimental-features), then **restart the game**.
 
-Whichever of the two you use, you need to turn it on **before** starting the game. No additional steps needed to connect either one, the plugin should find them automatically.
+Whichever of the two you use, you need to turn it on **before** launching the game. When using a Hotdog, you must start the [Hotdog Server](https://github.com/Sauceke/hotdog/releases/latest/download/HotdogServer.exe) before the game as well.
 
 ## Configuration
 In Plugin Settings > LoveMachine, you can set the following parameters:
@@ -80,6 +83,7 @@ This is where all your devices connected to Intiface are listed.
 * **Scan:** Scan for devices.
 * **Stroker:** indicates that the device has back-and-forth movement functionality AND that this functionality is supported by Intiface.
 * **Vibrators:** indicates that the device has vibrator functionality AND that this functionality is supported by Intiface.
+* **Rotators:** indicates that the device has rotator functionality AND that this functionality is supported by Intiface.
 * **Threesome Role:** Which girl the device is assigned to in a threesome. This also affects other scenes - if a device is assigned to second girl, it will not be activated in Standard scenes.
 * **Body Part:** Selects the body part that will be tracked by the device. Defaults to Auto (which means it will find the one closest to the player's balls). Can be used to re-enact TJ/FJ with alternating movement using two devices. In Koikatsu and KKS, it also tracks fondling/fingering movements.
 * **Test Slow:** Tests the device with 3 slow strokes
@@ -118,19 +122,25 @@ If you get bored of the "standard" features of this plugin, try experimenting a 
 * **Vibration With Animation:** If enabled, vibration intensity will oscillate up and down in sync with the action. If disabled, the intensity will depend on how fast you go, but it will otherwise stay the same.
 * **Vibration Intensity Range:** If Vibration With Animation is enabled, vibration intensity will oscillate between these two values.
 
+### Rotator Settings
+* **Rotation Speed Ratio:** The speed ratio for rotation. 0% is no rotation, 100% is full speed rotation. Default is 50%.
+* **Rotation Direction Change Chance:** The direction of rotation changes with the probability of this setting. Default is 30%.
+
 ## Contributing
 PRs for onboarding new games are welcome. The process is relatively simple and requires barely any coding. See the PlayHome implementation for reference. PRs for supporting new device types are also welcome.
 
 This mod is provided free of charge, but I do accept donations. If you'd like to boost my morale, please check me out on [Patreon](https://www.patreon.com/sauceke).
 
 ### Code contributors
-* nhydock
-* RPKU
 * Sauceke
+* nhydock
+* hogefugamoga
+* RPKU
 
 ### Sponsors
 * [ManlyMarco](https://github.com/ManlyMarco)
 * AkronusWings
+* AstralClock
 * Benos Hentai
 * Bri
 * CBN ヴい
@@ -140,20 +150,22 @@ This mod is provided free of charge, but I do accept donations. If you'd like to
 * GOU YOSIHIRO
 * Greg
 * kai harayama
+* kuni
 * Nemi
 * RP君
 * Shakes
 * Taibe
 * Taka Yami
 * tanu
-* tutinoko
 * TrashTaste
+* tutinoko
 * uruurian
 * Wel Adunno
 * yamada tarou
-* 郁弥 中村
-* 终晓
 * ふ
+* 猛 羽場
+* 终晓
+* 郁弥 中村
 
 ## Acknowledgements
 This mod would not have been possible without the [BepInEx](https://github.com/BepInEx) plugin framework and, of course, the [Buttplug](https://buttplug.io/) project.
