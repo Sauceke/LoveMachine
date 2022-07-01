@@ -151,4 +151,10 @@ namespace LoveMachine.COM3D2
         protected override IEnumerator Run(int girlIndex, Bone bone) =>
             RunStrokerLoop(girlIndex, bone);
     }
+
+    internal class Com3d2ButtplugRotatorController : Com3d2ButtplugController
+    {
+        protected override IEnumerator Run(int girlIndex, Bone bone) =>
+            RunRotatorLoop(girlIndex, bone);
+    }
 }

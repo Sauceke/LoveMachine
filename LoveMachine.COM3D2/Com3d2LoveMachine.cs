@@ -14,7 +14,8 @@ namespace LoveMachine.COM3D2
                 girlMappingHeader: "Threesome Role",
                 girlMappingOptions: new string[] { "First girl", "Second girl", "Off" },
                 typeof(Com3d2ButtplugVibeController),
-                typeof(Com3d2ButtplugStrokerController));
+                typeof(Com3d2ButtplugStrokerController),
+                typeof(Com3d2ButtplugRotatorController));
             Hooks.InstallHooks();
         }
     }
