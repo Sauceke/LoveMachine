@@ -1,6 +1,6 @@
 # BepInEx LoveMachine ([日本語](マニュアル.md))
-[![.NET](https://github.com/Sauceke/BepInEx.LoveMachine/actions/workflows/commit.yml/badge.svg)](https://github.com/Sauceke/BepInEx.LoveMachine/actions/workflows/commit.yml)
-[![Download](https://img.shields.io/github/downloads/Sauceke/BepInEx.LoveMachine/total)][installer]
+![.NET](https://github.com/Sauceke/LoveMachine/actions/workflows/commit.yml/badge.svg)
+[![Download](https://img.shields.io/github/downloads/Sauceke/LoveMachine/total)][installer]
 
 | [⬇ Download][installer] |
 |----|
@@ -172,8 +172,8 @@ This mod is provided free of charge, but I do accept donations. If you'd like to
 This mod would not have been possible without the [BepInEx] plugin framework and, of course, the [Buttplug.io] project.
 
 <!-- own links -->
-[installer]: https://github.com/Sauceke/BepInEx.LoveMachine/releases/latest/download/LoveMachineInstaller.exe
-[Hotdog]: https://github.com/Sauceke/hotdog
+[installer]: https://github.com/Sauceke/LoveMachine/releases/latest/download/LoveMachineInstaller.exe
+[Hotdog]: https://sauceke.github.io/hotdog
 [Hotdog Server]: https://github.com/Sauceke/hotdog/releases/latest/download/HotdogServer.exe
 [Patreon]: https://www.patreon.com/sauceke
 
