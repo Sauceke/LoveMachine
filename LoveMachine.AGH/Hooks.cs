@@ -30,20 +30,14 @@ namespace LoveMachine.AGH
             {
                 CoreConfig.Logger.LogDebug($"H Scene started: {__instance.name}.");
                 // changing pose triggers this again, so stop monitoring first
-                Array.ForEach(
-                    Chainloader.ManagerObject.GetComponents<HoukagoRinkanButtplugController>(),
-                    ctrl => ctrl.OnEndH());
-                Array.ForEach(
-                    Chainloader.ManagerObject.GetComponents<HoukagoRinkanButtplugController>(),
-                    ctrl => ctrl.OnStartH());
+                Chainloader.ManagerObject.GetComponent<HoukagoRinkanChuudokuGame>().EndH();
+                Chainloader.ManagerObject.GetComponent<HoukagoRinkanChuudokuGame>().StartH();
             }
 
             public static void Unload(MonoBehaviour __instance)
             {
                 CoreConfig.Logger.LogDebug($"H Scene ended: {__instance.name}.");
-                Array.ForEach(
-                    Chainloader.ManagerObject.GetComponents<HoukagoRinkanButtplugController>(),
-                    ctrl => ctrl.OnEndH());
+                Chainloader.ManagerObject.GetComponent<HoukagoRinkanChuudokuGame>().EndH();
             }
         }
     }

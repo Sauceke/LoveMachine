@@ -42,22 +42,26 @@
     <Reference Include="System.XML" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Animation\AnimationAnalyzer.cs" />
+    <Compile Include="Game\AnimationAnalyzer.cs" />
     <Compile Include="ButtplugController.cs" />
     <Compile Include="Common\Bone.cs" />
     <Compile Include="DepthControl\HotdogDepthPOC.cs" />
     <Compile Include="DepthControl\CalorDepthPOC.cs" />
     <Compile Include="Common\CoroutineHandler.cs" />
     <Compile Include="DepthControl\DepthPOC.cs" />
+    <Compile Include="Game\GameDescriptor.cs" />
     <Compile Include="PluginInitializer.cs" />
     <Compile Include="Common\RangeSlider.cs" />
+    <Compile Include="RotatorController.cs" />
+    <Compile Include="StrokerController.cs" />
     <Compile Include="VersionInfo.cs" />
     <Compile Include="Buttplug\ButtplugWsClient.cs" />
     <Compile Include="Common\ConfigurationManagerAttributes.cs" />
-    <Compile Include="CoreConfig.cs" />
+    <Compile Include="Common\CoreConfig.cs" />
     <Compile Include="Buttplug\Device.cs" />
     <Compile Include="Buttplug\DeviceManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="VibratorController.cs" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="AllForOne">

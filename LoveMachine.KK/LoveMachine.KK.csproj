@@ -47,10 +47,12 @@
     <IncludePattern>**\*.cs</IncludePattern>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="KoikatsuAibuController.cs" />
+    <Compile Include="KoikatsuAnimationController.cs" />
     <Compile Include="KoikatsuDepthController.cs" />
     <Compile Include="Hooks.cs" />
     <Compile Include="KKLoveMachine.cs" />
-    <Compile Include="KoikatsuButtplugController.cs" />
+    <Compile Include="KoikatsuGame.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -40,7 +40,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="IOLoveMachine.cs" />
-    <Compile Include="InsultOrderButtplugController.cs" />
+    <Compile Include="InsultOrderGame.cs" />
     <Compile Include="Hooks.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

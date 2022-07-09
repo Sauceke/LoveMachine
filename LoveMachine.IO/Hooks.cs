@@ -26,20 +26,14 @@ namespace LoveMachine.IO
             {
                 CoreConfig.Logger.LogDebug($"H Scene started: {__instance.name}.");
                 // changing pose triggers this again, so stop monitoring first
-                Array.ForEach(
-                    Chainloader.ManagerObject.GetComponents<InsultOrderButtplugController>(),
-                    ctrl => ctrl.OnEndH());
-                Array.ForEach(
-                    Chainloader.ManagerObject.GetComponents<InsultOrderButtplugController>(),
-                    ctrl => ctrl.OnStartH());
+                Chainloader.ManagerObject.GetComponent<InsultOrderGame>().EndH();
+                Chainloader.ManagerObject.GetComponent<InsultOrderGame>().StartH();
             }
 
             public static void Unload(MonoBehaviour __instance)
             {
                 CoreConfig.Logger.LogDebug($"H Scene ended: {__instance.name}.");
-                Array.ForEach(
-                    Chainloader.ManagerObject.GetComponents<InsultOrderButtplugController>(),
-                    ctrl => ctrl.OnEndH());
+                Chainloader.ManagerObject.GetComponent<InsultOrderGame>().EndH();
             }
         }
     }

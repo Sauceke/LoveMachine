@@ -14,7 +14,7 @@ namespace LoveMachine.Core
     // BepInEx seems to care only for direct subclasses of BaseUnityPlugin, so making a common
     // plugin base for LoveMachine is not possible.
     // This is ugly but my hands are tied.
-    public class PluginInitializer
+    public class PluginInitializer<T> where T : GameDescriptor
     {
         private static readonly string[] boneNames = Enum.GetNames(typeof(Bone))
             .Select(camelCase => Regex.Replace(camelCase, ".([A-Z])", " $1"))
@@ -23,19 +23,19 @@ namespace LoveMachine.Core
         private BaseUnityPlugin plugin;
         private string girlMappingHeader;
         private string[] girlMappingOptions;
-        private Type[] controllers;
+        private Type[] extraControllers;
         private List<Device> cachedDeviceList;
 
         public static void Initialize(BaseUnityPlugin plugin,
             string girlMappingHeader, string[] girlMappingOptions,
-            params Type[] controllers)
+            params Type[] extraControllers)
         {
-            new PluginInitializer
+            new PluginInitializer<T>
             {
                 plugin = plugin,
                 girlMappingHeader = girlMappingHeader,
                 girlMappingOptions = girlMappingOptions,
-                controllers = controllers
+                extraControllers = extraControllers
             }
             .Start();
         }
@@ -48,10 +48,16 @@ namespace LoveMachine.Core
             CoreConfig.PluginDirectoryPath = Path.GetDirectoryName(plugin.Info.Location)
                 .TrimEnd(Path.DirectorySeparatorChar)
                 + Path.DirectorySeparatorChar;
-            Chainloader.ManagerObject.AddComponent<ButtplugWsClient>();
-            foreach (var controller in controllers)
+            var manager = Chainloader.ManagerObject;
+            manager.AddComponent<T>().GetType();
+            manager.AddComponent<ButtplugWsClient>();
+            manager.AddComponent<AnimationAnalyzer>();
+            manager.AddComponent<StrokerController>();
+            manager.AddComponent<VibratorController>();
+            manager.AddComponent<RotatorController>();
+            foreach (var controller in extraControllers)
             {
-                Chainloader.ManagerObject.AddComponent(controller);
+                manager.AddComponent(controller);
             }
         }
 
@@ -450,13 +456,13 @@ namespace LoveMachine.Core
 
         private void TestStrokerAsync(Device device, bool fast, bool hard)
         {
-            var controller = Chainloader.ManagerObject.GetComponents<ButtplugController>()[0];
+            var controller = Chainloader.ManagerObject.GetComponent<StrokerController>();
             controller.HandleCoroutine(TestStroker(device, fast, hard));
         }
 
         private IEnumerator TestStroker(Device device, bool fast, bool hard)
         {
-            var controller = Chainloader.ManagerObject.GetComponents<ButtplugController>()[0];
+            var controller = Chainloader.ManagerObject.GetComponent<StrokerController>();
             float strokeTimeSecs = 60f / CoreConfig.MaxStrokesPerMinute.Value;
             if (!fast)
             {
@@ -473,13 +479,13 @@ namespace LoveMachine.Core
 
         private void TestRotatorAsync(Device device, bool fast)
         {
-            var controller = Chainloader.ManagerObject.GetComponents<ButtplugController>()[0];
+            var controller = Chainloader.ManagerObject.GetComponent<RotatorController>();
             controller.HandleCoroutine(TestRotator(device, fast));
         }
 
         private IEnumerator TestRotator(Device device, bool fast)
         {
-            var controller = Chainloader.ManagerObject.GetComponents<ButtplugController>()[0];
+            var controller = Chainloader.ManagerObject.GetComponent<RotatorController>();
             float strokeTimeSecs = 60f / CoreConfig.MaxStrokesPerMinute.Value;
             if (!fast)
             {

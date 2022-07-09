@@ -39,7 +39,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Com3d2ButtplugController.cs" />
+    <Compile Include="Com3d2Game.cs" />
     <Compile Include="Com3d2LoveMachine.cs" />
     <Compile Include="Hooks.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

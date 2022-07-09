@@ -42,7 +42,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="HoneySelect2ButtplugController.cs" />
+    <Compile Include="HoneySelect2Game.cs" />
     <Compile Include="Hooks.cs" />
     <Compile Include="HS2LoveMachine.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

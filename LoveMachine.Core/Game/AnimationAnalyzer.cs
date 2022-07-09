@@ -7,47 +7,24 @@ using UnityEngine;
 
 namespace LoveMachine.Core
 {
-    public abstract class AnimationAnalyzer : CoroutineHandler
+    public sealed class AnimationAnalyzer : CoroutineHandler
     {
         // pose -> result
-        private static readonly Dictionary<string, WaveInfo> resultCache =
+        private readonly Dictionary<string, WaveInfo> resultCache =
             new Dictionary<string, WaveInfo>();
 
         // girl index -> thing that runs calibration
-        private static readonly Dictionary<int, CoroutineHandler> containers =
+        private readonly Dictionary<int, CoroutineHandler> containers =
             new Dictionary<int, CoroutineHandler>();
 
-        protected abstract int AnimationLayer { get; }
+        private GameDescriptor game;
 
-        protected abstract Animator GetFemaleAnimator(int girlIndex);
-        protected abstract Dictionary<Bone, Transform> GetFemaleBones(int girlIndex);
-        protected abstract Transform GetMaleBone();
-        protected abstract string GetPose(int girlIndex);
-
-        protected virtual IEnumerator WaitAfterPoseChange()
-        {
-            yield return new WaitForSeconds(0.1f);
-        }
-
-        protected AnimatorStateInfo GetAnimatorStateInfo(int girlIndex) =>
-            GetFemaleAnimator(girlIndex).GetCurrentAnimatorStateInfo(AnimationLayer);
-
-        protected virtual void GetAnimState(int girlIndex, out float normalizedTime,
-            out float length, out float speed)
-        {
-            var info = GetAnimatorStateInfo(girlIndex);
-            normalizedTime = info.normalizedTime;
-            length = info.length;
-            speed = info.speed;
-        }
-
-        protected IEnumerable<Bone> GetSupportedBones(int girlIndex) =>
-            Enumerable.Concat(new[] { Bone.Auto }, GetFemaleBones(girlIndex).Keys);
+        private void Start() => game = gameObject.GetComponent<GameDescriptor>();
 
         private string GetExactPose(int girlIndex, Bone bone) =>
-            $"{GetPose(girlIndex)}.girl{girlIndex}.{bone}";
+            $"{game.GetPose(girlIndex)}.girl{girlIndex}.{bone}";
 
-        protected bool TryGetWaveInfo(int girlIndex, Bone bone, out WaveInfo result)
+        public bool TryGetWaveInfo(int girlIndex, Bone bone, out WaveInfo result)
         {
             try
             {
@@ -61,7 +38,7 @@ namespace LoveMachine.Core
             }
         }
 
-        protected void StartAnalyze(int girlIndex)
+        internal void StartAnalyze(int girlIndex)
         {
             if (!containers.TryGetValue(girlIndex, out var container))
             {
@@ -72,7 +49,7 @@ namespace LoveMachine.Core
             container.HandleCoroutine(RunAnalysisLoop(girlIndex));
         }
 
-        protected void StopAnalyze(int girlIndex)
+        internal void StopAnalyze(int girlIndex)
         {
             if (!containers.TryGetValue(girlIndex, out var container))
             {
@@ -83,8 +60,6 @@ namespace LoveMachine.Core
 
         private IEnumerator RunAnalysisLoop(int girlIndex)
         {
-            void updateDictionary(Dictionary<Bone, WaveInfo> results) => results.ToList()
-                .ForEach(kvp => resultCache[GetExactPose(girlIndex, kvp.Key)] = kvp.Value);
             while (true)
             {
                 if (TryGetWaveInfo(girlIndex, Bone.Auto, out var _))
@@ -93,25 +68,23 @@ namespace LoveMachine.Core
                     continue;
                 }
                 CoreConfig.Logger.LogDebug("New animation playing, starting to analyze.");
-                yield return HandleCoroutine(AnalyzeAnimation(girlIndex, updateDictionary),
-                    suppressExceptions: true);
+                yield return HandleCoroutine(AnalyzeAnimation(girlIndex), suppressExceptions: true);
             }
         }
 
-        private IEnumerator AnalyzeAnimation(int girlIndex,
-            Action<Dictionary<Bone, WaveInfo>> onSuccess)
+        private IEnumerator AnalyzeAnimation(int girlIndex)
         {
-            var boneM = GetMaleBone();
-            var femaleBones = GetFemaleBones(girlIndex);
+            var boneM = game.GetMaleBone();
+            var femaleBones = game.GetFemaleBones(girlIndex);
             string pose = GetExactPose(girlIndex, Bone.Auto);
             var samples = new List<Sample>();
-            yield return HandleCoroutine(WaitAfterPoseChange());
-            GetAnimState(girlIndex, out float startTime, out _, out _);
+            yield return HandleCoroutine(game.WaitAfterPoseChange());
+            game.GetAnimState(girlIndex, out float startTime, out _, out _);
             float currentTime = startTime;
             while (currentTime - 1 < startTime)
             {
                 yield return new WaitForEndOfFrame();
-                GetAnimState(girlIndex, out currentTime, out _, out _);
+                game.GetAnimState(girlIndex, out currentTime, out _, out _);
                 foreach (var entry in femaleBones)
                 {
                     var boneF = entry.Value;
@@ -157,7 +130,8 @@ namespace LoveMachine.Core
                 .FirstOrDefault()
                 .Key;
             results[Bone.Auto] = results[autoBone];
-            onSuccess(results);
+            results.ToList()
+                .ForEach(kvp => resultCache[GetExactPose(girlIndex, kvp.Key)] = kvp.Value);
             CoreConfig.Logger.LogInfo($"Calibration for pose {pose} completed. " +
                 $"{samples.Count / femaleBones.Count} frames inspected. " +
                 $"Leading bone: {autoBone}, result: {JsonMapper.ToJson(results[Bone.Auto])}.");
@@ -192,7 +166,7 @@ namespace LoveMachine.Core
             public float Distance { get; set; }
         }
 
-        protected struct WaveInfo
+        public struct WaveInfo
         {
             public float Phase { get; set; }
             public int Frequency { get; set; }

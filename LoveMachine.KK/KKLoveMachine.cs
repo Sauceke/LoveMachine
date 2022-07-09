@@ -18,16 +18,13 @@ namespace LoveMachine.KK
         {
             var girls = new string[] { "First girl", "Second girl", "Off" };
             CoreConfig.Logger = Logger;
-            PluginInitializer.Initialize(
+            PluginInitializer<KoikatsuGame>.Initialize(
                 plugin: this,
                 girlMappingHeader: "Threesome Role",
                 girlMappingOptions: girls,
-                typeof(KoikatsuButtplugAnimationController),
-                typeof(KoikatsuButtplugStrokerController),
-                typeof(KoikatsuButtplugVibrationController),
-                typeof(KoikatsuButtplugRotatorController),
-                typeof(KoikatsuButtplugAibuStrokerController),
-                typeof(KoikatsuButtplugAibuVibrationController),
+                typeof(KoikatsuAnimationController),
+                typeof(KoikatsuAibuStrokerController),
+                typeof(KoikatsuAibuVibratorController),
                 typeof(KoikatsuCalorDepthController),
                 typeof(KoikatsuHotdogDepthController));
             AddExperimentalSettings();
@@ -70,7 +67,8 @@ namespace LoveMachine.KK
                     new ConfigurationManagerAttributes
                     {
                         Order = 100,
-                        CustomDrawer = entry => PluginInitializer.MakeGUILabel(experimentalNote),
+                        CustomDrawer = entry =>
+                            PluginInitializer<KoikatsuGame>.MakeGUILabel(experimentalNote),
                         HideSettingName = true,
                         HideDefaultButton = true
                     })

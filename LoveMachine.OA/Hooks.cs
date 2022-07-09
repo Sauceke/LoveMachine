@@ -22,9 +22,7 @@ namespace LoveMachine.OA
             public static void Start(MonoBehaviour __instance)
             {
                 CoreConfig.Logger.LogDebug("H Scene started.");
-                Array.ForEach(
-                    Chainloader.ManagerObject.GetComponents<OurApartmentButtplugController>(),
-                    ctrl => ctrl.OnStartH(__instance));
+                Chainloader.ManagerObject.GetComponent<OurApartmentGame>().OnStartH(__instance);
             }
         }
     }

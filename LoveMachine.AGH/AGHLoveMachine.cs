@@ -9,13 +9,10 @@ namespace LoveMachine.AGH
         private void Start()
         {
             CoreConfig.Logger = Logger;
-            PluginInitializer.Initialize(
+            PluginInitializer<HoukagoRinkanChuudokuGame>.Initialize(
                 plugin: this,
                 girlMappingHeader: null,
-                girlMappingOptions: null,
-                typeof(HoukagoRinkanButtplugStrokerController),
-                typeof(HoukagoRinkanButtplugVibrationController),
-                typeof(HoukagoRinkanButtplugRotatorController));
+                girlMappingOptions: null);
             Hooks.InstallHooks();
         }
     }

@@ -20,8 +20,8 @@ namespace LoveMachine.HS2
             {
                 CoreConfig.Logger.LogDebug("H Scene started.");
                 Array.ForEach(
-                    Chainloader.ManagerObject.GetComponents<HoneySelect2ButtplugController>(),
-                    ctrl => ctrl.OnStartH(__instance));
+                    Chainloader.ManagerObject.GetComponents<HoneySelect2Game>(),
+                    game => game.OnStartH(__instance));
             }
 
             [HarmonyPostfix]
@@ -30,8 +30,8 @@ namespace LoveMachine.HS2
             {
                 CoreConfig.Logger.LogDebug("H Scene ended.");
                 Array.ForEach(
-                    Chainloader.ManagerObject.GetComponents<HoneySelect2ButtplugController>(),
-                    ctrl => ctrl.OnEndH());
+                    Chainloader.ManagerObject.GetComponents<HoneySelect2Game>(),
+                    game => game.EndH());
             }
         }
     }

@@ -40,7 +40,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AGHLoveMachine.cs" />
-    <Compile Include="HoukagoRinkanButtplugController.cs" />
+    <Compile Include="HoukagoRinkanChuudokuGame.cs" />
     <Compile Include="Hooks.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

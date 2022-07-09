@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace LoveMachine.COM3D2
 {
-    internal abstract class Com3d2ButtplugController : ButtplugController
+    internal sealed class Com3d2Game : GameDescriptor
     {
         private const string SpineF = "Bip01/Bip01 Spine/Bip01 Spine0a/" +
                         "Bip01 Spine1/Bip01 Spine1a";
@@ -22,14 +22,14 @@ namespace LoveMachine.COM3D2
 
         protected override bool IsHSceneInterrupted => false;
 
-        protected override int AnimationLayer => throw new NotImplementedException();
+        public override int AnimationLayer => throw new NotImplementedException();
 
         protected override IEnumerator WaitAfterPoseChange()
         {
             yield return new WaitForSeconds(1f);
         }
 
-        protected override Animator GetFemaleAnimator(int girlIndex) =>
+        public override Animator GetFemaleAnimator(int girlIndex) =>
             throw new NotImplementedException();
 
         private float lastPartialTime = 0f;
@@ -138,23 +138,5 @@ namespace LoveMachine.COM3D2
         {
             yield return new WaitForSecondsRealtime(5f);
         }
-    }
-
-    internal class Com3d2ButtplugVibeController : Com3d2ButtplugController
-    {
-        protected override IEnumerator Run(int girlIndex, Bone bone) =>
-            RunVibratorLoop(girlIndex, bone);
-    }
-
-    internal class Com3d2ButtplugStrokerController : Com3d2ButtplugController
-    {
-        protected override IEnumerator Run(int girlIndex, Bone bone) =>
-            RunStrokerLoop(girlIndex, bone);
-    }
-
-    internal class Com3d2ButtplugRotatorController : Com3d2ButtplugController
-    {
-        protected override IEnumerator Run(int girlIndex, Bone bone) =>
-            RunRotatorLoop(girlIndex, bone);
     }
 }

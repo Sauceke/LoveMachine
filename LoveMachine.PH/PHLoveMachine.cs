@@ -12,13 +12,10 @@ namespace LoveMachine.PH
         {
             var girls = new string[] { "First girl", "Second girl", "Off" };
             CoreConfig.Logger = Logger;
-            PluginInitializer.Initialize(
+            PluginInitializer<PlayHomeGame>.Initialize(
                 plugin: this,
                 girlMappingHeader: "Threesome Role",
-                girlMappingOptions: girls,
-                typeof(PlayHomeButtplugVibrationController),
-                typeof(PlayHomeButtplugStrokerController),
-                typeof(PlayHomeButtplugRotatorController));
+                girlMappingOptions: girls);
             Hooks.InstallHooks();
         }
     }

@@ -8,7 +8,7 @@ using UnityEngine;
 
 namespace LoveMachine.PH
 {
-    internal abstract class PlayHomeButtplugController : ButtplugController
+    internal sealed class PlayHomeGame : GameDescriptor
     {
         internal const string MaleBoneName = "k_m_tamaC_00";
 
@@ -32,13 +32,13 @@ namespace LoveMachine.PH
 
         protected override bool IsHardSex => true;
 
-        protected override int AnimationLayer => 0;
+        public override int AnimationLayer => 0;
 
         protected override bool IsHSceneInterrupted => false;
 
         protected override float PenisSize => 0.2f;
 
-        protected override Animator GetFemaleAnimator(int girlIndex) =>
+        public override Animator GetFemaleAnimator(int girlIndex) =>
             scene.mainMembers.females[girlIndex].body.Anime;
 
         protected override Dictionary<Bone, Transform> GetFemaleBones(int girlIndex)
@@ -66,7 +66,7 @@ namespace LoveMachine.PH
         internal void OnStartH(H_Scene scene)
         {
             this.scene = scene;
-            OnStartH();
+            StartH();
         }
 
         protected override IEnumerator UntilReady()
@@ -80,23 +80,5 @@ namespace LoveMachine.PH
                 yield return new WaitForSeconds(1f);
             }
         }
-    }
-
-    internal class PlayHomeButtplugVibrationController : PlayHomeButtplugController
-    {
-        protected override IEnumerator Run(int girlIndex, Bone bone) =>
-            RunVibratorLoop(girlIndex, bone);
-    }
-
-    internal class PlayHomeButtplugStrokerController : PlayHomeButtplugController
-    {
-        protected override IEnumerator Run(int girlIndex, Bone bone) =>
-            RunStrokerLoop(girlIndex, bone);
-    }
-
-    internal class PlayHomeButtplugRotatorController : PlayHomeButtplugController
-    {
-        protected override IEnumerator Run(int girlIndex, Bone bone) =>
-            RunRotatorLoop(girlIndex, bone);
     }
 }

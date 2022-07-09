@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace LoveMachine.KK
 {
-    internal class KoikatsuDepthController<T> : KoikatsuButtplugController
+    internal class KoikatsuDepthController<T> : ButtplugController
         where T : DepthPOC
     {
         private static readonly List<string> supportedAnimations = new List<string>
@@ -21,16 +21,13 @@ namespace LoveMachine.KK
         };
 
         private T depthSensor;
+        private KoikatsuGame game;
 
-        private bool IsControllable => supportedAnimations.Contains(flags.nowAnimStateName);
+        private void Start() => game = gameObject.GetComponent<KoikatsuGame>();
 
-        private bool IsPenetrable => penetrableAnimations.Contains(flags.nowAnimStateName);
+        private bool IsControllable => supportedAnimations.Contains(game.Flags.nowAnimStateName);
 
-        protected override void HandleFondle(float y, int girlIndex, Bone bone, float timeSecs) =>
-            throw new System.NotImplementedException();
-
-        protected override bool IsIdle(int girlIndex) =>
-            throw new System.NotImplementedException();
+        private bool IsPenetrable => penetrableAnimations.Contains(game.Flags.nowAnimStateName);
 
         protected override IEnumerator Run(int girlIndex, Bone bone)
         {
@@ -58,7 +55,7 @@ namespace LoveMachine.KK
                     yield return HandleCoroutine(Penetrate());
                     continue;
                 }
-                if (!TryGetWaveInfo(0, Bone.Auto, out var waveInfo))
+                if (!analyzer.TryGetWaveInfo(0, Bone.Auto, out var waveInfo))
                 {
                     SetSpeed(1f);
                     yield return new WaitForSecondsRealtime(0.1f);
@@ -75,29 +72,29 @@ namespace LoveMachine.KK
 
         private IEnumerator Penetrate()
         {
-            flags.isCondom = true;
+            game.Flags.isCondom = true;
             do
             {
-                flags.click = HFlag.ClickKind.insert;
+                game.Flags.click = HFlag.ClickKind.insert;
                 yield return new WaitForSeconds(1f);
             }
             while (IsPenetrable);
             do
             {
-                flags.click = HFlag.ClickKind.modeChange;
-                flags.speedCalc = 0.5f;
+                game.Flags.click = HFlag.ClickKind.modeChange;
+                game.Flags.speedCalc = 0.5f;
                 yield return new WaitForSeconds(1f);
             }
-            while (!flags.nowAnimStateName.Contains("WLoop"));
-            flags.click = HFlag.ClickKind.motionchange;
+            while (!game.Flags.nowAnimStateName.Contains("WLoop"));
+            game.Flags.click = HFlag.ClickKind.motionchange;
             yield return new WaitForSeconds(1f);
         }
 
-        private IEnumerator HandleDepth(WaveInfo waveInfo)
+        private IEnumerator HandleDepth(AnimationAnalyzer.WaveInfo waveInfo)
         {
             SetSpeed(0f);
-            float startNormTime = GetFemaleAnimator(0)
-                .GetCurrentAnimatorStateInfo(AnimationLayer)
+            float startNormTime = game.GetFemaleAnimator(0)
+                .GetCurrentAnimatorStateInfo(game.AnimationLayer)
                 .normalizedTime;
             float depth = depthSensor.Depth;
             float targetNormTime = waveInfo.Phase + 0.5f / waveInfo.Frequency - depth / 2f;
@@ -117,16 +114,19 @@ namespace LoveMachine.KK
 
         private void SetSpeed(float speed)
         {
-            GetFemaleAnimator(0).speed = speed;
-            flags.player.chaCtrl.animBody.speed = speed;
+            game.GetFemaleAnimator(0).speed = speed;
+            game.Flags.player.chaCtrl.animBody.speed = speed;
         }
 
         private void SkipToTime(float normalizedTime)
         {
-            int animStateHash = GetAnimatorStateInfo(0).fullPathHash;
-            GetFemaleAnimator(0).Play(animStateHash, AnimationLayer, normalizedTime);
-            flags.player.chaCtrl.animBody.Play(animStateHash, AnimationLayer, normalizedTime);
+            int animStateHash = game.GetAnimatorStateInfo(0).fullPathHash;
+            game.GetFemaleAnimator (0).Play(animStateHash, game.AnimationLayer, normalizedTime);
+            game.Flags.player.chaCtrl.animBody
+                .Play(animStateHash, game.AnimationLayer, normalizedTime);
         }
+
+        protected override void StopDevices(int girlIndex, Bone bone) { }
     }
 
     internal class KoikatsuCalorDepthController : KoikatsuDepthController<CalorDepthPOC> { }

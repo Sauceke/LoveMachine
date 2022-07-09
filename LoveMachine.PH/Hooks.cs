@@ -1,5 +1,4 @@
-﻿using System;
-using BepInEx.Bootstrap;
+﻿using BepInEx.Bootstrap;
 using HarmonyLib;
 using LoveMachine.Core;
 
@@ -19,9 +18,7 @@ namespace LoveMachine.PH
             public static void Awake(H_Scene __instance)
             {
                 CoreConfig.Logger.LogDebug("H Scene started.");
-                Array.ForEach(
-                    Chainloader.ManagerObject.GetComponents<PlayHomeButtplugController>(),
-                    ctrl => ctrl.OnStartH(__instance));
+                Chainloader.ManagerObject.GetComponent<PlayHomeGame>().OnStartH(__instance);
             }
 
             [HarmonyPrefix]
@@ -29,9 +26,7 @@ namespace LoveMachine.PH
             public static void Exit()
             {
                 CoreConfig.Logger.LogDebug("H Scene ended.");
-                Array.ForEach(
-                    Chainloader.ManagerObject.GetComponents<PlayHomeButtplugController>(),
-                    ctrl => ctrl.OnEndH());
+                Chainloader.ManagerObject.GetComponent<PlayHomeGame>().EndH();
             }
         }
     }

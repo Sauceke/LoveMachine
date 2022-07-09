@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace LoveMachine.IO
 {
-    internal abstract class InsultOrderButtplugController : ButtplugController
+    internal sealed class InsultOrderGame : GameDescriptor
     {
         private static readonly Dictionary<Bone, string> femaleBones = new Dictionary<Bone, string>
         {
@@ -28,12 +28,12 @@ namespace LoveMachine.IO
 
         protected override float PenisSize => 0.5f;
 
-        protected override int AnimationLayer => 0;
+        public override int AnimationLayer => 0;
 
         private GameObject Heroine =>
             GameObject.Find("CH01/CH0001") ?? GameObject.Find("CH02/CH0002");
 
-        protected override Animator GetFemaleAnimator(int _) => Heroine?.GetComponent<Animator>();
+        public override Animator GetFemaleAnimator(int _) => Heroine?.GetComponent<Animator>();
 
         protected override Dictionary<Bone, Transform> GetFemaleBones(int _)
         {
@@ -56,23 +56,5 @@ namespace LoveMachine.IO
 
         private static Transform FindRecursive(GameObject gameObject, string name) =>
             gameObject.GetComponentsInChildren<Transform>().FirstOrDefault(t => t.name == name);
-    }
-
-    internal class InsultOrderButtplugVibrationController : InsultOrderButtplugController
-    {
-        protected override IEnumerator Run(int girlIndex, Bone bone) =>
-            RunVibratorLoop(girlIndex, bone);
-    }
-
-    internal class InsultOrderButtplugStrokerController : InsultOrderButtplugController
-    {
-        protected override IEnumerator Run(int girlIndex, Bone bone) =>
-            RunStrokerLoop(girlIndex, bone);
-    }
-
-    internal class InsultOrderButtplugRotatorController : InsultOrderButtplugController
-    {
-        protected override IEnumerator Run(int girlIndex, Bone bone) =>
-            RunRotatorLoop(girlIndex, bone);
     }
 }

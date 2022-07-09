@@ -25,17 +25,13 @@ namespace LoveMachine.COM3D2
             public static void Start(MonoBehaviour __instance)
             {
                 CoreConfig.Logger.LogDebug($"H Scene started: {__instance.name}.");
-                Array.ForEach(
-                    Chainloader.ManagerObject.GetComponents<Com3d2ButtplugController>(),
-                    ctrl => ctrl.OnStartH());
+                Chainloader.ManagerObject.GetComponent<Com3d2Game>().StartH();
             }
 
             public static void End(MonoBehaviour __instance)
             {
                 CoreConfig.Logger.LogDebug($"H Scene ended: {__instance.name}.");
-                Array.ForEach(
-                    Chainloader.ManagerObject.GetComponents<Com3d2ButtplugController>(),
-                    ctrl => ctrl.OnEndH());
+                Chainloader.ManagerObject.GetComponent<Com3d2Game>().EndH();
             }
         }
     }

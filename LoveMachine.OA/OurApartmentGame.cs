@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace LoveMachine.OA
 {
-    internal abstract class OurApartmentButtplugController : ButtplugController
+    internal sealed class OurApartmentGame : GameDescriptor
     {
         private static readonly Dictionary<Bone, string> femaleBones = new Dictionary<Bone, string>
         {
@@ -34,14 +34,14 @@ namespace LoveMachine.OA
             var managerTraverse = Traverse.Create(manager);
             npcAnimator = managerTraverse.Field<Animator>("npcAnimator");
             isSex = managerTraverse.Field<bool>("isSex");
-            OnStartH();
+            StartH();
         }
 
         protected override int HeroineCount => 1; // Just Naomi
 
         protected override bool IsHardSex => GetPose(0).Contains("Pump2");
 
-        protected override int AnimationLayer
+        public override int AnimationLayer
         {
             get
             {
@@ -62,7 +62,7 @@ namespace LoveMachine.OA
 
         protected override float PenisSize => 0.2f;
 
-        protected override Animator GetFemaleAnimator(int girlIndex) => npcAnimator.Value;
+        public override Animator GetFemaleAnimator(int girlIndex) => npcAnimator.Value;
 
         protected override Dictionary<Bone, Transform> GetFemaleBones(int girlIndex) =>
             femaleBones.ToDictionary(kvp => kvp.Key, kvp => GameObject.Find(kvp.Value).transform);
@@ -81,23 +81,5 @@ namespace LoveMachine.OA
         {
             yield return new WaitForSecondsRealtime(5f);
         }
-    }
-
-    internal class OurApartmentButtplugVibrationController : OurApartmentButtplugController
-    {
-        protected override IEnumerator Run(int girlIndex, Bone bone) =>
-            RunVibratorLoop(girlIndex, bone);
-    }
-
-    internal class OurApartmentButtplugStrokerController : OurApartmentButtplugController
-    {
-        protected override IEnumerator Run(int girlIndex, Bone bone) =>
-            RunStrokerLoop(girlIndex, bone);
-    }
-
-    internal class OurApartmentButtplugRotatorController : OurApartmentButtplugController
-    {
-        protected override IEnumerator Run(int girlIndex, Bone bone) =>
-            RunRotatorLoop(girlIndex, bone);
     }
 }

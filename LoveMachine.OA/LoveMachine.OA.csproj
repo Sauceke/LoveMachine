@@ -42,7 +42,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="OurApartmentButtplugController.cs" />
+    <Compile Include="OurApartmentGame.cs" />
     <Compile Include="Hooks.cs" />
     <Compile Include="OALoveMachine.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

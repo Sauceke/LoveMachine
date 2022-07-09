@@ -51,11 +51,17 @@
     <Compile Include="..\LoveMachine.KK\KKLoveMachine.cs">
       <Link>KKLoveMachine.cs</Link>
     </Compile>
-    <Compile Include="..\LoveMachine.KK\KoikatsuButtplugController.cs">
-      <Link>KoikatsuButtplugController.cs</Link>
+    <Compile Include="..\LoveMachine.KK\KoikatsuAibuController.cs">
+      <Link>KoikatsuAibuController.cs</Link>
+    </Compile>
+    <Compile Include="..\LoveMachine.KK\KoikatsuAnimationController.cs">
+      <Link>KoikatsuAnimationController.cs</Link>
     </Compile>
     <Compile Include="..\LoveMachine.KK\KoikatsuDepthController.cs">
       <Link>KoikatsuDepthController.cs</Link>
+    </Compile>
+    <Compile Include="..\LoveMachine.KK\KoikatsuGame.cs">
+      <Link>KoikatsuGame.cs</Link>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

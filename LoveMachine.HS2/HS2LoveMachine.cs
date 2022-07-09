@@ -12,12 +12,10 @@ namespace LoveMachine.HS2
         {
             var girls = new string[] { "First girl", "Second girl", "Off" };
             CoreConfig.Logger = Logger;
-            PluginInitializer.Initialize(
+            PluginInitializer<HoneySelect2Game>.Initialize(
                 plugin: this,
                 girlMappingHeader: "Threesome Role",
-                girlMappingOptions: girls,
-                typeof(HoneySelect2ButtplugStrokerController),
-                typeof(HoneySelect2ButtplugVibrationController));
+                girlMappingOptions: girls);
             Hooks.InstallHooks();
         }
     }

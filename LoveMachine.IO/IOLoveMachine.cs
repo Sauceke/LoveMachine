@@ -9,13 +9,10 @@ namespace LoveMachine.IO
         private void Start()
         {
             CoreConfig.Logger = Logger;
-            PluginInitializer.Initialize(
+            PluginInitializer<InsultOrderGame>.Initialize(
                 plugin: this,
                 girlMappingHeader: null,
-                girlMappingOptions: null,
-                typeof(InsultOrderButtplugVibrationController),
-                typeof(InsultOrderButtplugStrokerController),
-                typeof(InsultOrderButtplugRotatorController));
+                girlMappingOptions: null);
             Hooks.InstallHooks();
         }
     }
