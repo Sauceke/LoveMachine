@@ -10,8 +10,8 @@ namespace LoveMachine.Core
 {
     public class CalorDepthPOC : DepthPOC
     {
-        private const string executableName = "BLEConsole.exe";
-        private const string script =
+        private const string ExecutableName = "BLEConsole.exe";
+        private const string Script =
             @"foreach LVS-
               if open $
                 if set Custom Service: 54300001-0023-4bd4-bbd5-a6920e4c5653
@@ -29,36 +29,35 @@ namespace LoveMachine.Core
         
         private void Start()
         {
-            string bleConsolePath = CoreConfig.PluginDirectoryPath + executableName;
+            string bleConsolePath = CoreConfig.PluginDirectoryPath + ExecutableName;
             if (!File.Exists(bleConsolePath))
             {
                 CoreConfig.Logger.LogInfo("BLEConsole not installed, so can't run it.");
                 return;
             }
-            bleConsole = new Process();
-            bleConsole.StartInfo = new ProcessStartInfo()
+            bleConsole = new Process
             {
-                FileName = bleConsolePath,
-                UseShellExecute = false,
-                CreateNoWindow = true,
-                RedirectStandardInput = true,
-                RedirectStandardOutput = true,
-                RedirectStandardError = true,
+                StartInfo = new ProcessStartInfo()
+                {
+                    FileName = bleConsolePath,
+                    UseShellExecute = false,
+                    CreateNoWindow = true,
+                    RedirectStandardInput = true,
+                    RedirectStandardOutput = true,
+                    RedirectStandardError = true,
+                }
             };
             bleConsole.Start();
             bleConsole.TieLifecycleToParentProcess();
             CoreConfig.Logger.LogInfo("Started BLEConsole.");
             stdin = new StreamWriter(bleConsole.StandardInput.BaseStream, Encoding.ASCII);
-            stdin.WriteLine(script);
+            stdin.WriteLine(Script);
             stdin.Flush();
             // can't do in coroutine, StandardOutput.Read blocks
             new Thread(Poll).Start();
         }
 
-        private void OnDestroy()
-        {
-            bleConsole.Kill();
-        }
+        private void OnDestroy() => bleConsole.Kill();
 
         private void Poll()
         {
