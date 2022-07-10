@@ -53,6 +53,7 @@ namespace LoveMachine.Core
             manager.AddComponent<ButtplugWsClient>();
             manager.AddComponent<AnimationAnalyzer>();
             manager.AddComponent<StrokerController>();
+            manager.AddComponent<SmoothStrokerController>();
             manager.AddComponent<VibratorController>();
             manager.AddComponent<RotatorController>();
             foreach (var controller in extraControllers)
@@ -94,6 +95,14 @@ namespace LoveMachine.Core
                     "Negative if your stroker has lower latency than your display.",
                     new AcceptableValueRange<int>(-500, 500),
                     new ConfigurationManagerAttributes { Order = order-- }));
+            CoreConfig.SmoothStroking = plugin.Config.Bind(
+               section: strokerSettingsTitle,
+               key: "Smooth Stroking",
+               defaultValue: false,
+               new ConfigDescription(
+                   "Currently, only the Handy supports this.",
+                   acceptableValues: null,
+                   new ConfigurationManagerAttributes { Order = order-- }));
             CoreConfig.SlowStrokeZoneMin = plugin.Config.Bind(
                 section: strokerSettingsTitle,
                 key: "Slow Stroke Zone Min",

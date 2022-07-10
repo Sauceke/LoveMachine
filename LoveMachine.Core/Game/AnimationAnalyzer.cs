@@ -105,22 +105,25 @@ namespace LoveMachine.Core
             var results = new Dictionary<Bone, WaveInfo>();
             foreach (var bone in femaleBones.Keys)
             {
-                var bonePath = samples.Where(entry => entry.Bone == bone);
+                var bonePlot = samples.Where(entry => entry.Bone == bone);
                 results[bone] = new WaveInfo
                 {
-                    Phase = bonePath
+                    Phase = bonePlot
                         .OrderBy(entry => entry.Distance)
                         .FirstOrDefault()
                         .Time % 1,
-                    Frequency = GetFrequency(bonePath
+                    Frequency = GetFrequency(bonePlot
                         .OrderBy(entry => entry.Time)
                         .Select(entry => entry.Distance)),
-                    Crest = bonePath
+                    Crest = bonePlot
                         .Select(entry => entry.Distance)
                         .Max(),
-                    Trough = bonePath
+                    Trough = bonePlot
                         .Select(entry => entry.Distance)
-                        .Min()
+                        .Min(),
+                    Plot = bonePlot
+                        .OrderBy(entry => entry.Time)
+                        .ToArray()
                 };
             }
             // Prefer bones that are close and move a lot. Being close is more important.
@@ -159,7 +162,7 @@ namespace LoveMachine.Core
 
         internal void ClearCache() => resultCache.Clear();
 
-        private struct Sample
+        public struct Sample
         {
             public Bone Bone { get; set; }
             public float Time { get; set; }
@@ -172,6 +175,7 @@ namespace LoveMachine.Core
             public int Frequency { get; set; }
             public float Crest { get; set; }
             public float Trough { get; set; }
+            public Sample[] Plot { get; set; }
         }
     }
 }

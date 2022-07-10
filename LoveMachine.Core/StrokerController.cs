@@ -9,7 +9,7 @@ namespace LoveMachine.Core
         {
             while (true)
             {
-                if (game.IsIdle(girlIndex))
+                if (game.IsIdle(girlIndex) || !IsEnabled)
                 {
                     yield return new WaitForSeconds(.1f);
                     continue;
@@ -19,27 +19,34 @@ namespace LoveMachine.Core
                     yield return HandleCoroutine(EmulateOrgasm(girlIndex, bone));
                     continue;
                 }
-                string pose = game.GetPose(girlIndex);
-                yield return WaitForUpStroke(girlIndex, bone);
-                if (game.GetPose(girlIndex) != pose)
-                {
-                    continue;
-                }
-                float strokeTimeSecs = GetStrokeTimeSecs(girlIndex, bone);
-                analyzer.TryGetWaveInfo(girlIndex, bone, out var waveInfo);
-                float relativeLength = (waveInfo.Crest - waveInfo.Trough) / game.PenisSize;
-                float scale = Mathf.Lerp(1f - CoreConfig.StrokeLengthRealism.Value, 1f,
-                    relativeLength);
-                for (int i = 0; i < waveInfo.Frequency - 1; i++)
-                {
-                    HandleCoroutine(DoStroke(girlIndex, bone, strokeTimeSecs, scale));
-                    yield return new WaitForSecondsRealtime(strokeTimeSecs);
-                }
-                yield return HandleCoroutine(DoStroke(girlIndex, bone, strokeTimeSecs, scale));
+                yield return HandleCoroutine(EmulateStroking(girlIndex, bone));
             }
         }
 
         protected override void StopDevices(int girlIndex, Bone bone) {}
+
+        protected virtual bool IsEnabled => !CoreConfig.SmoothStroking.Value;
+
+        protected virtual IEnumerator EmulateStroking(int girlIndex, Bone bone)
+        {
+            string pose = game.GetPose(girlIndex);
+            yield return WaitForUpStroke(girlIndex, bone);
+            if (game.GetPose(girlIndex) != pose)
+            {
+                yield break;
+            }
+            float strokeTimeSecs = GetStrokeTimeSecs(girlIndex, bone);
+            analyzer.TryGetWaveInfo(girlIndex, bone, out var waveInfo);
+            float relativeLength = (waveInfo.Crest - waveInfo.Trough) / game.PenisSize;
+            float scale = Mathf.Lerp(1f - CoreConfig.StrokeLengthRealism.Value, 1f,
+                relativeLength);
+            for (int i = 0; i < waveInfo.Frequency - 1; i++)
+            {
+                HandleCoroutine(DoStroke(girlIndex, bone, strokeTimeSecs, scale));
+                yield return new WaitForSecondsRealtime(strokeTimeSecs);
+            }
+            yield return HandleCoroutine(DoStroke(girlIndex, bone, strokeTimeSecs, scale));
+        }
 
         private void GetStrokeZone(float strokeTimeSecs, float scale, out float min, out float max)
         {
@@ -112,7 +119,7 @@ namespace LoveMachine.Core
                 bone);
         }
 
-        private IEnumerator EmulateOrgasm(int girlIndex, Bone bone)
+        protected IEnumerator EmulateOrgasm(int girlIndex, Bone bone)
         {
             float bottom = CoreConfig.OrgasmDepth.Value;
             float time = 0.5f / CoreConfig.OrgasmShakingFrequency.Value;

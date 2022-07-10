@@ -13,6 +13,9 @@ namespace LoveMachine.Core
         public static string PluginDirectoryPath { get; set; }
 
         public static ConfigEntry<string> WebSocketAddress { get; internal set; }
+        public static ConfigEntry<bool> SaveDeviceSettings { get; internal set; }
+        public static ConfigEntry<string> DeviceSettingsJson { get; internal set; }
+
         public static ConfigEntry<int> MaxStrokesPerMinute { get; internal set; }
         public static ConfigEntry<int> LatencyMs { get; internal set; }
         public static ConfigEntry<int> SlowStrokeZoneMin { get; internal set; }
@@ -23,8 +26,7 @@ namespace LoveMachine.Core
         public static ConfigEntry<float> OrgasmDepth { get; internal set; }
         public static ConfigEntry<int> OrgasmShakingFrequency { get; internal set; }
         public static ConfigEntry<int> HardSexIntensity { get; internal set; }
-        public static ConfigEntry<bool> SaveDeviceSettings { get; internal set; }
-        public static ConfigEntry<string> DeviceSettingsJson { get; internal set; }
+        public static ConfigEntry<bool> SmoothStroking { get; internal set; }
 
         public static ConfigEntry<bool> SyncVibrationWithAnimation { get; internal set; }
         public static ConfigEntry<int> VibrationUpdateFrequency { get; internal set; }
