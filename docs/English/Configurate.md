@@ -53,3 +53,8 @@ If you get bored of the "standard" features of this plugin, try experimenting a 
 ### Rotator Settings
 * **Rotation Speed Ratio:** The speed ratio for rotation. 0% is no rotation, 100% is full speed rotation. Default is 50%.
 * **Rotation Direction Change Chance:** The direction of rotation changes with the probability of this setting. Default is 30%.
+
+
+<!-- own links -->
+[Hotdog]: https://sauceke.github.io/hotdog
+[Hotdog Server]: https://github.com/Sauceke/hotdog/releases/latest/download/HotdogServer.exe
