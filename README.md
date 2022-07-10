@@ -1,47 +1,16 @@
-# BepInEx LoveMachine ([日本語](マニュアル.md))
-[![.NET](https://github.com/Sauceke/BepInEx.LoveMachine/actions/workflows/commit.yml/badge.svg)](https://github.com/Sauceke/BepInEx.LoveMachine/actions/workflows/commit.yml)
-[![Download](https://img.shields.io/github/downloads/Sauceke/BepInEx.LoveMachine/total)](https://github.com/Sauceke/BepInEx.LoveMachine/releases/latest/download/LoveMachineInstaller.exe)
+# BepInEx LoveMachine ([日本語](Documentation/Japanese))
+![.NET](https://github.com/Sauceke/LoveMachine/actions/workflows/commit.yml/badge.svg)
+[![Download](https://img.shields.io/github/downloads/Sauceke/LoveMachine/total)][installer]
 
-| [⬇ Download](https://github.com/Sauceke/BepInEx.LoveMachine/releases/latest/download/LoveMachineInstaller.exe) |
+| [⬇ Download][installer] |
 |----|
 
 Adds support for [some computer-controlled sex toys](#supported-devices) in the following games:
 
-| Game                           | Developer        | VR supported |
-|--------------------------------|------------------|--------------|
-| Custom Order Maid 3D 2         | Kiss             | Yes          |
-| [Honey Select 2](https://www.dlsite.com/pro/dlaf/=/t/n/link/work/aid/sauceke/locale/en_US/id/VJ013722.html/?locale=en_US) | Illusion | Yes |
-| [Houkago Rinkan Chuudoku](https://www.dlsite.com/maniax/dlaf/=/t/n/link/work/aid/sauceke/locale/en_US/id/RJ189924.html/?locale=en_US) | Miconisomi | Yes, wtih [AGHVR](https://github.com/Eusth/AGHVR) |
-| [Insult Order](https://www.dlsite.com/maniax/dlaf/=/t/n/link/work/aid/sauceke/locale/en_US/id/RJ220246.html/?locale=en_US) | Miconisomi | Yes, wtih [IOVR](https://github.com/Eusth/IOVR) |
-| Koikatsu                       | Illusion         | Yes          |
-| Koikatsu Party                 | Illusion         | Yes          |
-| Koikatsu Sunshine              | Illusion         | Yes          |
-| [Our Apartment](https://momoirosoft.itch.io/our-apartment) | Momoiro Software | No |
-| PlayHome                       | Illusion         | Yes          |
 
-## Supported devices
-LoveMachine relies on the [Buttplug.io project](https://github.com/buttplugio/buttplug) to communicate with toys. At the time of writing, Buttplug.io supports over 200 devices.
-
-This plugin is for **linear** (moving back-and-forth), **vibrating** and **rotating** sex toys, with [experimental support for two depth sensing devices](#depth-control).
-
-Some of the devices that were actually tested with the mod:
-
-Strokers
-* [The Handy](https://www.thehandy.com/?ref=saucekebenfield&utm_source=saucekebenfield&utm_medium=affiliate&utm_campaign=The+Handy+Affiliate+program)
-* KIIROO KEON
-
-Vibrators
-* [Lovense Gush](https://www.lovense.com/r/f7lki7)
-* [Lovense Max 2](https://www.lovense.com/r/k8bbja)
-* [Lovense Diamo](https://www.lovense.com/r/54xpc7)
-* [Lovense Domi 2](https://www.lovense.com/r/77i51d)
-* The Xbox gamepad
-
-Rotators
-* Vorze A10 Cyclone
 
 ## Installation
-Download and run the [installer](https://github.com/Sauceke/BepInEx.LoveMachine/releases/latest/download/LoveMachineInstaller.exe). If you encounter the "Windows protected your PC" message, click More info > Run anyway.
+Download and run the [installer]. If you encounter the "Windows protected your PC" message, click More info > Run anyway.
 
 ## How to use
 1. Open Intiface Desktop.
@@ -61,14 +30,14 @@ The Space key acts as a kill switch for all devices while in-game. To reactivate
 
 ## Depth control
 We have experimental support for two depth sensing toys:
-* [Lovense Calor](https://www.lovense.com/r/vu65q6)
-* The [Hotdog](https://github.com/Sauceke/hotdog), a DIY device for transparent sleeves
+* [Lovense Calor]
+* The [Hotdog], a DIY device for transparent sleeves
 
 The Calor works in Koikatsu and Koikatsu Sunshine, while the Hotdog only works in Koikatsu Sunshine. Both were only tested with penetrative scenes. Depth control support in other games will come later.
 
 Both devices are **disabled by default**, you first have to enable the one you are using in [Plugin Settings > LoveMachine > Experimental Features](#experimental-features), then **restart the game**.
 
-Whichever of the two you use, you need to turn it on **before** launching the game. When using a Hotdog, you must start the [Hotdog Server](https://github.com/Sauceke/hotdog/releases/latest/download/HotdogServer.exe) before the game as well.
+Whichever of the two you use, you need to turn it on **before** launching the game. When using a Hotdog, you must start the [Hotdog Server] before the game as well.
 
 ## Configuration
 In Plugin Settings > LoveMachine, you can set the following parameters:
@@ -92,8 +61,8 @@ This is where all your devices connected to Intiface are listed.
 
 ### Experimental Features
 Since these features may mess with some of your peripherals, they are turned off by default. After turning them on, you also have to restart the game for the changes to take effect. It is best if you close Intiface while using these features.
-* **Enable Lovense Calor depth control:** Enables control of H scenes using depth data from a [Lovense Calor](https://www.lovense.com/r/vu65q6).
-* **Enable Hotdog depth control (KKS only):** Enables control of H scenes using depth data from a [Hotdog](https://github.com/Sauceke/hotdog).
+* **Enable Lovense Calor depth control:** Enables control of H scenes using depth data from a [Lovense Calor].
+* **Enable Hotdog depth control (KKS only):** Enables control of H scenes using depth data from a [Hotdog].
 
 ### Kill Switch Settings
 Safety measure to avoid hurting yourself if the sex gets too rough or something goes wrong. By default, pressing Spacebar will immediately stop all connected devices.
@@ -129,7 +98,7 @@ If you get bored of the "standard" features of this plugin, try experimenting a 
 ## Contributing
 PRs for onboarding new games are welcome. The process is relatively simple and requires barely any coding. See the PlayHome implementation for reference. PRs for supporting new device types are also welcome.
 
-This mod is provided free of charge, but I do accept donations. If you'd like to boost my morale, please check me out on [Patreon](https://www.patreon.com/sauceke).
+This mod is provided free of charge, but I do accept donations. If you'd like to boost my morale, please check me out on [Patreon].
 
 ### Code contributors
 * Sauceke
@@ -138,7 +107,7 @@ This mod is provided free of charge, but I do accept donations. If you'd like to
 * RPKU
 
 ### Sponsors
-* [ManlyMarco](https://github.com/ManlyMarco)
+* [ManlyMarco]
 * AkronusWings
 * AstralClock
 * Benos Hentai
@@ -168,4 +137,18 @@ This mod is provided free of charge, but I do accept donations. If you'd like to
 * 郁弥 中村
 
 ## Acknowledgements
-This mod would not have been possible without the [BepInEx](https://github.com/BepInEx) plugin framework and, of course, the [Buttplug](https://buttplug.io/) project.
+This mod would not have been possible without the [BepInEx] plugin framework and, of course, the [Buttplug.io] project.
+
+<!-- own links -->
+[installer]: https://github.com/Sauceke/LoveMachine/releases/latest/download/LoveMachineInstaller.exe
+[Hotdog]: https://sauceke.github.io/hotdog
+[Hotdog Server]: https://github.com/Sauceke/hotdog/releases/latest/download/HotdogServer.exe
+[Patreon]: https://www.patreon.com/sauceke
+
+
+
+<!-- other links -->
+[ManlyMarco]: https://github.com/ManlyMarco
+[BepInEx]: https://github.com/BepInEx
+[AGHVR]: https://github.com/Eusth/AGHVR
+[IOVR]: https://github.com/Eusth/IOVR
