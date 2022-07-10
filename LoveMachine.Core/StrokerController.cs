@@ -23,7 +23,7 @@ namespace LoveMachine.Core
             }
         }
 
-        protected override void StopDevices(int girlIndex, Bone bone) {}
+        protected override void StopDevices(int girlIndex, Bone bone) { }
 
         protected virtual bool IsEnabled => !CoreConfig.SmoothStroking.Value;
 
@@ -103,7 +103,8 @@ namespace LoveMachine.Core
             float hardness = forceHard || game.IsHardSex
                 ? Mathf.InverseLerp(0, 100, CoreConfig.HardSexIntensity.Value)
                 : 0;
-            float downStrokeTimeSecs = Mathf.Lerp(strokeTimeSecs / 2f, strokeTimeSecs / 4f, hardness);
+            float downStrokeTimeSecs = Mathf.Lerp(strokeTimeSecs / 2f, strokeTimeSecs / 4f,
+                hardness);
             GetStrokeZone(strokeTimeSecs, scale, out float min, out float max);
             MoveStroker(
                 position: max,
@@ -111,7 +112,8 @@ namespace LoveMachine.Core
                 girlIndex,
                 bone);
             // needs to be real time so we can test devices even when the game is paused
-            yield return new WaitForSecondsRealtime(strokeTimeSecs * 0.75f - downStrokeTimeSecs / 2f);
+            yield return new WaitForSecondsRealtime(strokeTimeSecs * 0.75f -
+                downStrokeTimeSecs / 2f);
             MoveStroker(
                 position: min,
                 durationSecs: downStrokeTimeSecs - 0.01f,
@@ -134,9 +136,7 @@ namespace LoveMachine.Core
             }
         }
 
-        protected void MoveStroker(float position, float durationSecs, int girlIndex, Bone bone)
-        {
+        protected void MoveStroker(float position, float durationSecs, int girlIndex, Bone bone) =>
             client.LinearCmd(position, durationSecs, girlIndex, bone);
-        }
     }
 }

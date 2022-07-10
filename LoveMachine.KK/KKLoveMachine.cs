@@ -16,7 +16,7 @@ namespace LoveMachine.KK
     {
         private void Start()
         {
-            var girls = new string[] { "First girl", "Second girl", "Off" };
+            string[] girls = new string[] { "First girl", "Second girl", "Off" };
             CoreConfig.Logger = Logger;
             PluginInitializer<KoikatsuGame>.Initialize(
                 plugin: this,

@@ -72,7 +72,7 @@ namespace LoveMachine.HS2
             StartH();
         }
 
-        protected override string GetPose(int girlIndex) => 
+        protected override string GetPose(int girlIndex) =>
             // couldn't find accessor for animation name so going with hash
             hScene.ctrlFlag.nowAnimationInfo.id
                 + "." + hScene.GetFemales()[girlIndex].getAnimatorStateInfo(0).fullPathHash;

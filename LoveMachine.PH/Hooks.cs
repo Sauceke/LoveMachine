@@ -6,10 +6,7 @@ namespace LoveMachine.PH
 {
     internal class Hooks
     {
-        public static void InstallHooks()
-        {
-            Harmony.CreateAndPatchAll(typeof(HSceneTriggers));
-        }
+        public static void InstallHooks() => Harmony.CreateAndPatchAll(typeof(HSceneTriggers));
 
         private static class HSceneTriggers
         {

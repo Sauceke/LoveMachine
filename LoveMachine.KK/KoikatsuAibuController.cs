@@ -28,7 +28,7 @@ namespace LoveMachine.KK
             float previousY = 0f;
             while (!game.Flags.isHSceneEnd)
             {
-                var y = game.Flags.xy[aibuBones.IndexOf(bone)].y;
+                float y = game.Flags.xy[aibuBones.IndexOf(bone)].y;
                 if (previousY != y)
                 {
                     HandleFondle(
@@ -48,7 +48,7 @@ namespace LoveMachine.KK
         protected override void HandleFondle(float y, int girlIndex, Bone bone, float timeSecs) =>
             client.LinearCmd(y, timeSecs, girlIndex, bone);
 
-        protected override void StopDevices(int girlIndex, Bone bone) {}
+        protected override void StopDevices(int girlIndex, Bone bone) { }
     }
 
     internal sealed class KoikatsuAibuVibratorController : KoikatsuAibuController

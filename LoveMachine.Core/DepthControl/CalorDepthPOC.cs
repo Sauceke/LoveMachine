@@ -26,7 +26,7 @@ namespace LoveMachine.Core
 
         private Process bleConsole;
         private StreamWriter stdin;
-        
+
         private void Start()
         {
             string bleConsolePath = CoreConfig.PluginDirectoryPath + ExecutableName;

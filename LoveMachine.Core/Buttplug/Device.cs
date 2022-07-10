@@ -20,10 +20,10 @@ namespace LoveMachine.Core
         public DeviceSettings Settings { get; set; } = new DeviceSettings();
         public Features DeviceMessages { get; set; }
 
-        public bool IsVibrator { get { return DeviceMessages.VibrateCmd != null; } }
-        public bool IsStroker { get { return DeviceMessages.LinearCmd != null; } }
+        public bool IsVibrator => DeviceMessages.VibrateCmd != null;
+        public bool IsStroker => DeviceMessages.LinearCmd != null;
 
-        public bool IsRotator { get { return DeviceMessages.RotateCmd != null; } }
+        public bool IsRotator => DeviceMessages.RotateCmd != null;
         public class Features
         {
             public Command LinearCmd { get; set; }

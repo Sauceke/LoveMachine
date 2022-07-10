@@ -45,9 +45,7 @@ namespace LoveMachine.Core
                 1.0f / CoreConfig.VibrationUpdateFrequency.Value);
         }
 
-        protected void DoVibrate(float intensity, int girlIndex, Bone bone)
-        {
+        protected void DoVibrate(float intensity, int girlIndex, Bone bone) =>
             client.VibrateCmd(intensity, girlIndex, bone);
-        }
     }
 }

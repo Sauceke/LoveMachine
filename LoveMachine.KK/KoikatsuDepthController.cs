@@ -121,7 +121,7 @@ namespace LoveMachine.KK
         private void SkipToTime(float normalizedTime)
         {
             int animStateHash = game.GetAnimatorStateInfo(0).fullPathHash;
-            game.GetFemaleAnimator (0).Play(animStateHash, game.AnimationLayer, normalizedTime);
+            game.GetFemaleAnimator(0).Play(animStateHash, game.AnimationLayer, normalizedTime);
             game.Flags.player.chaCtrl.animBody
                 .Play(animStateHash, game.AnimationLayer, normalizedTime);
         }

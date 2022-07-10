@@ -15,7 +15,7 @@ namespace LoveMachine.Core
                 yield break;
             }
             game.GetAnimState(girlIndex, out float currentNormTime, out _, out _);
-            var strokeTimeSecs = GetStrokeTimeSecs(girlIndex, bone);
+            float strokeTimeSecs = GetStrokeTimeSecs(girlIndex, bone);
             float refreshTimeSecs = 0.1f;
             float refreshNormTime = refreshTimeSecs / strokeTimeSecs;
             var currentSample = GetClosestSample(currentNormTime, waveInfo.Plot);

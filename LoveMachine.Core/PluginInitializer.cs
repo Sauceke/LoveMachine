@@ -28,9 +28,7 @@ namespace LoveMachine.Core
 
         public static void Initialize(BaseUnityPlugin plugin,
             string girlMappingHeader, string[] girlMappingOptions,
-            params Type[] extraControllers)
-        {
-            new PluginInitializer<T>
+            params Type[] extraControllers) => new PluginInitializer<T>
             {
                 plugin = plugin,
                 girlMappingHeader = girlMappingHeader,
@@ -38,7 +36,6 @@ namespace LoveMachine.Core
                 extraControllers = extraControllers
             }
             .Start();
-        }
 
         public static void MakeGUILabel(string text) => GUILayout.Label(text);
 

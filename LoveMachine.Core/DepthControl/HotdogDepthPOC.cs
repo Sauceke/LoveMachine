@@ -31,15 +31,11 @@ namespace LoveMachine.Core
             IsDeviceConnected = true;
         }
 
-        private void OnMessageReceived(object sender, MessageReceivedEventArgs e)
-        {
+        private void OnMessageReceived(object sender, MessageReceivedEventArgs e) =>
             Depth = 1 - JsonMapper.ToObject<DepthData>(e.Message).Depth;
-        }
 
-        private void OnError(object sender, ErrorEventArgs e)
-        {
+        private void OnError(object sender, ErrorEventArgs e) =>
             CoreConfig.Logger.LogWarning($"Hotdog websocket error: {e.Exception}");
-        }
 
         private struct DepthData
         {

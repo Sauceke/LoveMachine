@@ -7,7 +7,7 @@ namespace LoveMachine.Core
     {
         protected override IEnumerator Run(int girlIndex, Bone bone)
         {
-            System.Random random = new System.Random();
+            var random = new System.Random();
             bool clockwise = true;
             while (true)
             {
@@ -32,15 +32,15 @@ namespace LoveMachine.Core
             }
         }
 
-        protected override void StopDevices(int girlIndex, Bone bone)
-        {
+        protected override void StopDevices(int girlIndex, Bone bone) =>
             client.RotateCmd(0f, true, girlIndex, bone);
-        }
 
-        protected internal IEnumerator DoRotate(int girlIndex, Bone bone, bool clockwise, float strokeTimeSecs)
+        protected internal IEnumerator DoRotate(int girlIndex, Bone bone, bool clockwise,
+            float strokeTimeSecs)
         {
             float downStrokeTimeSecs = strokeTimeSecs / 2f;
-            float downSpeed = Mathf.Lerp(0.3f, 1f, 0.4f / strokeTimeSecs) * CoreConfig.RotationSpeedRatio.Value;
+            float downSpeed = Mathf.Lerp(0.3f, 1f, 0.4f / strokeTimeSecs) *
+                CoreConfig.RotationSpeedRatio.Value;
             float upSpeed = downSpeed * 0.8f;
             client.RotateCmd(downSpeed, clockwise, girlIndex, bone);
             yield return new WaitForSecondsRealtime(downStrokeTimeSecs);
