@@ -16,9 +16,7 @@ namespace LoveMachine.HS2
             public static void Start(HScene __instance)
             {
                 CoreConfig.Logger.LogDebug("H Scene started.");
-                Array.ForEach(
-                    Chainloader.ManagerObject.GetComponents<HoneySelect2Game>(),
-                    game => game.OnStartH(__instance));
+                Chainloader.ManagerObject.GetComponent<HoneySelect2Game>().OnStartH(__instance);
             }
 
             [HarmonyPostfix]
@@ -26,9 +24,7 @@ namespace LoveMachine.HS2
             public static void End()
             {
                 CoreConfig.Logger.LogDebug("H Scene ended.");
-                Array.ForEach(
-                    Chainloader.ManagerObject.GetComponents<HoneySelect2Game>(),
-                    game => game.EndH());
+                Chainloader.ManagerObject.GetComponent<HoneySelect2Game>().EndH();
             }
         }
     }
