@@ -3,6 +3,11 @@ name: .NET
 on:
   push:
     branches: [ mastur ]
+    paths-ignore:
+    - 'Documentation/**'
+    - 'docs/**'
+    - 'README.md'
+    - 'Resources/**'
   pull_request:
     branches: [ mastur ]
   workflow_dispatch:
