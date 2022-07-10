@@ -14,7 +14,7 @@
 <br>
 
 [<img
-    src = '../../Resources/Games/Koikatsu Sunshine.webp'
+    src = '../Resources/Games/Koikatsu Sunshine.webp'
     height = 60
     title = 'Koikatsu Sunshine  |  コイカツ！サンシャイン'
 />
@@ -22,7 +22,7 @@
 ![Badge VR]
 
 [<img
-    src = '../../Resources/Games/Koikatsu Party.png'
+    src = '../Resources/Games/Koikatsu Party.png'
     height = 60
     title = 'Koikatsu Party  |  コイカツ Party'
 />
@@ -30,7 +30,7 @@
 ![Badge VR]
 
 [<img
-    src = '../../Resources/Games/Koikatsu.png'
+    src = '../Resources/Games/Koikatsu.png'
     height = 60
     title = 'Koikatsu  |  コイカツ'
 />
@@ -38,7 +38,7 @@
 ![Badge VR]
 
 [<img
-    src = '../../Resources/Games/Honey Select 2.webp'
+    src = '../Resources/Games/Honey Select 2.webp'
     height = 60
     title = 'Honey Select 2  |  ハニーセレクト２'
 />
@@ -47,13 +47,12 @@
 
 
 [<img
-    src = '../../Resources/Games/PlayHome.png'
+    src = '../Resources/Games/PlayHome.png'
     height = 60
     title = 'PlayHome  |  プレイホーム'
 />
 ][PlayHome]                          
 ![Badge VR]
-
 
 <br>
 
@@ -62,7 +61,7 @@
 <br>
 
 [<img
-    src = '../../Resources/Games/Houkago Rinkan Chuudoku.png'
+    src = '../Resources/Games/Houkago Rinkan Chuudoku.png'
     height = 150
     title = 'Houkago Rinkan Chuudoku'
 />
@@ -71,7 +70,7 @@
 [![Badge AGHVR]][AGHVR]
 
 [<img
-    src = '../../Resources/Games/Insult Order.png'
+    src = '../Resources/Games/Insult Order.png'
     height = 60
     title = 'Insult Order'
 />
@@ -86,7 +85,7 @@
 <br>
 
 [<img
-    src = '../../Resources/Games/Custom Order Maid 3D 2.png'
+    src = '../Resources/Games/Custom Order Maid 3D 2.png'
     height = 60
     title = 'Custom Order Maid 3D 2'
 />
@@ -100,7 +99,7 @@
 <br>
 
 [<img
-    src = '../../Resources/Games/Our Apartment.jpg'
+    src = '../Resources/Games/Our Apartment.jpg'
     height = 60
     title = 'Custom Order Maid 3D 2'
 />
