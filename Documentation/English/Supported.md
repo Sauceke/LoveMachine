@@ -13,15 +13,46 @@
 
 <br>
 
-![Badge VR]   [![Game Sunshine]][Koikatsu Sunshine]
+[<img
+    src = '../../Resources/Games/Koikatsu Sunshine.webp'
+    height = 60
+    title = 'Koikatsu Sunshine  |  コイカツ！サンシャイン'
+/>
+][Koikatsu Sunshine]       
+![Badge VR]
 
-![Badge VR]   [![Game Party]][Koikatsu Party]
+[<img
+    src = '../../Resources/Games/Koikatsu Party.png'
+    height = 60
+    title = 'Koikatsu Party  |  コイカツ Party'
+/>
+][Koikatsu Party]       
+![Badge VR]
 
-![Badge VR]   [![Game Koikatsu]][Koikatsu]
+[<img
+    src = '../../Resources/Games/Koikatsu.png'
+    height = 60
+    title = 'Koikatsu  |  コイカツ'
+/>
+][Koikatsu]       
+![Badge VR]
 
-![Badge VR]   [![Game Honey]][Honey Select 2]
+[<img
+    src = '../../Resources/Games/Honey Select 2.webp'
+    height = 60
+    title = 'Honey Select 2  |  ハニーセレクト２'
+/>
+][Honey Select 2]       
+![Badge VR]
 
-![Badge VR]   [![Game PlayHome]][PlayHome]
+
+[<img
+    src = '../../Resources/Games/PlayHome.png'
+    height = 60
+    title = 'PlayHome  |  プレイホーム'
+/>
+][PlayHome]       
+![Badge VR]
 
 
 <br>
@@ -30,17 +61,34 @@
 
 <br>
 
-[![Badge AGHVR]][AGHVR]   [![Game Houkago]][Houkago Rinkan Chuudoku]
+[<img
+    src = '../../Resources/Games/Houkago Rinkan Chuudoku.png'
+    height = 150
+    title = 'Houkago Rinkan Chuudoku'
+/>
+][Houkago Rinkan Chuudoku]       
+[![Badge AGHVR]][AGHVR]
 
-[![Badge IOVR]][IOVR]     [![Game Insult]][Insult Order]
+[<img
+    src = '../../Resources/Games/Insult Order.png'
+    height = 60
+    title = 'Insult Order'
+/>
+][Insult Order]       
+[![Badge IOVR]][IOVR]
+
 
 <br>
 
 ### **[Kiss]**
 
-<br>
-
-![Badge VR]   [![Game Maid]][Custom Order Maid 3D 2]
+[<img
+    src = '../../Resources/Games/Custom Order Maid 3D 2.png'
+    height = 60
+    title = 'Custom Order Maid 3D 2'
+/>
+][Custom Order Maid 3D 2]       
+![Badge VR]
 
 <br>
 
@@ -48,7 +96,12 @@
 
 <br>
 
-[![Game Apartment]][Our Apartment]
+[<img
+    src = '../../Resources/Games/Our Apartment.jpg'
+    height = 60
+    title = 'Custom Order Maid 3D 2'
+/>
+][Our Apartment]
 
 <br>
 <br>
@@ -100,7 +153,7 @@ two depth sensing devices.
 
 <!--------------------------------[ Ｇａｍｅｓ ]--------------------------------->
 
-[Custom Order Maid 3D 2]: https://store.steampowered.com/app/1097580/CUSTOM_ORDER_MAID_3D2_Its_a_Night_Magic/
+[Custom Order Maid 3D 2]: http://com3d2.world/main.html
 [Koikatsu Sunshine]: http://www.illusion.jp/preview/koikatsu_sunshine/
 [Koikatsu Party]: http://koikatsuparty.illusion.jp/
 [Our Apartment]: https://momoirosoft.itch.io/our-apartment
@@ -129,19 +182,6 @@ two depth sensing devices.
 [Lovense Max 2]: https://www.lovense.com/r/k8bbja
 [Lovense Diamo]: https://www.lovense.com/r/54xpc7
 [Lovense Gush]: https://www.lovense.com/r/f7lki7
-
-
-<!----------------------------[ Ｇａｍｅ　Ｂａｄｇｅｓ ]--------------------------->
-
-[Game Apartment]: https://img.shields.io/badge/Our_Apartment-ff686d?style=flat
-[Game Sunshine]: https://img.shields.io/badge/Koikatsu_Sunshine-2cc1ff?style=flat
-[Game Koikatsu]: https://img.shields.io/badge/Koikatsu-f9799c?style=flat
-[Game PlayHome]: https://img.shields.io/badge/PlayHome-d1215d?style=flat
-[Game Houkago]: https://img.shields.io/badge/Houkago_Rinkan_Chuudoku-671197?style=flat
-[Game Insult]: https://img.shields.io/badge/Insult_Order-4d3962?style=flat
-[Game Honey]: https://img.shields.io/badge/Honey_Select_2-d53b36?style=flat
-[Game Party]: https://img.shields.io/badge/Koikatsu_Party-ff78a4?style=flat
-[Game Maid]: https://img.shields.io/badge/Custom_Order_Maid_3D_2-ddc756?style=flat
 
 
 <!------------------------------[ Ｂａｄｇｅｓ ]--------------------------------->
