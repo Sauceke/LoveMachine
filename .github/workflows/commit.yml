@@ -8,6 +8,7 @@ on:
     - 'docs/**'
     - 'README.md'
     - 'Resources/**'
+    - '_config.yml'
   pull_request:
     branches: [ mastur ]
   workflow_dispatch:
