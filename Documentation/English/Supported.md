@@ -18,7 +18,7 @@
     height = 60
     title = 'Koikatsu Sunshine  |  コイカツ！サンシャイン'
 />
-][Koikatsu Sunshine]       
+][Koikatsu Sunshine]                     
 ![Badge VR]
 
 [<img
@@ -26,7 +26,7 @@
     height = 60
     title = 'Koikatsu Party  |  コイカツ Party'
 />
-][Koikatsu Party]       
+][Koikatsu Party]                          
 ![Badge VR]
 
 [<img
@@ -34,7 +34,7 @@
     height = 60
     title = 'Koikatsu  |  コイカツ'
 />
-][Koikatsu]       
+][Koikatsu]                      
 ![Badge VR]
 
 [<img
@@ -51,7 +51,7 @@
     height = 60
     title = 'PlayHome  |  プレイホーム'
 />
-][PlayHome]       
+][PlayHome]                          
 ![Badge VR]
 
 
@@ -66,7 +66,8 @@
     height = 150
     title = 'Houkago Rinkan Chuudoku'
 />
-][Houkago Rinkan Chuudoku]       
+][Houkago Rinkan Chuudoku]
+
 [![Badge AGHVR]][AGHVR]
 
 [<img
@@ -74,13 +75,15 @@
     height = 60
     title = 'Insult Order'
 />
-][Insult Order]       
-[![Badge IOVR]][IOVR]
+][Insult Order]
 
+[![Badge IOVR]][IOVR]
 
 <br>
 
 ### **[Kiss]**
+
+<br>
 
 [<img
     src = '../../Resources/Games/Custom Order Maid 3D 2.png'
@@ -147,8 +150,8 @@ two depth sensing devices.
 
 [Buttplug.io]: https://github.com/buttplugio/buttplug
 
-[AGHVR]: https://github.com/Eusth/AGHVR
-[IOVR]: https://github.com/Eusth/IOVR
+[AGHVR]: https://github.com/Eusth/AGHVR 'Supports VR with a custom solution'
+[IOVR]: https://github.com/Eusth/IOVR 'Supports VR with a custom solution'
 
 
 <!--------------------------------[ Ｇａｍｅｓ ]--------------------------------->
