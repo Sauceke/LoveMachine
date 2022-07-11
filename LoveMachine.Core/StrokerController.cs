@@ -25,7 +25,7 @@ namespace LoveMachine.Core
 
         protected override void StopDevices(int girlIndex, Bone bone) { }
 
-        protected virtual bool IsEnabled => !CoreConfig.SmoothStroking.Value;
+        protected virtual bool IsEnabled => !StrokerConfig.SmoothStroking.Value;
 
         protected virtual IEnumerator EmulateStroking(int girlIndex, Bone bone)
         {
@@ -38,7 +38,7 @@ namespace LoveMachine.Core
             float strokeTimeSecs = GetStrokeTimeSecs(girlIndex, bone);
             analyzer.TryGetWaveInfo(girlIndex, bone, out var waveInfo);
             float relativeLength = (waveInfo.Crest - waveInfo.Trough) / game.PenisSize;
-            float scale = Mathf.Lerp(1f - CoreConfig.StrokeLengthRealism.Value, 1f,
+            float scale = Mathf.Lerp(1f - StrokerConfig.StrokeLengthRealism.Value, 1f,
                 relativeLength);
             for (int i = 0; i < waveInfo.Frequency - 1; i++)
             {
@@ -50,12 +50,12 @@ namespace LoveMachine.Core
 
         private void GetStrokeZone(float strokeTimeSecs, float scale, out float min, out float max)
         {
-            float minSlow = Mathf.InverseLerp(0, 100, CoreConfig.SlowStrokeZoneMin.Value);
-            float maxSlow = Mathf.InverseLerp(0, 100, CoreConfig.SlowStrokeZoneMax.Value);
-            float minFast = Mathf.InverseLerp(0, 100, CoreConfig.FastStrokeZoneMin.Value);
-            float maxFast = Mathf.InverseLerp(0, 100, CoreConfig.FastStrokeZoneMax.Value);
+            float minSlow = Mathf.InverseLerp(0, 100, StrokerConfig.SlowStrokeZoneMin.Value);
+            float maxSlow = Mathf.InverseLerp(0, 100, StrokerConfig.SlowStrokeZoneMax.Value);
+            float minFast = Mathf.InverseLerp(0, 100, StrokerConfig.FastStrokeZoneMin.Value);
+            float maxFast = Mathf.InverseLerp(0, 100, StrokerConfig.FastStrokeZoneMax.Value);
             // decrease stroke length gradually as speed approaches the device limit
-            float rate = 60f / CoreConfig.MaxStrokesPerMinute.Value / strokeTimeSecs;
+            float rate = 60f / StrokerConfig.MaxStrokesPerMinute.Value / strokeTimeSecs;
             min = Mathf.Lerp(minSlow, minFast, rate) * scale;
             max = Mathf.Lerp(maxSlow, maxFast, rate) * scale;
         }
@@ -89,7 +89,7 @@ namespace LoveMachine.Core
             string startPose = game.GetPose(girlIndex);
             float startNormTime = normalizedTime();
             float strokeTimeSecs = GetStrokeTimeSecs(girlIndex, bone);
-            float latencyNormTime = CoreConfig.LatencyMs.Value / 1000f / strokeTimeSecs;
+            float latencyNormTime = StrokerConfig.LatencyMs.Value / 1000f / strokeTimeSecs;
             bool timeToStroke() => game.GetPose(girlIndex) != startPose
                 || (analyzer.TryGetWaveInfo(girlIndex, bone, out var result)
                     && (int)(normalizedTime() - result.Phase + latencyNormTime + 10f)
@@ -101,7 +101,7 @@ namespace LoveMachine.Core
             float strokeTimeSecs, float scale = 1f, bool forceHard = false)
         {
             float hardness = forceHard || game.IsHardSex
-                ? Mathf.InverseLerp(0, 100, CoreConfig.HardSexIntensity.Value)
+                ? Mathf.InverseLerp(0, 100, StrokerConfig.HardSexIntensity.Value)
                 : 0;
             float downStrokeTimeSecs = Mathf.Lerp(strokeTimeSecs / 2f, strokeTimeSecs / 4f,
                 hardness);
@@ -123,9 +123,9 @@ namespace LoveMachine.Core
 
         protected IEnumerator EmulateOrgasm(int girlIndex, Bone bone)
         {
-            float bottom = CoreConfig.OrgasmDepth.Value;
-            float time = 0.5f / CoreConfig.OrgasmShakingFrequency.Value;
-            float top = bottom + CoreConfig.MaxStrokesPerMinute.Value / 60f / 2 * time;
+            float bottom = StrokerConfig.OrgasmDepth.Value;
+            float time = 0.5f / StrokerConfig.OrgasmShakingFrequency.Value;
+            float top = bottom + StrokerConfig.MaxStrokesPerMinute.Value / 60f / 2 * time;
             while (game.IsOrgasming(girlIndex))
             {
                 MoveStroker(top, time, girlIndex, bone);

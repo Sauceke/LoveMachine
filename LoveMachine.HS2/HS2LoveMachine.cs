@@ -11,9 +11,8 @@ namespace LoveMachine.HS2
         private void Start()
         {
             string[] girls = new string[] { "First girl", "Second girl", "Off" };
-            CoreConfig.Logger = Logger;
-            PluginInitializer<HoneySelect2Game>.Initialize(
-                plugin: this,
+            this.Initialize<HoneySelect2Game>(
+                logger: Logger,
                 girlMappingHeader: "Threesome Role",
                 girlMappingOptions: girls);
             Hooks.InstallHooks();

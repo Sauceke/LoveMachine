@@ -7,13 +7,13 @@ namespace LoveMachine.Core
     {
         public static void SaveDeviceSettings(List<Device> devices)
         {
-            if (!CoreConfig.SaveDeviceSettings.Value)
+            if (!DeviceListConfig.SaveDeviceSettings.Value)
             {
-                CoreConfig.DeviceSettingsJson.Value = "[]";
+                DeviceListConfig.DeviceSettingsJson.Value = "[]";
                 return;
             }
-            var settings =
-                JsonMapper.ToObject<List<DeviceSettings>>(CoreConfig.DeviceSettingsJson.Value);
+            var settings = JsonMapper.ToObject<List<DeviceSettings>>(
+                DeviceListConfig.DeviceSettingsJson.Value);
             var devicesCopy = new List<Device>(devices);
             devices = null;
             for (int i = 0; i < settings.Count; i++)
@@ -31,17 +31,17 @@ namespace LoveMachine.Core
             {
                 settings.Add(remainingDevice.Settings);
             }
-            CoreConfig.DeviceSettingsJson.Value = JsonMapper.ToJson(settings);
+            DeviceListConfig.DeviceSettingsJson.Value = JsonMapper.ToJson(settings);
         }
 
         public static void LoadDeviceSettings(List<Device> devices)
         {
-            if (!CoreConfig.SaveDeviceSettings.Value)
+            if (!DeviceListConfig.SaveDeviceSettings.Value)
             {
                 return;
             }
-            var settings =
-                JsonMapper.ToObject<List<DeviceSettings>>(CoreConfig.DeviceSettingsJson.Value);
+            var settings = JsonMapper.ToObject<List<DeviceSettings>>(
+                DeviceListConfig.DeviceSettingsJson.Value);
             foreach (var device in devices)
             {
                 int matchingSettingIndex = settings.FindIndex(

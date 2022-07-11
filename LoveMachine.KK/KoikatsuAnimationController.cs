@@ -17,14 +17,14 @@ namespace LoveMachine.KK
             while (!game.Flags.isHSceneEnd)
             {
                 var info = animator.GetCurrentAnimatorStateInfo(0);
-                if (CoreConfig.ReduceAnimationSpeeds.Value)
+                if (KKAnimationConfig.ReduceAnimationSpeeds.Value)
                 {
                     // nerf the animation speed so the device can keep up with it
                     // OLoop is faster than the rest, about 280ms per stroke at its original speed
                     NerfAnimationSpeeds(info.IsName("OLoop") ? 0.28f : 0.375f,
                         animator, playerAnimator);
                 }
-                if (CoreConfig.SuppressAnimationBlending.Value)
+                if (KKAnimationConfig.SuppressAnimationBlending.Value)
                 {
                     game.Flags.curveMotion = new AnimationCurve(new Keyframe[] { new Keyframe() });
                 }

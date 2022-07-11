@@ -8,9 +8,8 @@ namespace LoveMachine.AGH
     {
         private void Start()
         {
-            CoreConfig.Logger = Logger;
-            PluginInitializer<HoukagoRinkanChuudokuGame>.Initialize(
-                plugin: this,
+            this.Initialize<HoukagoRinkanChuudokuGame>(
+                logger: Logger,
                 girlMappingHeader: null,
                 girlMappingOptions: null);
             Hooks.InstallHooks();

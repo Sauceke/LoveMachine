@@ -25,7 +25,7 @@ namespace LoveMachine.Core
                     yield return new WaitForSecondsRealtime(strokeTimeSecs);
                 }
                 yield return HandleCoroutine(DoRotate(girlIndex, bone, clockwise, strokeTimeSecs));
-                if (random.NextDouble() <= CoreConfig.RotationDirectionChangeChance.Value)
+                if (random.NextDouble() <= RotatorConfig.RotationDirectionChangeChance.Value)
                 {
                     clockwise = !clockwise;
                 }
@@ -40,7 +40,7 @@ namespace LoveMachine.Core
         {
             float downStrokeTimeSecs = strokeTimeSecs / 2f;
             float downSpeed = Mathf.Lerp(0.3f, 1f, 0.4f / strokeTimeSecs) *
-                CoreConfig.RotationSpeedRatio.Value;
+                RotatorConfig.RotationSpeedRatio.Value;
             float upSpeed = downSpeed * 0.8f;
             client.RotateCmd(downSpeed, clockwise, girlIndex, bone);
             yield return new WaitForSecondsRealtime(downStrokeTimeSecs);

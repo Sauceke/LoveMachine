@@ -26,7 +26,7 @@ namespace LoveMachine.Core
         {
             game.GetAnimState(girlIndex, out float normalizedTime, out _, out _);
             float strength = 1f;
-            if (CoreConfig.SyncVibrationWithAnimation.Value)
+            if (VibratorConfig.SyncVibrationWithAnimation.Value)
             {
                 // Simple cos based intensity amplification based on normalized position in
                 // looping animation
@@ -37,12 +37,12 @@ namespace LoveMachine.Core
                 float frequency = result.Frequency;
                 strength = Mathf.Abs(Mathf.Cos(Mathf.PI * time * frequency)) + 0.1f;
             }
-            float intensityPercent = Mathf.Lerp(CoreConfig.VibrationIntensityMin.Value,
-                CoreConfig.VibrationIntensityMax.Value, strength * game.VibrationIntensity);
+            float intensityPercent = Mathf.Lerp(VibratorConfig.VibrationIntensityMin.Value,
+                VibratorConfig.VibrationIntensityMax.Value, strength * game.VibrationIntensity);
             float intensity = Mathf.InverseLerp(0f, 100f, intensityPercent);
             DoVibrate(intensity, girlIndex, bone);
             yield return new WaitForSecondsRealtime(
-                1.0f / CoreConfig.VibrationUpdateFrequency.Value);
+                1.0f / VibratorConfig.VibrationUpdateFrequency.Value);
         }
 
         protected void DoVibrate(float intensity, int girlIndex, Bone bone) =>

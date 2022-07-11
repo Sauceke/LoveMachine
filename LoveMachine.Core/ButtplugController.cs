@@ -63,7 +63,7 @@ namespace LoveMachine.Core
         protected void NerfAnimationSpeeds(float animStrokeTimeSecs, params Animator[] animators)
         {
             float speedMultiplier =
-                Math.Min(1, animStrokeTimeSecs * CoreConfig.MaxStrokesPerMinute.Value / 60f);
+                Math.Min(1, animStrokeTimeSecs * StrokerConfig.MaxStrokesPerMinute.Value / 60f);
             foreach (var animator in animators)
             {
                 animator.speed = Mathf.Min(animator.speed, speedMultiplier);

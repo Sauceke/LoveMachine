@@ -6,7 +6,7 @@ namespace LoveMachine.Core
 {
     public class SmoothStrokerController : StrokerController
     {
-        protected override bool IsEnabled => CoreConfig.SmoothStroking.Value;
+        protected override bool IsEnabled => StrokerConfig.SmoothStroking.Value;
 
         protected override IEnumerator EmulateStroking(int girlIndex, Bone bone)
         {

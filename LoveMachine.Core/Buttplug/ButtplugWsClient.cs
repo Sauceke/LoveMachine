@@ -29,7 +29,7 @@ namespace LoveMachine.Core
         {
             IsConnected = false;
             Devices = new List<Device>();
-            string address = CoreConfig.WebSocketAddress.Value;
+            string address = ButtplugConfig.WebSocketAddress.Value;
             CoreConfig.Logger.LogInfo($"Connecting to Intiface server at {address}");
             websocket = new WebSocket(address);
             websocket.Opened += OnOpened;
@@ -283,8 +283,8 @@ namespace LoveMachine.Core
             {
                 while (true)
                 {
-                    Pushed &= !CoreConfig.ResumeSwitch.Value.IsPressed();
-                    if (CoreConfig.KillSwitch.Value.IsDown())
+                    Pushed &= !KillSwitchConfig.ResumeSwitch.Value.IsPressed();
+                    if (KillSwitchConfig.KillSwitch.Value.IsDown())
                     {
                         CoreConfig.Logger.LogMessage("LoveMachine: Emergency stop pressed.");
                         Pushed = true;

@@ -8,9 +8,8 @@ namespace LoveMachine.IO
     {
         private void Start()
         {
-            CoreConfig.Logger = Logger;
-            PluginInitializer<InsultOrderGame>.Initialize(
-                plugin: this,
+            this.Initialize<InsultOrderGame>(
+                logger: Logger,
                 girlMappingHeader: null,
                 girlMappingOptions: null);
             Hooks.InstallHooks();
