@@ -13,11 +13,11 @@ namespace LoveMachine.Core
 
         public abstract int AnimationLayer { get; }
         protected internal abstract int HeroineCount { get; }
+        protected internal abstract int MaxHeroineCount { get; }
         protected internal abstract bool IsHardSex { get; }
         protected internal abstract bool IsHSceneInterrupted { get; }
 
         protected internal virtual float PenisSize => 0f;
-
         protected internal virtual float VibrationIntensity => 1f;
 
         public abstract Animator GetFemaleAnimator(int girlIndex);

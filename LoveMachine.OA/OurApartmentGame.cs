@@ -39,6 +39,8 @@ namespace LoveMachine.OA
 
         protected override int HeroineCount => 1; // Just Naomi
 
+        protected override int MaxHeroineCount => 1;
+
         protected override bool IsHardSex => GetPose(0).Contains("Pump2");
 
         public override int AnimationLayer

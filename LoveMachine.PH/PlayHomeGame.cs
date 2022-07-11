@@ -30,6 +30,8 @@ namespace LoveMachine.PH
 
         protected override int HeroineCount => scene.mainMembers.females.Count;
 
+        protected override int MaxHeroineCount => 2;
+
         protected override bool IsHardSex => true;
 
         public override int AnimationLayer => 0;

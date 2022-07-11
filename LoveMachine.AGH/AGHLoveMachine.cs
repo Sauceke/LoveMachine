@@ -8,10 +8,7 @@ namespace LoveMachine.AGH
     {
         private void Start()
         {
-            this.Initialize<HoukagoRinkanChuudokuGame>(
-                logger: Logger,
-                girlMappingHeader: null,
-                girlMappingOptions: null);
+            this.Initialize<HoukagoRinkanChuudokuGame>(Logger);
             Hooks.InstallHooks();
         }
     }

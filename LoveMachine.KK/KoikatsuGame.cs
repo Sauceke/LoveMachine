@@ -64,6 +64,8 @@ namespace LoveMachine.KK
 
         protected override int HeroineCount => Flags.lstHeroine.Count;
 
+        protected override int MaxHeroineCount => 2;
+
         protected override bool IsHardSex => Flags?.nowAnimStateName?.Contains("SLoop") ?? false;
 
         public override int AnimationLayer => 0;

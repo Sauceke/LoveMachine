@@ -12,22 +12,18 @@ namespace LoveMachine.Core
 {
     public static class DeviceListConfig
     {
+        private static readonly string[] ordinals =
+            { "First", "Second", "Third", "Fourth", "Fifth", "Sixth" };
         private static readonly string[] boneNames = Enum.GetNames(typeof(Bone))
             .Select(camelCase => Regex.Replace(camelCase, ".([A-Z])", " $1"))
             .ToArray();
-
-        private static string girlMappingHeader;
-        private static string[] girlMappingOptions;
         private static List<Device> cachedDeviceList;
 
         public static ConfigEntry<bool> SaveDeviceSettings { get; private set; }
         public static ConfigEntry<string> DeviceSettingsJson { get; private set; }
 
-        internal static void Initialize(BaseUnityPlugin plugin, string girlMappingHeader,
-            string[] girlMappingOptions)
+        internal static void Initialize(BaseUnityPlugin plugin)
         {
-            DeviceListConfig.girlMappingHeader = girlMappingHeader;
-            DeviceListConfig.girlMappingOptions = girlMappingOptions;
             string deviceListTitle = "Device List";
             DeviceSettingsJson = plugin.Config.Bind(
                 section: deviceListTitle,
@@ -50,6 +46,7 @@ namespace LoveMachine.Core
         private static void DeviceListDrawer(ConfigEntryBase entry)
         {
             var serverController = Chainloader.ManagerObject.GetComponent<ButtplugWsClient>();
+            var game = Chainloader.ManagerObject.GetComponent<GameDescriptor>();
             GUILayout.BeginVertical(GUILayout.ExpandWidth(true));
             {
                 GUILayout.BeginHorizontal();
@@ -69,9 +66,7 @@ namespace LoveMachine.Core
                     GUILayout.FlexibleSpace();
                 }
                 GUILayout.EndHorizontal();
-
                 GUILayout.Space(12);
-
                 // table header
                 float totalWidth = Mathf.Min(Screen.width, 650) * .9f;
                 int columns = 7;
@@ -82,21 +77,19 @@ namespace LoveMachine.Core
                     GUILayout.Label("Stroker", GUILayout.Width(columnWidth));
                     GUILayout.Label("Vibrators", GUILayout.Width(columnWidth));
                     GUILayout.Label("Rotators", GUILayout.Width(columnWidth));
-                    if (girlMappingHeader != null)
+                    if (game.MaxHeroineCount > 1)
                     {
-                        GUILayout.Label(girlMappingHeader, GUILayout.Width(columnWidth));
+                        GUILayout.Label("Group Role", GUILayout.Width(columnWidth));
                     }
                     GUILayout.Label("Body Part", GUILayout.Width(columnWidth));
                     GUILayout.Label("Test Device", GUILayout.Width(columnWidth));
                 }
                 GUILayout.EndHorizontal();
-
                 // imgui doesn't expect the layout to change outside of layout events
                 if (Event.current.type == EventType.Layout)
                 {
                     cachedDeviceList = serverController.Devices;
                 }
-
                 foreach (var device in cachedDeviceList)
                 {
                     GUILayout.Space(10);
@@ -106,8 +99,12 @@ namespace LoveMachine.Core
                         GUILayout.Toggle(device.IsStroker, "", GUILayout.Width(columnWidth));
                         GUILayout.Toggle(device.IsVibrator, "", GUILayout.Width(columnWidth));
                         GUILayout.Toggle(device.IsRotator, "", GUILayout.Width(columnWidth));
-                        if (girlMappingOptions != null)
+                        if (game.MaxHeroineCount > 1)
                         {
+                            string[] girlMappingOptions = Enumerable.Range(0, game.MaxHeroineCount)
+                                .Select(index => $"{ordinals[index]} Girl")
+                                .Concat(new string[]{ "Off" })
+                                .ToArray();
                             device.Settings.GirlIndex = GUILayout.SelectionGrid(
                                 selected: device.Settings.GirlIndex,
                                 girlMappingOptions,
@@ -195,11 +192,12 @@ namespace LoveMachine.Core
             }
             for (int i = 0; i < 3; i++)
             {
-                controller.HandleCoroutine(controller.DoRotate(device.Settings.GirlIndex, device.Settings.Bone, true, strokeTimeSecs));
+                controller.HandleCoroutine(controller.DoRotate(device.Settings.GirlIndex,
+                    device.Settings.Bone, true, strokeTimeSecs));
                 yield return new WaitForSecondsRealtime(strokeTimeSecs);
             }
-
-            controller.HandleCoroutine(controller.DoRotate(device.Settings.GirlIndex, device.Settings.Bone, true, 0));
+            controller.HandleCoroutine(controller.DoRotate(device.Settings.GirlIndex,
+                device.Settings.Bone, true, 0));
         }
     }
 }

@@ -42,6 +42,8 @@ namespace LoveMachine.HS2
         protected override int HeroineCount =>
             Array.FindAll(hScene.GetFemales(), f => f != null).Length;
 
+        protected override int MaxHeroineCount => 2;
+
         protected override bool IsHardSex =>
             GetFemaleAnimator(0)?.GetCurrentAnimatorStateInfo(0).IsName("SLoop") ?? false;
 

@@ -22,6 +22,8 @@ namespace LoveMachine.IO
 
         protected override int HeroineCount => 1;
 
+        protected override int MaxHeroineCount => 1;
+
         protected override bool IsHardSex => false;
 
         protected override bool IsHSceneInterrupted => false;

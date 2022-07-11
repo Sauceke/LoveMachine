@@ -17,6 +17,8 @@ namespace LoveMachine.COM3D2
 
         protected override int HeroineCount => FindCharaObject($"Maid[1]") == null ? 1 : 2;
 
+        protected override int MaxHeroineCount => 2;
+
         // TOOD animation name numbering is not consistent, need to make some sense out of it
         protected override bool IsHardSex => GetPose(0).Contains('2');
 

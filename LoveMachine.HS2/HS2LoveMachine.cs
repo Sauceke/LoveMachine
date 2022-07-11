@@ -10,11 +10,7 @@ namespace LoveMachine.HS2
     {
         private void Start()
         {
-            string[] girls = new string[] { "First girl", "Second girl", "Off" };
-            this.Initialize<HoneySelect2Game>(
-                logger: Logger,
-                girlMappingHeader: "Threesome Role",
-                girlMappingOptions: girls);
+            this.Initialize<HoneySelect2Game>(Logger);
             Hooks.InstallHooks();
         }
     }

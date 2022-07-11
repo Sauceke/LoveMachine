@@ -26,6 +26,8 @@ namespace LoveMachine.AGH
 
         protected override int HeroineCount => 1;
 
+        protected override int MaxHeroineCount => 1;
+
         protected override bool IsHardSex => true;
 
         public override int AnimationLayer => 0;

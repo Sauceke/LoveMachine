@@ -8,10 +8,7 @@ namespace LoveMachine.IO
     {
         private void Start()
         {
-            this.Initialize<InsultOrderGame>(
-                logger: Logger,
-                girlMappingHeader: null,
-                girlMappingOptions: null);
+            this.Initialize<InsultOrderGame>(logger: Logger);
             Hooks.InstallHooks();
         }
     }

@@ -11,10 +11,10 @@ namespace LoveMachine.Core
     public static class PluginInitializer
     {
         public static void Initialize<T>(this BaseUnityPlugin plugin, ManualLogSource logger,
-            string girlMappingHeader, string[] girlMappingOptions, params Type[] extraControllers)
+            params Type[] extraControllers)
             where T : GameDescriptor
         {
-            CoreConfig.Initialize(plugin, logger, girlMappingHeader, girlMappingOptions);
+            CoreConfig.Initialize(plugin, logger);
             var manager = Chainloader.ManagerObject;
             manager.AddComponent<T>().GetType();
             manager.AddComponent<ButtplugWsClient>();

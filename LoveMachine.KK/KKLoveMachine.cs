@@ -15,11 +15,7 @@ namespace LoveMachine.KK
     {
         private void Start()
         {
-            string[] girls = new string[] { "First girl", "Second girl", "Off" };
-            this.Initialize<KoikatsuGame>(
-                logger: Logger,
-                girlMappingHeader: "Threesome Role",
-                girlMappingOptions: girls,
+            this.Initialize<KoikatsuGame>(Logger,
                 typeof(KoikatsuAnimationController),
                 typeof(KoikatsuAibuStrokerController),
                 typeof(KoikatsuAibuVibratorController),
