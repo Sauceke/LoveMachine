@@ -18,7 +18,11 @@ namespace LoveMachine.Core
         protected internal abstract bool IsHSceneInterrupted { get; }
 
         protected internal virtual float PenisSize => 0f;
+
         protected internal virtual float VibrationIntensity => 1f;
+
+        protected internal virtual float StrokingIntensity =>
+            IsHardSex ? StrokerConfig.HardSexIntensity.Value : 0f;
 
         public abstract Animator GetFemaleAnimator(int girlIndex);
         protected internal abstract Dictionary<Bone, Transform> GetFemaleBones(int girlIndex);

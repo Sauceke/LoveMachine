@@ -58,7 +58,6 @@
     <Compile Include="Common\CoroutineHandler.cs" />
     <Compile Include="DepthControl\DepthPOC.cs" />
     <Compile Include="Game\GameDescriptor.cs" />
-    <Compile Include="SmoothStrokerController.cs" />
     <Compile Include="PluginInitializer.cs" />
     <Compile Include="Common\RangeSlider.cs" />
     <Compile Include="RotatorController.cs" />

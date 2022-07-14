@@ -20,7 +20,6 @@ namespace LoveMachine.Core
             manager.AddComponent<ButtplugWsClient>();
             manager.AddComponent<AnimationAnalyzer>();
             manager.AddComponent<StrokerController>();
-            manager.AddComponent<SmoothStrokerController>();
             manager.AddComponent<VibratorController>();
             manager.AddComponent<RotatorController>();
             foreach (var controller in extraControllers)
