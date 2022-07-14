@@ -48,7 +48,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="KKAnimationConfig.cs" />
-    <Compile Include="ExperimentalConfig.cs" />
     <Compile Include="KoikatsuAibuController.cs" />
     <Compile Include="KoikatsuAnimationController.cs" />
     <Compile Include="KoikatsuDepthController.cs" />
