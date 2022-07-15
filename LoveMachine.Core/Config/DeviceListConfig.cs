@@ -12,6 +12,13 @@ namespace LoveMachine.Core
 {
     public static class DeviceListConfig
     {
+        private static readonly GUIStyle deviceControlsStyle = new GUIStyle()
+        {
+            normal = new GUIStyleState
+            {
+                background = GetDeviceControlsTexture()
+            }
+        };
         private static readonly string[] ordinals =
             { "First", "Second", "Third", "Fourth", "Fifth", "Sixth" };
         private static readonly string[] boneNames = Enum.GetNames(typeof(Bone))
@@ -67,24 +74,6 @@ namespace LoveMachine.Core
                 }
                 GUILayout.EndHorizontal();
                 GUILayout.Space(12);
-                // table header
-                float totalWidth = Mathf.Min(Screen.width, 650) * .9f;
-                int columns = 7;
-                float columnWidth = totalWidth / columns;
-                GUILayout.BeginHorizontal(GUILayout.ExpandWidth(true));
-                {
-                    GUILayout.Label("Device Name", GUILayout.Width(columnWidth));
-                    GUILayout.Label("Stroker", GUILayout.Width(columnWidth));
-                    GUILayout.Label("Vibrators", GUILayout.Width(columnWidth));
-                    GUILayout.Label("Rotators", GUILayout.Width(columnWidth));
-                    if (game.MaxHeroineCount > 1)
-                    {
-                        GUILayout.Label("Group Role", GUILayout.Width(columnWidth));
-                    }
-                    GUILayout.Label("Body Part", GUILayout.Width(columnWidth));
-                    GUILayout.Label("Test Device", GUILayout.Width(columnWidth));
-                }
-                GUILayout.EndHorizontal();
                 // imgui doesn't expect the layout to change outside of layout events
                 if (Event.current.type == EventType.Layout)
                 {
@@ -92,62 +81,54 @@ namespace LoveMachine.Core
                 }
                 foreach (var device in cachedDeviceList)
                 {
-                    GUILayout.Space(10);
-                    GUILayout.BeginHorizontal(GUILayout.ExpandWidth(true));
+                    GUILayout.BeginVertical(deviceControlsStyle);
                     {
-                        GUILayout.Label(device.DeviceName, GUILayout.Width(columnWidth));
-                        GUILayout.Toggle(device.IsStroker, "", GUILayout.Width(columnWidth));
-                        GUILayout.Toggle(device.IsVibrator, "", GUILayout.Width(columnWidth));
-                        GUILayout.Toggle(device.IsRotator, "", GUILayout.Width(columnWidth));
-                        if (game.MaxHeroineCount > 1)
+                        GUILayout.BeginHorizontal();
                         {
-                            string[] girlMappingOptions = Enumerable.Range(0, game.MaxHeroineCount)
-                                .Select(index => $"{ordinals[index]} Girl")
-                                .Concat(new string[]{ "Off" })
-                                .ToArray();
-                            device.Settings.GirlIndex = GUILayout.SelectionGrid(
-                                selected: device.Settings.GirlIndex,
-                                girlMappingOptions,
-                                xCount: 1,
-                                GUILayout.Width(columnWidth));
+                            GUILayout.FlexibleSpace();
+                            GUILayout.Label(device.DeviceName);
+                            GUILayout.FlexibleSpace();
                         }
-                        device.Settings.Bone = (Bone)GUILayout.SelectionGrid(
-                            selected: (int)device.Settings.Bone,
-                            boneNames,
-                            xCount: 1,
-                            GUILayout.Width(columnWidth));
-                        GUILayout.BeginVertical(GUILayout.ExpandHeight(true));
+                        GUILayout.EndHorizontal();
+                        GUILayout.Space(5);
+                        GUILayout.BeginHorizontal();
                         {
-                            if (device.IsStroker)
+                            GUILayout.Label("Features");
+                            GUILayout.Toggle(device.IsStroker, "Stroker");
+                            GUILayout.Toggle(device.IsVibrator, "Vibrator");
+                            GUILayout.Toggle(device.IsRotator, "Rotator");
+                        }
+                        GUILayout.EndHorizontal();
+                        GUILayout.Space(5);
+                        GUILayout.BeginHorizontal();
+                        {
+                            if (game.MaxHeroineCount > 1)
                             {
-                                if (GUILayout.Button("Test Slow"))
-                                {
-                                    TestStrokerAsync(device, fast: false, hard: false);
-                                }
-                                if (GUILayout.Button("Test Fast"))
-                                {
-                                    TestStrokerAsync(device, fast: true, hard: false);
-                                }
-                                if (GUILayout.Button("Test Hard"))
-                                {
-                                    TestStrokerAsync(device, fast: false, hard: true);
-                                }
-                            }
-                            if (device.IsRotator)
-                            {
-                                if (GUILayout.Button("Test Slow"))
-                                {
-                                    TestRotatorAsync(device, fast: false);
-                                }
-                                if (GUILayout.Button("Test Fast"))
-                                {
-                                    TestRotatorAsync(device, fast: true);
-                                }
+                                GUILayout.Label("Group Role");
+                                string[] girlMappingOptions = Enumerable.Range(0, game.MaxHeroineCount)
+                                    .Select(index => $"{ordinals[index]} Girl")
+                                    .Concat(new string[] { "Off" })
+                                    .ToArray();
+                                device.Settings.GirlIndex = GUILayout.SelectionGrid(
+                                    selected: device.Settings.GirlIndex,
+                                    girlMappingOptions,
+                                    xCount: 5);
                             }
                         }
-                        GUILayout.EndVertical();
+                        GUILayout.EndHorizontal();
+                        GUILayout.Space(5);
+                        GUILayout.BeginHorizontal();
+                        {
+                            GUILayout.Label("Body Part");
+                            device.Settings.Bone = (Bone)GUILayout.SelectionGrid(
+                                selected: (int)device.Settings.Bone,
+                                boneNames,
+                                xCount: 5);
+                        }
+                        GUILayout.EndHorizontal();
                     }
-                    GUILayout.EndHorizontal();
+                    GUILayout.EndVertical();
+                    GUILayout.Space(20);
                 }
             }
             GUILayout.EndVertical();
@@ -195,6 +176,14 @@ namespace LoveMachine.Core
             }
             controller.HandleCoroutine(controller.DoRotate(device.Settings.GirlIndex,
                 device.Settings.Bone, true, 0));
+        }
+
+        private static Texture2D GetDeviceControlsTexture()
+        {
+            var texture = new Texture2D(1, 1);
+            texture.SetPixels(new Color[] { new Color(0f, 0f, 0f, 0.4f) });
+            texture.Apply();
+            return texture;
         }
     }
 }

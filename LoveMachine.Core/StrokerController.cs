@@ -38,7 +38,6 @@ namespace LoveMachine.Core
             // max number of subdivisions given the update frequency
             int subdivisions = turns * (int)Mathf.Max(1f, strokeTimeSecs * updateFrequency / turns);
             int segments = StrokerConfig.SmoothStroking.Value ? subdivisions : turns;
-            CoreConfig.Logger.LogInfo(segments);
             float startNormTime = GetNormalizedTime(girlIndex);
             int getSegment(float time) => (int)((time - waveInfo.Phase) * segments);
             // != because time can also go down when changing animation
