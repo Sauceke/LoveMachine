@@ -12,50 +12,51 @@ namespace LoveMachine.KK
             Bone.LeftBreast, Bone.RightBreast, Bone.Vagina, Bone.Anus, Bone.LeftButt, Bone.RightButt
         };
 
-        private KoikatsuGame game;
+        private KoikatsuGame kk;
 
-        private void Start() => game = gameObject.GetComponent<KoikatsuGame>();
-
-        protected abstract void HandleFondle(float y, int girlIndex, Bone bone, float timeSecs);
-
-        protected override IEnumerator Run(int girlIndex, Bone bone)
+        protected override void Start()
         {
-            if (!aibuBones.Contains(bone))
-            {
-                yield break;
-            }
+            base.Start();
+            kk = gameObject.GetComponent<KoikatsuGame>();
+        }
+
+        protected abstract void HandleFondle(Device device, float y, float timeSecs);
+
+        protected override IEnumerator Run(Device device)
+        {
             float updateTimeSecs = 0.1f;
             float previousY = 0f;
-            while (!game.Flags.isHSceneEnd)
+            while (!kk.Flags.isHSceneEnd)
             {
-                float y = game.Flags.xy[aibuBones.IndexOf(bone)].y;
+                yield return new WaitForSeconds(updateTimeSecs);
+                Bone bone = device.Settings.Bone;
+                if (!aibuBones.Contains(bone))
+                {
+                    continue;
+                }
+                float y = kk.Flags.xy[aibuBones.IndexOf(bone)].y;
                 if (previousY != y)
                 {
-                    HandleFondle(
-                        y,
-                        girlIndex,
-                        bone: bone,
-                        timeSecs: updateTimeSecs);
+                    HandleFondle(device, y, timeSecs: updateTimeSecs);
                     previousY = y;
                 }
-                yield return new WaitForSeconds(updateTimeSecs);
             }
         }
     }
 
     internal sealed class KoikatsuAibuStrokerController : KoikatsuAibuController
     {
-        protected override void HandleFondle(float y, int girlIndex, Bone bone, float timeSecs) =>
-            client.LinearCmd(y, timeSecs, girlIndex, bone);
+        protected override bool IsDeviceSupported(Device device) => device.IsStroker;
 
-        protected override void StopDevices(int girlIndex, Bone bone) { }
+        protected override void HandleFondle(Device device, float y, float timeSecs) =>
+            client.LinearCmd(device, y, timeSecs);
     }
 
     internal sealed class KoikatsuAibuVibratorController : KoikatsuAibuController
     {
-        protected override void HandleFondle(float y, int girlIndex, Bone bone, float timeSecs) =>
-            client.VibrateCmd(y, girlIndex, bone);
+        protected override bool IsDeviceSupported(Device device) => device.IsVibrator;
 
-        protected override void StopDevices(int girlIndex, Bone bone) { }
+        protected override void HandleFondle(Device device, float y, float timeSecs) =>
+            client.VibrateCmd(device, y);
     }
 }

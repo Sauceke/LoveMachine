@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace LoveMachine.Core
 {
@@ -22,8 +23,8 @@ namespace LoveMachine.Core
 
         public bool IsVibrator => DeviceMessages.VibrateCmd != null;
         public bool IsStroker => DeviceMessages.LinearCmd != null;
-
         public bool IsRotator => DeviceMessages.RotateCmd != null;
+
         public class Features
         {
             public Command LinearCmd { get; set; }
@@ -46,4 +47,6 @@ namespace LoveMachine.Core
             public List<Device> Devices { get; set; }
         }
     }
+
+    internal class DeviceListEventArgs : EventArgs { }
 }

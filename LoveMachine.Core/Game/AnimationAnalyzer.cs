@@ -13,13 +13,14 @@ namespace LoveMachine.Core
         private readonly Dictionary<string, WaveInfo> resultCache =
             new Dictionary<string, WaveInfo>();
 
-        // girl index -> thing that runs calibration
-        private readonly Dictionary<int, CoroutineHandler> containers =
-            new Dictionary<int, CoroutineHandler>();
-
         private GameDescriptor game;
 
-        private void Start() => game = gameObject.GetComponent<GameDescriptor>();
+        private void Start()
+        {
+            game = gameObject.GetComponent<GameDescriptor>();
+            game.OnHStarted += (s, a) => StartAnalyze();
+            game.OnHEnded += (s, a) => StopAnalyze();
+        }
 
         private string GetExactPose(int girlIndex, Bone bone) =>
             $"{game.GetPose(girlIndex)}.girl{girlIndex}.{bone}";
@@ -38,24 +39,23 @@ namespace LoveMachine.Core
             }
         }
 
-        internal void StartAnalyze(int girlIndex)
+        private void StartAnalyze()
         {
-            if (!containers.TryGetValue(girlIndex, out var container))
-            {
-                containers[girlIndex] = container = gameObject.AddComponent<CoroutineHandler>();
-            }
-            // never run the same coroutine twice, even if the last one wasn't cleaned up
-            container.StopAllCoroutines();
-            container.HandleCoroutine(RunAnalysisLoop(girlIndex));
+            StopAllCoroutines();
+            HandleCoroutine(DoAnalyze());
         }
 
-        internal void StopAnalyze(int girlIndex)
+        private void StopAnalyze()
         {
-            if (!containers.TryGetValue(girlIndex, out var container))
-            {
-                return;
-            }
-            container.StopAllCoroutines();
+            StopAllCoroutines();
+            ClearCache();
+        }
+
+        private IEnumerator DoAnalyze()
+        {
+            yield return HandleCoroutine(game.UntilReady());
+            Enumerable.Range(0, game.HeroineCount).ToList()
+                .ForEach(girlIndex => HandleCoroutine(RunAnalysisLoop(girlIndex)));
         }
 
         private IEnumerator RunAnalysisLoop(int girlIndex)
@@ -120,10 +120,7 @@ namespace LoveMachine.Core
                         .Max(),
                     Trough = bonePlot
                         .Select(entry => entry.Distance)
-                        .Min(),
-                    Plot = bonePlot
-                        .OrderBy(entry => entry.Time)
-                        .ToArray()
+                        .Min()
                 };
             }
             // Prefer bones that are close and move a lot. Being close is more important.
@@ -160,9 +157,9 @@ namespace LoveMachine.Core
             return dfsMagnitudes.IndexOf(dfsMagnitudes.Max()) + 1;
         }
 
-        internal void ClearCache() => resultCache.Clear();
+        private void ClearCache() => resultCache.Clear();
 
-        public struct Sample
+        private struct Sample
         {
             public Bone Bone { get; set; }
             public float Time { get; set; }
@@ -175,7 +172,6 @@ namespace LoveMachine.Core
             public int Frequency { get; set; }
             public float Crest { get; set; }
             public float Trough { get; set; }
-            public Sample[] Plot { get; set; }
         }
     }
 }

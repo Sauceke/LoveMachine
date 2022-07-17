@@ -1,4 +1,6 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
+using System.Linq;
 using LoveMachine.Core;
 using UnityEngine;
 
@@ -6,15 +8,34 @@ namespace LoveMachine.KK
 {
     internal class KoikatsuAnimationController : ButtplugController
     {
-        private KoikatsuGame game;
+        private KoikatsuGame kk;
 
-        private void Start() => game = gameObject.GetComponent<KoikatsuGame>();
+        protected override bool IsDeviceSupported(Device device) =>
+            throw new NotImplementedException();
 
-        protected override IEnumerator Run(int girlIndex, Bone bone)
+        protected override IEnumerator Run(Device device) =>
+            throw new NotImplementedException();
+
+        protected override void Start()
         {
-            var animator = game.GetFemaleAnimator(girlIndex);
-            var playerAnimator = game.Flags.player.chaCtrl.animBody;
-            while (!game.Flags.isHSceneEnd)
+            base.Start();
+            kk = gameObject.GetComponent<KoikatsuGame>();
+        }
+
+        protected override IEnumerator Run()
+        {
+            foreach (int girlIndex in Enumerable.Range(0, kk.Flags.lstHeroine.Count))
+            {
+                HandleCoroutine(Run(girlIndex));
+            }
+            yield break;
+        }
+
+        protected IEnumerator Run(int girlIndex)
+        {
+            var animator = kk.GetFemaleAnimator(girlIndex);
+            var playerAnimator = kk.Flags.player.chaCtrl.animBody;
+            while (!kk.Flags.isHSceneEnd)
             {
                 var info = animator.GetCurrentAnimatorStateInfo(0);
                 if (KKAnimationConfig.ReduceAnimationSpeeds.Value)
@@ -26,12 +47,10 @@ namespace LoveMachine.KK
                 }
                 if (KKAnimationConfig.SuppressAnimationBlending.Value)
                 {
-                    game.Flags.curveMotion = new AnimationCurve(new Keyframe[] { new Keyframe() });
+                    kk.Flags.curveMotion = new AnimationCurve(new Keyframe[] { new Keyframe() });
                 }
                 yield return new WaitForSeconds(.5f);
             }
         }
-
-        protected override void StopDevices(int girlIndex, Bone bone) { }
     }
 }

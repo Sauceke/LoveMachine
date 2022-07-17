@@ -5,28 +5,30 @@ namespace LoveMachine.Core
 {
     public class StrokerController : ButtplugController
     {
-        protected override IEnumerator Run(int girlIndex, Bone bone)
+        protected override bool IsDeviceSupported(Device device) => device.IsStroker;
+
+        protected override IEnumerator Run(Device device)
         {
             while (true)
             {
-                if (game.IsIdle(girlIndex))
+                if (game.IsIdle(device.Settings.GirlIndex))
                 {
                     yield return new WaitForSeconds(.1f);
                     continue;
                 }
-                if (game.IsOrgasming(girlIndex))
+                if (game.IsOrgasming(device.Settings.GirlIndex))
                 {
-                    yield return HandleCoroutine(EmulateOrgasm(girlIndex, bone));
+                    yield return HandleCoroutine(EmulateOrgasm(device));
                     continue;
                 }
-                yield return HandleCoroutine(EmulateStroking(girlIndex, bone));
+                yield return HandleCoroutine(EmulateStroking(device));
             }
         }
 
-        protected override void StopDevices(int girlIndex, Bone bone) { }
-
-        protected IEnumerator EmulateStroking(int girlIndex, Bone bone)
+        protected IEnumerator EmulateStroking(Device device)
         {
+            int girlIndex = device.Settings.GirlIndex;
+            var bone = device.Settings.Bone;
             if (!analyzer.TryGetWaveInfo(girlIndex, bone, out var waveInfo))
             {
                 yield break;
@@ -56,21 +58,20 @@ namespace LoveMachine.Core
             float speed = (nextPosition - currentPosition) / refreshTimeSecs;
             speed *= movingUp ? 1f : 1f + game.StrokingIntensity;
             float timeToTargetSecs = (targetPosition - currentPosition) / speed;
-            MoveStroker(targetPosition, timeToTargetSecs, girlIndex, bone);
+            MoveStroker(device, targetPosition, timeToTargetSecs);
         }
 
-        protected IEnumerator EmulateOrgasm(int girlIndex, Bone bone)
+        protected IEnumerator EmulateOrgasm(Device device)
         {
             float bottom = StrokerConfig.OrgasmDepth.Value;
             float time = 0.5f / StrokerConfig.OrgasmShakingFrequency.Value;
             float top = bottom + StrokerConfig.MaxStrokesPerMinute.Value / 60f / 2 * time;
-            while (game.IsOrgasming(girlIndex))
+            while (game.IsOrgasming(device.Settings.GirlIndex))
             {
-                MoveStroker(top, time, girlIndex, bone);
+                MoveStroker(device, top, time);
                 yield return new WaitForSecondsRealtime(time);
-                MoveStroker(bottom, time, girlIndex, bone);
+                MoveStroker(device, bottom, time);
                 yield return new WaitForSecondsRealtime(time);
-
             }
         }
 
@@ -119,7 +120,7 @@ namespace LoveMachine.Core
             return strokeTimeSecs;
         }
 
-        protected void MoveStroker(float position, float durationSecs, int girlIndex, Bone bone) =>
-            client.LinearCmd(position, durationSecs, girlIndex, bone);
+        protected void MoveStroker(Device device, float position, float durationSecs) =>
+            client.LinearCmd(device, position, durationSecs);
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Linq;
 using UnityEngine;
 
 namespace LoveMachine.Core
@@ -7,56 +8,58 @@ namespace LoveMachine.Core
     public abstract class ButtplugController : CoroutineHandler
     {
         protected ButtplugWsClient client;
-
         protected GameDescriptor game;
-
         protected AnimationAnalyzer analyzer;
 
-        public void Start()
+        protected abstract bool IsDeviceSupported(Device device);
+
+        protected abstract IEnumerator Run(Device device);
+
+        protected virtual IEnumerator Run()
+        {
+            foreach (var device in client.Devices.Where(IsDeviceSupported))
+            {
+                CoreConfig.Logger.LogInfo($"Running controller {GetType().Name} " +
+                    $"on device #{device.DeviceIndex} ({device.DeviceName}).");
+                HandleCoroutine(Run(device));
+            }
+            yield break;
+        }
+
+        protected virtual void Start()
         {
             client = gameObject.GetComponent<ButtplugWsClient>();
             game = gameObject.GetComponent<GameDescriptor>();
             analyzer = gameObject.GetComponent<AnimationAnalyzer>();
             game.OnHStarted += (s, a) => OnStartH();
             game.OnHEnded += (s, a) => OnEndH();
+            client.OnDeviceListUpdated += (s, args) => Restart();
         }
 
-        public void OnStartH() => StartCoroutine(RunLoops());
+        public void OnStartH() => HandleCoroutine(RunLoops());
 
         public void OnEndH()
         {
             StopAllCoroutines();
-            for (int girlIndex = 0; girlIndex < game.HeroineCount; girlIndex++)
-            {
-                analyzer.StopAnalyze(girlIndex);
-                foreach (var bone in game.GetSupportedBones(girlIndex))
-                {
-                    StopDevices(girlIndex, bone);
-                }
-            }
-            analyzer.ClearCache();
+            client.StopAllDevices();
         }
 
         private IEnumerator RunLoops()
         {
             yield return HandleCoroutine(game.UntilReady());
-            for (int girlIndex = 0; girlIndex < game.HeroineCount; girlIndex++)
-            {
-                analyzer.StartAnalyze(girlIndex);
-                foreach (var bone in game.GetSupportedBones(girlIndex))
-                {
-                    CoreConfig.Logger.LogInfo("Starting monitoring loop in controller " +
-                        $"{GetType().Name} for girl index {girlIndex} and bone {bone}. ");
-                    HandleCoroutine(Run(girlIndex, bone));
-                }
-            }
+            HandleCoroutine(Run());
             yield return new WaitUntil(() => game.IsHSceneInterrupted);
             OnEndH();
         }
 
-        protected abstract IEnumerator Run(int girlIndex, Bone bone);
-
-        protected abstract void StopDevices(int girlIndex, Bone bone);
+        private void Restart()
+        {
+            if (game.IsHSceneRunning)
+            {
+                OnEndH();
+                OnStartH();
+            }
+        }
 
         private void OnDestroy() => StopAllCoroutines();
 

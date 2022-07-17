@@ -11,6 +11,8 @@ namespace LoveMachine.Core
         protected internal event EventHandler<HEventArgs> OnHStarted;
         protected internal event EventHandler<HEventArgs> OnHEnded;
 
+        private bool hRunning = false;
+
         public abstract int AnimationLayer { get; }
         protected internal abstract int HeroineCount { get; }
         protected internal abstract int MaxHeroineCount { get; }
@@ -23,6 +25,8 @@ namespace LoveMachine.Core
 
         protected internal virtual float StrokingIntensity =>
             IsHardSex ? StrokerConfig.HardSexIntensity.Value : 0f;
+
+        internal bool IsHSceneRunning => hRunning && !IsHSceneInterrupted;
 
         public abstract Animator GetFemaleAnimator(int girlIndex);
         protected internal abstract Dictionary<Bone, Transform> GetFemaleBones(int girlIndex);
@@ -47,9 +51,17 @@ namespace LoveMachine.Core
 
         protected internal virtual bool IsOrgasming(int girlIndex) => false;
 
-        public void StartH() => OnHStarted.Invoke(this, new HEventArgs());
+        public void StartH()
+        {
+            hRunning = true;
+            OnHStarted.Invoke(this, new HEventArgs());
+        }
 
-        public void EndH() => OnHEnded.Invoke(this, new HEventArgs());
+        public void EndH()
+        {
+            hRunning = false;
+            OnHEnded.Invoke(this, new HEventArgs());
+        }
 
         protected internal IEnumerable<Bone> GetSupportedBones(int girlIndex) =>
             Enumerable.Concat(new[] { Bone.Auto }, GetFemaleBones(girlIndex).Keys);

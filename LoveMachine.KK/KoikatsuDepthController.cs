@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using LoveMachine.Core;
 using UnityEngine;
@@ -23,18 +24,24 @@ namespace LoveMachine.KK
         private T depthSensor;
         private KoikatsuGame game;
 
-        private void Start() => game = gameObject.GetComponent<KoikatsuGame>();
+        protected override bool IsDeviceSupported(Device device) =>
+            throw new NotImplementedException();
+
+        protected override IEnumerator Run(Device device) =>
+            throw new NotImplementedException();
+
+        protected override void Start()
+        {
+            base.Start();
+            game = gameObject.GetComponent<KoikatsuGame>();
+        }
 
         private bool IsControllable => supportedAnimations.Contains(game.Flags.nowAnimStateName);
 
         private bool IsPenetrable => penetrableAnimations.Contains(game.Flags.nowAnimStateName);
 
-        protected override IEnumerator Run(int girlIndex, Bone bone)
+        protected override IEnumerator Run()
         {
-            if (girlIndex != 0 || bone != Bone.Auto)
-            {
-                yield break;
-            }
             depthSensor = gameObject.GetComponent<T>();
             if (depthSensor == null)
             {
@@ -125,8 +132,6 @@ namespace LoveMachine.KK
             game.Flags.player.chaCtrl.animBody
                 .Play(animStateHash, game.AnimationLayer, normalizedTime);
         }
-
-        protected override void StopDevices(int girlIndex, Bone bone) { }
     }
 
     internal class KoikatsuCalorDepthController : KoikatsuDepthController<CalorDepthPOC> { }

@@ -170,12 +170,10 @@ namespace LoveMachine.Core
             }
             for (int i = 0; i < 3; i++)
             {
-                controller.HandleCoroutine(controller.DoRotate(device.Settings.GirlIndex,
-                    device.Settings.Bone, true, strokeTimeSecs));
+                controller.HandleCoroutine(controller.DoRotate(device, true, strokeTimeSecs));
                 yield return new WaitForSecondsRealtime(strokeTimeSecs);
             }
-            controller.HandleCoroutine(controller.DoRotate(device.Settings.GirlIndex,
-                device.Settings.Bone, true, 0));
+            controller.HandleCoroutine(controller.DoRotate(device, true, 0));
         }
 
         private static Texture2D GetDeviceControlsTexture()

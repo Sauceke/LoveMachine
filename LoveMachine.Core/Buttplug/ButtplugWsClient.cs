@@ -13,6 +13,10 @@ namespace LoveMachine.Core
     {
         private WebSocket websocket;
         private readonly System.Random random = new System.Random();
+        private bool killSwitchThrown = false;
+
+        internal event EventHandler<DeviceListEventArgs> OnDeviceListUpdated;
+
         public List<Device> Devices { get; private set; }
 
         public bool IsConnected { get; private set; }
@@ -36,7 +40,7 @@ namespace LoveMachine.Core
             websocket.MessageReceived += OnMessageReceived;
             websocket.Error += OnError;
             websocket.Open();
-            StartCoroutine(KillSwitch.RunLoop());
+            StartCoroutine(RunKillSwitchLoop());
         }
 
         public void Close()
@@ -49,113 +53,90 @@ namespace LoveMachine.Core
             DeviceManager.SaveDeviceSettings(Devices);
         }
 
-        public void LinearCmd(double position, float durationSecs, int girlIndex, Bone bone)
+        public void LinearCmd(Device device, double position, float durationSecs)
         {
-            if (KillSwitch.Pushed)
+            if (killSwitchThrown)
             {
                 return;
             }
-            var commands = (
-                from device in Devices
-                where device.IsStroker
-                    && device.Settings.GirlIndex == girlIndex
-                    && device.Settings.Bone == bone
-                select new
-                {
-                    LinearCmd = new
-                    {
-                        Id = random.Next(),
-                        DeviceIndex = device.DeviceIndex,
-                        Vectors = (
-                            from featureIndex in Enumerable.Range(0,
-                                device.DeviceMessages.LinearCmd.FeatureCount)
-                            select new
-                            {
-                                Index = featureIndex,
-                                Duration = (int)(durationSecs * 1000),
-                                Position = position
-                            }
-                        ).ToList()
-                    }
-                }
-            ).ToList();
-            if (commands.Count > 0)
+            var command = new
             {
-                websocket.Send(JsonMapper.ToJson(commands));
-            }
+                LinearCmd = new
+                {
+                    Id = random.Next(),
+                    DeviceIndex = device.DeviceIndex,
+                    Vectors = Enumerable.Range(0, device.DeviceMessages.LinearCmd.FeatureCount)
+                        .Select(featureIndex => new
+                        {
+                            Index = featureIndex,
+                            Duration = (int)(durationSecs * 1000),
+                            Position = position
+                        })
+                        .ToArray()
+                }
+            };
+            SendSingleCommand(command);
         }
 
-        public void VibrateCmd(double intensity, int girlIndex, Bone bone)
+        public void VibrateCmd(Device device, double intensity)
         {
-            if (KillSwitch.Pushed && intensity != 0f)
+            if (killSwitchThrown)
             {
-                VibrateCmd(0f, girlIndex, bone);
                 return;
             }
-            var commands = (
-                from device in Devices
-                where device.IsVibrator
-                    && device.Settings.GirlIndex == girlIndex
-                    && device.Settings.Bone == bone
-                select new
-                {
-                    VibrateCmd = new
-                    {
-                        Id = random.Next(),
-                        DeviceIndex = device.DeviceIndex,
-                        Speeds = (
-                            from featureIndex in Enumerable.Range(0,
-                                device.DeviceMessages.VibrateCmd.FeatureCount)
-                            select new
-                            {
-                                Index = featureIndex,
-                                Speed = intensity
-                            }
-                        ).ToList()
-                    }
-                }
-            ).ToList();
-            if (commands.Count > 0)
+            var command = new
             {
-                websocket.Send(JsonMapper.ToJson(commands));
-            }
+                VibrateCmd = new
+                {
+                    Id = random.Next(),
+                    DeviceIndex = device.DeviceIndex,
+                    Speeds = Enumerable.Range(0, device.DeviceMessages.VibrateCmd.FeatureCount)
+                        .Select(featureIndex => new
+                        {
+                            Index = featureIndex,
+                            Speed = intensity
+                        })
+                        .ToArray()
+                }
+            };
+            SendSingleCommand(command);
         }
 
-        public void RotateCmd(float speed, bool clockwise, int girlIndex, Bone bone)
+        public void RotateCmd(Device device, float speed, bool clockwise)
         {
-            if (KillSwitch.Pushed && speed != 0f)
+            if (killSwitchThrown)
             {
-                RotateCmd(0f, true, girlIndex, bone);
                 return;
             }
-            var commands = (
-                from device in Devices
-                where device.IsRotator
-                    && device.Settings.GirlIndex == girlIndex
-                    && device.Settings.Bone == bone
-                select new
-                {
-                    RotateCmd = new
-                    {
-                        Id = random.Next(),
-                        DeviceIndex = device.DeviceIndex,
-                        Rotations = (
-                            from featureIndex in Enumerable.Range(0,
-                                device.DeviceMessages.RotateCmd.FeatureCount)
-                            select new
-                            {
-                                Index = featureIndex,
-                                Speed = speed,
-                                Clockwise = clockwise
-                            }
-                        ).ToList()
-                    }
-                }
-            ).ToList();
-            if (commands.Count > 0)
+            var command = new
             {
-                websocket.Send(JsonMapper.ToJson(commands));
-            }
+                RotateCmd = new
+                {
+                    Id = random.Next(),
+                    DeviceIndex = device.DeviceIndex,
+                    Rotations = Enumerable.Range(0, device.DeviceMessages.RotateCmd.FeatureCount)
+                        .Select(featureIndex => new
+                        {
+                            Index = featureIndex,
+                            Speed = speed,
+                            Clockwise = clockwise
+                        })
+                        .ToArray()
+                }
+            };
+            SendSingleCommand(command);
+        }
+
+        public void StopAllDevices()
+        {
+            var command = new
+            {
+                StopAllDevices = new
+                {
+                    Id = random.Next()
+                }
+            };
+            SendSingleCommand(command);
         }
 
         private void OnOpened(object sender, EventArgs e)
@@ -170,7 +151,7 @@ namespace LoveMachine.Core
                     MessageVersion = 1
                 }
             };
-            websocket.Send(JsonMapper.ToJson(new object[] { handshake }));
+            SendSingleCommand(handshake);
         }
 
         private void RequestDeviceList()
@@ -182,7 +163,7 @@ namespace LoveMachine.Core
                     Id = random.Next()
                 }
             };
-            websocket.Send(JsonMapper.ToJson(new object[] { deviceListRequest }));
+            SendSingleCommand(deviceListRequest);
         }
 
         public void StartScan()
@@ -194,7 +175,7 @@ namespace LoveMachine.Core
                     Id = random.Next()
                 }
             };
-            websocket.Send(JsonMapper.ToJson(new object[] { scanRequest }));
+            SendSingleCommand(scanRequest);
         }
 
         private void StopScan()
@@ -206,7 +187,7 @@ namespace LoveMachine.Core
                     Id = random.Next()
                 }
             };
-            websocket.Send(JsonMapper.ToJson(new object[] { scanRequest }));
+            SendSingleCommand(scanRequest);
         }
 
         public void Connect()
@@ -214,6 +195,9 @@ namespace LoveMachine.Core
             Close(); // close previous connection just in case
             Open();
         }
+
+        private void SendSingleCommand(object command) =>
+            websocket.Send(JsonMapper.ToJson(new[] { command }));
 
         private void OnMessageReceived(object sender, MessageReceivedEventArgs e)
         {
@@ -234,8 +218,8 @@ namespace LoveMachine.Core
                         .DeviceList.Devices;
                     DeviceManager.LoadDeviceSettings(Devices);
                     LogDevices();
+                    OnDeviceListUpdated.Invoke(this, new DeviceListEventArgs());
                 }
-
                 if (data.ContainsKey("ServerInfo"))
                 {
                     IsConnected = true;
@@ -275,22 +259,18 @@ namespace LoveMachine.Core
             }
         }
 
-        private static class KillSwitch
+        private IEnumerator RunKillSwitchLoop()
         {
-            public static bool Pushed { get; private set; }
-
-            public static IEnumerator RunLoop()
+            while (true)
             {
-                while (true)
+                killSwitchThrown &= !KillSwitchConfig.ResumeSwitch.Value.IsPressed();
+                if (KillSwitchConfig.KillSwitch.Value.IsDown())
                 {
-                    Pushed &= !KillSwitchConfig.ResumeSwitch.Value.IsPressed();
-                    if (KillSwitchConfig.KillSwitch.Value.IsDown())
-                    {
-                        CoreConfig.Logger.LogMessage("LoveMachine: Emergency stop pressed.");
-                        Pushed = true;
-                    }
-                    yield return null;
+                    CoreConfig.Logger.LogMessage("LoveMachine: Emergency stop pressed.");
+                    StopAllDevices();
+                    killSwitchThrown = true;
                 }
+                yield return null;
             }
         }
     }

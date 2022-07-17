@@ -5,25 +5,26 @@ namespace LoveMachine.Core
 {
     public class VibratorController : ButtplugController
     {
-        protected override IEnumerator Run(int girlIndex, Bone bone)
+        protected override bool IsDeviceSupported(Device device) => device.IsVibrator;
+
+        protected override IEnumerator Run(Device device)
         {
             while (true)
             {
-                if (game.IsIdle(girlIndex))
+                if (game.IsIdle(device.Settings.GirlIndex))
                 {
-                    DoVibrate(0f, girlIndex, bone);
+                    DoVibrate(device, 0f);
                     yield return new WaitForSeconds(.1f);
                     continue;
                 }
-                yield return HandleCoroutine(VibrateWithAnimation(girlIndex, bone));
+                yield return HandleCoroutine(VibrateWithAnimation(device));
             }
         }
 
-        protected override void StopDevices(int girlIndex, Bone bone) =>
-            DoVibrate(0f, girlIndex, bone);
-
-        protected IEnumerator VibrateWithAnimation(int girlIndex, Bone bone)
+        protected IEnumerator VibrateWithAnimation(Device device)
         {
+            int girlIndex = device.Settings.GirlIndex;
+            var bone = device.Settings.Bone;
             game.GetAnimState(girlIndex, out float normalizedTime, out _, out _);
             float strength = 1f;
             if (VibratorConfig.SyncVibrationWithAnimation.Value)
@@ -40,12 +41,12 @@ namespace LoveMachine.Core
             float intensityPercent = Mathf.Lerp(VibratorConfig.VibrationIntensityMin.Value,
                 VibratorConfig.VibrationIntensityMax.Value, strength * game.VibrationIntensity);
             float intensity = Mathf.InverseLerp(0f, 100f, intensityPercent);
-            DoVibrate(intensity, girlIndex, bone);
+            DoVibrate(device, intensity);
             yield return new WaitForSecondsRealtime(
                 1.0f / VibratorConfig.VibrationUpdateFrequency.Value);
         }
 
-        protected void DoVibrate(float intensity, int girlIndex, Bone bone) =>
-            client.VibrateCmd(intensity, girlIndex, bone);
+        protected void DoVibrate(Device device, float intensity) =>
+            client.VibrateCmd(device, intensity);
     }
 }
