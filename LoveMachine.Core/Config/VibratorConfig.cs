@@ -6,7 +6,6 @@ namespace LoveMachine.Core
     public static class VibratorConfig
     {
         public static ConfigEntry<bool> SyncVibrationWithAnimation { get; private set; }
-        public static ConfigEntry<int> VibrationUpdateFrequency { get; private set; }
         public static ConfigEntry<int> VibrationIntensityMin { get; private set; }
         public static ConfigEntry<int> VibrationIntensityMax { get; private set; }
 
@@ -18,11 +17,6 @@ namespace LoveMachine.Core
                 key: "Vibration With Animation",
                 defaultValue: true,
                 "Maps vibrations to a wave pattern in sync with animations.");
-            VibrationUpdateFrequency = plugin.Config.Bind(
-                section: vibrationSettingsTitle,
-                key: "Update Frequency (per second)",
-                defaultValue: 10,
-                "Average times per second we update the vibration state.");
             plugin.Config.Bind(
                 section: vibrationSettingsTitle,
                 key: "Vibration Intensity Range",

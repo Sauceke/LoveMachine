@@ -33,7 +33,7 @@ namespace LoveMachine.Core
             {
                 yield break;
             }
-            int updateFrequency = 10;
+            int updateFrequency = ButtplugConfig.UpdateFrequency.Value;
             float strokeTimeSecs = GetStrokeTimeSecs(girlIndex, bone);
             // min number of subdivisions
             int turns = 2 * waveInfo.Frequency;

@@ -6,7 +6,6 @@ namespace LoveMachine.Core
     public static class StrokerConfig
     {
         public static ConfigEntry<int> MaxStrokesPerMinute { get; private set; }
-        public static ConfigEntry<int> LatencyMs { get; private set; }
         public static ConfigEntry<int> SlowStrokeZoneMin { get; private set; }
         public static ConfigEntry<int> SlowStrokeZoneMax { get; private set; }
         public static ConfigEntry<int> FastStrokeZoneMin { get; private set; }
@@ -29,15 +28,6 @@ namespace LoveMachine.Core
                     "The top speed possible on your stroker in your preferred Fast Stroke Zone.\n" +
                     "LoveMachine will slow down animations if necessary based on this value.",
                     new AcceptableValueRange<int>(0, 300),
-                    new ConfigurationManagerAttributes { Order = order-- }));
-            LatencyMs = plugin.Config.Bind(
-                section: strokerSettingsTitle,
-                key: "Latency (ms)",
-                defaultValue: 0,
-                new ConfigDescription(
-                    "The difference in latency between your stroker and your display.\n" +
-                    "Negative if your stroker has lower latency than your display.",
-                    new AcceptableValueRange<int>(-500, 500),
                     new ConfigurationManagerAttributes { Order = order-- }));
             SmoothStroking = plugin.Config.Bind(
                section: strokerSettingsTitle,
