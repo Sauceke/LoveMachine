@@ -103,30 +103,6 @@ namespace LoveMachine.Core
                         HideSettingName = true,
                         HideDefaultButton = true
                     }));
-            plugin.Config.Bind(
-                section: strokerSettingsTitle,
-                key: "Stroke Zone (Slow)",
-                defaultValue: "Ignore this",
-                new ConfigDescription(
-                    "Range of stroking movement when going slow",
-                    tags: new ConfigurationManagerAttributes
-                    {
-                        Order = order--,
-                        CustomDrawer = SlowStrokeZoneDrawer,
-                        HideDefaultButton = true,
-                    }));
-            plugin.Config.Bind(
-                section: strokerSettingsTitle,
-                key: "Stroke Zone (Fast)",
-                defaultValue: "Ignore this",
-                new ConfigDescription(
-                    "Range of stroking movement when going fast",
-                    tags: new ConfigurationManagerAttributes
-                    {
-                        Order = order--,
-                        CustomDrawer = FastStrokeZoneDrawer,
-                        HideDefaultButton = true
-                    }));
             StrokeLengthRealism = plugin.Config.Bind(
                 section: strokerSettingsTitle,
                 key: "Stroke Length Realism",
@@ -161,11 +137,5 @@ namespace LoveMachine.Core
                    new AcceptableValueRange<int>(3, 15),
                    new ConfigurationManagerAttributes { Order = order-- }));
         }
-
-        private static void SlowStrokeZoneDrawer(ConfigEntryBase entry) =>
-            GUIUtil.DrawRangeSlider(SlowStrokeZoneMin, SlowStrokeZoneMax);
-
-        private static void FastStrokeZoneDrawer(ConfigEntryBase entry) =>
-            GUIUtil.DrawRangeSlider(FastStrokeZoneMin, FastStrokeZoneMax);
     }
 }

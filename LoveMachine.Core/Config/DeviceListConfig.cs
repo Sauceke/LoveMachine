@@ -14,6 +14,11 @@ namespace LoveMachine.Core
     {
         private static readonly GUIStyle deviceControlsStyle = new GUIStyle()
         {
+            padding = new RectOffset()
+            {
+                left = 20,
+                right = 20
+            },
             normal = new GUIStyleState
             {
                 background = GetDeviceControlsTexture()
@@ -83,49 +88,7 @@ namespace LoveMachine.Core
                 {
                     GUILayout.BeginVertical(deviceControlsStyle);
                     {
-                        GUILayout.BeginHorizontal();
-                        {
-                            GUILayout.FlexibleSpace();
-                            GUILayout.Label(device.DeviceName);
-                            GUILayout.FlexibleSpace();
-                        }
-                        GUILayout.EndHorizontal();
-                        GUILayout.Space(5);
-                        GUILayout.BeginHorizontal();
-                        {
-                            GUILayout.Label("Features");
-                            GUILayout.Toggle(device.IsStroker, "Stroker");
-                            GUILayout.Toggle(device.IsVibrator, "Vibrator");
-                            GUILayout.Toggle(device.IsRotator, "Rotator");
-                        }
-                        GUILayout.EndHorizontal();
-                        GUILayout.Space(5);
-                        GUILayout.BeginHorizontal();
-                        {
-                            if (game.MaxHeroineCount > 1)
-                            {
-                                GUILayout.Label("Group Role");
-                                string[] girlMappingOptions = Enumerable.Range(0, game.MaxHeroineCount)
-                                    .Select(index => $"{ordinals[index]} Girl")
-                                    .Concat(new string[] { "Off" })
-                                    .ToArray();
-                                device.Settings.GirlIndex = GUILayout.SelectionGrid(
-                                    selected: device.Settings.GirlIndex,
-                                    girlMappingOptions,
-                                    xCount: 5);
-                            }
-                        }
-                        GUILayout.EndHorizontal();
-                        GUILayout.Space(5);
-                        GUILayout.BeginHorizontal();
-                        {
-                            GUILayout.Label("Body Part");
-                            device.Settings.Bone = (Bone)GUILayout.SelectionGrid(
-                                selected: (int)device.Settings.Bone,
-                                boneNames,
-                                xCount: 5);
-                        }
-                        GUILayout.EndHorizontal();
+                        device.Draw();
                     }
                     GUILayout.EndVertical();
                     GUILayout.Space(20);
@@ -179,7 +142,7 @@ namespace LoveMachine.Core
         private static Texture2D GetDeviceControlsTexture()
         {
             var texture = new Texture2D(1, 1);
-            texture.SetPixels(new Color[] { new Color(0f, 0f, 0f, 0.4f) });
+            texture.SetPixels(new Color[] { new Color(0f, 0f, 0f, 0.3f) });
             texture.Apply();
             return texture;
         }

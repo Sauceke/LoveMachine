@@ -23,17 +23,6 @@ namespace LoveMachine.Core
                 key: "Update Frequency (per second)",
                 defaultValue: 10,
                 "Average times per second we update the vibration state.");
-            plugin.Config.Bind(
-                section: vibrationSettingsTitle,
-                key: "Vibration Intensity Range",
-                defaultValue: "Ignore this",
-                new ConfigDescription(
-                    "Vibration intensity will oscillate between these two values.",
-                    tags: new ConfigurationManagerAttributes
-                    {
-                        CustomDrawer = VibrationIntensityDrawer,
-                        HideDefaultButton = true,
-                    }));
             VibrationIntensityMin = plugin.Config.Bind(
                 section: vibrationSettingsTitle,
                 key: "Vibration Intensity Min",
@@ -62,7 +51,5 @@ namespace LoveMachine.Core
                     }));
         }
 
-        private static void VibrationIntensityDrawer(ConfigEntryBase obj) =>
-            GUIUtil.DrawRangeSlider(VibrationIntensityMin, VibrationIntensityMax);
     }
 }

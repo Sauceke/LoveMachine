@@ -42,10 +42,12 @@
     <Reference Include="System.XML" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Buttplug\DeviceSettings.cs" />
+    <Compile Include="Buttplug\StrokerSettings.cs" />
     <Compile Include="Config\ButtplugConfig.cs" />
     <Compile Include="Config\DeviceListConfig.cs" />
     <Compile Include="Config\ExperimentalConfig.cs" />
-    <Compile Include="Config\GUIUtil.cs" />
+    <Compile Include="Common\GUIUtil.cs" />
     <Compile Include="Config\KillSwitchConfig.cs" />
     <Compile Include="Config\RotatorConfig.cs" />
     <Compile Include="Config\StrokerConfig.cs" />

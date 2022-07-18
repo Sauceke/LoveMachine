@@ -1,15 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace LoveMachine.Core
 {
-    public class DeviceSettings
-    {
-        public string DeviceName { get; set; }
-        public int GirlIndex { get; set; } = 0;
-        public Bone Bone { get; set; } = Bone.Auto;
-    }
-
     public class Device
     {
         public string DeviceName
@@ -25,16 +19,38 @@ namespace LoveMachine.Core
         public bool IsStroker => DeviceMessages.LinearCmd != null;
         public bool IsRotator => DeviceMessages.RotateCmd != null;
 
-        public class Features
+        public void Draw()
         {
-            public Command LinearCmd { get; set; }
-            public Command VibrateCmd { get; set; }
-            public Command RotateCmd { get; set; }
-
-            public class Command
+            GUILayout.BeginHorizontal();
             {
-                public int FeatureCount { get; set; }
+                GUILayout.FlexibleSpace();
+                GUILayout.Label(DeviceName);
+                GUILayout.FlexibleSpace();
             }
+            GUILayout.EndHorizontal();
+            GUIUtil.SmallSpace();
+            GUILayout.BeginHorizontal();
+            {
+                GUILayout.Label("Features");
+                GUILayout.Toggle(IsStroker, "Stroker");
+                GUILayout.Toggle(IsVibrator, "Vibrator");
+                GUILayout.Toggle(IsRotator, "Rotator");
+            }
+            GUILayout.EndHorizontal();
+            GUIUtil.SmallSpace();
+            Settings.Draw();
+        }
+    }
+
+    public class Features
+    {
+        public Command LinearCmd { get; set; }
+        public Command VibrateCmd { get; set; }
+        public Command RotateCmd { get; set; }
+
+        public class Command
+        {
+            public int FeatureCount { get; set; }
         }
     }
 
