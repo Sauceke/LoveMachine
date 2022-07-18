@@ -24,7 +24,7 @@ namespace LoveMachine.Core
         protected internal virtual float VibrationIntensity => 1f;
 
         protected internal virtual float StrokingIntensity =>
-            IsHardSex ? StrokerConfig.HardSexIntensity.Value : 0f;
+            IsHardSex ? Mathf.InverseLerp(0f, 100f, StrokerConfig.HardSexIntensity.Value) : 0f;
 
         internal bool IsHSceneRunning => hRunning && !IsHSceneInterrupted;
 
