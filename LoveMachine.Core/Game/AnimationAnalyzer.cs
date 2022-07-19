@@ -88,12 +88,11 @@ namespace LoveMachine.Core
                 foreach (var entry in femaleBones)
                 {
                     var boneF = entry.Value;
-                    float distance = (boneM.position - boneF.position).magnitude;
                     samples.Add(new Sample
                     {
                         Bone = entry.Key,
                         Time = currentTime,
-                        Distance = distance
+                        RelativePos = boneM.position - boneF.position
                     });
                 }
             }
@@ -106,27 +105,11 @@ namespace LoveMachine.Core
             foreach (var bone in femaleBones.Keys)
             {
                 var bonePlot = samples.Where(entry => entry.Bone == bone);
-                results[bone] = new WaveInfo
-                {
-                    Phase = bonePlot
-                        .OrderBy(entry => entry.Distance)
-                        .FirstOrDefault()
-                        .Time % 1,
-                    Frequency = GetFrequency(bonePlot
-                        .OrderBy(entry => entry.Time)
-                        .Select(entry => entry.Distance)),
-                    Crest = bonePlot
-                        .Select(entry => entry.Distance)
-                        .Max(),
-                    Trough = bonePlot
-                        .Select(entry => entry.Distance)
-                        .Min()
-                };
+                results[bone] = GetWaveInfo(bonePlot);
             }
             // Prefer bones that are close and move a lot. Being close is more important.
             var autoBone = results
-                .OrderBy(entry => Mathf.Pow(entry.Value.Trough, 3)
-                    / (entry.Value.Crest - entry.Value.Trough))
+                .OrderBy(result => result.Value.Preference)
                 .FirstOrDefault()
                 .Key;
             results[Bone.Auto] = results[autoBone];
@@ -135,6 +118,28 @@ namespace LoveMachine.Core
             CoreConfig.Logger.LogInfo($"Calibration for pose {pose} completed. " +
                 $"{samples.Count / femaleBones.Count} frames inspected. " +
                 $"Leading bone: {autoBone}, result: {JsonMapper.ToJson(results[Bone.Auto])}.");
+        }
+
+        private WaveInfo GetWaveInfo(IEnumerable<Sample> samples)
+        {
+            // probably safe to assume the farthest point from the origin is an extremity
+            var crest = samples
+                .OrderBy(sample => -sample.RelativePos.magnitude)
+                .First();
+            var trough = samples
+                .OrderBy(sample => -(sample.RelativePos - crest.RelativePos).magnitude)
+                .First();
+            var axis = crest.RelativePos - trough.RelativePos;
+            float getDistance(Vector3 v) =>
+                Vector3.Project(v - trough.RelativePos, axis).magnitude;
+            var distances = samples.Select(sample => getDistance(sample.RelativePos));
+            return new WaveInfo
+            {
+                Phase = trough.Time % 1,
+                Frequency = GetFrequency(distances),
+                Amplitude = axis.magnitude,
+                Preference = Mathf.Pow(trough.RelativePos.magnitude, 3) / axis.magnitude
+            };
         }
 
         private static int GetFrequency(IEnumerable<float> samples)
@@ -163,15 +168,15 @@ namespace LoveMachine.Core
         {
             public Bone Bone { get; set; }
             public float Time { get; set; }
-            public float Distance { get; set; }
+            public Vector3 RelativePos { get; set; }
         }
 
         public struct WaveInfo
         {
             public float Phase { get; set; }
             public int Frequency { get; set; }
-            public float Crest { get; set; }
-            public float Trough { get; set; }
+            public float Amplitude { get; set; }
+            public float Preference { get; set; } // smaller is better
         }
     }
 }

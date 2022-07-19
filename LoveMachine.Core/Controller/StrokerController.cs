@@ -94,7 +94,7 @@ namespace LoveMachine.Core
             float maxFast = Mathf.InverseLerp(0, 100, StrokerConfig.FastStrokeZoneMax.Value);
             // decrease stroke length gradually as speed approaches the device limit
             float rate = 60f / StrokerConfig.MaxStrokesPerMinute.Value / strokeTimeSecs;
-            float relativeLength = (waveInfo.Crest - waveInfo.Trough) / game.PenisSize;
+            float relativeLength = waveInfo.Amplitude / game.PenisSize;
             float scale = Mathf.Lerp(1f - StrokerConfig.StrokeLengthRealism.Value, 1f,
                 relativeLength);
             min = Mathf.Lerp(minSlow, minFast, rate) * scale;
