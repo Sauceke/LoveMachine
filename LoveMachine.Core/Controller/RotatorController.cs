@@ -21,8 +21,8 @@ namespace LoveMachine.Core
                     yield return new WaitForSeconds(.1f);
                     continue;
                 }
-                float strokeTimeSecs = GetStrokeTimeSecs(girlIndex, bone);
                 analyzer.TryGetWaveInfo(girlIndex, bone, out var waveInfo);
+                float strokeTimeSecs = GetAnimationTimeSecs(girlIndex, bone) / waveInfo.Frequency;
                 for (int i = 0; i < waveInfo.Frequency - 1; i++)
                 {
                     HandleCoroutine(DoRotate(device, clockwise, strokeTimeSecs));
