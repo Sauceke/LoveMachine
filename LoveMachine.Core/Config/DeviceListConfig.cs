@@ -21,9 +21,6 @@ namespace LoveMachine.Core
         };
         private static readonly string[] ordinals =
             { "First", "Second", "Third", "Fourth", "Fifth", "Sixth" };
-        private static readonly string[] boneNames = Enum.GetNames(typeof(Bone))
-            .Select(camelCase => Regex.Replace(camelCase, ".([A-Z])", " $1"))
-            .ToArray();
         private static List<Device> cachedDeviceList;
 
         public static ConfigEntry<bool> SaveDeviceSettings { get; private set; }
@@ -54,6 +51,14 @@ namespace LoveMachine.Core
         {
             var serverController = Chainloader.ManagerObject.GetComponent<ButtplugWsClient>();
             var game = Chainloader.ManagerObject.GetComponent<GameDescriptor>();
+            List<Bone> bones = new Bone[] { Bone.Auto }
+                .Concat(game.FemaleBoneNames.Keys)
+                .OrderBy(bone => bone)
+                .ToList();
+            string[] boneNames = bones
+                .Select(bone => Enum.GetName(typeof(Bone), bone))
+                .Select(name => Regex.Replace(name, ".([A-Z])", " $1"))
+                .ToArray();
             GUILayout.BeginVertical(GUILayout.ExpandWidth(true));
             {
                 GUILayout.BeginHorizontal();
@@ -120,10 +125,10 @@ namespace LoveMachine.Core
                         GUILayout.BeginHorizontal();
                         {
                             GUILayout.Label("Body Part");
-                            device.Settings.Bone = (Bone)GUILayout.SelectionGrid(
-                                selected: (int)device.Settings.Bone,
+                            device.Settings.Bone = bones[GUILayout.SelectionGrid(
+                                selected: bones.IndexOf(device.Settings.Bone),
                                 boneNames,
-                                xCount: 5);
+                                xCount: 5)];
                         }
                         GUILayout.EndHorizontal();
                     }
