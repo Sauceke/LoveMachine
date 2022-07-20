@@ -22,7 +22,7 @@ namespace LoveMachine.Core
                     continue;
                 }
                 analyzer.TryGetWaveInfo(girlIndex, bone, out var waveInfo);
-                float strokeTimeSecs = GetAnimationTimeSecs(girlIndex, bone) / waveInfo.Frequency;
+                float strokeTimeSecs = GetAnimationTimeSecs(girlIndex) / waveInfo.Frequency;
                 for (int i = 0; i < waveInfo.Frequency - 1; i++)
                 {
                     HandleCoroutine(DoRotate(device, clockwise, strokeTimeSecs));

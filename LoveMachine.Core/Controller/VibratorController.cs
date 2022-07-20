@@ -25,7 +25,7 @@ namespace LoveMachine.Core
         {
             int girlIndex = device.Settings.GirlIndex;
             var bone = device.Settings.Bone;
-            game.GetAnimState(girlIndex, out float normalizedTime, out _, out _);
+            float normalizedTime = GetLatencyCorrectedNormalizedTime(device);
             float strength = 1f;
             if (VibratorConfig.SyncVibrationWithAnimation.Value)
             {

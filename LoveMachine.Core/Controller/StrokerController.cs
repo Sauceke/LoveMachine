@@ -34,21 +34,21 @@ namespace LoveMachine.Core
                 yield break;
             }
             int updateFrequency = ButtplugConfig.UpdateFrequency.Value;
-            float animTimeSecs = GetAnimationTimeSecs(girlIndex, bone);
+            float animTimeSecs = GetAnimationTimeSecs(girlIndex);
             // min number of subdivisions
             int turns = 2 * waveInfo.Frequency;
             // max number of subdivisions given the update frequency
             int subdivisions = turns * (int)Mathf.Max(1f, animTimeSecs * updateFrequency / turns);
             int segments = StrokerConfig.SmoothStroking.Value ? subdivisions : turns;
-            float startNormTime = GetNormalizedTime(girlIndex);
+            float startNormTime = GetLatencyCorrectedNormalizedTime(device);
             int getSegment(float time) => (int)((time - waveInfo.Phase) * segments);
             // != because time can also go down when changing animation
             yield return new WaitUntil(() =>
-                getSegment(GetNormalizedTime(girlIndex)) != getSegment(startNormTime));
-            animTimeSecs = GetAnimationTimeSecs(girlIndex, bone);
+                getSegment(GetLatencyCorrectedNormalizedTime(device)) != getSegment(startNormTime));
+            animTimeSecs = GetAnimationTimeSecs(girlIndex);
             float refreshTimeSecs = animTimeSecs / segments;
             float refreshNormTime = 1f / segments;
-            float currentNormTime = GetNormalizedTime(girlIndex);
+            float currentNormTime = GetLatencyCorrectedNormalizedTime(device);
             float nextNormTime = currentNormTime + refreshNormTime;
             float currentPosition = Sinusoid(currentNormTime, waveInfo);
             float nextPosition = Sinusoid(nextNormTime, waveInfo);
@@ -75,12 +75,6 @@ namespace LoveMachine.Core
             }
         }
 
-        private float GetNormalizedTime(int girlIndex)
-        {
-            game.GetAnimState(girlIndex, out float currentNormTime, out _, out _);
-            return currentNormTime;
-        }
-
         private static float Sinusoid(float x, AnimationAnalyzer.WaveInfo waveInfo) =>
             Mathf.InverseLerp(1f, -1f,
                 Mathf.Cos(2 * Mathf.PI * waveInfo.Frequency * (x - waveInfo.Phase)));
@@ -99,22 +93,6 @@ namespace LoveMachine.Core
                 relativeLength);
             min = Mathf.Lerp(minSlow, minFast, rate) * scale;
             max = Mathf.Lerp(maxSlow, maxFast, rate) * scale;
-        }
-
-        protected virtual float GetAnimationTimeSecs(int girlIndex, Bone bone)
-        {
-            game.GetAnimState(girlIndex, out _, out float length, out float speed);
-            float strokeTimeSecs = length / speed;
-            // sometimes the length of an animation becomes Infinity in KK
-            // sometimes the speed becomes 0 in HS2
-            // this is a catch-all for god knows what other things that can
-            // possibly go wrong and cause the stroking coroutine to hang
-            if (strokeTimeSecs > 10 || strokeTimeSecs < 0.001f
-                || float.IsNaN(strokeTimeSecs))
-            {
-                return .01f;
-            }
-            return strokeTimeSecs;
         }
 
         protected void MoveStroker(Device device, float position, float durationSecs) =>
