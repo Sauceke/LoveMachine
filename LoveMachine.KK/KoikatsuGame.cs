@@ -22,21 +22,6 @@ namespace LoveMachine.KK
 
         private const string MaleBoneName = "k_f_tamaL_00"; // left testicle
 
-        private static readonly Dictionary<Bone, string> femaleBones = new Dictionary<Bone, string>
-        {
-            { Bone.LeftBreast, "k_f_munenipL_00" },
-            { Bone.RightBreast, "k_f_munenipR_00" },
-            { Bone.Vagina, "cf_n_pee" },
-            { Bone.Anus, "k_f_ana_00" },
-            { Bone.LeftButt, "k_f_siriL_00" },
-            { Bone.RightButt, "k_f_siriR_00" },
-            { Bone.Mouth, "cf_J_MouthCavity" },
-            { Bone.LeftHand, "cf_j_index04_L" },
-            { Bone.RightHand, "cf_j_index04_R" },
-            { Bone.LeftFoot, "k_f_toeL_00" },
-            { Bone.RightFoot, "k_f_toeR_00" },
-        };
-
         protected static readonly List<string> orgasmAnimations = new List<string>
         {
             "OUT_START", "OUT_LOOP", "IN_START", "IN_LOOP", "IN_Start", "IN_Loop",
@@ -61,6 +46,21 @@ namespace LoveMachine.KK
             Flags = flags;
             StartH();
         }
+
+        protected override Dictionary<Bone, string> FemaleBoneNames => new Dictionary<Bone, string>
+        {
+            { Bone.LeftBreast, "k_f_munenipL_00" },
+            { Bone.RightBreast, "k_f_munenipR_00" },
+            { Bone.Vagina, "cf_n_pee" },
+            { Bone.Anus, "k_f_ana_00" },
+            { Bone.LeftButt, "k_f_siriL_00" },
+            { Bone.RightButt, "k_f_siriR_00" },
+            { Bone.Mouth, "cf_J_MouthCavity" },
+            { Bone.LeftHand, "cf_j_index04_L" },
+            { Bone.RightHand, "cf_j_index04_R" },
+            { Bone.LeftFoot, "k_f_toeL_00" },
+            { Bone.RightFoot, "k_f_toeR_00" },
+        };
 
         protected override int HeroineCount => Flags.lstHeroine.Count;
 
@@ -87,14 +87,10 @@ namespace LoveMachine.KK
         public override Animator GetFemaleAnimator(int girlIndex) =>
             Flags.lstHeroine[girlIndex].chaCtrl.animBody;
 
-        protected override Dictionary<Bone, Transform> GetFemaleBones(int girlIndex)
-        {
-            var bodyBone = Flags.lstHeroine[girlIndex].chaCtrl.objBodyBone.transform;
-            return femaleBones.ToDictionary(kvp => kvp.Key,
-                kvp => bodyBone.FindLoop(kvp.Value).transform);
-        }
+        protected override GameObject GetFemaleRoot(int girlIndex) =>
+            Flags.lstHeroine[girlIndex].chaCtrl.objBodyBone;
 
-        protected override Transform GetMaleBone()
+        protected override Transform GetDickBase()
         {
             var bodyBone = Flags.player.chaCtrl.objBodyBone.transform;
             return bodyBone.FindLoop(MaleBoneName).transform;

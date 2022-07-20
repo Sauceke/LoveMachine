@@ -10,9 +10,11 @@ namespace LoveMachine.PH
 {
     internal sealed class PlayHomeGame : GameDescriptor
     {
-        internal const string MaleBoneName = "k_m_tamaC_00";
+        private static readonly H_STATE[] activeHStates = { H_STATE.LOOP, H_STATE.SPURT };
 
-        internal static readonly Dictionary<Bone, string> femaleBones = new Dictionary<Bone, string>
+        protected H_Scene scene;
+
+        protected override Dictionary<Bone, string> FemaleBoneNames => new Dictionary<Bone, string>
         {
             { Bone.LeftBreast, "k_f_munenipL_00" },
             { Bone.RightBreast, "k_f_munenipR_00" },
@@ -23,10 +25,6 @@ namespace LoveMachine.PH
             { Bone.LeftFoot, "k_f_toeL_00" },
             { Bone.RightFoot, "k_f_toeR_00" },
         };
-
-        private static readonly H_STATE[] activeHStates = { H_STATE.LOOP, H_STATE.SPURT };
-
-        protected H_Scene scene;
 
         protected override int HeroineCount => scene.mainMembers.females.Count;
 
@@ -43,17 +41,13 @@ namespace LoveMachine.PH
         public override Animator GetFemaleAnimator(int girlIndex) =>
             scene.mainMembers.females[girlIndex].body.Anime;
 
-        protected override Dictionary<Bone, Transform> GetFemaleBones(int girlIndex)
-        {
-            var bodyBone = scene.mainMembers.females[girlIndex].objBodyBone.transform;
-            return femaleBones.ToDictionary(kvp => kvp.Key,
-                kvp => bodyBone.FindLoop(kvp.Value).transform);
-        }
+        protected override GameObject GetFemaleRoot(int girlIndex) =>
+            scene.mainMembers.females[girlIndex].objBodyBone;
 
-        protected override Transform GetMaleBone()
+        protected override Transform GetDickBase()
         {
             var bodyBone = scene.mainMembers.males[0].objBodyBone.transform;
-            return bodyBone.FindLoop(MaleBoneName).transform;
+            return bodyBone.FindLoop("k_m_tamaC_00").transform;
         }
 
         protected override string GetPose(int girlIndex) =>

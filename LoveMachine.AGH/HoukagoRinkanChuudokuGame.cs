@@ -24,6 +24,9 @@ namespace LoveMachine.AGH
             { Bone.LeftBreast, "HS_Breast_LL_02" },
         };
 
+        protected override Dictionary<Bone, string> FemaleBoneNames =>
+            GameObject.Find("CH01") != null ? sayaBones : elenaBones;
+
         protected override int HeroineCount => 1;
 
         protected override int MaxHeroineCount => 1;
@@ -40,11 +43,9 @@ namespace LoveMachine.AGH
             (GameObject.Find("CH01/CH0001") ?? GameObject.Find("CH02/CH0002"))
                 .GetComponent<Animator>();
 
-        protected override Dictionary<Bone, Transform> GetFemaleBones(int _girlIndex) =>
-            (GameObject.Find("CH01") != null ? sayaBones : elenaBones)
-                .ToDictionary(kvp => kvp.Key, kvp => GameObject.Find(kvp.Value).transform);
+        protected override GameObject GetFemaleRoot(int _girlIndex) => null;
 
-        protected override Transform GetMaleBone() => GameObject.Find("BP00_tamaL").transform;
+        protected override Transform GetDickBase() => GameObject.Find("BP00_tamaL").transform;
 
         protected override string GetPose(int girlIndex) =>
             GetFemaleAnimator(girlIndex).GetCurrentAnimatorClipInfo(0)[0].clip.name;

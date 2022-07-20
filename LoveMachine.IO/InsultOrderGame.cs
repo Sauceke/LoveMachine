@@ -8,7 +8,7 @@ namespace LoveMachine.IO
 {
     internal sealed class InsultOrderGame : GameDescriptor
     {
-        private static readonly Dictionary<Bone, string> femaleBones = new Dictionary<Bone, string>
+        protected override Dictionary<Bone, string> FemaleBoneNames => new Dictionary<Bone, string>
         {
             { Bone.Vagina, "HS01_cli" },
             { Bone.LeftHand, "bip01 L Finger1Nub" },
@@ -32,19 +32,13 @@ namespace LoveMachine.IO
 
         public override int AnimationLayer => 0;
 
-        private GameObject Heroine =>
-            GameObject.Find("CH01/CH0001") ?? GameObject.Find("CH02/CH0002");
+        public override Animator GetFemaleAnimator(int girlIndex) =>
+            GetFemaleRoot(girlIndex)?.GetComponent<Animator>();
 
-        public override Animator GetFemaleAnimator(int _) => Heroine?.GetComponent<Animator>();
+        protected override GameObject GetFemaleRoot(int _girlIndex)
+            => GameObject.Find("CH01/CH0001") ?? GameObject.Find("CH02/CH0002");
 
-        protected override Dictionary<Bone, Transform> GetFemaleBones(int _)
-        {
-            var heroine = Heroine;
-            return femaleBones
-                .ToDictionary(kvp => kvp.Key, kvp => FindRecursive(heroine, kvp.Value));
-        }
-
-        protected override Transform GetMaleBone() => GameObject.Find("BP00_tamaL").transform;
+        protected override Transform GetDickBase() => GameObject.Find("BP00_tamaL").transform;
 
         protected override string GetPose(int girlIndex) =>
             GetFemaleAnimator(girlIndex).GetCurrentAnimatorClipInfo(0)[0].clip.name;
@@ -55,8 +49,5 @@ namespace LoveMachine.IO
         {
             yield return new WaitForSecondsRealtime(5f);
         }
-
-        private static Transform FindRecursive(GameObject gameObject, string name) =>
-            gameObject.GetComponentsInChildren<Transform>().FirstOrDefault(t => t.name == name);
     }
 }

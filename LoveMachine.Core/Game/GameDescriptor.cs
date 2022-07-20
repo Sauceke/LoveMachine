@@ -13,6 +13,7 @@ namespace LoveMachine.Core
 
         private bool hRunning = false;
 
+        protected internal abstract Dictionary<Bone, string> FemaleBoneNames { get; }
         public abstract int AnimationLayer { get; }
         protected internal abstract int HeroineCount { get; }
         protected internal abstract int MaxHeroineCount { get; }
@@ -29,8 +30,8 @@ namespace LoveMachine.Core
         internal bool IsHSceneRunning => hRunning && !IsHSceneInterrupted;
 
         public abstract Animator GetFemaleAnimator(int girlIndex);
-        protected internal abstract Dictionary<Bone, Transform> GetFemaleBones(int girlIndex);
-        protected internal abstract Transform GetMaleBone();
+        protected internal abstract GameObject GetFemaleRoot(int girlIndex);
+        protected internal abstract Transform GetDickBase();
         protected internal abstract string GetPose(int girlIndex);
         protected internal abstract bool IsIdle(int girlIndex);
         protected internal abstract IEnumerator UntilReady();
@@ -63,11 +64,25 @@ namespace LoveMachine.Core
             OnHEnded.Invoke(this, new HEventArgs());
         }
 
-        protected internal IEnumerable<Bone> GetSupportedBones(int girlIndex) =>
-            Enumerable.Concat(new[] { Bone.Auto }, GetFemaleBones(girlIndex).Keys);
-
         public AnimatorStateInfo GetAnimatorStateInfo(int girlIndex) =>
             GetFemaleAnimator(girlIndex).GetCurrentAnimatorStateInfo(AnimationLayer);
+
+        internal Dictionary<Bone, Transform> GetFemaleBones(int girlIndex) => FemaleBoneNames
+            .ToDictionary(kvp => kvp.Key,
+                kvp => FindBoneByPath(GetFemaleRoot(girlIndex), kvp.Value));
+
+        protected static Transform FindBoneByPath(GameObject character, string path) =>
+            // Find the root character object
+            character?.transform?.Find(path)
+                // If the program can not find the component, it will try to use the name of the
+                // component to match every child of the root chara by recursion
+                ?? FindDeepChildByName(character, path.Split('/').Last())
+                    // If even that fails, search the entire game
+                    ?? GameObject.Find(path.Split('/').Last()).transform;
+
+        private static Transform FindDeepChildByName(GameObject character, string name) =>
+            character?.GetComponentsInChildren<Transform>()?
+                .FirstOrDefault(child => child.name == name);
 
         public class HEventArgs : EventArgs { }
     }
