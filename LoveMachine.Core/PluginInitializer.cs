@@ -10,6 +10,12 @@ namespace LoveMachine.Core
     // This is ugly but my hands are tied.
     public static class PluginInitializer
     {
+        /// <summary>
+        /// LoveMachine's entry point. Call this in your plugin's Start method.
+        /// </summary>
+        /// <typeparam name="T">the GameDescriptor for this game</typeparam>
+        /// <param name="logger">the Logger of this plugin</param>
+        /// <param name="extraControllers">any additional ButtplugControllers</param>
         public static void Initialize<T>(this BaseUnityPlugin plugin, ManualLogSource logger,
             params Type[] extraControllers)
             where T : GameDescriptor
