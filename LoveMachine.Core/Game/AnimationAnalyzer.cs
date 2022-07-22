@@ -95,11 +95,11 @@ namespace LoveMachine.Core
                         RelativePos = boneM.position - boneF.position
                     });
                 }
-            }
-            if (pose != GetExactPose(girlIndex, Bone.Auto))
-            {
-                CoreConfig.Logger.LogWarning($"Pose {pose} interrupted; canceling calibration.");
-                yield break;
+                if (pose != GetExactPose(girlIndex, Bone.Auto))
+                {
+                    CoreConfig.Logger.LogWarning($"Pose {pose} interrupted; canceling analysis.");
+                    yield break;
+                }
             }
             var results = new Dictionary<Bone, WaveInfo>();
             foreach (var bone in femaleBones.Keys)
