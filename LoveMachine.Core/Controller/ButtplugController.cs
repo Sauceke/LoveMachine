@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using BepInEx.Bootstrap;
 using UnityEngine;
 
 namespace LoveMachine.Core
@@ -53,6 +54,30 @@ namespace LoveMachine.Core
             HandleCoroutine(Run());
             yield return new WaitUntil(() => game.IsHSceneInterrupted);
             OnEndH();
+        }
+
+        public static void Test<T>(Device device)
+            where T : ButtplugController
+        {
+            var testController = Chainloader.ManagerObject.AddComponent<T>();
+            testController.HandleCoroutine(testController.RunTest(device));
+        }
+
+        private IEnumerator RunTest(Device device)
+        {
+            yield return new WaitForEndOfFrame();
+            var testGame = new TestGame();
+            game = testGame;
+            analyzer = new TestAnimationAnalyzer();
+            if (IsDeviceSupported(device))
+            {
+                var test = HandleCoroutine(Run(device));
+                yield return HandleCoroutine(testGame.RunTest(strokes: 3, strokesPerSec: 1f));
+                yield return HandleCoroutine(testGame.RunTest(strokes: 5, strokesPerSec: 3f));
+                StopCoroutine(test);
+                client.StopAllDevices();
+            }
+            Destroy(this);
         }
 
         private void Restart()

@@ -131,6 +131,10 @@ namespace LoveMachine.Core
                                 xCount: 5)];
                         }
                         GUILayout.EndHorizontal();
+                        if (GUILayout.Button("Test"))
+                        {
+                            TestDevice(device);
+                        }
                     }
                     GUILayout.EndVertical();
                     GUILayout.Space(20);
@@ -139,46 +143,11 @@ namespace LoveMachine.Core
             GUILayout.EndVertical();
         }
 
-        private static void TestStrokerAsync(Device device, bool fast, bool hard)
+        private static void TestDevice(Device device)
         {
-            var controller = Chainloader.ManagerObject.GetComponent<StrokerController>();
-            controller.HandleCoroutine(TestStroker(device, fast, hard));
-        }
-
-        private static IEnumerator TestStroker(Device device, bool fast, bool hard)
-        {
-            var controller = Chainloader.ManagerObject.GetComponent<StrokerController>();
-            float strokeTimeSecs = 60f / StrokerConfig.MaxStrokesPerMinute.Value;
-            if (!fast)
-            {
-                strokeTimeSecs *= 2;
-            }
-            for (int i = 0; i < 3; i++)
-            {
-                yield return new WaitForSecondsRealtime(strokeTimeSecs);
-            }
-        }
-
-        private static void TestRotatorAsync(Device device, bool fast)
-        {
-            var controller = Chainloader.ManagerObject.GetComponent<RotatorController>();
-            controller.HandleCoroutine(TestRotator(device, fast));
-        }
-
-        private static IEnumerator TestRotator(Device device, bool fast)
-        {
-            var controller = Chainloader.ManagerObject.GetComponent<RotatorController>();
-            float strokeTimeSecs = 60f / StrokerConfig.MaxStrokesPerMinute.Value;
-            if (!fast)
-            {
-                strokeTimeSecs *= 2;
-            }
-            for (int i = 0; i < 3; i++)
-            {
-                controller.HandleCoroutine(controller.DoRotate(device, true, strokeTimeSecs));
-                yield return new WaitForSecondsRealtime(strokeTimeSecs);
-            }
-            controller.HandleCoroutine(controller.DoRotate(device, true, 0));
+            ButtplugController.Test<StrokerController>(device);
+            ButtplugController.Test<VibratorController>(device);
+            ButtplugController.Test<RotatorController>(device);
         }
 
         private static Texture2D GetDeviceControlsTexture()

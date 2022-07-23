@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace LoveMachine.Core
 {
-    public sealed class AnimationAnalyzer : CoroutineHandler
+    public class AnimationAnalyzer : CoroutineHandler
     {
         // pose -> result
         private readonly Dictionary<string, WaveInfo> resultCache =
@@ -25,7 +25,7 @@ namespace LoveMachine.Core
         private string GetExactPose(int girlIndex, Bone bone) =>
             $"{game.GetPose(girlIndex)}.girl{girlIndex}.{bone}";
 
-        public bool TryGetWaveInfo(int girlIndex, Bone bone, out WaveInfo result)
+        public virtual bool TryGetWaveInfo(int girlIndex, Bone bone, out WaveInfo result)
         {
             try
             {
