@@ -1,11 +1,22 @@
 ﻿using System.Collections.Generic;
 using LitJson;
+using UnityEngine;
 
 namespace LoveMachine.Core
 {
-    internal class DeviceManager
+    internal class DeviceManager: MonoBehaviour
     {
-        public static void SaveDeviceSettings(List<Device> devices)
+        private ButtplugWsClient client;
+
+        private void Start()
+        {
+            client = gameObject.GetComponent<ButtplugWsClient>();
+            client.OnDeviceListUpdated += (s, a) => LoadDeviceSettings();
+        }
+
+        private void OnDestroy() => SaveDeviceSettings();
+
+        private void SaveDeviceSettings()
         {
             if (!DeviceListConfig.SaveDeviceSettings.Value)
             {
@@ -14,8 +25,7 @@ namespace LoveMachine.Core
             }
             var settings = JsonMapper.ToObject<List<DeviceSettings>>(
                 DeviceListConfig.DeviceSettingsJson.Value);
-            var devicesCopy = new List<Device>(devices);
-            devices = null;
+            var devicesCopy = new List<Device>(client.Devices);
             for (int i = 0; i < settings.Count; i++)
             {
                 var setting = settings[i];
@@ -34,7 +44,7 @@ namespace LoveMachine.Core
             DeviceListConfig.DeviceSettingsJson.Value = JsonMapper.ToJson(settings);
         }
 
-        public static void LoadDeviceSettings(List<Device> devices)
+        private void LoadDeviceSettings()
         {
             if (!DeviceListConfig.SaveDeviceSettings.Value)
             {
@@ -42,7 +52,7 @@ namespace LoveMachine.Core
             }
             var settings = JsonMapper.ToObject<List<DeviceSettings>>(
                 DeviceListConfig.DeviceSettingsJson.Value);
-            foreach (var device in devices)
+            foreach (var device in client.Devices)
             {
                 int matchingSettingIndex = settings.FindIndex(
                     setting => string.Equals(device.DeviceName, setting.DeviceName));

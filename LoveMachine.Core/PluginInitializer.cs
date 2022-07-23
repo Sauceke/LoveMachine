@@ -24,6 +24,7 @@ namespace LoveMachine.Core
             var manager = Chainloader.ManagerObject;
             manager.AddComponent<T>().GetType();
             manager.AddComponent<ButtplugWsClient>();
+            manager.AddComponent<DeviceManager>();
             manager.AddComponent<AnimationAnalyzer>();
             manager.AddComponent<StrokerController>();
             manager.AddComponent<VibratorController>();

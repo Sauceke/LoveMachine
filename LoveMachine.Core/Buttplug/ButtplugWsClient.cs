@@ -50,7 +50,6 @@ namespace LoveMachine.Core
             CoreConfig.Logger.LogInfo("Disconnecting from Intiface server.");
             websocket.Close();
             websocket.Dispose();
-            DeviceManager.SaveDeviceSettings(Devices);
         }
 
         public void LinearCmd(Device device, double position, float durationSecs)
@@ -216,9 +215,8 @@ namespace LoveMachine.Core
                 {
                     Devices = JsonMapper.ToObject<DeviceListMessage>(data.ToJson())
                         .DeviceList.Devices;
-                    DeviceManager.LoadDeviceSettings(Devices);
-                    LogDevices();
                     OnDeviceListUpdated.Invoke(this, new DeviceListEventArgs());
+                    LogDevices();
                 }
                 if (data.ContainsKey("ServerInfo"))
                 {
