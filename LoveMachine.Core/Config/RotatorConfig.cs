@@ -16,18 +16,18 @@ namespace LoveMachine.Core
                 section: rotationSettingsTitle,
                 key: "Rotation Speed Ratio",
                 defaultValue: 0.5f,
-                 new ConfigDescription(
-                   "0%: No rotation\n" +
-                   "100%: Full speed rotation",
-                   new AcceptableValueRange<float>(0, 1)));
+                new ConfigDescription(
+                    "0%: No rotation\n" +
+                    "100%: Full speed rotation",
+                    new AcceptableValueRange<float>(0, 1)));
             RotationDirectionChangeChance = plugin.Config.Bind(
                 section: rotationSettingsTitle,
                 key: "Rotation Direction Change Chance",
                 defaultValue: 0.3f,
-                 new ConfigDescription(
-                   "The direction of rotation changes with the probability of this setting",
-                   new AcceptableValueRange<float>(0, 1),
-                   new ConfigurationManagerAttributes { Order = order-- }));
+                new ConfigDescription(
+                    "The direction of rotation changes with the probability of this setting",
+                    new AcceptableValueRange<float>(0, 1),
+                    new ConfigurationManagerAttributes { Order = order-- }));
         }
     }
 }

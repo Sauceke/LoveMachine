@@ -19,8 +19,7 @@ namespace LoveMachine.Core
                 defaultValue: "ws://localhost:12345/",
                 new ConfigDescription(
                     "The Intiface server address (requires game restart).",
-                    acceptableValues: null,
-                    new ConfigurationManagerAttributes { Order = order-- }));
+                    tags: new ConfigurationManagerAttributes { Order = order-- }));
             LatencyMs = plugin.Config.Bind(
                 section: intifaceSettingsTitle,
                 key: "Latency (ms)",

@@ -9,8 +9,7 @@ namespace LoveMachine.COM3D2
 {
     internal sealed class Com3d2Game : GameDescriptor
     {
-        private const string SpineF = "Bip01/Bip01 Spine/Bip01 Spine0a/" +
-                        "Bip01 Spine1/Bip01 Spine1a";
+        private const string SpineF = "Bip01/Bip01 Spine/Bip01 Spine0a/Bip01 Spine1/Bip01 Spine1a";
         private const string PelvisF = "Bip01/Bip01 Pelvis";
 
         private readonly string[] idlePoseNames = { "taiki", "nade", "shaseigo" };

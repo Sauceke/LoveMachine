@@ -21,9 +21,8 @@ namespace LoveMachine.Core
                 key: "a",
                 defaultValue: 0,
                 new ConfigDescription(
-                    "",
-                    new AcceptableValueRange<int>(0, 100),
-                    new ConfigurationManagerAttributes
+                    description: "",
+                    tags: new ConfigurationManagerAttributes
                     {
                         Order = 100,
                         CustomDrawer = entry => GUILayout.Label(experimentalNote),

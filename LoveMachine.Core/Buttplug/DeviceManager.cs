@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace LoveMachine.Core
 {
-    internal class DeviceManager: MonoBehaviour
+    internal class DeviceManager : MonoBehaviour
     {
         private ButtplugWsClient client;
 
