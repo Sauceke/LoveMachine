@@ -19,12 +19,6 @@ namespace LoveMachine.Core
             PluginDirectoryPath = Path.GetDirectoryName(plugin.Info.Location)
                 .TrimEnd(Path.DirectorySeparatorChar)
                 + Path.DirectorySeparatorChar;
-            ButtplugConfig.Initialize(plugin);
-            DeviceListConfig.Initialize(plugin);
-            KillSwitchConfig.Initialize(plugin);
-            RotatorConfig.Initialize(plugin);
-            StrokerConfig.Initialize(plugin);
-            VibratorConfig.Initialize(plugin);
         }
     }
 }

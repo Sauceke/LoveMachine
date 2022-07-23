@@ -21,6 +21,12 @@ namespace LoveMachine.Core
             where T : GameDescriptor
         {
             CoreConfig.Initialize(plugin, logger);
+            ButtplugConfig.Initialize(plugin);
+            DeviceListConfig.Initialize(plugin);
+            KillSwitchConfig.Initialize(plugin);
+            RotatorConfig.Initialize(plugin);
+            StrokerConfig.Initialize(plugin);
+            VibratorConfig.Initialize(plugin);
             var manager = Chainloader.ManagerObject;
             manager.AddComponent<T>().GetType();
             manager.AddComponent<ButtplugWsClient>();
