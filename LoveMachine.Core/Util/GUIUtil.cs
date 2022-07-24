@@ -5,25 +5,23 @@ namespace LoveMachine.Core
 {
     internal static class GUIUtil
     {
-        public static void DrawRangeSlider(ConfigEntry<int> min, ConfigEntry<int> max)
+        internal static void RangeSlider(string label, string tooltip,
+            ref float lower, ref float upper, float lowerDefault, float upperDefault)
         {
-            float labelWidth = GUI.skin.label.CalcSize(new GUIContent("100%")).x;
             GUILayout.BeginHorizontal();
             {
-                float lower = min.Value;
-                float upper = max.Value;
-                GUILayout.Label(lower + "%", GUILayout.Width(labelWidth));
-                RangeSlider.Create(ref lower, ref upper, 0, 100);
-                GUILayout.Label(upper + "%", GUILayout.Width(labelWidth));
-                if (GUILayout.Button("Reset", GUILayout.ExpandWidth(false)))
+                LabelWithTooltip(label, tooltip);
+                PercentLabel(lower);
+                UnityEngine.RangeSlider.Create(ref lower, ref upper, 0f, 1f);
+                PercentLabel(upper);
+                if (ResetButton)
                 {
-                    lower = (int)min.DefaultValue;
-                    upper = (int)max.DefaultValue;
+                    lower = lowerDefault;
+                    upper = upperDefault;
                 }
-                min.Value = (int)lower;
-                max.Value = (int)upper;
             }
             GUILayout.EndHorizontal();
+            SingleSpace();
         }
 
         public static int IntSlider(string label, string tooltip,

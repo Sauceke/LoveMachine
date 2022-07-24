@@ -39,7 +39,7 @@ namespace LoveMachine.Core
             int turns = 2 * waveInfo.Frequency;
             // max number of subdivisions given the update frequency
             int subdivisions = turns * (int)Mathf.Max(1f, animTimeSecs * updateFrequency / turns);
-            int segments = StrokerConfig.SmoothStroking.Value ? subdivisions : turns;
+            int segments = device.Settings.StrokerSettings.SmoothStroking ? subdivisions : turns;
             float startNormTime = GetLatencyCorrectedNormalizedTime(device);
             int getSegment(float time) => (int)((time - waveInfo.Phase) * segments);
             // != because time can also go down when changing animation
@@ -53,7 +53,7 @@ namespace LoveMachine.Core
             float currentPosition = Sinusoid(currentNormTime, waveInfo);
             float nextPosition = Sinusoid(nextNormTime, waveInfo);
             bool movingUp = currentPosition < nextPosition;
-            GetStrokeZone(animTimeSecs, waveInfo, out float bottom, out float top);
+            GetStrokeZone(animTimeSecs, device, waveInfo, out float bottom, out float top);
             float targetPosition = movingUp ? top : bottom;
             float speed = (nextPosition - currentPosition) / refreshTimeSecs;
             speed *= movingUp ? 1f : 1f + game.StrokingIntensity;
@@ -65,7 +65,7 @@ namespace LoveMachine.Core
         {
             float bottom = StrokerConfig.OrgasmDepth.Value;
             float time = 0.5f / StrokerConfig.OrgasmShakingFrequency.Value;
-            float top = bottom + StrokerConfig.MaxStrokesPerMinute.Value / 60f / 2 * time;
+            float top = bottom + device.Settings.StrokerSettings.MaxStrokesPerMin / 60f / 2 * time;
             while (game.IsOrgasming(device.Settings.GirlIndex))
             {
                 MoveStroker(device, top, time);
@@ -79,20 +79,24 @@ namespace LoveMachine.Core
             Mathf.InverseLerp(1f, -1f,
                 Mathf.Cos(2 * Mathf.PI * waveInfo.Frequency * (x - waveInfo.Phase)));
 
-        private void GetStrokeZone(float strokeTimeSecs, AnimationAnalyzer.WaveInfo waveInfo,
-            out float min, out float max)
+        private void GetStrokeZone(float strokeTimeSecs, Device device,
+            AnimationAnalyzer.WaveInfo waveInfo, out float min, out float max)
         {
-            float minSlow = Mathf.InverseLerp(0, 100, StrokerConfig.SlowStrokeZoneMin.Value);
-            float maxSlow = Mathf.InverseLerp(0, 100, StrokerConfig.SlowStrokeZoneMax.Value);
-            float minFast = Mathf.InverseLerp(0, 100, StrokerConfig.FastStrokeZoneMin.Value);
-            float maxFast = Mathf.InverseLerp(0, 100, StrokerConfig.FastStrokeZoneMax.Value);
             // decrease stroke length gradually as speed approaches the device limit
-            float rate = 60f / StrokerConfig.MaxStrokesPerMinute.Value / strokeTimeSecs;
+            float rate = 60f / device.Settings.StrokerSettings.MaxStrokesPerMin / strokeTimeSecs;
             float relativeLength = waveInfo.Amplitude / game.PenisSize;
-            float scale = Mathf.Lerp(1f - StrokerConfig.StrokeLengthRealism.Value, 1f,
-                relativeLength);
-            min = Mathf.Lerp(minSlow, minFast, rate) * scale;
-            max = Mathf.Lerp(maxSlow, maxFast, rate) * scale;
+            float scale = Mathf.Lerp(
+                1f - StrokerConfig.StrokeLengthRealism.Value,
+                1f,
+                t: relativeLength);
+            min = scale * Mathf.Lerp(
+                device.Settings.StrokerSettings.SlowStrokeZoneMin,
+                device.Settings.StrokerSettings.FastStrokeZoneMin,
+                t: rate);
+            max = scale * Mathf.Lerp(
+                device.Settings.StrokerSettings.SlowStrokeZoneMax,
+                device.Settings.StrokerSettings.FastStrokeZoneMax,
+                t: rate);
         }
 
         protected void MoveStroker(Device device, float position, float durationSecs) =>

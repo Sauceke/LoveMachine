@@ -13,6 +13,8 @@ namespace LoveMachine.Core
         public Bone Bone { get; set; } = Bone.Auto;
         public int LatencyMs { get; set; } = 0;
         public int UpdatesHz { get; set; } = 10;
+        public StrokerSettings StrokerSettings { get; set; } = new StrokerSettings();
+        public VibratorSettings VibratorSettings { get; set; } = new VibratorSettings();
 
         internal void Draw()
         {

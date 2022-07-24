@@ -38,9 +38,10 @@ namespace LoveMachine.Core
                 float frequency = result.Frequency;
                 strength = Mathf.Abs(Mathf.Cos(Mathf.PI * time * frequency)) + 0.1f;
             }
-            float intensityPercent = Mathf.Lerp(VibratorConfig.VibrationIntensityMin.Value,
-                VibratorConfig.VibrationIntensityMax.Value, strength * game.VibrationIntensity);
-            float intensity = Mathf.InverseLerp(0f, 100f, intensityPercent);
+            float intensity = Mathf.Lerp(
+                device.Settings.VibratorSettings.IntensityMin,
+                device.Settings.VibratorSettings.IntensityMax,
+                t: strength * game.VibrationIntensity);
             DoVibrate(device, intensity);
             yield return new WaitForSecondsRealtime(1.0f / device.Settings.UpdatesHz);
         }

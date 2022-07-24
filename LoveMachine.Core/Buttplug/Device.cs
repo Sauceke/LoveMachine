@@ -12,6 +12,7 @@ namespace LoveMachine.Core
             get => Settings.DeviceName;
             set => Settings.DeviceName = value;
         }
+
         public int DeviceIndex { get; set; }
         public DeviceSettings Settings { get; set; } = new DeviceSettings();
         public Features DeviceMessages { get; set; }
@@ -52,6 +53,14 @@ namespace LoveMachine.Core
             GUILayout.EndHorizontal();
             GUIUtil.SingleSpace();
             Settings.Draw();
+            if (IsStroker)
+            {
+                Settings.StrokerSettings.Draw();
+            }
+            if (IsVibrator)
+            {
+                Settings.VibratorSettings.Draw();
+            }
         }
     }
 
