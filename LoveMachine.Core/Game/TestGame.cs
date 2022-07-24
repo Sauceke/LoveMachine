@@ -28,10 +28,13 @@ namespace LoveMachine.Core
         {
             speed = strokesPerSec;
             normalizedTime = 0f;
+            // can't use Time.deltaTime here because some games
+            // (KKS) set Time.timeScale to 0 while in the menu
+            float deltaTime = 1f / 30f;
             while (normalizedTime < strokes)
             {
-                normalizedTime += Time.deltaTime * speed;
-                yield return new WaitForEndOfFrame();
+                normalizedTime += deltaTime * speed;
+                yield return new WaitForSecondsRealtime(deltaTime);
             }
         }
 
