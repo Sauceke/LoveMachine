@@ -42,6 +42,7 @@
     <Reference Include="System.XML" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Buttplug\DeviceSettings.cs" />
     <Compile Include="Config\ButtplugConfig.cs" />
     <Compile Include="Config\DeviceListConfig.cs" />
     <Compile Include="Game\TestAnimationAnalyzer.cs" />

@@ -18,11 +18,6 @@ namespace LoveMachine.Core
 
         private void SaveDeviceSettings()
         {
-            if (!DeviceListConfig.SaveDeviceSettings.Value)
-            {
-                DeviceListConfig.DeviceSettingsJson.Value = "[]";
-                return;
-            }
             var settings = JsonMapper.ToObject<List<DeviceSettings>>(
                 DeviceListConfig.DeviceSettingsJson.Value);
             var devicesCopy = new List<Device>(client.Devices);
@@ -41,15 +36,20 @@ namespace LoveMachine.Core
             {
                 settings.Add(remainingDevice.Settings);
             }
+            if (!DeviceListConfig.SaveDeviceMapping.Value)
+            {
+                var defaults = new DeviceSettings();
+                foreach (var setting in settings)
+                {
+                    setting.GirlIndex = defaults.GirlIndex;
+                    setting.Bone = defaults.Bone;
+                }
+            }
             DeviceListConfig.DeviceSettingsJson.Value = JsonMapper.ToJson(settings);
         }
 
         private void LoadDeviceSettings()
         {
-            if (!DeviceListConfig.SaveDeviceSettings.Value)
-            {
-                return;
-            }
             var settings = JsonMapper.ToObject<List<DeviceSettings>>(
                 DeviceListConfig.DeviceSettingsJson.Value);
             foreach (var device in client.Devices)

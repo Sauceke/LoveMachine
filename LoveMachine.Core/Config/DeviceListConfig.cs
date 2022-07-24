@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text.RegularExpressions;
+﻿using System.Collections.Generic;
 using BepInEx;
 using BepInEx.Bootstrap;
 using BepInEx.Configuration;
@@ -19,11 +15,9 @@ namespace LoveMachine.Core
                 background = GetDeviceControlsTexture()
             }
         };
-        private static readonly string[] ordinals =
-            { "First", "Second", "Third", "Fourth", "Fifth", "Sixth" };
         private static List<Device> cachedDeviceList;
 
-        public static ConfigEntry<bool> SaveDeviceSettings { get; private set; }
+        public static ConfigEntry<bool> SaveDeviceMapping { get; private set; }
         public static ConfigEntry<string> DeviceSettingsJson { get; private set; }
 
         internal static void Initialize(BaseUnityPlugin plugin)
@@ -41,7 +35,7 @@ namespace LoveMachine.Core
                             HideSettingName = true,
                             HideDefaultButton = true
                         }));
-            SaveDeviceSettings = plugin.Config.Bind(
+            SaveDeviceMapping = plugin.Config.Bind(
                 section: deviceListTitle,
                 key: "Save device assignments",
                 defaultValue: false);
@@ -50,15 +44,7 @@ namespace LoveMachine.Core
         private static void DeviceListDrawer(ConfigEntryBase entry)
         {
             var serverController = Chainloader.ManagerObject.GetComponent<ButtplugWsClient>();
-            var game = Chainloader.ManagerObject.GetComponent<GameDescriptor>();
-            List<Bone> bones = new Bone[] { Bone.Auto }
-                .Concat(game.FemaleBoneNames.Keys)
-                .OrderBy(bone => bone)
-                .ToList();
-            string[] boneNames = bones
-                .Select(bone => Enum.GetName(typeof(Bone), bone))
-                .Select(name => Regex.Replace(name, ".([A-Z])", " $1"))
-                .ToArray();
+            
             GUILayout.BeginVertical(GUILayout.ExpandWidth(true));
             {
                 GUILayout.BeginHorizontal();
@@ -78,7 +64,7 @@ namespace LoveMachine.Core
                     GUILayout.FlexibleSpace();
                 }
                 GUILayout.EndHorizontal();
-                GUILayout.Space(12);
+                GUIUtil.SingleSpace();
                 // imgui doesn't expect the layout to change outside of layout events
                 if (Event.current.type == EventType.Layout)
                 {
@@ -86,61 +72,30 @@ namespace LoveMachine.Core
                 }
                 foreach (var device in cachedDeviceList)
                 {
-                    GUILayout.BeginVertical(deviceControlsStyle);
-                    {
-                        GUILayout.BeginHorizontal();
-                        {
-                            GUILayout.FlexibleSpace();
-                            GUILayout.Label(device.DeviceName);
-                            GUILayout.FlexibleSpace();
-                        }
-                        GUILayout.EndHorizontal();
-                        GUILayout.Space(5);
-                        GUILayout.BeginHorizontal();
-                        {
-                            GUILayout.Label("Features");
-                            GUILayout.Toggle(device.IsStroker, "Stroker");
-                            GUILayout.Toggle(device.IsVibrator, "Vibrator");
-                            GUILayout.Toggle(device.IsRotator, "Rotator");
-                        }
-                        GUILayout.EndHorizontal();
-                        GUILayout.Space(5);
-                        GUILayout.BeginHorizontal();
-                        {
-                            if (game.MaxHeroineCount > 1)
-                            {
-                                GUILayout.Label("Group Role");
-                                string[] girlMappingOptions = Enumerable.Range(0, game.MaxHeroineCount)
-                                    .Select(index => $"{ordinals[index]} Girl")
-                                    .Concat(new string[] { "Off" })
-                                    .ToArray();
-                                device.Settings.GirlIndex = GUILayout.SelectionGrid(
-                                    selected: device.Settings.GirlIndex,
-                                    girlMappingOptions,
-                                    xCount: 5);
-                            }
-                        }
-                        GUILayout.EndHorizontal();
-                        GUILayout.Space(5);
-                        GUILayout.BeginHorizontal();
-                        {
-                            GUILayout.Label("Body Part");
-                            device.Settings.Bone = bones[GUILayout.SelectionGrid(
-                                selected: bones.IndexOf(device.Settings.Bone),
-                                boneNames,
-                                xCount: 5)];
-                        }
-                        GUILayout.EndHorizontal();
-                        if (GUILayout.Button("Test"))
-                        {
-                            TestDevice(device);
-                        }
-                    }
-                    GUILayout.EndVertical();
-                    GUILayout.Space(20);
+                    DrawDevicePanel(device);
                 }
             }
             GUILayout.EndVertical();
+        }
+
+        private static void DrawDevicePanel(Device device)
+        {
+            GUILayout.BeginVertical(deviceControlsStyle);
+            {
+                device.Draw();
+                GUILayout.BeginHorizontal();
+                {
+                    GUIUtil.LabelWithTooltip("Test", "Test this device");
+                    if (GUILayout.Button("Test"))
+                    {
+                        TestDevice(device);
+                    }
+                }
+                GUILayout.EndHorizontal();
+                GUIUtil.SingleSpace();
+            }
+            GUILayout.EndVertical();
+            GUIUtil.SingleSpace();
         }
 
         private static void TestDevice(Device device)

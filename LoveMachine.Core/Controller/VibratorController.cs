@@ -42,8 +42,7 @@ namespace LoveMachine.Core
                 VibratorConfig.VibrationIntensityMax.Value, strength * game.VibrationIntensity);
             float intensity = Mathf.InverseLerp(0f, 100f, intensityPercent);
             DoVibrate(device, intensity);
-            yield return new WaitForSecondsRealtime(
-                1.0f / ButtplugConfig.UpdateFrequency.Value);
+            yield return new WaitForSecondsRealtime(1.0f / device.Settings.UpdatesHz);
         }
 
         protected void DoVibrate(Device device, float intensity) =>

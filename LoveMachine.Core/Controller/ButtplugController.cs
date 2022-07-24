@@ -100,7 +100,7 @@ namespace LoveMachine.Core
                 // updating every 3s and caching the result solves this
                 yield return new WaitForSecondsRealtime(3f);
                 float animTimeSecs = GetAnimationTimeSecs(device.Settings.GirlIndex);
-                float normalizedLatency = ButtplugConfig.LatencyMs.Value / 1000f / animTimeSecs;
+                float normalizedLatency = device.Settings.LatencyMs / 1000f / animTimeSecs;
                 normalizedLatencies[device] = normalizedLatency;
             }
         }

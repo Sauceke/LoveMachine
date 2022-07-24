@@ -33,7 +33,7 @@ namespace LoveMachine.Core
             {
                 yield break;
             }
-            int updateFrequency = ButtplugConfig.UpdateFrequency.Value;
+            int updateFrequency = device.Settings.UpdatesHz;
             float animTimeSecs = GetAnimationTimeSecs(girlIndex);
             // min number of subdivisions
             int turns = 2 * waveInfo.Frequency;

@@ -1,14 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace LoveMachine.Core
 {
-    public class DeviceSettings
-    {
-        public string DeviceName { get; set; }
-        public int GirlIndex { get; set; } = 0;
-        public Bone Bone { get; set; } = Bone.Auto;
-    }
 
     public class Device
     {
@@ -35,6 +30,28 @@ namespace LoveMachine.Core
             {
                 public int FeatureCount { get; set; }
             }
+        }
+
+        internal void Draw()
+        {
+            GUILayout.BeginHorizontal();
+            {
+                GUILayout.FlexibleSpace();
+                GUILayout.Label(DeviceName);
+                GUILayout.FlexibleSpace();
+            }
+            GUILayout.EndHorizontal();
+            GUIUtil.SingleSpace();
+            GUILayout.BeginHorizontal();
+            {
+                GUIUtil.LabelWithTooltip("Features", "What this device can do.");
+                GUILayout.Toggle(IsStroker, "Stroker");
+                GUILayout.Toggle(IsVibrator, "Vibrator");
+                GUILayout.Toggle(IsRotator, "Rotator");
+            }
+            GUILayout.EndHorizontal();
+            GUIUtil.SingleSpace();
+            Settings.Draw();
         }
     }
 
