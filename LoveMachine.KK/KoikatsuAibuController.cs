@@ -24,11 +24,11 @@ namespace LoveMachine.KK
 
         protected override IEnumerator Run(Device device)
         {
-            const float updateTimeSecs = 0.1f;
+            float updateTimeSecs = 1f / device.Settings.UpdatesHz;
             float previousY = 0f;
             while (!kk.Flags.isHSceneEnd)
             {
-                yield return new WaitForSeconds(updateTimeSecs);
+                yield return new WaitForSecondsRealtime(updateTimeSecs);
                 Bone bone = device.Settings.Bone;
                 if (!aibuBones.Contains(bone))
                 {
