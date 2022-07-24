@@ -12,7 +12,7 @@ namespace LoveMachine.PH
     {
         private static readonly H_STATE[] activeHStates = { H_STATE.LOOP, H_STATE.SPURT };
 
-        protected H_Scene scene;
+        private H_Scene scene;
 
         protected override Dictionary<Bone, string> FemaleBoneNames => new Dictionary<Bone, string>
         {

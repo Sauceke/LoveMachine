@@ -11,7 +11,7 @@ namespace LoveMachine.Core
 
         internal static void Initialize(BaseUnityPlugin plugin)
         {
-            string killSwitchSettingsTitle = "Kill Switch Settings";
+            const string killSwitchSettingsTitle = "Kill Switch Settings";
             KillSwitch = plugin.Config.Bind(
                 section: killSwitchSettingsTitle,
                 key: "Emergency Stop Key Binding",

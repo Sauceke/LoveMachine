@@ -24,7 +24,7 @@ namespace LoveMachine.KK
 
         protected override IEnumerator Run(Device device)
         {
-            float updateTimeSecs = 0.1f;
+            const float updateTimeSecs = 0.1f;
             float previousY = 0f;
             while (!kk.Flags.isHSceneEnd)
             {

@@ -4,7 +4,7 @@ using LoveMachine.Core;
 
 namespace LoveMachine.PH
 {
-    internal class Hooks
+    internal static class Hooks
     {
         public static void InstallHooks() => Harmony.CreateAndPatchAll(typeof(HSceneTriggers));
 

@@ -10,7 +10,7 @@ namespace LoveMachine.Core
     {
         private static readonly GUIStyle deviceControlsStyle = new GUIStyle()
         {
-            margin = new RectOffset(left: 20, top: 0, right: 20, bottom: 0),
+            margin = new RectOffset(left: 20, right: 20, top: 0, bottom: 0),
             normal = new GUIStyleState
             {
                 background = GetDeviceControlsTexture()
@@ -23,7 +23,7 @@ namespace LoveMachine.Core
 
         internal static void Initialize(BaseUnityPlugin plugin)
         {
-            string deviceListTitle = "Device List";
+            const string deviceListTitle = "Device List";
             DeviceSettingsJson = plugin.Config.Bind(
                 section: deviceListTitle,
                     key: "Devices",
@@ -45,7 +45,6 @@ namespace LoveMachine.Core
         private static void DeviceListDrawer(ConfigEntryBase entry)
         {
             var serverController = Chainloader.ManagerObject.GetComponent<ButtplugWsClient>();
-            
             GUILayout.BeginVertical(GUILayout.ExpandWidth(true));
             {
                 GUILayout.BeginHorizontal();

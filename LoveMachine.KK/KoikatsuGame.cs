@@ -22,7 +22,7 @@ namespace LoveMachine.KK
 
         private const string MaleBoneName = "k_f_tamaL_00"; // left testicle
 
-        protected static readonly List<string> orgasmAnimations = new List<string>
+        private static readonly List<string> orgasmAnimations = new List<string>
         {
             "OUT_START", "OUT_LOOP", "IN_START", "IN_LOOP", "IN_Start", "IN_Loop",
             "M_OUT_Start", "M_OUT_Loop", "M_IN_Start", "M_IN_Loop",

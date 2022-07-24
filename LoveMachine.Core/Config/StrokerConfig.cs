@@ -13,7 +13,7 @@ namespace LoveMachine.Core
         internal static void Initialize(BaseUnityPlugin plugin)
         {
             int order = 1000;
-            string strokerSettingsTitle = "Stroker Settings";
+            const string strokerSettingsTitle = "Stroker Settings";
             StrokeLengthRealism = plugin.Config.Bind(
                 section: strokerSettingsTitle,
                 key: "Stroke Length Realism",

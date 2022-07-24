@@ -11,7 +11,7 @@ namespace LoveMachine.Core
         internal static void Initialize(BaseUnityPlugin plugin)
         {
             int order = 1000;
-            string rotationSettingsTitle = "Rotation Settings";
+            const string rotationSettingsTitle = "Rotation Settings";
             RotationSpeedRatio = plugin.Config.Bind(
                 section: rotationSettingsTitle,
                 key: "Rotation Speed Ratio",

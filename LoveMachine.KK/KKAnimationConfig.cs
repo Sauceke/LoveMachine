@@ -10,7 +10,7 @@ namespace LoveMachine.KK
 
         public static void Initialize(BaseUnityPlugin plugin)
         {
-            string animationSettingsTitle = "Animation Settings";
+            const string animationSettingsTitle = "Animation Settings";
             ReduceAnimationSpeeds = plugin.Config.Bind(
                 section: animationSettingsTitle,
                 key: "Reduce animation speeds",

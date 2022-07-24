@@ -37,7 +37,7 @@ namespace LoveMachine.COM3D2
             }
         };
 
-        protected override int HeroineCount => FindCharaObject($"Maid[1]") == null ? 1 : 2;
+        protected override int HeroineCount => FindCharaObject("Maid[1]") == null ? 1 : 2;
 
         protected override int MaxHeroineCount => 2;
 

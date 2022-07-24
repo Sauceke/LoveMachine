@@ -69,34 +69,34 @@ namespace LoveMachine.Core
 
         internal bool IsHSceneRunning => hRunning && !IsHSceneInterrupted;
 
-        /// <returns>
+        /// <summary>
         /// The animator of the heroine at the given index. <br/>
         /// If, for whatever fucked up reason, the game doesn't use Animators
         /// (*cough* *cough* COM3D2), you can override GetAnimState instead.
-        /// </returns>
+        /// </summary>
         public abstract Animator GetFemaleAnimator(int girlIndex);
 
-        /// <returns>
+        /// <summary>
         /// The root bone of this heroine. <br/>
         /// All bone names will be searched for inside this game object. <br/>
         /// If null, the search will be extended to the entire game.
-        /// </returns>
+        /// </summary>
         protected internal abstract GameObject GetFemaleRoot(int girlIndex);
 
-        /// <returns>
+        /// <summary>
         /// The base of the penis or something close to that (e.g. balls).
-        /// </returns>
+        /// </summary>
         protected internal abstract Transform GetDickBase();
 
-        /// <returns>
+        /// <summary>
         /// A unique ID of the animation this girl is currently playing.
-        /// </returns>
+        /// </summary>
         protected internal abstract string GetPose(int girlIndex);
 
-        /// <returns>
+        /// <summary>
         /// True if this girl is currently NOT engaging in sex,
         /// false otherwise.
-        /// </returns>
+        /// </summary>
         protected internal abstract bool IsIdle(int girlIndex);
 
         /// <summary>
@@ -136,9 +136,9 @@ namespace LoveMachine.Core
             speed = info.speed;
         }
 
-        /// <returns>
+        /// <summary>
         /// true if this heroine is currently orgasming; false otherwise.
-        /// </returns>
+        /// </summary>
         protected internal virtual bool IsOrgasming(int girlIndex) => false;
 
         /// <summary>

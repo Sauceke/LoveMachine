@@ -4,7 +4,6 @@ using UnityEngine;
 
 namespace LoveMachine.Core
 {
-
     public class Device
     {
         public string DeviceName

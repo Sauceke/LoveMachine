@@ -9,7 +9,7 @@ namespace LoveMachine.Core
 
         internal static void Initialize(BaseUnityPlugin plugin)
         {
-            string vibrationSettingsTitle = "Vibration Settings";
+            const string vibrationSettingsTitle = "Vibration Settings";
             SyncVibrationWithAnimation = plugin.Config.Bind(
                 section: vibrationSettingsTitle,
                 key: "Vibration With Animation",

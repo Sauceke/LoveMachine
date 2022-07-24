@@ -10,7 +10,7 @@ namespace LoveMachine.Core
         internal static void Initialize(BaseUnityPlugin plugin)
         {
             int order = 1000;
-            string intifaceSettingsTitle = "Intiface Settings";
+            const string intifaceSettingsTitle = "Intiface Settings";
             WebSocketAddress = plugin.Config.Bind(
                 section: intifaceSettingsTitle,
                 key: "WebSocket address",

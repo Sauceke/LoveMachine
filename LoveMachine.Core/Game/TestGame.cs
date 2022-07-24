@@ -30,7 +30,7 @@ namespace LoveMachine.Core
             normalizedTime = 0f;
             // can't use Time.deltaTime here because some games
             // (KKS) set Time.timeScale to 0 while in the menu
-            float deltaTime = 1f / 30f;
+            const float deltaTime = 1f / 30f;
             while (normalizedTime < strokes)
             {
                 normalizedTime += deltaTime * speed;

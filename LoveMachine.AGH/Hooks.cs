@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace LoveMachine.AGH
 {
-    internal class Hooks
+    internal static class Hooks
     {
         public static void InstallHooks()
         {
