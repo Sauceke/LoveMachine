@@ -5,17 +5,11 @@ namespace LoveMachine.KK
 {
     public static class KKAnimationConfig
     {
-        public static ConfigEntry<bool> ReduceAnimationSpeeds { get; private set; }
         public static ConfigEntry<bool> SuppressAnimationBlending { get; private set; }
 
         public static void Initialize(BaseUnityPlugin plugin)
         {
             const string animationSettingsTitle = "Animation Settings";
-            ReduceAnimationSpeeds = plugin.Config.Bind(
-                section: animationSettingsTitle,
-                key: "Reduce animation speeds",
-                defaultValue: true,
-                "Whether to slow down animations to a speed your stroker can handle");
             SuppressAnimationBlending = plugin.Config.Bind(
                 section: animationSettingsTitle,
                 key: "Simplify animations",

@@ -104,13 +104,6 @@ namespace LoveMachine.KK
                 + "." + Flags.nowAnimationInfo.nameAnimation
                 + "." + Flags.nowAnimStateName;
 
-        protected override void GetAnimState(int girlIndex, out float normalizedTime,
-            out float length, out float speed)
-        {
-            base.GetAnimState(girlIndex, out normalizedTime, out float baseLength, out speed);
-            length = GetAnimatorStateInfo(girlIndex).IsName("OLoop") ? baseLength * 2f : baseLength;
-        }
-
         protected override IEnumerator UntilReady()
         {
             while (Flags.lstHeroine.IsNullOrEmpty()

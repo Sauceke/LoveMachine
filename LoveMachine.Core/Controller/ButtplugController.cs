@@ -131,19 +131,5 @@ namespace LoveMachine.Core
             }
             return strokeTimeSecs;
         }
-
-        protected void NerfAnimationSpeeds(float animStrokeTimeSecs, params Animator[] animators)
-        {
-            // we can go as fast as the slowest active device
-            var maxStrokesPerMinute = client.Devices
-                .Where(device => device.IsStroker)
-                .Min(device => device.Settings.StrokerSettings.MaxStrokesPerMin);
-            float speedMultiplier =
-                Math.Min(1, animStrokeTimeSecs * maxStrokesPerMinute / 60f);
-            foreach (var animator in animators)
-            {
-                animator.speed = Mathf.Min(animator.speed, speedMultiplier);
-            }
-        }
     }
 }
