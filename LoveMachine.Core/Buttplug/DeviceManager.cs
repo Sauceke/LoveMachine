@@ -11,16 +11,22 @@ namespace LoveMachine.Core
         private void Start()
         {
             client = gameObject.GetComponent<ButtplugWsClient>();
-            client.OnDeviceListUpdated += (s, a) => LoadDeviceSettings();
+            client.OnDeviceListUpdated += ReloadDeviceSettings;
         }
 
-        private void OnDestroy() => SaveDeviceSettings();
+        private void OnDestroy() => SaveDeviceSettings(client.Devices);
 
-        private void SaveDeviceSettings()
+        private void ReloadDeviceSettings(object sender, DeviceListEventArgs args)
+        {
+            SaveDeviceSettings(args.Before);
+            LoadDeviceSettings(args.After);
+        }
+
+        private void SaveDeviceSettings(List<Device> devices)
         {
             var settings = JsonMapper.ToObject<List<DeviceSettings>>(
                 DeviceListConfig.DeviceSettingsJson.Value);
-            var devicesCopy = new List<Device>(client.Devices);
+            var devicesCopy = new List<Device>(devices);
             for (int i = 0; i < settings.Count; i++)
             {
                 var setting = settings[i];
@@ -48,11 +54,11 @@ namespace LoveMachine.Core
             DeviceListConfig.DeviceSettingsJson.Value = JsonMapper.ToJson(settings);
         }
 
-        private void LoadDeviceSettings()
+        private void LoadDeviceSettings(List<Device> devices)
         {
             var settings = JsonMapper.ToObject<List<DeviceSettings>>(
                 DeviceListConfig.DeviceSettingsJson.Value);
-            foreach (var device in client.Devices)
+            foreach (var device in devices)
             {
                 int matchingSettingIndex = settings.FindIndex(
                     setting => string.Equals(device.DeviceName, setting.DeviceName));

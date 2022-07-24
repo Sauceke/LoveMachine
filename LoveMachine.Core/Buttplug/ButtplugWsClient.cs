@@ -213,9 +213,11 @@ namespace LoveMachine.Core
                 }
                 else if (data.ContainsKey("DeviceList"))
                 {
+                    var previousDevices = Devices;
                     Devices = JsonMapper.ToObject<DeviceListMessage>(data.ToJson())
                         .DeviceList.Devices;
-                    OnDeviceListUpdated.Invoke(this, new DeviceListEventArgs());
+                    var args = new DeviceListEventArgs(before: previousDevices, after: Devices);
+                    OnDeviceListUpdated.Invoke(this, args);
                     LogDevices();
                 }
                 if (data.ContainsKey("ServerInfo"))

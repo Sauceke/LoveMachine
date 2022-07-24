@@ -65,5 +65,15 @@ namespace LoveMachine.Core
         }
     }
 
-    internal class DeviceListEventArgs : EventArgs { }
+    internal class DeviceListEventArgs : EventArgs
+    {
+        public List<Device> Before { get; }
+        public List<Device> After { get; }
+
+        public DeviceListEventArgs(List<Device> before, List<Device> after)
+        {
+            Before = before;
+            After = after;
+        }
+    }
 }
