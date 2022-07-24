@@ -25,7 +25,7 @@ namespace LoveMachine.Core
             string deviceListTitle = "Device List";
             DeviceSettingsJson = plugin.Config.Bind(
                 section: deviceListTitle,
-                    key: "Connected",
+                    key: "Devices",
                     defaultValue: "[]",
                     new ConfigDescription(
                         "",
