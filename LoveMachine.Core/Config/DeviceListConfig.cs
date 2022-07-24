@@ -10,6 +10,7 @@ namespace LoveMachine.Core
     {
         private static readonly GUIStyle deviceControlsStyle = new GUIStyle()
         {
+            margin = new RectOffset(left: 20, top: 0, right: 20, bottom: 0),
             normal = new GUIStyleState
             {
                 background = GetDeviceControlsTexture()
