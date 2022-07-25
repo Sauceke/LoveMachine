@@ -34,7 +34,7 @@ namespace LoveMachine.Core
                 float phase = analyzer.TryGetWaveInfo(girlIndex, bone, out var result)
                     ? result.Phase
                     : 0f;
-                float time = (normalizedTime - phase) % 1;
+                float time = (normalizedTime - phase) % 1f;
                 float frequency = result.Frequency;
                 strength = Mathf.Abs(Mathf.Cos(Mathf.PI * time * frequency)) + 0.1f;
             }

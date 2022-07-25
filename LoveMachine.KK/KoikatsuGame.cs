@@ -79,7 +79,7 @@ namespace LoveMachine.KK
 
         protected override bool IsIdle(int girlIndex) => !supportedModes.Contains(Flags.mode)
                     || !supportedAnimations.Contains(Flags.nowAnimStateName)
-                    || Flags.speed < 1;
+                    || Flags.speed < 1f;
 
         protected override bool IsOrgasming(int girlIndex) =>
             orgasmAnimations.Contains(Flags.nowAnimStateName);

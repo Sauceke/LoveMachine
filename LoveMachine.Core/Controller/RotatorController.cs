@@ -17,7 +17,7 @@ namespace LoveMachine.Core
                 Bone bone = device.Settings.Bone;
                 if (game.IsIdle(girlIndex))
                 {
-                    client.RotateCmd(device, 0, clockwise);
+                    client.RotateCmd(device, 0f, clockwise);
                     yield return new WaitForSeconds(.1f);
                     continue;
                 }

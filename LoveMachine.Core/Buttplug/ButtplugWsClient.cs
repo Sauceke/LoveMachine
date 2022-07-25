@@ -68,7 +68,7 @@ namespace LoveMachine.Core
                         .Select(featureIndex => new
                         {
                             Index = featureIndex,
-                            Duration = (int)(durationSecs * 1000),
+                            Duration = (int)(durationSecs * 1000f),
                             Position = position
                         })
                         .ToArray()

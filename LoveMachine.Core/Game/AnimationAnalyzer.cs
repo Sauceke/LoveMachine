@@ -81,7 +81,7 @@ namespace LoveMachine.Core
             yield return HandleCoroutine(game.WaitAfterPoseChange());
             game.GetAnimState(girlIndex, out float startTime, out _, out _);
             float currentTime = startTime;
-            while (currentTime - 1 < startTime)
+            while (currentTime - 1f < startTime)
             {
                 yield return new WaitForEndOfFrame();
                 game.GetAnimState(girlIndex, out currentTime, out _, out _);
@@ -135,10 +135,10 @@ namespace LoveMachine.Core
             var distances = samples.Select(sample => getDistance(sample.RelativePos));
             return new WaveInfo
             {
-                Phase = trough.Time % 1,
+                Phase = trough.Time % 1f,
                 Frequency = GetFrequency(distances),
                 Amplitude = axis.magnitude,
-                Preference = Mathf.Pow(trough.RelativePos.magnitude, 3) / axis.magnitude
+                Preference = Mathf.Pow(trough.RelativePos.magnitude, 3f) / axis.magnitude
             };
         }
 

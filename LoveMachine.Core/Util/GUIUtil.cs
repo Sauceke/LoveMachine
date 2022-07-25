@@ -92,7 +92,7 @@ namespace LoveMachine.Core
         private static void PercentLabel(float value)
         {
             float labelWidth = GUI.skin.label.CalcSize(new GUIContent("100%")).x;
-            string text = (int)(value * 100) + "%";
+            string text = (int)(value * 100f) + "%";
             GUILayout.Label(text, GUILayout.Width(labelWidth));
         }
     }
