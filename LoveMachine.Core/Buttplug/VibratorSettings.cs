@@ -11,8 +11,8 @@
             float min = IntensityMin;
             float max = IntensityMax;
             GUIUtil.RangeSlider(
-                label: "Slow",
-                tooltip: "Range of stroking movement when going slow",
+                label: "Intensity Range",
+                tooltip: "Range of vibration strength",
                 lower: ref min,
                 upper: ref max,
                 lowerDefault: defaults.IntensityMin,
