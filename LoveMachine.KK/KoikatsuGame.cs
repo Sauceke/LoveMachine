@@ -104,6 +104,16 @@ namespace LoveMachine.KK
                 + "." + Flags.nowAnimationInfo.nameAnimation
                 + "." + Flags.nowAnimStateName;
 
+        protected override IEnumerator WaitAfterPoseChange()
+        {
+            // play nicely with CrossFader
+            while (!GetAnimatorStateInfo(0).IsName(Flags.nowAnimStateName))
+            {
+                yield return new WaitForSeconds(0.1f);
+            }
+            yield return new WaitForSeconds(0.1f);
+        }
+
         protected override IEnumerator UntilReady()
         {
             while (Flags.lstHeroine.IsNullOrEmpty()
