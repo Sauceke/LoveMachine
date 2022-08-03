@@ -54,7 +54,6 @@
     <Compile Include="Config\KillSwitchConfig.cs" />
     <Compile Include="Config\RotatorConfig.cs" />
     <Compile Include="Config\StrokerConfig.cs" />
-    <Compile Include="Config\VibratorConfig.cs" />
     <Compile Include="Game\AnimationAnalyzer.cs" />
     <Compile Include="Controller\ButtplugController.cs" />
     <Compile Include="Game\Bone.cs" />
