@@ -14,6 +14,7 @@ namespace LoveMachine.Core
         protected AnimationAnalyzer analyzer;
         private readonly Dictionary<Device, float> normalizedLatencies =
             new Dictionary<Device, float>();
+        private bool isTestController = false;
 
         protected abstract bool IsDeviceSupported(Device device);
 
@@ -36,9 +37,12 @@ namespace LoveMachine.Core
             client = gameObject.GetComponent<ButtplugWsClient>();
             game = gameObject.GetComponent<GameDescriptor>();
             analyzer = gameObject.GetComponent<AnimationAnalyzer>();
-            game.OnHStarted += (s, a) => OnStartH();
-            game.OnHEnded += (s, a) => OnEndH();
-            client.OnDeviceListUpdated += (s, args) => Restart();
+            if (!isTestController)
+            {
+                game.OnHStarted += (s, a) => OnStartH();
+                game.OnHEnded += (s, a) => OnEndH();
+                client.OnDeviceListUpdated += (s, a) => Restart();
+            }
         }
 
         public void OnStartH() => HandleCoroutine(RunLoops());
@@ -61,6 +65,7 @@ namespace LoveMachine.Core
             where T : ButtplugController
         {
             var testController = Chainloader.ManagerObject.AddComponent<T>();
+            testController.isTestController = true;
             testController.HandleCoroutine(testController.RunTest(device));
         }
 
