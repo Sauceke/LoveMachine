@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace LoveMachine.Core
 {
-    internal class TestGame : GameDescriptor
+    internal sealed class TestGame : GameDescriptor
     {
         private float normalizedTime;
         private float speed;

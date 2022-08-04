@@ -1,6 +1,5 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using LoveMachine.Core;
 using UnityEngine;
 
@@ -35,8 +34,8 @@ namespace LoveMachine.IO
         public override Animator GetFemaleAnimator(int girlIndex) =>
             GetFemaleRoot(girlIndex)?.GetComponent<Animator>();
 
-        protected override GameObject GetFemaleRoot(int _girlIndex)
-            => GameObject.Find("CH01/CH0001") ?? GameObject.Find("CH02/CH0002");
+        protected override GameObject GetFemaleRoot(int _girlIndex) =>
+            GameObject.Find("CH01/CH0001") ?? GameObject.Find("CH02/CH0002");
 
         protected override Transform GetDickBase() => GameObject.Find("BP00_tamaL").transform;
 

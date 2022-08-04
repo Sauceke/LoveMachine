@@ -1,6 +1,6 @@
 ﻿namespace LoveMachine.Core
 {
-    internal class TestAnimationAnalyzer : AnimationAnalyzer
+    internal sealed class TestAnimationAnalyzer : AnimationAnalyzer
     {
         public override bool TryGetWaveInfo(int girlIndex, Bone bone, out WaveInfo result)
         {

@@ -26,7 +26,7 @@ namespace LoveMachine.KK
         {
             float updateTimeSecs = 1f / device.Settings.UpdatesHz;
             float previousY = 0f;
-            while (!kk.Flags.isHSceneEnd)
+            while (true)
             {
                 yield return new WaitForSecondsRealtime(updateTimeSecs);
                 Bone bone = device.Settings.Bone;

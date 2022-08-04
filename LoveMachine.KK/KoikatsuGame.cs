@@ -15,13 +15,6 @@ namespace LoveMachine.KK
             HFlag.EMode.houshi3PMMF, HFlag.EMode.sonyu3PMMF
         };
 
-        private static readonly List<HFlag.EMode> houshiModes = new List<HFlag.EMode>
-        {
-            HFlag.EMode.houshi, HFlag.EMode.houshi3P, HFlag.EMode.houshi3PMMF
-        };
-
-        private const string MaleBoneName = "k_f_tamaL_00"; // left testicle
-
         private static readonly List<string> orgasmAnimations = new List<string>
         {
             "OUT_START", "OUT_LOOP", "IN_START", "IN_LOOP", "IN_Start", "IN_Loop",
@@ -92,13 +85,13 @@ namespace LoveMachine.KK
         protected override Transform GetDickBase()
         {
             var bodyBone = Flags.player.chaCtrl.objBodyBone.transform;
-            return bodyBone.FindLoop(MaleBoneName).transform;
+            return bodyBone.FindLoop("k_f_tamaL_00").transform;
         }
 
         protected override string GetPose(int girlIndex) =>
             // Sideloaded animations all have the same id and name.
-            // The only surefire way to uniquely identify an animation seems to be the hash code,
-            // since it's based on object reference.
+            // The only surefire way to uniquely identify an animation seems
+            // to be the hash code, since it's based on object reference.
             Flags.nowAnimationInfo.GetHashCode()
                 + "." + Flags.nowAnimationInfo.nameAnimation
                 + "." + Flags.nowAnimStateName;
@@ -115,18 +108,10 @@ namespace LoveMachine.KK
 
         protected override IEnumerator UntilReady()
         {
-            while (Flags.lstHeroine.IsNullOrEmpty()
+            yield return new WaitWhile(() => !Flags.isHSceneEnd
+                && (Flags.lstHeroine.IsNullOrEmpty()
                 || Flags.lstHeroine.Any(girl => girl.chaCtrl?.animBody == null)
-                || Flags.player?.chaCtrl?.animBody == null)
-            {
-                CoreConfig.Logger.LogDebug("Waiting for H Scene to be initialized...");
-                yield return new WaitForSeconds(1f);
-                if (Flags.isHSceneEnd)
-                {
-                    yield break;
-                }
-            }
-            CoreConfig.Logger.LogDebug("H Scene is now initialized.");
+                || Flags.player?.chaCtrl?.animBody == null));
         }
     }
 }

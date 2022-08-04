@@ -1,6 +1,4 @@
-﻿using UnityEngine;
-
-namespace LoveMachine.Core
+﻿namespace LoveMachine.Core
 {
     public class StrokerSettings
     {

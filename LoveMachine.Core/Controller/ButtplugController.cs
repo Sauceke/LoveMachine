@@ -105,8 +105,7 @@ namespace LoveMachine.Core
                 // updating every 3s and caching the result solves this
                 yield return new WaitForSecondsRealtime(3f);
                 float animTimeSecs = GetAnimationTimeSecs(device.Settings.GirlIndex);
-                float normalizedLatency = device.Settings.LatencyMs / 1000f / animTimeSecs;
-                normalizedLatencies[device] = normalizedLatency;
+                normalizedLatencies[device] = device.Settings.LatencyMs / 1000f / animTimeSecs;
             }
         }
 

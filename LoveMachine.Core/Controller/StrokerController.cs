@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace LoveMachine.Core
 {
-    public class StrokerController : ClassicButtplugController
+    public sealed class StrokerController : ClassicButtplugController
     {
         protected override bool IsDeviceSupported(Device device) => device.IsStroker;
 
@@ -24,9 +24,8 @@ namespace LoveMachine.Core
             int segments = device.Settings.StrokerSettings.SmoothStroking ? subdivisions : turns;
             float startNormTime = GetLatencyCorrectedNormalizedTime(device);
             int getSegment(float time) => (int)((time - waveInfo.Phase) * segments);
-            // != because time can also go down when changing animation
-            yield return new WaitUntil(() =>
-                getSegment(GetLatencyCorrectedNormalizedTime(device)) != getSegment(startNormTime));
+            yield return new WaitWhile(() =>
+                getSegment(GetLatencyCorrectedNormalizedTime(device)) == getSegment(startNormTime));
             animTimeSecs = GetAnimationTimeSecs(girlIndex);
             float refreshTimeSecs = animTimeSecs / segments;
             float refreshNormTime = 1f / segments;

@@ -73,13 +73,10 @@ namespace LoveMachine.HS2
 
         protected override IEnumerator UntilReady()
         {
-            while (hScene.GetFemales().Length == 0
+            yield return new WaitWhile(() => hScene.GetFemales().Length == 0
                 || hScene.GetFemales()[0] == null
                 || hScene.GetMales().Length == 0
-                || hScene.GetMales()[0] == null)
-            {
-                yield return new WaitForSeconds(.1f);
-            }
+                || hScene.GetMales()[0] == null);
         }
 
         protected override bool IsIdle(int girlIndex) => idleAnimations.Any(

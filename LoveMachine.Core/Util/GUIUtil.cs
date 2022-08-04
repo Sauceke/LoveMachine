@@ -1,5 +1,4 @@
-﻿using BepInEx.Configuration;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace LoveMachine.Core
 {

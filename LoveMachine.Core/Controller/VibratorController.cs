@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace LoveMachine.Core
 {
-    public class VibratorController : ClassicButtplugController
+    public sealed class VibratorController : ClassicButtplugController
     {
         private static readonly Dictionary<VibrationPattern, Func<float, float>> waveforms =
             new Dictionary<VibrationPattern, Func<float, float>>
@@ -27,7 +27,7 @@ namespace LoveMachine.Core
             analyzer.TryGetWaveInfo(girlIndex, bone, out var result);
             float phase = result.Phase;
             float frequency = result.Frequency;
-            float time = (normalizedTime - phase) % 1f;
+            float time = normalizedTime - phase;
             float strength = waveforms[device.Settings.VibratorSettings.Pattern](time * frequency);
             float intensity = Mathf.Lerp(
                 device.Settings.VibratorSettings.IntensityMin,

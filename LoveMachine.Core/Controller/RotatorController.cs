@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace LoveMachine.Core
 {
-    public class RotatorController : ClassicButtplugController
+    public sealed class RotatorController : ClassicButtplugController
     {
         private bool clockwise = true;
 
@@ -34,8 +34,7 @@ namespace LoveMachine.Core
             client.StopDeviceCmd(device);
         }
 
-        protected internal IEnumerator DoRotate(Device device, bool clockwise,
-            float strokeTimeSecs)
+        private IEnumerator DoRotate(Device device, bool clockwise, float strokeTimeSecs)
         {
             float downStrokeTimeSecs = strokeTimeSecs / 2f;
             float downSpeed = Mathf.Lerp(0.3f, 1f, 0.4f / strokeTimeSecs) *

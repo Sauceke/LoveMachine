@@ -51,9 +51,7 @@ namespace LoveMachine.PH
         }
 
         protected override string GetPose(int girlIndex) =>
-            scene.mainMembers.StyleData == null
-                ? "none"
-                : scene.mainMembers.StyleData.id + "." +
+            (scene.mainMembers.StyleData?.id ?? "none") + "." +
                     GetFemaleAnimator(girlIndex).GetCurrentAnimatorStateInfo(0).fullPathHash;
 
         protected override bool IsIdle(int _) =>
@@ -67,14 +65,11 @@ namespace LoveMachine.PH
 
         protected override IEnumerator UntilReady()
         {
-            while (scene.mainMembers?.StyleData == null
+            yield return new WaitWhile(() => scene.mainMembers?.StyleData == null
                 || scene.mainMembers.females.IsNullOrEmpty()
                 || scene.mainMembers.males.IsNullOrEmpty()
                 || scene.mainMembers.females[0] == null
-                || scene.mainMembers.males[0] == null)
-            {
-                yield return new WaitForSeconds(1f);
-            }
+                || scene.mainMembers.males[0] == null);
         }
     }
 }
