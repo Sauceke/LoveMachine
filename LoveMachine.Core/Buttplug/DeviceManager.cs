@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using LitJson;
 using UnityEngine;
 
@@ -14,7 +15,7 @@ namespace LoveMachine.Core
             client.OnDeviceListUpdated += ReloadDeviceSettings;
         }
 
-        private void OnDestroy() => SaveDeviceSettings(client.Devices);
+        private void OnDestroy() => SaveDeviceSettings(client.Devices, exiting: true);
 
         private void ReloadDeviceSettings(object sender, DeviceListEventArgs args)
         {
@@ -22,27 +23,15 @@ namespace LoveMachine.Core
             LoadDeviceSettings(args.After);
         }
 
-        private void SaveDeviceSettings(List<Device> devices)
+        private void SaveDeviceSettings(List<Device> devices, bool exiting = false)
         {
             var settings = JsonMapper.ToObject<List<DeviceSettings>>(
                 DeviceListConfig.DeviceSettingsJson.Value);
-            var devicesCopy = new List<Device>(devices);
-            for (int i = 0; i < settings.Count; i++)
-            {
-                var setting = settings[i];
-                int matchingDeviceIndex = devicesCopy.FindIndex(
-                    device => string.Equals(device.DeviceName, setting.DeviceName));
-                if (matchingDeviceIndex != -1)
-                {
-                    settings[i] = devicesCopy[matchingDeviceIndex].Settings;
-                    devicesCopy.RemoveAt(matchingDeviceIndex);
-                }
-            }
-            foreach (var remainingDevice in devicesCopy)
-            {
-                settings.Add(remainingDevice.Settings);
-            }
-            if (!DeviceListConfig.SaveDeviceMapping.Value)
+            devices.ForEach(device =>
+                settings.Remove(settings.Find(setting =>
+                    setting.DeviceName == device.DeviceName)));
+            settings = devices.Select(device => device.Settings).Concat(settings).ToList();
+            if (exiting && !DeviceListConfig.SaveDeviceMapping.Value)
             {
                 var defaults = new DeviceSettings();
                 foreach (var setting in settings)
@@ -60,13 +49,10 @@ namespace LoveMachine.Core
                 DeviceListConfig.DeviceSettingsJson.Value);
             foreach (var device in devices)
             {
-                int matchingSettingIndex = settings.FindIndex(
-                    setting => string.Equals(device.DeviceName, setting.DeviceName));
-                if (matchingSettingIndex != -1)
-                {
-                    device.Settings = settings[matchingSettingIndex];
-                    settings.RemoveAt(matchingSettingIndex);
-                }
+                device.Settings = settings
+                    .Find(setting => device.DeviceName == setting.DeviceName)
+                    ?? device.Settings;
+                settings.Remove(device.Settings);
             }
         }
     }
