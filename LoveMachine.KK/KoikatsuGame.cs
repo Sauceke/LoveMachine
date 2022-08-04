@@ -74,8 +74,7 @@ namespace LoveMachine.KK
 
         protected override float PenisSize => 0.1f;
 
-        protected override float VibrationIntensity =>
-            IsOrgasming(girlIndex: 0) || houshiModes.Contains(Flags.mode) ? 1f : Flags.speedCalc;
+        protected override float VibrationIntensity => Flags.speedCalc == 0f ? 1f : Flags.speedCalc;
 
         protected override bool IsIdle(int girlIndex) => !supportedModes.Contains(Flags.mode)
                     || !supportedAnimations.Contains(Flags.nowAnimStateName)
