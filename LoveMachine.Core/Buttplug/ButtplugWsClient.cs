@@ -26,6 +26,7 @@ namespace LoveMachine.Core
         private void OnDestroy()
         {
             StopScan();
+            StopAllDevices();
             Close();
         }
 
@@ -121,6 +122,19 @@ namespace LoveMachine.Core
                             Clockwise = clockwise
                         })
                         .ToArray()
+                }
+            };
+            SendSingleCommand(command);
+        }
+
+        public void StopDeviceCmd(Device device)
+        {
+            var command = new
+            {
+                StopDeviceCmd = new
+                {
+                    Id = random.Next(),
+                    DeviceIndex = device.DeviceIndex
                 }
             };
             SendSingleCommand(command);

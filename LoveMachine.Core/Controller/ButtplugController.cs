@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using BepInEx.Bootstrap;
@@ -45,9 +44,9 @@ namespace LoveMachine.Core
             }
         }
 
-        public void OnStartH() => HandleCoroutine(RunLoops());
+        private void OnStartH() => HandleCoroutine(RunLoops());
 
-        public void OnEndH()
+        private void OnEndH()
         {
             StopAllCoroutines();
             client.StopAllDevices();

@@ -3,29 +3,11 @@ using UnityEngine;
 
 namespace LoveMachine.Core
 {
-    public class StrokerController : ButtplugController
+    public class StrokerController : ClassicButtplugController
     {
         protected override bool IsDeviceSupported(Device device) => device.IsStroker;
 
-        protected override IEnumerator Run(Device device)
-        {
-            while (true)
-            {
-                if (game.IsIdle(device.Settings.GirlIndex))
-                {
-                    yield return new WaitForSeconds(.1f);
-                    continue;
-                }
-                if (game.IsOrgasming(device.Settings.GirlIndex))
-                {
-                    yield return HandleCoroutine(EmulateOrgasm(device));
-                    continue;
-                }
-                yield return HandleCoroutine(EmulateStroking(device));
-            }
-        }
-
-        protected IEnumerator EmulateStroking(Device device)
+        protected override IEnumerator HandleAnimation(Device device)
         {
             int girlIndex = device.Settings.GirlIndex;
             var bone = device.Settings.Bone;
@@ -58,19 +40,19 @@ namespace LoveMachine.Core
             float speed = (nextPosition - currentPosition) / refreshTimeSecs;
             speed *= movingUp ? 1f : 1f + game.StrokingIntensity;
             float timeToTargetSecs = (targetPosition - currentPosition) / speed;
-            MoveStroker(device, targetPosition, timeToTargetSecs);
+            client.LinearCmd(device, targetPosition, timeToTargetSecs);
         }
 
-        protected IEnumerator EmulateOrgasm(Device device)
+        protected override IEnumerator HandleOrgasm(Device device)
         {
             float bottom = StrokerConfig.OrgasmDepth.Value;
             float time = 0.5f / StrokerConfig.OrgasmShakingFrequency.Value;
             float top = bottom + device.Settings.StrokerSettings.MaxStrokesPerMin / 60f / 2f * time;
             while (game.IsOrgasming(device.Settings.GirlIndex))
             {
-                MoveStroker(device, top, time);
+                client.LinearCmd(device, top, time);
                 yield return new WaitForSecondsRealtime(time);
-                MoveStroker(device, bottom, time);
+                client.LinearCmd(device, bottom, time);
                 yield return new WaitForSecondsRealtime(time);
             }
         }
@@ -98,8 +80,5 @@ namespace LoveMachine.Core
                 device.Settings.StrokerSettings.FastStrokeZoneMax,
                 t: rate);
         }
-
-        protected void MoveStroker(Device device, float position, float durationSecs) =>
-            client.LinearCmd(device, position, durationSecs);
     }
 }

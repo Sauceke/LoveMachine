@@ -3,37 +3,35 @@ using UnityEngine;
 
 namespace LoveMachine.Core
 {
-    public class RotatorController : StrokerController
+    public class RotatorController : ClassicButtplugController
     {
+        private bool clockwise = true;
+
         protected override bool IsDeviceSupported(Device device) => device.IsRotator;
 
-        protected override IEnumerator Run(Device device)
+        protected override IEnumerator HandleAnimation(Device device)
         {
-            var random = new System.Random();
-            bool clockwise = true;
-            while (true)
+            int girlIndex = device.Settings.GirlIndex;
+            Bone bone = device.Settings.Bone;
+            analyzer.TryGetWaveInfo(girlIndex, bone, out var waveInfo);
+            float strokeTimeSecs = GetAnimationTimeSecs(girlIndex) / waveInfo.Frequency;
+            for (int i = 0; i < waveInfo.Frequency - 1; i++)
             {
-                int girlIndex = device.Settings.GirlIndex;
-                Bone bone = device.Settings.Bone;
-                if (game.IsIdle(girlIndex))
-                {
-                    client.RotateCmd(device, 0f, clockwise);
-                    yield return new WaitForSeconds(.1f);
-                    continue;
-                }
-                analyzer.TryGetWaveInfo(girlIndex, bone, out var waveInfo);
-                float strokeTimeSecs = GetAnimationTimeSecs(girlIndex) / waveInfo.Frequency;
-                for (int i = 0; i < waveInfo.Frequency - 1; i++)
-                {
-                    HandleCoroutine(DoRotate(device, clockwise, strokeTimeSecs));
-                    yield return new WaitForSecondsRealtime(strokeTimeSecs);
-                }
-                yield return HandleCoroutine(DoRotate(device, clockwise, strokeTimeSecs));
-                if (random.NextDouble() <= RotatorConfig.RotationDirectionChangeChance.Value)
-                {
-                    clockwise = !clockwise;
-                }
+                HandleCoroutine(DoRotate(device, clockwise, strokeTimeSecs));
+                yield return new WaitForSecondsRealtime(strokeTimeSecs);
             }
+            yield return HandleCoroutine(DoRotate(device, clockwise, strokeTimeSecs));
+            if (Random.value <= RotatorConfig.RotationDirectionChangeChance.Value)
+            {
+                clockwise = !clockwise;
+            }
+        }
+
+        protected override IEnumerator HandleOrgasm(Device device)
+        {
+            client.RotateCmd(device, 1f, clockwise);
+            yield return new WaitWhile(() => game.IsOrgasming(device.Settings.GirlIndex));
+            client.StopDeviceCmd(device);
         }
 
         protected internal IEnumerator DoRotate(Device device, bool clockwise,
