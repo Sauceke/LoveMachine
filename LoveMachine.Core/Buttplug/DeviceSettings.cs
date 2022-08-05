@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using BepInEx.Bootstrap;
@@ -25,7 +24,7 @@ namespace LoveMachine.Core
                         .Select(index => $"{ordinals[index]} Girl")
                         .Concat(new string[] { "Off" })
                         .ToArray();
-            List<Bone> bones = new Bone[] { Bone.Auto }
+            var bones = new Bone[] { Bone.Auto }
                 .Concat(game.FemaleBoneNames.Keys)
                 .OrderBy(bone => bone)
                 .ToList();

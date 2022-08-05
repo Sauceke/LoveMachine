@@ -29,7 +29,7 @@ namespace LoveMachine.KK
             while (true)
             {
                 yield return new WaitForSecondsRealtime(updateTimeSecs);
-                Bone bone = device.Settings.Bone;
+                var bone = device.Settings.Bone;
                 if (!aibuBones.Contains(bone))
                 {
                     continue;

@@ -48,7 +48,7 @@ namespace LoveMachine.Core
 
         private static float TriangleWave(float x) => 2f * Mathf.Abs((x + 1f) % 1f - 0.5f);
 
-        private static float SawWave(float x) => ((x % 1f) + 1f) % 1f;
+        private static float SawWave(float x) => (x % 1f + 1f) % 1f;
 
         private static float PulseWave(float x) => Mathf.Round(SawWave(x));
     }

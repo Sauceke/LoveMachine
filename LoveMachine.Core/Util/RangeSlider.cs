@@ -74,7 +74,10 @@ namespace UnityEngine
         private void OnMouseDrag()
         {
             if (GUIUtility.hotControl != id)
+            {
                 return;
+            }
+
             Event.current.Use();
             GUI.changed = true;
             UpdateValues();

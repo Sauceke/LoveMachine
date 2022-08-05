@@ -127,12 +127,10 @@ namespace LoveMachine.Core
             // sometimes the speed becomes 0 in HS2
             // this is a catch-all for god knows what other things that can
             // possibly go wrong and cause the stroking coroutine to hang
-            if (animTimeSecs > 100f || animTimeSecs < 0.001f
-                || float.IsNaN(animTimeSecs))
-            {
-                return .01f;
-            }
-            return animTimeSecs;
+            return animTimeSecs > 100f || animTimeSecs < 0.001f
+                || float.IsNaN(animTimeSecs)
+                ? .01f
+                : animTimeSecs;
         }
     }
 }

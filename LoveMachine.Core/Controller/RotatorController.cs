@@ -12,7 +12,7 @@ namespace LoveMachine.Core
         protected override IEnumerator HandleAnimation(Device device)
         {
             int girlIndex = device.Settings.GirlIndex;
-            Bone bone = device.Settings.Bone;
+            var bone = device.Settings.Bone;
             analyzer.TryGetWaveInfo(girlIndex, bone, out var waveInfo);
             float strokeTimeSecs = GetAnimationTimeSecs(girlIndex) / waveInfo.Frequency;
             for (int i = 0; i < waveInfo.Frequency - 1; i++)
