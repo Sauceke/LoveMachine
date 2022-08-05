@@ -16,7 +16,7 @@ namespace LoveMachine.Core
                 background = GetDeviceControlsTexture()
             }
         };
-        private static List<Device> cachedDeviceList;
+        private static List<Device> cachedDeviceList = new List<Device>();
 
         public static ConfigEntry<bool> SaveDeviceMapping { get; private set; }
         public static ConfigEntry<string> DeviceSettingsJson { get; private set; }
