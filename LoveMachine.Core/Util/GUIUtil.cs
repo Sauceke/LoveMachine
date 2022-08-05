@@ -11,7 +11,7 @@ namespace LoveMachine.Core
             {
                 LabelWithTooltip(label, tooltip);
                 PercentLabel(lower);
-                UnityEngine.RangeSlider.Create(ref lower, ref upper, 0f, 1f);
+                Core.RangeSlider.Create(ref lower, ref upper, 0f, 1f);
                 PercentLabel(upper);
                 if (ResetButton)
                 {
