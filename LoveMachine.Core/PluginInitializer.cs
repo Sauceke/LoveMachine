@@ -27,7 +27,7 @@ namespace LoveMachine.Core
             RotatorConfig.Initialize(plugin);
             StrokerConfig.Initialize(plugin);
             var manager = Chainloader.ManagerObject;
-            manager.AddComponent<T>().GetType();
+            manager.AddComponent<T>();
             manager.AddComponent<ButtplugWsClient>();
             manager.AddComponent<DeviceManager>();
             manager.AddComponent<AnimationAnalyzer>();
