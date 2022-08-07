@@ -9,6 +9,10 @@ namespace LoveMachine.Core
 {
     public class AnimationAnalyzer : CoroutineHandler
     {
+        // com3d2 has animations with more than 10 strokes, but those aren't
+        // evenly spaced, so can't do much about them atm
+        private const int MaxFrequency = 10;
+
         // pose -> result
         private readonly Dictionary<string, WaveInfo> resultCache =
             new Dictionary<string, WaveInfo>();
@@ -77,8 +81,8 @@ namespace LoveMachine.Core
             var boneM = game.GetDickBase();
             var femaleBones = game.GetFemaleBones(girlIndex);
             string pose = GetExactPose(girlIndex, Bone.Auto);
-            var samples = new List<Sample>();
             yield return HandleCoroutine(game.WaitAfterPoseChange());
+            var samples = new List<Sample>();
             game.GetAnimState(girlIndex, out float startTime, out _, out _);
             float currentTime = startTime;
             while (currentTime - 1f < startTime)
@@ -101,12 +105,9 @@ namespace LoveMachine.Core
                     yield break;
                 }
             }
-            var results = new Dictionary<Bone, WaveInfo>();
-            foreach (var bone in femaleBones.Keys)
-            {
-                var bonePlot = samples.Where(entry => entry.Bone == bone);
-                results[bone] = GetWaveInfo(bonePlot);
-            }
+            var results = femaleBones.Keys
+                .ToDictionary(bone => bone,
+                    bone => GetWaveInfo(samples.Where(entry => entry.Bone == bone)));
             // Prefer bones that are close and move a lot. Being close is more important.
             var autoBone = results
                 .OrderBy(result => result.Value.Preference)
@@ -144,15 +145,22 @@ namespace LoveMachine.Core
 
         private static int GetFrequency(IEnumerable<float> samples)
         {
-            // catch flatlines
-            if (samples.Max() - samples.Min() <= 0.000001f)
+            // Catch flatlines.
+            const float epsilon = 0.000001f;
+            if (samples.Max() - samples.Min() <= epsilon)
             {
                 return 1;
             }
-            // get frequency using Fourier series
+            // Cap to Nyquist frequency.
+            // Why not collect samples until we have enough of them?
+            // 1. Because it would increase downtime for the device.
+            // 2. Because we might end up collecting samples from the same
+            //    spots over and over again, and thus never have enough of them to
+            //    meaningfully test for higher frequencies.
+            var maxFreq = Mathf.Min(MaxFrequency, samples.Count() / 2);
+            // Get frequency using Fourier series.
             var dfsMagnitudes = new List<float>();
-            // probably no game has more than 10 strokes in a loop
-            for (int k = 1; k < 10; k++)
+            for (int k = 1; k < maxFreq; k++)
             {
                 float freq = 2f * Mathf.PI / samples.Count() * k;
                 float re = samples.Select((amp, index) => amp * Mathf.Cos(freq * index)).Sum();
