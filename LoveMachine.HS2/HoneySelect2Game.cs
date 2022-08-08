@@ -19,8 +19,8 @@ namespace LoveMachine.HS2
 
         private static readonly string[] orgasmAnimations =
         {
-            "Orgasm", "Orgasm_IN", "Orgasm_OUT", "Drink", "Vomit", "OrgasmM_OUT",
-            "D_Orgasm", "D_Orgasm_OUT", "D_Orgasm_IN", "D_OrgasmM_OUT"
+            "Orgasm", "Orgasm_IN", "Orgasm_OUT", "Drink", "Vomit", "OrgasmM_OUT", "OrgasmM_IN",
+            "D_Orgasm", "D_Orgasm_OUT", "D_Orgasm_IN", "D_OrgasmM_OUT", "D_OrgasmM_IN"
         };
 
         private HScene hScene;
