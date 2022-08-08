@@ -13,6 +13,7 @@ namespace LoveMachine.Core
                 background = BandTexture()
             }
         };
+
         private readonly Rect position;
         private float value1;
         private float value2;
@@ -40,7 +41,7 @@ namespace LoveMachine.Core
 
         public void Handle(out float lower, out float upper)
         {
-            switch (CurrentEventType)
+            switch (Event.current.GetTypeForControl(id))
             {
                 case EventType.MouseDown:
                     OnMouseDown();
@@ -62,25 +63,23 @@ namespace LoveMachine.Core
 
         private void OnMouseDown()
         {
-            if (!position.Contains(Event.current.mousePosition))
+            if (position.Contains(Event.current.mousePosition))
             {
-                return;
+                GUIUtility.hotControl = id;
+                Event.current.Use();
+                GUI.changed = true;
+                UpdateValues();
             }
-            GUIUtility.hotControl = id;
-            Event.current.Use();
-            GUI.changed = true;
-            UpdateValues();
         }
 
         private void OnMouseDrag()
         {
-            if (GUIUtility.hotControl != id)
+            if (GUIUtility.hotControl == id)
             {
-                return;
+                Event.current.Use();
+                GUI.changed = true;
+                UpdateValues();
             }
-            Event.current.Use();
-            GUI.changed = true;
-            UpdateValues();
         }
 
         private void OnMouseUp()
@@ -114,8 +113,6 @@ namespace LoveMachine.Core
                 value2 = value;
             }
         }
-
-        private EventType CurrentEventType => Event.current.GetTypeForControl(id);
 
         private Rect BandRect()
         {

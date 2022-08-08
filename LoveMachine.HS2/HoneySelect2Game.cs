@@ -79,13 +79,10 @@ namespace LoveMachine.HS2
                 || hScene.GetMales()[0] == null);
         }
 
-        protected override bool IsIdle(int girlIndex) => idleAnimations.Any(
-            name => GetFemaleAnimator(girlIndex).GetCurrentAnimatorStateInfo(0).IsName(name));
+        protected override bool IsIdle(int girlIndex) => 
+            idleAnimations.Any(GetAnimatorStateInfo(girlIndex).IsName);
 
-        protected override bool IsOrgasming(int girlIndex)
-        {
-            var anim = GetFemaleAnimator(girlIndex);
-            return orgasmAnimations.Any(name => anim.GetCurrentAnimatorStateInfo(0).IsName(name));
-        }
+        protected override bool IsOrgasming(int girlIndex) =>
+            orgasmAnimations.Any(GetAnimatorStateInfo(girlIndex).IsName);
     }
 }

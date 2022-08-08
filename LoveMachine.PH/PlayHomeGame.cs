@@ -44,15 +44,12 @@ namespace LoveMachine.PH
         protected override GameObject GetFemaleRoot(int girlIndex) =>
             scene.mainMembers.females[girlIndex].objBodyBone;
 
-        protected override Transform GetDickBase()
-        {
-            var bodyBone = scene.mainMembers.males[0].objBodyBone.transform;
-            return bodyBone.FindLoop("k_m_tamaC_00").transform;
-        }
+        protected override Transform GetDickBase() =>
+            scene.mainMembers.males[0].objBodyBone.transform.FindLoop("k_m_tamaC_00").transform;
 
         protected override string GetPose(int girlIndex) =>
-            (scene.mainMembers.StyleData?.id ?? "none") + "." +
-                    GetFemaleAnimator(girlIndex).GetCurrentAnimatorStateInfo(0).fullPathHash;
+            (scene.mainMembers.StyleData?.id ?? "none")
+                + "." + GetAnimatorStateInfo(girlIndex).fullPathHash;
 
         protected override bool IsIdle(int _) =>
             !activeHStates.Contains(scene.mainMembers.StateMgr.nowStateID);

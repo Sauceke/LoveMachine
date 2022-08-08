@@ -23,7 +23,7 @@ namespace LoveMachine.KK
 
         protected override IEnumerator Run()
         {
-            while (!kk.Flags.isHSceneEnd)
+            while (true)
             {
                 if (KKAnimationConfig.SuppressAnimationBlending.Value)
                 {

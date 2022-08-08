@@ -52,7 +52,7 @@ namespace LoveMachine.Core
         private void StopAnalyze()
         {
             StopAllCoroutines();
-            ClearCache();
+            resultCache.Clear();
         }
 
         private IEnumerator DoAnalyze()
@@ -169,8 +169,6 @@ namespace LoveMachine.Core
             }
             return dfsMagnitudes.IndexOf(dfsMagnitudes.Max()) + 1;
         }
-
-        private void ClearCache() => resultCache.Clear();
 
         private struct Sample
         {
