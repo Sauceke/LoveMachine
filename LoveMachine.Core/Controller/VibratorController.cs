@@ -28,7 +28,7 @@ namespace LoveMachine.Core
             float phase = result.Phase;
             float frequency = result.Frequency;
             float time = normalizedTime - phase;
-            float strength = waveforms[device.Settings.VibratorSettings.Pattern](time * frequency);
+            float strength = CurrentWave(time * frequency, device.Settings.VibratorSettings);
             float intensity = Mathf.Lerp(
                 device.Settings.VibratorSettings.IntensityMin,
                 device.Settings.VibratorSettings.IntensityMax,
@@ -44,6 +44,11 @@ namespace LoveMachine.Core
             client.StopDeviceCmd(device);
         }
 
+        private static float CurrentWave(float x, VibratorSettings settings) =>
+            settings.Pattern == VibrationPattern.Custom
+                ? CustomWave(x, settings.CustomPattern)
+                : waveforms[settings.Pattern](x);
+
         private static float RectifiedSineWave(float x) => Mathf.Abs(Mathf.Cos(Mathf.PI * x));
 
         private static float TriangleWave(float x) => 2f * Mathf.Abs((x + 1f) % 1f - 0.5f);
@@ -51,5 +56,8 @@ namespace LoveMachine.Core
         private static float SawWave(float x) => (x % 1f + 1f) % 1f;
 
         private static float PulseWave(float x) => Mathf.Round(SawWave(x));
+
+        private static float CustomWave(float x, float[] pattern) =>
+            pattern[(int)((x % 1f + 1f) % 1f * pattern.Length)];
     }
 }
