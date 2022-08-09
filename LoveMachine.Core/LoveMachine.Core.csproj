@@ -43,6 +43,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Buttplug\DeviceSettings.cs" />
+    <Compile Include="Buttplug\IntifaceRunner.cs" />
     <Compile Include="Buttplug\StrokerSettings.cs" />
     <Compile Include="Buttplug\VibratorSettings.cs" />
     <Compile Include="Config\ButtplugConfig.cs" />

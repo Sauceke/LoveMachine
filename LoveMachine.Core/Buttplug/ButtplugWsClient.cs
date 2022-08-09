@@ -34,7 +34,8 @@ namespace LoveMachine.Core
         {
             IsConnected = false;
             Devices = new List<Device>();
-            string address = ButtplugConfig.WebSocketAddress.Value;
+            string address = ButtplugConfig.WebSocketHost.Value
+                + ":" + ButtplugConfig.WebSocketPort.Value;
             CoreConfig.Logger.LogInfo($"Connecting to Intiface server at {address}");
             websocket = new WebSocket(address);
             websocket.Opened += OnOpened;
