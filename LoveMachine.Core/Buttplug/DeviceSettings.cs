@@ -30,7 +30,7 @@ namespace LoveMachine.Core
                 .ToList();
             string[] boneNames = bones
                 .Select(bone => Enum.GetName(typeof(Bone), bone))
-                .Select(name => Regex.Replace(name, ".([A-Z])", " $1"))
+                .Select(name => Regex.Replace(name, "(.)([A-Z])", "$1 $2"))
                 .ToArray();
             if (game.MaxHeroineCount > 1)
             {
