@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using LitJson;
 using UnityEngine;
 
 namespace LoveMachine.Core
@@ -25,8 +24,7 @@ namespace LoveMachine.Core
 
         private static void SaveDeviceSettings(List<Device> devices, bool exiting = false)
         {
-            var settings = JsonMapper.ToObject<List<DeviceSettings>>(
-                DeviceListConfig.DeviceSettingsJson.Value);
+            var settings = DeviceListConfig.DeviceSettings;
             devices.ForEach(device => settings.Remove(settings.Find(device.Matches)));
             settings = devices.Select(device => device.Settings).Concat(settings).ToList();
             if (exiting && !DeviceListConfig.SaveDeviceMapping.Value)
@@ -38,13 +36,12 @@ namespace LoveMachine.Core
                     setting.Bone = defaults.Bone;
                 }
             }
-            DeviceListConfig.DeviceSettingsJson.Value = JsonMapper.ToJson(settings);
+            DeviceListConfig.DeviceSettings = settings;
         }
 
         private static void LoadDeviceSettings(List<Device> devices)
         {
-            var settings = JsonMapper.ToObject<List<DeviceSettings>>(
-                DeviceListConfig.DeviceSettingsJson.Value);
+            var settings = DeviceListConfig.DeviceSettings;
             foreach (var device in devices)
             {
                 device.Settings = settings.Find(device.Matches) ?? device.Settings;
