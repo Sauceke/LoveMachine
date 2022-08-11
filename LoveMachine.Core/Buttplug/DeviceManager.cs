@@ -23,13 +23,11 @@ namespace LoveMachine.Core
             LoadDeviceSettings(args.After);
         }
 
-        private void SaveDeviceSettings(List<Device> devices, bool exiting = false)
+        private static void SaveDeviceSettings(List<Device> devices, bool exiting = false)
         {
             var settings = JsonMapper.ToObject<List<DeviceSettings>>(
                 DeviceListConfig.DeviceSettingsJson.Value);
-            devices.ForEach(device =>
-                settings.Remove(settings.Find(setting =>
-                    setting.DeviceName == device.DeviceName)));
+            devices.ForEach(device => settings.Remove(settings.Find(device.Matches)));
             settings = devices.Select(device => device.Settings).Concat(settings).ToList();
             if (exiting && !DeviceListConfig.SaveDeviceMapping.Value)
             {
@@ -43,16 +41,20 @@ namespace LoveMachine.Core
             DeviceListConfig.DeviceSettingsJson.Value = JsonMapper.ToJson(settings);
         }
 
-        private void LoadDeviceSettings(List<Device> devices)
+        private static void LoadDeviceSettings(List<Device> devices)
         {
             var settings = JsonMapper.ToObject<List<DeviceSettings>>(
                 DeviceListConfig.DeviceSettingsJson.Value);
             foreach (var device in devices)
             {
-                device.Settings = settings
-                    .Find(setting => device.DeviceName == setting.DeviceName)
-                    ?? device.Settings;
+                device.Settings = settings.Find(device.Matches) ?? device.Settings;
                 settings.Remove(device.Settings);
+                device.Settings.StrokerSettings = device.IsStroker
+                    ? device.Settings.StrokerSettings
+                    : null;
+                device.Settings.VibratorSettings = device.IsVibrator
+                    ? device.Settings.VibratorSettings
+                    : null;
             }
         }
     }

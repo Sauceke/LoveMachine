@@ -32,6 +32,8 @@ namespace LoveMachine.Core
             }
         }
 
+        internal bool Matches(DeviceSettings settings) => settings.DeviceName == DeviceName;
+
         internal void Draw()
         {
             GUILayout.BeginHorizontal();
@@ -52,14 +54,6 @@ namespace LoveMachine.Core
             GUILayout.EndHorizontal();
             GUIUtil.SingleSpace();
             Settings.Draw();
-            if (IsStroker)
-            {
-                Settings.StrokerSettings.Draw();
-            }
-            if (IsVibrator)
-            {
-                Settings.VibratorSettings.Draw();
-            }
         }
     }
 

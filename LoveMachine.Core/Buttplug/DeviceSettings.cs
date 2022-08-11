@@ -60,6 +60,8 @@ namespace LoveMachine.Core
                 defaultValue: defaults.UpdatesHz,
                 min: 1,
                 max: 30);
+            StrokerSettings?.Draw();
+            VibratorSettings?.Draw();
         }
     }
 }
