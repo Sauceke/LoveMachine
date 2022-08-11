@@ -11,7 +11,7 @@ namespace LoveMachine.Core
 
         private void Start()
         {
-            string address = CoreConfig.HotdogServerAddress.Value;
+            string address = ExperimentalConfig.HotdogServerAddress.Value;
             websocket = new WebSocket(address);
             websocket.Opened += OnOpened;
             websocket.MessageReceived += OnMessageReceived;

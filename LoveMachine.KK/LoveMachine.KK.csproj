@@ -47,6 +47,7 @@
     <IncludePattern>**\*.cs</IncludePattern>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="KKAnimationConfig.cs" />
     <Compile Include="KoikatsuAibuController.cs" />
     <Compile Include="KoikatsuAnimationController.cs" />
     <Compile Include="KoikatsuDepthController.cs" />

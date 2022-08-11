@@ -10,9 +10,22 @@ namespace LoveMachine.HS2
 {
     internal sealed class HoneySelect2Game : GameDescriptor
     {
-        private const string MaleBoneName = "cm_J_dan_f_L"; // left testicle
+        private static readonly string[] idleAnimations =
+        {
+            "Idle", "WIdle", "SIdle", "Insert", "D_Idle", "D_Insert",
+            "Orgasm_A", "Orgasm_IN_A", "Orgasm_OUT_A", "Drink_A", "Vomit_A", "OrgasmM_OUT_A",
+            "D_Orgasm_A", "D_Orgasm_OUT_A", "D_Orgasm_IN_A", "D_OrgasmM_OUT_A"
+        };
 
-        private static readonly Dictionary<Bone, string> femaleBones = new Dictionary<Bone, string>
+        private static readonly string[] orgasmAnimations =
+        {
+            "Orgasm", "Orgasm_IN", "Orgasm_OUT", "Drink", "Vomit", "OrgasmM_OUT", "OrgasmM_IN",
+            "D_Orgasm", "D_Orgasm_OUT", "D_Orgasm_IN", "D_OrgasmM_OUT", "D_OrgasmM_IN"
+        };
+
+        private HScene hScene;
+
+        protected override Dictionary<Bone, string> FemaleBoneNames => new Dictionary<Bone, string>
         {
             { Bone.Vagina, "cf_J_Kokan" },
             { Bone.RightHand, "cf_J_Hand_Wrist_s_R" },
@@ -24,23 +37,10 @@ namespace LoveMachine.HS2
             { Bone.LeftFoot, "cf_J_Toes01_R" }
         };
 
-        private static readonly string[] idleAnimations =
-        {
-            "Idle", "WIdle", "SIdle", "Insert", "D_Idle", "D_Insert",
-            "Orgasm_A", "Orgasm_IN_A", "Orgasm_OUT_A", "Drink_A", "Vomit_A", "OrgasmM_OUT_A",
-            "D_Orgasm_A", "D_Orgasm_OUT_A", "D_Orgasm_IN_A", "D_OrgasmM_OUT_A"
-        };
-
-        private static readonly string[] orgasmAnimations =
-        {
-            "Orgasm", "Orgasm_IN", "Orgasm_OUT", "Drink", "Vomit", "OrgasmM_OUT",
-            "D_Orgasm", "D_Orgasm_OUT", "D_Orgasm_IN", "D_OrgasmM_OUT"
-        };
-
-        protected HScene hScene;
-
         protected override int HeroineCount =>
             Array.FindAll(hScene.GetFemales(), f => f != null).Length;
+
+        protected override int MaxHeroineCount => 2;
 
         protected override bool IsHardSex =>
             GetFemaleAnimator(0)?.GetCurrentAnimatorStateInfo(0).IsName("SLoop") ?? false;
@@ -54,17 +54,11 @@ namespace LoveMachine.HS2
         public override Animator GetFemaleAnimator(int girlIndex) =>
             hScene?.GetFemales()[girlIndex]?.animBody;
 
-        protected override Dictionary<Bone, Transform> GetFemaleBones(int girlIndex)
-        {
-            var bodyBone = hScene.GetFemales()[girlIndex].objBodyBone.transform;
-            return femaleBones.ToDictionary(kvp => kvp.Key, kvp => bodyBone.FindLoop(kvp.Value));
-        }
+        protected override GameObject GetFemaleRoot(int girlIndex) =>
+            hScene.GetFemales()[girlIndex].objBodyBone;
 
-        protected override Transform GetMaleBone()
-        {
-            var bodyBone = hScene.GetMales()[0].objBodyBone.transform;
-            return bodyBone.FindLoop(MaleBoneName).transform;
-        }
+        protected override Transform GetDickBase() =>
+            hScene.GetMales()[0].objBodyBone.transform.FindLoop("cm_J_dan_f_L").transform;
 
         public void OnStartH(HScene scene)
         {
@@ -79,22 +73,16 @@ namespace LoveMachine.HS2
 
         protected override IEnumerator UntilReady()
         {
-            while (hScene.GetFemales().Length == 0
+            yield return new WaitWhile(() => hScene.GetFemales().Length == 0
                 || hScene.GetFemales()[0] == null
                 || hScene.GetMales().Length == 0
-                || hScene.GetMales()[0] == null)
-            {
-                yield return new WaitForSeconds(.1f);
-            }
+                || hScene.GetMales()[0] == null);
         }
 
-        protected override bool IsIdle(int girlIndex) => idleAnimations.Any(
-            name => GetFemaleAnimator(girlIndex).GetCurrentAnimatorStateInfo(0).IsName(name));
+        protected override bool IsIdle(int girlIndex) => 
+            idleAnimations.Any(GetAnimatorStateInfo(girlIndex).IsName);
 
-        protected override bool IsOrgasming(int girlIndex)
-        {
-            var anim = GetFemaleAnimator(girlIndex);
-            return orgasmAnimations.Any(name => anim.GetCurrentAnimatorStateInfo(0).IsName(name));
-        }
+        protected override bool IsOrgasming(int girlIndex) =>
+            orgasmAnimations.Any(GetAnimatorStateInfo(girlIndex).IsName);
     }
 }

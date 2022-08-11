@@ -10,12 +10,7 @@ namespace LoveMachine.PH
     {
         private void Start()
         {
-            string[] girls = new string[] { "First girl", "Second girl", "Off" };
-            CoreConfig.Logger = Logger;
-            PluginInitializer<PlayHomeGame>.Initialize(
-                plugin: this,
-                girlMappingHeader: "Threesome Role",
-                girlMappingOptions: girls);
+            this.Initialize<PlayHomeGame>(Logger);
             Hooks.InstallHooks();
         }
     }

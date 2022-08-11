@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace LoveMachine.COM3D2
 {
-    internal class Hooks
+    internal static class Hooks
     {
         public static void InstallHooks()
         {

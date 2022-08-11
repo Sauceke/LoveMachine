@@ -48,6 +48,9 @@
     <Compile Include="..\LoveMachine.KK\Hooks.cs">
       <Link>Hooks.cs</Link>
     </Compile>
+    <Compile Include="..\LoveMachine.KK\KKAnimationConfig.cs">
+      <Link>KKAnimationConfig.cs</Link>
+    </Compile>
     <Compile Include="..\LoveMachine.KK\KKLoveMachine.cs">
       <Link>KKLoveMachine.cs</Link>
     </Compile>
@@ -86,6 +89,9 @@
       <Version>2021.8.27.2</Version>
     </PackageReference>
     <PackageReference Include="IllusionLibs.KoikatsuSunshine.UnityEngine.AnimationModule" ExcludeAssets="runtime">
+      <Version>2019.4.9</Version>
+    </PackageReference>
+    <PackageReference Include="IllusionLibs.KoikatsuSunshine.UnityEngine.IMGUIModule">
       <Version>2019.4.9</Version>
     </PackageReference>
   </ItemGroup>

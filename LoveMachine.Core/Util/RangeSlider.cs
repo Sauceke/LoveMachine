@@ -1,6 +1,6 @@
-﻿using System.Linq;
+﻿using UnityEngine;
 
-namespace UnityEngine
+namespace LoveMachine.Core
 {
     public struct RangeSlider
     {
@@ -13,6 +13,7 @@ namespace UnityEngine
                 background = BandTexture()
             }
         };
+
         private readonly Rect position;
         private float value1;
         private float value2;
@@ -30,7 +31,8 @@ namespace UnityEngine
             this.id = id;
         }
 
-        public static void Create(ref float lower, ref float upper, float min, float max, params GUILayoutOption[] options)
+        public static void Create(ref float lower, ref float upper, float min, float max,
+            params GUILayoutOption[] options)
         {
             var position = GUILayoutUtility.GetRect(GUIContent.none, sliderStyle, options);
             int id = GUIUtility.GetControlID("Slider".GetHashCode(), FocusType.Passive, position);
@@ -39,7 +41,7 @@ namespace UnityEngine
 
         public void Handle(out float lower, out float upper)
         {
-            switch (CurrentEventType)
+            switch (Event.current.GetTypeForControl(id))
             {
                 case EventType.MouseDown:
                     OnMouseDown();
@@ -61,23 +63,23 @@ namespace UnityEngine
 
         private void OnMouseDown()
         {
-            if (!position.Contains(Event.current.mousePosition))
+            if (position.Contains(Event.current.mousePosition))
             {
-                return;
+                GUIUtility.hotControl = id;
+                Event.current.Use();
+                GUI.changed = true;
+                UpdateValues();
             }
-            GUIUtility.hotControl = id;
-            Event.current.Use();
-            GUI.changed = true;
-            UpdateValues();
         }
 
         private void OnMouseDrag()
         {
-            if (GUIUtility.hotControl != id)
-                return;
-            Event.current.Use();
-            GUI.changed = true;
-            UpdateValues();
+            if (GUIUtility.hotControl == id)
+            {
+                Event.current.Use();
+                GUI.changed = true;
+                UpdateValues();
+            }
         }
 
         private void OnMouseUp()
@@ -112,8 +114,6 @@ namespace UnityEngine
             }
         }
 
-        private EventType CurrentEventType => Event.current.GetTypeForControl(id);
-
         private Rect BandRect()
         {
             float startX = SliderValueToAbsciss(Mathf.Min(value1, value2));
@@ -132,10 +132,12 @@ namespace UnityEngine
             position.height - sliderStyle.padding.vertical);
 
         private float AbscissToSliderValue(float x) =>
-            Mathf.Lerp(min, max, Mathf.InverseLerp(position.x, position.x + position.size.x, x));
+            Mathf.Lerp(min, max,
+                t: Mathf.InverseLerp(position.x, position.x + position.size.x, x));
 
         private float SliderValueToAbsciss(float value) =>
-            Mathf.Lerp(position.x, position.x + position.size.x, Mathf.InverseLerp(min, max, value));
+            Mathf.Lerp(position.x, position.x + position.size.x,
+                t: Mathf.InverseLerp(min, max, value));
 
         private float ThumbWidth => thumbStyle.CalcSize(GUIContent.none).x;
 
@@ -143,10 +145,8 @@ namespace UnityEngine
 
         private static Texture2D BandTexture()
         {
-            var texture = new Texture2D(Screen.width, Screen.height);
-            var color = new Color(1, 1, 1, 0.5f);
-            var pixels = Enumerable.Repeat(color, Screen.width * Screen.height).ToArray();
-            texture.SetPixels(pixels);
+            var texture = new Texture2D(1, 1);
+            texture.SetPixels(new[] { new Color(1, 1, 1, 0.5f) });
             texture.Apply();
             return texture;
         }

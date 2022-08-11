@@ -8,11 +8,7 @@ namespace LoveMachine.OA
     {
         private void Start()
         {
-            CoreConfig.Logger = Logger;
-            PluginInitializer<OurApartmentGame>.Initialize(
-                plugin: this,
-                girlMappingHeader: null,
-                girlMappingOptions: null);
+            this.Initialize<OurApartmentGame>(Logger);
             Hooks.InstallHooks();
         }
     }

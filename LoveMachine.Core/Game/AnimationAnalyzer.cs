@@ -7,24 +7,29 @@ using UnityEngine;
 
 namespace LoveMachine.Core
 {
-    public sealed class AnimationAnalyzer : CoroutineHandler
+    public class AnimationAnalyzer : CoroutineHandler
     {
+        // com3d2 has animations with more than 10 strokes, but those aren't
+        // evenly spaced, so can't do much about them atm
+        private const int MaxFrequency = 10;
+
         // pose -> result
         private readonly Dictionary<string, WaveInfo> resultCache =
             new Dictionary<string, WaveInfo>();
 
-        // girl index -> thing that runs calibration
-        private readonly Dictionary<int, CoroutineHandler> containers =
-            new Dictionary<int, CoroutineHandler>();
-
         private GameDescriptor game;
 
-        private void Start() => game = gameObject.GetComponent<GameDescriptor>();
+        private void Start()
+        {
+            game = gameObject.GetComponent<GameDescriptor>();
+            game.OnHStarted += (s, a) => StartAnalyze();
+            game.OnHEnded += (s, a) => StopAnalyze();
+        }
 
         private string GetExactPose(int girlIndex, Bone bone) =>
             $"{game.GetPose(girlIndex)}.girl{girlIndex}.{bone}";
 
-        public bool TryGetWaveInfo(int girlIndex, Bone bone, out WaveInfo result)
+        public virtual bool TryGetWaveInfo(int girlIndex, Bone bone, out WaveInfo result)
         {
             try
             {
@@ -38,24 +43,23 @@ namespace LoveMachine.Core
             }
         }
 
-        internal void StartAnalyze(int girlIndex)
+        private void StartAnalyze()
         {
-            if (!containers.TryGetValue(girlIndex, out var container))
-            {
-                containers[girlIndex] = container = gameObject.AddComponent<CoroutineHandler>();
-            }
-            // never run the same coroutine twice, even if the last one wasn't cleaned up
-            container.StopAllCoroutines();
-            container.HandleCoroutine(RunAnalysisLoop(girlIndex));
+            StopAllCoroutines();
+            HandleCoroutine(DoAnalyze());
         }
 
-        internal void StopAnalyze(int girlIndex)
+        private void StopAnalyze()
         {
-            if (!containers.TryGetValue(girlIndex, out var container))
-            {
-                return;
-            }
-            container.StopAllCoroutines();
+            StopAllCoroutines();
+            resultCache.Clear();
+        }
+
+        private IEnumerator DoAnalyze()
+        {
+            yield return HandleCoroutine(game.UntilReady());
+            Enumerable.Range(0, game.HeroineCount).ToList()
+                .ForEach(girlIndex => HandleCoroutine(RunAnalysisLoop(girlIndex)));
         }
 
         private IEnumerator RunAnalysisLoop(int girlIndex)
@@ -74,62 +78,39 @@ namespace LoveMachine.Core
 
         private IEnumerator AnalyzeAnimation(int girlIndex)
         {
-            var boneM = game.GetMaleBone();
+            var boneM = game.GetDickBase();
             var femaleBones = game.GetFemaleBones(girlIndex);
             string pose = GetExactPose(girlIndex, Bone.Auto);
-            var samples = new List<Sample>();
             yield return HandleCoroutine(game.WaitAfterPoseChange());
+            var samples = new List<Sample>();
             game.GetAnimState(girlIndex, out float startTime, out _, out _);
             float currentTime = startTime;
-            while (currentTime - 1 < startTime)
+            while (currentTime - 1f < startTime)
             {
                 yield return new WaitForEndOfFrame();
                 game.GetAnimState(girlIndex, out currentTime, out _, out _);
                 foreach (var entry in femaleBones)
                 {
                     var boneF = entry.Value;
-                    float distance = (boneM.position - boneF.position).magnitude;
                     samples.Add(new Sample
                     {
                         Bone = entry.Key,
                         Time = currentTime,
-                        Distance = distance
+                        RelativePos = boneM.position - boneF.position
                     });
                 }
-            }
-            if (pose != GetExactPose(girlIndex, Bone.Auto))
-            {
-                CoreConfig.Logger.LogWarning($"Pose {pose} interrupted; canceling calibration.");
-                yield break;
-            }
-            var results = new Dictionary<Bone, WaveInfo>();
-            foreach (var bone in femaleBones.Keys)
-            {
-                var bonePlot = samples.Where(entry => entry.Bone == bone);
-                results[bone] = new WaveInfo
+                if (pose != GetExactPose(girlIndex, Bone.Auto))
                 {
-                    Phase = bonePlot
-                        .OrderBy(entry => entry.Distance)
-                        .FirstOrDefault()
-                        .Time % 1,
-                    Frequency = GetFrequency(bonePlot
-                        .OrderBy(entry => entry.Time)
-                        .Select(entry => entry.Distance)),
-                    Crest = bonePlot
-                        .Select(entry => entry.Distance)
-                        .Max(),
-                    Trough = bonePlot
-                        .Select(entry => entry.Distance)
-                        .Min(),
-                    Plot = bonePlot
-                        .OrderBy(entry => entry.Time)
-                        .ToArray()
-                };
+                    CoreConfig.Logger.LogWarning($"Pose {pose} interrupted; canceling analysis.");
+                    yield break;
+                }
             }
+            var results = femaleBones.Keys
+                .ToDictionary(bone => bone,
+                    bone => GetWaveInfo(samples.Where(entry => entry.Bone == bone)));
             // Prefer bones that are close and move a lot. Being close is more important.
             var autoBone = results
-                .OrderBy(entry => Mathf.Pow(entry.Value.Trough, 3)
-                    / (entry.Value.Crest - entry.Value.Trough))
+                .OrderBy(result => result.Value.Preference)
                 .FirstOrDefault()
                 .Key;
             results[Bone.Auto] = results[autoBone];
@@ -140,17 +121,46 @@ namespace LoveMachine.Core
                 $"Leading bone: {autoBone}, result: {JsonMapper.ToJson(results[Bone.Auto])}.");
         }
 
+        private WaveInfo GetWaveInfo(IEnumerable<Sample> samples)
+        {
+            // probably safe to assume the farthest point from the origin is an extremity
+            var crest = samples
+                .OrderBy(sample => -sample.RelativePos.magnitude)
+                .First();
+            var trough = samples
+                .OrderBy(sample => -(sample.RelativePos - crest.RelativePos).magnitude)
+                .First();
+            var axis = crest.RelativePos - trough.RelativePos;
+            float getDistance(Vector3 v) =>
+                Vector3.Project(v - trough.RelativePos, axis).magnitude;
+            var distances = samples.Select(sample => getDistance(sample.RelativePos));
+            return new WaveInfo
+            {
+                Phase = trough.Time % 1f,
+                Frequency = GetFrequency(distances),
+                Amplitude = axis.magnitude,
+                Preference = Mathf.Pow(trough.RelativePos.magnitude, 3f) / axis.magnitude
+            };
+        }
+
         private static int GetFrequency(IEnumerable<float> samples)
         {
-            // catch flatlines
-            if (samples.Max() - samples.Min() <= 0.000001f)
+            // Catch flatlines.
+            const float epsilon = 0.000001f;
+            if (samples.Max() - samples.Min() <= epsilon)
             {
                 return 1;
             }
-            // get frequency using Fourier series
+            // Cap to Nyquist frequency.
+            // Why not collect samples until we have enough of them?
+            // 1. Because it would increase downtime for the device.
+            // 2. Because we might end up collecting samples from the same
+            //    spots over and over again, and thus never have enough of them to
+            //    meaningfully test for higher frequencies.
+            var maxFreq = Mathf.Min(MaxFrequency, samples.Count() / 2);
+            // Get frequency using Fourier series.
             var dfsMagnitudes = new List<float>();
-            // probably no game has more than 10 strokes in a loop
-            for (int k = 1; k < 10; k++)
+            for (int k = 1; k < maxFreq; k++)
             {
                 float freq = 2f * Mathf.PI / samples.Count() * k;
                 float re = samples.Select((amp, index) => amp * Mathf.Cos(freq * index)).Sum();
@@ -160,22 +170,19 @@ namespace LoveMachine.Core
             return dfsMagnitudes.IndexOf(dfsMagnitudes.Max()) + 1;
         }
 
-        internal void ClearCache() => resultCache.Clear();
-
-        public struct Sample
+        private struct Sample
         {
             public Bone Bone { get; set; }
             public float Time { get; set; }
-            public float Distance { get; set; }
+            public Vector3 RelativePos { get; set; }
         }
 
         public struct WaveInfo
         {
             public float Phase { get; set; }
             public int Frequency { get; set; }
-            public float Crest { get; set; }
-            public float Trough { get; set; }
-            public Sample[] Plot { get; set; }
+            public float Amplitude { get; set; }
+            public float Preference { get; set; } // smaller is better
         }
     }
 }

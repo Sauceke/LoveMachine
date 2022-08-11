@@ -42,27 +42,40 @@
     <Reference Include="System.XML" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Buttplug\DeviceSettings.cs" />
+    <Compile Include="Buttplug\IntifaceRunner.cs" />
+    <Compile Include="Buttplug\StrokerSettings.cs" />
+    <Compile Include="Buttplug\VibratorSettings.cs" />
+    <Compile Include="Config\ButtplugConfig.cs" />
+    <Compile Include="Config\DeviceListConfig.cs" />
+    <Compile Include="Controller\ClassicButtplugController.cs" />
+    <Compile Include="Game\TestAnimationAnalyzer.cs" />
+    <Compile Include="Game\TestGame.cs" />
+    <Compile Include="Experimental\ExperimentalConfig.cs" />
+    <Compile Include="Util\GUIUtil.cs" />
+    <Compile Include="Config\KillSwitchConfig.cs" />
+    <Compile Include="Config\RotatorConfig.cs" />
+    <Compile Include="Config\StrokerConfig.cs" />
     <Compile Include="Game\AnimationAnalyzer.cs" />
-    <Compile Include="ButtplugController.cs" />
-    <Compile Include="Common\Bone.cs" />
-    <Compile Include="DepthControl\HotdogDepthPOC.cs" />
-    <Compile Include="DepthControl\CalorDepthPOC.cs" />
-    <Compile Include="Common\CoroutineHandler.cs" />
-    <Compile Include="DepthControl\DepthPOC.cs" />
+    <Compile Include="Controller\ButtplugController.cs" />
+    <Compile Include="Game\Bone.cs" />
+    <Compile Include="Experimental\HotdogDepthPOC.cs" />
+    <Compile Include="Experimental\CalorDepthPOC.cs" />
+    <Compile Include="Util\CoroutineHandler.cs" />
+    <Compile Include="Experimental\DepthPOC.cs" />
     <Compile Include="Game\GameDescriptor.cs" />
-    <Compile Include="SmoothStrokerController.cs" />
     <Compile Include="PluginInitializer.cs" />
-    <Compile Include="Common\RangeSlider.cs" />
-    <Compile Include="RotatorController.cs" />
-    <Compile Include="StrokerController.cs" />
+    <Compile Include="Util\RangeSlider.cs" />
+    <Compile Include="Controller\RotatorController.cs" />
+    <Compile Include="Controller\StrokerController.cs" />
     <Compile Include="VersionInfo.cs" />
     <Compile Include="Buttplug\ButtplugWsClient.cs" />
-    <Compile Include="Common\ConfigurationManagerAttributes.cs" />
-    <Compile Include="Common\CoreConfig.cs" />
+    <Compile Include="Util\ConfigurationManagerAttributes.cs" />
+    <Compile Include="Config\CoreConfig.cs" />
     <Compile Include="Buttplug\Device.cs" />
     <Compile Include="Buttplug\DeviceManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="VibratorController.cs" />
+    <Compile Include="Controller\VibratorController.cs" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="AllForOne">

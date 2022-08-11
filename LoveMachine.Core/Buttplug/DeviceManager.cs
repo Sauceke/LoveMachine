@@ -1,56 +1,57 @@
 ﻿using System.Collections.Generic;
-using LitJson;
+using System.Linq;
+using UnityEngine;
 
 namespace LoveMachine.Core
 {
-    internal class DeviceManager
+    internal class DeviceManager : MonoBehaviour
     {
-        public static void SaveDeviceSettings(List<Device> devices)
+        private ButtplugWsClient client;
+
+        private void Start()
         {
-            if (!CoreConfig.SaveDeviceSettings.Value)
-            {
-                CoreConfig.DeviceSettingsJson.Value = "[]";
-                return;
-            }
-            var settings =
-                JsonMapper.ToObject<List<DeviceSettings>>(CoreConfig.DeviceSettingsJson.Value);
-            var devicesCopy = new List<Device>(devices);
-            devices = null;
-            for (int i = 0; i < settings.Count; i++)
-            {
-                var setting = settings[i];
-                int matchingDeviceIndex = devicesCopy.FindIndex(
-                    device => string.Equals(device.DeviceName, setting.DeviceName));
-                if (matchingDeviceIndex != -1)
-                {
-                    settings[i] = devicesCopy[matchingDeviceIndex].Settings;
-                    devicesCopy.RemoveAt(matchingDeviceIndex);
-                }
-            }
-            foreach (var remainingDevice in devicesCopy)
-            {
-                settings.Add(remainingDevice.Settings);
-            }
-            CoreConfig.DeviceSettingsJson.Value = JsonMapper.ToJson(settings);
+            client = gameObject.GetComponent<ButtplugWsClient>();
+            client.OnDeviceListUpdated += ReloadDeviceSettings;
         }
 
-        public static void LoadDeviceSettings(List<Device> devices)
+        private void OnDestroy() => SaveDeviceSettings(client.Devices, exiting: true);
+
+        private void ReloadDeviceSettings(object sender, DeviceListEventArgs args)
         {
-            if (!CoreConfig.SaveDeviceSettings.Value)
+            SaveDeviceSettings(args.Before);
+            LoadDeviceSettings(args.After);
+        }
+
+        private static void SaveDeviceSettings(List<Device> devices, bool exiting = false)
+        {
+            var settings = DeviceListConfig.DeviceSettings;
+            devices.ForEach(device => settings.Remove(settings.Find(device.Matches)));
+            settings = devices.Select(device => device.Settings).Concat(settings).ToList();
+            if (exiting && !DeviceListConfig.SaveDeviceMapping.Value)
             {
-                return;
+                var defaults = new DeviceSettings();
+                foreach (var setting in settings)
+                {
+                    setting.GirlIndex = defaults.GirlIndex;
+                    setting.Bone = defaults.Bone;
+                }
             }
-            var settings =
-                JsonMapper.ToObject<List<DeviceSettings>>(CoreConfig.DeviceSettingsJson.Value);
+            DeviceListConfig.DeviceSettings = settings;
+        }
+
+        private static void LoadDeviceSettings(List<Device> devices)
+        {
+            var settings = DeviceListConfig.DeviceSettings;
             foreach (var device in devices)
             {
-                int matchingSettingIndex = settings.FindIndex(
-                    setting => string.Equals(device.DeviceName, setting.DeviceName));
-                if (matchingSettingIndex != -1)
-                {
-                    device.Settings = settings[matchingSettingIndex];
-                    settings.RemoveAt(matchingSettingIndex);
-                }
+                device.Settings = settings.Find(device.Matches) ?? device.Settings;
+                settings.Remove(device.Settings);
+                device.Settings.StrokerSettings = device.IsStroker
+                    ? device.Settings.StrokerSettings
+                    : null;
+                device.Settings.VibratorSettings = device.IsVibrator
+                    ? device.Settings.VibratorSettings
+                    : null;
             }
         }
     }

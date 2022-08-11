@@ -8,11 +8,7 @@ namespace LoveMachine.COM3D2
     {
         private void Start()
         {
-            CoreConfig.Logger = Logger;
-            PluginInitializer<Com3d2Game>.Initialize(
-                plugin: this,
-                girlMappingHeader: "Threesome Role",
-                girlMappingOptions: new string[] { "First girl", "Second girl", "Off" });
+            this.Initialize<Com3d2Game>(Logger);
             Hooks.InstallHooks();
         }
     }

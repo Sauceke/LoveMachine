@@ -1,5 +1,4 @@
-﻿using System;
-using BepInEx.Bootstrap;
+﻿using BepInEx.Bootstrap;
 using HarmonyLib;
 using LoveMachine.Core;
 
