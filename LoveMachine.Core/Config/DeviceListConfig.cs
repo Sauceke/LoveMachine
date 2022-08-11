@@ -10,17 +10,6 @@ namespace LoveMachine.Core
 {
     public static class DeviceListConfig
     {
-        private static readonly GUIStyle deviceControlsStyle = new GUIStyle()
-        {
-            margin = new RectOffset(left: 20, right: 20, top: 0, bottom: 0),
-            normal = new GUIStyleState { background = GetDeviceControlsTexture() }
-        };
-        
-        private static readonly GUIStyle offlineDeviceNameStyle = new GUIStyle()
-        {
-            normal = new GUIStyleState { textColor = Color.red }
-        };
-
         private static List<Device> cachedDeviceList = new List<Device>();
         private static ConfigEntry<string> deviceSettingsJson;
         private static ConfigEntry<bool> showOfflineDevices;
@@ -103,7 +92,7 @@ namespace LoveMachine.Core
 
         private static void DrawDevicePanel(Device device)
         {
-            GUILayout.BeginVertical(deviceControlsStyle);
+            GUILayout.BeginVertical(GetDevicePanelStyle());
             {
                 device.Draw();
                 GUILayout.BeginHorizontal();
@@ -130,12 +119,12 @@ namespace LoveMachine.Core
                 {
                     continue;
                 }
-                GUILayout.BeginVertical(deviceControlsStyle);
+                GUILayout.BeginVertical(GetOfflineDevicePanelStyle());
                 {
                     GUILayout.BeginHorizontal();
                     {
                         GUILayout.FlexibleSpace();
-                        GUILayout.Label($"{setting.DeviceName} (Offline)", offlineDeviceNameStyle);
+                        GUILayout.Label($"{setting.DeviceName} (Offline)");
                         GUILayout.FlexibleSpace();
                     }
                     GUILayout.EndHorizontal();
@@ -155,10 +144,21 @@ namespace LoveMachine.Core
             ButtplugController.Test<RotatorController>(device);
         }
 
-        private static Texture2D GetDeviceControlsTexture()
+        private static GUIStyle GetDevicePanelStyle() => new GUIStyle(GUI.skin.box)
+        {
+            margin = new RectOffset(left: 20, right: 20, top: 0, bottom: 0),
+            normal = new GUIStyleState { background = GetTexture(new Color(0f, 1f, 0.5f, 0.2f)) }
+        };
+
+        private static GUIStyle GetOfflineDevicePanelStyle() => new GUIStyle(GetDevicePanelStyle())
+        {
+            normal = new GUIStyleState { background = GetTexture(new Color(1f, 0f, 0.2f, 0.2f)) }
+        };
+
+        private static Texture2D GetTexture(Color color)
         {
             var texture = new Texture2D(1, 1);
-            texture.SetPixels(new Color[] { new Color(0f, 0f, 0f, 0.4f) });
+            texture.SetPixels(new Color[] { color });
             texture.Apply();
             return texture;
         }
