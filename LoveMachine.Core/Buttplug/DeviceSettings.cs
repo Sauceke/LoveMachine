@@ -46,7 +46,7 @@ namespace LoveMachine.Core
                 choices: boneNames,
                 value: bones.IndexOf(Bone))];
             LatencyMs = GUIUtil.IntSlider(
-                label: "Latency (milliseconds)",
+                label: "Latency (ms)",
                 tooltip: "The difference in latency between this device and your display.\n" +
                     "Negative if this device has lower latency than your display.",
                 value: LatencyMs,
@@ -54,8 +54,8 @@ namespace LoveMachine.Core
                 min: -500,
                 max: 500);
             UpdatesHz = GUIUtil.IntSlider(
-                label: "Updates per second",
-                tooltip: "Maximum number of commands your device can handle per second.",
+                label: "Updates Per Second",
+                tooltip: "Maximum number of commands this device can handle per second.",
                 value: UpdatesHz,
                 defaultValue: defaults.UpdatesHz,
                 min: 1,

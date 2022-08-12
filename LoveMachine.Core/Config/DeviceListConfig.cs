@@ -28,13 +28,13 @@ namespace LoveMachine.Core
             const string deviceListTitle = "Device List";
             SaveDeviceMapping = plugin.Config.Bind(
                 section: deviceListTitle,
-                key: "Save device assignments",
+                key: "Save Device Assignments",
                 defaultValue: false,
                 new ConfigDescription("",
                     tags: new ConfigurationManagerAttributes { Order = order -- }));
             showOfflineDevices = plugin.Config.Bind(
                 section: deviceListTitle,
-                key: "Show offline devices",
+                key: "Show Offline Devices",
                 defaultValue: false,
                 new ConfigDescription("",
                     tags: new ConfigurationManagerAttributes { Order = order-- }));
@@ -146,7 +146,7 @@ namespace LoveMachine.Core
 
         private static GUIStyle GetDevicePanelStyle() => new GUIStyle(GUI.skin.box)
         {
-            margin = new RectOffset(left: 20, right: 20, top: 0, bottom: 0),
+            margin = new RectOffset(left: 20, right: 20, top: 5, bottom: 5),
             normal = new GUIStyleState { background = GetTexture(new Color(0f, 1f, 0.5f, 0.2f)) }
         };
 

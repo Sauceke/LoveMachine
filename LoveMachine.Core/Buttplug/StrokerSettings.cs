@@ -13,8 +13,8 @@
         {
             var defaults = new StrokerSettings();
             MaxStrokesPerMin = GUIUtil.IntSlider(
-                label: "Max Strokes (per minute)",
-                tooltip: "The top speed possible on your stroker at 100% stroke length.",
+                label: "Max Strokes Per Minute",
+                tooltip: "The top speed possible on this stroker at 100% stroke length.",
                 value: MaxStrokesPerMin,
                 defaultValue: defaults.MaxStrokesPerMin,
                 min: 60,
@@ -23,7 +23,7 @@
                 float min = SlowStrokeZoneMin;
                 float max = SlowStrokeZoneMax;
                 GUIUtil.RangeSlider(
-                    label: "Stroke Zone / Slow",
+                    label: "Stroke Zone - Slow",
                     tooltip: "Range of stroking movement when going slow",
                     lower: ref min,
                     upper: ref max,
@@ -36,7 +36,7 @@
                 float min = FastStrokeZoneMin;
                 float max = FastStrokeZoneMax;
                 GUIUtil.RangeSlider(
-                    label: "Stroke Zone / Fast",
+                    label: "Stroke Zone - Fast",
                     tooltip: "Range of stroking movement when going fast",
                     lower: ref min,
                     upper: ref max,

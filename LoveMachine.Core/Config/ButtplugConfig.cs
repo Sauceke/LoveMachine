@@ -15,21 +15,21 @@ namespace LoveMachine.Core
             const string intifaceSettingsTitle = "Intiface Settings";
             IntifaceLocation = plugin.Config.Bind(
                 section: intifaceSettingsTitle,
-                key: "Intiface CLI location",
+                key: "Intiface CLI Location",
                 defaultValue: @"%LocalAppData%\IntifaceDesktop\engine\IntifaceCLI.exe",
                 new ConfigDescription(
                     "Path to the Intiface CLI executable (requires restart).",
                     tags: new ConfigurationManagerAttributes { Order = order-- }));
             WebSocketHost = plugin.Config.Bind(
                 section: intifaceSettingsTitle,
-                key: "WebSocket host",
+                key: "WebSocket Host",
                 defaultValue: "ws://localhost",
                 new ConfigDescription(
                     "The Intiface server host URL.",
                     tags: new ConfigurationManagerAttributes { Order = order-- }));
             WebSocketPort = plugin.Config.Bind(
                 section: intifaceSettingsTitle,
-                key: "WebSocket port",
+                key: "WebSocket Port",
                 defaultValue: 12345,
                 new ConfigDescription(
                     "The Intiface server port.",

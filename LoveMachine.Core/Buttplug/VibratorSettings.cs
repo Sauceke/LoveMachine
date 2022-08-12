@@ -42,6 +42,7 @@ namespace LoveMachine.Core
                         .ToArray();
                 }
                 GUILayout.EndHorizontal();
+                GUIUtil.SingleSpace();
             }
         }
     }
