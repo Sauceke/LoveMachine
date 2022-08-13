@@ -3,6 +3,9 @@ name: .NET
 on:
   push:
     branches: [ mastur ]
+    paths-ignore:
+    - '**.md'
+    - '_config.yml'
   pull_request:
     branches: [ mastur ]
   workflow_dispatch:
@@ -11,7 +14,7 @@ jobs:
   build:
     runs-on: windows-2019
     timeout-minutes: 5
-    
+
     env:
       ACTIONS_ALLOW_UNSECURE_COMMANDS: true
 
@@ -37,5 +40,3 @@ jobs:
       with:
         name: Published artifacts
         path: bin
-        retention-days: 3
-
