@@ -1,5 +1,7 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using HarmonyLib;
 using LoveMachine.Core;
 using UnityEngine;
 
@@ -7,6 +9,8 @@ namespace LoveMachine.IO
 {
     internal sealed class InsultOrderGame : GameDescriptor
     {
+        private Traverse<bool> climax;
+
         protected override Dictionary<Bone, string> FemaleBoneNames => new Dictionary<Bone, string>
         {
             { Bone.Vagina, "HS01_cli" },
@@ -44,9 +48,13 @@ namespace LoveMachine.IO
 
         protected override bool IsIdle(int girlIndex) => GetFemaleAnimator(girlIndex) == null;
 
+        protected override bool IsOrgasming(int girlIndex) => climax.Value;
+
         protected override IEnumerator UntilReady()
         {
             yield return new WaitForSecondsRealtime(5f);
+            climax = Traverse.Create(Type.GetType("GameClass, Assembly-CSharp"))
+                .Field<bool>("Climax");
         }
     }
 }
