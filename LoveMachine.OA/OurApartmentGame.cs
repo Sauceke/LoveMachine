@@ -16,7 +16,8 @@ namespace LoveMachine.OA
 
         private Traverse<bool> isSex;
         private Animator naomiAnimator;
-        
+        private IEnumerable<int> animationLayers;
+
         public void OnStartH(MonoBehaviour manager)
         {
             var managerTraverse = Traverse.Create(manager);
@@ -42,9 +43,8 @@ namespace LoveMachine.OA
 
         protected override bool IsHardSex => GetPose(0).Contains("Pump2");
 
-        public override int AnimationLayer => Enumerable.Range(0, naomiAnimator.layerCount)
-            .Where(i => layerNames.Contains(naomiAnimator.GetLayerName(i))
-                && naomiAnimator.GetLayerWeight(i) == 1f)
+        public override int AnimationLayer => animationLayers
+            .Where(i => naomiAnimator.GetLayerWeight(i) == 1f)
             .DefaultIfEmpty(-1)
             .First();
 
@@ -71,6 +71,8 @@ namespace LoveMachine.OA
         {
             yield return new WaitWhile(() =>
                 (naomiAnimator = GameObject.Find("NaomiRig").GetComponent<Animator>()) == null);
+            animationLayers = Enumerable.Range(0, naomiAnimator.layerCount)
+                .Where(i => layerNames.Contains(naomiAnimator.GetLayerName(i)));
         }
     }
 }
