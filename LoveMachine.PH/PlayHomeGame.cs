@@ -57,7 +57,7 @@ namespace LoveMachine.PH
                 + "." + GetAnimatorStateInfo(girlIndex).fullPathHash;
 
         protected override bool IsIdle(int _) =>
-            !activeHStates.Contains(scene.mainMembers.StateMgr.nowStateID) && !IsOrgasming(0);
+            !activeHStates.Contains(scene.mainMembers.StateMgr.nowStateID);
 
         protected override bool IsOrgasming(int _) =>
             orgasmStates.Contains(scene.mainMembers.StateMgr.nowStateID);

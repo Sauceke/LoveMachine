@@ -15,7 +15,7 @@ namespace LoveMachine.KK
             HFlag.EMode.houshi3PMMF, HFlag.EMode.sonyu3PMMF
         };
 
-        private static readonly List<string> orgasmAnimations = new List<string>
+        private static readonly string[] orgasmAnimations =
         {
             "OUT_START", "OUT_LOOP", "IN_START", "IN_LOOP", "IN_Start", "IN_Loop",
             "M_OUT_Start", "M_OUT_Loop", "M_IN_Start", "M_IN_Loop",
@@ -23,14 +23,14 @@ namespace LoveMachine.KK
             "A_WS_IN_Start", "A_WS_IN_Loop", "A_SS_IN_Start", "A_SS_IN_Loop",
         };
 
-        private static readonly List<string> supportedAnimations = new List<string>
+        private static readonly string[] activeAnimations =
         {
             "WLoop", "SLoop",
             // anal
             "A_WLoop", "A_SLoop", "A_OLoop",
             // orgasm
             "OLoop", "A_OLoop",
-        }.Union(orgasmAnimations).ToList();
+        };
 
         public HFlag Flags { get; private set; }
 
@@ -70,7 +70,7 @@ namespace LoveMachine.KK
         protected override float VibrationIntensity => Flags.speedCalc == 0f ? 1f : Flags.speedCalc;
 
         protected override bool IsIdle(int girlIndex) => !supportedModes.Contains(Flags.mode)
-                    || !supportedAnimations.Contains(Flags.nowAnimStateName)
+                    || !activeAnimations.Contains(Flags.nowAnimStateName)
                     || Flags.speed < 1f;
 
         protected override bool IsOrgasming(int girlIndex) =>

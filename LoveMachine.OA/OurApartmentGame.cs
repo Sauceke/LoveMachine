@@ -63,7 +63,7 @@ namespace LoveMachine.OA
             naomiAnimator.GetCurrentAnimatorClipInfo(AnimationLayer).FirstOrDefault().clip?.name
                 ?? "unknown_pose";
 
-        protected override bool IsIdle(int girlIndex) => !isSex.Value && !IsOrgasming(0);
+        protected override bool IsIdle(int girlIndex) => !isSex.Value;
 
         protected override bool IsOrgasming(int girlIndex) => GetPose(0).Contains("Cum");
 

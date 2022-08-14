@@ -13,15 +13,15 @@ namespace LoveMachine.Core
         {
             while (true)
             {
+                if (game.IsOrgasming(device.Settings.GirlIndex))
+                {
+                    yield return HandleCoroutine(HandleOrgasm(device));
+                    continue;
+                }
                 if (game.IsIdle(device.Settings.GirlIndex))
                 {
                     client.StopDeviceCmd(device);
                     yield return new WaitForSeconds(.1f);
-                    continue;
-                }
-                if (game.IsOrgasming(device.Settings.GirlIndex))
-                {
-                    yield return HandleCoroutine(HandleOrgasm(device));
                     continue;
                 }
                 yield return HandleCoroutine(HandleAnimation(device));
