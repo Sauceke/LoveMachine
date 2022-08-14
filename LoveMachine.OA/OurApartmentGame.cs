@@ -60,11 +60,12 @@ namespace LoveMachine.OA
             GameObject.Find("cc_balls1.l")?.transform ?? transform;
 
         protected override string GetPose(int girlIndex) =>
-            AnimationLayer < 0
-                ? "unknown_pose"
-                : naomiAnimator.GetCurrentAnimatorClipInfo(AnimationLayer)[0].clip.name;
+            naomiAnimator.GetCurrentAnimatorClipInfo(AnimationLayer).FirstOrDefault().clip?.name
+                ?? "unknown_pose";
 
-        protected override bool IsIdle(int girlIndex) => !isSex.Value;
+        protected override bool IsIdle(int girlIndex) => !isSex.Value && !IsOrgasming(0);
+
+        protected override bool IsOrgasming(int girlIndex) => GetPose(0).Contains("Cum");
 
         protected override IEnumerator UntilReady()
         {
