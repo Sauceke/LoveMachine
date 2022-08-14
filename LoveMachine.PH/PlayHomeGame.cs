@@ -11,6 +11,11 @@ namespace LoveMachine.PH
     internal sealed class PlayHomeGame : GameDescriptor
     {
         private static readonly H_STATE[] activeHStates = { H_STATE.LOOP, H_STATE.SPURT };
+        private static readonly H_STATE[] orgasmStates =
+        {
+            H_STATE.IN_EJA_IN, H_STATE.IN_EJA_TREMBLE,
+            H_STATE.OUT_EJA_IN, H_STATE.OUT_EJA_TREMBLE
+        };
 
         private H_Scene scene;
 
@@ -52,7 +57,10 @@ namespace LoveMachine.PH
                 + "." + GetAnimatorStateInfo(girlIndex).fullPathHash;
 
         protected override bool IsIdle(int _) =>
-            !activeHStates.Contains(scene.mainMembers.StateMgr.nowStateID);
+            !activeHStates.Contains(scene.mainMembers.StateMgr.nowStateID) && !IsOrgasming(0);
+
+        protected override bool IsOrgasming(int _) =>
+            orgasmStates.Contains(scene.mainMembers.StateMgr.nowStateID);
 
         internal void OnStartH(H_Scene scene)
         {
