@@ -23,6 +23,8 @@ namespace LoveMachine.AGH
             { Bone.LeftBreast, "HS_Breast_LL_02" },
         };
 
+        private Transform coom;
+
         protected override Dictionary<Bone, string> FemaleBoneNames =>
             GameObject.Find("CH01") != null ? sayaBones : elenaBones;
 
@@ -38,6 +40,8 @@ namespace LoveMachine.AGH
 
         protected override float PenisSize => 0.5f;
 
+        protected override float MinOrgasmDurationSecs => 6f;
+
         public override Animator GetFemaleAnimator(int girlIndex) =>
             (GameObject.Find("CH01/CH0001") ?? GameObject.Find("CH02/CH0002"))
                 .GetComponent<Animator>();
@@ -51,9 +55,12 @@ namespace LoveMachine.AGH
 
         protected override bool IsIdle(int girlIndex) => GetFemaleAnimator(girlIndex) == null;
 
+        protected override bool IsOrgasming(int girlIndex) => coom.localPosition != Vector3.zero;
+
         protected override IEnumerator UntilReady()
         {
             yield return new WaitForSecondsRealtime(5f);
+            coom = GameObject.Find("PC01/PC/HS01_SE04").transform;
         }
     }
 }
