@@ -9,6 +9,7 @@ namespace LoveMachine.IO
 {
     internal sealed class InsultOrderGame : GameDescriptor
     {
+        private GameObject femaleRoot;
         private Traverse<bool> climax;
 
         protected override Dictionary<Bone, string> FemaleBoneNames => new Dictionary<Bone, string>
@@ -38,8 +39,7 @@ namespace LoveMachine.IO
         public override Animator GetFemaleAnimator(int girlIndex) =>
             GetFemaleRoot(girlIndex)?.GetComponent<Animator>();
 
-        protected override GameObject GetFemaleRoot(int _girlIndex) =>
-            GameObject.Find("CH01/CH0001") ?? GameObject.Find("CH02/CH0002");
+        protected override GameObject GetFemaleRoot(int girlIndex) => femaleRoot;
 
         protected override Transform GetDickBase() => GameObject.Find("BP00_tamaL").transform;
 
@@ -53,6 +53,7 @@ namespace LoveMachine.IO
         protected override IEnumerator UntilReady()
         {
             yield return new WaitForSecondsRealtime(5f);
+            femaleRoot = GameObject.Find("CH01/CH0001") ?? GameObject.Find("CH02/CH0002");
             climax = Traverse.Create(Type.GetType("GameClass, Assembly-CSharp"))
                 .Field<bool>("Climax");
         }
