@@ -13,6 +13,7 @@ namespace LoveMachine.COM3D2
         private const string PelvisF = "Bip01/Bip01 Pelvis";
 
         private readonly string[] idlePoseNames = { "taiki", "nade", "shaseigo" };
+        private readonly string[] climaxPoseNames = { "shasei_", "zeccyou_" };
 
         protected override Dictionary<Bone, string> FemaleBoneNames => new Dictionary<Bone, string>
         {
@@ -99,11 +100,11 @@ namespace LoveMachine.COM3D2
 
         protected override string GetPose(int girlIndex) => GetActiveState()?.name;
 
-        protected override bool IsIdle(int girlIndex)
-        {
-            string pose = GetPose(girlIndex);
-            return idlePoseNames.Any(pose.Contains);
-        }
+        protected override bool IsIdle(int girlIndex) =>
+            idlePoseNames.Any(GetPose(girlIndex).Contains);
+
+        protected override bool IsOrgasming(int girlIndex) =>
+            climaxPoseNames.Any(GetPose(girlIndex).Contains);
 
         protected override IEnumerator UntilReady()
         {
