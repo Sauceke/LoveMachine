@@ -47,7 +47,9 @@ namespace LoveMachine.Core
             float bottom = StrokerConfig.OrgasmDepth.Value;
             float time = 0.5f / StrokerConfig.OrgasmShakingFrequency.Value;
             float top = bottom + device.Settings.StrokerSettings.MaxStrokesPerMin / 60f / 2f * time;
-            while (game.IsOrgasming(device.Settings.GirlIndex))
+            float startTime = Time.realtimeSinceStartup;
+            while (game.IsOrgasming(device.Settings.GirlIndex)
+                || Time.realtimeSinceStartup - startTime < game.MinOrgasmDurationSecs)
             {
                 client.LinearCmd(device, top, time);
                 yield return new WaitForSecondsRealtime(time);

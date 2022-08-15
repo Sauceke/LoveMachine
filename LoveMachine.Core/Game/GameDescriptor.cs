@@ -67,6 +67,12 @@ namespace LoveMachine.Core
         protected internal virtual float StrokingIntensity =>
             IsHardSex ? Mathf.InverseLerp(0f, 100f, StrokerConfig.HardSexIntensity.Value) : 0f;
 
+        /// <summary>
+        /// The shortest duration an orgasm should last. <br/>
+        /// Override this if in-game orgasms aren't long enough, etc.
+        /// </summary>
+        protected internal virtual float MinOrgasmDurationSecs => 0f;
+
         internal bool IsHSceneRunning => hRunning && !IsHSceneInterrupted;
 
         /// <summary>
