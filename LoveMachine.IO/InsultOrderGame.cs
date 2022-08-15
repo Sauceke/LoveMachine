@@ -52,7 +52,7 @@ namespace LoveMachine.IO
 
         protected override IEnumerator UntilReady()
         {
-            yield return new WaitForSecondsRealtime(5f);
+            yield return new WaitForSeconds(5f);
             femaleRoot = GameObject.Find("CH01/CH0001") ?? GameObject.Find("CH02/CH0002");
             climax = Traverse.Create(Type.GetType("GameClass, Assembly-CSharp"))
                 .Field<bool>("Climax");

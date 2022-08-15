@@ -58,7 +58,7 @@ namespace LoveMachine.AGH
 
         protected override IEnumerator UntilReady()
         {
-            yield return new WaitForSecondsRealtime(5f);
+            yield return new WaitForSeconds(5f);
             femaleAnimator = (GameObject.Find("CH01/CH0001") ?? GameObject.Find("CH02/CH0002"))
                 .GetComponent<Animator>();
             coom = GameObject.Find("PC01/PC/HS01_SE04").transform;

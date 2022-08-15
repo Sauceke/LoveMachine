@@ -107,7 +107,7 @@ namespace LoveMachine.COM3D2
 
         protected override IEnumerator UntilReady()
         {
-            yield return new WaitForSecondsRealtime(5f);
+            yield return new WaitForSeconds(5f);
         }
     }
 }
