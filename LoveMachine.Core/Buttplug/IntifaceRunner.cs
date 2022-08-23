@@ -10,6 +10,8 @@ namespace LoveMachine.Core
     {
         private Process intiface;
 
+        public bool IsRunning => !intiface?.HasExited ?? false;
+
         private void Start()
         {
             string intifacePath = Environment
@@ -36,5 +38,11 @@ namespace LoveMachine.Core
         }
 
         private void OnDestroy() => intiface?.Kill();
+
+        public void Restart()
+        {
+            OnDestroy();
+            Start();
+        }
     }
 }

@@ -55,20 +55,27 @@ namespace LoveMachine.Core
         private static void DeviceListDrawer(ConfigEntryBase entry)
         {
             var serverController = Chainloader.ManagerObject.GetComponent<ButtplugWsClient>();
+            var runner = Chainloader.ManagerObject.GetComponent<IntifaceRunner>();
             GUILayout.BeginVertical(GUILayout.ExpandWidth(true));
             {
                 GUILayout.BeginHorizontal();
                 {
                     GUILayout.FlexibleSpace();
+                    if (GUILayout.Button("Restart", GUILayout.Width(150)))
+                    {
+                        runner.Restart();
+                        serverController.Connect();
+                    }
                     if (GUILayout.Button("Connect", GUILayout.Width(150)))
                     {
                         serverController.Connect();
                     }
-                    if (serverController.IsConnected
-                        && GUILayout.Button("Scan", GUILayout.Width(150)))
+                    GUI.enabled = serverController.IsConnected;
+                    if (GUILayout.Button("Scan", GUILayout.Width(150)))
                     {
                         serverController.StartScan();
                     }
+                    GUI.enabled = true;
                     GUILayout.FlexibleSpace();
                 }
                 GUILayout.EndHorizontal();
