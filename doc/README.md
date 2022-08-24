@@ -140,41 +140,12 @@ PRs for onboarding new games are welcome. The process is relatively simple and r
 
 This mod is provided free of charge, but I do accept donations. If you'd like to boost my morale, please check me out on [Patreon].
 
-### Code contributors
-* Sauceke
-* nhydock
-* hogefugamoga
-* RPKU
+### Developers
+Sauceke       nhydock       hogefugamoga       RPKU
 
-### Sponsors
-* [ManlyMarco]
-* AkronusWings
-* AstralClock
-* Benos Hentai
-* Bri
-* CBN ヴい
-* CROM
-* EPTG
-* funnychicken
-* GOU YOSIHIRO
-* Greg
-* kai harayama
-* kuni
-* Nemi
-* RP君
-* Shakes
-* Taibe
-* Taka Yami
-* tanu
-* TrashTaste
-* tutinoko
-* uruurian
-* Wel Adunno
-* yamada tarou
-* ふ
-* 猛 羽場
-* 终晓
-* 郁弥 中村
+### Patrons
+[ManlyMarco]       Aftercurve       AkronusWings       AstralClock       Benos Hentai       Bri       CBN ヴい       Ceruleon       CROM       EPTG       Flan       funnychicken       Gabbelgu       GOU YOSIHIRO       Greg       hiro       kai harayama       KTKT       kuni       Laneo       Nemi       prepare55       RP君       Shakes       Taibe       Taka Yami       tanu       Tom       TrashTaste       tutinoko       uruurian       Wel Adunno       yamada tarou       ふ       一太 川崎       国崎往人       猛 羽場       终晓       郁弥 中村       
+
 
 ## Acknowledgements
 This mod would not have been possible without the [BepInEx] plugin framework and, of course, the [Buttplug.io] project.
