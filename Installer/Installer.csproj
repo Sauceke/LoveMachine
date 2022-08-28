@@ -76,6 +76,8 @@
     <Content Include="InstallScript.iss" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="EN.isl" />
+    <None Include="JP.isl" />
     <None Include="PluginInfo.ini" />
     <None Include="Readme.rtf" />
   </ItemGroup>

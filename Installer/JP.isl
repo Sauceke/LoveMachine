@@ -1,0 +1,12 @@
+﻿[CustomMessages]
+KK=コイカツ！
+KKS=コイカツ！サンシャイン
+HS2=ハニーセレクト2
+PH=プレイホーム
+AGH=奉課後輪姦中毒
+IO=インサルトオーダー
+COM3D2=カスタムオーダーメイド3D2
+InstallIntiface=LoveMachineを使用するにはIntifaceをインストールする必要があります。今インストールしますか？
+SelectPathTitle=インストール先・%dページ
+SelectPath=インストール先のゲームフォルダーを選択して下さい。持っていないゲームは空白のままにしておいて下さい。
+NotAGameDir=「%s」はUnityゲームフォルダーじゃないみたいです。ゲームデータを含むフォルダーを選択して下さい。

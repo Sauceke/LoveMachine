@@ -1,4 +1,4 @@
-#define PluginBuildDir SourcePath + "..\bin\"
+﻿#define PluginBuildDir SourcePath + "..\bin\"
 #define BepInEx32Dir SourcePath + "BepInEx32"
 #define BepInEx64Dir SourcePath + "BepInEx64"
 #define AppVersion GetVersionNumbersString(PluginBuildDir + "LoveMachine.Core\LoveMachine.Core.dll")
@@ -15,7 +15,6 @@
 #define PluginCount 0
 
 #define GetPluginId(Index) Plugins[Index]
-#define GetGameName(Index) ReadIni(PluginInfoIni, GetPluginId(Index), PluginInfoIniNameKey, GetPluginId(Index))
 #define GetGameRegSubKey(Index) ReadIni(PluginInfoIni, GetPluginId(Index), PluginInfoIniRegSubKeyKey)
 #define GetGameRegName(Index) ReadIni(PluginInfoIni, GetPluginId(Index), PluginInfoIniRegNameKey)
 #define GetGameArchitecture(Index) ReadIni(PluginInfoIni, GetPluginId(Index), PluginInfoIniArchitectureKey)
@@ -57,6 +56,10 @@ WizardStyle=modern
 DisableDirPage=yes
 DisableWelcomePage=no
 InfoBeforeFile=Readme.rtf
+
+[Languages]
+Name: "en"; MessagesFile: "EN.isl"
+Name: "jp"; MessagesFile: "compiler:Languages/Japanese.isl,JP.isl"
 
 [Files]
 ; BepInEx files
@@ -102,12 +105,9 @@ end;
 { The human-readable name of the game at the given index }
 function GetGameName(Index: Integer): String;
 begin
-    case Index of
-        #sub NameMapping
-            {#I}: Result := '{#GetGameName(I)}';
-        #endsub
-        #for {I = 0; I < PluginCount; I++} NameMapping
-    end;
+    Result := GetPluginId(Index);
+    StringChangeEx(Result, 'LoveMachine.', '', False);
+    Result := CustomMessage(Result);
 end;
 
 function GetGameArchitecture(Index: Integer): String;
@@ -175,7 +175,7 @@ begin
     Result := True;
     if (not FindFirst(AddBackslash(Path) + '*_Data', FindRec)) and (Path <> PlaceholderDir) then
     begin
-        WarningMsg := Format('Path %s does not appear to be a valid game directory.', [Path]);
+        WarningMsg := Format(CustomMessage('NotAGameDir'), [Path]);
         MsgBox(WarningMsg, mbError, MB_OK);
         Result := False;
     end;
@@ -219,9 +219,8 @@ begin
             PrevPageID := DirPages[Page - 1].ID;
         if IndexInPage = 0 then
             DirPages[Page] := CreateInputDirPage(PrevPageID,
-                'Select Destinations - Page ' + IntToStr(Page + 1),
-                'Select the game folder for each of your games. '
-                    + 'Leave blank for games you don''t have.',
+                Format(CustomMessage('SelectPathTitle'), [Page + 1]),
+                CustomMessage('SelectPath'),
                 '', False, '');
         DirPages[Page].Add(GetGameName(Index));
         DirPages[Page].Values[IndexInPage] :=
@@ -258,7 +257,7 @@ var
     ErrorCode: Integer;
 begin
     if not DirExists(AddBackslash(ExpandConstant('{localappdata}')) + 'IntifaceDesktop') then
-        if MsgBox('LoveMachine requires Intiface to be installed. Install it now?', mbConfirmation, MB_YESNO) = IDYES then
+        if MsgBox(CustomMessage('InstallIntiface'), mbConfirmation, MB_YESNO) = IDYES then
             if not ShellExec('open', 'https://intiface.com/desktop/', '', '', SW_SHOW, ewNoWait, ErrorCode) then
                 MsgBox(SysErrorMessage(ErrorCode), mbError, MB_OK);
 end;
