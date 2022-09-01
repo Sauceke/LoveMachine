@@ -1,6 +1,7 @@
 # BepInEx LoveMachine ([日本語](マニュアル.md))
 ![.NET](https://github.com/Sauceke/LoveMachine/actions/workflows/commit.yml/badge.svg)
 [![Download](https://img.shields.io/github/downloads/Sauceke/LoveMachine/total)][installer]
+[![Patreon](https://shields.io/badge/patreon-grey?logo=patreon)][Patreon]
 
 | [⬇ Download][installer] |
 |----|
