@@ -1,5 +1,5 @@
 # BepInEx LoveMachine ([日本語](マニュアル.md))
-![.NET](https://github.com/Sauceke/LoveMachine/actions/workflows/commit.yml/badge.svg)
+[![.NET](https://github.com/Sauceke/LoveMachine/actions/workflows/commit.yml/badge.svg)](#)
 [![Download](https://img.shields.io/github/downloads/Sauceke/LoveMachine/total)][installer]
 [![Patreon](https://shields.io/badge/patreon-grey?logo=patreon)][Patreon]
 
@@ -10,15 +10,15 @@ Adds support for [some computer-controlled sex toys](#supported-devices) in the 
 
 | Game                           | Developer        | VR supported      |
 |--------------------------------|------------------|-------------------|
-| Custom Order Maid 3D 2         | Kiss             | Yes               |
+| [Custom Order Maid 3D 2]       | Kiss             | Yes               |
 | [Honey Select 2]               | Illusion         | Yes               |
 | [Houkago Rinkan Chuudoku]      | Miconisomi       | Yes, wtih [AGHVR] |
 | [Insult Order]                 | Miconisomi       | Yes, wtih [IOVR]  |
-| Koikatsu                       | Illusion         | Yes               |
-| Koikatsu Party                 | Illusion         | Yes               |
-| Koikatsu Sunshine              | Illusion         | Yes               |
+| [Koikatsu]                     | Illusion         | Yes               |
+| [Koikatsu Party]               | Illusion         | Yes               |
+| [Koikatsu Sunshine]            | Illusion         | Yes               |
 | [Our Apartment]                | Momoiro Software | No                |
-| PlayHome                       | Illusion         | Yes               |
+| [PlayHome]                     | Illusion         | Yes               |
 
 ## Supported devices
 LoveMachine relies on the [Buttplug.io] project to communicate with toys. At the time of writing, Buttplug.io supports over 200 devices.
@@ -158,6 +158,7 @@ This mod would not have been possible without the [BepInEx] plugin framework and
 [Patreon]: https://www.patreon.com/sauceke
 
 <!-- sponsored links -->
+[Custom Order Maid 3D 2]: https://www.dlsite.com/pro/dlaf/=/t/n/link/work/aid/sauceke/locale/en_US/id/VJ011538.html/?locale=en_US
 [Honey Select 2]: https://www.dlsite.com/pro/dlaf/=/t/n/link/work/aid/sauceke/locale/en_US/id/VJ013722.html/?locale=en_US
 [Houkago Rinkan Chuudoku]: https://www.dlsite.com/maniax/dlaf/=/t/n/link/work/aid/sauceke/locale/en_US/id/RJ189924.html/?locale=en_US
 [Insult Order]: https://www.dlsite.com/maniax/dlaf/=/t/n/link/work/aid/sauceke/locale/en_US/id/RJ220246.html/?locale=en_US
@@ -176,3 +177,7 @@ This mod would not have been possible without the [BepInEx] plugin framework and
 [AGHVR]: https://github.com/Eusth/AGHVR
 [IOVR]: https://github.com/Eusth/IOVR
 [Our Apartment]: https://momoirosoft.itch.io/our-apartment
+[Koikatsu]: https://www.illusion.jp/preview/koikatu/
+[Koikatsu Party]: https://store.steampowered.com/app/1073440/__Koikatsu_Party/
+[Koikatsu Sunshine]: https://www.illusion.jp/preview/koikatsu_sunshine/
+[PlayHome]: https://www.illusion.jp/preview/playhome/
