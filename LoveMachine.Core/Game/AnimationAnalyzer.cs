@@ -99,7 +99,7 @@ namespace LoveMachine.Core
                         RelativePos = boneM.position - boneF.position
                     });
                 }
-                if (pose != GetExactPose(girlIndex, Bone.Auto))
+                if (pose != GetExactPose(girlIndex, Bone.Auto) || currentTime < startTime)
                 {
                     CoreConfig.Logger.LogWarning($"Pose {pose} interrupted; canceling analysis.");
                     yield break;
