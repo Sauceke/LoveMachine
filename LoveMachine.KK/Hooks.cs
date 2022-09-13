@@ -6,7 +6,11 @@ namespace LoveMachine.KK
 {
     internal static class Hooks
     {
-        public static void InstallHooks() => Harmony.CreateAndPatchAll(typeof(HSceneTriggers));
+        public static void InstallHSceneHooks() =>
+            Harmony.CreateAndPatchAll(typeof(HSceneTriggers));
+
+        public static void InstallStudioHooks() =>
+            Harmony.CreateAndPatchAll(typeof(StudioTriggers));
 
         private static class HSceneTriggers
         {
@@ -16,6 +20,19 @@ namespace LoveMachine.KK
             {
                 CoreConfig.Logger.LogDebug("H Scene started.");
                 Chainloader.ManagerObject.GetComponent<KoikatsuGame>().OnStartH(__instance);
+            }
+        }
+
+        private static class StudioTriggers
+        {
+
+            [HarmonyPostfix]
+            [HarmonyPatch(typeof(Studio.Studio), nameof(Studio.Studio.InitScene))]
+            public static void InitScene()
+            {
+                CoreConfig.Logger.LogDebug("Studio scene started.");
+                Chainloader.ManagerObject.GetComponent<StudioGame>().EndH();
+                Chainloader.ManagerObject.GetComponent<StudioGame>().StartH();
             }
         }
     }

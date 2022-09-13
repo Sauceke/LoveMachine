@@ -45,6 +45,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\LoveMachine.KK\AbstractKoikatsuGame.cs">
+      <Link>AbstractKoikatsuGame.cs</Link>
+    </Compile>
     <Compile Include="..\LoveMachine.KK\Hooks.cs">
       <Link>Hooks.cs</Link>
     </Compile>
@@ -65,6 +68,9 @@
     </Compile>
     <Compile Include="..\LoveMachine.KK\KoikatsuGame.cs">
       <Link>KoikatsuGame.cs</Link>
+    </Compile>
+    <Compile Include="..\LoveMachine.KK\StudioGame.cs">
+      <Link>StudioGame.cs</Link>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

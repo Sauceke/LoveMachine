@@ -1,13 +1,11 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
 using IllusionUtility.GetUtility;
-using LoveMachine.Core;
 using UnityEngine;
 
 namespace LoveMachine.KK
 {
-    internal sealed class KoikatsuGame : GameDescriptor
+    internal sealed class KoikatsuGame : AbstractKoikatsuGame
     {
         private static readonly HFlag.EMode[] supportedModes =
         {
@@ -39,21 +37,6 @@ namespace LoveMachine.KK
             Flags = flags;
             StartH();
         }
-
-        protected override Dictionary<Bone, string> FemaleBoneNames => new Dictionary<Bone, string>
-        {
-            { Bone.LeftBreast, "k_f_munenipL_00" },
-            { Bone.RightBreast, "k_f_munenipR_00" },
-            { Bone.Vagina, "cf_n_pee" },
-            { Bone.Anus, "k_f_ana_00" },
-            { Bone.LeftButt, "k_f_siriL_00" },
-            { Bone.RightButt, "k_f_siriR_00" },
-            { Bone.Mouth, "cf_J_MouthCavity" },
-            { Bone.LeftHand, "cf_j_index04_L" },
-            { Bone.RightHand, "cf_j_index04_R" },
-            { Bone.LeftFoot, "k_f_toeL_00" },
-            { Bone.RightFoot, "k_f_toeR_00" },
-        };
 
         protected override int HeroineCount => Flags.lstHeroine.Count;
 

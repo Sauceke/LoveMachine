@@ -1,6 +1,7 @@
 ﻿using BepInEx;
 using BepInEx.Bootstrap;
 using LoveMachine.Core;
+using UnityEngine;
 
 namespace LoveMachine.KK
 {
@@ -31,7 +32,18 @@ namespace LoveMachine.KK
             {
                 Chainloader.ManagerObject.AddComponent<HotdogDepthPOC>();
             }
-            Hooks.InstallHooks();
+            Hooks.InstallHSceneHooks();
+        }
+    }
+
+    [BepInProcess("CharaStudio")]
+    [BepInPlugin(CoreConfig.GUID, "LoveMachine", CoreConfig.Version)]
+    public class StudioLoveMachine : BaseUnityPlugin
+    {
+        private void Start()
+        {
+            this.Initialize<StudioGame>(Logger);
+            Hooks.InstallStudioHooks();
         }
     }
 
