@@ -47,6 +47,7 @@
     <IncludePattern>**\*.cs</IncludePattern>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="AbstractKoikatsuGame.cs" />
     <Compile Include="KKAnimationConfig.cs" />
     <Compile Include="KoikatsuAibuController.cs" />
     <Compile Include="KoikatsuAnimationController.cs" />
@@ -55,6 +56,7 @@
     <Compile Include="KKLoveMachine.cs" />
     <Compile Include="KoikatsuGame.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="StudioGame.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\LoveMachine.Core\LoveMachine.Core.csproj">
