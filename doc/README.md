@@ -8,17 +8,17 @@
 
 Adds support for [some computer-controlled sex toys](#supported-devices) in the following games:
 
-| Game                           | Developer        | VR supported      |
-|--------------------------------|------------------|-------------------|
-| [Custom Order Maid 3D 2]       | Kiss             | Yes               |
-| [Honey Select 2]               | Illusion         | Yes               |
-| [Houkago Rinkan Chuudoku]      | Miconisomi       | Yes, wtih [AGHVR] |
-| [Insult Order]                 | Miconisomi       | Yes, wtih [IOVR]  |
-| [Koikatsu]                     | Illusion         | Yes               |
-| [Koikatsu Party]               | Illusion         | Yes               |
-| [Koikatsu Sunshine]            | Illusion         | Yes               |
-| [Our Apartment]                | Momoiro Software | No                |
-| [PlayHome]                     | Illusion         | Yes               |
+| Game                      | Developer        | VR supported      |
+|---------------------------|------------------|-------------------|
+| [Custom Order Maid 3D 2]  | Kiss             | Yes               |
+| [Honey Select 2]          | Illusion         | Yes               |
+| [Houkago Rinkan Chuudoku] | Miconisomi       | Yes, with [AGHVR] |
+| [Insult Order]            | Miconisomi       | Yes, with [IOVR]  |
+| [Koikatsu]                | Illusion         | Yes               |
+| [Koikatsu Party]          | Illusion         | Yes               |
+| [Koikatsu Sunshine]       | Illusion         | Yes               |
+| [Our Apartment]           | Momoiro Software | No                |
+| [PlayHome]                | Illusion         | Yes               |
 
 ## Supported devices
 LoveMachine relies on the [Buttplug.io] project to communicate with toys. At the time of writing, Buttplug.io supports over 200 devices.
@@ -145,7 +145,7 @@ This mod is provided free of charge, but I do accept donations. If you'd like to
 Sauceke       nhydock       hogefugamoga       RPKU
 
 ### Patrons
-[ManlyMarco]       Aftercurve       AkronusWings       AstralClock       Benos Hentai       Bri       CBN ヴい       Ceruleon       CROM       EPTG       Flan       funnychicken       Gabbelgu       GOU YOSIHIRO       Greg       hiro       kai harayama       KTKT       kuni       Laneo       Nemi       prepare55       RP君       Shakes       Taibe       Taka Yami       tanu       Tom       TrashTaste       tutinoko       uruurian       Wel Adunno       yamada tarou       ふ       一太 川崎       国崎往人       猛 羽場       终晓       郁弥 中村       
+[ManlyMarco]       Aftercurve       AkronusWings       AstralClock       Benos Hentai       boaz       Bri       cat tail       CBN ヴい       Ceruleon       CROM       EPTG       Flan       funnychicken       Gabbelgu       GOU YOSIHIRO       Greg       hiro       kai harayama       KTKT       kuni       Laneo       Nemi       prepare55       rolandmitch       RP君       SavagePastry       Shakes       Taibe       Taka Yami       tanu       Tom       TrashTaste       tutinoko       uruurian       Wel Adunno       yamada tarou       ふ       一太 川崎       国崎往人       洋 冨岡       猛 羽場       终晓       郁弥 中村       
 
 
 ## Acknowledgements
