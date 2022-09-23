@@ -9,6 +9,7 @@ namespace LoveMachine.KK
     {
         private Traverse<bool> isPlaying;
         private Traverse<float> duration;
+        private Traverse<float> playbackTime;
 
         public override int AnimationLayer => throw new NotImplementedException();
 
@@ -34,16 +35,18 @@ namespace LoveMachine.KK
         protected override void GetAnimState(int girlIndex, out float normalizedTime,
             out float length, out float speed)
         {
-            normalizedTime = Time.time / duration.Value;
+            float offset = (Time.time - playbackTime.Value) % duration.Value;
+            normalizedTime = (Time.time - offset) / duration.Value;
             length = duration.Value;
-            speed = 1f;
+            speed = Time.timeScale;
         }
 
         protected override IEnumerator UntilReady()
         {
-            var timeline = Type.GetType("Timeline.Timeline, Timeline");
-            isPlaying = Traverse.Create(timeline).Property<bool>(nameof(isPlaying));
-            duration = Traverse.Create(timeline).Property<float>(nameof(duration));
+            var timeline = Traverse.Create(Type.GetType("Timeline.Timeline, Timeline"));
+            isPlaying = timeline.Property<bool>(nameof(isPlaying));
+            duration = timeline.Property<float>(nameof(duration));
+            playbackTime = timeline.Property<float>(nameof(playbackTime));
             yield break;
         }
     }
