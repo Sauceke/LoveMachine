@@ -145,7 +145,7 @@ This mod is provided free of charge, but I do accept donations. If you'd like to
 Sauceke       nhydock       hogefugamoga       RPKU
 
 ### Patrons
-[ManlyMarco]       Aftercurve       AkronusWings       AstralClock       Benos Hentai       boaz       Bri       cat tail       CBN ヴい       Ceruleon       CROM       EPTG       Flan       funnychicken       Gabbelgu       GOU YOSIHIRO       Greg       hiro       kai harayama       KTKT       kuni       Laneo       Nemi       prepare55       rolandmitch       RP君       SavagePastry       Shakes       Taibe       Taka Yami       tanu       Tom       TrashTaste       tutinoko       uruurian       Wel Adunno       yamada tarou       ふ       一太 川崎       国崎往人       洋 冨岡       猛 羽場       终晓       郁弥 中村       
+[ManlyMarco]       Aftercurve       AkronusWings       AstralClock       Benos Hentai       boaz       Bri       cat tail       CBN ヴい       Ceruleon       CROM       EPTG       Flan       funnychicken       Gabbelgu       GOU YOSIHIRO       Greg       hiro       Ior1yagami       kai harayama       KTKT       kuni       Laneo       Nemi       prepare55       rolandmitch       RP君       SavagePastry       Shakes       Taibe       Taka Yami       tanu       Tom       TrashTaste       tutinoko       uruurian       Wel Adunno       yamada tarou       ふ       一太 川崎       国崎往人       洋 冨岡       猛 羽場       终晓       郁弥 中村       
 
 
 ## Acknowledgements
