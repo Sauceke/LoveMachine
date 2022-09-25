@@ -84,7 +84,7 @@ Whichever of the two you use, you need to turn it on **before** launching the ga
 In Plugin Settings > LoveMachine, you can set the following parameters:
 
 ### Animation Settings (Koikatsu and KKS only)
-- **Simplify animations:** If enabled, LoveMachine will remove motion blending from animations. Motion blending messes up the timing algorithm, so this setting is essential if you want real immersion, especially with Sideloader animations. Turned on by default. May interfere with other mods, though unlikely.
+- **Simplify animations:** If enabled, LoveMachine will remove motion blending from animations. Motion blending messes up the timing algorithm, so this setting is essential if you want real immersion, especially with Sideloader animations. Turned off by default. May interfere with other mods.
 
 ### Device List
 This is where all your devices connected to Intiface are listed.

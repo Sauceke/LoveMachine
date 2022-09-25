@@ -13,7 +13,7 @@ namespace LoveMachine.KK
             SuppressAnimationBlending = plugin.Config.Bind(
                 section: animationSettingsTitle,
                 key: "Simplify animations",
-                defaultValue: true,
+                defaultValue: false,
                 "Some animations are too complex and cannot be tracked precisely.\n" +
                 "This setting will make such animations simpler for better immersion.");
         }
