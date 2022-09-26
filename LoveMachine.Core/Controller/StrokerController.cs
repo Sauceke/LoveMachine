@@ -31,10 +31,10 @@ namespace LoveMachine.Core
             float refreshNormTime = 1f / segments;
             float currentNormTime = GetLatencyCorrectedNormalizedTime(device);
             float nextNormTime = currentNormTime + refreshNormTime;
-            float currentPosition = Sinusoid(currentNormTime, waveInfo);
-            float nextPosition = Sinusoid(nextNormTime, waveInfo);
-            bool movingUp = currentPosition < nextPosition;
             GetStrokeZone(animTimeSecs, device, waveInfo, out float bottom, out float top);
+            float currentPosition = Mathf.Lerp(bottom, top, Sinusoid(currentNormTime, waveInfo));
+            float nextPosition = Mathf.Lerp(bottom, top, Sinusoid(nextNormTime, waveInfo));
+            bool movingUp = currentPosition < nextPosition;
             float targetPosition = movingUp ? top : bottom;
             float speed = (nextPosition - currentPosition) / refreshTimeSecs;
             speed *= movingUp ? 1f : 1f + game.StrokingIntensity;
