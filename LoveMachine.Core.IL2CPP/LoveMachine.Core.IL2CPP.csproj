@@ -1,0 +1,162 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{157C278F-AEE1-4A71-A069-A83267F4A3E4}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>LoveMachine.Core.IL2CPP</RootNamespace>
+    <AssemblyName>LoveMachine.Core.IL2CPP</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="0Harmony">
+      <HintPath>Lib\0Harmony.dll</HintPath>
+    </Reference>
+    <Reference Include="BepInEx.Core">
+      <HintPath>Lib\BepInEx.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="BepInEx.Unity.IL2CPP">
+      <HintPath>Lib\BepInEx.Unity.IL2CPP.dll</HintPath>
+    </Reference>
+    <Reference Include="Il2Cppmscorlib">
+      <HintPath>Lib\Il2Cppmscorlib.dll</HintPath>
+    </Reference>
+    <Reference Include="UnhollowerBaseLib">
+      <HintPath>Lib\UnhollowerBaseLib.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.CoreModule">
+      <HintPath>Lib\UnityEngine.CoreModule.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\LoveMachine.Core\Buttplug\ButtplugWsClient.cs">
+      <Link>ButtplugWsClient.cs</Link>
+    </Compile>
+    <Compile Include="..\LoveMachine.Core\Buttplug\Device.cs">
+      <Link>Device.cs</Link>
+    </Compile>
+    <Compile Include="..\LoveMachine.Core\Buttplug\DeviceManager.cs">
+      <Link>DeviceManager.cs</Link>
+    </Compile>
+    <Compile Include="..\LoveMachine.Core\Buttplug\DeviceSettings.cs">
+      <Link>DeviceSettings.cs</Link>
+    </Compile>
+    <Compile Include="..\LoveMachine.Core\Buttplug\IntifaceRunner.cs">
+      <Link>IntifaceRunner.cs</Link>
+    </Compile>
+    <Compile Include="..\LoveMachine.Core\Buttplug\StrokerSettings.cs">
+      <Link>StrokerSettings.cs</Link>
+    </Compile>
+    <Compile Include="..\LoveMachine.Core\Buttplug\VibratorSettings.cs">
+      <Link>VibratorSettings.cs</Link>
+    </Compile>
+    <Compile Include="..\LoveMachine.Core\Config\ButtplugConfig.cs">
+      <Link>ButtplugConfig.cs</Link>
+    </Compile>
+    <Compile Include="..\LoveMachine.Core\Config\DeviceListConfig.cs">
+      <Link>DeviceListConfig.cs</Link>
+    </Compile>
+    <Compile Include="..\LoveMachine.Core\Config\RotatorConfig.cs">
+      <Link>RotatorConfig.cs</Link>
+    </Compile>
+    <Compile Include="..\LoveMachine.Core\Config\StrokerConfig.cs">
+      <Link>StrokerConfig.cs</Link>
+    </Compile>
+    <Compile Include="..\LoveMachine.Core\Controller\ButtplugController.cs">
+      <Link>ButtplugController.cs</Link>
+    </Compile>
+    <Compile Include="..\LoveMachine.Core\Controller\ClassicButtplugController.cs">
+      <Link>ClassicButtplugController.cs</Link>
+    </Compile>
+    <Compile Include="..\LoveMachine.Core\Controller\RotatorController.cs">
+      <Link>RotatorController.cs</Link>
+    </Compile>
+    <Compile Include="..\LoveMachine.Core\Controller\StrokerController.cs">
+      <Link>StrokerController.cs</Link>
+    </Compile>
+    <Compile Include="..\LoveMachine.Core\Controller\VibratorController.cs">
+      <Link>VibratorController.cs</Link>
+    </Compile>
+    <Compile Include="..\LoveMachine.Core\Game\AnimationAnalyzer.cs">
+      <Link>AnimationAnalyzer.cs</Link>
+    </Compile>
+    <Compile Include="..\LoveMachine.Core\Game\Bone.cs">
+      <Link>Bone.cs</Link>
+    </Compile>
+    <Compile Include="..\LoveMachine.Core\Game\GameDescriptor.cs">
+      <Link>GameDescriptor.cs</Link>
+    </Compile>
+    <Compile Include="..\LoveMachine.Core\Game\TestAnimationAnalyzer.cs">
+      <Link>TestAnimationAnalyzer.cs</Link>
+    </Compile>
+    <Compile Include="..\LoveMachine.Core\Game\TestGame.cs">
+      <Link>TestGame.cs</Link>
+    </Compile>
+    <Compile Include="..\LoveMachine.Core\PluginInitializer.cs">
+      <Link>PluginInitializer.cs</Link>
+    </Compile>
+    <Compile Include="..\LoveMachine.Core\Util\ConfigurationManagerAttributes.cs">
+      <Link>ConfigurationManagerAttributes.cs</Link>
+    </Compile>
+    <Compile Include="..\LoveMachine.Core\Util\GUIUtil.cs">
+      <Link>GUIUtil.cs</Link>
+    </Compile>
+    <Compile Include="..\LoveMachine.Core\Util\RangeSlider.cs">
+      <Link>RangeSlider.cs</Link>
+    </Compile>
+    <Compile Include="..\LoveMachine.Core\VersionInfo.cs">
+      <Link>VersionInfo.cs</Link>
+    </Compile>
+    <Compile Include="BaseUnityPlugin.cs" />
+    <Compile Include="CoreConfig.cs" />
+    <Compile Include="CoroutineHandler.cs" />
+    <Compile Include="KillSwitchConfig.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="AllForOne">
+      <Version>1.0.0.27</Version>
+    </PackageReference>
+    <PackageReference Include="IllusionLibs.HoneySelect2.UnityEngine.AnimationModule">
+      <Version>2018.4.11.4</Version>
+    </PackageReference>
+    <PackageReference Include="IllusionLibs.HoneySelect2.UnityEngine.IMGUIModule">
+      <Version>2018.4.11.4</Version>
+    </PackageReference>
+    <PackageReference Include="LitJson">
+      <Version>0.18.0</Version>
+    </PackageReference>
+    <PackageReference Include="WebSocket4Net">
+      <Version>0.15.2</Version>
+    </PackageReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

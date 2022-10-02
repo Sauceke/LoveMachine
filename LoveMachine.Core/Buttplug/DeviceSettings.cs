@@ -18,7 +18,7 @@ namespace LoveMachine.Core
         internal void Draw()
         {
             var defaults = new DeviceSettings();
-            var game = Chainloader.ManagerObject.GetComponent<GameDescriptor>();
+            var game = CoreConfig.ManagerObject.GetComponent<GameDescriptor>();
             string[] ordinals = { "First", "Second", "Third", "Fourth", "Fifth", "Sixth" };
             string[] girlChoices = Enumerable.Range(0, game.MaxHeroineCount)
                         .Select(index => $"{ordinals[index]} Girl")

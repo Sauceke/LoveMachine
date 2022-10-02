@@ -26,7 +26,7 @@ namespace LoveMachine.Core
             KillSwitchConfig.Initialize(plugin);
             RotatorConfig.Initialize(plugin);
             StrokerConfig.Initialize(plugin);
-            var manager = Chainloader.ManagerObject;
+            var manager = CoreConfig.ManagerObject;
             manager.AddComponent<T>();
             manager.AddComponent<IntifaceRunner>();
             manager.AddComponent<ButtplugWsClient>();
@@ -35,10 +35,6 @@ namespace LoveMachine.Core
             manager.AddComponent<StrokerController>();
             manager.AddComponent<VibratorController>();
             manager.AddComponent<RotatorController>();
-            foreach (var controller in extraControllers)
-            {
-                manager.AddComponent(controller);
-            }
         }
     }
 }

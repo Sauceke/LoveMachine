@@ -63,7 +63,7 @@ namespace LoveMachine.Core
         public static void Test<T>(Device device)
             where T : ButtplugController
         {
-            var testController = Chainloader.ManagerObject.AddComponent<T>();
+            var testController = CoreConfig.ManagerObject.AddComponent<T>();
             testController.isTestController = true;
             testController.HandleCoroutine(testController.RunTest(device));
         }

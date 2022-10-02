@@ -9,13 +9,15 @@ using WebSocket4Net;
 
 namespace LoveMachine.Core
 {
-    public class ButtplugWsClient : MonoBehaviour
+    public class ButtplugWsClient : CoroutineHandler
     {
         private WebSocket websocket;
         private readonly System.Random random = new System.Random();
         private bool killSwitchThrown = false;
 
         internal event EventHandler<DeviceListEventArgs> OnDeviceListUpdated;
+
+        public ButtplugWsClient(IntPtr handle) : base() { }
 
         public List<Device> Devices { get; private set; }
 
@@ -42,7 +44,7 @@ namespace LoveMachine.Core
             websocket.MessageReceived += OnMessageReceived;
             websocket.Error += OnError;
             websocket.Open();
-            StartCoroutine(RunKillSwitchLoop());
+            HandleCoroutine(RunKillSwitchLoop());
         }
 
         public void Close()

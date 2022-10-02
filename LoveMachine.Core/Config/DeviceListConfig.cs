@@ -54,8 +54,8 @@ namespace LoveMachine.Core
 
         private static void DeviceListDrawer(ConfigEntryBase entry)
         {
-            var serverController = Chainloader.ManagerObject.GetComponent<ButtplugWsClient>();
-            var runner = Chainloader.ManagerObject.GetComponent<IntifaceRunner>();
+            var serverController = CoreConfig.ManagerObject.GetComponent<ButtplugWsClient>();
+            var runner = CoreConfig.ManagerObject.GetComponent<IntifaceRunner>();
             GUILayout.BeginVertical(GUILayout.ExpandWidth(true));
             {
                 GUILayout.BeginHorizontal();
@@ -153,7 +153,7 @@ namespace LoveMachine.Core
 
         private static GUIStyle GetDevicePanelStyle() => new GUIStyle(GUI.skin.box)
         {
-            margin = new RectOffset(left: 20, right: 20, top: 5, bottom: 5),
+            margin = new RectOffset { left = 20, right = 20, top = 5, bottom = 5 },
             normal = new GUIStyleState { background = GetTexture(new Color(0f, 1f, 0.5f, 0.2f)) }
         };
 
