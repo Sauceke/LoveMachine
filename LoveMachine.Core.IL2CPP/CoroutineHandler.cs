@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections;
-using BepInEx.Unity.IL2CPP.Utils.Collections;
+using BepInEx.IL2CPP.Utils.Collections;
 using UnityEngine;
 
 namespace LoveMachine.Core
 {
     public class CoroutineHandler : MonoBehaviour
     {
-        public CoroutineHandler() : base() { }
+        public CoroutineHandler(IntPtr handle) : base(handle) { }
 
         protected internal Coroutine HandleCoroutine(IEnumerator coroutine,
             bool suppressExceptions = false) =>
@@ -29,7 +29,7 @@ namespace LoveMachine.Core
             }
             catch (Exception e)
             {
-                CoreConfig.Logger.LogError($"Coroutine failed with exception: {e}");
+                CoreConfig.Logger.LogError((string)$"Coroutine failed with exception: {e}");
                 if (suppressExceptions)
                 {
                     return false;

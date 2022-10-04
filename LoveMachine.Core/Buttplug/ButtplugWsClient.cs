@@ -15,9 +15,9 @@ namespace LoveMachine.Core
         private readonly System.Random random = new System.Random();
         private bool killSwitchThrown = false;
 
-        internal event EventHandler<DeviceListEventArgs> OnDeviceListUpdated;
+        public ButtplugWsClient(IntPtr handle) : base(handle) { }
 
-        public ButtplugWsClient(IntPtr handle) : base() { }
+        internal event EventHandler<DeviceListEventArgs> OnDeviceListUpdated;
 
         public List<Device> Devices { get; private set; }
 
@@ -38,7 +38,7 @@ namespace LoveMachine.Core
             Devices = new List<Device>();
             string address = ButtplugConfig.WebSocketHost.Value
                 + ":" + ButtplugConfig.WebSocketPort.Value;
-            CoreConfig.Logger.LogInfo($"Connecting to Intiface server at {address}");
+            CoreConfig.Logger.LogInfo((string)$"Connecting to Intiface server at {address}");
             websocket = new WebSocket(address);
             websocket.Opened += OnOpened;
             websocket.MessageReceived += OnMessageReceived;
@@ -221,7 +221,7 @@ namespace LoveMachine.Core
             {
                 if (data.ContainsKey("Error"))
                 {
-                    CoreConfig.Logger.LogWarning($"Error from Intiface: {data.ToJson()}");
+                    CoreConfig.Logger.LogWarning((string)$"Error from Intiface: {data.ToJson()}");
                 }
                 else if (data.ContainsKey("ServerInfo") || data.ContainsKey("DeviceAdded")
                     || data.ContainsKey("DeviceRemoved"))
@@ -248,7 +248,7 @@ namespace LoveMachine.Core
 
         private void OnError(object sender, SuperSocket.ClientEngine.ErrorEventArgs e)
         {
-            CoreConfig.Logger.LogWarning($"Websocket error: {e.Exception.Message}");
+            CoreConfig.Logger.LogWarning((string)$"Websocket error: {e.Exception.Message}");
             if (e.Exception.Message.Contains("unreachable"))
             {
                 CoreConfig.Logger.LogMessage("Error: Failed to connect to Intiface server.");
@@ -257,21 +257,21 @@ namespace LoveMachine.Core
 
         private void LogDevices()
         {
-            CoreConfig.Logger.LogInfo($"List of devices: {JsonMapper.ToJson(Devices)}");
+            CoreConfig.Logger.LogInfo((string)$"List of devices: {JsonMapper.ToJson(Devices)}");
             if (Devices.Count == 0)
             {
                 CoreConfig.Logger.LogMessage("Warning: No devices connected to Intiface.");
             }
             else
             {
-                CoreConfig.Logger.LogMessage($"{Devices.Count} device(s) connected to Intiface.");
+                CoreConfig.Logger.LogMessage((string)$"{Devices.Count} device(s) connected to Intiface.");
             }
             foreach (var device in Devices)
             {
                 if (!device.IsStroker && !device.IsVibrator && !device.IsRotator)
                 {
                     CoreConfig.Logger.LogMessage(
-                        $"Warning: device \"{device.DeviceName}\" not supported.");
+                        (string)$"Warning: device \"{device.DeviceName}\" not supported.");
                 }
             }
         }

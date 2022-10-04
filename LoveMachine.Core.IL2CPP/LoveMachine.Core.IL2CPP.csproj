@@ -35,6 +35,9 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="BepInEx.IL2CPP">
+      <HintPath>Lib\BepInEx.IL2CPP.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="0Harmony">
@@ -43,17 +46,20 @@
     <Reference Include="BepInEx.Core">
       <HintPath>Lib\BepInEx.Core.dll</HintPath>
     </Reference>
-    <Reference Include="BepInEx.Unity.IL2CPP">
-      <HintPath>Lib\BepInEx.Unity.IL2CPP.dll</HintPath>
-    </Reference>
     <Reference Include="Il2Cppmscorlib">
       <HintPath>Lib\Il2Cppmscorlib.dll</HintPath>
     </Reference>
     <Reference Include="UnhollowerBaseLib">
       <HintPath>Lib\UnhollowerBaseLib.dll</HintPath>
     </Reference>
+    <Reference Include="UnityEngine.AnimationModule">
+      <HintPath>Lib\UnityEngine.AnimationModule.dll</HintPath>
+    </Reference>
     <Reference Include="UnityEngine.CoreModule">
       <HintPath>Lib\UnityEngine.CoreModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.IMGUIModule">
+      <HintPath>Lib\UnityEngine.IMGUIModule.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -144,12 +150,6 @@
   <ItemGroup>
     <PackageReference Include="AllForOne">
       <Version>1.0.0.27</Version>
-    </PackageReference>
-    <PackageReference Include="IllusionLibs.HoneySelect2.UnityEngine.AnimationModule">
-      <Version>2018.4.11.4</Version>
-    </PackageReference>
-    <PackageReference Include="IllusionLibs.HoneySelect2.UnityEngine.IMGUIModule">
-      <Version>2018.4.11.4</Version>
     </PackageReference>
     <PackageReference Include="LitJson">
       <Version>0.18.0</Version>

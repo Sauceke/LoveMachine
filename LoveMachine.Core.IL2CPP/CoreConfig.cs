@@ -2,7 +2,7 @@
 using BepInEx;
 using BepInEx.Bootstrap;
 using BepInEx.Logging;
-using BepInEx.Unity.IL2CPP;
+using BepInEx.IL2CPP;
 using UnhollowerRuntimeLib;
 using UnityEngine;
 

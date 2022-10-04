@@ -1,10 +1,13 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using UnityEngine;
 
 namespace LoveMachine.Core
 {
     public abstract class ClassicButtplugController : ButtplugController
     {
+        protected ClassicButtplugController(IntPtr handle) : base(handle) { }
+
         protected abstract IEnumerator HandleAnimation(Device device);
 
         protected abstract IEnumerator HandleOrgasm(Device device);

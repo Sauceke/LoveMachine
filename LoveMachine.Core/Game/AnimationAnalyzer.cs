@@ -19,6 +19,8 @@ namespace LoveMachine.Core
 
         private GameDescriptor game;
 
+        public AnimationAnalyzer(IntPtr handle) : base(handle) { }
+
         private void Start()
         {
             game = gameObject.GetComponent<GameDescriptor>();
@@ -37,7 +39,7 @@ namespace LoveMachine.Core
             }
             catch (Exception e)
             {
-                CoreConfig.Logger.LogError($"Error while trying to get wave info: {e}");
+                CoreConfig.Logger.LogError((string)$"Error while trying to get wave info: {e}");
                 result = new WaveInfo();
                 return false;
             }
@@ -101,7 +103,7 @@ namespace LoveMachine.Core
                 }
                 if (pose != GetExactPose(girlIndex, Bone.Auto) || currentTime < startTime)
                 {
-                    CoreConfig.Logger.LogWarning($"Pose {pose} interrupted; canceling analysis.");
+                    CoreConfig.Logger.LogWarning((string)$"Pose {pose} interrupted; canceling analysis.");
                     yield break;
                 }
             }
@@ -116,7 +118,7 @@ namespace LoveMachine.Core
             results[Bone.Auto] = results[autoBone];
             results.ToList()
                 .ForEach(kvp => resultCache[GetExactPose(girlIndex, kvp.Key)] = kvp.Value);
-            CoreConfig.Logger.LogInfo($"Calibration for pose {pose} completed. " +
+            CoreConfig.Logger.LogInfo((string)$"Calibration for pose {pose} completed. " +
                 $"{samples.Count / femaleBones.Count} frames inspected. " +
                 $"Leading bone: {autoBone}, result: {JsonMapper.ToJson(results[Bone.Auto])}.");
         }

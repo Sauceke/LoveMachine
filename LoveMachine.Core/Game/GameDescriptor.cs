@@ -9,12 +9,14 @@ namespace LoveMachine.Core
     /// <summary>
     /// Contains everything LoveMachine needs to interface with a game.
     /// </summary>
-    public abstract class GameDescriptor : MonoBehaviour
+    public abstract class GameDescriptor : CoroutineHandler
     {
         protected internal event EventHandler<HEventArgs> OnHStarted;
         protected internal event EventHandler<HEventArgs> OnHEnded;
 
         private bool hRunning = false;
+
+        protected GameDescriptor(IntPtr handle) : base(handle) { }
 
         /// <summary>
         /// The name/path of each bone's GameObject in female characters. <br/>

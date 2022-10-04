@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using BepInEx.Bootstrap;
@@ -15,6 +16,8 @@ namespace LoveMachine.Core
             new Dictionary<Device, float>();
         private bool isTestController = false;
 
+        protected ButtplugController(IntPtr handle) : base(handle) { }
+
         protected abstract bool IsDeviceSupported(Device device);
 
         protected abstract IEnumerator Run(Device device);
@@ -23,7 +26,7 @@ namespace LoveMachine.Core
         {
             foreach (var device in client.Devices.Where(IsDeviceSupported))
             {
-                CoreConfig.Logger.LogInfo($"Running controller {GetType().Name} " +
+                CoreConfig.Logger.LogInfo((string)$"Running controller {GetType().Name} " +
                     $"on device #{device.DeviceIndex} ({device.DeviceName}).");
                 HandleCoroutine(Run(device));
                 HandleCoroutine(RunLatencyUpdateLoop(device));
@@ -56,7 +59,7 @@ namespace LoveMachine.Core
         {
             yield return HandleCoroutine(game.UntilReady());
             HandleCoroutine(Run());
-            yield return new WaitUntil(() => game.IsHSceneInterrupted);
+            yield return new WaitUntil((Func<bool>)(() => game.IsHSceneInterrupted));
             OnEndH();
         }
 
@@ -71,9 +74,9 @@ namespace LoveMachine.Core
         private IEnumerator RunTest(Device device)
         {
             yield return new WaitForEndOfFrame();
-            var testGame = new TestGame();
+            var testGame = new TestGame(IntPtr.Zero);
             game = testGame;
-            analyzer = new TestAnimationAnalyzer();
+            analyzer = new TestAnimationAnalyzer(IntPtr.Zero);
             if (IsDeviceSupported(device))
             {
                 var test = HandleCoroutine(Run(device));

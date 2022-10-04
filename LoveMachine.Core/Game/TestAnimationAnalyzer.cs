@@ -1,7 +1,11 @@
-﻿namespace LoveMachine.Core
+﻿using System;
+
+namespace LoveMachine.Core
 {
     internal sealed class TestAnimationAnalyzer : AnimationAnalyzer
     {
+        public TestAnimationAnalyzer(IntPtr handle) : base(handle) { }
+
         public override bool TryGetWaveInfo(int girlIndex, Bone bone, out WaveInfo result)
         {
             result = new WaveInfo

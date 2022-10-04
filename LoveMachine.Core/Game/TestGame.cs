@@ -10,6 +10,8 @@ namespace LoveMachine.Core
         private float normalizedTime;
         private float speed;
 
+        public TestGame(IntPtr handle) : base(handle) { }
+
         public override int AnimationLayer => throw new NotImplementedException();
         protected internal override Dictionary<Bone, string> FemaleBoneNames => throw new NotImplementedException();
         protected internal override int HeroineCount => throw new NotImplementedException();

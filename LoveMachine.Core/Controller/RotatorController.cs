@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using UnityEngine;
 
 namespace LoveMachine.Core
@@ -6,6 +7,8 @@ namespace LoveMachine.Core
     public sealed class RotatorController : ClassicButtplugController
     {
         private bool clockwise = true;
+
+        public RotatorController(IntPtr handle) : base(handle) { }
 
         protected override bool IsDeviceSupported(Device device) => device.IsRotator;
 
@@ -21,7 +24,7 @@ namespace LoveMachine.Core
                 yield return new WaitForSecondsRealtime(strokeTimeSecs);
             }
             yield return HandleCoroutine(DoRotate(device, clockwise, strokeTimeSecs));
-            if (Random.value <= RotatorConfig.RotationDirectionChangeChance.Value)
+            if (UnityEngine.Random.value <= RotatorConfig.RotationDirectionChangeChance.Value)
             {
                 clockwise = !clockwise;
             }
@@ -31,7 +34,7 @@ namespace LoveMachine.Core
         {
             client.RotateCmd(device, 1f, clockwise);
             yield return new WaitForSecondsRealtime(game.MinOrgasmDurationSecs);
-            yield return new WaitWhile(() => game.IsOrgasming(device.Settings.GirlIndex));
+            yield return new WaitWhile((Func<bool>)(() => game.IsOrgasming(device.Settings.GirlIndex)));
             client.StopDeviceCmd(device);
         }
 

@@ -11,8 +11,6 @@ namespace LoveMachine.RG
     {
         public override void Load()
         {
-            ClassInjector.RegisterTypeInIl2Cpp<ButtplugWsClient>();
-            IL2CPPChainloader.AddUnityComponent<ButtplugWsClient>();
         }
     }
 }
