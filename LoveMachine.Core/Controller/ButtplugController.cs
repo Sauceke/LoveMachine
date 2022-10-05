@@ -23,7 +23,6 @@ namespace LoveMachine.Core
 
         protected abstract IEnumerator Run(Device device);
 
-        [HideFromIl2Cpp]
         protected virtual IEnumerator Run()
         {
             foreach (var device in client.Devices.Where(IsDeviceSupported))
@@ -36,7 +35,6 @@ namespace LoveMachine.Core
             yield break;
         }
 
-        [HideFromIl2Cpp]
         protected virtual void Start()
         {
             client = gameObject.GetComponent<ButtplugWsClient>();

@@ -41,7 +41,7 @@ namespace LoveMachine.RG
         protected override GameObject GetFemaleRoot(int girlIndex) => GameObject.Find($"chaF_001");
 
         protected override string GetPose(int girlIndex) =>
-            femaleAnimator.GetCurrentAnimatorClipInfo(0).GetHashCode().ToString();
+            femaleAnimator.GetCurrentAnimatorStateInfo(0).fullPathHash.ToString();
 
         protected override bool IsIdle(int girlIndex) => false;
 

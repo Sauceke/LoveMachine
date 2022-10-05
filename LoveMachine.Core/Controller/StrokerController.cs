@@ -8,6 +8,8 @@ namespace LoveMachine.Core
     {
         public StrokerController(IntPtr handle) : base(handle) { }
 
+        private void Start() => base.Start();
+
         protected override bool IsDeviceSupported(Device device) => device.IsStroker;
 
         protected override IEnumerator HandleAnimation(Device device)
