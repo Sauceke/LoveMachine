@@ -1,8 +1,11 @@
 ﻿using BepInEx;
 using BepInEx.IL2CPP;
+using Il2CppSystem;
 using LoveMachine.Core;
 using UnhollowerRuntimeLib;
 using UnityEngine;
+using UnityEngine.Events;
+using UnityEngine.SceneManagement;
 
 namespace LoveMachine.RG
 {
@@ -11,6 +14,8 @@ namespace LoveMachine.RG
     {
         public override void Load()
         {
+            new BaseUnityPlugin(this).Initialize<RoomGirlGame>(Log);
+            Hooks.InstallHooks();
         }
     }
 }

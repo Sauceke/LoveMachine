@@ -33,15 +33,19 @@
   <ItemGroup>
     <Reference Include="0Harmony">
       <HintPath>..\LoveMachine.Core.IL2CPP\Lib\0Harmony.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="BepInEx.Core">
       <HintPath>..\LoveMachine.Core.IL2CPP\Lib\BepInEx.Core.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="BepInEx.IL2CPP">
       <HintPath>..\LoveMachine.Core.IL2CPP\Lib\BepInEx.IL2CPP.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="Il2Cppmscorlib">
       <HintPath>..\LoveMachine.Core.IL2CPP\Lib\Il2Cppmscorlib.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -53,14 +57,26 @@
     <Reference Include="System.Xml" />
     <Reference Include="UnhollowerBaseLib">
       <HintPath>..\LoveMachine.Core.IL2CPP\Lib\UnhollowerBaseLib.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEngine.AnimationModule">
+      <HintPath>..\LoveMachine.Core.IL2CPP\Lib\UnityEngine.AnimationModule.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="UnityEngine.CoreModule">
       <HintPath>..\LoveMachine.Core.IL2CPP\Lib\UnityEngine.CoreModule.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEngine.IMGUIModule">
+      <HintPath>..\LoveMachine.Core.IL2CPP\Lib\UnityEngine.IMGUIModule.dll</HintPath>
+      <Private>False</Private>
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Hooks.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RGLoveMachine.cs" />
+    <Compile Include="RoomGirlGame.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\LoveMachine.Core.IL2CPP\LoveMachine.Core.IL2CPP.csproj">

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using BepInEx.Bootstrap;
+using UnhollowerBaseLib.Attributes;
 using UnityEngine;
 
 namespace LoveMachine.Core
@@ -22,6 +23,7 @@ namespace LoveMachine.Core
 
         protected abstract IEnumerator Run(Device device);
 
+        [HideFromIl2Cpp]
         protected virtual IEnumerator Run()
         {
             foreach (var device in client.Devices.Where(IsDeviceSupported))
@@ -34,6 +36,7 @@ namespace LoveMachine.Core
             yield break;
         }
 
+        [HideFromIl2Cpp]
         protected virtual void Start()
         {
             client = gameObject.GetComponent<ButtplugWsClient>();

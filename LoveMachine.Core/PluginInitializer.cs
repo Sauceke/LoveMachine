@@ -1,7 +1,12 @@
 ﻿using System;
+using System.Collections;
+using System.IO;
 using BepInEx;
 using BepInEx.Bootstrap;
 using BepInEx.Logging;
+using HarmonyLib.Tools;
+using UnhollowerRuntimeLib;
+using UnityEngine;
 
 namespace LoveMachine.Core
 {
@@ -10,6 +15,8 @@ namespace LoveMachine.Core
     // This is ugly but my hands are tied.
     public static class PluginInitializer
     {
+        public static GameObject go;
+
         /// <summary>
         /// LoveMachine's entry point. Call this in your plugin's Start method.
         /// </summary>
@@ -20,6 +27,9 @@ namespace LoveMachine.Core
             params Type[] extraControllers)
             where T : GameDescriptor
         {
+            go = new GameObject("LoveMachineManager");
+            go.hideFlags = HideFlags.HideAndDontSave;
+            GameObject.DontDestroyOnLoad(go);
             CoreConfig.Initialize(plugin, logger);
             ButtplugConfig.Initialize(plugin);
             DeviceListConfig.Initialize(plugin);

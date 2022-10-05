@@ -1,8 +1,4 @@
-﻿using System.IO;
-using BepInEx;
-using BepInEx.Bootstrap;
-using BepInEx.Logging;
-using BepInEx.IL2CPP;
+﻿using BepInEx.Logging;
 using UnhollowerRuntimeLib;
 using UnityEngine;
 
@@ -26,24 +22,15 @@ namespace LoveMachine.Core
 
         public class Manager
         {
-            private GameObject go;
-
             public T AddComponent<T>()
                 where T : MonoBehaviour
             {
-                if (go == null)
-                {
-                    go = new GameObject { hideFlags = HideFlags.HideAndDontSave };
-                }
-                if (!ClassInjector.IsTypeRegisteredInIl2Cpp<T>())
-                {
-                    ClassInjector.RegisterTypeInIl2Cpp<T>();
-                }
-                return go.AddComponent<T>();
+                ClassInjector.RegisterTypeInIl2Cpp<T>();
+                return GameObject.Find("LoveMachineManager").AddComponent<T>();
             }
 
             public T GetComponent<T>()
-                where T : MonoBehaviour => go.GetComponent<T>();
+                where T : MonoBehaviour => GameObject.Find("LoveMachineManager").GetComponent<T>();
         }
     }
 }

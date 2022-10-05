@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using UnhollowerBaseLib.Attributes;
 using UnityEngine;
 
 namespace LoveMachine.Core
@@ -116,6 +117,7 @@ namespace LoveMachine.Core
         /// Override this if the game has long crossfade sections between
         /// animations, to wait until the crossfade is over.
         /// </summary>
+        [HideFromIl2Cpp]
         protected internal virtual IEnumerator WaitAfterPoseChange()
         {
             yield return new WaitForSeconds(0.1f);
@@ -135,6 +137,7 @@ namespace LoveMachine.Core
         /// </param>
         /// <param name="length">equivalent to AnimatorStateInfo.length</param>
         /// <param name="speed">equivalent to AnimatorStateInfo.speed</param>
+        [HideFromIl2Cpp]
         protected internal virtual void GetAnimState(int girlIndex, out float normalizedTime,
             out float length, out float speed)
         {
@@ -147,6 +150,7 @@ namespace LoveMachine.Core
         /// <summary>
         /// true if this heroine is currently orgasming; false otherwise.
         /// </summary>
+        [HideFromIl2Cpp]
         protected internal virtual bool IsOrgasming(int girlIndex) => false;
 
         /// <summary>
