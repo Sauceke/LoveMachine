@@ -159,6 +159,7 @@ namespace LoveMachine.Core
 
         private static GUIStyle GetOfflineDevicePanelStyle() => new GUIStyle
         {
+            margin = new RectOffset { left = 20, right = 20, top = 5, bottom = 5 },
             normal = new GUIStyleState { background = GetTexture(new Color(1f, 0f, 0.2f, 0.2f)) }
         };
 
