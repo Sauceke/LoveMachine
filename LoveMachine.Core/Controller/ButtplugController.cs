@@ -59,7 +59,7 @@ namespace LoveMachine.Core
         {
             yield return HandleCoroutine(game.UntilReady());
             HandleCoroutine(Run());
-            yield return new WaitUntil((Func<bool>)(() => game.IsHSceneInterrupted));
+            yield return WaitUntil(() => game.IsHSceneInterrupted);
             OnEndH();
         }
 

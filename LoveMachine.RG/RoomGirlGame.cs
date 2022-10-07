@@ -47,8 +47,10 @@ namespace LoveMachine.RG
 
         protected override IEnumerator UntilReady()
         {
-            yield return new WaitWhile((Il2CppSystem.Func<bool>)(() => GetFemaleRoot(0) == null));
-            yield return new WaitForSeconds(5f);
+            while(GetFemaleRoot(0) == null)
+            {
+                yield return new WaitForSeconds(5f);
+            }
             femaleAnimator = GameObject.Find("chaF_001/BodyTop/p_cf_anim").GetComponent<Animator>();
         }
     }

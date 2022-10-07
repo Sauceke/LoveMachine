@@ -13,7 +13,7 @@ namespace LoveMachine.Core
             bool suppressExceptions = false) =>
             StartCoroutine(HandleExceptions(coroutine, suppressExceptions).WrapToIl2Cpp());
 
-        private IEnumerator HandleExceptions(IEnumerator coroutine, bool suppressExceptions)
+        private static IEnumerator HandleExceptions(IEnumerator coroutine, bool suppressExceptions)
         {
             while (TryNext(coroutine, suppressExceptions))
             {
@@ -21,7 +21,7 @@ namespace LoveMachine.Core
             }
         }
 
-        private bool TryNext(IEnumerator coroutine, bool suppressExceptions)
+        private static bool TryNext(IEnumerator coroutine, bool suppressExceptions)
         {
             try
             {
@@ -37,5 +37,20 @@ namespace LoveMachine.Core
                 throw;
             }
         }
+
+        // couldn't figure out how to convert Func<> to Il2CppSystem.Func<>
+        // oh well
+        private static IEnumerator _WaitWhile(Func<bool> condition)
+        {
+            while (condition())
+            {
+                yield return new WaitForEndOfFrame();
+            }
+            yield break;
+        }
+
+        public Coroutine WaitWhile(Func<bool> condition) => HandleCoroutine(_WaitWhile(condition));
+
+        public Coroutine WaitUntil(Func<bool> condition) => WaitWhile(() => !condition());
     }
 }

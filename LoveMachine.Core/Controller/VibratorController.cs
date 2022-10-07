@@ -43,7 +43,7 @@ namespace LoveMachine.Core
         {
             client.VibrateCmd(device, device.Settings.VibratorSettings.IntensityMax);
             yield return new WaitForSecondsRealtime(game.MinOrgasmDurationSecs);
-            yield return new WaitWhile((Func<bool>)(() => game.IsOrgasming(device.Settings.GirlIndex)));
+            yield return WaitWhile(() => game.IsOrgasming(device.Settings.GirlIndex));
             client.StopDeviceCmd(device);
         }
 

@@ -29,8 +29,8 @@ namespace LoveMachine.Core
             int segments = device.Settings.StrokerSettings.SmoothStroking ? subdivisions : turns;
             float startNormTime = GetLatencyCorrectedNormalizedTime(device);
             int getSegment(float time) => (int)((time - waveInfo.Phase) * segments);
-            yield return new WaitWhile((Func<bool>)(() =>
-                getSegment(GetLatencyCorrectedNormalizedTime(device)) == getSegment(startNormTime)));
+            yield return WaitWhile(() =>
+                getSegment(GetLatencyCorrectedNormalizedTime(device)) == getSegment(startNormTime));
             animTimeSecs = GetAnimationTimeSecs(girlIndex);
             float refreshTimeSecs = animTimeSecs / segments;
             float refreshNormTime = 1f / segments;
