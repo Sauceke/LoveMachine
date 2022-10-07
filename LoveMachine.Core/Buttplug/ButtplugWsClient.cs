@@ -15,8 +15,6 @@ namespace LoveMachine.Core
         private readonly System.Random random = new System.Random();
         private bool killSwitchThrown = false;
 
-        public ButtplugWsClient(IntPtr handle) : base(handle) { }
-
         internal event EventHandler<DeviceListEventArgs> OnDeviceListUpdated;
 
         public List<Device> Devices { get; private set; }

@@ -8,8 +8,6 @@ namespace LoveMachine.Core
     {
         private bool clockwise = true;
 
-        public RotatorController(IntPtr handle) : base(handle) { }
-
         private void Start() => base.Start();
 
         protected override bool IsDeviceSupported(Device device) => device.IsRotator;

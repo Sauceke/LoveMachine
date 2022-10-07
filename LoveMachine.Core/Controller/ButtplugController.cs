@@ -16,10 +16,6 @@ namespace LoveMachine.Core
             new Dictionary<Device, float>();
         private bool isTestController = false;
 
-        protected ButtplugController() : base() { }
-
-        protected ButtplugController(IntPtr handle) : base(handle) { }
-
         protected abstract bool IsDeviceSupported(Device device);
 
         protected abstract IEnumerator Run(Device device);
@@ -76,9 +72,9 @@ namespace LoveMachine.Core
         private IEnumerator RunTest(Device device)
         {
             yield return new WaitForEndOfFrame();
-            var testGame = new TestGame(IntPtr.Zero);
+            var testGame = new TestGame();
             game = testGame;
-            analyzer = new TestAnimationAnalyzer(IntPtr.Zero);
+            analyzer = new TestAnimationAnalyzer();
             if (IsDeviceSupported(device))
             {
                 var test = HandleCoroutine(Run(device));

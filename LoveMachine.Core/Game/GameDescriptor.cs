@@ -17,10 +17,6 @@ namespace LoveMachine.Core
 
         private bool hRunning = false;
 
-        protected GameDescriptor() : base() { }
-
-        protected GameDescriptor(IntPtr handle) : base(handle) { }
-
         /// <summary>
         /// The name/path of each bone's GameObject in female characters. <br/>
         /// Not all bones are required to have an entry. <br/>

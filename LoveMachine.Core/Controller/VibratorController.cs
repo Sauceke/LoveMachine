@@ -17,8 +17,6 @@ namespace LoveMachine.Core
                 { VibrationPattern.Constant, _ => 1f }
             };
 
-        public VibratorController(IntPtr handle) : base(handle) { }
-
         private void Start() => base.Start();
 
         protected override bool IsDeviceSupported(Device device) => device.IsVibrator;

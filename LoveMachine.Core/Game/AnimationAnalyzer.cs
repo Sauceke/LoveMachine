@@ -20,8 +20,6 @@ namespace LoveMachine.Core
 
         private GameDescriptor game;
 
-        public AnimationAnalyzer(IntPtr handle) : base(handle) { }
-
         private void Start()
         {
             game = CoreConfig.ManagerObject.GetComponent<GameDescriptor>();

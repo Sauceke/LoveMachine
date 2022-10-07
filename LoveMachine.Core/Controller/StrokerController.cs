@@ -6,8 +6,6 @@ namespace LoveMachine.Core
 {
     public sealed class StrokerController : ClassicButtplugController
     {
-        public StrokerController(IntPtr handle) : base(handle) { }
-
         private void Start() => base.Start();
 
         protected override bool IsDeviceSupported(Device device) => device.IsStroker;

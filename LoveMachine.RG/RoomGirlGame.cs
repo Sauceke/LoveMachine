@@ -10,8 +10,6 @@ namespace LoveMachine.RG
         private Animator femaleAnimator;
         private MonoBehaviour hscene;
 
-        public RoomGirlGame(IntPtr handle) : base(handle) { }
-
         private int AnimationId => Traverse.Create(hscene)
             .Property("CtrlFlag")
             .Property("NowAnimationInfo")

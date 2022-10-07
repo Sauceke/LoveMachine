@@ -6,10 +6,6 @@ namespace LoveMachine.Core
 {
     public class CoroutineHandler : MonoBehaviour
     {
-        protected CoroutineHandler() : base() { }
-
-        protected CoroutineHandler(IntPtr handle) : base() { }
-
         protected internal Coroutine HandleCoroutine(IEnumerator coroutine,
             bool suppressExceptions = false) =>
             StartCoroutine(HandleExceptions(coroutine, suppressExceptions));
