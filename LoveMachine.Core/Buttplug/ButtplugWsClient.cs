@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Linq;
 using BepInEx;
 using LitJson;
-using UnityEngine;
 using WebSocket4Net;
 
 namespace LoveMachine.Core

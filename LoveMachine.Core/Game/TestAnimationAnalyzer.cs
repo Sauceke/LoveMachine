@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace LoveMachine.Core
+﻿namespace LoveMachine.Core
 {
     internal sealed class TestAnimationAnalyzer : AnimationAnalyzer
     {
