@@ -7,7 +7,9 @@ namespace LoveMachine.Core
 {
     public class CoroutineHandler : MonoBehaviour
     {
-        public CoroutineHandler(IntPtr handle) : base(handle) { }
+        protected CoroutineHandler() : base() { }
+
+        protected CoroutineHandler(IntPtr handle) : base(handle) { }
 
         protected internal Coroutine HandleCoroutine(IEnumerator coroutine,
             bool suppressExceptions = false) =>
@@ -29,7 +31,7 @@ namespace LoveMachine.Core
             }
             catch (Exception e)
             {
-                CoreConfig.Logger.LogError((string)$"Coroutine failed with exception: {e}");
+                CoreConfig.Logger.LogError($"Coroutine failed with exception: {e}");
                 if (suppressExceptions)
                 {
                     return false;

@@ -10,6 +10,8 @@ namespace LoveMachine.Core
 
         public RotatorController(IntPtr handle) : base(handle) { }
 
+        private void Start() => base.Start();
+
         protected override bool IsDeviceSupported(Device device) => device.IsRotator;
 
         protected override IEnumerator HandleAnimation(Device device)

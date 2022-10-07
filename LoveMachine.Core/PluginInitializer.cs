@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections;
-using System.IO;
-using BepInEx;
-using BepInEx.Bootstrap;
+﻿using BepInEx;
 using BepInEx.Logging;
-using HarmonyLib.Tools;
 using UnityEngine;
 
 namespace LoveMachine.Core
@@ -22,13 +17,9 @@ namespace LoveMachine.Core
         /// <typeparam name="T">the GameDescriptor for this game</typeparam>
         /// <param name="logger">the Logger of this plugin</param>
         /// <param name="extraControllers">any additional ButtplugControllers</param>
-        public static void Initialize<T>(this BaseUnityPlugin plugin, ManualLogSource logger,
-            params Type[] extraControllers)
+        public static void Initialize<T>(this BaseUnityPlugin plugin, ManualLogSource logger)
             where T : GameDescriptor
         {
-            go = new GameObject("LoveMachineManager");
-            go.hideFlags = HideFlags.HideAndDontSave;
-            GameObject.DontDestroyOnLoad(go);
             CoreConfig.Initialize(plugin, logger);
             ButtplugConfig.Initialize(plugin);
             DeviceListConfig.Initialize(plugin);

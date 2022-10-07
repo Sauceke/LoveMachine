@@ -16,6 +16,8 @@ namespace LoveMachine.Core
             new Dictionary<Device, float>();
         private bool isTestController = false;
 
+        protected ButtplugController() : base() { }
+
         protected ButtplugController(IntPtr handle) : base(handle) { }
 
         protected abstract bool IsDeviceSupported(Device device);
@@ -26,7 +28,7 @@ namespace LoveMachine.Core
         {
             foreach (var device in client.Devices.Where(IsDeviceSupported))
             {
-                CoreConfig.Logger.LogInfo((string)$"Running controller {GetType().Name} " +
+                CoreConfig.Logger.LogInfo($"Running controller {GetType().Name} " +
                     $"on device #{device.DeviceIndex} ({device.DeviceName}).");
                 HandleCoroutine(Run(device));
                 HandleCoroutine(RunLatencyUpdateLoop(device));

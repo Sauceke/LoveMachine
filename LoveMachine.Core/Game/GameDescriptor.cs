@@ -17,6 +17,8 @@ namespace LoveMachine.Core
 
         private bool hRunning = false;
 
+        protected GameDescriptor() : base() { }
+
         protected GameDescriptor(IntPtr handle) : base(handle) { }
 
         /// <summary>

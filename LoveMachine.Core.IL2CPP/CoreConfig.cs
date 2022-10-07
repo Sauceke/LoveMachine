@@ -8,8 +8,8 @@ namespace LoveMachine.Core
     {
         private static Manager manager = new Manager();
 
-        public const string PluginName = "LoveMachine";
-        public const string GUID = "Sauceke.LoveMachine";
+        public const string PluginName = "LoveMachine IL2CPP";
+        public const string GUID = "Sauceke.LoveMachine.IL2CPP";
         public const string Version = VersionInfo.Version;
 
         public static ManualLogSource Logger { get; private set; }
@@ -22,15 +22,23 @@ namespace LoveMachine.Core
 
         public class Manager
         {
+            private GameObject go;
+
             public T AddComponent<T>()
                 where T : MonoBehaviour
             {
                 ClassInjector.RegisterTypeInIl2Cpp<T>();
-                return GameObject.Find("LoveMachineManager").AddComponent<T>();
+                if (go == null)
+                {
+                    go = new GameObject("LoveMachineManager");
+                    go.hideFlags = HideFlags.HideAndDontSave;
+                    UnityEngine.Object.DontDestroyOnLoad(go);
+                }
+                return go.AddComponent<T>();
             }
 
             public T GetComponent<T>()
-                where T : MonoBehaviour => GameObject.Find("LoveMachineManager").GetComponent<T>();
+                where T : MonoBehaviour => go.GetComponent<T>();
         }
     }
 }

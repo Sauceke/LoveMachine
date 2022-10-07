@@ -19,6 +19,8 @@ namespace LoveMachine.Core
 
         public VibratorController(IntPtr handle) : base(handle) { }
 
+        private void Start() => base.Start();
+
         protected override bool IsDeviceSupported(Device device) => device.IsVibrator;
 
         protected override IEnumerator HandleAnimation(Device device)
