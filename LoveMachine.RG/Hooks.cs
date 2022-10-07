@@ -1,5 +1,6 @@
 ﻿using HarmonyLib;
 using LoveMachine.Core;
+using UnityEngine;
 
 namespace LoveMachine.RG
 {
@@ -19,10 +20,10 @@ namespace LoveMachine.RG
 
         private static class HSceneTriggers
         {
-            public static void Start()
+            public static void Start(MonoBehaviour __instance)
             {
                 CoreConfig.Logger.LogDebug("H Scene started.");
-                CoreConfig.ManagerObject.GetComponent<RoomGirlGame>().StartH();
+                CoreConfig.ManagerObject.GetComponent<RoomGirlGame>().StartH(__instance);
             }
 
             public static void EndProc()

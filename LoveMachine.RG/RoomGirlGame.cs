@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using HarmonyLib;
 using LoveMachine.Core;
 using UnityEngine;
 
@@ -7,8 +8,19 @@ namespace LoveMachine.RG
     internal class RoomGirlGame : GameDescriptor
     {
         private Animator femaleAnimator;
+        private MonoBehaviour hscene;
 
         public RoomGirlGame(IntPtr handle) : base(handle) { }
+
+        private int AnimationId => Traverse.Create(hscene)
+            .Property("CtrlFlag")
+            .Property("NowAnimationInfo")
+            .Property<int>("ID").Value;
+
+        private string AnimationName => Traverse.Create(hscene)
+            .Property("CtrlFlag")
+            .Property("NowAnimationInfo")
+            .Property<string>("NameAnimation").Value;
 
         public override int AnimationLayer => 0;
 
@@ -38,10 +50,15 @@ namespace LoveMachine.RG
 
         protected override GameObject GetFemaleRoot(int girlIndex) => GameObject.Find($"chaF_001");
 
-        protected override string GetPose(int girlIndex) =>
-            femaleAnimator.GetCurrentAnimatorStateInfo(0).fullPathHash.ToString();
+        protected override string GetPose(int girlIndex) => AnimationName
+            + "." + AnimationId
+            + "." + femaleAnimator.GetCurrentAnimatorStateInfo(0).fullPathHash.ToString();
 
         protected override bool IsIdle(int girlIndex) => false;
+
+        protected override bool IsOrgasming(int girlIndex) => Traverse.Create(hscene)
+            .Property("CtrlFlag")
+            .Property<bool>("NowOrgasm").Value;
 
         protected override IEnumerator UntilReady()
         {
@@ -50,6 +67,12 @@ namespace LoveMachine.RG
                 yield return new WaitForSeconds(5f);
             }
             femaleAnimator = GameObject.Find("chaF_001/BodyTop/p_cf_anim").GetComponent<Animator>();
+        }
+
+        public void StartH(MonoBehaviour hscene)
+        {
+            this.hscene = hscene;
+            StartH();
         }
     }
 }

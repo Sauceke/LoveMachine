@@ -1,11 +1,6 @@
 ﻿using BepInEx;
-using BepInEx.IL2CPP;
 using BepInEx.Unity.IL2CPP;
-using Il2CppSystem;
 using LoveMachine.Core;
-using UnityEngine;
-using UnityEngine.Events;
-using UnityEngine.SceneManagement;
 
 namespace LoveMachine.RG
 {
