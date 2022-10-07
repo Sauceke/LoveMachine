@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using BepInEx.Bootstrap;
-using UnhollowerBaseLib.Attributes;
 using UnityEngine;
 
 namespace LoveMachine.Core

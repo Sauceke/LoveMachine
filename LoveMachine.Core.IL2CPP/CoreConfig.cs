@@ -1,5 +1,5 @@
 ﻿using BepInEx.Logging;
-using UnhollowerRuntimeLib;
+using Il2CppInterop.Runtime.Injection;
 using UnityEngine;
 
 namespace LoveMachine.Core

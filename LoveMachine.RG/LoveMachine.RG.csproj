@@ -1,92 +1,58 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+<Project Sdk="Microsoft.NET.Sdk">
+
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{CC439894-B374-475C-AE0C-983E0F4FED62}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>LoveMachine.RG</RootNamespace>
-    <AssemblyName>LoveMachine.RG</AssemblyName>
-    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <Deterministic>true</Deterministic>
-    <NuGetPackageImportStamp>
-    </NuGetPackageImportStamp>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\LoveMachine.Core.IL2CPP\LoveMachine.Core.IL2CPP.csproj" />
+  </ItemGroup>
+
   <ItemGroup>
     <Reference Include="0Harmony">
       <HintPath>..\LoveMachine.Core.IL2CPP\Lib\0Harmony.dll</HintPath>
-      <Private>False</Private>
     </Reference>
     <Reference Include="BepInEx.Core">
       <HintPath>..\LoveMachine.Core.IL2CPP\Lib\BepInEx.Core.dll</HintPath>
-      <Private>False</Private>
     </Reference>
-    <Reference Include="BepInEx.IL2CPP">
-      <HintPath>..\LoveMachine.Core.IL2CPP\Lib\BepInEx.IL2CPP.dll</HintPath>
-      <Private>False</Private>
+    <Reference Include="BepInEx.Unity.Common">
+      <HintPath>..\LoveMachine.Core.IL2CPP\Lib\BepInEx.Unity.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="BepInEx.Unity.IL2CPP">
+      <HintPath>..\LoveMachine.Core.IL2CPP\Lib\BepInEx.Unity.IL2CPP.dll</HintPath>
+    </Reference>
+    <Reference Include="Il2CppInterop.Common">
+      <HintPath>..\LoveMachine.Core.IL2CPP\Lib\Il2CppInterop.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="Il2CppInterop.Generator">
+      <HintPath>..\LoveMachine.Core.IL2CPP\Lib\Il2CppInterop.Generator.dll</HintPath>
+    </Reference>
+    <Reference Include="Il2CppInterop.HarmonySupport">
+      <HintPath>..\LoveMachine.Core.IL2CPP\Lib\Il2CppInterop.HarmonySupport.dll</HintPath>
+    </Reference>
+    <Reference Include="Il2CppInterop.Runtime">
+      <HintPath>..\LoveMachine.Core.IL2CPP\Lib\Il2CppInterop.Runtime.dll</HintPath>
     </Reference>
     <Reference Include="Il2Cppmscorlib">
       <HintPath>..\LoveMachine.Core.IL2CPP\Lib\Il2Cppmscorlib.dll</HintPath>
-      <Private>False</Private>
     </Reference>
-    <Reference Include="System" />
-    <Reference Include="System.ComponentModel.Composition" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.IO.Compression.FileSystem" />
-    <Reference Include="System.Numerics" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
-    <Reference Include="UnhollowerBaseLib">
-      <HintPath>..\LoveMachine.Core.IL2CPP\Lib\UnhollowerBaseLib.dll</HintPath>
-      <Private>False</Private>
+    <Reference Include="Il2CppSystem">
+      <HintPath>..\LoveMachine.Core.IL2CPP\Lib\Il2CppSystem.dll</HintPath>
+    </Reference>
+    <Reference Include="Il2CppSystem.Core">
+      <HintPath>..\LoveMachine.Core.IL2CPP\Lib\Il2CppSystem.Core.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.AnimationModule">
       <HintPath>..\LoveMachine.Core.IL2CPP\Lib\UnityEngine.AnimationModule.dll</HintPath>
-      <Private>False</Private>
     </Reference>
     <Reference Include="UnityEngine.CoreModule">
       <HintPath>..\LoveMachine.Core.IL2CPP\Lib\UnityEngine.CoreModule.dll</HintPath>
-      <Private>False</Private>
     </Reference>
     <Reference Include="UnityEngine.IMGUIModule">
       <HintPath>..\LoveMachine.Core.IL2CPP\Lib\UnityEngine.IMGUIModule.dll</HintPath>
-      <Private>False</Private>
     </Reference>
   </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Hooks.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RGLoveMachine.cs" />
-    <Compile Include="RoomGirlGame.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\LoveMachine.Core.IL2CPP\LoveMachine.Core.IL2CPP.csproj">
-      <Project>{157c278f-aee1-4a71-a069-a83267f4a3e4}</Project>
-      <Name>LoveMachine.Core.IL2CPP</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+
 </Project>

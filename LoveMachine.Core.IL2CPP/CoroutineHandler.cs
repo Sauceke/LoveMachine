@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections;
-using BepInEx.IL2CPP.Utils.Collections;
+using BepInEx.Unity.IL2CPP.Utils.Collections;
 using UnityEngine;
 
 namespace LoveMachine.Core
