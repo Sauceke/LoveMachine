@@ -7,6 +7,13 @@ namespace LoveMachine.RG
 {
     internal class RoomGirlGame : GameDescriptor
     {
+        private static readonly string[] idleAnimations =
+        {
+            "Idle", "WIdle", "SIdle", "Insert", "D_Idle", "D_Insert",
+            "Orgasm_A", "Orgasm_IN_A", "Orgasm_OUT_A", "Drink_A", "Vomit_A", "OrgasmM_OUT_A",
+            "D_Orgasm_A", "D_Orgasm_OUT_A", "D_Orgasm_IN_A", "D_OrgasmM_OUT_A"
+        };
+
         private Animator femaleAnimator;
         private MonoBehaviour hscene;
 
@@ -54,7 +61,8 @@ namespace LoveMachine.RG
             + "." + AnimationId
             + "." + femaleAnimator.GetCurrentAnimatorStateInfo(0).fullPathHash.ToString();
 
-        protected override bool IsIdle(int girlIndex) => false;
+        protected override bool IsIdle(int girlIndex) =>
+            idleAnimations.Any(GetAnimatorStateInfo(girlIndex).IsName);
 
         protected override bool IsOrgasming(int girlIndex) => Traverse.Create(hscene)
             .Property("CtrlFlag")
