@@ -11,11 +11,11 @@ namespace LoveMachine.RG
             var sexManager = Type.GetType("HScene, Assembly-CSharp");
             var start = new HarmonyMethod(AccessTools.Method(typeof(HSceneTriggers),
                 nameof(HSceneTriggers.Start)));
-            var endProc = new HarmonyMethod(AccessTools.Method(typeof(HSceneTriggers),
-                nameof(HSceneTriggers.EndProc)));
+            var onDestroy = new HarmonyMethod(AccessTools.Method(typeof(HSceneTriggers),
+                nameof(HSceneTriggers.OnDestroy)));
             var harmony = new Harmony(typeof(Hooks).FullName);
             harmony.Patch(AccessTools.Method(sexManager, "Start"), postfix: start);
-            harmony.Patch(AccessTools.Method(sexManager, "EndProc"), postfix: endProc);
+            harmony.Patch(AccessTools.Method(sexManager, "OnDestroy"), postfix: onDestroy);
         }
 
         private static class HSceneTriggers
@@ -26,7 +26,7 @@ namespace LoveMachine.RG
                 CoreConfig.ManagerObject.GetComponent<RoomGirlGame>().StartH(__instance);
             }
 
-            public static void EndProc()
+            public static void OnDestroy()
             {
                 CoreConfig.Logger.LogDebug("H Scene ended.");
                 CoreConfig.ManagerObject.GetComponent<RoomGirlGame>().EndH();
