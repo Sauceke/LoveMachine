@@ -8,18 +8,45 @@ on:
         required: true
 
 jobs:
-  release:
-    runs-on: windows-2022
+
+  build-netfx3:
+    runs-on: windows-2019
     timeout-minutes: 5
-    
+
     env:
       ACTIONS_ALLOW_UNSECURE_COMMANDS: true
-      INNO_SETUP_URL: https://web.archive.org/web/20220519201547if_/https://files.jrsoftware.org/is/6/innosetup-6.2.1.exe
-      BEPINEX_32_URL: https://github.com/BepInEx/BepInEx/releases/download/v5.4.18/BepInEx_x86_5.4.18.0.zip
-      BEPINEX_64_URL: https://github.com/BepInEx/BepInEx/releases/download/v5.4.18/BepInEx_x64_5.4.18.0.zip
-      BEPINEX_CONF_MGR_URL: https://github.com/BepInEx/BepInEx.ConfigurationManager/releases/download/v16.4/BepInEx.ConfigurationManager_v16.4.zip
-      BLECONSOLE_PATH: https://github.com/sensboston/BLEConsole/releases/download/v1.5.6/BLEConsole.exe
-    
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v1
+
+    - name: Setup MSBuild path
+      uses: microsoft/setup-msbuild@v1.1
+      with:
+        vs-version: '[16.0,17.0)'
+      
+    - name: Setup NuGet
+      uses: NuGet/setup-nuget@v1.0.2
+
+    - name: Restore NuGet Packages
+      run: nuget restore LoveMachine.sln
+
+    - name: Build and Publish
+      run: msbuild LoveMachine.sln /p:Configuration=Release-netfx3 /p:DeployOnBuild=true /p:PublishProfile=FolderProfile /p:Version=${{ github.event.inputs.version }}
+
+    - name: Upload binaries
+        uses: actions/upload-artifact@v3
+        with:
+          name: netfx3-bin
+          path: bin
+
+  build-net6:
+    runs-on: windows-2022
+    timeout-minutes: 5
+
+    env:
+      ACTIONS_ALLOW_UNSECURE_COMMANDS: true
+
     steps:
     - name: Checkout code
       uses: actions/checkout@v1
@@ -32,16 +59,43 @@ jobs:
     - name: Setup NuGet
       uses: NuGet/setup-nuget@v1.0.2
 
-    - name: Download and install Inno Setup
-      run: |
-        Invoke-WebRequest -Uri ${{env.INNO_SETUP_URL}} -OutFile innosetup.exe
-        & ./innosetup.exe /VERYSILENT /NORESTART /ALLUSERS
-    
     - name: Restore NuGet Packages
       run: nuget restore LoveMachine.sln
 
     - name: Build and Publish
-      run: msbuild LoveMachine.sln /p:Configuration=Release /p:DeployOnBuild=true /p:PublishProfile=FolderProfile /p:Version=${{ github.event.inputs.version }}
+      run: msbuild LoveMachine.sln /p:Configuration=Release-net6 /p:DeployOnBuild=true /p:PublishProfile=FolderProfile /p:Version=${{ github.event.inputs.version }}
+
+    - name: Upload binaries
+        uses: actions/upload-artifact@v3
+        with:
+          name: net6-bin
+          path: bin
+
+  release:
+    needs:
+    - build-netfx3
+    - build-net6
+    runs-on: windows-2022
+    timeout-minutes: 5
+    
+    env:
+      ACTIONS_ALLOW_UNSECURE_COMMANDS: true
+      INNO_SETUP_URL: https://web.archive.org/web/20220519201547if_/https://files.jrsoftware.org/is/6/innosetup-6.2.1.exe
+      BEPINEX_32_URL: https://github.com/BepInEx/BepInEx/releases/download/v5.4.18/BepInEx_x86_5.4.18.0.zip
+      BEPINEX_64_URL: https://github.com/BepInEx/BepInEx/releases/download/v5.4.18/BepInEx_x64_5.4.18.0.zip
+      BEPINEX_CONF_MGR_URL: https://github.com/BepInEx/BepInEx.ConfigurationManager/releases/download/v16.4/BepInEx.ConfigurationManager_v16.4.zip
+      BLECONSOLE_PATH: https://github.com/sensboston/BLEConsole/releases/download/v1.5.6/BLEConsole.exe
+    
+    steps:
+    - name: Download artifacts
+        uses: actions/download-artifact@v3
+        with:
+          path: bin
+
+    - name: Download and install Inno Setup
+      run: |
+        Invoke-WebRequest -Uri ${{env.INNO_SETUP_URL}} -OutFile innosetup.exe
+        & ./innosetup.exe /VERYSILENT /NORESTART /ALLUSERS
 
     - name: Zip artifacts
       run: |
