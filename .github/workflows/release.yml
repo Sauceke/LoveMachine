@@ -82,6 +82,7 @@ jobs:
 
     - name: Copy artifacts
       run: |
+        mkdir bin
         Copy-Item netfx3-bin/* -Destination bin -Recurse
         Copy-Item net6-bin/* -Destination bin -Recurse
 
