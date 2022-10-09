@@ -35,10 +35,10 @@ jobs:
       run: msbuild LoveMachine.sln /p:Configuration=Release-netfx3 /p:DeployOnBuild=true /p:PublishProfile=FolderProfile /p:Version=${{ github.event.inputs.version }}
 
     - name: Upload binaries
-        uses: actions/upload-artifact@v3
-        with:
-          name: netfx3-bin
-          path: bin
+      uses: actions/upload-artifact@v3
+      with:
+        name: netfx3-bin
+        path: bin
 
   build-net6:
     runs-on: windows-2022
@@ -66,10 +66,10 @@ jobs:
       run: msbuild LoveMachine.sln /p:Configuration=Release-net6 /p:DeployOnBuild=true /p:PublishProfile=FolderProfile /p:Version=${{ github.event.inputs.version }}
 
     - name: Upload binaries
-        uses: actions/upload-artifact@v3
-        with:
-          name: net6-bin
-          path: bin
+      uses: actions/upload-artifact@v3
+      with:
+        name: net6-bin
+        path: bin
 
   release:
     needs:
