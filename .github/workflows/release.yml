@@ -106,6 +106,7 @@ jobs:
         Compress-Archive -Path bin/LoveMachine.OA/BepInEx -DestinationPath assets/LoveMachine_for_Our_Apartment.zip
         Compress-Archive -Path bin/LoveMachine.IO/BepInEx -DestinationPath assets/LoveMachine_for_Insult_Order.zip
         Compress-Archive -Path bin/LoveMachine.COM3D2/BepInEx -DestinationPath assets/LoveMachine_for_Custom_Order_Maid_3D_2.zip
+        Compress-Archive -Path bin/LoveMachine.RG/BepInEx -DestinationPath assets/LoveMachine_for_RoomGirl.zip
 
     - name: Download BepInEx
       working-directory: Installer
