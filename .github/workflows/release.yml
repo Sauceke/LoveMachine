@@ -78,7 +78,12 @@ jobs:
     - name: Download artifacts
       uses: actions/download-artifact@v3
       with:
-        path: bin
+        path: .
+
+    - name: Copy artifacts
+      run: |
+        Copy-Item netfx3-bin/* -Destination bin -Recurse
+        Copy-Item net6-bin/* -Destination bin -Recurse
 
     - name: Download and install Inno Setup
       run: |
