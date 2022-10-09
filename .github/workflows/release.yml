@@ -25,14 +25,8 @@ jobs:
       with:
         vs-version: '[16.0,17.0)'
       
-    - name: Setup NuGet
-      uses: NuGet/setup-nuget@v1.0.2
-
-    - name: Restore NuGet Packages
-      run: nuget restore LoveMachine.sln
-
     - name: Build and Publish
-      run: msbuild LoveMachine.sln /p:Configuration=Release-netfx3 /p:DeployOnBuild=true /p:PublishProfile=FolderProfile /p:Version=${{ github.event.inputs.version }}
+      run: msbuild LoveMachine.sln /r /p:Configuration=Release-netfx3 /p:DeployOnBuild=true /p:PublishProfile=FolderProfile /p:Version=${{ github.event.inputs.version }}
 
     - name: Upload binaries
       uses: actions/upload-artifact@v3
@@ -56,14 +50,8 @@ jobs:
       with:
         vs-version: '[17.0,)'
       
-    - name: Setup NuGet
-      uses: NuGet/setup-nuget@v1.0.2
-
-    - name: Restore NuGet Packages
-      run: nuget restore LoveMachine.sln
-
     - name: Build and Publish
-      run: msbuild LoveMachine.sln /p:Configuration=Release-net6 /p:DeployOnBuild=true /p:PublishProfile=FolderProfile /p:Version=${{ github.event.inputs.version }}
+      run: msbuild LoveMachine.sln /r /p:Configuration=Release-net6 /p:DeployOnBuild=true /p:PublishProfile=FolderProfile /p:Version=${{ github.event.inputs.version }}
 
     - name: Upload binaries
       uses: actions/upload-artifact@v3
