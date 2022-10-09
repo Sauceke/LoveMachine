@@ -75,6 +75,9 @@ jobs:
       BLECONSOLE_PATH: https://github.com/sensboston/BLEConsole/releases/download/v1.5.6/BLEConsole.exe
     
     steps:
+    - name: Checkout code
+      uses: actions/checkout@v1
+
     - name: Download artifacts
       uses: actions/download-artifact@v3
       with:
