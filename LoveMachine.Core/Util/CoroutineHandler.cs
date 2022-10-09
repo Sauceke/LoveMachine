@@ -34,5 +34,9 @@ namespace LoveMachine.Core
                 throw;
             }
         }
+
+        public CustomYieldInstruction WaitWhile(Func<bool> condition) => new WaitWhile(condition);
+
+        public CustomYieldInstruction WaitUntil(Func<bool> condition) => new WaitUntil(condition);
     }
 }

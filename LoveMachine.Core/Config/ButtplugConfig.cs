@@ -23,7 +23,7 @@ namespace LoveMachine.Core
             WebSocketHost = plugin.Config.Bind(
                 section: intifaceSettingsTitle,
                 key: "WebSocket Host",
-                defaultValue: "ws://localhost",
+                defaultValue: "ws://127.0.0.1",
                 new ConfigDescription(
                     "The Intiface server host URL.",
                     tags: new ConfigurationManagerAttributes { Order = order-- }));

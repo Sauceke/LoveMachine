@@ -1,6 +1,7 @@
 ﻿#define PluginBuildDir SourcePath + "..\bin\"
 #define BepInEx32Dir SourcePath + "BepInEx32"
 #define BepInEx64Dir SourcePath + "BepInEx64"
+#define BepInExIl2cpp64Dir SourcePath + "BepInExIl2cpp64"
 #define AppVersion GetVersionNumbersString(PluginBuildDir + "LoveMachine.Core\LoveMachine.Core.dll")
 
 #define PluginInfoIni SourcePath + "\PluginInfo.ini"
@@ -22,7 +23,7 @@
 #define I 0
 #sub AddGameEntry
     #define PluginName FindGetFileName(FindHandle)
-    #if PluginName != "LoveMachine.Core"
+    #if Pos("LoveMachine.Core", PluginName) != 1
         #expr Plugins[I] = PluginName
         #expr I = I + 1
     #endif
@@ -66,6 +67,7 @@ Name: "jp"; MessagesFile: "compiler:Languages/Japanese.isl,JP.isl"
 #sub BepInExFileEntry
     Source: "{#BepInEx32Dir}\*"; DestDir: {code:GetDir|{#I}}; Flags: recursesubdirs; Check: ShouldInstallBepInEx({#I}, 'x86')
     Source: "{#BepInEx64Dir}\*"; DestDir: {code:GetDir|{#I}}; Flags: recursesubdirs; Check: ShouldInstallBepInEx({#I}, 'x64')
+    Source: "{#BepInExIl2cpp64Dir}\*"; DestDir: {code:GetDir|{#I}}; Flags: recursesubdirs; Check: ShouldInstallBepInEx({#I}, 'il2cpp-x64')
 #endsub
 #if DirExists(BepInEx32Dir) && DirExists(BepInEx64Dir)
     #for {I = 0; I < PluginCount; I++} BepInExFileEntry

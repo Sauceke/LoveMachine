@@ -7,6 +7,8 @@ namespace LoveMachine.Core
     {
         private bool clockwise = true;
 
+        private void Start() => base.Start();
+
         protected override bool IsDeviceSupported(Device device) => device.IsRotator;
 
         protected override IEnumerator HandleAnimation(Device device)
@@ -21,7 +23,7 @@ namespace LoveMachine.Core
                 yield return new WaitForSecondsRealtime(strokeTimeSecs);
             }
             yield return HandleCoroutine(DoRotate(device, clockwise, strokeTimeSecs));
-            if (Random.value <= RotatorConfig.RotationDirectionChangeChance.Value)
+            if (UnityEngine.Random.value <= RotatorConfig.RotationDirectionChangeChance.Value)
             {
                 clockwise = !clockwise;
             }
@@ -31,7 +33,7 @@ namespace LoveMachine.Core
         {
             client.RotateCmd(device, 1f, clockwise);
             yield return new WaitForSecondsRealtime(game.MinOrgasmDurationSecs);
-            yield return new WaitWhile(() => game.IsOrgasming(device.Settings.GirlIndex));
+            yield return WaitWhile(() => game.IsOrgasming(device.Settings.GirlIndex));
             client.StopDeviceCmd(device);
         }
 

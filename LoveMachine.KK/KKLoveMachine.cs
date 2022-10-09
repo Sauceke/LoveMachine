@@ -1,7 +1,5 @@
 ﻿using BepInEx;
-using BepInEx.Bootstrap;
 using LoveMachine.Core;
-using UnityEngine;
 
 namespace LoveMachine.KK
 {
@@ -16,21 +14,22 @@ namespace LoveMachine.KK
     {
         private void Start()
         {
-            this.Initialize<KoikatsuGame>(Logger,
-                typeof(KoikatsuAnimationController),
-                typeof(KoikatsuAibuStrokerController),
-                typeof(KoikatsuAibuVibratorController),
-                typeof(KoikatsuCalorDepthController),
-                typeof(KoikatsuHotdogDepthController));
+            this.Initialize<KoikatsuGame>(Logger);
             KKAnimationConfig.Initialize(this);
             ExperimentalConfig.Initialize(this);
+            var manager = CoreConfig.ManagerObject;
+            manager.AddComponent<KoikatsuAnimationController>();
+            manager.AddComponent<KoikatsuAibuStrokerController>();
+            manager.AddComponent<KoikatsuAibuVibratorController>();
+            manager.AddComponent<KoikatsuCalorDepthController>();
+            manager.AddComponent<KoikatsuHotdogDepthController>();
             if (ExperimentalConfig.EnableCalorDepthControl.Value)
             {
-                Chainloader.ManagerObject.AddComponent<CalorDepthPOC>();
+                manager.AddComponent<CalorDepthPOC>();
             }
             if (ExperimentalConfig.EnableHotdogDepthControl.Value)
             {
-                Chainloader.ManagerObject.AddComponent<HotdogDepthPOC>();
+                manager.AddComponent<HotdogDepthPOC>();
             }
             Hooks.InstallHSceneHooks();
         }

@@ -1,0 +1,98 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+    <OutputPath>..\bin\LoveMachine.Core.IL2CPP\</OutputPath>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="..\LoveMachine.Core\Buttplug\ButtplugWsClient.cs" Link="ButtplugWsClient.cs" />
+    <Compile Include="..\LoveMachine.Core\Buttplug\Device.cs" Link="Device.cs" />
+    <Compile Include="..\LoveMachine.Core\Buttplug\DeviceManager.cs" Link="DeviceManager.cs" />
+    <Compile Include="..\LoveMachine.Core\Buttplug\DeviceSettings.cs" Link="DeviceSettings.cs" />
+    <Compile Include="..\LoveMachine.Core\Buttplug\IntifaceRunner.cs" Link="IntifaceRunner.cs" />
+    <Compile Include="..\LoveMachine.Core\Buttplug\StrokerSettings.cs" Link="StrokerSettings.cs" />
+    <Compile Include="..\LoveMachine.Core\Buttplug\VibratorSettings.cs" Link="VibratorSettings.cs" />
+    <Compile Include="..\LoveMachine.Core\Config\ButtplugConfig.cs" Link="ButtplugConfig.cs" />
+    <Compile Include="..\LoveMachine.Core\Config\DeviceListConfig.cs" Link="DeviceListConfig.cs" />
+    <Compile Include="..\LoveMachine.Core\Config\RotatorConfig.cs" Link="RotatorConfig.cs" />
+    <Compile Include="..\LoveMachine.Core\Config\StrokerConfig.cs" Link="StrokerConfig.cs" />
+    <Compile Include="..\LoveMachine.Core\Controller\ButtplugController.cs" Link="ButtplugController.cs" />
+    <Compile Include="..\LoveMachine.Core\Controller\ClassicButtplugController.cs" Link="ClassicButtplugController.cs" />
+    <Compile Include="..\LoveMachine.Core\Controller\RotatorController.cs" Link="RotatorController.cs" />
+    <Compile Include="..\LoveMachine.Core\Controller\StrokerController.cs" Link="StrokerController.cs" />
+    <Compile Include="..\LoveMachine.Core\Controller\VibratorController.cs" Link="VibratorController.cs" />
+    <Compile Include="..\LoveMachine.Core\Game\AnimationAnalyzer.cs" Link="AnimationAnalyzer.cs" />
+    <Compile Include="..\LoveMachine.Core\Game\Bone.cs" Link="Bone.cs" />
+    <Compile Include="..\LoveMachine.Core\Game\GameDescriptor.cs" Link="GameDescriptor.cs" />
+    <Compile Include="..\LoveMachine.Core\Game\TestAnimationAnalyzer.cs" Link="TestAnimationAnalyzer.cs" />
+    <Compile Include="..\LoveMachine.Core\Game\TestGame.cs" Link="TestGame.cs" />
+    <Compile Include="..\LoveMachine.Core\PluginInitializer.cs" Link="PluginInitializer.cs" />
+    <Compile Include="..\LoveMachine.Core\Util\ConfigurationManagerAttributes.cs" Link="ConfigurationManagerAttributes.cs" />
+    <Compile Include="..\LoveMachine.Core\Util\GUIUtil.cs" Link="GUIUtil.cs" />
+    <Compile Include="..\LoveMachine.Core\Util\RangeSlider.cs" Link="RangeSlider.cs" />
+    <Compile Include="..\LoveMachine.Core\VersionInfo.cs" Link="VersionInfo.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AllForOne" Version="1.0.0.27" />
+    <PackageReference Include="LitJson" Version="0.18.0" />
+    <PackageReference Include="WebSocket4Net" Version="0.15.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="0Harmony">
+      <HintPath>Lib\0Harmony.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="BepInEx.Core">
+      <HintPath>Lib\BepInEx.Core.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="BepInEx.Unity.Common">
+      <HintPath>Lib\BepInEx.Unity.Common.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="BepInEx.Unity.IL2CPP">
+      <HintPath>Lib\BepInEx.Unity.IL2CPP.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Il2CppInterop.Common">
+      <HintPath>Lib\Il2CppInterop.Common.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Il2CppInterop.Generator">
+      <HintPath>Lib\Il2CppInterop.Generator.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Il2CppInterop.HarmonySupport">
+      <HintPath>Lib\Il2CppInterop.HarmonySupport.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Il2CppInterop.Runtime">
+      <HintPath>Lib\Il2CppInterop.Runtime.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Il2Cppmscorlib">
+      <HintPath>Lib\Il2Cppmscorlib.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEngine.AnimationModule">
+      <HintPath>Lib\UnityEngine.AnimationModule.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEngine.CoreModule">
+      <HintPath>Lib\UnityEngine.CoreModule.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEngine.IMGUIModule">
+      <HintPath>Lib\UnityEngine.IMGUIModule.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+  </ItemGroup>
+
+</Project>

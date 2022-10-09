@@ -11,7 +11,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  build:
+  build-netfx3:
     runs-on: windows-2019
     timeout-minutes: 5
 
@@ -19,24 +19,46 @@ jobs:
       ACTIONS_ALLOW_UNSECURE_COMMANDS: true
 
     steps:
-    - uses: actions/checkout@v1
-      name: Checkout Code
-    
-    - name: Setup MSBuild Path
-      uses: warrenbuckley/Setup-MSBuild@v1
-      
-    - name: Setup NuGet
-      uses: NuGet/setup-nuget@v1.0.2
-     
-    - name: Restore NuGet Packages
-      run: nuget restore LoveMachine.sln
- 
+    - name: Checkout code
+      uses: actions/checkout@v1
+
+    - name: Setup MSBuild path
+      uses: microsoft/setup-msbuild@v1.1
+      with:
+        vs-version: '[16.0,17.0)'
+
     - name: Build and Publish
-      run: msbuild LoveMachine.sln /p:Configuration=Release /p:DeployOnBuild=true /p:PublishProfile=FolderProfile
- 
-    - name: Upload Artifact
+      run: msbuild LoveMachine.sln /r /p:Configuration=Release-netfx3 /p:DeployOnBuild=true /p:PublishProfile=FolderProfile
+
+    - name: Upload binaries
       if: ${{ github.event_name == 'workflow_dispatch' || (github.event_name == 'pull_request' && github.event.pull_request.user.login != github.repository_owner) }}
       uses: actions/upload-artifact@v1.0.0
       with:
-        name: Published artifacts
+        name: .NET Framework artifacts
+        path: bin
+
+  build-net6:
+    runs-on: windows-2022
+    timeout-minutes: 5
+
+    env:
+      ACTIONS_ALLOW_UNSECURE_COMMANDS: true
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v1
+
+    - name: Setup MSBuild path
+      uses: microsoft/setup-msbuild@v1.1
+      with:
+        vs-version: '[17.0,)'
+
+    - name: Build and Publish
+      run: msbuild LoveMachine.sln /r /p:Configuration=Release-net6 /p:DeployOnBuild=true /p:PublishProfile=FolderProfile
+
+    - name: Upload binaries
+      if: ${{ github.event_name == 'workflow_dispatch' || (github.event_name == 'pull_request' && github.event.pull_request.user.login != github.repository_owner) }}
+      uses: actions/upload-artifact@v1.0.0
+      with:
+        name: .NET 6 artifacts
         path: bin

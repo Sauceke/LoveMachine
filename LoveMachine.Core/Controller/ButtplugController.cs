@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using BepInEx.Bootstrap;
 using UnityEngine;
 
 namespace LoveMachine.Core
@@ -56,14 +55,14 @@ namespace LoveMachine.Core
         {
             yield return HandleCoroutine(game.UntilReady());
             HandleCoroutine(Run());
-            yield return new WaitUntil(() => game.IsHSceneInterrupted);
+            yield return WaitUntil(() => game.IsHSceneInterrupted);
             OnEndH();
         }
 
         public static void Test<T>(Device device)
             where T : ButtplugController
         {
-            var testController = Chainloader.ManagerObject.AddComponent<T>();
+            var testController = CoreConfig.ManagerObject.AddComponent<T>();
             testController.isTestController = true;
             testController.HandleCoroutine(testController.RunTest(device));
         }

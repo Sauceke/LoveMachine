@@ -17,6 +17,8 @@ namespace LoveMachine.Core
                 { VibrationPattern.Constant, _ => 1f }
             };
 
+        private void Start() => base.Start();
+
         protected override bool IsDeviceSupported(Device device) => device.IsVibrator;
 
         protected override IEnumerator HandleAnimation(Device device)
@@ -41,7 +43,7 @@ namespace LoveMachine.Core
         {
             client.VibrateCmd(device, device.Settings.VibratorSettings.IntensityMax);
             yield return new WaitForSecondsRealtime(game.MinOrgasmDurationSecs);
-            yield return new WaitWhile(() => game.IsOrgasming(device.Settings.GirlIndex));
+            yield return WaitWhile(() => game.IsOrgasming(device.Settings.GirlIndex));
             client.StopDeviceCmd(device);
         }
 

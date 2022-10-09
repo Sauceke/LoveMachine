@@ -52,6 +52,7 @@
     <Compile Include="Game\TestAnimationAnalyzer.cs" />
     <Compile Include="Game\TestGame.cs" />
     <Compile Include="Experimental\ExperimentalConfig.cs" />
+    <Compile Include="Mono\HideFromIl2Cpp.cs" />
     <Compile Include="Util\GUIUtil.cs" />
     <Compile Include="Config\KillSwitchConfig.cs" />
     <Compile Include="Config\RotatorConfig.cs" />

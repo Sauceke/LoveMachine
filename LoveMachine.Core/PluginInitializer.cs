@@ -1,7 +1,6 @@
-﻿using System;
-using BepInEx;
-using BepInEx.Bootstrap;
+﻿using BepInEx;
 using BepInEx.Logging;
+using UnityEngine;
 
 namespace LoveMachine.Core
 {
@@ -10,14 +9,15 @@ namespace LoveMachine.Core
     // This is ugly but my hands are tied.
     public static class PluginInitializer
     {
+        public static GameObject go;
+
         /// <summary>
         /// LoveMachine's entry point. Call this in your plugin's Start method.
         /// </summary>
         /// <typeparam name="T">the GameDescriptor for this game</typeparam>
         /// <param name="logger">the Logger of this plugin</param>
         /// <param name="extraControllers">any additional ButtplugControllers</param>
-        public static void Initialize<T>(this BaseUnityPlugin plugin, ManualLogSource logger,
-            params Type[] extraControllers)
+        public static void Initialize<T>(this BaseUnityPlugin plugin, ManualLogSource logger)
             where T : GameDescriptor
         {
             CoreConfig.Initialize(plugin, logger);
@@ -26,7 +26,7 @@ namespace LoveMachine.Core
             KillSwitchConfig.Initialize(plugin);
             RotatorConfig.Initialize(plugin);
             StrokerConfig.Initialize(plugin);
-            var manager = Chainloader.ManagerObject;
+            var manager = CoreConfig.ManagerObject;
             manager.AddComponent<T>();
             manager.AddComponent<IntifaceRunner>();
             manager.AddComponent<ButtplugWsClient>();
@@ -35,10 +35,6 @@ namespace LoveMachine.Core
             manager.AddComponent<StrokerController>();
             manager.AddComponent<VibratorController>();
             manager.AddComponent<RotatorController>();
-            foreach (var controller in extraControllers)
-            {
-                manager.AddComponent(controller);
-            }
         }
     }
 }

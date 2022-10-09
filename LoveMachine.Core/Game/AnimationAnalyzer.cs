@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Il2CppInterop.Runtime.Attributes;
 using LitJson;
 using UnityEngine;
 
@@ -21,7 +22,7 @@ namespace LoveMachine.Core
 
         private void Start()
         {
-            game = gameObject.GetComponent<GameDescriptor>();
+            game = CoreConfig.ManagerObject.GetComponent<GameDescriptor>();
             game.OnHStarted += (s, a) => StartAnalyze();
             game.OnHEnded += (s, a) => StopAnalyze();
         }
@@ -29,6 +30,7 @@ namespace LoveMachine.Core
         private string GetExactPose(int girlIndex, Bone bone) =>
             $"{game.GetPose(girlIndex)}.girl{girlIndex}.{bone}";
 
+        [HideFromIl2Cpp]
         public virtual bool TryGetWaveInfo(int girlIndex, Bone bone, out WaveInfo result)
         {
             try
@@ -121,7 +123,7 @@ namespace LoveMachine.Core
                 $"Leading bone: {autoBone}, result: {JsonMapper.ToJson(results[Bone.Auto])}.");
         }
 
-        private WaveInfo GetWaveInfo(IEnumerable<Sample> samples)
+        private static WaveInfo GetWaveInfo(IEnumerable<Sample> samples)
         {
             // probably safe to assume the farthest point from the origin is an extremity
             var crest = samples

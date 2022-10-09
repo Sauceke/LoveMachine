@@ -6,6 +6,7 @@ PH=プレイホーム
 AGH=奉課後輪姦中毒
 IO=インサルトオーダー
 COM3D2=カスタムオーダーメイド3D2
+RG=ROOMガール
 InstallIntiface=LoveMachineを使用するにはIntifaceをインストールする必要があります。今インストールしますか？
 SelectPathTitle=インストール先・%dページ
 SelectPath=インストール先のゲームフォルダを選択してください。持っていないゲームの入力欄は空白のままにしておいてください。

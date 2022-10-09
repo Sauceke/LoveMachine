@@ -1,6 +1,8 @@
 ﻿using System.IO;
 using BepInEx;
+using BepInEx.Bootstrap;
 using BepInEx.Logging;
+using UnityEngine;
 
 namespace LoveMachine.Core
 {
@@ -12,6 +14,7 @@ namespace LoveMachine.Core
 
         public static ManualLogSource Logger { get; private set; }
         public static string PluginDirectoryPath { get; private set; }
+        public static GameObject ManagerObject => Chainloader.ManagerObject;
 
         internal static void Initialize(BaseUnityPlugin plugin, ManualLogSource logger)
         {

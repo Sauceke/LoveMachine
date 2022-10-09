@@ -5,6 +5,8 @@ namespace LoveMachine.Core
 {
     public sealed class StrokerController : ClassicButtplugController
     {
+        private void Start() => base.Start();
+
         protected override bool IsDeviceSupported(Device device) => device.IsStroker;
 
         protected override IEnumerator HandleAnimation(Device device)
@@ -24,7 +26,7 @@ namespace LoveMachine.Core
             int segments = device.Settings.StrokerSettings.SmoothStroking ? subdivisions : turns;
             float startNormTime = GetLatencyCorrectedNormalizedTime(device);
             int getSegment(float time) => (int)((time - waveInfo.Phase) * segments);
-            yield return new WaitWhile(() =>
+            yield return WaitWhile(() =>
                 getSegment(GetLatencyCorrectedNormalizedTime(device)) == getSegment(startNormTime));
             animTimeSecs = GetAnimationTimeSecs(girlIndex);
             float refreshTimeSecs = animTimeSecs / segments;
