@@ -88,9 +88,9 @@ jobs:
     
     steps:
     - name: Download artifacts
-        uses: actions/download-artifact@v3
-        with:
-          path: bin
+      uses: actions/download-artifact@v3
+      with:
+        path: bin
 
     - name: Download and install Inno Setup
       run: |
