@@ -19,6 +19,7 @@ Adds support for [some computer-controlled sex toys](#supported-devices) in the 
 | [Koikatsu Sunshine]       | Illusion         | Yes               |
 | [Our Apartment]           | Momoiro Software | No                |
 | [PlayHome]                | Illusion         | Yes               |
+| [RoomGirl]                | Illusion         | No                |
 
 ## Supported devices
 LoveMachine relies on the [Buttplug.io] project to communicate with toys. At the time of writing, Buttplug.io supports over 200 devices.
@@ -162,6 +163,7 @@ This mod would not have been possible without the [BepInEx] plugin framework and
 [Honey Select 2]: https://www.dlsite.com/pro/dlaf/=/t/n/link/work/aid/sauceke/locale/en_US/id/VJ013722.html/?locale=en_US
 [Houkago Rinkan Chuudoku]: https://www.dlsite.com/maniax/dlaf/=/t/n/link/work/aid/sauceke/locale/en_US/id/RJ189924.html/?locale=en_US
 [Insult Order]: https://www.dlsite.com/maniax/dlaf/=/t/n/link/work/aid/sauceke/locale/en_US/id/RJ220246.html/?locale=en_US
+[RoomGirl]: https://www.dlsite.com/pro/dlaf/=/t/n/link/work/aid/sauceke/locale/en_US/id/VJ015465.html/?locale=en_US
 [The Handy]: https://www.thehandy.com/?ref=saucekebenfield&utm_source=saucekebenfield&utm_medium=affiliate&utm_campaign=The+Handy+Affiliate+program
 [Lovense Calor]: https://www.lovense.com/r/vu65q6
 [Lovense Gush]: https://www.lovense.com/r/f7lki7
