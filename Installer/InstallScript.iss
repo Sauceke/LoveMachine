@@ -57,6 +57,7 @@ WizardStyle=modern
 DisableDirPage=yes
 DisableWelcomePage=no
 InfoBeforeFile=Readme.rtf
+PrivilegesRequired=lowest
 
 [Languages]
 Name: "en"; MessagesFile: "EN.isl"
