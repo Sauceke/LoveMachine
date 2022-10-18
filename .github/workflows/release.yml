@@ -133,6 +133,13 @@ jobs:
         & "C:\Program Files (x86)\Inno Setup 6\ISCC.exe" InstallScript.iss
         copy bin/LoveMachineInstaller.exe ../assets/LoveMachineInstaller.exe
 
+    - name: Scan installer with VirusTotal
+      uses: crazy-max/ghaction-virustotal@v3
+      with:
+        vt_api_key: ${{ secrets.VIRUSTOTAL_API_KEY }}
+        files: |
+          assets/LoveMachineInstaller.exe
+
     - name: Create release
       id: create_release
       uses: actions/create-release@v1
