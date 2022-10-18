@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using IllusionUtility.GetUtility;
 using LoveMachine.Core;
 using UnityEngine;
@@ -10,19 +9,6 @@ namespace LoveMachine.HS2
 {
     internal sealed class HoneySelect2Game : GameDescriptor
     {
-        private static readonly string[] idleAnimations =
-        {
-            "Idle", "WIdle", "SIdle", "Insert", "D_Idle", "D_Insert",
-            "Orgasm_A", "Orgasm_IN_A", "Orgasm_OUT_A", "Drink_A", "Vomit_A", "OrgasmM_OUT_A",
-            "D_Orgasm_A", "D_Orgasm_OUT_A", "D_Orgasm_IN_A", "D_OrgasmM_OUT_A"
-        };
-
-        private static readonly string[] orgasmAnimations =
-        {
-            "Orgasm", "Orgasm_IN", "Orgasm_OUT", "Drink", "Vomit", "OrgasmM_OUT", "OrgasmM_IN",
-            "D_Orgasm", "D_Orgasm_OUT", "D_Orgasm_IN", "D_OrgasmM_OUT", "D_OrgasmM_IN"
-        };
-
         private HScene hScene;
 
         protected override Dictionary<Bone, string> FemaleBoneNames => new Dictionary<Bone, string>
@@ -42,8 +28,7 @@ namespace LoveMachine.HS2
 
         protected override int MaxHeroineCount => 2;
 
-        protected override bool IsHardSex =>
-            GetFemaleAnimator(0)?.GetCurrentAnimatorStateInfo(0).IsName("SLoop") ?? false;
+        protected override bool IsHardSex => hScene.ctrlFlag.loopType == 1;
 
         public override int AnimationLayer => 0;
 
@@ -79,10 +64,8 @@ namespace LoveMachine.HS2
                 || hScene.GetMales()[0] == null);
         }
 
-        protected override bool IsIdle(int girlIndex) => 
-            idleAnimations.Any(GetAnimatorStateInfo(girlIndex).IsName);
+        protected override bool IsIdle(int girlIndex) => hScene.ctrlFlag.loopType == -1;
 
-        protected override bool IsOrgasming(int girlIndex) =>
-            orgasmAnimations.Any(GetAnimatorStateInfo(girlIndex).IsName);
+        protected override bool IsOrgasming(int girlIndex) => hScene.ctrlFlag.nowOrgasm;
     }
 }
