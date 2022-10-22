@@ -6,7 +6,6 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{0E4427FD-CDD6-4AC1-80EF-234C2C4241D7}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>LoveMachine.OA</RootNamespace>
     <AssemblyName>LoveMachine.OA</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
@@ -45,7 +44,6 @@
     <Compile Include="OurApartmentGame.cs" />
     <Compile Include="Hooks.cs" />
     <Compile Include="OALoveMachine.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="BepInEx.Core" ExcludeAssets="runtime">

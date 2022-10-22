@@ -6,7 +6,6 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{8FDD1A5C-E7CD-493B-A182-CB82821EDE44}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>LoveMachine.PH</RootNamespace>
     <AssemblyName>LoveMachine.PH</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
@@ -46,7 +45,6 @@
     <Compile Include="PlayHomeGame.cs" />
     <Compile Include="Hooks.cs" />
     <Compile Include="PHLoveMachine.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\LoveMachine.Core\LoveMachine.Core.csproj">

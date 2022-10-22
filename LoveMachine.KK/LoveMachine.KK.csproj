@@ -6,7 +6,6 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{8AB7D330-2E67-47D2-8503-3EA98A0AF52C}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>LoveMachine.KK</RootNamespace>
     <AssemblyName>LoveMachine.KK</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
@@ -55,7 +54,6 @@
     <Compile Include="Hooks.cs" />
     <Compile Include="KKLoveMachine.cs" />
     <Compile Include="KoikatsuGame.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StudioGame.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -6,7 +6,6 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{E160CE73-DDAB-4F86-9C8D-502752EAA144}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>LoveMachine.COM3D2</RootNamespace>
     <AssemblyName>LoveMachine.COM3D2</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
@@ -42,7 +41,6 @@
     <Compile Include="Com3d2Game.cs" />
     <Compile Include="Com3d2LoveMachine.cs" />
     <Compile Include="Hooks.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="BepInEx.Core" ExcludeAssets="runtime">
