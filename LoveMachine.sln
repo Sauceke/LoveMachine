@@ -32,6 +32,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LoveMachine.Core.IL2CPP", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LoveMachine.RG", "LoveMachine.RG\LoveMachine.RG.csproj", "{1D29C16D-C7DC-4732-B6FC-D51666E2610F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LoveMachine.VRK", "LoveMachine.VRK\LoveMachine.VRK.csproj", "{66290A59-E659-4893-BA13-031DBD5F4C75}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -123,6 +125,14 @@ Global
 		{1D29C16D-C7DC-4732-B6FC-D51666E2610F}.Release-net6|Any CPU.ActiveCfg = Release|Any CPU
 		{1D29C16D-C7DC-4732-B6FC-D51666E2610F}.Release-net6|Any CPU.Build.0 = Release|Any CPU
 		{1D29C16D-C7DC-4732-B6FC-D51666E2610F}.Release-netfx3|Any CPU.ActiveCfg = Release|Any CPU
+		{66290A59-E659-4893-BA13-031DBD5F4C75}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{66290A59-E659-4893-BA13-031DBD5F4C75}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{66290A59-E659-4893-BA13-031DBD5F4C75}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{66290A59-E659-4893-BA13-031DBD5F4C75}.Release|Any CPU.Build.0 = Release|Any CPU
+		{66290A59-E659-4893-BA13-031DBD5F4C75}.Release-net6|Any CPU.ActiveCfg = Release|Any CPU
+		{66290A59-E659-4893-BA13-031DBD5F4C75}.Release-net6|Any CPU.Build.0 = Release|Any CPU
+		{66290A59-E659-4893-BA13-031DBD5F4C75}.Release-netfx3|Any CPU.ActiveCfg = Release|Any CPU
+		{66290A59-E659-4893-BA13-031DBD5F4C75}.Release-netfx3|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
