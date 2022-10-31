@@ -32,7 +32,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LoveMachine.RG", "LoveMachi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LoveMachine.VRK", "LoveMachine.VRK\LoveMachine.VRK.csproj", "{66290A59-E659-4893-BA13-031DBD5F4C75}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Installer", "Installer\Installer.csproj", "{83D52EFF-03B6-49F9-A173-40470B5306D3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Installer", "Installer\Installer.csproj", "{83D52EFF-03B6-49F9-A173-40470B5306D3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -131,9 +131,7 @@ Global
 		{83D52EFF-03B6-49F9-A173-40470B5306D3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{83D52EFF-03B6-49F9-A173-40470B5306D3}.Release|Any CPU.Build.0 = Release|Any CPU
 		{83D52EFF-03B6-49F9-A173-40470B5306D3}.Release-net6|Any CPU.ActiveCfg = Release|Any CPU
-		{83D52EFF-03B6-49F9-A173-40470B5306D3}.Release-net6|Any CPU.Build.0 = Release|Any CPU
 		{83D52EFF-03B6-49F9-A173-40470B5306D3}.Release-netfx3|Any CPU.ActiveCfg = Release|Any CPU
-		{83D52EFF-03B6-49F9-A173-40470B5306D3}.Release-netfx3|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
