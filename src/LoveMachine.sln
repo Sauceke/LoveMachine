@@ -3,6 +3,8 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.3.32825.248
 MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Installer", "Installer\Installer.csproj", "{83D52EFF-03B6-49F9-A173-40470B5306D3}"
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LoveMachine.Core", "LoveMachine.Core\LoveMachine.Core.csproj", "{36E78D7D-C987-4E98-B709-149D19C4193A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LoveMachine.KK", "LoveMachine.KK\LoveMachine.KK.csproj", "{8AB7D330-2E67-47D2-8503-3EA98A0AF52C}"
@@ -27,7 +29,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LoveMachine.RG", "LoveMachi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LoveMachine.VRK", "LoveMachine.VRK\LoveMachine.VRK.csproj", "{66290A59-E659-4893-BA13-031DBD5F4C75}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Installer", "Installer\Installer.csproj", "{83D52EFF-03B6-49F9-A173-40470B5306D3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LoveMachine.HKR", "LoveMachine.HKR\LoveMachine.HKR.csproj", "{F1ED3B21-C561-4F73-89D2-7554BA97DF8B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -127,6 +129,13 @@ Global
 		{83D52EFF-03B6-49F9-A173-40470B5306D3}.Release|Any CPU.Build.0 = Release|Any CPU
 		{83D52EFF-03B6-49F9-A173-40470B5306D3}.Release-net6|Any CPU.ActiveCfg = Release|Any CPU
 		{83D52EFF-03B6-49F9-A173-40470B5306D3}.Release-netfx3|Any CPU.ActiveCfg = Release|Any CPU
+		{F1ED3B21-C561-4F73-89D2-7554BA97DF8B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F1ED3B21-C561-4F73-89D2-7554BA97DF8B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F1ED3B21-C561-4F73-89D2-7554BA97DF8B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F1ED3B21-C561-4F73-89D2-7554BA97DF8B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F1ED3B21-C561-4F73-89D2-7554BA97DF8B}.Release-net6|Any CPU.ActiveCfg = Release|Any CPU
+		{F1ED3B21-C561-4F73-89D2-7554BA97DF8B}.Release-net6|Any CPU.Build.0 = Release|Any CPU
+		{F1ED3B21-C561-4F73-89D2-7554BA97DF8B}.Release-netfx3|Any CPU.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
