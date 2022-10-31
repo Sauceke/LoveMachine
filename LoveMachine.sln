@@ -24,8 +24,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LoveMachine.OA", "LoveMachi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LoveMachine.IO", "LoveMachine.IO\LoveMachine.IO.csproj", "{AF9E6F6F-5CF3-4E01-BCC8-8122DAFC374B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Installer", "Installer\Installer.csproj", "{4B9643EE-CF9E-463A-8C8D-B9CD486788B6}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LoveMachine.COM3D2", "LoveMachine.COM3D2\LoveMachine.COM3D2.csproj", "{E160CE73-DDAB-4F86-9C8D-502752EAA144}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LoveMachine.Core.IL2CPP", "LoveMachine.Core.IL2CPP\LoveMachine.Core.IL2CPP.csproj", "{C99DFA93-A3C2-49DD-BA1D-F9001DAEFDF9}"
@@ -33,6 +31,8 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LoveMachine.RG", "LoveMachine.RG\LoveMachine.RG.csproj", "{1D29C16D-C7DC-4732-B6FC-D51666E2610F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LoveMachine.VRK", "LoveMachine.VRK\LoveMachine.VRK.csproj", "{66290A59-E659-4893-BA13-031DBD5F4C75}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Installer", "Installer\Installer.csproj", "{83D52EFF-03B6-49F9-A173-40470B5306D3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -98,12 +98,6 @@ Global
 		{AF9E6F6F-5CF3-4E01-BCC8-8122DAFC374B}.Release-net6|Any CPU.ActiveCfg = Release|Any CPU
 		{AF9E6F6F-5CF3-4E01-BCC8-8122DAFC374B}.Release-netfx3|Any CPU.ActiveCfg = Release|Any CPU
 		{AF9E6F6F-5CF3-4E01-BCC8-8122DAFC374B}.Release-netfx3|Any CPU.Build.0 = Release|Any CPU
-		{4B9643EE-CF9E-463A-8C8D-B9CD486788B6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4B9643EE-CF9E-463A-8C8D-B9CD486788B6}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4B9643EE-CF9E-463A-8C8D-B9CD486788B6}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4B9643EE-CF9E-463A-8C8D-B9CD486788B6}.Release|Any CPU.Build.0 = Release|Any CPU
-		{4B9643EE-CF9E-463A-8C8D-B9CD486788B6}.Release-net6|Any CPU.ActiveCfg = Release|Any CPU
-		{4B9643EE-CF9E-463A-8C8D-B9CD486788B6}.Release-netfx3|Any CPU.ActiveCfg = Release|Any CPU
 		{E160CE73-DDAB-4F86-9C8D-502752EAA144}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{E160CE73-DDAB-4F86-9C8D-502752EAA144}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E160CE73-DDAB-4F86-9C8D-502752EAA144}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -132,6 +126,14 @@ Global
 		{66290A59-E659-4893-BA13-031DBD5F4C75}.Release-net6|Any CPU.ActiveCfg = Release|Any CPU
 		{66290A59-E659-4893-BA13-031DBD5F4C75}.Release-netfx3|Any CPU.ActiveCfg = Release|Any CPU
 		{66290A59-E659-4893-BA13-031DBD5F4C75}.Release-netfx3|Any CPU.Build.0 = Release|Any CPU
+		{83D52EFF-03B6-49F9-A173-40470B5306D3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{83D52EFF-03B6-49F9-A173-40470B5306D3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{83D52EFF-03B6-49F9-A173-40470B5306D3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{83D52EFF-03B6-49F9-A173-40470B5306D3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{83D52EFF-03B6-49F9-A173-40470B5306D3}.Release-net6|Any CPU.ActiveCfg = Release|Any CPU
+		{83D52EFF-03B6-49F9-A173-40470B5306D3}.Release-net6|Any CPU.Build.0 = Release|Any CPU
+		{83D52EFF-03B6-49F9-A173-40470B5306D3}.Release-netfx3|Any CPU.ActiveCfg = Release|Any CPU
+		{83D52EFF-03B6-49F9-A173-40470B5306D3}.Release-netfx3|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

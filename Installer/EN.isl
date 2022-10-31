@@ -8,6 +8,7 @@ OA=Our Apartment
 IO=Insult Order
 COM3D2=Custom Order Maid 3D 2
 RG=RoomGirl
+VRK=VR Kanojo
 InstallIntiface=LoveMachine requires Intiface to be installed. Install it now?
 SelectPathTitle=Select Destinations - Page %d
 SelectPath=Select the game folder for each of your games. Leave blank for games you don't have.
