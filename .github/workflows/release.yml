@@ -122,7 +122,7 @@ jobs:
         Compress-Archive -Path bin/LoveMachine.VRK/BepInEx -DestinationPath assets/LoveMachine_for_VR_Kanojo.zip
 
     - name: Download BepInEx
-      working-directory: Installer
+      working-directory: src/Installer
       run: |
         Invoke-WebRequest -Uri ${{env.BEPINEX_32_URL}} -OutFile BepInEx32.zip
         Invoke-WebRequest -Uri ${{env.BEPINEX_64_URL}} -OutFile BepInEx64.zip
@@ -151,7 +151,7 @@ jobs:
       with:
         vt_api_key: ${{ secrets.VIRUSTOTAL_API_KEY }}
         files: |
-          assets/LoveMachineInstaller.exe
+          src/assets/LoveMachineInstaller.exe
 
     - name: Create release
       id: create_release
@@ -172,4 +172,4 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         release_id: ${{ steps.create_release.outputs.id }}
-        assets_path: assets
+        assets_path: src/assets
