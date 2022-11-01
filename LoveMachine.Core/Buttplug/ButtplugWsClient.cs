@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using BepInEx;
 using LitJson;
+using UnityEngine;
 using WebSocket4Net;
 
 namespace LoveMachine.Core
@@ -42,6 +43,7 @@ namespace LoveMachine.Core
             websocket.Error += OnError;
             websocket.Open();
             HandleCoroutine(RunKillSwitchLoop());
+            HandleCoroutine(RunBatteryLoop());
         }
 
         public void Close()
@@ -127,6 +129,19 @@ namespace LoveMachine.Core
             SendSingleCommand(command);
         }
 
+        public void BatteryLevelCmd(Device device)
+        {
+            var command = new
+            {
+                BatteryLevelCmd = new
+                {
+                    Id = random.Next(),
+                    DeviceIndex = device.DeviceIndex
+                }
+            };
+            SendSingleCommand(command);
+        }
+
         public void StopDeviceCmd(Device device)
         {
             var command = new
@@ -161,7 +176,7 @@ namespace LoveMachine.Core
                 {
                     Id = random.Next(),
                     ClientName = Paths.ProcessName,
-                    MessageVersion = 1
+                    MessageVersion = 2
                 }
             };
             SendSingleCommand(handshake);
@@ -233,6 +248,14 @@ namespace LoveMachine.Core
                     var args = new DeviceListEventArgs(before: previousDevices, after: Devices);
                     OnDeviceListUpdated.Invoke(this, args);
                     LogDevices();
+                    HandleCoroutine(ReadBatteryLevels(retries: 5));
+                }
+                else if (data.ContainsKey("BatteryLevelReading"))
+                {
+                    var reading = JsonMapper.ToObject<BatteryLevelMessage>(data.ToJson())
+                        .BatteryLevelReading;
+                    Devices.Where(device => device.DeviceIndex == reading.DeviceIndex).ToList()
+                        .ForEach(device => device.BatteryLevel = reading.BatteryLevel);
                 }
                 if (data.ContainsKey("ServerInfo"))
                 {
@@ -273,6 +296,16 @@ namespace LoveMachine.Core
             }
         }
 
+        private IEnumerator ReadBatteryLevels(int retries)
+        {
+            for (int i = 0; i < retries; i++)
+            {
+                Devices.Where(device => device.HasBatteryLevel).ToList()
+                    .ForEach(BatteryLevelCmd);
+                yield return new WaitForSecondsRealtime(1f);
+            }
+        }
+
         private IEnumerator RunKillSwitchLoop()
         {
             while (true)
@@ -285,6 +318,15 @@ namespace LoveMachine.Core
                     killSwitchThrown = true;
                 }
                 yield return null;
+            }
+        }
+
+        private IEnumerator RunBatteryLoop()
+        {
+            while (true)
+            {
+                yield return new WaitForSecondsRealtime(60f);
+                yield return HandleCoroutine(ReadBatteryLevels(retries: 1));
             }
         }
     }

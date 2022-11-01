@@ -10,6 +10,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Include="..\LoveMachine.Core\Buttplug\BatteryLevelReading.cs" Link="BatteryLevelReading.cs" />
     <Compile Include="..\LoveMachine.Core\Buttplug\ButtplugWsClient.cs" Link="ButtplugWsClient.cs" />
     <Compile Include="..\LoveMachine.Core\Buttplug\Device.cs" Link="Device.cs" />
     <Compile Include="..\LoveMachine.Core\Buttplug\DeviceManager.cs" Link="DeviceManager.cs" />

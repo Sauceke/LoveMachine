@@ -4,6 +4,20 @@ namespace LoveMachine.Core
 {
     internal static class GUIUtil
     {
+        internal static void PercentBar(string label, string tooltip, float value)
+        {
+            GUILayout.BeginHorizontal();
+            {
+                LabelWithTooltip(label, tooltip);
+                float lower = 0f;
+                float upper = value;
+                Core.RangeSlider.Create(ref lower, ref upper, 0f, 1f);
+                PercentLabel(upper);
+            }
+            GUILayout.EndHorizontal();
+            SingleSpace();
+        }
+
         internal static void RangeSlider(string label, string tooltip,
             ref float lower, ref float upper, float lowerDefault, float upperDefault)
         {

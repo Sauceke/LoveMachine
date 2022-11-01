@@ -13,18 +13,21 @@ namespace LoveMachine.Core
         }
 
         public int DeviceIndex { get; set; }
+        public float BatteryLevel { get; set; }
         public DeviceSettings Settings { get; set; } = new DeviceSettings();
         public Features DeviceMessages { get; set; }
 
         public bool IsVibrator => DeviceMessages.VibrateCmd != null;
         public bool IsStroker => DeviceMessages.LinearCmd != null;
         public bool IsRotator => DeviceMessages.RotateCmd != null;
+        public bool HasBatteryLevel => DeviceMessages.BatteryLevelCmd != null;
 
         public class Features
         {
             public Command LinearCmd { get; set; }
             public Command VibrateCmd { get; set; }
             public Command RotateCmd { get; set; }
+            public Command BatteryLevelCmd { get; set; }
 
             public class Command
             {
@@ -43,6 +46,15 @@ namespace LoveMachine.Core
                 GUILayout.FlexibleSpace();
             }
             GUILayout.EndHorizontal();
+            if (HasBatteryLevel)
+            {
+                GUIUtil.SingleSpace();
+                GUILayout.BeginHorizontal();
+                {
+                    GUIUtil.PercentBar("Battery", "Current battery level.", BatteryLevel);
+                }
+                GUILayout.EndHorizontal();
+            }
             GUIUtil.SingleSpace();
             GUILayout.BeginHorizontal();
             {
