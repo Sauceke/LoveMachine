@@ -3,9 +3,7 @@ name: .NET
 on:
   push:
     branches: [ mastur ]
-    paths-ignore:
-    - '**.md'
-    - '_config.yml'
+    paths: [ src ]
   pull_request:
     branches: [ mastur ]
   workflow_dispatch:
@@ -17,6 +15,10 @@ jobs:
 
     env:
       ACTIONS_ALLOW_UNSECURE_COMMANDS: true
+
+    defaults:
+      run:
+        working-directory: src
 
     steps:
     - name: Checkout code
@@ -43,6 +45,10 @@ jobs:
 
     env:
       ACTIONS_ALLOW_UNSECURE_COMMANDS: true
+
+    defaults:
+      run:
+        working-directory: src
 
     steps:
     - name: Checkout code

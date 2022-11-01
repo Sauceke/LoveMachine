@@ -16,6 +16,10 @@ jobs:
     env:
       ACTIONS_ALLOW_UNSECURE_COMMANDS: true
 
+    defaults:
+      run:
+        working-directory: src
+
     steps:
     - name: Checkout code
       uses: actions/checkout@v1
@@ -40,6 +44,10 @@ jobs:
 
     env:
       ACTIONS_ALLOW_UNSECURE_COMMANDS: true
+
+    defaults:
+      run:
+        working-directory: src
 
     steps:
     - name: Checkout code
@@ -75,6 +83,10 @@ jobs:
       BEPINEX_CONF_MGR_URL: https://github.com/BepInEx/BepInEx.ConfigurationManager/releases/download/v16.4/BepInEx.ConfigurationManager_v16.4.zip
       BLECONSOLE_PATH: https://github.com/sensboston/BLEConsole/releases/download/v1.5.6/BLEConsole.exe
     
+    defaults:
+      run:
+        working-directory: src
+
     steps:
     - name: Checkout code
       uses: actions/checkout@v1
@@ -129,7 +141,7 @@ jobs:
         copy BLEConsole.exe bin/LoveMachine.KKS/BepInEx/plugins/KKS_LoveMachine
 
     - name: Build installer
-      working-directory: Installer
+      working-directory: src/Installer
       run: |
         & "C:\Program Files (x86)\Inno Setup 6\ISCC.exe" InstallScript.iss
         copy bin/LoveMachineInstaller.exe ../assets/LoveMachineInstaller.exe
