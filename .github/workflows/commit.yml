@@ -37,7 +37,7 @@ jobs:
       uses: actions/upload-artifact@v1.0.0
       with:
         name: .NET Framework artifacts
-        path: bin
+        path: src/bin
 
   build-net6:
     runs-on: windows-2022
@@ -67,4 +67,4 @@ jobs:
       uses: actions/upload-artifact@v1.0.0
       with:
         name: .NET 6 artifacts
-        path: bin
+        path: src/bin

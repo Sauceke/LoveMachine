@@ -36,7 +36,7 @@ jobs:
       uses: actions/upload-artifact@v3
       with:
         name: netfx3-bin
-        path: bin
+        path: src/bin
 
   build-net6:
     runs-on: windows-2022
@@ -65,7 +65,7 @@ jobs:
       uses: actions/upload-artifact@v3
       with:
         name: net6-bin
-        path: bin
+        path: src/bin
 
   release:
     needs:
@@ -94,7 +94,7 @@ jobs:
     - name: Download artifacts
       uses: actions/download-artifact@v3
       with:
-        path: .
+        path: src
 
     - name: Copy artifacts
       run: |
