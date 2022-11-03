@@ -36,7 +36,7 @@ dotnet_style_readonly_field = true:suggestion
 dotnet_style_object_initializer = true:suggestion
 dotnet_style_collection_initializer = true:suggestion
 dotnet_style_explicit_tuple_names = true:suggestion
-dotnet_style_null_propagation = true:suggestion
+dotnet_style_null_propagation = true:silent
 dotnet_style_coalesce_expression = true:suggestion
 dotnet_style_prefer_is_null_check_over_reference_equality_method = true:silent
 dotnet_style_prefer_inferred_tuple_names = true:suggestion
@@ -62,7 +62,7 @@ end_of_line = crlf
 dotnet_style_prefer_simplified_boolean_expressions = true:suggestion
 dotnet_style_prefer_compound_assignment = true:suggestion
 dotnet_style_prefer_simplified_interpolation = true:suggestion
-dotnet_style_namespace_match_folder = true:suggestion
+dotnet_style_namespace_match_folder = false:error
 dotnet_style_allow_statement_immediately_after_block_experimental = true:silent
 dotnet_style_allow_multiple_blank_lines_experimental = true:silent
 dotnet_code_quality_unused_parameters = all:suggestion
@@ -135,7 +135,7 @@ csharp_style_prefer_null_check_over_type_check = true:suggestion
 csharp_style_prefer_local_over_anonymous_function = true:suggestion
 csharp_style_prefer_index_operator = true:suggestion
 csharp_style_prefer_range_operator = true:suggestion
-csharp_style_implicit_object_creation_when_type_is_apparent = true:suggestion
+csharp_style_implicit_object_creation_when_type_is_apparent = true:error
 csharp_style_prefer_tuple_swap = true:suggestion
 csharp_style_unused_value_assignment_preference = discard_variable:suggestion
 csharp_style_unused_value_expression_statement_preference = why the fuck would i want that and why cant i disable this shit from the editor:silent
@@ -148,6 +148,8 @@ csharp_style_prefer_pattern_matching = true:silent
 csharp_style_prefer_switch_expression = true:suggestion
 csharp_style_prefer_not_pattern = true:suggestion
 csharp_style_prefer_extended_property_pattern = true:suggestion
+csharp_style_prefer_top_level_statements = true:silent
+csharp_style_prefer_utf8_string_literals = true:suggestion
 ###############################
 # VB Coding Conventions       #
 ###############################
