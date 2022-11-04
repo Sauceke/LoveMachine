@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using BepInEx;
+﻿using BepInEx;
 using BepInEx.Configuration;
 using LitJson;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace LoveMachine.Core
@@ -20,7 +20,7 @@ namespace LoveMachine.Core
             get => JsonMapper.ToObject<List<DeviceSettings>>(deviceSettingsJson.Value);
             set => deviceSettingsJson.Value = JsonMapper.ToJson(value);
         }
-        
+
         internal static void Initialize(BaseUnityPlugin plugin)
         {
             int order = 1000;
@@ -30,7 +30,7 @@ namespace LoveMachine.Core
                 key: "Save Device Assignments",
                 defaultValue: false,
                 new ConfigDescription("",
-                    tags: new ConfigurationManagerAttributes { Order = order -- }));
+                    tags: new ConfigurationManagerAttributes { Order = order-- }));
             showOfflineDevices = plugin.Config.Bind(
                 section: deviceListTitle,
                 key: "Show Offline Devices",

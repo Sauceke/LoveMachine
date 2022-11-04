@@ -1,9 +1,9 @@
-﻿using System.Diagnostics;
+﻿using Holf.AllForOne;
+using System.Diagnostics;
 using System.IO;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
-using Holf.AllForOne;
 using UnityEngine;
 
 namespace LoveMachine.Core
@@ -11,6 +11,7 @@ namespace LoveMachine.Core
     public class CalorDepthPOC : DepthPOC
     {
         private const string ExecutableName = "BLEConsole.exe";
+
         private const string Script =
             @"foreach LVS-
               if open $
@@ -72,6 +73,7 @@ namespace LoveMachine.Core
                         CoreConfig.Logger.LogInfo($"Got data from BLEConsole: {data}");
                         data = "";
                         break;
+
                     case ';':
                         CoreConfig.Logger.LogDebug($"Got data from BLEConsole: {data}");
                         ProcessOutput(data);

@@ -1,6 +1,6 @@
-﻿using System.Collections;
+﻿using LoveMachine.Core;
+using System.Collections;
 using System.Collections.Generic;
-using LoveMachine.Core;
 using UnityEngine;
 
 namespace LoveMachine.VRK

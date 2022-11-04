@@ -1,6 +1,6 @@
-﻿using System;
+﻿using LoveMachine.Core;
+using System;
 using System.Collections;
-using LoveMachine.Core;
 using UnityEngine;
 
 namespace LoveMachine.KK

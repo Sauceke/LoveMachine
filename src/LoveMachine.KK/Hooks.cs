@@ -25,7 +25,6 @@ namespace LoveMachine.KK
 
         private static class StudioTriggers
         {
-
             [HarmonyPostfix]
             [HarmonyPatch(typeof(Studio.Studio), nameof(Studio.Studio.InitScene))]
             public static void InitScene()

@@ -1,6 +1,6 @@
-﻿using System;
+﻿using HarmonyLib;
+using System;
 using System.Collections;
-using HarmonyLib;
 using UnityEngine;
 
 namespace LoveMachine.KK
@@ -10,6 +10,7 @@ namespace LoveMachine.KK
         private const string balls = "chaM_001/BodyTop/p_cf_body_bone/cf_j_root/cf_n_height/" +
             "cf_j_hips/cf_j_waist01/cf_j_waist02/cf_d_kokan/cm_J_dan_top/cm_J_dan_f_top/" +
             "cm_J_dan_f_L/k_f_tamaL_00";
+
         private Traverse<bool> isPlaying;
         private Traverse<float> duration;
         private Traverse<float> playbackTime;
@@ -26,6 +27,7 @@ namespace LoveMachine.KK
 
         public override Animator GetFemaleAnimator(int girlIndex) =>
             throw new NotImplementedException();
+
         protected override GameObject GetFemaleRoot(int girlIndex) => GameObject.Find("chaF_001");
 
         protected override Transform GetDickBase() => GameObject.Find(balls).transform;

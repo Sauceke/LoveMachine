@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using LoveMachine.Core;
+﻿using LoveMachine.Core;
+using System.Collections.Generic;
 
 namespace LoveMachine.KK
 {

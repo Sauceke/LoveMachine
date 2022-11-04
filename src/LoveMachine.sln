@@ -9,11 +9,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LoveMachine.KK", "LoveMachi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LoveMachine.HS2", "LoveMachine.HS2\LoveMachine.HS2.csproj", "{31858493-D5C5-4D05-A202-929ABA457558}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{085F2C35-FD1C-4300-9BC4-628AD6C94836}"
-	ProjectSection(SolutionItems) = preProject
-		.editorconfig = .editorconfig
-	EndProjectSection
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LoveMachine.KKS", "LoveMachine.KKS\LoveMachine.KKS.csproj", "{E3D1C1B7-C9CB-4DFC-B36D-72BFFE73CAC3}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LoveMachine.PH", "LoveMachine.PH\LoveMachine.PH.csproj", "{8FDD1A5C-E7CD-493B-A182-CB82821EDE44}"

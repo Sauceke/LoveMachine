@@ -1,8 +1,8 @@
-﻿using System;
+﻿using IllusionUtility.GetUtility;
+using LoveMachine.Core;
+using System;
 using System.Collections;
 using System.Collections.Generic;
-using IllusionUtility.GetUtility;
-using LoveMachine.Core;
 using UnityEngine;
 
 namespace LoveMachine.HS2

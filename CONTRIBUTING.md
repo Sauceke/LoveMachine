@@ -4,20 +4,10 @@ Everybody is welcome to add new stuff to this project, only a few things to keep
 
 ## Code Style
 
-Use Visual Studio's Code Cleanup tool with the following profile:
-
-|Included fixers|
-|--------------|
-|Format document|
-|Sort usings|
-|Remove unnecessary usings|
-|Remove unnecessary casts|
-|Add accessibility modifiers|
-|Sort accessibility modifiers|
-|Make private fields readonly when possible|
+Use the [CodeMaid plugin](https://marketplace.visualstudio.com/items?itemName=SteveCadwallader.CodeMaidVS2022) with the default settings.
 
 ## Document your changes
 
 Edit `doc/README.md` to reflect your changes if necessary.
 
-Do not edit the `.github/README.md` file! That file is updated automatically after each release.
+Do not edit the `README.md` file in the project root! That file is updated automatically after each release.

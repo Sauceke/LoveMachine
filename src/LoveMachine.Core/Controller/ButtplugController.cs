@@ -10,8 +10,10 @@ namespace LoveMachine.Core
         protected ButtplugWsClient client;
         protected GameDescriptor game;
         protected AnimationAnalyzer analyzer;
+
         private readonly Dictionary<Device, float> normalizedLatencies =
             new Dictionary<Device, float>();
+
         private bool isTestController = false;
 
         protected abstract bool IsDeviceSupported(Device device);

@@ -1,8 +1,8 @@
-﻿using System;
+﻿using Il2CppInterop.Runtime.Attributes;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Il2CppInterop.Runtime.Attributes;
 using UnityEngine;
 
 namespace LoveMachine.Core
@@ -13,6 +13,7 @@ namespace LoveMachine.Core
     public abstract class GameDescriptor : CoroutineHandler
     {
         protected internal event EventHandler<HEventArgs> OnHStarted;
+
         protected internal event EventHandler<HEventArgs> OnHEnded;
 
         private bool hRunning = false;
@@ -205,6 +206,7 @@ namespace LoveMachine.Core
             character?.GetComponentsInChildren<Transform>()?
                 .FirstOrDefault(child => child.name == name);
 
-        public class HEventArgs : EventArgs { }
+        public class HEventArgs : EventArgs
+        { }
     }
 }

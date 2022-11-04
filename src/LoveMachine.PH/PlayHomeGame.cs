@@ -1,9 +1,9 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using H;
+﻿using H;
 using IllusionUtility.GetUtility;
 using LoveMachine.Core;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace LoveMachine.PH
@@ -11,6 +11,7 @@ namespace LoveMachine.PH
     internal sealed class PlayHomeGame : GameDescriptor
     {
         private static readonly H_STATE[] activeHStates = { H_STATE.LOOP, H_STATE.SPURT };
+
         private static readonly H_STATE[] orgasmStates =
         {
             H_STATE.IN_EJA_IN, H_STATE.IN_EJA_TREMBLE,

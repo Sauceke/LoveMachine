@@ -42,7 +42,7 @@
     <Reference Include="System.XML" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Buttplug\BatteryLevelReading.cs" />
+    <Compile Include="Buttplug\BatteryLevelMessage.cs" />
     <Compile Include="Buttplug\DeviceSettings.cs" />
     <Compile Include="Buttplug\IntifaceRunner.cs" />
     <Compile Include="Buttplug\StrokerSettings.cs" />

@@ -1,6 +1,6 @@
-﻿using System.Collections;
+﻿using IllusionUtility.GetUtility;
+using System.Collections;
 using System.Linq;
-using IllusionUtility.GetUtility;
 using UnityEngine;
 
 namespace LoveMachine.KK

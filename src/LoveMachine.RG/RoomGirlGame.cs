@@ -1,6 +1,6 @@
-﻿using System.Collections;
-using HarmonyLib;
+﻿using HarmonyLib;
 using LoveMachine.Core;
+using System.Collections;
 using UnityEngine;
 
 namespace LoveMachine.RG
@@ -70,7 +70,7 @@ namespace LoveMachine.RG
 
         protected override IEnumerator UntilReady()
         {
-            while(GetFemaleRoot(0) == null)
+            while (GetFemaleRoot(0) == null)
             {
                 yield return new WaitForSeconds(5f);
             }

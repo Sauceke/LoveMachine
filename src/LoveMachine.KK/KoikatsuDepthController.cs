@@ -1,7 +1,7 @@
-﻿using System;
+﻿using LoveMachine.Core;
+using System;
 using System.Collections;
 using System.Collections.Generic;
-using LoveMachine.Core;
 using UnityEngine;
 
 namespace LoveMachine.KK
@@ -134,7 +134,9 @@ namespace LoveMachine.KK
         }
     }
 
-    internal class KoikatsuCalorDepthController : KoikatsuDepthController<CalorDepthPOC> { }
+    internal class KoikatsuCalorDepthController : KoikatsuDepthController<CalorDepthPOC>
+    { }
 
-    internal class KoikatsuHotdogDepthController : KoikatsuDepthController<HotdogDepthPOC> { }
+    internal class KoikatsuHotdogDepthController : KoikatsuDepthController<HotdogDepthPOC>
+    { }
 }

@@ -6,6 +6,7 @@ namespace LoveMachine.Core
     {
         private static readonly GUIStyle sliderStyle = GUI.skin.horizontalSlider;
         private static readonly GUIStyle thumbStyle = GUI.skin.horizontalSliderThumb;
+
         private static readonly GUIStyle bandStyle = new GUIStyle
         {
             normal = new GUIStyleState
@@ -46,12 +47,15 @@ namespace LoveMachine.Core
                 case EventType.MouseDown:
                     OnMouseDown();
                     break;
+
                 case EventType.MouseDrag:
                     OnMouseDrag();
                     break;
+
                 case EventType.MouseUp:
                     OnMouseUp();
                     break;
+
                 case EventType.Repaint:
                     OnRepaint();
                     break;

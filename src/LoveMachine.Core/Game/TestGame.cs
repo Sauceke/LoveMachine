@@ -18,10 +18,15 @@ namespace LoveMachine.Core
         protected internal override bool IsHSceneInterrupted => false;
 
         public override Animator GetFemaleAnimator(int girlIndex) => throw new NotImplementedException();
+
         protected internal override Transform GetDickBase() => throw new NotImplementedException();
+
         protected internal override GameObject GetFemaleRoot(int girlIndex) => throw new NotImplementedException();
+
         protected internal override string GetPose(int girlIndex) => throw new NotImplementedException();
+
         protected internal override bool IsIdle(int girlIndex) => false;
+
         protected internal override IEnumerator UntilReady() => throw new NotImplementedException();
 
         public IEnumerator RunTest(int strokes, float strokesPerSec)

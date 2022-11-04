@@ -18,6 +18,7 @@
             }
         }
 
-        public static void Initialize(BaseUnityPlugin plugin) { }
+        public static void Initialize(BaseUnityPlugin plugin)
+        { }
     }
 }
