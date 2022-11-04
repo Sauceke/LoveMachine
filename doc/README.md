@@ -20,6 +20,7 @@ Adds support for [some computer-controlled sex toys](#supported-devices) in the 
 | [Our Apartment]           | Momoiro Software | No                |
 | [PlayHome]                | Illusion         | Yes               |
 | [RoomGirl]                | Illusion         | No                |
+| [VR Kanojo]               | Illusion         | Yes               |
 
 ## Supported devices
 LoveMachine relies on the [Buttplug.io] project to communicate with toys. At the time of writing, Buttplug.io supports over 200 devices.
@@ -183,3 +184,4 @@ This mod would not have been possible without the [BepInEx] plugin framework and
 [Koikatsu Party]: https://store.steampowered.com/app/1073440/__Koikatsu_Party/
 [Koikatsu Sunshine]: https://www.illusion.jp/preview/koikatsu_sunshine/
 [PlayHome]: https://www.illusion.jp/preview/playhome/
+[VR Kanojo]: http://www.illusion.jp/preview/vrkanojo/index_en.php
