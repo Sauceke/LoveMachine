@@ -327,6 +327,13 @@ namespace LoveMachine.Core
             {
                 yield return new WaitForSecondsRealtime(60f);
                 yield return HandleCoroutine(ReadBatteryLevels(retries: 1));
+                foreach (var device in Devices)
+                {
+                    if (device.BatteryLevel > 0f && device.BatteryLevel < 0.2f)
+                    {
+                        CoreConfig.Logger.LogMessage($"{device.DeviceName}: battery low.");
+                    }
+                }
             }
         }
     }
