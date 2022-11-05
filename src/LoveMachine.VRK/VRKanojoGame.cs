@@ -42,7 +42,11 @@ namespace LoveMachine.VRK
 
         protected override string GetPose(int girlIndex) => sakura.nowMotionName;
 
-        protected override bool IsIdle(int girlIndex) => sakura.nowMotionName == "Idle";
+        protected override bool IsIdle(int girlIndex) =>
+            sakura.nowMotionName == "Idle" || sakura.nowMotionName.EndsWith("_A");
+
+        protected override bool IsOrgasming(int girlIndex) =>
+            sakura.nowMotionName.StartsWith("Orgasm") && !sakura.nowMotionName.EndsWith("_A");
 
         protected override IEnumerator UntilReady()
         {
