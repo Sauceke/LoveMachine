@@ -20,6 +20,7 @@ Adds support for [some computer-controlled sex toys](#supported-devices) in the 
 | [Our Apartment]           | Momoiro Software | No                |
 | [PlayHome]                | Illusion         | Yes               |
 | [RoomGirl]                | Illusion         | No                |
+| [VR Kanojo]               | Illusion         | Yes               |
 
 ## Supported devices
 LoveMachine relies on the [Buttplug.io] project to communicate with toys. At the time of writing, Buttplug.io supports over 200 devices.
@@ -146,7 +147,7 @@ This mod is provided free of charge, but I do accept donations. If you'd like to
 Sauceke       nhydock       hogefugamoga       RPKU
 
 ### Patrons
-[ManlyMarco]       Aftercurve       AkronusWings       AstralClock       Benos Hentai       boaz       Bri       cat tail       CBN ヴい       Ceruleon       CROM       EPTG       er er       Flan       funnychicken       Gabbelgu       GOU YOSIHIRO       Greg       hiro       Ior1yagami       kai harayama       KTKT       kuni       Laneo       Nemi       prepare55       rolandmitch       RP君       SavagePastry       Shakes       Taibe       Taka Yami       tanu       Tom       TrashTaste       tutinoko       uruurian       Wel Adunno       yamada tarou       ふ       一太 川崎       国崎往人       将也 三田       洋 冨岡       猛 羽場       终晓       郁弥 中村       
+[ManlyMarco]       Aftercurve       AkronusWings       AstralClock       Benos Hentai       boaz       Bri       cat tail       CBN ヴい       Ceruleon       CROM       Daniel       EPTG       er er       Flan       funnychicken       Gabbelgu       gold25       GOU YOSIHIRO       Greg       hiro       Ior1yagami       kai harayama       KTKT       kuni       Laneo       Nemi       Phil       prepare55       rolandmitch       RP君       SavagePastry       Shakes       Taibe       Taka Yami       tanu       Tom       TrashTaste       tutinoko       uruurian       Wel Adunno       yamada tarou       ふ       一太 川崎       国崎往人       将也 三田       洋 冨岡       猛 羽場       终晓       郁弥 中村       
 
 
 ## Acknowledgements
@@ -183,3 +184,4 @@ This mod would not have been possible without the [BepInEx] plugin framework and
 [Koikatsu Party]: https://store.steampowered.com/app/1073440/__Koikatsu_Party/
 [Koikatsu Sunshine]: https://www.illusion.jp/preview/koikatsu_sunshine/
 [PlayHome]: https://www.illusion.jp/preview/playhome/
+[VR Kanojo]: http://www.illusion.jp/preview/vrkanojo/index_en.php
