@@ -179,7 +179,7 @@ This mod would not have been possible without the [BepInEx] plugin framework and
 [BepInEx]: https://github.com/BepInEx
 [AGHVR]: https://github.com/Eusth/AGHVR
 [IOVR]: https://github.com/Eusth/IOVR
-[Our Apartment]: https://momoirosoft.itch.io/our-apartment
+[Our Apartment]: https://www.patreon.com/momoirosoftware
 [Koikatsu]: https://www.illusion.jp/preview/koikatu/
 [Koikatsu Party]: https://store.steampowered.com/app/1073440/__Koikatsu_Party/
 [Koikatsu Sunshine]: https://www.illusion.jp/preview/koikatsu_sunshine/
