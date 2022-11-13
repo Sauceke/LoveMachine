@@ -25,10 +25,7 @@
     <ProjectReference Include="..\LoveMachine.Core\LoveMachine.Core.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="IllusionLibs.BepInEx" Version="5.4.8" ExcludeAssets="runtime" />
-    <PackageReference Include="IllusionLibs.BepInEx.Harmony" Version="2.3.2" ExcludeAssets="runtime" />
     <PackageReference Include="IllusionLibs.KoikatsuSunshine.Assembly-CSharp" Version="2021.8.27.2" ExcludeAssets="runtime" />
-    <PackageReference Include="IllusionLibs.KoikatsuSunshine.Assembly-CSharp-firstpass" Version="2021.8.27.2" ExcludeAssets="runtime" />
     <PackageReference Include="IllusionLibs.KoikatsuSunshine.UnityEngine.AnimationModule" Version="2019.4.9" ExcludeAssets="runtime" />
     <PackageReference Include="IllusionLibs.KoikatsuSunshine.UnityEngine.IMGUIModule" Version="2019.4.9" ExcludeAssets="runtime" />
   </ItemGroup>

@@ -11,10 +11,7 @@
     <ProjectReference Include="..\LoveMachine.Core\LoveMachine.Core.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="IllusionLibs.BepInEx" Version="5.4.8" ExcludeAssets="runtime" />
-    <PackageReference Include="IllusionLibs.BepInEx.Harmony" Version="2.3.2" ExcludeAssets="runtime" />
     <PackageReference Include="IllusionLibs.HoneySelect2.Assembly-CSharp" Version="2020.5.29.4" ExcludeAssets="runtime" />
-    <PackageReference Include="IllusionLibs.HoneySelect2.Assembly-CSharp-firstpass" Version="2020.5.29.4" ExcludeAssets="runtime" />
     <PackageReference Include="IllusionLibs.HoneySelect2.IL" Version="2020.5.29.4" ExcludeAssets="runtime" />
     <PackageReference Include="IllusionLibs.HoneySelect2.UnityEngine.AnimationModule" Version="2018.4.11.4" ExcludeAssets="runtime" />
     <PackageReference Include="IllusionLibs.HoneySelect2.UnityEngine.CoreModule" Version="2018.4.11.4" ExcludeAssets="runtime" />
