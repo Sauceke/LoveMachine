@@ -12,19 +12,13 @@ namespace LoveMachine.PH
         {
             [HarmonyPostfix]
             [HarmonyPatch(typeof(H_Scene), nameof(H_Scene.Awake))]
-            public static void Awake(H_Scene __instance)
-            {
-                CoreConfig.Logger.LogDebug("H Scene started.");
-                Chainloader.ManagerObject.GetComponent<PlayHomeGame>().OnStartH(__instance);
-            }
+            public static void Awake(H_Scene __instance) =>
+                CoreConfig.ManagerObject.GetComponent<PlayHomeGame>().OnStartH(__instance);
 
             [HarmonyPrefix]
             [HarmonyPatch(typeof(H_Scene), nameof(H_Scene.Exit))]
-            public static void Exit()
-            {
-                CoreConfig.Logger.LogDebug("H Scene ended.");
-                Chainloader.ManagerObject.GetComponent<PlayHomeGame>().EndH();
-            }
+            public static void Exit() =>
+                CoreConfig.ManagerObject.GetComponent<PlayHomeGame>().EndH();
         }
     }
 }

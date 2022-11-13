@@ -173,8 +173,10 @@ namespace LoveMachine.Core
         /// </summary>
         public void StartH()
         {
+            EndH();
             hRunning = true;
             OnHStarted.Invoke(this, new HEventArgs());
+            CoreConfig.Logger.LogInfo("New H scene started.");
         }
 
         /// <summary>
@@ -184,6 +186,7 @@ namespace LoveMachine.Core
         {
             hRunning = false;
             OnHEnded.Invoke(this, new HEventArgs());
+            CoreConfig.Logger.LogInfo("H scene ended.");
         }
 
         public AnimatorStateInfo GetAnimatorStateInfo(int girlIndex) =>

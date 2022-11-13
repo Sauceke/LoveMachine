@@ -1,6 +1,5 @@
 ﻿using BepInEx.Bootstrap;
 using HarmonyLib;
-using LoveMachine.Core;
 
 namespace LoveMachine.KK
 {
@@ -16,23 +15,16 @@ namespace LoveMachine.KK
         {
             [HarmonyPostfix]
             [HarmonyPatch(typeof(HFlag), nameof(HFlag.Start))]
-            public static void Start(HFlag __instance)
-            {
-                CoreConfig.Logger.LogDebug("H Scene started.");
-                Chainloader.ManagerObject.GetComponent<KoikatsuGame>().OnStartH(__instance);
-            }
+            public static void StartH(HFlag __instance) =>
+                Chainloader.ManagerObject.GetComponent<KoikatsuGame>().StartH(__instance);
         }
 
         private static class StudioTriggers
         {
             [HarmonyPostfix]
             [HarmonyPatch(typeof(Studio.Studio), nameof(Studio.Studio.InitScene))]
-            public static void InitScene()
-            {
-                CoreConfig.Logger.LogDebug("Studio scene started.");
-                Chainloader.ManagerObject.GetComponent<StudioGame>().EndH();
+            public static void StartH() =>
                 Chainloader.ManagerObject.GetComponent<StudioGame>().StartH();
-            }
         }
     }
 }

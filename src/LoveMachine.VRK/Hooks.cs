@@ -11,19 +11,13 @@ namespace LoveMachine.VRK
         {
             [HarmonyPostfix]
             [HarmonyPatch(typeof(VK_H_Houshi_Sonyu), nameof(VK_H_Houshi_Sonyu.Start))]
-            public static void StartProc(VK_H_Houshi_Sonyu __instance)
-            {
-                CoreConfig.Logger.LogDebug("H Scene started.");
-                CoreConfig.ManagerObject.GetComponent<VRKanojoGame>().OnStartH(__instance);
-            }
+            public static void StartH(VK_H_Houshi_Sonyu __instance) =>
+                CoreConfig.ManagerObject.GetComponent<VRKanojoGame>().StartH(__instance);
 
             [HarmonyPrefix]
             [HarmonyPatch(typeof(VK_H_Houshi_Sonyu), nameof(VK_H_Houshi_Sonyu.OnDestroy))]
-            public static void End()
-            {
-                CoreConfig.Logger.LogDebug("H Scene ended.");
+            public static void EndH() =>
                 CoreConfig.ManagerObject.GetComponent<VRKanojoGame>().EndH();
-            }
         }
     }
 }

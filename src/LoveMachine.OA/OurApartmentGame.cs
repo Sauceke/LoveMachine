@@ -18,10 +18,9 @@ namespace LoveMachine.OA
         private Animator naomiAnimator;
         private IEnumerable<int> animationLayers;
 
-        public void OnStartH(MonoBehaviour manager)
+        public void StartH(MonoBehaviour manager)
         {
-            var managerTraverse = Traverse.Create(manager);
-            isSex = managerTraverse.Field<bool>("_sexActive");
+            isSex = Traverse.Create(manager).Field<bool>("_sexActive");
             StartH();
         }
 

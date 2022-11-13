@@ -1,6 +1,5 @@
 ﻿using BepInEx.Bootstrap;
 using HarmonyLib;
-using LoveMachine.Core;
 
 namespace LoveMachine.HS2
 {
@@ -12,19 +11,13 @@ namespace LoveMachine.HS2
         {
             [HarmonyPostfix]
             [HarmonyPatch(typeof(HScene), nameof(HScene.Start))]
-            public static void Start(HScene __instance)
-            {
-                CoreConfig.Logger.LogDebug("H Scene started.");
-                Chainloader.ManagerObject.GetComponent<HoneySelect2Game>().OnStartH(__instance);
-            }
+            public static void StartH(HScene __instance) =>
+                Chainloader.ManagerObject.GetComponent<HoneySelect2Game>().StartH(__instance);
 
             [HarmonyPostfix]
             [HarmonyPatch(typeof(HScene), nameof(HScene.EndProc))]
-            public static void End()
-            {
-                CoreConfig.Logger.LogDebug("H Scene ended.");
+            public static void EndH() =>
                 Chainloader.ManagerObject.GetComponent<HoneySelect2Game>().EndH();
-            }
         }
     }
 }

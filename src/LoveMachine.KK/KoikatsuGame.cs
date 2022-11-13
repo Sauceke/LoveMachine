@@ -32,7 +32,7 @@ namespace LoveMachine.KK
 
         public HFlag Flags { get; private set; }
 
-        public void OnStartH(HFlag flags)
+        public void StartH(HFlag flags)
         {
             Flags = flags;
             StartH();

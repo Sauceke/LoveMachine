@@ -9,7 +9,7 @@ namespace LoveMachine.VRK
     {
         private CharFemale sakura;
 
-        public void OnStartH(VK_H_Houshi_Sonyu hscene)
+        public void StartH(VK_H_Houshi_Sonyu hscene)
         {
             sakura = hscene.chaFemale;
             StartH();

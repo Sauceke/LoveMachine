@@ -45,7 +45,7 @@ namespace LoveMachine.HS2
         protected override Transform GetDickBase() =>
             hScene.GetMales()[0].objBodyBone.transform.FindLoop("cm_J_dan_f_L").transform;
 
-        public void OnStartH(HScene scene)
+        public void StartH(HScene scene)
         {
             hScene = scene;
             StartH();
