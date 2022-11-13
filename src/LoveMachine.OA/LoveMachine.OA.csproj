@@ -1,66 +1,18 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{0E4427FD-CDD6-4AC1-80EF-234C2C4241D7}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <RootNamespace>LoveMachine.OA</RootNamespace>
-    <AssemblyName>LoveMachine.OA</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <Deterministic>true</Deterministic>
-    <TargetFrameworkProfile />
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
+    <TargetFramework>net45</TargetFramework>
     <OutputPath>..\bin\LoveMachine.OA\BepInEx\plugins\OA_LoveMachine\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <Prefer32Bit>false</Prefer32Bit>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>..\bin\LoveMachine.OA\BepInEx\plugins\OA_LoveMachine\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <Prefer32Bit>false</Prefer32Bit>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="OurApartmentGame.cs" />
-    <Compile Include="Hooks.cs" />
-    <Compile Include="OALoveMachine.cs" />
+    <PackageReference Include="BepInEx.Core" Version="5.3.0" ExcludeAssets="runtime" />
+    <PackageReference Include="HarmonyX" Version="2.0.6" ExcludeAssets="runtime" />
+    <PackageReference Include="UnityEngine.Core" Version="5.6.0" ExcludeAssets="runtime" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="BepInEx.Core" ExcludeAssets="runtime">
-      <Version>5.3.0</Version>
-    </PackageReference>
-    <PackageReference Include="HarmonyX" ExcludeAssets="runtime">
-      <Version>2.0.6</Version>
-    </PackageReference>
-    <PackageReference Include="UnityEngine.Core" ExcludeAssets="runtime">
-      <Version>5.6.0</Version>
-    </PackageReference>
+    <ProjectReference Include="..\LoveMachine.Core\LoveMachine.Core.csproj" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\LoveMachine.Core\LoveMachine.Core.csproj">
-      <Project>{36E78D7D-C987-4E98-B709-149D19C4193A}</Project>
-      <Name>LoveMachine.Core</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

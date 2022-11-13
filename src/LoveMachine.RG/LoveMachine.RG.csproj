@@ -1,5 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
-
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
@@ -8,11 +7,9 @@
     <OutputPath>..\bin\LoveMachine.RG\BepInEx\plugins\RG_LoveMachine\</OutputPath>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
   </PropertyGroup>
-
   <ItemGroup>
     <ProjectReference Include="..\LoveMachine.Core.IL2CPP\LoveMachine.Core.IL2CPP.csproj" />
   </ItemGroup>
-
   <ItemGroup>
     <Reference Include="0Harmony">
       <HintPath>..\LoveMachine.Core.IL2CPP\Lib\0Harmony.dll</HintPath>
@@ -63,5 +60,4 @@
       <Private>False</Private>
     </Reference>
   </ItemGroup>
-
 </Project>

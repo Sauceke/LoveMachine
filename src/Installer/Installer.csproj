@@ -1,16 +1,13 @@
-<Project Sdk="Microsoft.NET.Sdk">
-
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
   </PropertyGroup>
-
   <Target Name="BuildInstaller" AfterTargets="AfterBuild" Condition=" '$(Configuration)' == 'Debug' ">
     <Exec Command="&quot;C:\Program Files (x86)\Inno Setup 6\ISCC.exe&quot; InstallScript.iss" />
     <Exec Command=".\bin\LoveMachineInstaller.exe" />
   </Target>
-
   <ItemGroup>
     <ProjectReference Include="..\LoveMachine.AGH\LoveMachine.AGH.csproj" />
     <ProjectReference Include="..\LoveMachine.COM3D2\LoveMachine.COM3D2.csproj" />
@@ -23,5 +20,4 @@
     <ProjectReference Include="..\LoveMachine.RG\LoveMachine.RG.csproj" />
     <ProjectReference Include="..\LoveMachine.VRK\LoveMachine.VRK.csproj" />
   </ItemGroup>
-  
 </Project>

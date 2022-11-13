@@ -1,5 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
-
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
@@ -8,7 +7,6 @@
     <OutputPath>..\bin\LoveMachine.Core.IL2CPP\</OutputPath>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
   </PropertyGroup>
-
   <ItemGroup>
     <Compile Include="..\LoveMachine.Core\Buttplug\BatteryLevelMessage.cs" Link="BatteryLevelMessage.cs" />
     <Compile Include="..\LoveMachine.Core\Buttplug\ButtplugWsClient.cs" Link="ButtplugWsClient.cs" />
@@ -38,13 +36,11 @@
     <Compile Include="..\LoveMachine.Core\Util\RangeSlider.cs" Link="RangeSlider.cs" />
     <Compile Include="..\LoveMachine.Core\VersionInfo.cs" Link="VersionInfo.cs" />
   </ItemGroup>
-
   <ItemGroup>
     <PackageReference Include="AllForOne" Version="1.0.0.27" />
     <PackageReference Include="LitJson" Version="0.18.0" />
     <PackageReference Include="WebSocket4Net" Version="0.15.2" />
   </ItemGroup>
-
   <ItemGroup>
     <Reference Include="0Harmony">
       <HintPath>Lib\0Harmony.dll</HintPath>
@@ -95,5 +91,4 @@
       <Private>False</Private>
     </Reference>
   </ItemGroup>
-
 </Project>
