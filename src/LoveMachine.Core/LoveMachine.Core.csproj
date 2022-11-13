@@ -1,111 +1,14 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{36E78D7D-C987-4E98-B709-149D19C4193A}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>LoveMachine.Core</RootNamespace>
-    <AssemblyName>LoveMachine.Core</AssemblyName>
-    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <Deterministic>true</Deterministic>
-    <NuGetPackageImportStamp>
-    </NuGetPackageImportStamp>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>embedded</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>..\bin\LoveMachine.Core\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;KK</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
+    <TargetFramework>net35</TargetFramework>
+    <AssemblyTitle>LoveMachine.Core</AssemblyTitle>
+    <Company>Sauceke</Company>
+    <Product>LoveMachine.Core</Product>
+    <Copyright>2021</Copyright>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>embedded</DebugType>
-    <Optimize>true</Optimize>
     <OutputPath>..\bin\LoveMachine.Core\</OutputPath>
-    <DefineConstants>TRACE;KK</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <DebugSymbols>true</DebugSymbols>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
   </PropertyGroup>
-  <ItemGroup>
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.XML" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Buttplug\BatteryLevelMessage.cs" />
-    <Compile Include="Buttplug\DeviceSettings.cs" />
-    <Compile Include="Buttplug\IntifaceRunner.cs" />
-    <Compile Include="Buttplug\StrokerSettings.cs" />
-    <Compile Include="Buttplug\VibratorSettings.cs" />
-    <Compile Include="Config\ButtplugConfig.cs" />
-    <Compile Include="Config\DeviceListConfig.cs" />
-    <Compile Include="Controller\ClassicButtplugController.cs" />
-    <Compile Include="Game\TestAnimationAnalyzer.cs" />
-    <Compile Include="Game\TestGame.cs" />
-    <Compile Include="Experimental\ExperimentalConfig.cs" />
-    <Compile Include="Mono\HideFromIl2Cpp.cs" />
-    <Compile Include="Util\GUIUtil.cs" />
-    <Compile Include="Config\KillSwitchConfig.cs" />
-    <Compile Include="Config\RotatorConfig.cs" />
-    <Compile Include="Config\StrokerConfig.cs" />
-    <Compile Include="Game\AnimationAnalyzer.cs" />
-    <Compile Include="Controller\ButtplugController.cs" />
-    <Compile Include="Game\Bone.cs" />
-    <Compile Include="Experimental\HotdogDepthPOC.cs" />
-    <Compile Include="Experimental\CalorDepthPOC.cs" />
-    <Compile Include="Util\CoroutineHandler.cs" />
-    <Compile Include="Experimental\DepthPOC.cs" />
-    <Compile Include="Game\GameDescriptor.cs" />
-    <Compile Include="PluginInitializer.cs" />
-    <Compile Include="Util\RangeSlider.cs" />
-    <Compile Include="Controller\RotatorController.cs" />
-    <Compile Include="Controller\StrokerController.cs" />
-    <Compile Include="VersionInfo.cs" />
-    <Compile Include="Buttplug\ButtplugWsClient.cs" />
-    <Compile Include="Util\ConfigurationManagerAttributes.cs" />
-    <Compile Include="Config\CoreConfig.cs" />
-    <Compile Include="Buttplug\Device.cs" />
-    <Compile Include="Buttplug\DeviceManager.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Controller\VibratorController.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <PackageReference Include="AllForOne">
-      <Version>1.0.0.27</Version>
-    </PackageReference>
-    <PackageReference Include="BepInEx.Core" ExcludeAssets="runtime">
-      <Version>5.3.0</Version>
-      <PrivateAssets>all</PrivateAssets>
-    </PackageReference>
-    <PackageReference Include="HarmonyX" ExcludeAssets="runtime">
-      <Version>2.0.6</Version>
-      <PrivateAssets>all</PrivateAssets>
-    </PackageReference>
-    <PackageReference Include="LitJson">
-      <Version>0.17.0</Version>
-      <PrivateAssets>all</PrivateAssets>
-    </PackageReference>
-    <PackageReference Include="UnityEngine.Core" ExcludeAssets="runtime">
-      <Version>5.6.0</Version>
-      <PrivateAssets>all</PrivateAssets>
-    </PackageReference>
-    <PackageReference Include="WebSocket4Net">
-      <Version>0.15.2</Version>
-      <PrivateAssets>all</PrivateAssets>
-    </PackageReference>
-  </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <!-- taken from https://stackoverflow.com/a/66594320 -->
   <Target Name="EmbedVersion" BeforeTargets="BeforeBuild">
     <PropertyGroup>
       <!-- %3B is semicolon (;)  -->
@@ -122,4 +25,25 @@ namespace LoveMachine.Core
     </PropertyGroup>
     <WriteLinesToFile File="VersionInfo.cs" Lines="$(_VersionTemplate)" WriteOnlyWhenDifferent="true" Overwrite="true" />
   </Target>
+  <ItemGroup>
+    <Reference Include="System.XML" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="AllForOne" Version="1.0.0.27" />
+    <PackageReference Include="BepInEx.Core" Version="5.3.0" ExcludeAssets="runtime">
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="HarmonyX" Version="2.0.6" ExcludeAssets="runtime">
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="LitJson" Version="0.17.0">
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="UnityEngine.Core" Version="5.6.0" ExcludeAssets="runtime">
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="WebSocket4Net" Version="0.15.2">
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+  </ItemGroup>
 </Project>
