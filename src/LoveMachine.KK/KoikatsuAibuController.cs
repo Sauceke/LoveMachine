@@ -12,18 +12,11 @@ namespace LoveMachine.KK
             Bone.LeftBreast, Bone.RightBreast, Bone.Vagina, Bone.Anus, Bone.LeftButt, Bone.RightButt
         };
 
-        private KoikatsuGame kk;
-
-        protected override void Start()
-        {
-            base.Start();
-            kk = gameObject.GetComponent<KoikatsuGame>();
-        }
-
         protected abstract void HandleFondle(Device device, float y, float timeSecs);
 
         protected override IEnumerator Run(Device device)
         {
+            var kk = gameObject.GetComponent<KoikatsuGame>();
             float updateTimeSecs = 1f / device.Settings.UpdatesHz;
             float previousY = 0f;
             while (true)
