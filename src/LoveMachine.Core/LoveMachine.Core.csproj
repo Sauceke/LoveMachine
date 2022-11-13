@@ -2,6 +2,8 @@
   <PropertyGroup>
     <TargetFramework>net35</TargetFramework>
     <AssemblyTitle>LoveMachine.Core</AssemblyTitle>
+    <AssemblyVersion>$(Version)</AssemblyVersion>
+    <AssemblyFileVersion>$(Version)</AssemblyFileVersion>
     <Company>Sauceke</Company>
     <Product>LoveMachine.Core</Product>
     <Copyright>2021</Copyright>
