@@ -17,7 +17,6 @@
     <Compile Include="..\LoveMachine.KK\KKLoveMachine.cs" Link="KKLoveMachine.cs" />
     <Compile Include="..\LoveMachine.KK\KoikatsuAibuController.cs" Link="KoikatsuAibuController.cs" />
     <Compile Include="..\LoveMachine.KK\KoikatsuAnimationController.cs" Link="KoikatsuAnimationController.cs" />
-    <Compile Include="..\LoveMachine.KK\KoikatsuDepthController.cs" Link="KoikatsuDepthController.cs" />
     <Compile Include="..\LoveMachine.KK\KoikatsuGame.cs" Link="KoikatsuGame.cs" />
     <Compile Include="..\LoveMachine.KK\StudioGame.cs" Link="StudioGame.cs" />
   </ItemGroup>

@@ -81,7 +81,6 @@ jobs:
       BEPINEX_64_URL: https://github.com/BepInEx/BepInEx/releases/download/v5.4.18/BepInEx_x64_5.4.18.0.zip
       BEPINEX_IL2CPP_64_URL: https://builds.bepinex.dev/projects/bepinex_be/660/BepInEx-Unity.IL2CPP-win-x64-6.0.0-be.660%2B40bf261.zip
       BEPINEX_CONF_MGR_URL: https://github.com/BepInEx/BepInEx.ConfigurationManager/releases/download/v16.4/BepInEx.ConfigurationManager_v16.4.zip
-      BLECONSOLE_PATH: https://github.com/sensboston/BLEConsole/releases/download/v1.5.6/BLEConsole.exe
     
     defaults:
       run:
@@ -133,12 +132,6 @@ jobs:
         Expand-Archive -Path BepInExIl2cpp64.zip -DestinationPath BepInExIl2cpp64
         Expand-Archive -Path BepInEx.ConfigurationManager.zip -DestinationPath BepInEx32
         Expand-Archive -Path BepInEx.ConfigurationManager.zip -DestinationPath BepInEx64
-
-    - name: Download BLEConsole (for the installer only)
-      run: |
-        Invoke-WebRequest -Uri ${{env.BLECONSOLE_PATH}} -OutFile BLEConsole.exe
-        copy BLEConsole.exe bin/LoveMachine.KK/BepInEx/plugins/KK_LoveMachine
-        copy BLEConsole.exe bin/LoveMachine.KKS/BepInEx/plugins/KKS_LoveMachine
 
     - name: Build installer
       working-directory: src/Installer

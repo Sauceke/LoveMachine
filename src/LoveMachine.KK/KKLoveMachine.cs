@@ -16,21 +16,10 @@ namespace LoveMachine.KK
         {
             this.Initialize<KoikatsuGame>(Logger);
             KKAnimationConfig.Initialize(this);
-            ExperimentalConfig.Initialize(this);
             var manager = CoreConfig.ManagerObject;
             manager.AddComponent<KoikatsuAnimationController>();
             manager.AddComponent<KoikatsuAibuStrokerController>();
             manager.AddComponent<KoikatsuAibuVibratorController>();
-            manager.AddComponent<KoikatsuCalorDepthController>();
-            manager.AddComponent<KoikatsuHotdogDepthController>();
-            if (ExperimentalConfig.EnableCalorDepthControl.Value)
-            {
-                manager.AddComponent<CalorDepthPOC>();
-            }
-            if (ExperimentalConfig.EnableHotdogDepthControl.Value)
-            {
-                manager.AddComponent<HotdogDepthPOC>();
-            }
             Hooks.InstallHSceneHooks();
         }
     }
