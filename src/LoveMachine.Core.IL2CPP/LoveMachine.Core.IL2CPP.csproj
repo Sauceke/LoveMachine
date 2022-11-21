@@ -32,6 +32,7 @@
     <Compile Include="..\LoveMachine.Core\Game\TestGame.cs" Link="TestGame.cs" />
     <Compile Include="..\LoveMachine.Core\PluginInitializer.cs" Link="PluginInitializer.cs" />
     <Compile Include="..\LoveMachine.Core\Util\ConfigurationManagerAttributes.cs" Link="ConfigurationManagerAttributes.cs" />
+    <Compile Include="..\LoveMachine.Core\Util\CoroutineUtil.cs" Link="CoroutineUtil.cs" />
     <Compile Include="..\LoveMachine.Core\Util\GUIUtil.cs" Link="GUIUtil.cs" />
     <Compile Include="..\LoveMachine.Core\Util\RangeSlider.cs" Link="RangeSlider.cs" />
     <Compile Include="..\LoveMachine.Core\VersionInfo.cs" Link="VersionInfo.cs" />

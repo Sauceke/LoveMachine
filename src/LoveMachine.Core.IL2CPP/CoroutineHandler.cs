@@ -8,32 +8,8 @@ namespace LoveMachine.Core
     {
         protected internal Coroutine HandleCoroutine(IEnumerator coroutine,
             bool suppressExceptions = false) =>
-            StartCoroutine(HandleExceptions(coroutine, suppressExceptions).WrapToIl2Cpp());
-
-        private static IEnumerator HandleExceptions(IEnumerator coroutine, bool suppressExceptions)
-        {
-            while (TryNext(coroutine, suppressExceptions))
-            {
-                yield return coroutine.Current;
-            }
-        }
-
-        private static bool TryNext(IEnumerator coroutine, bool suppressExceptions)
-        {
-            try
-            {
-                return coroutine.MoveNext();
-            }
-            catch (Exception e)
-            {
-                CoreConfig.Logger.LogError($"Coroutine failed with exception: {e}");
-                if (suppressExceptions)
-                {
-                    return false;
-                }
-                throw;
-            }
-        }
+            StartCoroutine(CoroutineUtil.HandleExceptions(coroutine, suppressExceptions)
+                .WrapToIl2Cpp());
 
         // couldn't figure out how to convert Func<> to Il2CppSystem.Func<>
         // oh well

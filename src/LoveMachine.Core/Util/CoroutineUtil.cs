@@ -1,16 +1,11 @@
 ﻿using System;
 using System.Collections;
-using UnityEngine;
 
 namespace LoveMachine.Core
 {
-    public class CoroutineHandler : MonoBehaviour
+    internal static class CoroutineUtil
     {
-        protected internal Coroutine HandleCoroutine(IEnumerator coroutine,
-            bool suppressExceptions = false) =>
-            StartCoroutine(HandleExceptions(coroutine, suppressExceptions));
-
-        private IEnumerator HandleExceptions(IEnumerator coroutine, bool suppressExceptions)
+        public static IEnumerator HandleExceptions(IEnumerator coroutine, bool suppressExceptions)
         {
             while (TryNext(coroutine, suppressExceptions))
             {
@@ -18,7 +13,7 @@ namespace LoveMachine.Core
             }
         }
 
-        private bool TryNext(IEnumerator coroutine, bool suppressExceptions)
+        private static bool TryNext(IEnumerator coroutine, bool suppressExceptions)
         {
             try
             {
@@ -34,9 +29,5 @@ namespace LoveMachine.Core
                 throw;
             }
         }
-
-        public CustomYieldInstruction WaitWhile(Func<bool> condition) => new WaitWhile(condition);
-
-        public CustomYieldInstruction WaitUntil(Func<bool> condition) => new WaitUntil(condition);
     }
 }
