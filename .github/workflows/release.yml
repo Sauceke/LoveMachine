@@ -109,16 +109,14 @@ jobs:
     - name: Zip artifacts
       run: |
         mkdir assets
-        Compress-Archive -Path bin/LoveMachine.KK/BepInEx -DestinationPath assets/LoveMachine_for_Koikatsu.zip
-        Compress-Archive -Path bin/LoveMachine.KKS/BepInEx -DestinationPath assets/LoveMachine_for_Koikatsu_Sunshine.zip
-        Compress-Archive -Path bin/LoveMachine.HS2/BepInEx -DestinationPath assets/LoveMachine_for_Honey_Select_2.zip
-        Compress-Archive -Path bin/LoveMachine.PH/BepInEx -DestinationPath assets/LoveMachine_for_PlayHome.zip
-        Compress-Archive -Path bin/LoveMachine.AGH/BepInEx -DestinationPath assets/LoveMachine_for_Houkago_Rinkan_Chuudoku.zip
-        Compress-Archive -Path bin/LoveMachine.OA/BepInEx -DestinationPath assets/LoveMachine_for_Our_Apartment.zip
-        Compress-Archive -Path bin/LoveMachine.IO/BepInEx -DestinationPath assets/LoveMachine_for_Insult_Order.zip
-        Compress-Archive -Path bin/LoveMachine.COM3D2/BepInEx -DestinationPath assets/LoveMachine_for_Custom_Order_Maid_3D_2.zip
-        Compress-Archive -Path bin/LoveMachine.RG/BepInEx -DestinationPath assets/LoveMachine_for_RoomGirl.zip
-        Compress-Archive -Path bin/LoveMachine.VRK/BepInEx -DestinationPath assets/LoveMachine_for_VR_Kanojo.zip
+        $plugins = Get-ChildItem bin/ | Where-Object { $_ -notlike "LoveMachine.Core*" }
+        foreach ($plugin in $plugins) {
+          $info = "./$plugin/PluginInfo.ini"
+          $gameName = Get-Content -Path $info | Where-Object { $_ -match "NameEN = *" }
+          $gameName = $gameName.Substring($gameName.IndexOf("= ") + 2)
+          $gameName = $gameName.Replace(" ", "_")
+          Compress-Archive -Path "./bin/$plugin/BepInEx" -DestinationPath "assets/LoveMachine_for_${gameName}.zip"
+        }
 
     - name: Download BepInEx
       working-directory: src/Installer
