@@ -4,21 +4,18 @@
 #define BepInExIl2cpp64Dir SourcePath + "BepInExIl2cpp64"
 #define AppVersion GetVersionNumbersString(PluginBuildDir + "LoveMachine.Core\LoveMachine.Core.dll")
 
-#define PluginInfoIni SourcePath + "\PluginInfo.ini"
-#define PluginInfoIniNameKey "Name"
-#define PluginInfoIniRegSubKeyKey "RegSubKey"
-#define PluginInfoIniRegNameKey "RegName"
-#define PluginInfoIniArchitectureKey "Architecture"
-
 ; We have a lot of plugins, so we just find them all and put them in here
 ; This way the script will handle new plugins by itself and we can forget about it
 #dim Plugins[100]
 #define PluginCount 0
 
 #define GetPluginId(Index) Plugins[Index]
-#define GetGameRegSubKey(Index) ReadIni(PluginInfoIni, GetPluginId(Index), PluginInfoIniRegSubKeyKey)
-#define GetGameRegName(Index) ReadIni(PluginInfoIni, GetPluginId(Index), PluginInfoIniRegNameKey)
-#define GetGameArchitecture(Index) ReadIni(PluginInfoIni, GetPluginId(Index), PluginInfoIniArchitectureKey)
+#define GetPluginInfoIni(Index) SourcePath + "..\" + GetPluginId(Index) + "\PluginInfo.ini"
+#define GetGameNameEN(Index) ReadIni(GetPluginInfoIni(Index), GetPluginId(Index), "NameEN")
+#define GetGameNameJP(Index) ReadIni(GetPluginInfoIni(Index), GetPluginId(Index), "NameJP")
+#define GetGameRegSubKey(Index) ReadIni(GetPluginInfoIni(Index), GetPluginId(Index), "RegSubKey")
+#define GetGameRegName(Index) ReadIni(GetPluginInfoIni(Index), GetPluginId(Index), "RegName")
+#define GetGameArchitecture(Index) ReadIni(GetPluginInfoIni(Index), GetPluginId(Index), "Architecture")
 
 #define I 0
 #sub AddGameEntry
@@ -105,12 +102,33 @@ begin
     end;
 end;
 
+function GetGameNameEN(Index: Integer): String;
+begin
+    case Index of
+        #sub EngNameMapping
+            {#I}: Result := '{#GetGameNameEN(I)}';
+        #endsub
+        #for {I = 0; I < PluginCount; I++} EngNameMapping
+    end;
+end;
+
+function GetGameNameJP(Index: Integer): String;
+begin
+    case Index of
+        #sub JpNameMapping
+            {#I}: Result := '{#GetGameNameJP(I)}';
+        #endsub
+        #for {I = 0; I < PluginCount; I++} JpNameMapping
+    end;
+end;
+
 { The human-readable name of the game at the given index }
 function GetGameName(Index: Integer): String;
 begin
-    Result := GetPluginId(Index);
-    StringChangeEx(Result, 'LoveMachine.', '', False);
-    Result := CustomMessage(Result);
+    Result := GetGameNameEN(Index);
+    if ActiveLanguage = 'jp' then Result := GetGameNameJP(Index);
+    { this shouldn't happen, but whatever }
+    if Result = '' then Result := GetPluginId(Index);
 end;
 
 function GetGameArchitecture(Index: Integer): String;
