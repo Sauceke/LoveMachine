@@ -13,6 +13,7 @@ namespace LoveMachine.HKR
         private TimelineAsset timeline;
         private Traverse<string> cutName;
         private Dictionary<string, TimelineClip> clipCache;
+        private TimeUnlooper unlooper;
 
         public void StartH(MonoBehaviour uiController)
         {
@@ -58,9 +59,6 @@ namespace LoveMachine.HKR
 
         protected override bool IsIdle(int girlIndex) => false;
 
-        private float lastPartialTime = 0f;
-        private int totalTime = 0;
-
         protected override void GetAnimState(int girlIndex, out float normalizedTime,
             out float length, out float speed)
         {
@@ -77,15 +75,10 @@ namespace LoveMachine.HKR
                 }
                 clipCache[pose] = clip;
             }
-            float partialTime = (float)((director.time - clip.start) / clip.duration);
-            if (partialTime < lastPartialTime)
-            {
-                totalTime += Mathf.CeilToInt(lastPartialTime - partialTime);
-            }
-            normalizedTime = partialTime + totalTime;
+            float time = (float)((director.time - clip.start) / clip.duration);
+            normalizedTime = unlooper.LoopingToMonotonous(time);
             length = (float)clip.duration;
             speed = 1f;
-            lastPartialTime = partialTime;
         }
 
         private TimelineClip? GetCurrentClip()
@@ -116,6 +109,7 @@ namespace LoveMachine.HKR
             director = GameObject.Find("ATDTimeline").GetComponent<PlayableDirector>();
             timeline = director.playableAsset.Cast<TimelineAsset>();
             clipCache = new Dictionary<string, TimelineClip>();
+            unlooper = new TimeUnlooper();
         }
     }
 }

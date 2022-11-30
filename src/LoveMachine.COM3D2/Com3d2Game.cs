@@ -15,6 +15,8 @@ namespace LoveMachine.COM3D2
         private readonly string[] idlePoseNames = { "taiki", "nade", "shaseigo" };
         private readonly string[] climaxPoseNames = { "shasei_", "zeccyou_" };
 
+        private TimeUnlooper unlooper;
+
         protected override Dictionary<Bone, string> FemaleBoneNames => new Dictionary<Bone, string>
         {
             { Bone.Vagina, PelvisF + "/_IK_vagina" },
@@ -57,23 +59,13 @@ namespace LoveMachine.COM3D2
         public override Animator GetFemaleAnimator(int girlIndex) =>
             throw new NotImplementedException();
 
-        private float lastPartialTime = 0f;
-        private int totalTime = 0;
-
         protected override void GetAnimState(int girlIndex, out float normalizedTime,
             out float length, out float speed)
         {
             var state = GetActiveState();
-            float partialTime = state.normalizedTime;
-            // Yes, this is horrible. So is COM3D2's code, so I don't care.
-            if (partialTime < lastPartialTime)
-            {
-                totalTime += Mathf.CeilToInt(lastPartialTime - partialTime);
-            }
-            normalizedTime = partialTime + totalTime;
+            normalizedTime = unlooper.LoopingToMonotonous(state.normalizedTime);
             length = state.length;
             speed = state.speed;
-            lastPartialTime = partialTime;
             return;
         }
 
@@ -109,6 +101,7 @@ namespace LoveMachine.COM3D2
         protected override IEnumerator UntilReady()
         {
             yield return new WaitForSeconds(5f);
+            unlooper = new TimeUnlooper();
         }
     }
 }

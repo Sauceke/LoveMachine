@@ -35,6 +35,7 @@
     <Compile Include="..\LoveMachine.Core\Util\CoroutineUtil.cs" Link="CoroutineUtil.cs" />
     <Compile Include="..\LoveMachine.Core\Util\GUIUtil.cs" Link="GUIUtil.cs" />
     <Compile Include="..\LoveMachine.Core\Util\RangeSlider.cs" Link="RangeSlider.cs" />
+    <Compile Include="..\LoveMachine.Core\Util\TimeUnlooper.cs" Link="TimeUnlooper.cs" />
     <Compile Include="..\LoveMachine.Core\VersionInfo.cs" Link="VersionInfo.cs" />
   </ItemGroup>
   <ItemGroup>
