@@ -81,27 +81,13 @@ namespace LoveMachine.HKR
             speed = 1f;
         }
 
-        private TimelineClip? GetCurrentClip()
-        {
-            for (int i = 0; i < timeline.outputTrackCount; i++)
-            {
-                var track = timeline.GetOutputTrack(i);
-                var binding = director.GetGenericBinding(track);
-                if (binding == null || binding.name != "RicassoKnightActor_atd")
-                {
-                    continue;
-                }
-                foreach (var clip in track.clips)
-                {
-                    if (clip.displayName.StartsWith("SimpleCharacterAnimationClipPlayableAsset")
-                        && clip.start <= director.time && director.time <= clip.end)
-                    {
-                        return clip;
-                    }
-                }
-            }
-            return null;
-        }
+        private TimelineClip? GetCurrentClip() => Enumerable.Range(0, timeline.outputTrackCount)
+            .Select(timeline.GetOutputTrack)
+            .Where(track => director.GetGenericBinding(track)?.name == "RicassoKnightActor_atd")
+            .SelectMany(track => track.clips)
+            .Where(clip => clip.displayName.StartsWith("SimpleCharacterAnimationClipPlayableAsset"))
+            .Where(clip => clip.start < director.time && director.time < clip.end)
+            .FirstOrDefault();
 
         protected override IEnumerator UntilReady()
         {
