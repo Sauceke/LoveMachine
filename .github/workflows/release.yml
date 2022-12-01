@@ -109,7 +109,7 @@ jobs:
     - name: Zip artifacts
       run: |
         mkdir assets
-        $plugins = Get-ChildItem bin/ | Where-Object { $_ -notlike "LoveMachine.Core*" }
+        $plugins = Get-ChildItem -Name -Path bin/ | Where-Object { $_ -notlike "LoveMachine.Core*" }
         foreach ($plugin in $plugins) {
           $info = "./$plugin/PluginInfo.ini"
           $gameName = Get-Content -Path $info | Where-Object { $_ -match "NameEN = *" }
