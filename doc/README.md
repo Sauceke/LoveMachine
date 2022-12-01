@@ -11,6 +11,7 @@ Adds support for [some computer-controlled sex toys](#supported-devices) in the 
 | Game                      | Developer        | VR supported      |
 |---------------------------|------------------|-------------------|
 | [Custom Order Maid 3D 2]  | Kiss             | Yes               |
+| [Holy Knight Ricca]       | Mogurasoft       | No                |
 | [Honey Select 2]          | Illusion         | Yes               |
 | [Houkago Rinkan Chuudoku] | Miconisomi       | Yes, with [AGHVR] |
 | [Insult Order]            | Miconisomi       | Yes, with [IOVR]  |
@@ -20,6 +21,7 @@ Adds support for [some computer-controlled sex toys](#supported-devices) in the 
 | [Our Apartment]           | Momoiro Software | No                |
 | [PlayHome]                | Illusion         | Yes               |
 | [RoomGirl]                | Illusion         | No                |
+| [Secrossphere]            | Illusion         | No                |
 | [VR Kanojo]               | Illusion         | Yes               |
 
 ## Supported devices
@@ -145,12 +147,15 @@ This mod would not have been possible without the [BepInEx] plugin framework and
 [Hotdog]: https://sauceke.github.io/hotdog
 [Patreon]: https://www.patreon.com/sauceke
 
-<!-- sponsored links -->
+<!-- sponsored game links -->
 [Custom Order Maid 3D 2]: https://www.dlsite.com/pro/dlaf/=/t/n/link/work/aid/sauceke/locale/en_US/id/VJ011538.html/?locale=en_US
+[Holy Knight Ricca]: https://www.dlsite.com/maniax/dlaf/=/t/n/link/work/aid/sauceke/locale/en_US/id/RJ363824.html/?locale=en_US
 [Honey Select 2]: https://www.dlsite.com/pro/dlaf/=/t/n/link/work/aid/sauceke/locale/en_US/id/VJ013722.html/?locale=en_US
 [Houkago Rinkan Chuudoku]: https://www.dlsite.com/maniax/dlaf/=/t/n/link/work/aid/sauceke/locale/en_US/id/RJ189924.html/?locale=en_US
 [Insult Order]: https://www.dlsite.com/maniax/dlaf/=/t/n/link/work/aid/sauceke/locale/en_US/id/RJ220246.html/?locale=en_US
 [RoomGirl]: https://www.dlsite.com/pro/dlaf/=/t/n/link/work/aid/sauceke/locale/en_US/id/VJ015465.html/?locale=en_US
+
+<!-- sponsored sex toy links -->
 [The Handy]: https://www.thehandy.com/?ref=saucekebenfield&utm_source=saucekebenfield&utm_medium=affiliate&utm_campaign=The+Handy+Affiliate+program
 [Lovense Calor]: https://www.lovense.com/r/vu65q6
 [Lovense Gush]: https://www.lovense.com/r/f7lki7
@@ -171,3 +176,4 @@ This mod would not have been possible without the [BepInEx] plugin framework and
 [Koikatsu Sunshine]: https://www.illusion.jp/preview/koikatsu_sunshine/
 [PlayHome]: https://www.illusion.jp/preview/playhome/
 [VR Kanojo]: http://www.illusion.jp/preview/vrkanojo/index_en.php
+[Secrossphere]: http://www.illusion.jp/preview/sec/
