@@ -1,14 +1,14 @@
 ﻿using BepInEx;
 using LoveMachine.Core;
 
-namespace LoveMachine.SCS
+namespace LoveMachine.AGH
 {
     [BepInPlugin(CoreConfig.GUID, CoreConfig.PluginName, CoreConfig.Version)]
-    internal class SCSLoveMachine : BaseUnityPlugin
+    internal class Plugin : BaseUnityPlugin
     {
         private void Start()
         {
-            this.Initialize<SecrossphereGame>(Logger);
+            this.Initialize<HoukagoRinkanChuudokuGame>(Logger);
             Hooks.InstallHooks();
         }
     }

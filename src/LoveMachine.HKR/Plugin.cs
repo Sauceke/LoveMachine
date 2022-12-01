@@ -2,14 +2,14 @@
 using BepInEx.Unity.IL2CPP;
 using LoveMachine.Core;
 
-namespace LoveMachine.RG
+namespace LoveMachine.HKR
 {
     [BepInPlugin(CoreConfig.GUID, CoreConfig.PluginName, CoreConfig.Version)]
-    internal class RGLoveMachine : BasePlugin
+    internal class Plugin : BasePlugin
     {
         public override void Load()
         {
-            new BaseUnityPlugin(this).Initialize<RoomGirlGame>(Log);
+            new BaseUnityPlugin(this).Initialize<HolyKnightRiccaGame>(Log);
             Hooks.InstallHooks();
         }
     }

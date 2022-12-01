@@ -1,14 +1,14 @@
 ﻿using BepInEx;
 using LoveMachine.Core;
 
-namespace LoveMachine.COM3D2
+namespace LoveMachine.OA
 {
     [BepInPlugin(CoreConfig.GUID, CoreConfig.PluginName, CoreConfig.Version)]
-    internal class Com3d2LoveMachine : BaseUnityPlugin
+    public class Plugin : BaseUnityPlugin
     {
         private void Start()
         {
-            this.Initialize<Com3d2Game>(Logger);
+            this.Initialize<OurApartmentGame>(Logger);
             Hooks.InstallHooks();
         }
     }

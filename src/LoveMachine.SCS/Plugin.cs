@@ -1,15 +1,14 @@
 ﻿using BepInEx;
 using LoveMachine.Core;
 
-namespace LoveMachine.VRK
+namespace LoveMachine.SCS
 {
-    [BepInProcess("VR_Kanojo")]
     [BepInPlugin(CoreConfig.GUID, CoreConfig.PluginName, CoreConfig.Version)]
-    internal class VRKLoveMachine : BaseUnityPlugin
+    internal class Plugin : BaseUnityPlugin
     {
         private void Start()
         {
-            this.Initialize<VRKanojoGame>(Logger);
+            this.Initialize<SecrossphereGame>(Logger);
             Hooks.InstallHooks();
         }
     }

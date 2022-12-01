@@ -6,7 +6,7 @@ namespace LoveMachine.PH
     [BepInProcess("PlayHome32bit")]
     [BepInProcess("PlayHome64bit")]
     [BepInPlugin(CoreConfig.GUID, CoreConfig.PluginName, CoreConfig.Version)]
-    internal class PHLoveMachine : BaseUnityPlugin
+    internal class Plugin : BaseUnityPlugin
     {
         private void Start()
         {

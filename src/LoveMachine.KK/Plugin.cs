@@ -10,7 +10,7 @@ namespace LoveMachine.KK
     [BepInProcess("KoikatsuSunshine")]
     [BepInProcess("KoikatsuSunshine_VR")]
     [BepInPlugin(CoreConfig.GUID, "LoveMachine", CoreConfig.Version)]
-    public class KKLoveMachine : BaseUnityPlugin
+    public class Plugin : BaseUnityPlugin
     {
         private void Start()
         {
@@ -26,7 +26,7 @@ namespace LoveMachine.KK
 
     [BepInProcess("CharaStudio")]
     [BepInPlugin(CoreConfig.GUID, "LoveMachine", CoreConfig.Version)]
-    public class StudioLoveMachine : BaseUnityPlugin
+    public class StudioPlugin : BaseUnityPlugin
     {
         private void Start()
         {

@@ -1,14 +1,14 @@
 ﻿using BepInEx;
 using LoveMachine.Core;
 
-namespace LoveMachine.OA
+namespace LoveMachine.IO
 {
     [BepInPlugin(CoreConfig.GUID, CoreConfig.PluginName, CoreConfig.Version)]
-    public class OALoveMachine : BaseUnityPlugin
+    internal class Plugin : BaseUnityPlugin
     {
         private void Start()
         {
-            this.Initialize<OurApartmentGame>(Logger);
+            this.Initialize<InsultOrderGame>(logger: Logger);
             Hooks.InstallHooks();
         }
     }

@@ -1,14 +1,14 @@
 ﻿using BepInEx;
 using LoveMachine.Core;
 
-namespace LoveMachine.AGH
+namespace LoveMachine.COM3D2
 {
     [BepInPlugin(CoreConfig.GUID, CoreConfig.PluginName, CoreConfig.Version)]
-    internal class AGHLoveMachine : BaseUnityPlugin
+    internal class Plugin : BaseUnityPlugin
     {
         private void Start()
         {
-            this.Initialize<HoukagoRinkanChuudokuGame>(Logger);
+            this.Initialize<Com3d2Game>(Logger);
             Hooks.InstallHooks();
         }
     }
