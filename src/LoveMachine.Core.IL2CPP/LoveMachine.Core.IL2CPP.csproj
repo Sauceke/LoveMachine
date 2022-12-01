@@ -1,6 +1,12 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
+    <AssemblyTitle>LoveMachine.Core.IL2CPP</AssemblyTitle>
+    <AssemblyVersion>$(Version)</AssemblyVersion>
+    <AssemblyFileVersion>$(Version)</AssemblyFileVersion>
+    <Company>Sauceke</Company>
+    <Product>LoveMachine.Core.IL2CPP</Product>
+    <Copyright>2021</Copyright>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
@@ -8,35 +14,7 @@
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="..\LoveMachine.Core\Buttplug\BatteryLevelMessage.cs" Link="BatteryLevelMessage.cs" />
-    <Compile Include="..\LoveMachine.Core\Buttplug\ButtplugWsClient.cs" Link="ButtplugWsClient.cs" />
-    <Compile Include="..\LoveMachine.Core\Buttplug\Device.cs" Link="Device.cs" />
-    <Compile Include="..\LoveMachine.Core\Buttplug\DeviceManager.cs" Link="DeviceManager.cs" />
-    <Compile Include="..\LoveMachine.Core\Buttplug\DeviceSettings.cs" Link="DeviceSettings.cs" />
-    <Compile Include="..\LoveMachine.Core\Buttplug\IntifaceRunner.cs" Link="IntifaceRunner.cs" />
-    <Compile Include="..\LoveMachine.Core\Buttplug\StrokerSettings.cs" Link="StrokerSettings.cs" />
-    <Compile Include="..\LoveMachine.Core\Buttplug\VibratorSettings.cs" Link="VibratorSettings.cs" />
-    <Compile Include="..\LoveMachine.Core\Config\ButtplugConfig.cs" Link="ButtplugConfig.cs" />
-    <Compile Include="..\LoveMachine.Core\Config\DeviceListConfig.cs" Link="DeviceListConfig.cs" />
-    <Compile Include="..\LoveMachine.Core\Config\RotatorConfig.cs" Link="RotatorConfig.cs" />
-    <Compile Include="..\LoveMachine.Core\Config\StrokerConfig.cs" Link="StrokerConfig.cs" />
-    <Compile Include="..\LoveMachine.Core\Controller\ButtplugController.cs" Link="ButtplugController.cs" />
-    <Compile Include="..\LoveMachine.Core\Controller\ClassicButtplugController.cs" Link="ClassicButtplugController.cs" />
-    <Compile Include="..\LoveMachine.Core\Controller\RotatorController.cs" Link="RotatorController.cs" />
-    <Compile Include="..\LoveMachine.Core\Controller\StrokerController.cs" Link="StrokerController.cs" />
-    <Compile Include="..\LoveMachine.Core\Controller\VibratorController.cs" Link="VibratorController.cs" />
-    <Compile Include="..\LoveMachine.Core\Game\AnimationAnalyzer.cs" Link="AnimationAnalyzer.cs" />
-    <Compile Include="..\LoveMachine.Core\Game\Bone.cs" Link="Bone.cs" />
-    <Compile Include="..\LoveMachine.Core\Game\GameDescriptor.cs" Link="GameDescriptor.cs" />
-    <Compile Include="..\LoveMachine.Core\Game\TestAnimationAnalyzer.cs" Link="TestAnimationAnalyzer.cs" />
-    <Compile Include="..\LoveMachine.Core\Game\TestGame.cs" Link="TestGame.cs" />
-    <Compile Include="..\LoveMachine.Core\PluginInitializer.cs" Link="PluginInitializer.cs" />
-    <Compile Include="..\LoveMachine.Core\Util\ConfigurationManagerAttributes.cs" Link="ConfigurationManagerAttributes.cs" />
-    <Compile Include="..\LoveMachine.Core\Util\CoroutineUtil.cs" Link="CoroutineUtil.cs" />
-    <Compile Include="..\LoveMachine.Core\Util\GUIUtil.cs" Link="GUIUtil.cs" />
-    <Compile Include="..\LoveMachine.Core\Util\RangeSlider.cs" Link="RangeSlider.cs" />
-    <Compile Include="..\LoveMachine.Core\Util\TimeUnlooper.cs" Link="TimeUnlooper.cs" />
-    <Compile Include="..\LoveMachine.Core\VersionInfo.cs" Link="VersionInfo.cs" />
+    <Compile Include="..\LoveMachine.Core\**\*.cs" Exclude="..\LoveMachine.Core\obj\**\*.cs;..\LoveMachine.Core\Mono\*.cs" LinkBase="Included"/>
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="AllForOne" Version="1.0.0.27" />

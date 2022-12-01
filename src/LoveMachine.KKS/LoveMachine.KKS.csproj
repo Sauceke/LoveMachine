@@ -11,14 +11,7 @@
     <Reference Include="System.Net.Http" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\LoveMachine.KK\AbstractKoikatsuGame.cs" Link="AbstractKoikatsuGame.cs" />
-    <Compile Include="..\LoveMachine.KK\Hooks.cs" Link="Hooks.cs" />
-    <Compile Include="..\LoveMachine.KK\KKAnimationConfig.cs" Link="KKAnimationConfig.cs" />
-    <Compile Include="..\LoveMachine.KK\KKLoveMachine.cs" Link="KKLoveMachine.cs" />
-    <Compile Include="..\LoveMachine.KK\KoikatsuAibuController.cs" Link="KoikatsuAibuController.cs" />
-    <Compile Include="..\LoveMachine.KK\KoikatsuAnimationController.cs" Link="KoikatsuAnimationController.cs" />
-    <Compile Include="..\LoveMachine.KK\KoikatsuGame.cs" Link="KoikatsuGame.cs" />
-    <Compile Include="..\LoveMachine.KK\StudioGame.cs" Link="StudioGame.cs" />
+    <Compile Include="..\LoveMachine.KK\*.cs" LinkBase="Included" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\LoveMachine.Core\LoveMachine.Core.csproj" />
