@@ -12,6 +12,7 @@ namespace LoveMachine.SCS
         private MonoBehaviour scene;
         private MonoBehaviour[] females;
         private Animator[] femaleAnimators;
+        private Traverse<int> state;
 
         public override int AnimationLayer => 0;
 
@@ -25,7 +26,7 @@ namespace LoveMachine.SCS
 
         protected override int HeroineCount => females.Length;
 
-        protected override int MaxHeroineCount => 2;
+        protected override int MaxHeroineCount => 2; // no idea tbh
 
         protected override bool IsHardSex => false;
 
@@ -40,7 +41,9 @@ namespace LoveMachine.SCS
         protected override string GetPose(int girlIndex) =>
             GetFemaleAnimator(girlIndex).GetCurrentAnimatorStateInfo(0).fullPathHash.ToString();
 
-        protected override bool IsIdle(int girlIndex) => false;
+        protected override bool IsIdle(int girlIndex) => state.Value < 0 || state.Value > 2;
+
+        protected override bool IsOrgasming(int girlIndex) => state.Value == 3;
 
         public void StartH(MonoBehaviour scene)
         {
@@ -62,6 +65,7 @@ namespace LoveMachine.SCS
             femaleAnimators = females.Select(Traverse.Create)
                 .Select(female => female.Property<Animator>("Anime").Value)
                 .ToArray();
+            state = Traverse.Create(scene).Property<int>("NowState");
         }
     }
 }
