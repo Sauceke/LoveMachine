@@ -83,9 +83,10 @@ namespace LoveMachine.HKR
 
         private TimelineClip? GetCurrentClip() => Enumerable.Range(0, timeline.outputTrackCount)
             .Select(timeline.GetOutputTrack)
-            .Where(track => director.GetGenericBinding(track)?.name == "RicassoKnightActor_atd")
+            .Where(track => director.GetGenericBinding(track)?.name == "ATDTimeline")
+            .Where(track => track.name == "Cut Track Asset")
             .SelectMany(track => track.clips)
-            .Where(clip => clip.displayName.StartsWith("SimpleCharacterAnimationClipPlayableAsset"))
+            .Where(clip => clip.displayName.StartsWith(cutName.Value))
             .Where(clip => clip.start < director.time && director.time < clip.end)
             .FirstOrDefault();
 
