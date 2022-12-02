@@ -43,7 +43,7 @@ namespace LoveMachine.KK
             float offset = (Time.time - playbackTime.Value) % duration.Value;
             normalizedTime = (Time.time - offset) / duration.Value;
             length = duration.Value;
-            speed = Time.timeScale;
+            speed = 1f;
         }
 
         protected override IEnumerator UntilReady()

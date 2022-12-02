@@ -140,8 +140,7 @@ namespace LoveMachine.Core
 
         /// <summary>
         /// Low-level replacement for Unity's AnimatorStateInfo. <br/>
-        /// If you need to override this, then you're probably modding a game
-        /// made by morons.
+        /// You might need this e.g. when animations are handled by Playables.
         /// </summary>
         /// <param name="girlIndex">
         /// the index of the heroine whose current animator state to get
@@ -151,7 +150,10 @@ namespace LoveMachine.Core
         /// keeps increasing as long as the same animation is playing
         /// </param>
         /// <param name="length">equivalent to AnimatorStateInfo.length</param>
-        /// <param name="speed">equivalent to AnimatorStateInfo.speed</param>
+        /// <param name="speed">
+        /// equivalent to AnimatorStateInfo.speed; must be relative to in-game
+        /// time (i.e. ignoring timeScale)
+        /// </param>
         [HideFromIl2Cpp]
         protected internal virtual void GetAnimState(int girlIndex, out float normalizedTime,
             out float length, out float speed)

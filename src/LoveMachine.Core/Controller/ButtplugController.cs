@@ -123,13 +123,9 @@ namespace LoveMachine.Core
         protected float GetAnimationTimeSecs(int girlIndex)
         {
             game.GetAnimState(girlIndex, out _, out float length, out float speed);
-            float animTimeSecs = length / speed;
-            // sometimes the length of an animation becomes Infinity in KK
-            // sometimes the speed becomes 0 in HS2
-            // this is a catch-all for god knows what other things that can
-            // possibly go wrong and cause the stroking coroutine to hang
-            return animTimeSecs > 100f || animTimeSecs < 0.001f
-                || float.IsNaN(animTimeSecs)
+            float animTimeSecs = length / speed / Time.timeScale;
+            // prevent coroutines from hanging e.g. when the game is paused
+            return animTimeSecs > 100f || animTimeSecs < 0.001f || float.IsNaN(animTimeSecs)
                 ? .01f
                 : animTimeSecs;
         }
