@@ -3,7 +3,7 @@ name: .NET
 on:
   push:
     branches: [ mastur ]
-    paths: [ src ]
+    paths: [ 'src/**' ]
   pull_request:
     branches: [ mastur ]
   workflow_dispatch:
