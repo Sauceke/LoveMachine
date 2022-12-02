@@ -80,7 +80,8 @@ namespace LoveMachine.Core
 
         /// <summary>
         /// The shortest duration an orgasm should last. <br/>
-        /// Override this if in-game orgasms aren't long enough, etc.
+        /// Override this if in-game orgasms don't have a detectable end,
+        /// or if they're just too short.
         /// </summary>
         [HideFromIl2Cpp]
         protected internal virtual float MinOrgasmDurationSecs => 0f;
@@ -95,8 +96,7 @@ namespace LoveMachine.Core
 
         /// <summary>
         /// The animator of the heroine at the given index. <br/>
-        /// If, for whatever fucked up reason, the game doesn't use Animators
-        /// (*cough* *cough* COM3D2), you can override GetAnimState instead.
+        /// If the game doesn't use Animators, override GetAnimState instead.
         /// </summary>
         [HideFromIl2Cpp]
         public abstract Animator GetFemaleAnimator(int girlIndex);
@@ -116,7 +116,8 @@ namespace LoveMachine.Core
         protected internal abstract Transform GetDickBase();
 
         /// <summary>
-        /// A unique ID of the animation this girl is currently playing.
+        /// A unique ID of the animation this girl is currently playing. <br/>
+        /// This will be called often, so keep it lightweight!
         /// </summary>
         [HideFromIl2Cpp]
         protected internal abstract string GetPose(int girlIndex);
@@ -129,7 +130,8 @@ namespace LoveMachine.Core
         protected internal abstract bool IsIdle(int girlIndex);
 
         /// <summary>
-        /// A coroutine that waits until the H-scene is fully initialized.
+        /// A coroutine that waits until the H-scene is fully initialized. <br/>
+        /// You might also want to set up your fields here, if you have any.
         /// </summary>
         [HideFromIl2Cpp]
         protected internal abstract IEnumerator UntilReady();
@@ -171,7 +173,8 @@ namespace LoveMachine.Core
         }
 
         /// <summary>
-        /// true if this heroine is currently orgasming; false otherwise.
+        /// True if this heroine (or the player) is currently orgasming;
+        /// false otherwise.
         /// </summary>
         [HideFromIl2Cpp]
         protected internal virtual bool IsOrgasming(int girlIndex) => false;
@@ -205,10 +208,9 @@ namespace LoveMachine.Core
                 kvp => FindBoneByPath(GetFemaleRoot(girlIndex), kvp.Value));
 
         protected static Transform FindBoneByPath(GameObject character, string path) =>
-            // Find the root character object
+            // Search children
             character?.transform?.Find(path)
-                // If the program can not find the component, it will try to use the name of the
-                // component to match every child of the root chara by recursion
+                // If that fails, search recursively
                 ?? FindDeepChildByName(character, path.Split('/').Last())
                     // If even that fails, search the entire game
                     ?? GameObject.Find(path.Split('/').Last()).transform;
