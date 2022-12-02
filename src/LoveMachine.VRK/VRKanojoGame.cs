@@ -34,6 +34,8 @@ namespace LoveMachine.VRK
 
         protected override bool IsHSceneInterrupted => false;
 
+        protected override float PenisSize => 0.1f;
+
         public override Animator GetFemaleAnimator(int girlIndex) => sakura.animBody;
 
         protected override Transform GetDickBase() => GameObject.Find("cm_J_dan_s").transform;

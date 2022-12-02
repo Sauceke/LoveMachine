@@ -49,6 +49,8 @@ namespace LoveMachine.RG
 
         protected override bool IsHSceneInterrupted => false;
 
+        protected override float PenisSize => 0.8f;
+
         public override Animator GetFemaleAnimator(int girlIndex) => femaleAnimator;
 
         protected override Transform GetDickBase() => GameObject.Find("chaM_001/BodyTop/p_cf_anim/" +

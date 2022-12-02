@@ -49,6 +49,8 @@ namespace LoveMachine.COM3D2
 
         protected override bool IsHSceneInterrupted => false;
 
+        protected override float PenisSize => 0.08f;
+
         public override int AnimationLayer => throw new NotImplementedException();
 
         protected override IEnumerator WaitAfterPoseChange()
