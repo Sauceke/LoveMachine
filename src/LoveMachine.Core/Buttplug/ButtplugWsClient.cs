@@ -38,9 +38,9 @@ namespace LoveMachine.Core
                 + ":" + ButtplugConfig.WebSocketPort.Value;
             CoreConfig.Logger.LogInfo($"Connecting to Intiface server at {address}");
             websocket = new WebSocket(address);
-            websocket.Opened += OnOpened;
-            websocket.MessageReceived += OnMessageReceived;
-            websocket.Error += OnError;
+            websocket.Opened += (s, e) => HandleCoroutine(OnOpened(s, e));
+            websocket.MessageReceived += (s, e) => HandleCoroutine(OnMessageReceived(s, e));
+            websocket.Error += (s, e) => HandleCoroutine(OnError(s, e));
             websocket.Open();
             HandleCoroutine(RunKillSwitchLoop());
             HandleCoroutine(RunBatteryLoop());
@@ -167,21 +167,6 @@ namespace LoveMachine.Core
             SendSingleCommand(command);
         }
 
-        private void OnOpened(object sender, EventArgs e)
-        {
-            CoreConfig.Logger.LogInfo("Succesfully connected to Intiface.");
-            var handshake = new
-            {
-                RequestServerInfo = new
-                {
-                    Id = random.Next(),
-                    ClientName = Paths.ProcessName,
-                    MessageVersion = 2
-                }
-            };
-            SendSingleCommand(handshake);
-        }
-
         private void RequestDeviceList()
         {
             var deviceListRequest = new
@@ -227,8 +212,25 @@ namespace LoveMachine.Core
         private void SendSingleCommand(object command) =>
             websocket.Send(JsonMapper.ToJson(new[] { command }));
 
-        private void OnMessageReceived(object sender, MessageReceivedEventArgs e)
+        private IEnumerator OnOpened(object sender, EventArgs e)
         {
+            yield return new WaitForEndOfFrame();
+            CoreConfig.Logger.LogInfo("Succesfully connected to Intiface.");
+            var handshake = new
+            {
+                RequestServerInfo = new
+                {
+                    Id = random.Next(),
+                    ClientName = Paths.ProcessName,
+                    MessageVersion = 2
+                }
+            };
+            SendSingleCommand(handshake);
+        }
+
+        private IEnumerator OnMessageReceived(object sender, MessageReceivedEventArgs e)
+        {
+            yield return new WaitForEndOfFrame();
             foreach (JsonData data in JsonMapper.ToObject(e.Message))
             {
                 if (data.ContainsKey("Error"))
@@ -266,8 +268,9 @@ namespace LoveMachine.Core
             }
         }
 
-        private void OnError(object sender, SuperSocket.ClientEngine.ErrorEventArgs e)
+        private IEnumerator OnError(object sender, SuperSocket.ClientEngine.ErrorEventArgs e)
         {
+            yield return new WaitForEndOfFrame();
             CoreConfig.Logger.LogWarning($"Websocket error: {e.Exception.Message}");
             if (e.Exception.Message.Contains("unreachable"))
             {
