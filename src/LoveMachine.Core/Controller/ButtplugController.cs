@@ -123,7 +123,7 @@ namespace LoveMachine.Core
         protected float GetAnimationTimeSecs(int girlIndex)
         {
             game.GetAnimState(girlIndex, out _, out float length, out float speed);
-            float animTimeSecs = length / speed / Time.timeScale;
+            float animTimeSecs = length / speed / game.TimeScale;
             // prevent coroutines from hanging e.g. when the game is paused
             return animTimeSecs > 100f || animTimeSecs < 0.001f || float.IsNaN(animTimeSecs)
                 ? .01f

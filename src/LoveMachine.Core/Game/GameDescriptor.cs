@@ -85,6 +85,12 @@ namespace LoveMachine.Core
         [HideFromIl2Cpp]
         protected internal virtual float MinOrgasmDurationSecs => 0f;
 
+        /// <summary>
+        /// Wrapper of Time.timeScale for testability.
+        /// </summary>
+        [HideFromIl2Cpp]
+        protected internal virtual float TimeScale => Time.timeScale;
+
         internal bool IsHSceneRunning => hRunning && !IsHSceneInterrupted;
 
         /// <summary>
