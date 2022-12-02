@@ -21,7 +21,10 @@ namespace LoveMachine.Core
                 if (game.IsIdle(device.Settings.GirlIndex))
                 {
                     client.StopDeviceCmd(device);
-                    yield return new WaitForSeconds(.1f);
+                    while (game.IsIdle(device.Settings.GirlIndex))
+                    {
+                        yield return new WaitForSecondsRealtime(0.1f);
+                    }
                     continue;
                 }
                 yield return HandleCoroutine(HandleAnimation(device));
