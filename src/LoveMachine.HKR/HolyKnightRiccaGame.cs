@@ -28,11 +28,7 @@ namespace LoveMachine.HKR
         protected override Dictionary<Bone, string> FemaleBoneNames => new Dictionary<Bone, string>
         {
             { Bone.Vagina, "DEF-clitoris" },
-            { Bone.Mouth, "MouseTransform" },
-            { Bone.RightHand, "DEF-f_index_01_R" },
-            { Bone.LeftHand, "DEF-f_index_01_L" },
-            { Bone.RightBreast, "DEF-nipple_R" },
-            { Bone.LeftBreast, "DEF-nipple_L" }
+            { Bone.Mouth, "MouseTransform" }
         };
 
         protected override int HeroineCount => 1;
