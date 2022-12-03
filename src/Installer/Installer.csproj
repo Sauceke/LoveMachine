@@ -9,15 +9,6 @@
     <Exec Command=".\bin\LoveMachineInstaller.exe" />
   </Target>
   <ItemGroup>
-    <ProjectReference Include="..\LoveMachine.AGH\LoveMachine.AGH.csproj" />
-    <ProjectReference Include="..\LoveMachine.COM3D2\LoveMachine.COM3D2.csproj" />
-    <ProjectReference Include="..\LoveMachine.HS2\LoveMachine.HS2.csproj" />
-    <ProjectReference Include="..\LoveMachine.IO\LoveMachine.IO.csproj" />
-    <ProjectReference Include="..\LoveMachine.KKS\LoveMachine.KKS.csproj" />
-    <ProjectReference Include="..\LoveMachine.KK\LoveMachine.KK.csproj" />
-    <ProjectReference Include="..\LoveMachine.OA\LoveMachine.OA.csproj" />
-    <ProjectReference Include="..\LoveMachine.PH\LoveMachine.PH.csproj" />
-    <ProjectReference Include="..\LoveMachine.RG\LoveMachine.RG.csproj" />
-    <ProjectReference Include="..\LoveMachine.VRK\LoveMachine.VRK.csproj" />
+    <ProjectReference Include="..\LoveMachine.*\LoveMachine.*.csproj" />
   </ItemGroup>
 </Project>
