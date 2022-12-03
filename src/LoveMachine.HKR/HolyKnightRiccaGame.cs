@@ -9,6 +9,13 @@ namespace LoveMachine.HKR
 {
     internal class HolyKnightRiccaGame : GameDescriptor
     {
+        private static readonly string[] dickBasePaths = new[] {
+            "DEF-testicle",
+            "ORG-testicle",
+            "DEF-Ovipositor",
+            "hellbeetle/Base/belly/belly_001/belly_002/tail"
+        };
+
         private PlayableDirector director;
         private TimelineAsset timeline;
         private Traverse<string> cutName;
@@ -44,11 +51,10 @@ namespace LoveMachine.HKR
         public override Animator GetFemaleAnimator(int girlIndex) =>
             throw new NotImplementedException();
 
-        protected override Transform GetDickBase() =>
-            new[] { "DEF-testicle", "ORG-testicle", "DEF-Ovipositor" }
-                .Select(GameObject.Find)
-                .First(go => go != null)
-                .transform;
+        protected override Transform GetDickBase() => dickBasePaths
+            .Select(GameObject.Find)
+            .First(go => go != null)
+            .transform;
 
         protected override GameObject GetFemaleRoot(int girlIndex) =>
             GameObject.Find("ricasso/root");
