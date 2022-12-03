@@ -49,7 +49,7 @@ namespace LoveMachine.HKR
             throw new NotImplementedException();
 
         protected override Transform GetDickBase() =>
-            new[] { "DEF-testicle", "ORG-testicle" }
+            new[] { "DEF-testicle", "ORG-testicle", "DEF-Ovipositor" }
                 .Select(GameObject.Find)
                 .First(go => go != null)
                 .transform;
@@ -85,7 +85,7 @@ namespace LoveMachine.HKR
 
         private TimelineClip? GetCurrentClip() => Enumerable.Range(0, timeline.outputTrackCount)
             .Select(timeline.GetOutputTrack)
-            .Where(track => director.GetGenericBinding(track)?.name == "ATDTimeline")
+            .Where(track => director.GetGenericBinding(track)?.name == director.name)
             .Where(track => track.name == "Cut Track Asset")
             .SelectMany(track => track.clips)
             .Where(clip => clip.displayName.StartsWith(cutName.Value))
@@ -94,8 +94,11 @@ namespace LoveMachine.HKR
 
         protected override IEnumerator UntilReady()
         {
-            yield return new WaitForSeconds(5f);
-            director = GameObject.Find("ATDTimeline").GetComponent<PlayableDirector>();
+            while (director == null)
+            {
+                yield return new WaitForSeconds(1f);
+                director = FindObjectOfType<PlayableDirector>();
+            }
             timeline = director.playableAsset.Cast<TimelineAsset>();
             clipCache = new Dictionary<string, TimelineClip>();
             unlooper = new TimeUnlooper();
