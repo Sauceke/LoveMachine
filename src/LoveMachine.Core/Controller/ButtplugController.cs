@@ -55,7 +55,6 @@ namespace LoveMachine.Core
 
         private IEnumerator RunLoops()
         {
-            yield return HandleCoroutine(game.UntilReady());
             HandleCoroutine(Run());
             yield return WaitUntil(() => game.IsHSceneInterrupted);
             OnEndH();

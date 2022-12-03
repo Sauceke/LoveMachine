@@ -48,20 +48,14 @@ namespace LoveMachine.Core
         private void StartAnalyze()
         {
             StopAllCoroutines();
-            HandleCoroutine(DoAnalyze());
+            Enumerable.Range(0, game.HeroineCount).ToList()
+                .ForEach(girlIndex => HandleCoroutine(RunAnalysisLoop(girlIndex)));
         }
 
         private void StopAnalyze()
         {
             StopAllCoroutines();
             resultCache.Clear();
-        }
-
-        private IEnumerator DoAnalyze()
-        {
-            yield return HandleCoroutine(game.UntilReady());
-            Enumerable.Range(0, game.HeroineCount).ToList()
-                .ForEach(girlIndex => HandleCoroutine(RunAnalysisLoop(girlIndex)));
         }
 
         private IEnumerator RunAnalysisLoop(int girlIndex)

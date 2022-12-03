@@ -28,7 +28,7 @@ namespace LoveMachine.Core
 
         protected internal override bool IsIdle(int girlIndex) => false;
 
-        protected internal override IEnumerator UntilReady() => throw new NotImplementedException();
+        protected override IEnumerator UntilReady() => throw new NotImplementedException();
 
         public IEnumerator RunTest(int strokes, float strokesPerSec)
         {

@@ -12,9 +12,9 @@ namespace LoveMachine.Core
     /// </summary>
     public abstract class GameDescriptor : CoroutineHandler
     {
-        protected internal event EventHandler<HEventArgs> OnHStarted;
+        internal event EventHandler<HEventArgs> OnHStarted;
 
-        protected internal event EventHandler<HEventArgs> OnHEnded;
+        internal event EventHandler<HEventArgs> OnHEnded;
 
         private bool hRunning = false;
 
@@ -134,7 +134,7 @@ namespace LoveMachine.Core
         /// You might also want to set up your fields here, if you have any.
         /// </summary>
         [HideFromIl2Cpp]
-        protected internal abstract IEnumerator UntilReady();
+        protected abstract IEnumerator UntilReady();
 
         /// <summary>
         /// Override this if the game has long crossfade sections between
@@ -186,8 +186,7 @@ namespace LoveMachine.Core
         {
             EndH();
             hRunning = true;
-            OnHStarted.Invoke(this, new HEventArgs());
-            CoreConfig.Logger.LogInfo("New H scene started.");
+            HandleCoroutine(StartHWhenReady());
         }
 
         /// <summary>
@@ -198,6 +197,13 @@ namespace LoveMachine.Core
             hRunning = false;
             OnHEnded.Invoke(this, new HEventArgs());
             CoreConfig.Logger.LogInfo("H scene ended.");
+        }
+
+        private IEnumerator StartHWhenReady()
+        {
+            yield return HandleCoroutine(UntilReady());
+            OnHStarted.Invoke(this, new HEventArgs());
+            CoreConfig.Logger.LogInfo("New H scene started.");
         }
 
         public AnimatorStateInfo GetAnimatorStateInfo(int girlIndex) =>
