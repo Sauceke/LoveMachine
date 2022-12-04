@@ -11,6 +11,7 @@ Adds support for [some computer-controlled sex toys](#supported-devices) in the 
 | Game                      | Developer        | VR supported      |
 |---------------------------|------------------|-------------------|
 | [Custom Order Maid 3D 2]  | Kiss             | Yes               |
+| [Holy Knight Ricca]       | Mogurasoft       | No                |
 | [Honey Select 2]          | Illusion         | Yes               |
 | [Houkago Rinkan Chuudoku] | Miconisomi       | Yes, with [AGHVR] |
 | [Insult Order]            | Miconisomi       | Yes, with [IOVR]  |
@@ -20,12 +21,13 @@ Adds support for [some computer-controlled sex toys](#supported-devices) in the 
 | [Our Apartment]           | Momoiro Software | No                |
 | [PlayHome]                | Illusion         | Yes               |
 | [RoomGirl]                | Illusion         | No                |
+| [Secrossphere]            | Illusion         | No                |
 | [VR Kanojo]               | Illusion         | Yes               |
 
 ## Supported devices
 LoveMachine relies on the [Buttplug.io] project to communicate with toys. At the time of writing, Buttplug.io supports over 200 devices.
 
-This plugin is for **linear** (moving back-and-forth), **vibrating** and **rotating** sex toys, with [experimental support for two depth sensing devices](#depth-control).
+This plugin is for **linear** (moving back-and-forth), **vibrating** and **rotating** sex toys.
 
 Some of the devices that were actually tested with the mod:
 
@@ -44,6 +46,8 @@ Vibrators
 
 Rotators
 - Vorze A10 Cyclone
+
+The [LoveMachine.Experiments] plugin also adds experimental support for two depth sensing devices ([Lovense Calor] and the [Hotdog]) to Koikatsu and Koikatsu Sunshine.
 
 ## Installation
 Download and run the [installer]. If you encounter the "Windows protected your PC" message, click More info > Run anyway.
@@ -70,17 +74,6 @@ The Space key acts as a kill switch for all devices while in-game. To reactivate
 - LoveMachine analyzes the movement of certain bones in female characters (hands, crotch, breasts, mouth) at the start of each animation loop, to determine the exact timing of the up-strokes.
 - The stroking movement (and the intensity oscillation for vibrators) will be matched to the movements of the bone closest to the male character's balls as recorded during calibration (this messes up syncing with ball licking animations, but works for just about everything else).
 - As the whole thing is based on bone positions, this will only work for reasonably sized and proportioned characters.
-
-## Depth control
-We have experimental support for two depth sensing toys:
-- [Lovense Calor]
-- The [Hotdog], a DIY device for transparent sleeves
-
-The Calor works in Koikatsu and Koikatsu Sunshine, while the Hotdog only works in Koikatsu Sunshine. Both were only tested with penetrative scenes. Depth control support in other games will come later.
-
-Both devices are **disabled by default**, you first have to enable the one you are using in [Plugin Settings > LoveMachine > Experimental Features](#experimental-features), then **restart the game**.
-
-Whichever of the two you use, you need to turn it on **before** launching the game. When using a Hotdog, you must start the [Hotdog Server] before the game as well.
 
 ## Configuration
 In Plugin Settings > LoveMachine, you can set the following parameters:
@@ -112,11 +105,6 @@ Vibrator settings:
 
 You may also want to:
 - **Save device assignments:** If enabled, the Threesome Role and Body Part attributes will be saved for all devices. Disabled by default.
-
-### Experimental Features (Koikatsu and KKS only)
-Since these features may mess with some of your peripherals, they are turned off by default. After turning them on, you also have to restart the game for the changes to take effect. It is best if you close Intiface while using these features.
-- **Enable Lovense Calor depth control:** Enables control of H scenes using depth data from a [Lovense Calor].
-- **Enable Hotdog depth control (KKS only):** Enables control of H scenes using depth data from a [Hotdog].
 
 ### Intiface Settings
 - **Intiface CLI location:** The path to Intiface CLI. The plugin will attempt to run this program when the game is launched.
@@ -155,16 +143,19 @@ This mod would not have been possible without the [BepInEx] plugin framework and
 
 <!-- own links -->
 [installer]: https://github.com/Sauceke/LoveMachine/releases/latest/download/LoveMachineInstaller.exe
+[LoveMachine.Experiments]: https://sauceke.github.io/LoveMachine.Experiments
 [Hotdog]: https://sauceke.github.io/hotdog
-[Hotdog Server]: https://github.com/Sauceke/hotdog/releases/latest/download/HotdogServer.exe
 [Patreon]: https://www.patreon.com/sauceke
 
-<!-- sponsored links -->
+<!-- sponsored game links -->
 [Custom Order Maid 3D 2]: https://www.dlsite.com/pro/dlaf/=/t/n/link/work/aid/sauceke/locale/en_US/id/VJ011538.html/?locale=en_US
+[Holy Knight Ricca]: https://www.dlsite.com/maniax/dlaf/=/t/n/link/work/aid/sauceke/locale/en_US/id/RJ363824.html/?locale=en_US
 [Honey Select 2]: https://www.dlsite.com/pro/dlaf/=/t/n/link/work/aid/sauceke/locale/en_US/id/VJ013722.html/?locale=en_US
 [Houkago Rinkan Chuudoku]: https://www.dlsite.com/maniax/dlaf/=/t/n/link/work/aid/sauceke/locale/en_US/id/RJ189924.html/?locale=en_US
 [Insult Order]: https://www.dlsite.com/maniax/dlaf/=/t/n/link/work/aid/sauceke/locale/en_US/id/RJ220246.html/?locale=en_US
 [RoomGirl]: https://www.dlsite.com/pro/dlaf/=/t/n/link/work/aid/sauceke/locale/en_US/id/VJ015465.html/?locale=en_US
+
+<!-- sponsored sex toy links -->
 [The Handy]: https://www.thehandy.com/?ref=saucekebenfield&utm_source=saucekebenfield&utm_medium=affiliate&utm_campaign=The+Handy+Affiliate+program
 [Lovense Calor]: https://www.lovense.com/r/vu65q6
 [Lovense Gush]: https://www.lovense.com/r/f7lki7
@@ -185,3 +176,4 @@ This mod would not have been possible without the [BepInEx] plugin framework and
 [Koikatsu Sunshine]: https://www.illusion.jp/preview/koikatsu_sunshine/
 [PlayHome]: https://www.illusion.jp/preview/playhome/
 [VR Kanojo]: http://www.illusion.jp/preview/vrkanojo/index_en.php
+[Secrossphere]: http://www.illusion.jp/preview/sec/
