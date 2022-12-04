@@ -25,7 +25,7 @@ namespace LoveMachine.Core
 }
       </_VersionTemplate>
     </PropertyGroup>
-    <WriteLinesToFile File="VersionInfo.cs" Lines="$(_VersionTemplate)" WriteOnlyWhenDifferent="true" Overwrite="true" />
+    <WriteLinesToFile File="Mono/VersionInfo.cs" Lines="$(_VersionTemplate)" WriteOnlyWhenDifferent="true" Overwrite="true" />
   </Target>
   <ItemGroup>
     <Reference Include="System.XML" />

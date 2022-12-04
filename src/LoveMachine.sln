@@ -24,9 +24,6 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LoveMachine.COM3D2", "LoveMachine.COM3D2\LoveMachine.COM3D2.csproj", "{E160CE73-DDAB-4F86-9C8D-502752EAA144}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LoveMachine.Core.IL2CPP", "LoveMachine.Core.IL2CPP\LoveMachine.Core.IL2CPP.csproj", "{C99DFA93-A3C2-49DD-BA1D-F9001DAEFDF9}"
-	ProjectSection(ProjectDependencies) = postProject
-		{36E78D7D-C987-4E98-B709-149D19C4193A} = {36E78D7D-C987-4E98-B709-149D19C4193A}
-	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LoveMachine.RG", "LoveMachine.RG\LoveMachine.RG.csproj", "{1D29C16D-C7DC-4732-B6FC-D51666E2610F}"
 EndProject
