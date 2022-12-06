@@ -2,6 +2,7 @@
 using LitJson;
 using System;
 using System.Collections;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -14,6 +15,7 @@ namespace LoveMachine.Core
         private WebSocket websocket;
         private readonly System.Random random = new System.Random();
         private bool killSwitchThrown = false;
+        private ConcurrentQueue<IEnumerator> incoming;
 
         internal event EventHandler<DeviceListEventArgs> OnDeviceListUpdated;
 
@@ -34,14 +36,17 @@ namespace LoveMachine.Core
         {
             IsConnected = false;
             Devices = new List<Device>();
+            incoming = new ConcurrentQueue<IEnumerator>();
             string address = ButtplugConfig.WebSocketHost.Value
                 + ":" + ButtplugConfig.WebSocketPort.Value;
             CoreConfig.Logger.LogInfo($"Connecting to Intiface server at {address}");
             websocket = new WebSocket(address);
-            websocket.Opened += (s, e) => HandleCoroutine(OnOpened(s, e));
-            websocket.MessageReceived += (s, e) => HandleCoroutine(OnMessageReceived(s, e));
-            websocket.Error += (s, e) => HandleCoroutine(OnError(s, e));
+            // StartCoroutine is only safe to call inside Unity's main thread
+            websocket.Opened += (s, e) => incoming.Enqueue(OnOpened(s, e));
+            websocket.MessageReceived += (s, e) => incoming.Enqueue(OnMessageReceived(s, e));
+            websocket.Error += (s, e) => incoming.Enqueue(OnError(s, e));
             websocket.Open();
+            HandleCoroutine(RunReceiveLoop());
             HandleCoroutine(RunKillSwitchLoop());
             HandleCoroutine(RunBatteryLoop());
         }
@@ -305,6 +310,18 @@ namespace LoveMachine.Core
             {
                 Devices.Where(device => device.HasBatteryLevel).ToList()
                     .ForEach(BatteryLevelCmd);
+                yield return new WaitForSecondsRealtime(1f);
+            }
+        }
+
+        private IEnumerator RunReceiveLoop()
+        {
+            while (true)
+            {
+                while (incoming.TryDequeue(out var coroutine))
+                {
+                    HandleCoroutine(coroutine);
+                }
                 yield return new WaitForSecondsRealtime(1f);
             }
         }
