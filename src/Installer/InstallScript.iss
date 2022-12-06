@@ -74,6 +74,7 @@ Name: "jp"; MessagesFile: "compiler:Languages/Japanese.isl,JP.isl"
 ; LoveMachine files
 #sub PluginFileEntry
     Source: "{#PluginBuildDir}{#GetPluginId(I)}\*"; DestDir: {code:GetDir|{#I}}; Flags: recursesubdirs ignoreversion; Check: IsDirSelected({#I})
+    Source: "..\{#GetPluginId(I)}\tweaks\*"; DestDir: {code:GetDir|{#I}}; Flags: recursesubdirs ignoreversion skipifsourcedoesntexist; Check: IsBepInExMissing({#I})
 #endsub
 #for {I = 0; I < PluginCount; I++} PluginFileEntry
 
@@ -175,12 +176,17 @@ begin
     Result := GetDir(IntToStr(Index)) <> '';
 end;
 
-function ShouldInstallBepInEx(Index: Integer; Architecture: String): Boolean;
+function IsBepInExMissing(Index: Integer): Boolean;
 var
     BepInExConfigDir: String;
 begin
     BepInExConfigDir := AddBackslash(GetDir(IntToStr(Index))) + 'BepInEx\config';
-    Result := (not DirExists(BepInExConfigDir)) and (GetGameArchitecture(Index) = Architecture);
+    Result := not DirExists(BepInExConfigDir)
+end;
+
+function ShouldInstallBepInEx(Index: Integer; Architecture: String): Boolean;
+begin
+    Result := IsBepInExMissing(Index) and (GetGameArchitecture(Index) = Architecture);
 end;
 
 function GetPreviousDataKey(Index: Integer): String;
