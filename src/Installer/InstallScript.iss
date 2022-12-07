@@ -86,13 +86,13 @@ const
     PageSize = 4;
     PluginCount = {#PluginCount};
 var
-    { The directory prompts don't fit all in one page, so we need more pages }
-    { This is way too many pages but whatever }
+    // The directory prompts don't fit all in one page, so we need more pages
+    // This is way too many pages but whatever 
     DirPages: array[0..{#PluginCount}] of TInputDirWizardPage;
     Old_WizardForm_NextButton_OnClick: TNotifyEvent;
     PlaceholderDir: String;
 
-{ The ID of the plugin at the given index (e. g. 'LoveMachine.KK') }
+// The ID of the plugin at the given index (e. g. 'LoveMachine.KK')
 function GetPluginId(Index: Integer): String;
 begin
     case Index of
@@ -123,12 +123,12 @@ begin
     end;
 end;
 
-{ The human-readable name of the game at the given index }
+// The human-readable name of the game at the given index
 function GetGameName(Index: Integer): String;
 begin
     Result := GetGameNameEN(Index);
     if ActiveLanguage = 'jp' then Result := GetGameNameJP(Index);
-    { this shouldn't happen, but whatever }
+    // this shouldn't happen, but whatever
     if Result = '' then Result := GetPluginId(Index);
 end;
 
@@ -142,7 +142,7 @@ begin
     end;
 end;
 
-{ Tries to guess the root directory of the game at the given index }
+// Tries to guess the root directory of the game at the given index
 function GuessGamePath(Index: Integer): String;
 begin
     case Index of
@@ -155,7 +155,7 @@ begin
         Result := ''
 end;
 
-{ Tells us where on which page the install dir box for the given index is located }
+// Tells us where on which page the install dir box for the given index is located
 procedure GetPageAndIndex(Index: Integer; out Page: Integer; out IndexInPage: Integer);
 begin
     Page := Index / PageSize;
@@ -220,8 +220,8 @@ begin
             end;
         end;
     except
-        { there is no way to get the length of TInputDirWizardPage.Values }
-        { so just go for an out of bounds error and fucking swallow it }
+        // there is no way to get the length of TInputDirWizardPage.Values
+        // so just go for an out of bounds error and fucking swallow it
     end;
 end;
 
@@ -251,7 +251,7 @@ begin
     end;
 end;
 
-{ based on https://stackoverflow.com/a/31706698 }
+// based on https://stackoverflow.com/a/31706698
 procedure New_WizardForm_NextButton_OnClick(Sender: TObject);
 var
     Index: Integer;
@@ -262,7 +262,7 @@ begin
     begin
         GetPageAndIndex(Index, Page, IndexInPage);
         if DirPages[Page].Values[IndexInPage] = '' then
-            { Force value to pass validation }
+            // Force value to pass validation
             DirPages[Page].Values[IndexInPage] := PlaceholderDir;
     end;
     Old_WizardForm_NextButton_OnClick(Sender);
