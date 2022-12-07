@@ -63,9 +63,12 @@ Name: "jp"; MessagesFile: "compiler:Languages/Japanese.isl,JP.isl"
 [Files]
 ; BepInEx files
 #sub BepInExFileEntry
-    Source: "{#BepInEx32Dir}\*"; DestDir: {code:GetDir|{#I}}; Flags: recursesubdirs; Check: ShouldInstallBepInEx({#I}, 'x86')
-    Source: "{#BepInEx64Dir}\*"; DestDir: {code:GetDir|{#I}}; Flags: recursesubdirs; Check: ShouldInstallBepInEx({#I}, 'x64')
-    Source: "{#BepInExIl2cpp64Dir}\*"; DestDir: {code:GetDir|{#I}}; Flags: recursesubdirs; Check: ShouldInstallBepInEx({#I}, 'il2cpp-x64')
+    Source: "{#BepInEx32Dir}\*"; DestDir: {code:GetDir|{#I}}; \
+        Flags: recursesubdirs; Check: ShouldInstallBepInEx({#I}, 'x86')
+    Source: "{#BepInEx64Dir}\*"; DestDir: {code:GetDir|{#I}}; \
+        Flags: recursesubdirs; Check: ShouldInstallBepInEx({#I}, 'x64')
+    Source: "{#BepInExIl2cpp64Dir}\*"; DestDir: {code:GetDir|{#I}}; \
+        Flags: recursesubdirs; Check: ShouldInstallBepInEx({#I}, 'il2cpp-x64')
 #endsub
 #if DirExists(BepInEx32Dir) && DirExists(BepInEx64Dir)
     #for {I = 0; I < PluginCount; I++} BepInExFileEntry
@@ -73,8 +76,10 @@ Name: "jp"; MessagesFile: "compiler:Languages/Japanese.isl,JP.isl"
 
 ; LoveMachine files
 #sub PluginFileEntry
-    Source: "{#PluginBuildDir}{#GetPluginId(I)}\*"; DestDir: {code:GetDir|{#I}}; Flags: recursesubdirs ignoreversion; Check: IsDirSelected({#I})
-    Source: "..\{#GetPluginId(I)}\tweaks\*"; DestDir: {code:GetDir|{#I}}; Flags: recursesubdirs ignoreversion skipifsourcedoesntexist onlyifdoesntexist;
+    Source: "{#PluginBuildDir}{#GetPluginId(I)}\*"; DestDir: {code:GetDir|{#I}}; \
+        Flags: recursesubdirs ignoreversion; Check: IsDirSelected({#I})
+    Source: "..\{#GetPluginId(I)}\tweaks\*"; DestDir: {code:GetDir|{#I}}; \
+        Flags: recursesubdirs ignoreversion skipifsourcedoesntexist onlyifdoesntexist;
 #endsub
 #for {I = 0; I < PluginCount; I++} PluginFileEntry
 
