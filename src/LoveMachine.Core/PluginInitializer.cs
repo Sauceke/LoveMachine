@@ -1,6 +1,5 @@
 ﻿using BepInEx;
 using BepInEx.Logging;
-using UnityEngine;
 
 namespace LoveMachine.Core
 {
@@ -9,8 +8,6 @@ namespace LoveMachine.Core
     // This is ugly but my hands are tied.
     public static class PluginInitializer
     {
-        public static GameObject go;
-
         /// <summary>
         /// LoveMachine's entry point. Call this in your plugin's Start method.
         /// </summary>
