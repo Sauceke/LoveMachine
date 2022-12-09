@@ -300,7 +300,7 @@ namespace LoveMachine.Core
                 var args = new DeviceListEventArgs(before: previousDevices, after: Devices);
                 OnDeviceListUpdated.Invoke(this, args);
                 LogDevices();
-                HandleCoroutine(ReadBatteryLevels(retries: 1));
+                ReadBatteryLevels();
             }
             return handled;
         }
@@ -311,7 +311,7 @@ namespace LoveMachine.Core
             if (handled)
             {
                 var reading = JsonMapper.ToObject<BatteryLevelMessage>(data.ToJson())
-                        .BatteryLevelReading;
+                    .BatteryLevelReading;
                 Devices.Where(device => device.DeviceIndex == reading.DeviceIndex).ToList()
                     .ForEach(device => device.BatteryLevel = reading.BatteryLevel);
             }
@@ -334,15 +334,8 @@ namespace LoveMachine.Core
                 .ForEach(CoreConfig.Logger.LogMessage);
         }
 
-        private IEnumerator ReadBatteryLevels(int retries)
-        {
-            for (int i = 0; i < retries; i++)
-            {
-                Devices.Where(device => device.HasBatteryLevel).ToList()
-                    .ForEach(BatteryLevelCmd);
-                yield return new WaitForSecondsRealtime(1f);
-            }
-        }
+        private void ReadBatteryLevels() =>
+            Devices.Where(device => device.HasBatteryLevel).ToList().ForEach(BatteryLevelCmd);
 
         private IEnumerator RunReceiveLoop()
         {
@@ -376,7 +369,7 @@ namespace LoveMachine.Core
             while (true)
             {
                 yield return new WaitForSecondsRealtime(60f);
-                yield return HandleCoroutine(ReadBatteryLevels(retries: 1));
+                ReadBatteryLevels();
                 Devices
                     .Where(device => device.BatteryLevel > 0f && device.BatteryLevel < 0.2f)
                     .Select(device => $"{device.DeviceName}: battery low.").ToList()
