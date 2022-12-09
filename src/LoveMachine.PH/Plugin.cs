@@ -6,12 +6,8 @@ namespace LoveMachine.PH
     [BepInProcess("PlayHome32bit")]
     [BepInProcess("PlayHome64bit")]
     [BepInPlugin(CoreConfig.GUID, CoreConfig.PluginName, CoreConfig.Version)]
-    internal class Plugin : BaseUnityPlugin
+    internal class Plugin : LoveMachinePlugin<PlayHomeGame>
     {
-        private void Start()
-        {
-            this.Initialize<PlayHomeGame>(Logger);
-            Hooks.InstallHooks();
-        }
+        protected override void InstallHooks() => Hooks.InstallHooks();
     }
 }

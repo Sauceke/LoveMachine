@@ -4,12 +4,8 @@ using LoveMachine.Core;
 namespace LoveMachine.SCS
 {
     [BepInPlugin(CoreConfig.GUID, CoreConfig.PluginName, CoreConfig.Version)]
-    internal class Plugin : BaseUnityPlugin
+    internal class Plugin : LoveMachinePlugin<SecrossphereGame>
     {
-        private void Start()
-        {
-            this.Initialize<SecrossphereGame>(Logger);
-            Hooks.InstallHooks();
-        }
+        protected override void InstallHooks() => Hooks.InstallHooks();
     }
 }

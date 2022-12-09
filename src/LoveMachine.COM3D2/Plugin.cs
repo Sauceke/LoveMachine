@@ -4,12 +4,8 @@ using LoveMachine.Core;
 namespace LoveMachine.COM3D2
 {
     [BepInPlugin(CoreConfig.GUID, CoreConfig.PluginName, CoreConfig.Version)]
-    internal class Plugin : BaseUnityPlugin
+    internal class Plugin : LoveMachinePlugin<Com3d2Game>
     {
-        private void Start()
-        {
-            this.Initialize<Com3d2Game>(Logger);
-            Hooks.InstallHooks();
-        }
+        protected override void InstallHooks() => Hooks.InstallHooks();
     }
 }

@@ -6,13 +6,9 @@ namespace LoveMachine.HS2
     [BepInProcess("HoneySelect2")]
     [BepInProcess("HoneySelect2VR")]
     [BepInPlugin(CoreConfig.GUID, CoreConfig.PluginName, CoreConfig.Version)]
-    internal class Plugin : BaseUnityPlugin
+    internal class Plugin : LoveMachinePlugin<HoneySelect2Game>
     {
-        private void Start()
-        {
-            this.Initialize<HoneySelect2Game>(Logger);
-            Hooks.InstallHooks();
-        }
+        protected override void InstallHooks() => Hooks.InstallHooks();
     }
 
     // To avoid conflict with the old plugin

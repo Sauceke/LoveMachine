@@ -10,29 +10,26 @@ namespace LoveMachine.KK
     [BepInProcess("KoikatsuSunshine")]
     [BepInProcess("KoikatsuSunshine_VR")]
     [BepInPlugin(CoreConfig.GUID, "LoveMachine", CoreConfig.Version)]
-    public class Plugin : BaseUnityPlugin
+    internal class Plugin : LoveMachinePlugin<KoikatsuGame>
     {
-        private void Start()
+        protected override void InstallHooks() => Hooks.InstallHSceneHooks();
+
+        protected override void Start()
         {
-            this.Initialize<KoikatsuGame>(Logger);
+            base.Start();
             KKAnimationConfig.Initialize(this);
             var manager = CoreConfig.ManagerObject;
             manager.AddComponent<KoikatsuAnimationController>();
             manager.AddComponent<KoikatsuAibuStrokerController>();
             manager.AddComponent<KoikatsuAibuVibratorController>();
-            Hooks.InstallHSceneHooks();
         }
     }
 
     [BepInProcess("CharaStudio")]
     [BepInPlugin(CoreConfig.GUID, "LoveMachine", CoreConfig.Version)]
-    public class StudioPlugin : BaseUnityPlugin
+    internal class StudioPlugin : LoveMachinePlugin<StudioGame>
     {
-        private void Start()
-        {
-            this.Initialize<StudioGame>(Logger);
-            Hooks.InstallStudioHooks();
-        }
+        protected override void InstallHooks() => Hooks.InstallStudioHooks();
     }
 
     // To avoid conflict with the old plugin

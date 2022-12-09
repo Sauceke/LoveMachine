@@ -17,7 +17,6 @@ namespace LoveMachine.AGH
             harmony.Patch(AccessTools.Method(gangbang, "Awake"), postfix: startH);
             harmony.Patch(AccessTools.Method(twosome, "Unload"), prefix: endH);
             harmony.Patch(AccessTools.Method(gangbang, "RiEnd"), prefix: endH);
-            harmony.Patch(AccessTools.Method(gangbang, "BundleReset"), prefix: endH);
         }
 
         public static void StartH() =>

@@ -14,7 +14,7 @@ namespace LoveMachine.HS2
             public static void StartH(HScene __instance) =>
                 Chainloader.ManagerObject.GetComponent<HoneySelect2Game>().StartH(__instance);
 
-            [HarmonyPostfix]
+            [HarmonyPrefix]
             [HarmonyPatch(typeof(HScene), nameof(HScene.EndProc))]
             public static void EndH() =>
                 Chainloader.ManagerObject.GetComponent<HoneySelect2Game>().EndH();

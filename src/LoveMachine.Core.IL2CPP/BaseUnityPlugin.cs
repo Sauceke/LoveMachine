@@ -1,14 +1,13 @@
-﻿using BepInEx.Configuration;
+﻿using BepInEx.Logging;
 using BepInEx.Unity.IL2CPP;
+using HarmonyLib;
 
 namespace LoveMachine.Core
 {
-    public class BaseUnityPlugin
+    public class BaseUnityPlugin : BasePlugin
     {
-        private BasePlugin plugin;
+        public ManualLogSource Logger => Log;
 
-        public BaseUnityPlugin(BasePlugin plugin) => this.plugin = plugin;
-
-        public ConfigFile Config => plugin.Config;
+        public override void Load() => Traverse.Create(this).Method("Start").GetValue();
     }
 }

@@ -4,12 +4,8 @@ using LoveMachine.Core;
 namespace LoveMachine.IO
 {
     [BepInPlugin(CoreConfig.GUID, CoreConfig.PluginName, CoreConfig.Version)]
-    internal class Plugin : BaseUnityPlugin
+    internal class Plugin : LoveMachinePlugin<InsultOrderGame>
     {
-        private void Start()
-        {
-            this.Initialize<InsultOrderGame>(logger: Logger);
-            Hooks.InstallHooks();
-        }
+        protected override void InstallHooks() => Hooks.InstallHooks();
     }
 }

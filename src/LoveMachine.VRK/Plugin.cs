@@ -5,12 +5,8 @@ namespace LoveMachine.VRK
 {
     [BepInProcess("VR_Kanojo")]
     [BepInPlugin(CoreConfig.GUID, CoreConfig.PluginName, CoreConfig.Version)]
-    internal class Plugin : BaseUnityPlugin
+    internal class Plugin : LoveMachinePlugin<VRKanojoGame>
     {
-        private void Start()
-        {
-            this.Initialize<VRKanojoGame>(Logger);
-            Hooks.InstallHooks();
-        }
+        protected override void InstallHooks() => Hooks.InstallHooks();
     }
 }
