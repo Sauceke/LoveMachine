@@ -6,9 +6,6 @@
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="System.Data.DataSetExtensions" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\LoveMachine.Core\LoveMachine.Core.csproj" />
   </ItemGroup>
   <ItemGroup>

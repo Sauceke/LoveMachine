@@ -28,9 +28,6 @@ namespace LoveMachine.Core
     <WriteLinesToFile File="Mono/VersionInfo.cs" Lines="$(_VersionTemplate)" WriteOnlyWhenDifferent="true" Overwrite="true" />
   </Target>
   <ItemGroup>
-    <Reference Include="System.XML" />
-  </ItemGroup>
-  <ItemGroup>
     <PackageReference Include="AllForOne" Version="1.0.0.27" />
     <PackageReference Include="BepInEx.Core" Version="5.3.0" ExcludeAssets="runtime" />
     <PackageReference Include="HarmonyX" Version="2.0.6" ExcludeAssets="runtime" />

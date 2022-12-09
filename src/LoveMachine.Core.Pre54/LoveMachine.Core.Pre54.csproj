@@ -12,9 +12,6 @@
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="System.XML" />
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="..\LoveMachine.Core\**\*.cs" Exclude="..\LoveMachine.Core\obj\**\*.cs" LinkBase="Included"/>
   </ItemGroup>
   <ItemGroup>
