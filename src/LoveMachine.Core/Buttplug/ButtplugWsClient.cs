@@ -238,38 +238,11 @@ namespace LoveMachine.Core
             yield return new WaitForEndOfFrame();
             foreach (JsonData data in JsonMapper.ToObject(e.Message))
             {
-                if (data.ContainsKey("Error"))
-                {
-                    CoreConfig.Logger.LogWarning($"Error from Intiface: {data.ToJson()}");
-                }
-                else if (data.ContainsKey("ServerInfo") || data.ContainsKey("DeviceAdded")
-                    || data.ContainsKey("DeviceRemoved"))
-                {
-                    RequestDeviceList();
-                }
-                else if (data.ContainsKey("DeviceList"))
-                {
-                    var previousDevices = Devices;
-                    Devices = JsonMapper.ToObject<DeviceListMessage>(data.ToJson())
-                        .DeviceList.Devices;
-                    var args = new DeviceListEventArgs(before: previousDevices, after: Devices);
-                    OnDeviceListUpdated.Invoke(this, args);
-                    LogDevices();
-                    HandleCoroutine(ReadBatteryLevels(retries: 5));
-                }
-                else if (data.ContainsKey("BatteryLevelReading"))
-                {
-                    var reading = JsonMapper.ToObject<BatteryLevelMessage>(data.ToJson())
-                        .BatteryLevelReading;
-                    Devices.Where(device => device.DeviceIndex == reading.DeviceIndex).ToList()
-                        .ForEach(device => device.BatteryLevel = reading.BatteryLevel);
-                }
-                if (data.ContainsKey("ServerInfo"))
-                {
-                    IsConnected = true;
-                    CoreConfig.Logger.LogInfo("Handshake successful.");
-                    StartScan();
-                }
+                bool _ = CheckErrorMsg(data)
+                    || CheckServerInfoMsg(data)
+                    || CheckDeviceAddedRemovedMsg(data)
+                    || CheckDeviceListMsg(data)
+                    || CheckBatteryLevelReadingMsg(data);
             }
         }
 
@@ -283,25 +256,82 @@ namespace LoveMachine.Core
             }
         }
 
+        private bool CheckErrorMsg(JsonData data)
+        {
+            bool handled = data.ContainsKey("Error");
+            if (handled)
+            {
+                CoreConfig.Logger.LogWarning($"Error from Intiface: {data.ToJson()}");
+            }
+            return handled;
+        }
+
+        private bool CheckServerInfoMsg(JsonData data)
+        {
+            bool handled = data.ContainsKey("ServerInfo");
+            if (handled)
+            {
+                IsConnected = true;
+                CoreConfig.Logger.LogInfo("Handshake successful.");
+                StartScan();
+                RequestDeviceList();
+            }
+            return handled;
+        }
+
+        private bool CheckDeviceAddedRemovedMsg(JsonData data)
+        {
+            bool handled = data.ContainsKey("DeviceAdded") || data.ContainsKey("DeviceRemoved");
+            if (handled)
+            {
+                RequestDeviceList();
+            }
+            return handled;
+        }
+
+        private bool CheckDeviceListMsg(JsonData data)
+        {
+            bool handled = data.ContainsKey("DeviceList");
+            if (handled)
+            {
+                var previousDevices = Devices;
+                Devices = JsonMapper.ToObject<DeviceListMessage>(data.ToJson())
+                    .DeviceList.Devices;
+                var args = new DeviceListEventArgs(before: previousDevices, after: Devices);
+                OnDeviceListUpdated.Invoke(this, args);
+                LogDevices();
+                HandleCoroutine(ReadBatteryLevels(retries: 1));
+            }
+            return handled;
+        }
+
+        private bool CheckBatteryLevelReadingMsg(JsonData data)
+        {
+            bool handled = data.ContainsKey("BatteryLevelReading");
+            if (handled)
+            {
+                var reading = JsonMapper.ToObject<BatteryLevelMessage>(data.ToJson())
+                        .BatteryLevelReading;
+                Devices.Where(device => device.DeviceIndex == reading.DeviceIndex).ToList()
+                    .ForEach(device => device.BatteryLevel = reading.BatteryLevel);
+            }
+            return handled;
+        }
+
         private void LogDevices()
         {
             CoreConfig.Logger.LogInfo($"List of devices: {JsonMapper.ToJson(Devices)}");
             if (Devices.Count == 0)
             {
                 CoreConfig.Logger.LogMessage("Warning: No devices connected to Intiface.");
+                return;
             }
-            else
-            {
-                CoreConfig.Logger.LogMessage($"{Devices.Count} device(s) connected to Intiface.");
-            }
-            foreach (var device in Devices)
-            {
-                if (!device.IsStroker && !device.IsVibrator && !device.IsRotator)
-                {
-                    CoreConfig.Logger.LogMessage(
-                        $"Warning: device \"{device.DeviceName}\" not supported.");
-                }
-            }
+            CoreConfig.Logger.LogMessage($"{Devices.Count} device(s) connected to Intiface.");
+            Devices
+                .Where(device => !device.IsStroker && !device.IsVibrator && !device.IsRotator)
+                .Select(device => $"Warning: device \"{device.DeviceName}\" not supported.")
+                .ToList()
+                .ForEach(CoreConfig.Logger.LogMessage);
         }
 
         private IEnumerator ReadBatteryLevels(int retries)
@@ -330,6 +360,7 @@ namespace LoveMachine.Core
         {
             while (true)
             {
+                yield return null;
                 killSwitchThrown &= !KillSwitchConfig.ResumeSwitch.Value.IsPressed();
                 if (KillSwitchConfig.KillSwitch.Value.IsDown())
                 {
@@ -337,7 +368,6 @@ namespace LoveMachine.Core
                     StopAllDevices();
                     killSwitchThrown = true;
                 }
-                yield return null;
             }
         }
 
@@ -347,13 +377,10 @@ namespace LoveMachine.Core
             {
                 yield return new WaitForSecondsRealtime(60f);
                 yield return HandleCoroutine(ReadBatteryLevels(retries: 1));
-                foreach (var device in Devices)
-                {
-                    if (device.BatteryLevel > 0f && device.BatteryLevel < 0.2f)
-                    {
-                        CoreConfig.Logger.LogMessage($"{device.DeviceName}: battery low.");
-                    }
-                }
+                Devices
+                    .Where(device => device.BatteryLevel > 0f && device.BatteryLevel < 0.2f)
+                    .Select(device => $"{device.DeviceName}: battery low.").ToList()
+                    .ForEach(CoreConfig.Logger.LogMessage);
             }
         }
     }
