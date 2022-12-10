@@ -155,15 +155,15 @@ namespace LoveMachine.Core
             //    meaningfully test for higher frequencies.
             var maxFreq = Mathf.Min(MaxFrequency, samples.Count() / 2);
             // Get frequency using Fourier series.
-            var dfsMagnitudes = new List<float>();
-            for (int k = 1; k < maxFreq; k++)
+            var dfsMagnitudes = new float[maxFreq];
+            for (int k = 1; k <= maxFreq; k++)
             {
                 float freq = 2f * Mathf.PI / samples.Count() * k;
                 float re = samples.Select((amp, index) => amp * Mathf.Cos(freq * index)).Sum();
                 float im = samples.Select((amp, index) => amp * Mathf.Sin(freq * index)).Sum();
-                dfsMagnitudes.Add(re * re + im * im);
+                dfsMagnitudes[k - 1] = re * re + im * im;
             }
-            return dfsMagnitudes.IndexOf(dfsMagnitudes.Max()) + 1;
+            return Array.IndexOf(dfsMagnitudes, dfsMagnitudes.Max()) + 1;
         }
 
         private struct Sample
