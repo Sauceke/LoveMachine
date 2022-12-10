@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using static LoveMachine.Core.Device;
 
 namespace LoveMachine.Core
 {
@@ -19,7 +18,9 @@ namespace LoveMachine.Core
         public DeviceSettings Settings { get; set; } = new DeviceSettings();
         public Features DeviceMessages { get; set; }
 
+        public bool IsSupported => IsVibrator || IsConstrictor || IsStroker || IsRotator;
         public bool IsVibrator => DeviceMessages.ScalarCmd?.Any(f => f.IsVibrator) ?? false;
+        public bool IsConstrictor => DeviceMessages.ScalarCmd?.Any(f => f.IsConstrictor) ?? false;
         public bool IsStroker => DeviceMessages.LinearCmd != null;
         public bool IsRotator => DeviceMessages.RotateCmd != null;
 
@@ -36,12 +37,14 @@ namespace LoveMachine.Core
             public class Feature
             {
                 internal const string Vibrate = "Vibrate";
+                internal const string Constrict = "Constrict";
                 internal const string Battery = "Battery";
 
                 public string ActuatorType { get; set; }
                 public string SensorType { get; set; }
 
                 public bool IsVibrator => ActuatorType == Vibrate;
+                public bool IsConstrictor => ActuatorType == Constrict;
                 public bool HasBatteryLevel => SensorType == Battery;
             }
         }

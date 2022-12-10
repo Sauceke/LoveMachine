@@ -88,6 +88,9 @@ namespace LoveMachine.Core
         public void VibrateCmd(Device device, float intensity) =>
             ScalarCmd(device, intensity, Device.Features.Feature.Vibrate);
 
+        public void ConstrictCmd(Device device, float pressure) =>
+            ScalarCmd(device, pressure, Device.Features.Feature.Constrict);
+
         public void ScalarCmd(Device device, float value, string actuatorType)
         {
             if (killSwitchThrown)
@@ -337,10 +340,9 @@ namespace LoveMachine.Core
             }
             CoreConfig.Logger.LogMessage($"{Devices.Count} device(s) connected to Intiface.");
             Devices
-                .Where(device => !device.IsStroker && !device.IsVibrator && !device.IsRotator)
+                .Where(device => !device.IsSupported)
                 .Select(device => $"Warning: device \"{device.DeviceName}\" not supported.")
-                .ToList()
-                .ForEach(CoreConfig.Logger.LogMessage);
+                .ToList().ForEach(CoreConfig.Logger.LogMessage);
         }
 
         private void ReadBatteryLevels() =>
@@ -381,8 +383,8 @@ namespace LoveMachine.Core
                 ReadBatteryLevels();
                 Devices
                     .Where(device => device.BatteryLevel > 0f && device.BatteryLevel < 0.2f)
-                    .Select(device => $"{device.DeviceName}: battery low.").ToList()
-                    .ForEach(CoreConfig.Logger.LogMessage);
+                    .Select(device => $"{device.DeviceName}: battery low.")
+                    .ToList().ForEach(CoreConfig.Logger.LogMessage);
             }
         }
     }
