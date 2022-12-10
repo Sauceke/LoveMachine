@@ -30,10 +30,9 @@ namespace LoveMachine.Core
     <WriteLinesToFile File="VersionInfo.cs" Lines="$(_VersionTemplate)" WriteOnlyWhenDifferent="true" Overwrite="true" />
   </Target>
   <ItemGroup>
-    <Compile Include="..\LoveMachine.Core\**\*.cs" Exclude="..\LoveMachine.Core\obj\**\*.cs;..\LoveMachine.Core\Mono\*.cs" LinkBase="Included"/>
+    <Compile Include="..\LoveMachine.Core\**\*.cs" Exclude="..\LoveMachine.Core\obj\**\*.cs;..\LoveMachine.Core\Mono\*.cs" LinkBase="Included" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="AllForOne" Version="1.0.0.27" />
     <PackageReference Include="LitJson" Version="0.18.0" />
     <PackageReference Include="WebSocket4Net" Version="0.15.2" />
   </ItemGroup>

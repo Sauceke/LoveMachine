@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
+using static LoveMachine.Core.Device;
 
 namespace LoveMachine.Core
 {
@@ -17,21 +19,30 @@ namespace LoveMachine.Core
         public DeviceSettings Settings { get; set; } = new DeviceSettings();
         public Features DeviceMessages { get; set; }
 
-        public bool IsVibrator => DeviceMessages.VibrateCmd != null;
+        public bool IsVibrator => DeviceMessages.ScalarCmd?.Any(f => f.IsVibrator) ?? false;
         public bool IsStroker => DeviceMessages.LinearCmd != null;
         public bool IsRotator => DeviceMessages.RotateCmd != null;
-        public bool HasBatteryLevel => DeviceMessages.BatteryLevelCmd != null;
+
+        public bool HasBatteryLevel =>
+            DeviceMessages.SensorReadCmd?.Any(f => f.HasBatteryLevel) ?? false;
 
         public class Features
         {
-            public Command LinearCmd { get; set; }
-            public Command VibrateCmd { get; set; }
-            public Command RotateCmd { get; set; }
-            public Command BatteryLevelCmd { get; set; }
+            public Feature[] LinearCmd { get; set; }
+            public Feature[] ScalarCmd { get; set; }
+            public Feature[] RotateCmd { get; set; }
+            public Feature[] SensorReadCmd { get; set; }
 
-            public class Command
+            public class Feature
             {
-                public int FeatureCount { get; set; }
+                internal const string Vibrate = "Vibrate";
+                internal const string Battery = "Battery";
+
+                public string ActuatorType { get; set; }
+                public string SensorType { get; set; }
+
+                public bool IsVibrator => ActuatorType == Vibrate;
+                public bool HasBatteryLevel => SensorType == Battery;
             }
         }
 

@@ -54,17 +54,11 @@ namespace LoveMachine.Core
         private static void DeviceListDrawer(ConfigEntryBase entry)
         {
             var serverController = CoreConfig.ManagerObject.GetComponent<ButtplugWsClient>();
-            var runner = CoreConfig.ManagerObject.GetComponent<IntifaceRunner>();
             GUILayout.BeginVertical(GUILayout.ExpandWidth(true));
             {
                 GUILayout.BeginHorizontal();
                 {
                     GUILayout.FlexibleSpace();
-                    if (GUILayout.Button("Restart", GUILayout.Width(150)))
-                    {
-                        runner.Restart();
-                        serverController.Connect();
-                    }
                     if (GUILayout.Button("Connect", GUILayout.Width(150)))
                     {
                         serverController.Connect();

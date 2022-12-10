@@ -17,7 +17,6 @@ namespace LoveMachine.Core
             StrokerConfig.Initialize(this);
             var manager = CoreConfig.ManagerObject;
             manager.AddComponent<G>();
-            manager.AddComponent<IntifaceRunner>();
             manager.AddComponent<ButtplugWsClient>();
             manager.AddComponent<DeviceManager>();
             manager.AddComponent<AnimationAnalyzer>();

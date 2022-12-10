@@ -60,7 +60,7 @@ namespace LoveMachine.Core
             websocket.Dispose();
         }
 
-        public void LinearCmd(Device device, double position, float durationSecs)
+        public void LinearCmd(Device device, float position, float durationSecs)
         {
             if (killSwitchThrown)
             {
@@ -72,8 +72,8 @@ namespace LoveMachine.Core
                 {
                     Id = random.Next(),
                     DeviceIndex = device.DeviceIndex,
-                    Vectors = Enumerable.Range(0, device.DeviceMessages.LinearCmd.FeatureCount)
-                        .Select(featureIndex => new
+                    Vectors = device.DeviceMessages.LinearCmd
+                        .Select((feature, featureIndex) => new
                         {
                             Index = featureIndex,
                             Duration = (int)(durationSecs * 1000f),
@@ -85,7 +85,10 @@ namespace LoveMachine.Core
             SendSingleCommand(command);
         }
 
-        public void VibrateCmd(Device device, double intensity)
+        public void VibrateCmd(Device device, float intensity) =>
+            ScalarCmd(device, intensity, Device.Features.Feature.Vibrate);
+
+        public void ScalarCmd(Device device, float value, string actuatorType)
         {
             if (killSwitchThrown)
             {
@@ -93,16 +96,18 @@ namespace LoveMachine.Core
             }
             var command = new
             {
-                VibrateCmd = new
+                ScalarCmd = new
                 {
                     Id = random.Next(),
                     DeviceIndex = device.DeviceIndex,
-                    Speeds = Enumerable.Range(0, device.DeviceMessages.VibrateCmd.FeatureCount)
-                        .Select(featureIndex => new
+                    Scalars = device.DeviceMessages.ScalarCmd
+                        .Select((feature, featureIndex) => new
                         {
                             Index = featureIndex,
-                            Speed = intensity
+                            Scalar = value,
+                            ActuatorType = feature.ActuatorType
                         })
+                        .Where(cmd => cmd.ActuatorType == actuatorType)
                         .ToArray()
                 }
             };
@@ -121,8 +126,8 @@ namespace LoveMachine.Core
                 {
                     Id = random.Next(),
                     DeviceIndex = device.DeviceIndex,
-                    Rotations = Enumerable.Range(0, device.DeviceMessages.RotateCmd.FeatureCount)
-                        .Select(featureIndex => new
+                    Rotations = device.DeviceMessages.RotateCmd
+                        .Select((feature, featureIndex) => new
                         {
                             Index = featureIndex,
                             Speed = speed,
@@ -138,10 +143,13 @@ namespace LoveMachine.Core
         {
             var command = new
             {
-                BatteryLevelCmd = new
+                SensorReadCmd = new
                 {
                     Id = random.Next(),
-                    DeviceIndex = device.DeviceIndex
+                    DeviceIndex = device.DeviceIndex,
+                    SensorIndex = Array.FindIndex(
+                        device.DeviceMessages.SensorReadCmd, f => f.HasBatteryLevel),
+                    SensorType = Device.Features.Feature.Battery
                 }
             };
             SendSingleCommand(command);
@@ -227,7 +235,7 @@ namespace LoveMachine.Core
                 {
                     Id = random.Next(),
                     ClientName = Paths.ProcessName,
-                    MessageVersion = 2
+                    MessageVersion = 3
                 }
             };
             SendSingleCommand(handshake);
@@ -307,13 +315,14 @@ namespace LoveMachine.Core
 
         private bool CheckBatteryLevelReadingMsg(JsonData data)
         {
-            bool handled = data.ContainsKey("BatteryLevelReading");
+            var reading = JsonMapper.ToObject<SensorReadingMessage>(data.ToJson());
+            bool handled = reading.SensorReading?.SensorType == Device.Features.Feature.Battery;
             if (handled)
             {
-                var reading = JsonMapper.ToObject<BatteryLevelMessage>(data.ToJson())
-                    .BatteryLevelReading;
-                Devices.Where(device => device.DeviceIndex == reading.DeviceIndex).ToList()
-                    .ForEach(device => device.BatteryLevel = reading.BatteryLevel);
+                float level = reading.SensorReading.Data[0] / 100f;
+                int index = reading.SensorReading.DeviceIndex;
+                Devices.Where(device => device.DeviceIndex == index).ToList()
+                    .ForEach(device => device.BatteryLevel = level);
             }
             return handled;
         }
