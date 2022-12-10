@@ -57,7 +57,7 @@ InfoBeforeFile=Readme.rtf
 PrivilegesRequired=lowest
 
 [Languages]
-Name: "en"; MessagesFile: "EN.isl"
+Name: "en"; MessagesFile: "EN.isl,compiler:Default.isl"
 Name: "jp"; MessagesFile: "compiler:Languages/Japanese.isl,JP.isl"
 
 [Files]
