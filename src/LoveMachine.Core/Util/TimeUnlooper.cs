@@ -7,7 +7,7 @@ namespace LoveMachine.Core
         private float lastLoopingTime = 0f;
         private int totalTime = 0;
 
-        public float LoopingToMonotonous(float loopingTime)
+        public float LoopingToMonotonic(float loopingTime)
         {
             if (loopingTime < lastLoopingTime)
             {

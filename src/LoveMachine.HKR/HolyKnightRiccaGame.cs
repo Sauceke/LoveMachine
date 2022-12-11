@@ -80,7 +80,7 @@ namespace LoveMachine.HKR
                 clipCache[pose] = clip;
             }
             float time = (float)((director.time - clip.start) / clip.duration);
-            normalizedTime = unlooper.LoopingToMonotonous(time);
+            normalizedTime = unlooper.LoopingToMonotonic(time);
             length = (float)clip.duration;
             speed = 1f;
         }

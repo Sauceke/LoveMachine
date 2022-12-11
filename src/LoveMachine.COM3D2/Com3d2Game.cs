@@ -65,7 +65,7 @@ namespace LoveMachine.COM3D2
             out float length, out float speed)
         {
             var state = GetActiveState();
-            normalizedTime = unlooper.LoopingToMonotonous(state.normalizedTime);
+            normalizedTime = unlooper.LoopingToMonotonic(state.normalizedTime);
             length = state.length;
             speed = state.speed;
             return;
