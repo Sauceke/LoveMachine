@@ -1,5 +1,4 @@
-﻿using BepInEx;
-using LitJson;
+﻿using LitJson;
 using System;
 using System.Collections;
 using System.Collections.Concurrent;
@@ -13,7 +12,6 @@ namespace LoveMachine.Core
     public class ButtplugWsClient : CoroutineHandler
     {
         private WebSocket websocket;
-        private readonly System.Random random = new System.Random();
         private bool killSwitchThrown = false;
         private ConcurrentQueue<IEnumerator> incoming;
 
@@ -60,164 +58,31 @@ namespace LoveMachine.Core
             websocket.Dispose();
         }
 
-        public void LinearCmd(Device device, float position, float durationSecs)
-        {
-            if (killSwitchThrown)
-            {
-                return;
-            }
-            var command = new
-            {
-                LinearCmd = new
-                {
-                    Id = random.Next(),
-                    DeviceIndex = device.DeviceIndex,
-                    Vectors = device.DeviceMessages.LinearCmd
-                        .Select((feature, featureIndex) => new
-                        {
-                            Index = featureIndex,
-                            Duration = (int)(durationSecs * 1000f),
-                            Position = position
-                        })
-                        .ToArray()
-                }
-            };
-            SendSingleCommand(command);
-        }
+        public void LinearCmd(Device device, float position, float durationSecs) =>
+            SendKillable(Buttplug.LinearCmd(device, position, durationSecs));
 
         public void VibrateCmd(Device device, float intensity) =>
-            ScalarCmd(device, intensity, Device.Features.Feature.Vibrate);
+            SendKillable(Buttplug.ScalarCmd(device, intensity, Device.Features.Feature.Vibrate));
 
         public void ConstrictCmd(Device device, float pressure) =>
-            ScalarCmd(device, pressure, Device.Features.Feature.Constrict);
+            SendKillable(Buttplug.ScalarCmd(device, pressure, Device.Features.Feature.Constrict));
 
-        public void ScalarCmd(Device device, float value, string actuatorType)
-        {
-            if (killSwitchThrown)
-            {
-                return;
-            }
-            var command = new
-            {
-                ScalarCmd = new
-                {
-                    Id = random.Next(),
-                    DeviceIndex = device.DeviceIndex,
-                    Scalars = device.DeviceMessages.ScalarCmd
-                        .Select((feature, featureIndex) => new
-                        {
-                            Index = featureIndex,
-                            Scalar = value,
-                            ActuatorType = feature.ActuatorType
-                        })
-                        .Where(cmd => cmd.ActuatorType == actuatorType)
-                        .ToArray()
-                }
-            };
-            SendSingleCommand(command);
-        }
+        public void RotateCmd(Device device, float speed, bool clockwise) =>
+            SendKillable(Buttplug.RotateCmd(device, speed, clockwise));
 
-        public void RotateCmd(Device device, float speed, bool clockwise)
-        {
-            if (killSwitchThrown)
-            {
-                return;
-            }
-            var command = new
-            {
-                RotateCmd = new
-                {
-                    Id = random.Next(),
-                    DeviceIndex = device.DeviceIndex,
-                    Rotations = device.DeviceMessages.RotateCmd
-                        .Select((feature, featureIndex) => new
-                        {
-                            Index = featureIndex,
-                            Speed = speed,
-                            Clockwise = clockwise
-                        })
-                        .ToArray()
-                }
-            };
-            SendSingleCommand(command);
-        }
+        public void BatteryLevelCmd(Device device) => Send(Buttplug.BatteryLevelCmd(device));
 
-        public void BatteryLevelCmd(Device device)
-        {
-            var command = new
-            {
-                SensorReadCmd = new
-                {
-                    Id = random.Next(),
-                    DeviceIndex = device.DeviceIndex,
-                    SensorIndex = Array.FindIndex(
-                        device.DeviceMessages.SensorReadCmd, f => f.HasBatteryLevel),
-                    SensorType = Device.Features.Feature.Battery
-                }
-            };
-            SendSingleCommand(command);
-        }
+        public void StopDeviceCmd(Device device) => Send(Buttplug.StopDeviceCmd(device));
 
-        public void StopDeviceCmd(Device device)
-        {
-            var command = new
-            {
-                StopDeviceCmd = new
-                {
-                    Id = random.Next(),
-                    DeviceIndex = device.DeviceIndex
-                }
-            };
-            SendSingleCommand(command);
-        }
+        public void StopAllDevices() => Send(Buttplug.StopAllDevices());
 
-        public void StopAllDevices()
-        {
-            var command = new
-            {
-                StopAllDevices = new
-                {
-                    Id = random.Next()
-                }
-            };
-            SendSingleCommand(command);
-        }
+        private void RequestServerInfo() => Send(Buttplug.RequestServerInfo());
 
-        private void RequestDeviceList()
-        {
-            var deviceListRequest = new
-            {
-                RequestDeviceList = new
-                {
-                    Id = random.Next()
-                }
-            };
-            SendSingleCommand(deviceListRequest);
-        }
+        private void RequestDeviceList() => Send(Buttplug.RequestDeviceList());
 
-        public void StartScan()
-        {
-            var scanRequest = new
-            {
-                StartScanning = new
-                {
-                    Id = random.Next()
-                }
-            };
-            SendSingleCommand(scanRequest);
-        }
+        public void StartScan() => Send(Buttplug.StartScan());
 
-        private void StopScan()
-        {
-            var scanRequest = new
-            {
-                StopScanning = new
-                {
-                    Id = random.Next()
-                }
-            };
-            SendSingleCommand(scanRequest);
-        }
+        private void StopScan() => Send(Buttplug.StopScan());
 
         public void Connect()
         {
@@ -225,23 +90,21 @@ namespace LoveMachine.Core
             Open();
         }
 
-        private void SendSingleCommand(object command) =>
-            websocket.Send(JsonMapper.ToJson(new[] { command }));
+        private void Send(object command) => websocket.Send(JsonMapper.ToJson(new[] { command }));
+
+        private void SendKillable(object command)
+        {
+            if (!killSwitchThrown)
+            {
+                Send(command);
+            }
+        }
 
         private IEnumerator OnOpened(object sender, EventArgs e)
         {
             yield return new WaitForEndOfFrame();
             CoreConfig.Logger.LogInfo("Succesfully connected to Intiface.");
-            var handshake = new
-            {
-                RequestServerInfo = new
-                {
-                    Id = random.Next(),
-                    ClientName = Paths.ProcessName,
-                    MessageVersion = 3
-                }
-            };
-            SendSingleCommand(handshake);
+            RequestServerInfo();
         }
 
         private IEnumerator OnMessageReceived(object sender, MessageReceivedEventArgs e)
