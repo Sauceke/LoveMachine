@@ -23,6 +23,7 @@ namespace LoveMachine.Core
             manager.AddComponent<StrokerController>();
             manager.AddComponent<VibratorController>();
             manager.AddComponent<RotatorController>();
+            manager.AddComponent<ConstrictController>();
             InstallHooks();
         }
     }

@@ -13,6 +13,7 @@ namespace LoveMachine.Core
         public int UpdatesHz { get; set; } = 10;
         public StrokerSettings StrokerSettings { get; set; } = new StrokerSettings();
         public VibratorSettings VibratorSettings { get; set; } = new VibratorSettings();
+        public ConstrictSettings ConstrictSettings { get; set; } = new ConstrictSettings();
 
         internal void Draw()
         {
@@ -61,6 +62,7 @@ namespace LoveMachine.Core
                 max: 30);
             StrokerSettings?.Draw();
             VibratorSettings?.Draw();
+            ConstrictSettings?.Draw();
         }
     }
 }

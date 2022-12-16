@@ -52,6 +52,9 @@ namespace LoveMachine.Core
                 device.Settings.VibratorSettings = device.IsVibrator
                     ? device.Settings.VibratorSettings
                     : null;
+                device.Settings.ConstrictSettings = device.IsConstrictor
+                    ? device.Settings.ConstrictSettings
+                    : null;
             }
         }
     }
