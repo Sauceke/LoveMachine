@@ -10,18 +10,21 @@ namespace LoveMachine.Core
         protected override IEnumerator HandleAnimation(Device device)
         {
             float time = Time.time;
+            float length = ConstrictConfig.CycleLengthSecs.Value;
             float pressure = Mathf.Lerp(
                 device.Settings.ConstrictSettings.PressureMin,
                 device.Settings.ConstrictSettings.PressureMax,
-                t: Mathf.InverseLerp(-1f, 1f, value: Mathf.Sin(time * 2f * Mathf.PI / 60f)));
+                t: Mathf.InverseLerp(-1f, 1f, value: Mathf.Sin(time * 2f * Mathf.PI / length)));
             client.ConstrictCmd(device, pressure);
-            yield return new WaitForSecondsRealtime(1f);
+            yield return new WaitForSecondsRealtime(
+                device.Settings.ConstrictSettings.UpdateIntervalSecs);
         }
 
         protected override IEnumerator HandleOrgasm(Device device)
         {
             client.ConstrictCmd(device, device.Settings.ConstrictSettings.PressureMax);
-            yield return new WaitForSecondsRealtime(1f);
+            yield return new WaitForSecondsRealtime(
+                device.Settings.ConstrictSettings.UpdateIntervalSecs);
         }
     }
 }
