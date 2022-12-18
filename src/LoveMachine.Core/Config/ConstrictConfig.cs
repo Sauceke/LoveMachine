@@ -16,7 +16,7 @@ namespace LoveMachine.Core
                 key: "Pressure Cycle Length (seconds)",
                 defaultValue: 60f,
                 new ConfigDescription(
-                    "How often to change the pressure",
+                    "Repeat building up and releasing pressure over this duration.",
                     new AcceptableValueRange<float>(5f, 200f),
                      new ConfigurationManagerAttributes { Order = order-- }));
         }
