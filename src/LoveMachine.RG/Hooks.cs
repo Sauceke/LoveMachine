@@ -13,7 +13,7 @@ namespace LoveMachine.RG
             var endH = new HarmonyMethod(AccessTools.Method(typeof(Hooks), nameof(EndH)));
             var harmony = new Harmony(typeof(Hooks).FullName);
             harmony.Patch(AccessTools.Method(hScene, "Start"), postfix: startH);
-            harmony.Patch(AccessTools.Method(hScene, "OnDestroy"), postfix: endH);
+            harmony.Patch(AccessTools.Method(hScene, "OnDestroy"), prefix: endH);
         }
 
         public static void StartH(MonoBehaviour __instance) =>

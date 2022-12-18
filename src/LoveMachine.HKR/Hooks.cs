@@ -13,7 +13,7 @@ namespace LoveMachine.HKR
             var endH = new HarmonyMethod(AccessTools.Method(typeof(Hooks), nameof(EndH)));
             var harmony = new Harmony(typeof(Hooks).FullName);
             harmony.Patch(AccessTools.Method(uiController, "FinishADV"), postfix: startH);
-            harmony.Patch(AccessTools.Method(uiController, "OnDestroy"), postfix: endH);
+            harmony.Patch(AccessTools.Method(uiController, "OnDestroy"), prefix: endH);
         }
 
         public static void StartH(MonoBehaviour __instance) =>
