@@ -18,7 +18,7 @@ namespace LoveMachine.Core
                 new ConfigDescription(
                     "Repeat building up and releasing pressure over this duration.",
                     new AcceptableValueRange<float>(5f, 200f),
-                     new ConfigurationManagerAttributes { Order = order-- }));
+                    new ConfigurationManagerAttributes { Order = order-- }));
         }
     }
 }

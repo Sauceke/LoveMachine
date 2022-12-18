@@ -15,6 +15,7 @@ namespace LoveMachine.Core
             KillSwitchConfig.Initialize(this);
             RotatorConfig.Initialize(this);
             StrokerConfig.Initialize(this);
+            ConstrictConfig.Initialize(this);
             var manager = CoreConfig.ManagerObject;
             manager.AddComponent<G>();
             manager.AddComponent<ButtplugWsClient>();
