@@ -1,22 +1,11 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace LoveMachine.Core
 {
     public sealed class VibratorController : ClassicButtplugController
     {
-        private static readonly Dictionary<VibrationPattern, Func<float, float>> waveforms =
-            new Dictionary<VibrationPattern, Func<float, float>>
-            {
-                { VibrationPattern.Sine, RectifiedSineWave },
-                { VibrationPattern.Triangle, TriangleWave },
-                { VibrationPattern.Saw, SawWave },
-                { VibrationPattern.Pulse, PulseWave },
-                { VibrationPattern.Constant, _ => 1f }
-            };
-
         private void Start() => base.Start();
 
         protected override bool IsDeviceSupported(Device device) => device.IsVibrator;
@@ -30,7 +19,7 @@ namespace LoveMachine.Core
             float phase = result.Phase;
             float frequency = result.Frequency;
             float time = normalizedTime - phase;
-            float strength = CurrentWave(time * frequency, device.Settings.VibratorSettings);
+            float strength = GetStrength(time * frequency, device.Settings.VibratorSettings);
             float intensity = Mathf.Lerp(
                 device.Settings.VibratorSettings.IntensityMin,
                 device.Settings.VibratorSettings.IntensityMax,
@@ -47,10 +36,30 @@ namespace LoveMachine.Core
             client.StopDeviceCmd(device);
         }
 
-        private static float CurrentWave(float x, VibratorSettings settings) =>
-            settings.Pattern == VibrationPattern.Custom
-                ? CustomWave(x, settings.CustomPattern)
-                : waveforms[settings.Pattern](x);
+        private static float GetStrength(float x, VibratorSettings settings)
+        {
+            switch (settings.Pattern)
+            {
+                case VibrationPattern.Sine:
+                    return RectifiedSineWave(x);
+
+                case VibrationPattern.Triangle:
+                    return TriangleWave(x);
+
+                case VibrationPattern.Saw:
+                    return SawWave(x);
+
+                case VibrationPattern.Pulse:
+                    return PulseWave(x);
+
+                case VibrationPattern.Constant:
+                    return 1f;
+
+                case VibrationPattern.Custom:
+                    return CustomWave(x, settings.CustomPattern);
+            }
+            throw new Exception("unreachable");
+        }
 
         private static float RectifiedSineWave(float x) => Mathf.Abs(Mathf.Cos(Mathf.PI * x));
 
