@@ -30,8 +30,6 @@ namespace LoveMachine.IO
 
         protected override bool IsHardSex => false;
 
-        protected override bool IsHSceneInterrupted => false;
-
         protected override float PenisSize => 0.5f;
 
         public override int AnimationLayer => 0;

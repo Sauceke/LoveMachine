@@ -44,8 +44,6 @@ namespace LoveMachine.HKR
 
         protected override bool IsHardSex => true;
 
-        protected override bool IsHSceneInterrupted => false;
-
         protected override float PenisSize => 0.1f;
 
         public override Animator GetFemaleAnimator(int girlIndex) =>

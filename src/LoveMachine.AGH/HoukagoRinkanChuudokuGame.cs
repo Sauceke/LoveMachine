@@ -37,8 +37,6 @@ namespace LoveMachine.AGH
 
         public override int AnimationLayer => 0;
 
-        protected override bool IsHSceneInterrupted => false;
-
         protected override float PenisSize => 0.5f;
 
         protected override float MinOrgasmDurationSecs => 6f;

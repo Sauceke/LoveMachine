@@ -15,7 +15,6 @@ namespace LoveMachine.Core
         protected internal override int HeroineCount => throw new NotImplementedException();
         protected internal override int MaxHeroineCount => throw new NotImplementedException();
         protected internal override bool IsHardSex => false;
-        protected internal override bool IsHSceneInterrupted => false;
         protected internal override float TimeScale => 1f;
 
         public override Animator GetFemaleAnimator(int girlIndex) => throw new NotImplementedException();

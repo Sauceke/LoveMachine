@@ -45,19 +45,12 @@ namespace LoveMachine.Core
             }
         }
 
-        private void OnStartH() => HandleCoroutine(RunLoops());
+        private void OnStartH() => HandleCoroutine(Run());
 
         private void OnEndH()
         {
             StopAllCoroutines();
             client.StopAllDevices();
-        }
-
-        private IEnumerator RunLoops()
-        {
-            HandleCoroutine(Run());
-            yield return WaitUntil(() => game.IsHSceneInterrupted);
-            OnEndH();
         }
 
         public static void Test<T>(Device device)

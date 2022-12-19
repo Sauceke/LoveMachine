@@ -46,8 +46,6 @@ namespace LoveMachine.KK
 
         public override int AnimationLayer => 0;
 
-        protected override bool IsHSceneInterrupted => Flags.isHSceneEnd;
-
         protected override float PenisSize => 0.1f;
 
         protected override float VibrationIntensity => Flags.speedCalc == 0f ? 1f : Flags.speedCalc;

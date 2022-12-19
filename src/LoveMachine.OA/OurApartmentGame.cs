@@ -47,8 +47,6 @@ namespace LoveMachine.OA
             .DefaultIfEmpty(-1)
             .First();
 
-        protected override bool IsHSceneInterrupted => false;
-
         protected override float PenisSize => 0.2f;
 
         public override Animator GetFemaleAnimator(int girlIndex) => naomiAnimator;

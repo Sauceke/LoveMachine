@@ -47,8 +47,6 @@ namespace LoveMachine.RG
 
         protected override bool IsHardSex => false;
 
-        protected override bool IsHSceneInterrupted => false;
-
         protected override float PenisSize => 0.8f;
 
         public override Animator GetFemaleAnimator(int girlIndex) => femaleAnimator;

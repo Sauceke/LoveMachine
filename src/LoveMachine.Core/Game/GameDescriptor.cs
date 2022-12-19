@@ -16,8 +16,6 @@ namespace LoveMachine.Core
 
         internal event EventHandler<HEventArgs> OnHEnded;
 
-        private bool hRunning = false;
-
         /// <summary>
         /// The name/path of each bone's GameObject in female characters. <br/>
         /// Not all bones are required to have an entry. <br/>
@@ -50,12 +48,6 @@ namespace LoveMachine.Core
         /// </summary>
         [HideFromIl2Cpp]
         protected internal abstract bool IsHardSex { get; }
-
-        /// <summary>
-        /// Indicates that the H-scene has ended (or you can call EndH instead).
-        /// </summary>
-        [HideFromIl2Cpp]
-        protected internal abstract bool IsHSceneInterrupted { get; }
 
         /// <summary>
         /// Approximate length of a penis in Unity's length units.
@@ -92,7 +84,7 @@ namespace LoveMachine.Core
         [HideFromIl2Cpp]
         protected internal virtual float TimeScale => Time.timeScale;
 
-        internal bool IsHSceneRunning => hRunning && !IsHSceneInterrupted;
+        internal bool IsHSceneRunning { get; private set; }
 
         /// <summary>
         /// The animator of the heroine at the given index. <br/>
@@ -185,7 +177,7 @@ namespace LoveMachine.Core
         public void StartH()
         {
             EndH();
-            hRunning = true;
+            IsHSceneRunning = true;
             HandleCoroutine(StartHWhenReady());
         }
 
@@ -194,7 +186,8 @@ namespace LoveMachine.Core
         /// </summary>
         public void EndH()
         {
-            hRunning = false;
+            IsHSceneRunning = false;
+            StopAllCoroutines();
             OnHEnded.Invoke(this, new HEventArgs());
             CoreConfig.Logger.LogInfo("H scene ended.");
         }

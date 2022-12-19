@@ -32,8 +32,6 @@ namespace LoveMachine.HS2
 
         public override int AnimationLayer => 0;
 
-        protected override bool IsHSceneInterrupted => false;
-
         protected override float PenisSize => 0.4f;
 
         public override Animator GetFemaleAnimator(int girlIndex) =>

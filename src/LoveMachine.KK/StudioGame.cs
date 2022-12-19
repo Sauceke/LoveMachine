@@ -23,8 +23,6 @@ namespace LoveMachine.KK
 
         protected override bool IsHardSex => false;
 
-        protected override bool IsHSceneInterrupted => false;
-
         public override Animator GetFemaleAnimator(int girlIndex) =>
             throw new NotImplementedException();
 

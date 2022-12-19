@@ -47,8 +47,6 @@ namespace LoveMachine.COM3D2
         // TOOD animation name numbering is not consistent, need to make some sense out of it
         protected override bool IsHardSex => GetPose(0).Contains('2');
 
-        protected override bool IsHSceneInterrupted => false;
-
         protected override float PenisSize => 0.08f;
 
         public override int AnimationLayer => throw new NotImplementedException();

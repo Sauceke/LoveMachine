@@ -30,8 +30,6 @@ namespace LoveMachine.SCS
 
         protected override bool IsHardSex => false;
 
-        protected override bool IsHSceneInterrupted => false;
-
         protected override float PenisSize => 0.15f;
 
         public override Animator GetFemaleAnimator(int girlIndex) => femaleAnimators[girlIndex];

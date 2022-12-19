@@ -17,6 +17,11 @@ namespace LoveMachine.KK
             [HarmonyPatch(typeof(HFlag), nameof(HFlag.Start))]
             public static void StartH(HFlag __instance) =>
                 Chainloader.ManagerObject.GetComponent<KoikatsuGame>().StartH(__instance);
+
+            [HarmonyPrefix]
+            [HarmonyPatch(typeof(HFlag), nameof(HFlag.Destroy))]
+            public static void EndH() =>
+                Chainloader.ManagerObject.GetComponent<KoikatsuGame>().EndH();
         }
 
         private static class StudioTriggers

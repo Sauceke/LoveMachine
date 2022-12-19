@@ -32,8 +32,6 @@ namespace LoveMachine.VRK
 
         protected override bool IsHardSex => false;
 
-        protected override bool IsHSceneInterrupted => false;
-
         protected override float PenisSize => 0.1f;
 
         public override Animator GetFemaleAnimator(int girlIndex) => sakura.animBody;
