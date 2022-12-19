@@ -19,7 +19,8 @@ namespace LoveMachine.KK
                 Chainloader.ManagerObject.GetComponent<KoikatsuGame>().StartH(__instance);
 
             [HarmonyPrefix]
-            [HarmonyPatch(typeof(HFlag), nameof(HFlag.Destroy))]
+            [HarmonyPatch(typeof(HSprite), nameof(HSprite.OnClickHSceneEnd))]
+            [HarmonyPatch(typeof(HSprite), nameof(HSprite.OnClickTrespassing))]
             public static void EndH() =>
                 Chainloader.ManagerObject.GetComponent<KoikatsuGame>().EndH();
         }

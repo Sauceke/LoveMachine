@@ -86,10 +86,9 @@ namespace LoveMachine.KK
 
         protected override IEnumerator UntilReady()
         {
-            yield return new WaitWhile(() => !Flags.isHSceneEnd
-                && (Flags.lstHeroine.IsNullOrEmpty()
+            yield return new WaitWhile(() => Flags.lstHeroine.IsNullOrEmpty()
                 || Flags.lstHeroine.Any(girl => girl.chaCtrl?.animBody == null)
-                || Flags.player?.chaCtrl?.animBody == null));
+                || Flags.player?.chaCtrl?.animBody == null);
         }
     }
 }
