@@ -182,7 +182,7 @@ namespace LoveMachine.Core
         }
 
         /// <summary>
-        /// Call this or set IsHSceneInterrupted to true when the H-scene ends.
+        /// Call this when the H-scene ends.
         /// </summary>
         public void EndH()
         {
