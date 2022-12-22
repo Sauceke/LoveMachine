@@ -1,6 +1,8 @@
-﻿using IllusionUtility.GetUtility;
+﻿using HarmonyLib;
+using IllusionUtility.GetUtility;
 using System.Collections;
 using System.Linq;
+using System.Reflection;
 using UnityEngine;
 
 namespace LoveMachine.KK
@@ -32,12 +34,6 @@ namespace LoveMachine.KK
 
         public HFlag Flags { get; private set; }
 
-        public void StartH(HFlag flags)
-        {
-            Flags = flags;
-            StartH();
-        }
-
         protected override int HeroineCount => Flags.lstHeroine.Count;
 
         protected override int MaxHeroineCount => 2;
@@ -49,6 +45,15 @@ namespace LoveMachine.KK
         protected override float PenisSize => 0.1f;
 
         protected override float VibrationIntensity => Flags.speedCalc == 0f ? 1f : Flags.speedCalc;
+
+        protected override MethodInfo[] StartHMethods =>
+            new[] { AccessTools.Method(typeof(HFlag), nameof(HFlag.Start)) };
+
+        protected override MethodInfo[] EndHMethods => new[]
+        {
+            AccessTools.Method(typeof(HSprite), nameof(HSprite.OnClickHSceneEnd)),
+            AccessTools.Method(typeof(HSprite), nameof(HSprite.OnClickTrespassing))
+        };
 
         protected override bool IsIdle(int girlIndex) => !supportedModes.Contains(Flags.mode)
                     || !activeAnimations.Contains(Flags.nowAnimStateName)
@@ -83,6 +88,8 @@ namespace LoveMachine.KK
             }
             yield return new WaitForSeconds(0.1f);
         }
+
+        protected override void SetStartHInstance(object flags) => Flags = (HFlag)flags;
 
         protected override IEnumerator UntilReady()
         {

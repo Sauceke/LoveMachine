@@ -3,6 +3,7 @@ using LoveMachine.Core;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Reflection;
 using UnityEngine;
 
 namespace LoveMachine.IO
@@ -33,6 +34,12 @@ namespace LoveMachine.IO
         protected override float PenisSize => 0.5f;
 
         public override int AnimationLayer => 0;
+
+        protected override MethodInfo[] StartHMethods =>
+            new[] { AccessTools.Method("FH_SetUp, Assembly-CSharp:Awake") };
+
+        protected override MethodInfo[] EndHMethods =>
+            new[] { AccessTools.Method("FH_SetUp, Assembly-CSharp:Unload") };
 
         public override Animator GetFemaleAnimator(int girlIndex) =>
             GetFemaleRoot(girlIndex)?.GetComponent<Animator>();

@@ -1,6 +1,8 @@
-﻿using LoveMachine.Core;
+﻿using HarmonyLib;
+using LoveMachine.Core;
 using System.Collections;
 using System.Collections.Generic;
+using System.Reflection;
 using UnityEngine;
 
 namespace LoveMachine.VRK
@@ -8,12 +10,6 @@ namespace LoveMachine.VRK
     internal class VRKanojoGame : GameDescriptor
     {
         private CharFemale sakura;
-
-        public void StartH(VK_H_Houshi_Sonyu hscene)
-        {
-            sakura = hscene.chaFemale;
-            StartH();
-        }
 
         public override int AnimationLayer => 0;
 
@@ -34,6 +30,16 @@ namespace LoveMachine.VRK
 
         protected override float PenisSize => 0.1f;
 
+        protected override MethodInfo[] StartHMethods => new[]
+        {
+            AccessTools.Method(typeof(VK_H_Houshi_Sonyu), nameof(VK_H_Houshi_Sonyu.Start))
+        };
+
+        protected override MethodInfo[] EndHMethods => new[]
+        {
+            AccessTools.Method(typeof(VK_H_Houshi_Sonyu), nameof(VK_H_Houshi_Sonyu.OnDestroy))
+        };
+
         public override Animator GetFemaleAnimator(int girlIndex) => sakura.animBody;
 
         protected override Transform GetDickBase() => GameObject.Find("cm_J_dan_s").transform;
@@ -47,6 +53,9 @@ namespace LoveMachine.VRK
 
         protected override bool IsOrgasming(int girlIndex) =>
             sakura.nowMotionName.StartsWith("Orgasm") && !sakura.nowMotionName.EndsWith("_A");
+
+        protected override void SetStartHInstance(object hscene) =>
+            sakura = ((VK_H_Houshi_Sonyu)hscene).chaFemale;
 
         protected override IEnumerator UntilReady()
         {

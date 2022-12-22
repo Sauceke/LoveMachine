@@ -1,8 +1,10 @@
-﻿using LoveMachine.Core;
+﻿using HarmonyLib;
+using LoveMachine.Core;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using UnityEngine;
 
 namespace LoveMachine.COM3D2
@@ -50,6 +52,12 @@ namespace LoveMachine.COM3D2
         protected override float PenisSize => 0.08f;
 
         public override int AnimationLayer => throw new NotImplementedException();
+
+        protected override MethodInfo[] StartHMethods =>
+            new[] { AccessTools.Method("YotogiPlayManager, Assembly-CSharp:UIStartup") };
+
+        protected override MethodInfo[] EndHMethods =>
+            new[] { AccessTools.Method("YotogiPlayManager, Assembly-CSharp:OnClickNext") };
 
         protected override IEnumerator WaitAfterPoseChange()
         {

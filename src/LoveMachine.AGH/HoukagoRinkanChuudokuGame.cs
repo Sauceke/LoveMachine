@@ -1,6 +1,8 @@
-﻿using LoveMachine.Core;
+﻿using HarmonyLib;
+using LoveMachine.Core;
 using System.Collections;
 using System.Collections.Generic;
+using System.Reflection;
 using UnityEngine;
 
 namespace LoveMachine.AGH
@@ -40,6 +42,18 @@ namespace LoveMachine.AGH
         protected override float PenisSize => 0.5f;
 
         protected override float MinOrgasmDurationSecs => 6f;
+
+        protected override MethodInfo[] StartHMethods => new[]
+        {
+            AccessTools.Method("FH_SetUp, Assembly-CSharp:Awake"),
+            AccessTools.Method("RI_SetUp, Assembly-CSharp:Awake")
+        };
+
+        protected override MethodInfo[] EndHMethods => new[]
+        {
+            AccessTools.Method("FH_SetUp, Assembly-CSharp:Unload"),
+            AccessTools.Method("RI_SetUp, Assembly-CSharp:RiEnd")
+        };
 
         public override Animator GetFemaleAnimator(int girlIndex) => femaleAnimator;
 

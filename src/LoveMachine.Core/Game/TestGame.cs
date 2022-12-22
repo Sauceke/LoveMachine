@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Reflection;
 using UnityEngine;
 
 namespace LoveMachine.Core
@@ -16,6 +17,8 @@ namespace LoveMachine.Core
         protected internal override int MaxHeroineCount => throw new NotImplementedException();
         protected internal override bool IsHardSex => false;
         protected internal override float TimeScale => 1f;
+        protected internal override MethodInfo[] StartHMethods => throw new NotImplementedException();
+        protected internal override MethodInfo[] EndHMethods => throw new NotImplementedException();
 
         public override Animator GetFemaleAnimator(int girlIndex) => throw new NotImplementedException();
 

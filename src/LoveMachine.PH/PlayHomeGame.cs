@@ -1,9 +1,11 @@
 ﻿using H;
+using HarmonyLib;
 using IllusionUtility.GetUtility;
 using LoveMachine.Core;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using UnityEngine;
 
 namespace LoveMachine.PH
@@ -42,6 +44,12 @@ namespace LoveMachine.PH
 
         protected override float PenisSize => 0.2f;
 
+        protected override MethodInfo[] StartHMethods =>
+            new[] { AccessTools.Method(typeof(H_Scene), nameof(H_Scene.Awake)) };
+
+        protected override MethodInfo[] EndHMethods =>
+            new[] { AccessTools.Method(typeof(H_Scene), nameof(H_Scene.Exit)) };
+
         public override Animator GetFemaleAnimator(int girlIndex) =>
             scene.mainMembers.females[girlIndex].body.Anime;
 
@@ -61,11 +69,7 @@ namespace LoveMachine.PH
         protected override bool IsOrgasming(int _) =>
             orgasmStates.Contains(scene.mainMembers.StateMgr.nowStateID);
 
-        internal void OnStartH(H_Scene scene)
-        {
-            this.scene = scene;
-            StartH();
-        }
+        protected override void SetStartHInstance(object scene) => this.scene = (H_Scene)scene;
 
         protected override IEnumerator UntilReady()
         {

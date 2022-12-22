@@ -12,8 +12,6 @@ namespace LoveMachine.KK
     [BepInPlugin(CoreConfig.GUID, "LoveMachine", CoreConfig.Version)]
     internal class Plugin : LoveMachinePlugin<KoikatsuGame>
     {
-        protected override void InstallHooks() => Hooks.InstallHSceneHooks();
-
         protected override void Start()
         {
             base.Start();
@@ -28,9 +26,7 @@ namespace LoveMachine.KK
     [BepInProcess("CharaStudio")]
     [BepInPlugin(CoreConfig.GUID, "LoveMachine", CoreConfig.Version)]
     internal class StudioPlugin : LoveMachinePlugin<StudioGame>
-    {
-        protected override void InstallHooks() => Hooks.InstallStudioHooks();
-    }
+    { }
 
     // To avoid conflict with the old plugin
     // 2.1.0 was the last ButtPlugin version so this should get priority from BepInEx

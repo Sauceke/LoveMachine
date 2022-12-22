@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using UnityEngine;
 
 namespace LoveMachine.Core
@@ -15,6 +16,12 @@ namespace LoveMachine.Core
         internal event EventHandler<HEventArgs> OnHStarted;
 
         internal event EventHandler<HEventArgs> OnHEnded;
+
+        [HideFromIl2Cpp]
+        protected internal abstract MethodInfo[] StartHMethods { get; }
+
+        [HideFromIl2Cpp]
+        protected internal abstract MethodInfo[] EndHMethods { get; }
 
         /// <summary>
         /// The name/path of each bone's GameObject in female characters. <br/>
@@ -128,6 +135,10 @@ namespace LoveMachine.Core
         [HideFromIl2Cpp]
         protected abstract IEnumerator UntilReady();
 
+        [HideFromIl2Cpp]
+        protected internal virtual void SetStartHInstance(object instance)
+        { }
+
         /// <summary>
         /// Override this if the game has long crossfade sections between
         /// animations, to wait until the crossfade is over.
@@ -174,10 +185,11 @@ namespace LoveMachine.Core
         /// <summary>
         /// Call this when the H-scene starts.
         /// </summary>
-        public void StartH()
+        public void StartH(object instance)
         {
             EndH();
             IsHSceneRunning = true;
+            SetStartHInstance(instance);
             HandleCoroutine(StartHWhenReady());
         }
 

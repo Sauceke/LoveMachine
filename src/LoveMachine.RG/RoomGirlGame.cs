@@ -1,6 +1,7 @@
 ﻿using HarmonyLib;
 using LoveMachine.Core;
 using System.Collections;
+using System.Reflection;
 using UnityEngine;
 
 namespace LoveMachine.RG
@@ -15,7 +16,7 @@ namespace LoveMachine.RG
         };
 
         private Animator femaleAnimator;
-        private MonoBehaviour hscene;
+        private object hscene;
 
         private int AnimationId => Traverse.Create(hscene)
             .Property("CtrlFlag")
@@ -49,6 +50,12 @@ namespace LoveMachine.RG
 
         protected override float PenisSize => 0.8f;
 
+        protected override MethodInfo[] StartHMethods =>
+            new[] { AccessTools.Method("HScene, Assembly-CSharp:Start") };
+
+        protected override MethodInfo[] EndHMethods =>
+            new[] { AccessTools.Method("HScene, Assembly-CSharp:OnDestroy") };
+
         public override Animator GetFemaleAnimator(int girlIndex) => femaleAnimator;
 
         protected override Transform GetDickBase() => GameObject.Find("chaM_001/BodyTop/p_cf_anim/" +
@@ -68,6 +75,8 @@ namespace LoveMachine.RG
             .Property("CtrlFlag")
             .Property<bool>("NowOrgasm").Value;
 
+        protected override void SetStartHInstance(object hscene) => this.hscene = hscene;
+
         protected override IEnumerator UntilReady()
         {
             while (GetFemaleRoot(0) == null)
@@ -75,12 +84,6 @@ namespace LoveMachine.RG
                 yield return new WaitForSeconds(5f);
             }
             femaleAnimator = GameObject.Find("chaF_001/BodyTop/p_cf_anim").GetComponent<Animator>();
-        }
-
-        public void StartH(MonoBehaviour hscene)
-        {
-            this.hscene = hscene;
-            StartH();
         }
     }
 }

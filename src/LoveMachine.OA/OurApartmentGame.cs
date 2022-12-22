@@ -3,6 +3,7 @@ using LoveMachine.Core;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using UnityEngine;
 
 namespace LoveMachine.OA
@@ -17,12 +18,6 @@ namespace LoveMachine.OA
         private Traverse<bool> isSex;
         private Animator naomiAnimator;
         private IEnumerable<int> animationLayers;
-
-        public void StartH(MonoBehaviour manager)
-        {
-            isSex = Traverse.Create(manager).Field<bool>("_sexActive");
-            StartH();
-        }
 
         protected override Dictionary<Bone, string> FemaleBoneNames => new Dictionary<Bone, string>
         {
@@ -49,6 +44,12 @@ namespace LoveMachine.OA
 
         protected override float PenisSize => 0.2f;
 
+        protected override MethodInfo[] StartHMethods =>
+            new[] { AccessTools.Method("SexSimControl, Assembly-CSharp:InitializeAsync") };
+
+        protected override MethodInfo[] EndHMethods =>
+            new[] { AccessTools.Method("SexSimControl, Assembly-CSharp:RunSexConclusion") };
+
         public override Animator GetFemaleAnimator(int girlIndex) => naomiAnimator;
 
         protected override GameObject GetFemaleRoot(int girlIndex) => null;
@@ -63,6 +64,9 @@ namespace LoveMachine.OA
         protected override bool IsIdle(int girlIndex) => !isSex.Value;
 
         protected override bool IsOrgasming(int girlIndex) => GetPose(0).Contains("Cum");
+
+        protected override void SetStartHInstance(object sexSimControl) =>
+            isSex = Traverse.Create(sexSimControl).Field<bool>("_sexActive");
 
         protected override IEnumerator UntilReady()
         {

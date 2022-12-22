@@ -1,8 +1,10 @@
-﻿using IllusionUtility.GetUtility;
+﻿using HarmonyLib;
+using IllusionUtility.GetUtility;
 using LoveMachine.Core;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Reflection;
 using UnityEngine;
 
 namespace LoveMachine.HS2
@@ -34,6 +36,12 @@ namespace LoveMachine.HS2
 
         protected override float PenisSize => 0.4f;
 
+        protected override MethodInfo[] StartHMethods =>
+            new[] { AccessTools.Method(typeof(HScene), nameof(HScene.Start)) };
+
+        protected override MethodInfo[] EndHMethods =>
+            new[] { AccessTools.Method(typeof(HScene), nameof(HScene.EndProc)) };
+
         public override Animator GetFemaleAnimator(int girlIndex) =>
             hScene?.GetFemales()[girlIndex]?.animBody;
 
@@ -43,11 +51,7 @@ namespace LoveMachine.HS2
         protected override Transform GetDickBase() =>
             hScene.GetMales()[0].objBodyBone.transform.FindLoop("cm_J_dan_f_L").transform;
 
-        public void StartH(HScene scene)
-        {
-            hScene = scene;
-            StartH();
-        }
+        protected override void SetStartHInstance(object hScene) => this.hScene = (HScene)hScene;
 
         protected override string GetPose(int girlIndex) =>
             // couldn't find accessor for animation name so going with hash

@@ -7,9 +7,7 @@ namespace LoveMachine.HS2
     [BepInProcess("HoneySelect2VR")]
     [BepInPlugin(CoreConfig.GUID, CoreConfig.PluginName, CoreConfig.Version)]
     internal class Plugin : LoveMachinePlugin<HoneySelect2Game>
-    {
-        protected override void InstallHooks() => Hooks.InstallHooks();
-    }
+    { }
 
     // To avoid conflict with the old plugin
     // 2.1.0 was the last ButtPlugin version so this should get priority from BepInEx

@@ -1,6 +1,7 @@
 ﻿using HarmonyLib;
 using System;
 using System.Collections;
+using System.Reflection;
 using UnityEngine;
 
 namespace LoveMachine.KK
@@ -22,6 +23,11 @@ namespace LoveMachine.KK
         protected override int MaxHeroineCount => 1;
 
         protected override bool IsHardSex => false;
+
+        protected override MethodInfo[] StartHMethods =>
+            new[] { AccessTools.Method(typeof(Studio.Studio), nameof(Studio.Studio.InitScene)) };
+
+        protected override MethodInfo[] EndHMethods => new MethodInfo[] { };
 
         public override Animator GetFemaleAnimator(int girlIndex) =>
             throw new NotImplementedException();

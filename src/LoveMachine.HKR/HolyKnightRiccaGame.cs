@@ -1,6 +1,7 @@
 ﻿using HarmonyLib;
 using LoveMachine.Core;
 using System.Collections;
+using System.Reflection;
 using UnityEngine;
 using UnityEngine.Playables;
 using UnityEngine.Timeline;
@@ -22,14 +23,6 @@ namespace LoveMachine.HKR
         private Dictionary<string, TimelineClip> clipCache;
         private TimeUnlooper unlooper;
 
-        public void StartH(MonoBehaviour uiController)
-        {
-            cutName = Traverse.Create(uiController)
-                .Property("actorController")
-                .Property<string>("currentCutName");
-            StartH();
-        }
-
         public override int AnimationLayer => 0;
 
         protected override Dictionary<Bone, string> FemaleBoneNames => new Dictionary<Bone, string>
@@ -45,6 +38,12 @@ namespace LoveMachine.HKR
         protected override bool IsHardSex => true;
 
         protected override float PenisSize => 0.1f;
+
+        protected override MethodInfo[] StartHMethods =>
+            new[] { AccessTools.Method("ATD.UIController, ATDAssemblyDifinition:FinishADV") };
+
+        protected override MethodInfo[] EndHMethods =>
+            new[] { AccessTools.Method("ATD.UIController, ATDAssemblyDifinition:OnDestroy") };
 
         public override Animator GetFemaleAnimator(int girlIndex) =>
             throw new NotImplementedException();
@@ -91,6 +90,11 @@ namespace LoveMachine.HKR
             .Where(clip => clip.displayName.StartsWith(cutName.Value))
             .Where(clip => clip.start < director.time && director.time < clip.end)
             .FirstOrDefault();
+
+        protected override void SetStartHInstance(object uiController) =>
+            cutName = Traverse.Create(uiController)
+                .Property("actorController")
+                .Property<string>("currentCutName");
 
         protected override IEnumerator UntilReady()
         {

@@ -3,13 +3,14 @@ using LoveMachine.Core;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using UnityEngine;
 
 namespace LoveMachine.SCS
 {
     internal class SecrossphereGame : GameDescriptor
     {
-        private MonoBehaviour scene;
+        private object scene;
         private MonoBehaviour[] females;
         private Animator[] femaleAnimators;
         private Traverse<int> state;
@@ -32,6 +33,12 @@ namespace LoveMachine.SCS
 
         protected override float PenisSize => 0.15f;
 
+        protected override MethodInfo[] StartHMethods =>
+            new[] { AccessTools.Method("H_Scene, Assembly-CSharp:ChangeStyle") };
+
+        protected override MethodInfo[] EndHMethods =>
+            new[] { AccessTools.Method("H_Scene, Assembly-CSharp:EndScene") };
+
         public override Animator GetFemaleAnimator(int girlIndex) => femaleAnimators[girlIndex];
 
         protected override Transform GetDickBase() => GameObject.Find("a_J_tamaL").transform;
@@ -45,11 +52,7 @@ namespace LoveMachine.SCS
 
         protected override bool IsOrgasming(int girlIndex) => state.Value == 3;
 
-        public void StartH(MonoBehaviour scene)
-        {
-            this.scene = scene;
-            StartH();
-        }
+        protected override void SetStartHInstance(object scene) => this.scene = scene;
 
         protected override IEnumerator UntilReady()
         {

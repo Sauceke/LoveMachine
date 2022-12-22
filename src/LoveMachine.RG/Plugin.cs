@@ -5,7 +5,5 @@ namespace LoveMachine.RG
 {
     [BepInPlugin(CoreConfig.GUID, CoreConfig.PluginName, CoreConfig.Version)]
     internal class Plugin : LoveMachinePlugin<RoomGirlGame>
-    {
-        protected override void InstallHooks() => Hooks.InstallHooks();
-    }
+    { }
 }

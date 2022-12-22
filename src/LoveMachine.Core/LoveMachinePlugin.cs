@@ -9,14 +9,6 @@ namespace LoveMachine.Core
     public abstract class LoveMachinePlugin<G> : BaseUnityPlugin
         where G : GameDescriptor
     {
-        /// <summary>
-        /// Add the following game hooks here: <br/>
-        /// - call G.StartH() when an H-scene has started, <br/>
-        /// - call G.EndH() when an H-scene has ended. <br/>
-        /// You can use Harmony patches for both.
-        /// </summary>
-        protected abstract void InstallHooks();
-
         protected virtual void Start()
         {
             CoreConfig.Initialize(this, Logger);
@@ -35,7 +27,7 @@ namespace LoveMachine.Core
             manager.AddComponent<VibratorController>();
             manager.AddComponent<RotatorController>();
             manager.AddComponent<ConstrictController>();
-            InstallHooks();
+            GameHooks.InstallHooks();
         }
     }
 }
