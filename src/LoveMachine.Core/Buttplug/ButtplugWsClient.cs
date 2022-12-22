@@ -62,10 +62,10 @@ namespace LoveMachine.Core
             SendKillable(Buttplug.LinearCmd(device, position, durationSecs));
 
         public void VibrateCmd(Device device, float intensity) =>
-            SendKillable(Buttplug.ScalarCmd(device, intensity, Device.Features.Feature.Vibrate));
+            SendKillable(Buttplug.ScalarCmd(device, intensity, Buttplug.Feature.Vibrate));
 
         public void ConstrictCmd(Device device, float pressure) =>
-            SendKillable(Buttplug.ScalarCmd(device, pressure, Device.Features.Feature.Constrict));
+            SendKillable(Buttplug.ScalarCmd(device, pressure, Buttplug.Feature.Constrict));
 
         public void RotateCmd(Device device, float speed, bool clockwise) =>
             SendKillable(Buttplug.RotateCmd(device, speed, clockwise));
@@ -169,7 +169,7 @@ namespace LoveMachine.Core
             if (handled)
             {
                 var previousDevices = Devices;
-                Devices = JsonMapper.ToObject<DeviceListMessage>(data.ToJson())
+                Devices = JsonMapper.ToObject<Buttplug.DeviceListMessage<Device>>(data.ToJson())
                     .DeviceList.Devices;
                 var args = new DeviceListEventArgs(before: previousDevices, after: Devices);
                 OnDeviceListUpdated.Invoke(this, args);
@@ -181,8 +181,8 @@ namespace LoveMachine.Core
 
         private bool CheckBatteryLevelReadingMsg(JsonData data)
         {
-            var reading = JsonMapper.ToObject<SensorReadingMessage>(data.ToJson());
-            bool handled = reading.SensorReading?.SensorType == Device.Features.Feature.Battery;
+            var reading = JsonMapper.ToObject<Buttplug.SensorReadingMessage>(data.ToJson());
+            bool handled = reading.SensorReading?.SensorType == Buttplug.Feature.Battery;
             if (handled)
             {
                 float level = reading.SensorReading.Data[0] / 100f;
@@ -248,6 +248,18 @@ namespace LoveMachine.Core
                     .Where(device => device.BatteryLevel > 0f && device.BatteryLevel < 0.2f)
                     .Select(device => $"{device.DeviceName}: battery low.")
                     .ToList().ForEach(CoreConfig.Logger.LogMessage);
+            }
+        }
+
+        internal class DeviceListEventArgs : EventArgs
+        {
+            public List<Device> Before { get; }
+            public List<Device> After { get; }
+
+            public DeviceListEventArgs(List<Device> before, List<Device> after)
+            {
+                Before = before;
+                After = after;
             }
         }
     }

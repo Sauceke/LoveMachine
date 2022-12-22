@@ -1,22 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using UnityEngine;
 
 namespace LoveMachine.Core
 {
-    public class Device
+    public class Device : Buttplug.Device
     {
-        public string DeviceName
+        public override string DeviceName
         {
             get => Settings.DeviceName;
             set => Settings.DeviceName = value;
         }
 
-        public int DeviceIndex { get; set; }
         public float BatteryLevel { get; set; }
         public DeviceSettings Settings { get; set; } = new DeviceSettings();
-        public Features DeviceMessages { get; set; }
 
         public bool IsSupported => IsVibrator || IsConstrictor || IsStroker || IsRotator;
         public bool IsVibrator => DeviceMessages.ScalarCmd?.Any(f => f.IsVibrator) ?? false;
@@ -26,28 +22,6 @@ namespace LoveMachine.Core
 
         public bool HasBatteryLevel =>
             DeviceMessages.SensorReadCmd?.Any(f => f.HasBatteryLevel) ?? false;
-
-        public class Features
-        {
-            public Feature[] LinearCmd { get; set; }
-            public Feature[] ScalarCmd { get; set; }
-            public Feature[] RotateCmd { get; set; }
-            public Feature[] SensorReadCmd { get; set; }
-
-            public class Feature
-            {
-                internal const string Vibrate = "Vibrate";
-                internal const string Constrict = "Constrict";
-                internal const string Battery = "Battery";
-
-                public string ActuatorType { get; set; }
-                public string SensorType { get; set; }
-
-                public bool IsVibrator => ActuatorType == Vibrate;
-                public bool IsConstrictor => ActuatorType == Constrict;
-                public bool HasBatteryLevel => SensorType == Battery;
-            }
-        }
 
         internal bool Matches(DeviceSettings settings) => settings.DeviceName == DeviceName;
 
@@ -80,28 +54,6 @@ namespace LoveMachine.Core
             GUILayout.EndHorizontal();
             GUIUtil.SingleSpace();
             Settings.Draw();
-        }
-    }
-
-    internal class DeviceListMessage
-    {
-        public DeviceListWrapper DeviceList { get; set; }
-
-        internal class DeviceListWrapper
-        {
-            public List<Device> Devices { get; set; }
-        }
-    }
-
-    internal class DeviceListEventArgs : EventArgs
-    {
-        public List<Device> Before { get; }
-        public List<Device> After { get; }
-
-        public DeviceListEventArgs(List<Device> before, List<Device> after)
-        {
-            Before = before;
-            After = after;
         }
     }
 }

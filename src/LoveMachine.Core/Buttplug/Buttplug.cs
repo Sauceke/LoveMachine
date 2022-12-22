@@ -1,10 +1,11 @@
 ﻿using BepInEx;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace LoveMachine.Core
 {
-    internal class Buttplug
+    public class Buttplug
     {
         private static int NewId => UnityEngine.Random.Range(0, int.MaxValue);
 
@@ -119,8 +120,61 @@ namespace LoveMachine.Core
                 DeviceIndex = device.DeviceIndex,
                 SensorIndex = Array.FindIndex(
                     device.DeviceMessages.SensorReadCmd, f => f.HasBatteryLevel),
-                SensorType = Device.Features.Feature.Battery
+                SensorType = Feature.Battery
             }
         };
+
+        public class SensorReadingMessage
+        {
+            public SensorReading SensorReading { get; set; }
+        }
+
+        public class SensorReading
+        {
+            public int DeviceIndex { get; set; }
+            public string SensorType { get; set; }
+            public int[] Data { get; set; }
+        }
+
+        public class Device
+        {
+            public virtual string DeviceName { get; set; }
+            public int DeviceIndex { get; set; }
+            public Features DeviceMessages { get; set; }
+        }
+
+        public class Features
+        {
+            public Feature[] LinearCmd { get; set; }
+            public Feature[] ScalarCmd { get; set; }
+            public Feature[] RotateCmd { get; set; }
+            public Feature[] SensorReadCmd { get; set; }
+        }
+
+        public class Feature
+        {
+            internal const string Vibrate = "Vibrate";
+            internal const string Constrict = "Constrict";
+            internal const string Battery = "Battery";
+
+            public string ActuatorType { get; set; }
+            public string SensorType { get; set; }
+
+            public bool IsVibrator => ActuatorType == Vibrate;
+            public bool IsConstrictor => ActuatorType == Constrict;
+            public bool HasBatteryLevel => SensorType == Battery;
+        }
+
+        public class DeviceListMessage<D>
+            where D : Device
+        {
+            public DeviceList<D> DeviceList { get; set; }
+        }
+
+        public class DeviceList<D>
+            where D : Device
+        {
+            public List<D> Devices { get; set; }
+        }
     }
 }
