@@ -22,7 +22,7 @@ namespace LoveMachine.Core
 
         private void Start()
         {
-            game = CoreConfig.ManagerObject.GetComponent<GameDescriptor>();
+            game = GetComponent<GameDescriptor>();
             game.OnHStarted += (s, a) => StartAnalyze();
             game.OnHEnded += (s, a) => StopAnalyze();
         }

@@ -34,9 +34,9 @@ namespace LoveMachine.Core
 
         protected virtual void Start()
         {
-            client = gameObject.GetComponent<ButtplugWsClient>();
-            game = gameObject.GetComponent<GameDescriptor>();
-            analyzer = gameObject.GetComponent<AnimationAnalyzer>();
+            client = GetComponent<ButtplugWsClient>();
+            game = GetComponent<GameDescriptor>();
+            analyzer = GetComponent<AnimationAnalyzer>();
             if (!isTestController)
             {
                 game.OnHStarted += (s, a) => OnStartH();

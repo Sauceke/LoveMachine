@@ -10,7 +10,7 @@ namespace LoveMachine.Core
 
         private void Start()
         {
-            client = gameObject.GetComponent<ButtplugWsClient>();
+            client = GetComponent<ButtplugWsClient>();
             client.OnDeviceListUpdated += ReloadDeviceSettings;
         }
 
