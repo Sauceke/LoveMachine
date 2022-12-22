@@ -17,9 +17,15 @@ namespace LoveMachine.Core
 
         internal event EventHandler<HEventArgs> OnHEnded;
 
+        /// <summary>
+        /// The H-scene start method(s) in the game assembly.
+        /// </summary>
         [HideFromIl2Cpp]
         protected internal abstract MethodInfo[] StartHMethods { get; }
 
+        /// <summary>
+        /// The H-scene end method(s) in the game assembly.
+        /// </summary>
         [HideFromIl2Cpp]
         protected internal abstract MethodInfo[] EndHMethods { get; }
 
@@ -182,10 +188,7 @@ namespace LoveMachine.Core
         [HideFromIl2Cpp]
         protected internal virtual bool IsOrgasming(int girlIndex) => false;
 
-        /// <summary>
-        /// Call this when the H-scene starts.
-        /// </summary>
-        public void StartH(object instance)
+        internal void StartH(object instance)
         {
             EndH();
             IsHSceneRunning = true;
@@ -193,10 +196,7 @@ namespace LoveMachine.Core
             HandleCoroutine(StartHWhenReady());
         }
 
-        /// <summary>
-        /// Call this when the H-scene ends.
-        /// </summary>
-        public void EndH()
+        internal void EndH()
         {
             IsHSceneRunning = false;
             StopAllCoroutines();
