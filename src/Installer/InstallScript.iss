@@ -283,9 +283,9 @@ procedure CheckIntiface;
 var
     ErrorCode: Integer;
 begin
-    if not DirExists(AddBackslash(ExpandConstant('{localappdata}')) + 'IntifaceDesktop') then
+    if not DirExists(AddBackslash(ExpandConstant('{commonpf32}')) + 'IntifaceCentral') then
         if MsgBox(CustomMessage('InstallIntiface'), mbConfirmation, MB_YESNO) = IDYES then
-            if not ShellExec('open', 'https://intiface.com/desktop/', '', '', SW_SHOW, ewNoWait, ErrorCode) then
+            if not ShellExec('open', 'https://intiface.com/central/', '', '', SW_SHOW, ewNoWait, ErrorCode) then
                 MsgBox(SysErrorMessage(ErrorCode), mbError, MB_OK);
 end;
 
