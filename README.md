@@ -1,4 +1,6 @@
-# BepInEx LoveMachine ([日本語](マニュアル.md))
+[日本語](マニュアル.md)
+
+# BepInEx LoveMachine
 [![.NET](https://github.com/Sauceke/LoveMachine/actions/workflows/commit.yml/badge.svg)](#)
 [![Download](https://img.shields.io/github/downloads/Sauceke/LoveMachine/total)][installer]
 [![Patreon](https://shields.io/badge/patreon-grey?logo=patreon)][Patreon]
@@ -27,7 +29,7 @@ Adds support for [some computer-controlled sex toys](#supported-devices) in the 
 ## Supported devices
 LoveMachine relies on the [Buttplug.io] project to communicate with toys. At the time of writing, Buttplug.io supports over 200 devices.
 
-This plugin is for **linear** (moving back-and-forth), **vibrating** and **rotating** sex toys.
+This plugin is for **linear** (moving back-and-forth), **vibrating**, **rotating** and **tightening** sex toys.
 
 Some of the devices that were actually tested with the mod:
 
@@ -52,18 +54,12 @@ The [LoveMachine.Experiments] plugin also adds experimental support for two dept
 ## Installation
 Download and run the [installer]. If you encounter the "Windows protected your PC" message, click More info > Run anyway.
 
-[Intiface Desktop] must also be installed.
+[Intiface Central] must also be installed.
 
 ## How to use
-Just turn on your device and start the game. The plugin will automatically start Intiface, connect available devices, and control them.
-
-If that fails for some reason, you can also connect devices manually:
-
-1. Open Intiface Desktop.
+1. Open Intiface Central.
+1. Click on the big Play button.
 1. Turn on the device you want to use.
-1. Click Devices > "Start server and scan for devices".
-1. Wait for the device to appear on the list.
-1. Click "Disconnect from server".
 1. Start the game.
 
 The Space key acts as a kill switch for all devices while in-game. To reactivate your devices, press F8. Both of these key bindings can be modified under Plugin Settings > LoveMachine > Kill Switch Settings.
@@ -103,6 +99,11 @@ Vibrator settings:
 - **Vibration Pattern:** The waveform of the vibration intensity. Available values are Sine, Triangle, Saw, Pulse, Constant, and Custom.
 - **Custom Pattern:** Available if Vibration Pattern is set to Custom. You can set the vibration intensity curve using the sliders.
 
+Pressure settings:
+- **Pressure Range:** Minimum and maximum pressure allowed on this device, in percentages.
+- **Pressure Update Interval (seconds)** How much time it takes for this device to change pressure, in seconds. Defaults to 5.
+
+
 You may also want to:
 - **Save device assignments:** If enabled, the Threesome Role and Body Part attributes will be saved for all devices. Disabled by default.
 
@@ -126,6 +127,12 @@ Safety measure to avoid hurting yourself if the sex gets too rough or something 
 - **Rotation Speed Ratio:** The speed ratio for rotation. 0% is no rotation, 100% is full speed rotation. Default is 50%.
 - **Rotation Direction Change Chance:** The direction of rotation changes with the probability of this setting. Default is 30%.
 
+### Pressure Settings
+- **Pressure Mode:** Determines how the pressure will be set.
+	- **Cycle:** Gradually build up and release pressure over a fixed duration.
+	- **Stroke Length:** The longer the current animation's stroke length is, the more pressure will be applied.
+- **Pressure Cycle Length (seconds):** If the Pressure Mode is set to Cycle, determines the length of a buildup-release cycle in seconds.
+
 ## Contributing
 PRs for onboarding new games are welcome. The process is relatively simple and requires barely any coding. See the PlayHome implementation for reference. PRs for supporting new device types are also welcome.
 
@@ -135,7 +142,7 @@ This mod is provided free of charge, but I do accept donations. If you'd like to
 Sauceke       nhydock       hogefugamoga       RPKU
 
 ### Patrons
-[ManlyMarco]       Aftercurve       AkronusWings       AstralClock       Benos Hentai       boaz       Bri       cat tail       CBN ヴい       Ceruleon       CROM       Daniel       EPTG       er er       Flan       funnychicken       Gabbelgu       gold25       GOU YOSIHIRO       Greg       hiro       Ior1yagami       kai harayama       KTKT       kuni       Laneo       Nemi       Phil       prepare55       rolandmitch       RP君       SavagePastry       Shakes       Taibe       Taka Yami       tanu       Tom       TrashTaste       tutinoko       uruurian       Wel Adunno       yamada tarou       ふ       一太 川崎       国崎往人       将也 三田       洋 冨岡       猛 羽場       终晓       郁弥 中村       
+[ManlyMarco]       Aftercurve       AkronusWings       Ambicatus       AstralClock       Benos Hentai       boaz       Bri       cat tail       CBN ヴい       Ceruleon       CROM       Daniel       EPTG       er er       Flan       funnychicken       Gabbelgu       gold25       GOU YOSIHIRO       Greg       hiro       Ior1yagami       Kai Yami       KTKT       kuni       Laneo       Maha       Nemi       Phil       prepare55       rolandmitch       RP君       SavagePastry       Shakes       Taibe       tanu       Tom       TrashTaste       ttrs       tutinoko       uruurian       Wel Adunno       yamada tarou       Zesty Cucumber       ふ       一太 川崎       優希 岩永       国崎往人       将也 三田       洋 冨岡       猛 羽場       终晓       郁弥 中村       闇《YAMI》       
 
 
 ## Acknowledgements
@@ -166,7 +173,7 @@ This mod would not have been possible without the [BepInEx] plugin framework and
 <!-- other links -->
 [ManlyMarco]: https://github.com/ManlyMarco
 [Buttplug.io]: https://github.com/buttplugio/buttplug
-[Intiface Desktop]: https://intiface.com/desktop
+[Intiface Central]: https://intiface.com/central
 [BepInEx]: https://github.com/BepInEx
 [AGHVR]: https://github.com/Eusth/AGHVR
 [IOVR]: https://github.com/Eusth/IOVR
