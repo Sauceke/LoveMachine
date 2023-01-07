@@ -1,5 +1,6 @@
 ﻿using HarmonyLib;
 using LoveMachine.Core;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
@@ -27,6 +28,7 @@ namespace LoveMachine.AGH
 
         private Animator femaleAnimator;
         private Transform coom;
+        private Traverse<int> mode;
 
         protected override Dictionary<Bone, string> FemaleBoneNames =>
             GameObject.Find("CH01") != null ? sayaBones : elenaBones;
@@ -64,7 +66,7 @@ namespace LoveMachine.AGH
         protected override string GetPose(int girlIndex) =>
             femaleAnimator.GetCurrentAnimatorClipInfo(0)[0].clip.name;
 
-        protected override bool IsIdle(int girlIndex) => femaleAnimator == null;
+        protected override bool IsIdle(int girlIndex) => mode.Value == 4;
 
         protected override bool IsOrgasming(int girlIndex) => coom.localPosition != Vector3.zero;
 
@@ -74,6 +76,10 @@ namespace LoveMachine.AGH
             femaleAnimator = (GameObject.Find("CH01/CH0001") ?? GameObject.Find("CH02/CH0002"))
                 .GetComponent<Animator>();
             coom = GameObject.Find("PC01/PC/HS01_SE04").transform;
+            var fhType = Type.GetType("FH_AnimeController, Assembly-CSharp");
+            var riType = Type.GetType("RI_AnimeController, Assembly-CSharp");
+            var animeController = FindObjectOfType(fhType) ?? FindObjectOfType(riType);
+            mode = Traverse.Create(animeController).Field<int>("Mode");
         }
     }
 }
