@@ -54,7 +54,7 @@ namespace LoveMachine.AGH
         protected override MethodInfo[] EndHMethods => new[]
         {
             AccessTools.Method("FH_SetUp, Assembly-CSharp:Unload"),
-            AccessTools.Method("RI_SetUp, Assembly-CSharp:RiEnd")
+            AccessTools.Method("RI_SetUp, Assembly-CSharp:Unload")
         };
 
         public override Animator GetFemaleAnimator(int girlIndex) => femaleAnimator;
