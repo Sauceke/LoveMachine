@@ -1,6 +1,5 @@
 ﻿using HarmonyLib;
 using LoveMachine.Core;
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
@@ -47,8 +46,8 @@ namespace LoveMachine.AGH
 
         protected override MethodInfo[] StartHMethods => new[]
         {
-            AccessTools.Method("FH_SetUp, Assembly-CSharp:Awake"),
-            AccessTools.Method("RI_SetUp, Assembly-CSharp:Awake")
+            AccessTools.Method("FH_AnimeController, Assembly-CSharp:Start"),
+            AccessTools.Method("RI_AnimeController, Assembly-CSharp:Start")
         };
 
         protected override MethodInfo[] EndHMethods => new[]
@@ -70,16 +69,15 @@ namespace LoveMachine.AGH
 
         protected override bool IsOrgasming(int girlIndex) => coom.localPosition != Vector3.zero;
 
+        protected override void SetStartHInstance(object animeController) =>
+            mode = Traverse.Create(animeController).Field<int>("Mode");
+
         protected override IEnumerator UntilReady()
         {
             yield return new WaitForSeconds(5f);
             femaleAnimator = (GameObject.Find("CH01/CH0001") ?? GameObject.Find("CH02/CH0002"))
                 .GetComponent<Animator>();
             coom = GameObject.Find("PC01/PC/HS01_SE04").transform;
-            var fhType = Type.GetType("FH_AnimeController, Assembly-CSharp");
-            var riType = Type.GetType("RI_AnimeController, Assembly-CSharp");
-            var animeController = FindObjectOfType(fhType) ?? FindObjectOfType(riType);
-            mode = Traverse.Create(animeController).Field<int>("Mode");
         }
     }
 }
