@@ -12,6 +12,7 @@ namespace LoveMachine.IO
     {
         private GameObject femaleRoot;
         private Traverse<bool> climax;
+        private Traverse<bool> idle;
 
         protected override Dictionary<Bone, string> FemaleBoneNames => new Dictionary<Bone, string>
         {
@@ -36,7 +37,7 @@ namespace LoveMachine.IO
         public override int AnimationLayer => 0;
 
         protected override MethodInfo[] StartHMethods =>
-            new[] { AccessTools.Method("FH_SetUp, Assembly-CSharp:Awake") };
+            new[] { AccessTools.Method("FH_AnimeController, Assembly-CSharp:Start") };
 
         protected override MethodInfo[] EndHMethods =>
             new[] { AccessTools.Method("FH_SetUp, Assembly-CSharp:Unload") };
@@ -51,9 +52,12 @@ namespace LoveMachine.IO
         protected override string GetPose(int girlIndex) =>
             GetFemaleAnimator(girlIndex).GetCurrentAnimatorClipInfo(0)[0].clip.name;
 
-        protected override bool IsIdle(int girlIndex) => GetFemaleAnimator(girlIndex) == null;
+        protected override bool IsIdle(int girlIndex) => idle.Value;
 
         protected override bool IsOrgasming(int girlIndex) => climax.Value;
+
+        protected override void SetStartHInstance(object animeController) =>
+            idle = Traverse.Create(animeController).Field<bool>("H01");
 
         protected override IEnumerator UntilReady()
         {
