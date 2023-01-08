@@ -11,6 +11,7 @@ namespace LoveMachine.IO
     internal sealed class InsultOrderGame : GameDescriptor
     {
         private GameObject femaleRoot;
+        private Animator femaleAnimator;
         private Traverse<bool> climax;
         private Traverse<bool> idle;
 
@@ -42,15 +43,14 @@ namespace LoveMachine.IO
         protected override MethodInfo[] EndHMethods =>
             new[] { AccessTools.Method("FH_SetUp, Assembly-CSharp:Unload") };
 
-        public override Animator GetFemaleAnimator(int girlIndex) =>
-            GetFemaleRoot(girlIndex)?.GetComponent<Animator>();
+        public override Animator GetFemaleAnimator(int girlIndex) => femaleAnimator;
 
         protected override GameObject GetFemaleRoot(int girlIndex) => femaleRoot;
 
         protected override Transform GetDickBase() => GameObject.Find("BP00_tamaL").transform;
 
         protected override string GetPose(int girlIndex) =>
-            GetFemaleAnimator(girlIndex).GetCurrentAnimatorClipInfo(0)[0].clip.name;
+            femaleAnimator.GetCurrentAnimatorClipInfo(0)[0].clip.name;
 
         protected override bool IsIdle(int girlIndex) => idle.Value;
 
@@ -63,6 +63,7 @@ namespace LoveMachine.IO
         {
             yield return new WaitForSeconds(5f);
             femaleRoot = GameObject.Find("CH01/CH0001") ?? GameObject.Find("CH02/CH0002");
+            femaleAnimator = femaleRoot.GetComponent<Animator>();
             climax = Traverse.Create(Type.GetType("GameClass, Assembly-CSharp"))
                 .Field<bool>("Climax");
         }

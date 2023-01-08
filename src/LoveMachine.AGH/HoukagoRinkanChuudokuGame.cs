@@ -25,6 +25,7 @@ namespace LoveMachine.AGH
             { Bone.LeftBreast, "HS_Breast_LL_02" },
         };
 
+        private GameObject femaleRoot;
         private Animator femaleAnimator;
         private Transform coom;
         private Traverse<int> mode;
@@ -58,7 +59,7 @@ namespace LoveMachine.AGH
 
         public override Animator GetFemaleAnimator(int girlIndex) => femaleAnimator;
 
-        protected override GameObject GetFemaleRoot(int _girlIndex) => null;
+        protected override GameObject GetFemaleRoot(int girlIndex) => femaleRoot;
 
         protected override Transform GetDickBase() => GameObject.Find("BP00_tamaL").transform;
 
@@ -75,8 +76,8 @@ namespace LoveMachine.AGH
         protected override IEnumerator UntilReady()
         {
             yield return new WaitForSeconds(5f);
-            femaleAnimator = (GameObject.Find("CH01/CH0001") ?? GameObject.Find("CH02/CH0002"))
-                .GetComponent<Animator>();
+            femaleRoot = GameObject.Find("CH01/CH0001") ?? GameObject.Find("CH02/CH0002");
+            femaleAnimator = femaleRoot.GetComponent<Animator>();
             coom = GameObject.Find("PC01/PC/HS01_SE04").transform;
         }
     }
