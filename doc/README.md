@@ -161,6 +161,10 @@ This mod would not have been possible without the [BepInEx] plugin framework and
 [Houkago Rinkan Chuudoku]: https://www.dlsite.com/maniax/dlaf/=/t/n/link/work/aid/sauceke/locale/en_US/id/RJ189924.html/?locale=en_US
 [Insult Order]: https://www.dlsite.com/maniax/dlaf/=/t/n/link/work/aid/sauceke/locale/en_US/id/RJ220246.html/?locale=en_US
 [RoomGirl]: https://www.dlsite.com/pro/dlaf/=/t/n/link/work/aid/sauceke/locale/en_US/id/VJ015465.html/?locale=en_US
+[Koikatsu Sunshine]: https://www.dlsite.com/pro/dlaf/=/t/n/link/work/aid/sauceke/locale/en_US/id/VJ015724.html/?locale=en_US
+[Secrossphere]: https://www.dlsite.com/pro/dlaf/=/t/n/link/work/aid/sauceke/locale/en_US/id/VJ015728.html/?locale=en_US
+[PlayHome]: https://www.dlsite.com/pro/dlaf/=/t/n/link/work/aid/sauceke/locale/en_US/id/VJ015713.html/?locale=en_US
+[Koikatsu]: https://www.dlsite.com/pro/dlaf/=/t/n/link/work/aid/sauceke/locale/en_US/id/VJ015719.html/?locale=en_US
 
 <!-- sponsored sex toy links -->
 [The Handy]: https://www.thehandy.com/?ref=saucekebenfield&utm_source=saucekebenfield&utm_medium=affiliate&utm_campaign=The+Handy+Affiliate+program
@@ -178,9 +182,5 @@ This mod would not have been possible without the [BepInEx] plugin framework and
 [AGHVR]: https://github.com/Eusth/AGHVR
 [IOVR]: https://github.com/Eusth/IOVR
 [Our Apartment]: https://www.patreon.com/momoirosoftware
-[Koikatsu]: https://www.illusion.jp/preview/koikatu/
 [Koikatsu Party]: https://store.steampowered.com/app/1073440/__Koikatsu_Party/
-[Koikatsu Sunshine]: https://www.illusion.jp/preview/koikatsu_sunshine/
-[PlayHome]: https://www.illusion.jp/preview/playhome/
 [VR Kanojo]: http://www.illusion.jp/preview/vrkanojo/index_en.php
-[Secrossphere]: http://www.illusion.jp/preview/sec/
