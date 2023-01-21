@@ -8,22 +8,19 @@ namespace LoveMachine.Core
     {
         protected override bool IsDeviceSupported(Device device) => device.IsConstrictor;
 
-        protected override IEnumerator HandleAnimation(Device device)
-        {
-            float pressure = Mathf.Lerp(
-                device.Settings.ConstrictSettings.PressureMin,
-                device.Settings.ConstrictSettings.PressureMax,
-                t: GetPressure(device));
-            client.ConstrictCmd(device, pressure);
-            yield return new WaitForSecondsRealtime(
-                device.Settings.ConstrictSettings.UpdateIntervalSecs);
-        }
+        protected override IEnumerator HandleAnimation(Device device) =>
+            DoConstrict(device, GetPressure(device));
 
-        protected override IEnumerator HandleOrgasm(Device device)
+        protected override IEnumerator HandleOrgasm(Device device) => DoConstrict(device, 1f);
+
+        private IEnumerator DoConstrict(Device device, float relativePressure)
         {
-            client.ConstrictCmd(device, device.Settings.ConstrictSettings.PressureMax);
-            yield return new WaitForSecondsRealtime(
-                device.Settings.ConstrictSettings.UpdateIntervalSecs);
+            var settings = device.Settings.ConstrictSettings;
+            float pressure = settings.Enabled
+                ? Mathf.Lerp(settings.PressureMin, settings.PressureMax, t: relativePressure)
+                : 0f;
+            client.ConstrictCmd(device, pressure);
+            yield return new WaitForSecondsRealtime(settings.UpdateIntervalSecs);
         }
 
         private float GetPressure(Device device)

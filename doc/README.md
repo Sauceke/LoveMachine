@@ -128,6 +128,7 @@ Safety measure to avoid hurting yourself if the sex gets too rough or something 
 - **Rotation Direction Change Chance:** The direction of rotation changes with the probability of this setting. Default is 30%.
 
 ### Pressure Settings
+- **Enable Pressure Control:** Whether to use the pressure feature of this device. On by default.
 - **Pressure Mode:** Determines how the pressure will be set.
 	- **Cycle:** Gradually build up and release pressure over a fixed duration.
 	- **Stroke Length:** The longer the current animation's stroke length is, the more pressure will be applied.

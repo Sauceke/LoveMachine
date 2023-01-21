@@ -2,6 +2,7 @@
 {
     public class ConstrictSettings
     {
+        public bool Enabled { get; set; } = true;
         public float PressureMin { get; set; } = 0f;
         public float PressureMax { get; set; } = 1f;
         public int UpdateIntervalSecs { get; set; } = 5;
@@ -9,6 +10,11 @@
         internal void Draw()
         {
             var defaults = new ConstrictSettings();
+            Enabled = GUIUtil.Toggle(
+                label: "Enable Pressure Control",
+                tooltip: "Turns pressure control on/off",
+                value: Enabled,
+                defaultValue: defaults.Enabled);
             {
                 float min = PressureMin;
                 float max = PressureMax;
