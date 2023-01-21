@@ -55,6 +55,7 @@ DisableDirPage=yes
 DisableWelcomePage=no
 InfoBeforeFile=Readme.rtf
 PrivilegesRequired=lowest
+SetupLogging=yes
 
 [Languages]
 Name: "en"; MessagesFile: "EN.isl,compiler:Default.isl"
