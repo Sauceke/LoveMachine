@@ -3,6 +3,7 @@ using LoveMachine.Core;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using UnityEngine;
 
@@ -10,10 +11,12 @@ namespace LoveMachine.IO
 {
     internal sealed class InsultOrderGame : GameDescriptor
     {
+        private static readonly string[] idleMotions = { "", "H1", "H2" };
+
         private GameObject femaleRoot;
         private Animator femaleAnimator;
         private Traverse<bool> climax;
-        private Traverse<bool> idle;
+        private Traverse<string> motionId;
 
         protected override Dictionary<Bone, string> FemaleBoneNames => new Dictionary<Bone, string>
         {
@@ -52,12 +55,12 @@ namespace LoveMachine.IO
         protected override string GetPose(int girlIndex) =>
             femaleAnimator.GetCurrentAnimatorClipInfo(0)[0].clip.name;
 
-        protected override bool IsIdle(int girlIndex) => idle.Value;
+        protected override bool IsIdle(int girlIndex) => idleMotions.Contains(motionId.Value);
 
         protected override bool IsOrgasming(int girlIndex) => climax.Value;
 
         protected override void SetStartHInstance(object animeController) =>
-            idle = Traverse.Create(animeController).Field<bool>("H01");
+            motionId = Traverse.Create(animeController).Field<string>("MotionID");
 
         protected override IEnumerator UntilReady()
         {
