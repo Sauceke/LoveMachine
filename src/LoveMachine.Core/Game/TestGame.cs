@@ -32,7 +32,7 @@ namespace LoveMachine.Core
 
         protected override IEnumerator UntilReady() => throw new NotImplementedException();
 
-        public IEnumerator RunTest(int strokes, float strokesPerSec)
+        public IEnumerator RunTest(int strokes, float strokesPerSec, Action<float> display)
         {
             speed = strokesPerSec;
             normalizedTime = 0f;
@@ -42,6 +42,9 @@ namespace LoveMachine.Core
             while (normalizedTime < strokes)
             {
                 normalizedTime += deltaTime * speed;
+                float loopTime = normalizedTime % 1f;
+                float position = (loopTime < 0.5f ? loopTime : 1f - loopTime) * 2f;
+                display(position);
                 yield return new WaitForSecondsRealtime(deltaTime);
             }
         }

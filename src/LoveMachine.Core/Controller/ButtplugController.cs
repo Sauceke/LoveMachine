@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -53,15 +54,15 @@ namespace LoveMachine.Core
             client.StopAllDevices();
         }
 
-        public static void Test<T>(Device device)
+        public static void Test<T>(Device device, Action<float> display)
             where T : ButtplugController
         {
             var testController = CoreConfig.ManagerObject.AddComponent<T>();
             testController.isTestController = true;
-            testController.HandleCoroutine(testController.RunTest(device));
+            testController.HandleCoroutine(testController.RunTest(device, display));
         }
 
-        private IEnumerator RunTest(Device device)
+        private IEnumerator RunTest(Device device, Action<float> display)
         {
             yield return new WaitForEndOfFrame();
             var testGame = new TestGame();
@@ -70,8 +71,12 @@ namespace LoveMachine.Core
             if (IsDeviceSupported(device))
             {
                 var test = HandleCoroutine(Run(device));
-                yield return HandleCoroutine(testGame.RunTest(strokes: 3, strokesPerSec: 1f));
-                yield return HandleCoroutine(testGame.RunTest(strokes: 5, strokesPerSec: 3f));
+                yield return HandleCoroutine(
+                    testGame.RunTest(strokes: 2, strokesPerSec: 0.5f, display));
+                yield return HandleCoroutine(
+                    testGame.RunTest(strokes: 2, strokesPerSec: 1f, display));
+                yield return HandleCoroutine(
+                    testGame.RunTest(strokes: 5, strokesPerSec: 3f, display));
                 StopCoroutine(test);
                 client.StopAllDevices();
             }

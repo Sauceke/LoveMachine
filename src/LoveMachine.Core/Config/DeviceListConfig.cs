@@ -12,6 +12,7 @@ namespace LoveMachine.Core
         private static List<Device> cachedDeviceList = new List<Device>();
         private static ConfigEntry<string> deviceSettingsJson;
         private static ConfigEntry<bool> showOfflineDevices;
+        private static float testPosition;
 
         public static ConfigEntry<bool> SaveDeviceMapping { get; private set; }
 
@@ -98,7 +99,9 @@ namespace LoveMachine.Core
                 GUILayout.BeginHorizontal();
                 {
                     GUIUtil.LabelWithTooltip("Test", "Test this device");
-                    if (GUILayout.Button("Test"))
+                    GUILayout.HorizontalSlider(testPosition, 0f, 1f);
+                    GUIUtil.SingleSpace();
+                    if (GUILayout.Button("Test", GUILayout.ExpandWidth(false)))
                     {
                         TestDevice(device);
                     }
@@ -139,9 +142,9 @@ namespace LoveMachine.Core
 
         private static void TestDevice(Device device)
         {
-            ButtplugController.Test<StrokerController>(device);
-            ButtplugController.Test<VibratorController>(device);
-            ButtplugController.Test<RotatorController>(device);
+            ButtplugController.Test<StrokerController>(device, pos => testPosition = pos);
+            ButtplugController.Test<VibratorController>(device, pos => testPosition = pos);
+            ButtplugController.Test<RotatorController>(device, pos => testPosition = pos);
         }
 
         private static GUIStyle GetDevicePanelStyle() => new GUIStyle
