@@ -32,6 +32,9 @@ namespace LoveMachine.Core
 
                 case ConstrictConfig.ConstrictMode.StrokeLength:
                     return GetStrokeLengthBasedPressure(device);
+
+                case ConstrictConfig.ConstrictMode.StrokeSpeed:
+                    return GetStrokeSpeedBasedPressure(device);
             }
             throw new Exception("unreachable");
         }
@@ -43,5 +46,20 @@ namespace LoveMachine.Core
             analyzer.TryGetWaveInfo(device.Settings.GirlIndex, device.Settings.Bone, out var info)
                 ? Mathf.InverseLerp(0, game.PenisSize, value: info.Amplitude)
                 : 1f;
+
+        private float GetStrokeSpeedBasedPressure(Device device)
+        {
+            var settings = device.Settings.ConstrictSettings;
+            int girlIndex = device.Settings.GirlIndex;
+            var bone = device.Settings.Bone;
+            float freq = analyzer.TryGetWaveInfo(girlIndex, bone, out var info)
+                ? info.Frequency
+                : 1f;
+            var strokeTimeSecs = GetAnimationTimeSecs(girlIndex) / freq;
+            return Mathf.InverseLerp(
+                settings.SpeedSensitivityMin,
+                settings.SpeedSensitivityMax,
+                value: strokeTimeSecs);
+        }
     }
 }

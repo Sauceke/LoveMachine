@@ -26,13 +26,14 @@ namespace LoveMachine.Core
                defaultValue: ConstrictMode.Cycle,
                new ConfigDescription(
                    "Cycle: repeat building up and releasing pressure over a set duration\n" +
-                   "Stroke Length: pressure is based on the in-game stroke length",
+                   "Stroke Length: pressure is based on the in-game stroke length\n" +
+                   "Stroke Speed: pressure is based on the in-game stroke speed",
                    tags: new ConfigurationManagerAttributes { Order = order-- }));
         }
 
         public enum ConstrictMode
         {
-            Cycle, StrokeLength
+            Cycle, StrokeLength, StrokeSpeed
         }
     }
 }

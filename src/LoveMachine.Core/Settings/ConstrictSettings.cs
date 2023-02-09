@@ -5,6 +5,8 @@
         public bool Enabled { get; set; } = true;
         public float PressureMin { get; set; } = 0f;
         public float PressureMax { get; set; } = 1f;
+        public float SpeedSensitivityMin { get; set; } = 1f;
+        public float SpeedSensitivityMax { get; set; } = 3f;
         public int UpdateIntervalSecs { get; set; } = 5;
 
         internal void Draw()
@@ -18,7 +20,7 @@
             {
                 float min = PressureMin;
                 float max = PressureMax;
-                GUIUtil.RangeSlider(
+                GUIUtil.PercentRangeSlider(
                     label: "Pressure Range",
                     tooltip: "Range of pressure to apply",
                     lower: ref min,
@@ -27,6 +29,21 @@
                     upperDefault: defaults.PressureMax);
                 PressureMin = min;
                 PressureMax = max;
+            }
+            {
+                float min = SpeedSensitivityMin;
+                float max = SpeedSensitivityMax;
+                GUIUtil.RangeSlider(
+                    label: "Speed Sensitivity Range",
+                    tooltip: "Map lowest and highest pressure to these speeds (strokes per second)",
+                    lower: ref min,
+                    upper: ref max,
+                    lowerDefault: defaults.SpeedSensitivityMin,
+                    upperDefault: defaults.SpeedSensitivityMax,
+                    min: 0.5f,
+                    max: 5f);
+                SpeedSensitivityMin = min;
+                SpeedSensitivityMax = max;
             }
             UpdateIntervalSecs = GUIUtil.IntSlider(
                 label: "Pressure Update Interval (seconds)",

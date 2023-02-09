@@ -17,7 +17,7 @@ namespace LoveMachine.Core
             {
                 float min = IntensityMin;
                 float max = IntensityMax;
-                GUIUtil.RangeSlider(
+                GUIUtil.PercentRangeSlider(
                     label: "Intensity Range",
                     tooltip: "Range of vibration strength",
                     lower: ref min,

@@ -22,7 +22,7 @@
             {
                 float min = SlowStrokeZoneMin;
                 float max = SlowStrokeZoneMax;
-                GUIUtil.RangeSlider(
+                GUIUtil.PercentRangeSlider(
                     label: "Stroke Zone - Slow",
                     tooltip: "Range of stroking movement when going slow",
                     lower: ref min,
@@ -35,7 +35,7 @@
             {
                 float min = FastStrokeZoneMin;
                 float max = FastStrokeZoneMax;
-                GUIUtil.RangeSlider(
+                GUIUtil.PercentRangeSlider(
                     label: "Stroke Zone - Fast",
                     tooltip: "Range of stroking movement when going fast",
                     lower: ref min,

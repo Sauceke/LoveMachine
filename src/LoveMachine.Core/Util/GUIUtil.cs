@@ -19,6 +19,26 @@ namespace LoveMachine.Core
         }
 
         internal static void RangeSlider(string label, string tooltip,
+            ref float lower, ref float upper, float lowerDefault, float upperDefault,
+            float min, float max)
+        {
+            GUILayout.BeginHorizontal();
+            {
+                LabelWithTooltip(label, tooltip);
+                GUILayout.Label(lower.ToString("N2"), GUILayout.ExpandWidth(false));
+                Core.RangeSlider.Create(ref lower, ref upper, min, max);
+                GUILayout.Label(upper.ToString("N2"), GUILayout.ExpandWidth(false));
+                if (ResetButton)
+                {
+                    lower = lowerDefault;
+                    upper = upperDefault;
+                }
+            }
+            GUILayout.EndHorizontal();
+            SingleSpace();
+        }
+
+        internal static void PercentRangeSlider(string label, string tooltip,
             ref float lower, ref float upper, float lowerDefault, float upperDefault)
         {
             GUILayout.BeginHorizontal();
