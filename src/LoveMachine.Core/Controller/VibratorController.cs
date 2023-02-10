@@ -8,14 +8,11 @@ namespace LoveMachine.Core
     {
         protected override bool IsDeviceSupported(Device device) => device.IsVibrator;
 
-        protected override IEnumerator HandleAnimation(Device device)
+        protected override IEnumerator HandleAnimation(Device device, WaveInfo waveInfo)
         {
-            int girlIndex = device.Settings.GirlIndex;
-            var bone = device.Settings.Bone;
             float normalizedTime = GetLatencyCorrectedNormalizedTime(device);
-            analyzer.TryGetWaveInfo(girlIndex, bone, out var result);
-            float phase = result.Phase;
-            float frequency = result.Frequency;
+            float phase = waveInfo.Phase;
+            float frequency = waveInfo.Frequency;
             float time = normalizedTime - phase;
             float strength = GetStrength(time * frequency, device.Settings.VibratorSettings);
             float intensity = Mathf.Lerp(

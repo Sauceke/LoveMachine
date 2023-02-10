@@ -7,16 +7,10 @@ namespace LoveMachine.Core
     {
         protected override bool IsDeviceSupported(Device device) => device.IsStroker;
 
-        protected override IEnumerator HandleAnimation(Device device)
+        protected override IEnumerator HandleAnimation(Device device, WaveInfo waveInfo)
         {
-            int girlIndex = device.Settings.GirlIndex;
-            var bone = device.Settings.Bone;
-            if (!analyzer.TryGetWaveInfo(girlIndex, bone, out var waveInfo))
-            {
-                yield break;
-            }
             int updateFrequency = device.Settings.UpdatesHz;
-            float animTimeSecs = GetAnimationTimeSecs(girlIndex);
+            float animTimeSecs = GetAnimationTimeSecs(device);
             // min number of subdivisions
             int turns = 2 * waveInfo.Frequency;
             // max number of subdivisions given the update frequency
@@ -26,7 +20,7 @@ namespace LoveMachine.Core
             int getSegment(float time) => (int)((time - waveInfo.Phase) * segments);
             yield return WaitWhile(() =>
                 getSegment(GetLatencyCorrectedNormalizedTime(device)) == getSegment(startNormTime));
-            animTimeSecs = GetAnimationTimeSecs(girlIndex);
+            animTimeSecs = GetAnimationTimeSecs(device);
             float refreshTimeSecs = animTimeSecs / segments;
             float refreshNormTime = 1f / segments;
             float currentNormTime = GetLatencyCorrectedNormalizedTime(device);
@@ -58,12 +52,11 @@ namespace LoveMachine.Core
             }
         }
 
-        private static float Sinusoid(float x, AnimationAnalyzer.WaveInfo waveInfo) =>
-            Mathf.InverseLerp(1f, -1f,
-                Mathf.Cos(2 * Mathf.PI * waveInfo.Frequency * (x - waveInfo.Phase)));
+        private static float Sinusoid(float x, WaveInfo info) =>
+            Mathf.InverseLerp(1f, -1f, Mathf.Cos(2 * Mathf.PI * info.Frequency * (x - info.Phase)));
 
-        private void GetStrokeZone(float strokeTimeSecs, Device device,
-            AnimationAnalyzer.WaveInfo waveInfo, out float min, out float max)
+        private void GetStrokeZone(float strokeTimeSecs, Device device, WaveInfo waveInfo,
+            out float min, out float max)
         {
             // decrease stroke length gradually as speed approaches the device limit
             float rate = 60f / device.Settings.StrokerSettings.MaxStrokesPerMin / strokeTimeSecs;

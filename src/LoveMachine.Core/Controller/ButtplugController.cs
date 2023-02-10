@@ -102,7 +102,7 @@ namespace LoveMachine.Core
                 // there's a gradual change in animation speed
                 // updating every 3s and caching the result solves this
                 yield return new WaitForSecondsRealtime(3f);
-                float animTimeSecs = GetAnimationTimeSecs(device.Settings.GirlIndex);
+                float animTimeSecs = GetAnimationTimeSecs(device);
                 normalizedLatencies[device] = device.Settings.LatencyMs / 1000f / animTimeSecs;
             }
         }
@@ -117,8 +117,9 @@ namespace LoveMachine.Core
             return currentNormTime + normalizedLatency;
         }
 
-        protected float GetAnimationTimeSecs(int girlIndex)
+        protected float GetAnimationTimeSecs(Device device)
         {
+            int girlIndex = device.Settings.GirlIndex;
             game.GetAnimState(girlIndex, out _, out float length, out float speed);
             float animTimeSecs = length / speed / game.TimeScale;
             // prevent coroutines from hanging e.g. when the game is paused

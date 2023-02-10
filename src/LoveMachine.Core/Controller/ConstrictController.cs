@@ -8,8 +8,8 @@ namespace LoveMachine.Core
     {
         protected override bool IsDeviceSupported(Device device) => device.IsConstrictor;
 
-        protected override IEnumerator HandleAnimation(Device device) =>
-            DoConstrict(device, GetPressure(device));
+        protected override IEnumerator HandleAnimation(Device device, WaveInfo waveInfo) =>
+                DoConstrict(device, GetPressure(device, waveInfo));
 
         protected override IEnumerator HandleOrgasm(Device device) => DoConstrict(device, 1f);
 
@@ -23,7 +23,7 @@ namespace LoveMachine.Core
             yield return new WaitForSecondsRealtime(settings.UpdateIntervalSecs);
         }
 
-        private float GetPressure(Device device)
+        private float GetPressure(Device device, WaveInfo waveInfo)
         {
             switch (ConstrictConfig.Mode.Value)
             {
@@ -31,10 +31,10 @@ namespace LoveMachine.Core
                     return GetSineBasedPressure();
 
                 case ConstrictConfig.ConstrictMode.StrokeLength:
-                    return GetStrokeLengthBasedPressure(device);
+                    return GetStrokeLengthBasedPressure(waveInfo);
 
                 case ConstrictConfig.ConstrictMode.StrokeSpeed:
-                    return GetStrokeSpeedBasedPressure(device);
+                    return GetStrokeSpeedBasedPressure(device, waveInfo);
             }
             throw new Exception("unreachable");
         }
@@ -42,24 +42,13 @@ namespace LoveMachine.Core
         private float GetSineBasedPressure() => Mathf.InverseLerp(-1f, 1f,
             value: Mathf.Sin(Time.time * 2f * Mathf.PI / ConstrictConfig.CycleLengthSecs.Value));
 
-        private float GetStrokeLengthBasedPressure(Device device) =>
-            analyzer.TryGetWaveInfo(device.Settings.GirlIndex, device.Settings.Bone, out var info)
-                ? Mathf.InverseLerp(0, game.PenisSize, value: info.Amplitude)
-                : 1f;
+        private float GetStrokeLengthBasedPressure(WaveInfo waveInfo) =>
+                Mathf.InverseLerp(0, game.PenisSize, value: waveInfo.Amplitude);
 
-        private float GetStrokeSpeedBasedPressure(Device device)
-        {
-            var settings = device.Settings.ConstrictSettings;
-            int girlIndex = device.Settings.GirlIndex;
-            var bone = device.Settings.Bone;
-            float freq = analyzer.TryGetWaveInfo(girlIndex, bone, out var info)
-                ? info.Frequency
-                : 1f;
-            var strokeTimeSecs = GetAnimationTimeSecs(girlIndex) / freq;
-            return Mathf.InverseLerp(
-                settings.SpeedSensitivityMin,
-                settings.SpeedSensitivityMax,
-                value: strokeTimeSecs);
-        }
+        private float GetStrokeSpeedBasedPressure(Device device, WaveInfo waveInfo) =>
+                Mathf.InverseLerp(
+                    device.Settings.ConstrictSettings.SpeedSensitivityMin,
+                    device.Settings.ConstrictSettings.SpeedSensitivityMax,
+                    value: GetAnimationTimeSecs(device) / waveInfo.Frequency);
     }
 }

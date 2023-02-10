@@ -8,7 +8,7 @@ using UnityEngine;
 
 namespace LoveMachine.Core
 {
-    public class AnimationAnalyzer : CoroutineHandler
+    public partial class AnimationAnalyzer : CoroutineHandler
     {
         // com3d2 has animations with more than 10 strokes, but those aren't
         // evenly spaced, so can't do much about them atm
@@ -171,14 +171,6 @@ namespace LoveMachine.Core
             public Bone Bone { get; set; }
             public float Time { get; set; }
             public Vector3 RelativePos { get; set; }
-        }
-
-        public struct WaveInfo
-        {
-            public float Phase { get; set; }
-            public int Frequency { get; set; }
-            public float Amplitude { get; set; }
-            public float Preference { get; set; } // smaller is better
         }
     }
 }

@@ -5,7 +5,7 @@ namespace LoveMachine.Core
 {
     public abstract class ClassicButtplugController : ButtplugController
     {
-        protected abstract IEnumerator HandleAnimation(Device device);
+        protected abstract IEnumerator HandleAnimation(Device device, WaveInfo waveInfo);
 
         protected abstract IEnumerator HandleOrgasm(Device device);
 
@@ -27,7 +27,16 @@ namespace LoveMachine.Core
                     }
                     continue;
                 }
-                yield return HandleCoroutine(HandleAnimation(device));
+                int girlIndex = device.Settings.GirlIndex;
+                var bone = device.Settings.Bone;
+                if (analyzer.TryGetWaveInfo(girlIndex, bone, out var waveInfo))
+                {
+                    yield return HandleCoroutine(HandleAnimation(device, waveInfo));
+                }
+                else
+                {
+                    yield return new WaitForSecondsRealtime(0.1f);
+                }
             }
         }
     }

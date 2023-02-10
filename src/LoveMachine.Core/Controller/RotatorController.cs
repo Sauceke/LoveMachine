@@ -9,12 +9,9 @@ namespace LoveMachine.Core
 
         protected override bool IsDeviceSupported(Device device) => device.IsRotator;
 
-        protected override IEnumerator HandleAnimation(Device device)
+        protected override IEnumerator HandleAnimation(Device device, WaveInfo waveInfo)
         {
-            int girlIndex = device.Settings.GirlIndex;
-            var bone = device.Settings.Bone;
-            analyzer.TryGetWaveInfo(girlIndex, bone, out var waveInfo);
-            float strokeTimeSecs = GetAnimationTimeSecs(girlIndex) / waveInfo.Frequency;
+            float strokeTimeSecs = GetAnimationTimeSecs(device) / waveInfo.Frequency;
             for (int i = 0; i < waveInfo.Frequency - 1; i++)
             {
                 HandleCoroutine(DoRotate(device, clockwise, strokeTimeSecs));
