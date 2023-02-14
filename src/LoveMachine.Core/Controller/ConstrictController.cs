@@ -47,8 +47,8 @@ namespace LoveMachine.Core
 
         private float GetStrokeSpeedBasedPressure(Device device, WaveInfo waveInfo) =>
                 Mathf.InverseLerp(
-                    device.Settings.ConstrictSettings.SpeedSensitivityMin,
-                    device.Settings.ConstrictSettings.SpeedSensitivityMax,
+                    1f / device.Settings.ConstrictSettings.SpeedSensitivityMin,
+                    1f / device.Settings.ConstrictSettings.SpeedSensitivityMax,
                     value: GetAnimationTimeSecs(device) / waveInfo.Frequency);
     }
 }
