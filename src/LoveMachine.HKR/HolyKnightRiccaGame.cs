@@ -19,9 +19,9 @@ namespace LoveMachine.HKR
 
         private PlayableDirector director;
         private TimelineAsset timeline;
-        private Traverse<string> cutName;
         private Dictionary<string, TimelineClip> clipCache;
         private TimeUnlooper unlooper;
+        private string cachedPose;
 
         public override int AnimationLayer => 0;
 
@@ -39,11 +39,17 @@ namespace LoveMachine.HKR
 
         protected override float PenisSize => 0.1f;
 
-        protected override MethodInfo[] StartHMethods =>
-            new[] { AccessTools.Method("ATD.UIController, ATDAssemblyDifinition:FinishADV") };
+        protected override MethodInfo[] StartHMethods => new[]
+        {
+            AccessTools.Method("ANV.NovelImageController, ANVAssemblyDifinition:Initialize"),
+            AccessTools.Method("ATD.UIController, ATDAssemblyDifinition:FinishADV")
+        };
 
-        protected override MethodInfo[] EndHMethods =>
-            new[] { AccessTools.Method("ATD.UIController, ATDAssemblyDifinition:OnDestroy") };
+        protected override MethodInfo[] EndHMethods => new[]
+        {
+            AccessTools.Method("ANV.NovelImageController, ANVAssemblyDifinition:OnDestroy"),
+            AccessTools.Method("ATD.UIController, ATDAssemblyDifinition:OnDestroy")
+        };
 
         public override Animator GetFemaleAnimator(int girlIndex) =>
             throw new NotImplementedException();
@@ -56,7 +62,8 @@ namespace LoveMachine.HKR
         protected override GameObject GetFemaleRoot(int girlIndex) =>
             GameObject.Find("ricasso/root");
 
-        protected override string GetPose(int girlIndex) => cutName.Value;
+        protected override string GetPose(int girlIndex) =>
+            cachedPose = GetCurrentClip()?.displayName ?? cachedPose;
 
         protected override bool IsIdle(int girlIndex) => false;
 
@@ -87,14 +94,8 @@ namespace LoveMachine.HKR
             .Where(track => director.GetGenericBinding(track)?.name == director.name)
             .Where(track => track.name == "Cut Track Asset")
             .SelectMany(track => track.clips)
-            .Where(clip => clip.displayName.StartsWith(cutName.Value))
             .Where(clip => clip.start < director.time && director.time < clip.end)
             .FirstOrDefault();
-
-        protected override void SetStartHInstance(object uiController) =>
-            cutName = Traverse.Create(uiController)
-                .Property("actorController")
-                .Property<string>("currentCutName");
 
         protected override IEnumerator UntilReady()
         {

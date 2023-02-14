@@ -8,7 +8,7 @@ using UnityEngine;
 
 namespace LoveMachine.Core
 {
-    public partial class AnimationAnalyzer : CoroutineHandler
+    public class AnimationAnalyzer : CoroutineHandler
     {
         // com3d2 has animations with more than 10 strokes, but those aren't
         // evenly spaced, so can't do much about them atm
