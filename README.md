@@ -72,6 +72,8 @@ The Space key acts as a kill switch for all devices while in-game. To reactivate
 - As the whole thing is based on bone positions, this will only work for reasonably sized and proportioned characters.
 
 ## Configuration
+⚠ IL2CPP games (RoomGirl, Holy Knight Ricca) are not compatible with ConfigurationManager at the moment. Please edit the configuration file instead.
+
 In Plugin Settings > LoveMachine, you can set the following parameters:
 
 ### Animation Settings (Koikatsu and KKS only)
@@ -128,9 +130,11 @@ Safety measure to avoid hurting yourself if the sex gets too rough or something 
 - **Rotation Direction Change Chance:** The direction of rotation changes with the probability of this setting. Default is 30%.
 
 ### Pressure Settings
+- **Enable Pressure Control:** Whether to use the pressure feature of this device. On by default.
 - **Pressure Mode:** Determines how the pressure will be set.
 	- **Cycle:** Gradually build up and release pressure over a fixed duration.
-	- **Stroke Length:** The longer the current animation's stroke length is, the more pressure will be applied.
+	- **Stroke Length:** Longer strokes = more pressure.
+	- **Stroke Speed:** Faster strokes = more pressure.
 - **Pressure Cycle Length (seconds):** If the Pressure Mode is set to Cycle, determines the length of a buildup-release cycle in seconds.
 
 ## Contributing
@@ -139,10 +143,10 @@ PRs for onboarding new games are welcome. The process is relatively simple and r
 This mod is provided free of charge, but I do accept donations. If you'd like to boost my morale, please check me out on [Patreon].
 
 ### Developers
-Sauceke       nhydock       hogefugamoga       RPKU
+Sauceke   •   nhydock   •   hogefugamoga   •   RPKU
 
 ### Patrons
-[ManlyMarco]       Aftercurve       AkronusWings       Ambicatus       AstralClock       Benos Hentai       boaz       Bri       cat tail       CBN ヴい       Ceruleon       CROM       Daniel       EPTG       er er       Flan       funnychicken       Gabbelgu       gold25       GOU YOSIHIRO       Greg       hiro       Ior1yagami       Kai Yami       KTKT       kuni       Laneo       Maha       Nemi       Phil       prepare55       rolandmitch       RP君       SavagePastry       Shakes       Taibe       tanu       Tom       TrashTaste       ttrs       tutinoko       uruurian       Wel Adunno       yamada tarou       Zesty Cucumber       ふ       一太 川崎       優希 岩永       国崎往人       将也 三田       洋 冨岡       猛 羽場       终晓       郁弥 中村       闇《YAMI》       
+[ManlyMarco]   •   Aftercurve   •   AkronusWings   •   Ambicatus   •   AstralClock   •   Benos Hentai   •   boaz   •   Bri   •   cat tail   •   CBN ヴい   •   Ceruleon   •   CROM   •   Daniel   •   EPTG   •   er er   •   Flan   •   funnychicken   •   Gabbelgu   •   gold25   •   GOU YOSIHIRO   •   Greg   •   hiro   •   Ior1yagami   •   Kai Yami   •   KTKT   •   kuni   •   Laneo   •   Nemi   •   nppon   •   PhazR   •   Phil   •   prepare55   •   rolandmitch   •   RP君   •   SavagePastry   •   Shakes   •   Taibe   •   tanu   •   Tom   •   TrashTaste   •   ttrs   •   tutinoko   •   uruurian   •   Wel Adunno   •   yamada tarou   •   Zesty Cucumber   •   ふ   •   一太 川崎   •   優希 岩永   •   哲慶 宗   •   国崎往人   •   将也 三田   •   洋 冨岡   •   猛 羽場   •   终晓   •   郁弥 中村   •   闇《YAMI》   •   高島　渉
 
 
 ## Acknowledgements
@@ -161,6 +165,10 @@ This mod would not have been possible without the [BepInEx] plugin framework and
 [Houkago Rinkan Chuudoku]: https://www.dlsite.com/maniax/dlaf/=/t/n/link/work/aid/sauceke/locale/en_US/id/RJ189924.html/?locale=en_US
 [Insult Order]: https://www.dlsite.com/maniax/dlaf/=/t/n/link/work/aid/sauceke/locale/en_US/id/RJ220246.html/?locale=en_US
 [RoomGirl]: https://www.dlsite.com/pro/dlaf/=/t/n/link/work/aid/sauceke/locale/en_US/id/VJ015465.html/?locale=en_US
+[Koikatsu Sunshine]: https://www.dlsite.com/pro/dlaf/=/t/n/link/work/aid/sauceke/locale/en_US/id/VJ015724.html/?locale=en_US
+[Secrossphere]: https://www.dlsite.com/pro/dlaf/=/t/n/link/work/aid/sauceke/locale/en_US/id/VJ015728.html/?locale=en_US
+[PlayHome]: https://www.dlsite.com/pro/dlaf/=/t/n/link/work/aid/sauceke/locale/en_US/id/VJ015713.html/?locale=en_US
+[Koikatsu]: https://www.dlsite.com/pro/dlaf/=/t/n/link/work/aid/sauceke/locale/en_US/id/VJ015719.html/?locale=en_US
 
 <!-- sponsored sex toy links -->
 [The Handy]: https://www.thehandy.com/?ref=saucekebenfield&utm_source=saucekebenfield&utm_medium=affiliate&utm_campaign=The+Handy+Affiliate+program
@@ -178,9 +186,5 @@ This mod would not have been possible without the [BepInEx] plugin framework and
 [AGHVR]: https://github.com/Eusth/AGHVR
 [IOVR]: https://github.com/Eusth/IOVR
 [Our Apartment]: https://www.patreon.com/momoirosoftware
-[Koikatsu]: https://www.illusion.jp/preview/koikatu/
 [Koikatsu Party]: https://store.steampowered.com/app/1073440/__Koikatsu_Party/
-[Koikatsu Sunshine]: https://www.illusion.jp/preview/koikatsu_sunshine/
-[PlayHome]: https://www.illusion.jp/preview/playhome/
 [VR Kanojo]: http://www.illusion.jp/preview/vrkanojo/index_en.php
-[Secrossphere]: http://www.illusion.jp/preview/sec/
