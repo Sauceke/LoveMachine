@@ -72,6 +72,8 @@ The Space key acts as a kill switch for all devices while in-game. To reactivate
 - As the whole thing is based on bone positions, this will only work for reasonably sized and proportioned characters.
 
 ## Configuration
+⚠ IL2CPP games (RoomGirl, Holy Knight Ricca) are not compatible with ConfigurationManager at the moment. Please edit the configuration file instead.
+
 In Plugin Settings > LoveMachine, you can set the following parameters:
 
 ### Animation Settings (Koikatsu and KKS only)
@@ -131,7 +133,8 @@ Safety measure to avoid hurting yourself if the sex gets too rough or something 
 - **Enable Pressure Control:** Whether to use the pressure feature of this device. On by default.
 - **Pressure Mode:** Determines how the pressure will be set.
 	- **Cycle:** Gradually build up and release pressure over a fixed duration.
-	- **Stroke Length:** The longer the current animation's stroke length is, the more pressure will be applied.
+	- **Stroke Length:** Longer strokes = more pressure.
+	- **Stroke Speed:** Faster strokes = more pressure.
 - **Pressure Cycle Length (seconds):** If the Pressure Mode is set to Cycle, determines the length of a buildup-release cycle in seconds.
 
 ## Contributing
