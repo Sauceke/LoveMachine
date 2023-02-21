@@ -9,7 +9,7 @@ namespace LoveMachine.Core
         protected override bool IsDeviceSupported(Device device) => device.IsConstrictor;
 
         protected override IEnumerator HandleAnimation(Device device, WaveInfo waveInfo) =>
-                DoConstrict(device, GetPressure(device, waveInfo));
+            DoConstrict(device, GetPressure(device, waveInfo));
 
         protected override IEnumerator HandleOrgasm(Device device) => DoConstrict(device, 1f);
 
@@ -43,12 +43,12 @@ namespace LoveMachine.Core
             value: Mathf.Sin(Time.time * 2f * Mathf.PI / ConstrictConfig.CycleLengthSecs.Value));
 
         private float GetStrokeLengthBasedPressure(WaveInfo waveInfo) =>
-                Mathf.InverseLerp(0, game.PenisSize, value: waveInfo.Amplitude);
+            Mathf.InverseLerp(0, game.PenisSize, value: waveInfo.Amplitude);
 
         private float GetStrokeSpeedBasedPressure(Device device, WaveInfo waveInfo) =>
-                Mathf.InverseLerp(
-                    1f / device.Settings.ConstrictSettings.SpeedSensitivityMin,
-                    1f / device.Settings.ConstrictSettings.SpeedSensitivityMax,
-                    value: GetAnimationTimeSecs(device) / waveInfo.Frequency);
+            Mathf.InverseLerp(
+                1f / device.Settings.ConstrictSettings.SpeedSensitivityMin,
+                1f / device.Settings.ConstrictSettings.SpeedSensitivityMax,
+                value: GetAnimationTimeSecs(device) / waveInfo.Frequency);
     }
 }
