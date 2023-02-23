@@ -1,0 +1,13 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net45</TargetFramework>
+    <OutputPath>..\bin\LoveMachine.LE\BepInEx\plugins\LE_LoveMachine\</OutputPath>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\LoveMachine.Core\LoveMachine.Core.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="UnityEngine.Core" Version="5.6.0" ExcludeAssets="runtime" />
+  </ItemGroup>
+</Project>

@@ -20,6 +20,7 @@ Adds support for [some computer-controlled sex toys](#supported-devices) in the 
 | [Koikatsu]                | Illusion         | Yes               |
 | [Koikatsu Party]          | Illusion         | Yes               |
 | [Koikatsu Sunshine]       | Illusion         | Yes               |
+| [Last Evil]               | Flametorch       | No                |
 | [Our Apartment]           | Momoiro Software | No                |
 | [PlayHome]                | Illusion         | Yes               |
 | [RoomGirl]                | Illusion         | No                |
@@ -188,3 +189,4 @@ This mod would not have been possible without the [BepInEx] plugin framework and
 [Our Apartment]: https://www.patreon.com/momoirosoftware
 [Koikatsu Party]: https://store.steampowered.com/app/1073440/__Koikatsu_Party/
 [VR Kanojo]: http://www.illusion.jp/preview/vrkanojo/index_en.php
+[Last Evil]: https://store.steampowered.com/app/823910/last_evil/
