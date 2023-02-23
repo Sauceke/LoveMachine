@@ -146,6 +146,13 @@ namespace LoveMachine.Core
         { }
 
         /// <summary>
+        /// Array of all penis base bones in the H-scene.
+        /// The order of the bones need not be consistent.
+        /// </summary>
+        [HideFromIl2Cpp]
+        protected internal virtual Transform[] GetDickBases() => new[] { GetDickBase() };
+
+        /// <summary>
         /// Override this if the game has long crossfade sections between
         /// animations, to wait until the crossfade is over.
         /// </summary>
@@ -222,13 +229,15 @@ namespace LoveMachine.Core
             // Search children
             character?.transform?.Find(path)
                 // If that fails, search recursively
-                ?? FindDeepChildByName(character, path.Split('/').Last())
+                ?? FindDeepChildrenByName(character, path.Split('/').Last()).FirstOrDefault()
                     // If even that fails, search the entire game
                     ?? GameObject.Find(path.Split('/').Last()).transform;
 
-        private static Transform FindDeepChildByName(GameObject character, string name) =>
-            character?.GetComponentsInChildren<Transform>()?
-                .FirstOrDefault(child => child.name == name);
+        protected static Transform[] FindDeepChildrenByName(GameObject character, string name) =>
+            character?
+                .GetComponentsInChildren<Transform>()?
+                .Where(child => child.name == name)
+                .ToArray();
 
         public class HEventArgs : EventArgs
         { }

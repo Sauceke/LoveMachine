@@ -4,7 +4,9 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Policy;
 using UnityEngine;
+using UnityEngine.Profiling;
 
 namespace LoveMachine.Core
 {
@@ -74,7 +76,7 @@ namespace LoveMachine.Core
 
         private IEnumerator AnalyzeAnimation(int girlIndex)
         {
-            var boneM = game.GetDickBase();
+            var penisBases = game.GetDickBases();
             var femaleBones = game.GetFemaleBones(girlIndex);
             string pose = GetExactPose(girlIndex, Bone.Auto);
             yield return HandleCoroutine(game.WaitAfterPoseChange());
@@ -85,16 +87,15 @@ namespace LoveMachine.Core
             {
                 yield return new WaitForEndOfFrame();
                 game.GetAnimState(girlIndex, out currentTime, out _, out _);
-                foreach (var entry in femaleBones)
-                {
-                    var boneF = entry.Value;
-                    samples.Add(new Sample
+                var newSamples = femaleBones
+                    .SelectMany(entry => penisBases, (entry, penisBase) => new Sample
                     {
                         Bone = entry.Key,
+                        PenisBase = penisBase,
                         Time = currentTime,
-                        RelativePos = boneM.position - boneF.position
+                        RelativePos = penisBase.position - entry.Value.position
                     });
-                }
+                samples.AddRange(newSamples);
                 if (pose != GetExactPose(girlIndex, Bone.Auto) || currentTime < startTime)
                 {
                     CoreConfig.Logger.LogWarning($"Pose {pose} interrupted; canceling analysis.");
@@ -103,7 +104,7 @@ namespace LoveMachine.Core
             }
             var results = femaleBones.Keys
                 .ToDictionary(bone => bone,
-                    bone => GetWaveInfo(samples.Where(entry => entry.Bone == bone)));
+                    bone => GetPreferredWaveInfo(samples.Where(entry => entry.Bone == bone)));
             // Prefer bones that are close and move a lot. Being close is more important.
             var autoBone = results
                 .OrderBy(result => result.Value.Preference)
@@ -116,6 +117,12 @@ namespace LoveMachine.Core
                 $"{samples.Count / femaleBones.Count} frames inspected. " +
                 $"Leading bone: {autoBone}, result: {JsonMapper.ToJson(results[Bone.Auto])}.");
         }
+
+        private static WaveInfo GetPreferredWaveInfo(IEnumerable<Sample> samples) => samples
+            .GroupBy(sample => sample.PenisBase)
+            .Select(GetWaveInfo)
+            .OrderBy(waveInfo => waveInfo.Preference)
+            .First();
 
         private static WaveInfo GetWaveInfo(IEnumerable<Sample> samples)
         {
@@ -169,6 +176,7 @@ namespace LoveMachine.Core
         private struct Sample
         {
             public Bone Bone { get; set; }
+            public Transform PenisBase { get; set; }
             public float Time { get; set; }
             public Vector3 RelativePos { get; set; }
         }
