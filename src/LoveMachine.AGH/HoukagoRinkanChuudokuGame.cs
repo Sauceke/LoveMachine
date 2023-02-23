@@ -1,7 +1,9 @@
 ﻿using HarmonyLib;
 using LoveMachine.Core;
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using UnityEngine;
 
@@ -12,18 +14,19 @@ namespace LoveMachine.AGH
         private static readonly Dictionary<Bone, string> sayaBones = new Dictionary<Bone, string>
         {
             { Bone.Vagina, "HS01_cli" },
-            { Bone.LeftHand, "bip01 L Finger1Nub" },
+            { Bone.Anus, "HS01_anaru" },
             { Bone.Mouth, "BF01_tongue01" },
+            { Bone.LeftHand, "bip01 L Finger1Nub" },
+            { Bone.RightHand, "bip01 R Finger1Nub" },
             { Bone.LeftBreast, "HS_Breast_LL" },
+            { Bone.RightBreast, "HS_Breast_RR" }
         };
 
-        private static readonly Dictionary<Bone, string> elenaBones = new Dictionary<Bone, string>
-        {
-            { Bone.Vagina, "HS01_cli_02" },
-            { Bone.LeftHand, "bip01 L Finger1Nub_02" },
-            { Bone.Mouth, "BF01_tongue01_02" },
-            { Bone.LeftBreast, "HS_Breast_LL_02" },
-        };
+        private static readonly Dictionary<Bone, string> elenaBones =
+            sayaBones.ToDictionary(kvp => kvp.Key, kvp => kvp.Value + "_02");
+
+        private static readonly string[] penisBaseNames =
+            { "BP00_tamaL", "BP00_tamaL_mobA", "BP00_tamaL_mobB", "BP00_tamaL_mobC" };
 
         private GameObject femaleRoot;
         private Animator femaleAnimator;
@@ -61,7 +64,12 @@ namespace LoveMachine.AGH
 
         protected override GameObject GetFemaleRoot(int girlIndex) => femaleRoot;
 
-        protected override Transform GetDickBase() => GameObject.Find("BP00_tamaL").transform;
+        protected override Transform GetDickBase() => throw new NotImplementedException();
+
+        protected override Transform[] GetDickBases() => penisBaseNames
+            .Select(name => GameObject.Find(name)?.transform)
+            .Where(transform => transform != null)
+            .ToArray();
 
         protected override string GetPose(int girlIndex) =>
             femaleAnimator.GetCurrentAnimatorClipInfo(0)[0].clip.name;

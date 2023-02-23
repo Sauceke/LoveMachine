@@ -49,8 +49,10 @@ namespace LoveMachine.LE
             speed = 1f;
         }
 
-        protected override Transform GetDickBase() =>
-            FindBoneByPath(GameObject.Find("EventSceneFramework/Root/Entities"), "ActorMan_Ball2");
+        protected override Transform GetDickBase() => throw new System.NotImplementedException();
+
+        protected override Transform[] GetDickBases() => FindDeepChildrenByName(
+            GameObject.Find("EventSceneFramework/Root/Entities"), "ActorMan_Ball2");
 
         protected override GameObject GetFemaleRoot(int girlIndex) =>
             GameObject.Find("EventSceneFramework/Root/Entities/Succubus");
