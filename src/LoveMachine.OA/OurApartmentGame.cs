@@ -54,7 +54,7 @@ namespace LoveMachine.OA
 
         protected override GameObject GetFemaleRoot(int girlIndex) => null;
 
-        protected override Transform GetDickBase() =>
+        protected override Transform PenisBase =>
             GameObject.Find("cc_balls1.l")?.transform ?? transform;
 
         protected override string GetPose(int girlIndex) =>

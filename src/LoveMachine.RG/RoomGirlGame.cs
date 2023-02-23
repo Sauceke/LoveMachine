@@ -58,7 +58,7 @@ namespace LoveMachine.RG
 
         public override Animator GetFemaleAnimator(int girlIndex) => femaleAnimator;
 
-        protected override Transform GetDickBase() => GameObject.Find("chaM_001/BodyTop/p_cf_anim/" +
+        protected override Transform PenisBase => GameObject.Find("chaM_001/BodyTop/p_cf_anim/" +
             "cf_J_Root/cf_N_height/cf_J_Hips/cf_J_Kosi01/cf_J_Kosi02/cm_J_dan_s/cm_J_dan_top/" +
             "cm_J_dan_f_top/k_m_tamaC_00").transform;
 

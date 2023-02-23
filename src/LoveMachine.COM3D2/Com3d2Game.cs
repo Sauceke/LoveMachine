@@ -88,7 +88,7 @@ namespace LoveMachine.COM3D2
         protected override GameObject GetFemaleRoot(int girlIndex) =>
             FindCharaObject($"Maid[{girlIndex}]");
 
-        protected override Transform GetDickBase() => FindBoneByPath(FindCharaObject("Man[0]"),
+        protected override Transform PenisBase => FindBoneByPath(FindCharaObject("Man[0]"),
             "ManBip/ManBip Pelvis/chinkoCenter/tamabukuro");
 
         private static GameObject FindCharaObject(string pattern) =>

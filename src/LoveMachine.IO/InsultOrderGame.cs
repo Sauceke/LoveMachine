@@ -50,7 +50,7 @@ namespace LoveMachine.IO
 
         protected override GameObject GetFemaleRoot(int girlIndex) => femaleRoot;
 
-        protected override Transform GetDickBase() => GameObject.Find("BP00_tamaL").transform;
+        protected override Transform PenisBase => GameObject.Find("BP00_tamaL").transform;
 
         protected override string GetPose(int girlIndex) =>
             femaleAnimator.GetCurrentAnimatorClipInfo(0)[0].clip.name;

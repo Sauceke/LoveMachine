@@ -54,7 +54,7 @@ namespace LoveMachine.HKR
         public override Animator GetFemaleAnimator(int girlIndex) =>
             throw new NotImplementedException();
 
-        protected override Transform GetDickBase() => dickBasePaths
+        protected override Transform PenisBase => dickBasePaths
             .Select(GameObject.Find)
             .First(go => go != null)
             .transform;

@@ -34,7 +34,7 @@ namespace LoveMachine.KK
 
         protected override GameObject GetFemaleRoot(int girlIndex) => GameObject.Find("chaF_001");
 
-        protected override Transform GetDickBase() => GameObject.Find(balls).transform;
+        protected override Transform PenisBase => GameObject.Find(balls).transform;
 
         protected override string GetPose(int girlIndex) =>
             Studio.Studio.Instance.sceneInfo.GetHashCode().ToString() + isPlaying.Value;

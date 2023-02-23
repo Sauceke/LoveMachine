@@ -22,7 +22,7 @@ namespace LoveMachine.Core
 
         public override Animator GetFemaleAnimator(int girlIndex) => throw new NotImplementedException();
 
-        protected internal override Transform GetDickBase() => throw new NotImplementedException();
+        protected internal override Transform PenisBase => throw new NotImplementedException();
 
         protected internal override GameObject GetFemaleRoot(int girlIndex) => throw new NotImplementedException();
 

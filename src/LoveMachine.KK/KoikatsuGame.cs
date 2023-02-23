@@ -68,7 +68,7 @@ namespace LoveMachine.KK
         protected override GameObject GetFemaleRoot(int girlIndex) =>
             Flags.lstHeroine[girlIndex].chaCtrl.objBodyBone;
 
-        protected override Transform GetDickBase() =>
+        protected override Transform PenisBase =>
             Flags.player.chaCtrl.objBodyBone.transform.FindLoop("k_f_tamaL_00").transform;
 
         protected override string GetPose(int girlIndex) =>

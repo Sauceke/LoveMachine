@@ -41,7 +41,7 @@ namespace LoveMachine.SCS
 
         public override Animator GetFemaleAnimator(int girlIndex) => femaleAnimators[girlIndex];
 
-        protected override Transform GetDickBase() => GameObject.Find("a_J_tamaL").transform;
+        protected override Transform PenisBase => GameObject.Find("a_J_tamaL").transform;
 
         protected override GameObject GetFemaleRoot(int girlIndex) => females[girlIndex].gameObject;
 

@@ -64,9 +64,9 @@ namespace LoveMachine.AGH
 
         protected override GameObject GetFemaleRoot(int girlIndex) => femaleRoot;
 
-        protected override Transform GetDickBase() => throw new NotImplementedException();
+        protected override Transform PenisBase => throw new NotImplementedException();
 
-        protected override Transform[] GetDickBases() => penisBaseNames
+        protected override Transform[] PenisBases => penisBaseNames
             .Select(name => GameObject.Find(name)?.transform)
             .Where(transform => transform != null)
             .ToArray();

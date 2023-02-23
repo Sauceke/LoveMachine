@@ -56,7 +56,7 @@ namespace LoveMachine.PH
         protected override GameObject GetFemaleRoot(int girlIndex) =>
             scene.mainMembers.females[girlIndex].objBodyBone;
 
-        protected override Transform GetDickBase() =>
+        protected override Transform PenisBase =>
             scene.mainMembers.males[0].objBodyBone.transform.FindLoop("k_m_tamaC_00").transform;
 
         protected override string GetPose(int girlIndex) =>

@@ -42,7 +42,7 @@ namespace LoveMachine.VRK
 
         public override Animator GetFemaleAnimator(int girlIndex) => sakura.animBody;
 
-        protected override Transform GetDickBase() => GameObject.Find("cm_J_dan_s").transform;
+        protected override Transform PenisBase => GameObject.Find("cm_J_dan_s").transform;
 
         protected override GameObject GetFemaleRoot(int girlIndex) => null;
 

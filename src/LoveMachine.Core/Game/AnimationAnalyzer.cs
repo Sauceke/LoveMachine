@@ -76,7 +76,7 @@ namespace LoveMachine.Core
 
         private IEnumerator AnalyzeAnimation(int girlIndex)
         {
-            var penisBases = game.GetDickBases();
+            var penisBases = game.PenisBases;
             var femaleBones = game.GetFemaleBones(girlIndex);
             string pose = GetExactPose(girlIndex, Bone.Auto);
             yield return HandleCoroutine(game.WaitAfterPoseChange());

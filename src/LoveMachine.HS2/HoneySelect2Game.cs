@@ -48,7 +48,7 @@ namespace LoveMachine.HS2
         protected override GameObject GetFemaleRoot(int girlIndex) =>
             hScene.GetFemales()[girlIndex].objBodyBone;
 
-        protected override Transform GetDickBase() =>
+        protected override Transform PenisBase =>
             hScene.GetMales()[0].objBodyBone.transform.FindLoop("cm_J_dan_f_L").transform;
 
         protected override void SetStartHInstance(object hScene) => this.hScene = (HScene)hScene;

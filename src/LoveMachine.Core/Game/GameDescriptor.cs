@@ -38,6 +38,13 @@ namespace LoveMachine.Core
         protected internal abstract Dictionary<Bone, string> FemaleBoneNames { get; }
 
         /// <summary>
+        /// The base of the penis or something close to that (e.g. balls). <br/>
+        /// If there are multiple penises, override PenisBases instead.
+        /// </summary>
+        [HideFromIl2Cpp]
+        protected internal abstract Transform PenisBase { get; }
+
+        /// <summary>
         /// The layer index of the sex animation in female animators
         /// (if the game uses animators).
         /// </summary>
@@ -61,6 +68,13 @@ namespace LoveMachine.Core
         /// </summary>
         [HideFromIl2Cpp]
         protected internal abstract bool IsHardSex { get; }
+
+        /// <summary>
+        /// Array of all penis base bones in the H-scene. <br/>
+        /// The order of the bones need not be consistent.
+        /// </summary>
+        [HideFromIl2Cpp]
+        protected internal virtual Transform[] PenisBases => new[] { PenisBase };
 
         /// <summary>
         /// Approximate length of a penis in Unity's length units.
@@ -115,12 +129,6 @@ namespace LoveMachine.Core
         protected internal abstract GameObject GetFemaleRoot(int girlIndex);
 
         /// <summary>
-        /// The base of the penis or something close to that (e.g. balls).
-        /// </summary>
-        [HideFromIl2Cpp]
-        protected internal abstract Transform GetDickBase();
-
-        /// <summary>
         /// A unique ID of the animation this girl is currently playing. <br/>
         /// This will be called often, so keep it lightweight!
         /// </summary>
@@ -141,16 +149,13 @@ namespace LoveMachine.Core
         [HideFromIl2Cpp]
         protected abstract IEnumerator UntilReady();
 
+        /// <summary>
+        /// The instance on which the method in StartHMethods was called
+        /// will be passed to this method.
+        /// </summary>
         [HideFromIl2Cpp]
         protected internal virtual void SetStartHInstance(object instance)
         { }
-
-        /// <summary>
-        /// Array of all penis base bones in the H-scene.
-        /// The order of the bones need not be consistent.
-        /// </summary>
-        [HideFromIl2Cpp]
-        protected internal virtual Transform[] GetDickBases() => new[] { GetDickBase() };
 
         /// <summary>
         /// Override this if the game has long crossfade sections between
