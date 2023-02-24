@@ -25,7 +25,7 @@ namespace LoveMachine.SC
 
         protected override MethodInfo[] EndHMethods => new MethodInfo[]
         {
-            AccessTools.Method("LadySexAnimation_Function, Assembly-CSharp:LadyClimaxAnimation")
+            AccessTools.Method("Menu_Function, Assembly-CSharp:BackToMainMenu")
         };
 
         protected override Dictionary<Bone, string> FemaleBoneNames => new Dictionary<Bone, string>
@@ -42,7 +42,7 @@ namespace LoveMachine.SC
 
         protected override Transform PenisBase => GameObject.Find("All_Model/player_A/Main/" +
             "DeformationSystem/Penis_root/Penis_0/Left_Testicle_root/Left_Testicle_0/" +
-            "Left_Testicle_1").transform;
+            "Left_Testicle_1")?.transform;
 
         protected override int HeroineCount => aide_function.Value ? 2 : 1;
 
@@ -75,7 +75,7 @@ namespace LoveMachine.SC
 
         protected override IEnumerator UntilReady()
         {
-            yield return new WaitForSeconds(5f);
+            yield return new WaitWhile(() => PenisBase == null);
         }
     }
 }
