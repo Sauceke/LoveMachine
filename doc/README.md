@@ -25,6 +25,7 @@ Adds support for [some computer-controlled sex toys](#supported-devices) in the 
 | [PlayHome]                | Illusion         | Yes               |
 | [RoomGirl]                | Illusion         | No                |
 | [Secrossphere]            | Illusion         | No                |
+| [Succubus Cafe]           | MIGI STUDIO      | No                |
 | [VR Kanojo]               | Illusion         | Yes               |
 
 ## Supported devices
@@ -190,3 +191,4 @@ This mod would not have been possible without the [BepInEx] plugin framework and
 [Koikatsu Party]: https://store.steampowered.com/app/1073440/__Koikatsu_Party/
 [VR Kanojo]: http://www.illusion.jp/preview/vrkanojo/index_en.php
 [Last Evil]: https://store.steampowered.com/app/823910/last_evil/
+[Succubus Cafe]: https://store.steampowered.com/app/1520500/Succubus_Cafe/
