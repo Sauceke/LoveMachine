@@ -20,10 +20,12 @@ Adds support for [some computer-controlled sex toys](#supported-devices) in the 
 | [Koikatsu]                | Illusion         | Yes               |
 | [Koikatsu Party]          | Illusion         | Yes               |
 | [Koikatsu Sunshine]       | Illusion         | Yes               |
+| [Last Evil]               | Flametorch       | No                |
 | [Our Apartment]           | Momoiro Software | No                |
 | [PlayHome]                | Illusion         | Yes               |
 | [RoomGirl]                | Illusion         | No                |
 | [Secrossphere]            | Illusion         | No                |
+| [Succubus Cafe]           | MIGI STUDIO      | No                |
 | [VR Kanojo]               | Illusion         | Yes               |
 
 ## Supported devices
@@ -146,7 +148,7 @@ This mod is provided free of charge, but I do accept donations. If you'd like to
 Sauceke   •   nhydock   •   hogefugamoga   •   RPKU
 
 ### Patrons
-[ManlyMarco]   •   Aftercurve   •   AkronusWings   •   Ambicatus   •   AstralClock   •   Benos Hentai   •   boaz   •   Bri   •   cat tail   •   CBN ヴい   •   Ceruleon   •   CROM   •   Daniel   •   EPTG   •   er er   •   Flan   •   funnychicken   •   Gabbelgu   •   gold25   •   GOU YOSIHIRO   •   Greg   •   hiro   •   Ior1yagami   •   Kai Yami   •   KTKT   •   kuni   •   Laneo   •   Nemi   •   nppon   •   PhazR   •   Phil   •   prepare55   •   rolandmitch   •   RP君   •   SavagePastry   •   Shakes   •   Taibe   •   tanu   •   Tom   •   TrashTaste   •   ttrs   •   tutinoko   •   uruurian   •   Wel Adunno   •   yamada tarou   •   Zesty Cucumber   •   ふ   •   一太 川崎   •   優希 岩永   •   哲慶 宗   •   国崎往人   •   将也 三田   •   洋 冨岡   •   猛 羽場   •   终晓   •   郁弥 中村   •   闇《YAMI》   •   高島　渉
+[ManlyMarco]   •   Aftercurve   •   AkronusWings   •   Ambicatus   •   AstralClock   •   Benos Hentai   •   boaz   •   Bri   •   cat tail   •   CBN ヴい   •   Ceruleon   •   CROM   •   Daniel   •   EPTG   •   er er   •   Flan   •   funnychicken   •   Gabbelgu   •   gold25   •   GOU YOSIHIRO   •   Greg   •   hiro   •   Ior1yagami   •   Kai Yami   •   KTKT   •   kuni   •   Laneo   •   Nemi   •   nppon   •   PhazR   •   Phil   •   prepare55   •   rolandmitch   •   RP君   •   SavagePastry   •   Shakes   •   Taibe   •   tanu   •   Tom   •   TrashTaste   •   ttrs   •   tutinoko   •   uruurian   •   Wel Adunno   •   yamada tarou   •   Zesty Cucumber   •   シルバー   •   ふ   •   一太 川崎   •   優希 岩永   •   哲慶 宗   •   国崎往人   •   将也 三田   •   洋 冨岡   •   猛 羽場   •   终晓   •   郁弥 中村   •   闇《YAMI》   •   高島　渉
 
 
 ## Acknowledgements
@@ -188,3 +190,5 @@ This mod would not have been possible without the [BepInEx] plugin framework and
 [Our Apartment]: https://www.patreon.com/momoirosoftware
 [Koikatsu Party]: https://store.steampowered.com/app/1073440/__Koikatsu_Party/
 [VR Kanojo]: http://www.illusion.jp/preview/vrkanojo/index_en.php
+[Last Evil]: https://store.steampowered.com/app/823910/last_evil/
+[Succubus Cafe]: https://store.steampowered.com/app/1520500/Succubus_Cafe/
