@@ -15,6 +15,7 @@ namespace LoveMachine.SC
         private Traverse<string> animName;
         private Traverse<float> upperAnimBlend;
         private Traverse<int> upperpower;
+        private Traverse<bool> lowerAnimEvent;
 
         public override int AnimationLayer => 0;
 
@@ -62,6 +63,8 @@ namespace LoveMachine.SC
 
         protected override bool IsIdle(int girlIndex) => string.IsNullOrEmpty(animName.Value);
 
+        protected override bool IsOrgasming(int girlIndex) => !lowerAnimEvent.Value;
+
         protected override void SetStartHInstance(object menu)
         {
             var script = Traverse.Create(menu).Field("ladySexAnimation_Function");
@@ -71,6 +74,7 @@ namespace LoveMachine.SC
             animName = script.Field<string>("animName");
             upperAnimBlend = script.Field<float>("upperAnimBlend");
             upperpower = script.Field<int>("upperpower");
+            lowerAnimEvent = script.Field<bool>("lowerAnimEvent");
         }
 
         protected override IEnumerator UntilReady()
