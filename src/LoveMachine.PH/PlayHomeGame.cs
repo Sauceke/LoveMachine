@@ -2,6 +2,7 @@
 using HarmonyLib;
 using IllusionUtility.GetUtility;
 using LoveMachine.Core;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -44,6 +45,12 @@ namespace LoveMachine.PH
 
         protected override float PenisSize => 0.2f;
 
+        protected override Transform PenisBase => throw new NotImplementedException();
+
+        protected override Transform[] PenisBases => scene.mainMembers.males
+            .Select(male => male.objBodyBone.transform.FindLoop("k_m_tamaC_00").transform)
+            .ToArray();
+
         protected override MethodInfo[] StartHMethods =>
             new[] { AccessTools.Method(typeof(H_Scene), nameof(H_Scene.Awake)) };
 
@@ -55,9 +62,6 @@ namespace LoveMachine.PH
 
         protected override GameObject GetFemaleRoot(int girlIndex) =>
             scene.mainMembers.females[girlIndex].objBodyBone;
-
-        protected override Transform PenisBase =>
-            scene.mainMembers.males[0].objBodyBone.transform.FindLoop("k_m_tamaC_00").transform;
 
         protected override string GetPose(int girlIndex) =>
             (scene.mainMembers.StyleData?.id ?? "none")

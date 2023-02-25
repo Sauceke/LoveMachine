@@ -4,6 +4,7 @@ using LoveMachine.Core;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using UnityEngine;
 
@@ -36,6 +37,13 @@ namespace LoveMachine.HS2
 
         protected override float PenisSize => 0.4f;
 
+        protected override Transform PenisBase => throw new NotImplementedException();
+
+        protected override Transform[] PenisBases => hScene.GetMales()
+            .Where(male => male != null)
+            .Select(male => male.objBodyBone.transform.FindLoop("cm_J_dan_f_L").transform)
+            .ToArray();
+
         protected override MethodInfo[] StartHMethods =>
             new[] { AccessTools.Method(typeof(HScene), nameof(HScene.Start)) };
 
@@ -47,9 +55,6 @@ namespace LoveMachine.HS2
 
         protected override GameObject GetFemaleRoot(int girlIndex) =>
             hScene.GetFemales()[girlIndex].objBodyBone;
-
-        protected override Transform PenisBase =>
-            hScene.GetMales()[0].objBodyBone.transform.FindLoop("cm_J_dan_f_L").transform;
 
         protected override void SetStartHInstance(object hScene) => this.hScene = (HScene)hScene;
 
