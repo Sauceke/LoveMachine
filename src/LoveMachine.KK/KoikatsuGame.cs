@@ -3,6 +3,7 @@ using IllusionUtility.GetUtility;
 using System.Collections;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.Serialization;
 using UnityEngine;
 
 namespace LoveMachine.KK
@@ -32,6 +33,8 @@ namespace LoveMachine.KK
             "OLoop", "A_OLoop",
         };
 
+        private ObjectIDGenerator idGenerator;
+
         public HFlag Flags { get; private set; }
 
         protected override int HeroineCount => Flags.lstHeroine.Count;
@@ -56,8 +59,8 @@ namespace LoveMachine.KK
         };
 
         protected override bool IsIdle(int girlIndex) => !supportedModes.Contains(Flags.mode)
-                    || !activeAnimations.Contains(Flags.nowAnimStateName)
-                    || Flags.speed < 1f;
+            || !activeAnimations.Contains(Flags.nowAnimStateName)
+            || Flags.speed < 1f;
 
         protected override bool IsOrgasming(int girlIndex) =>
             orgasmAnimations.Contains(Flags.nowAnimStateName);
@@ -74,8 +77,8 @@ namespace LoveMachine.KK
         protected override string GetPose(int girlIndex) =>
             // Sideloaded animations all have the same id and name.
             // The only surefire way to uniquely identify an animation seems
-            // to be the hash code, since it's based on object reference.
-            Flags.nowAnimationInfo.GetHashCode()
+            // to be the object reference itself.
+            idGenerator.GetId(Flags.nowAnimationInfo, out _)
                 + "." + Flags.nowAnimationInfo.nameAnimation
                 + "." + Flags.nowAnimStateName;
 
@@ -93,6 +96,7 @@ namespace LoveMachine.KK
 
         protected override IEnumerator UntilReady()
         {
+            idGenerator = new ObjectIDGenerator();
             yield return new WaitWhile(() => Flags.lstHeroine.IsNullOrEmpty()
                 || Flags.lstHeroine.Any(girl => girl.chaCtrl?.animBody == null)
                 || Flags.player?.chaCtrl?.animBody == null);
