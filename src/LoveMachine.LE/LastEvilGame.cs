@@ -1,5 +1,6 @@
 ﻿using HarmonyLib;
 using LoveMachine.Core;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
@@ -12,7 +13,7 @@ namespace LoveMachine.LE
         private Animation animation;
         private Traverse<int> animIndex;
 
-        public override int AnimationLayer => throw new System.NotImplementedException();
+        public override int AnimationLayer => throw new NotImplementedException();
 
         protected override MethodInfo[] StartHMethods =>
             new[] { AccessTools.Method("EventSceneFramework, Assembly-CSharp:Init") };
@@ -38,7 +39,7 @@ namespace LoveMachine.LE
         protected override bool IsHardSex => animIndex.Value > 1;
 
         public override Animator GetFemaleAnimator(int girlIndex) =>
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
 
         protected override void GetAnimState(int girlIndex, out float normalizedTime,
             out float length, out float speed)
@@ -49,7 +50,7 @@ namespace LoveMachine.LE
             speed = 1f;
         }
 
-        protected override Transform PenisBase => throw new System.NotImplementedException();
+        protected override Transform PenisBase => throw new NotImplementedException();
 
         protected override Transform[] PenisBases => FindDeepChildrenByName(
             GameObject.Find("EventSceneFramework/Root/Entities"), "ActorMan_Ball2");

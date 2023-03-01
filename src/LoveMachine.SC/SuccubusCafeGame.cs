@@ -19,15 +19,11 @@ namespace LoveMachine.SC
 
         public override int AnimationLayer => 0;
 
-        protected override MethodInfo[] StartHMethods => new[]
-        {
-            AccessTools.Method("Menu_Function, Assembly-CSharp:LadySexModeEnter")
-        };
+        protected override MethodInfo[] StartHMethods =>
+            new[] { AccessTools.Method("Menu_Function, Assembly-CSharp:LadySexModeEnter") };
 
-        protected override MethodInfo[] EndHMethods => new MethodInfo[]
-        {
-            AccessTools.Method("Menu_Function, Assembly-CSharp:BackToMainMenu")
-        };
+        protected override MethodInfo[] EndHMethods =>
+            new[] { AccessTools.Method("Menu_Function, Assembly-CSharp:BackToMainMenu") };
 
         protected override Dictionary<Bone, string> FemaleBoneNames => new Dictionary<Bone, string>
         {
