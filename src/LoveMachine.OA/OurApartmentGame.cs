@@ -11,9 +11,7 @@ namespace LoveMachine.OA
     internal sealed class OurApartmentGame : GameDescriptor
     {
         private static readonly string[] layerNames =
-        {
-            "Base SexSim", "From Behind SexSim", "Couch Missionary SexSim"
-        };
+            { "Base SexSim", "From Behind SexSim", "Couch Missionary SexSim" };
 
         private Traverse<bool> isSex;
         private Animator naomiAnimator;

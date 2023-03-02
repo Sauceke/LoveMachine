@@ -10,7 +10,8 @@ namespace LoveMachine.HKR
 {
     internal class HolyKnightRiccaGame : GameDescriptor
     {
-        private static readonly string[] dickBasePaths = new[] {
+        private static readonly string[] dickBasePaths = new[]
+        {
             "DEF-testicle",
             "ORG-testicle",
             "DEF-Ovipositor",
