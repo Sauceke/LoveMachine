@@ -3,6 +3,7 @@ using LoveMachine.Core;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using UnityEngine;
 
@@ -10,6 +11,9 @@ namespace LoveMachine.LE
 {
     public class LastEvilGame : GameDescriptor
     {
+        private const string root = "EventSceneFramework/Root/Entities";
+        private static readonly string[] ballsNames = { "ActorMan_Ball2", "Dick_Ball2" };
+
         private Animation animation;
         private Traverse<int> animIndex;
 
@@ -52,11 +56,12 @@ namespace LoveMachine.LE
 
         protected override Transform PenisBase => throw new NotImplementedException();
 
-        protected override Transform[] PenisBases => FindDeepChildrenByName(
-            GameObject.Find("EventSceneFramework/Root/Entities"), "ActorMan_Ball2");
+        protected override Transform[] PenisBases => ballsNames
+            .SelectMany(name => FindDeepChildrenByName(GameObject.Find(root), name))
+            .ToArray();
 
         protected override GameObject GetFemaleRoot(int girlIndex) =>
-            GameObject.Find("EventSceneFramework/Root/Entities/Succubus");
+            GameObject.Find(root + "/Succubus");
 
         protected override string GetPose(int girlIndex) => animIndex.Value.ToString();
 
