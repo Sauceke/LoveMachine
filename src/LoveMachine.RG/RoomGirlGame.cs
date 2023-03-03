@@ -8,25 +8,16 @@ namespace LoveMachine.RG
 {
     internal class RoomGirlGame : GameDescriptor
     {
-        private static readonly string[] idleAnimations =
-        {
-            "Idle", "WIdle", "SIdle", "Insert", "D_Idle", "D_Insert",
-            "Orgasm_A", "Orgasm_IN_A", "Orgasm_OUT_A", "Drink_A", "Vomit_A", "OrgasmM_OUT_A",
-            "D_Orgasm_A", "D_Orgasm_OUT_A", "D_Orgasm_IN_A", "D_OrgasmM_OUT_A"
-        };
-
         private Animator femaleAnimator;
-        private object hscene;
+        private Traverse ctrlFlag;
+        private Traverse<int> loopType;
+        private Traverse<bool> nowOrgasm;
 
-        private int AnimationId => Traverse.Create(hscene)
-            .Property("CtrlFlag")
-            .Property("NowAnimationInfo")
-            .Property<int>("ID").Value;
+        private Traverse AnimationInfo => ctrlFlag.Property("NowAnimationInfo");
 
-        private string AnimationName => Traverse.Create(hscene)
-            .Property("CtrlFlag")
-            .Property("NowAnimationInfo")
-            .Property<string>("NameAnimation").Value;
+        private int AnimationId => AnimationInfo.Property<int>("ID").Value;
+
+        private string AnimationName => AnimationInfo.Property<string>("NameAnimation").Value;
 
         public override int AnimationLayer => 0;
 
@@ -64,18 +55,19 @@ namespace LoveMachine.RG
 
         protected override GameObject GetFemaleRoot(int girlIndex) => GameObject.Find("chaF_001");
 
-        protected override string GetPose(int girlIndex) => AnimationName
-            + "." + AnimationId
-            + "." + femaleAnimator.GetCurrentAnimatorStateInfo(0).fullPathHash.ToString();
+        protected override string GetPose(int girlIndex) =>
+            $"{AnimationName}.{AnimationId}.{GetAnimatorStateInfo(girlIndex).fullPathHash}";
 
-        protected override bool IsIdle(int girlIndex) =>
-            idleAnimations.Any(GetAnimatorStateInfo(girlIndex).IsName);
+        protected override bool IsIdle(int girlIndex) => loopType.Value == -1;
 
-        protected override bool IsOrgasming(int girlIndex) => Traverse.Create(hscene)
-            .Property("CtrlFlag")
-            .Property<bool>("NowOrgasm").Value;
+        protected override bool IsOrgasming(int girlIndex) => nowOrgasm.Value;
 
-        protected override void SetStartHInstance(object hscene) => this.hscene = hscene;
+        protected override void SetStartHInstance(object hscene)
+        {
+            ctrlFlag = Traverse.Create(hscene).Property("CtrlFlag");
+            loopType = ctrlFlag.Property<int>("LoopType");
+            nowOrgasm = ctrlFlag.Property<bool>("NowOrgasm");
+        }
 
         protected override IEnumerator UntilReady()
         {
