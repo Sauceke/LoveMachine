@@ -47,9 +47,10 @@ namespace LoveMachine.Core
             GUILayout.BeginHorizontal();
             {
                 GUIUtil.LabelWithTooltip("Features", "What this device can do.");
-                GUILayout.Toggle(IsStroker, "Stroker");
-                GUILayout.Toggle(IsVibrator, "Vibrator");
-                GUILayout.Toggle(IsRotator, "Rotator");
+                GUILayout.Toggle(IsStroker, "Position");
+                GUILayout.Toggle(IsVibrator, "Vibration");
+                GUILayout.Toggle(IsRotator, "Rotation");
+                GUILayout.Toggle(IsConstrictor, "Pressure");
             }
             GUILayout.EndHorizontal();
             GUIUtil.SingleSpace();
