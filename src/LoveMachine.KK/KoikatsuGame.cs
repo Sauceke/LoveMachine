@@ -43,7 +43,7 @@ namespace LoveMachine.KK
 
         protected override bool IsHardSex => Flags?.nowAnimStateName?.Contains("SLoop") ?? false;
 
-        public override int AnimationLayer => 0;
+        protected override int AnimationLayer => 0;
 
         protected override float PenisSize => 0.1f;
 
@@ -65,7 +65,7 @@ namespace LoveMachine.KK
         protected override bool IsOrgasming(int girlIndex) =>
             orgasmAnimations.Contains(Flags.nowAnimStateName);
 
-        public override Animator GetFemaleAnimator(int girlIndex) =>
+        protected override Animator GetFemaleAnimator(int girlIndex) =>
             Flags.lstHeroine[girlIndex].chaCtrl.animBody;
 
         protected override GameObject GetFemaleRoot(int girlIndex) =>

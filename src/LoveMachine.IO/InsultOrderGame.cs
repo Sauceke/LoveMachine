@@ -38,7 +38,7 @@ namespace LoveMachine.IO
 
         protected override float PenisSize => 0.5f;
 
-        public override int AnimationLayer => 0;
+        protected override int AnimationLayer => 0;
 
         protected override MethodInfo[] StartHMethods =>
             new[] { AccessTools.Method("FH_AnimeController, Assembly-CSharp:Start") };
@@ -46,7 +46,7 @@ namespace LoveMachine.IO
         protected override MethodInfo[] EndHMethods =>
             new[] { AccessTools.Method("FH_SetUp, Assembly-CSharp:Unload") };
 
-        public override Animator GetFemaleAnimator(int girlIndex) => femaleAnimator;
+        protected override Animator GetFemaleAnimator(int girlIndex) => femaleAnimator;
 
         protected override GameObject GetFemaleRoot(int girlIndex) => femaleRoot;
 

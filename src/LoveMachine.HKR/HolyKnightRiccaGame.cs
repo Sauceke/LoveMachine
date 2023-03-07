@@ -24,7 +24,7 @@ namespace LoveMachine.HKR
         private TimeUnlooper unlooper;
         private string cachedPose;
 
-        public override int AnimationLayer => 0;
+        protected override int AnimationLayer => 0;
 
         protected override Dictionary<Bone, string> FemaleBoneNames => new Dictionary<Bone, string>
         {
@@ -52,7 +52,7 @@ namespace LoveMachine.HKR
             AccessTools.Method("ATD.UIController, ATDAssemblyDifinition:OnDestroy")
         };
 
-        public override Animator GetFemaleAnimator(int girlIndex) =>
+        protected override Animator GetFemaleAnimator(int girlIndex) =>
             throw new NotImplementedException();
 
         protected override Transform PenisBase => dickBasePaths

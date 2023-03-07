@@ -42,14 +42,14 @@ namespace LoveMachine.Core
         /// If there are multiple penises, override PenisBases instead.
         /// </summary>
         [HideFromIl2Cpp]
-        protected internal abstract Transform PenisBase { get; }
+        protected abstract Transform PenisBase { get; }
 
         /// <summary>
         /// The layer index of the sex animation in female animators
         /// (if the game uses animators).
         /// </summary>
         [HideFromIl2Cpp]
-        public abstract int AnimationLayer { get; }
+        protected abstract int AnimationLayer { get; }
 
         /// <summary>
         /// Number of heroines in the current H-scene.
@@ -67,7 +67,7 @@ namespace LoveMachine.Core
         /// Set to true when the characters are REALLY going at it.
         /// </summary>
         [HideFromIl2Cpp]
-        protected internal abstract bool IsHardSex { get; }
+        protected abstract bool IsHardSex { get; }
 
         /// <summary>
         /// Array of all penis base bones in the H-scene. <br/>
@@ -118,7 +118,7 @@ namespace LoveMachine.Core
         /// If the game doesn't use Animators, override GetAnimState instead.
         /// </summary>
         [HideFromIl2Cpp]
-        public abstract Animator GetFemaleAnimator(int girlIndex);
+        protected abstract Animator GetFemaleAnimator(int girlIndex);
 
         /// <summary>
         /// The root bone of this heroine. <br/>
@@ -126,7 +126,7 @@ namespace LoveMachine.Core
         /// If null, the search will be extended to the entire game.
         /// </summary>
         [HideFromIl2Cpp]
-        protected internal abstract GameObject GetFemaleRoot(int girlIndex);
+        protected abstract GameObject GetFemaleRoot(int girlIndex);
 
         /// <summary>
         /// A unique ID of the animation this girl is currently playing. <br/>
@@ -154,12 +154,12 @@ namespace LoveMachine.Core
         /// will be passed to this method.
         /// </summary>
         [HideFromIl2Cpp]
-        protected internal virtual void SetStartHInstance(object instance)
+        protected virtual void SetStartHInstance(object instance)
         { }
 
         /// <summary>
-        /// Override this if the game has long crossfade sections between
-        /// animations, to wait until the crossfade is over.
+        /// Override this if the game has long cross-fade sections between
+        /// animations, to wait until the cross-fade is over.
         /// </summary>
         [HideFromIl2Cpp]
         protected internal virtual IEnumerator WaitAfterPoseChange()
@@ -223,7 +223,7 @@ namespace LoveMachine.Core
             CoreConfig.Logger.LogInfo("New H scene started.");
         }
 
-        public AnimatorStateInfo GetAnimatorStateInfo(int girlIndex) =>
+        protected AnimatorStateInfo GetAnimatorStateInfo(int girlIndex) =>
             GetFemaleAnimator(girlIndex).GetCurrentAnimatorStateInfo(AnimationLayer);
 
         internal Dictionary<Bone, Transform> GetFemaleBones(int girlIndex) => FemaleBoneNames
@@ -232,7 +232,7 @@ namespace LoveMachine.Core
 
         protected static Transform FindBoneByPath(GameObject character, string path) =>
             // Search children
-            character?.transform?.Find(path)
+            character?.transform.Find(path)
                 // If that fails, search recursively
                 ?? FindDeepChildrenByName(character, path.Split('/').Last()).FirstOrDefault()
                     // If even that fails, search the entire game

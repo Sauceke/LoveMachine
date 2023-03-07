@@ -35,7 +35,7 @@ namespace LoveMachine.OA
 
         protected override bool IsHardSex => GetPose(0).Contains("Pump2");
 
-        public override int AnimationLayer => animationLayers
+        protected override int AnimationLayer => animationLayers
             .Where(i => naomiAnimator.GetLayerWeight(i) == 1f)
             .DefaultIfEmpty(-1)
             .First();
@@ -48,7 +48,7 @@ namespace LoveMachine.OA
         protected override MethodInfo[] EndHMethods =>
             new[] { AccessTools.Method("SexSimControl, Assembly-CSharp:RunSexConclusion") };
 
-        public override Animator GetFemaleAnimator(int girlIndex) => naomiAnimator;
+        protected override Animator GetFemaleAnimator(int girlIndex) => naomiAnimator;
 
         protected override GameObject GetFemaleRoot(int girlIndex) => null;
 

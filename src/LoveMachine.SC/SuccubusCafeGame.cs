@@ -17,7 +17,7 @@ namespace LoveMachine.SC
         private Traverse<int> upperpower;
         private Traverse<bool> lowerAnimEvent;
 
-        public override int AnimationLayer => 0;
+        protected override int AnimationLayer => 0;
 
         protected override MethodInfo[] StartHMethods =>
             new[] { AccessTools.Method("Menu_Function, Assembly-CSharp:LadySexModeEnter") };
@@ -47,7 +47,7 @@ namespace LoveMachine.SC
 
         protected override bool IsHardSex => false;
 
-        public override Animator GetFemaleAnimator(int girlIndex) =>
+        protected override Animator GetFemaleAnimator(int girlIndex) =>
             GetFemaleRoot(girlIndex).GetComponent<Animator>();
 
         protected override GameObject GetFemaleRoot(int girlIndex) =>

@@ -11,7 +11,7 @@ namespace LoveMachine.Core
     {
         protected virtual void Start()
         {
-            CoreConfig.Initialize(this, Logger);
+            CoreConfig.Initialize(Logger);
             ButtplugConfig.Initialize(this);
             DeviceListConfig.Initialize(this);
             KillSwitchConfig.Initialize(this);

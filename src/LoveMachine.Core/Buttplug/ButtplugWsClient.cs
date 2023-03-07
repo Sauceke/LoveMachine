@@ -103,7 +103,7 @@ namespace LoveMachine.Core
         private IEnumerator OnOpened()
         {
             yield return new WaitForEndOfFrame();
-            CoreConfig.Logger.LogInfo("Succesfully connected to Intiface.");
+            CoreConfig.Logger.LogInfo("Successfully connected to Intiface.");
             RequestServerInfo();
         }
 

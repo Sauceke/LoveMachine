@@ -11,20 +11,20 @@ namespace LoveMachine.Core
         private float normalizedTime;
         private float speed;
 
-        public override int AnimationLayer => throw new NotImplementedException();
+        protected override int AnimationLayer => throw new NotImplementedException();
         protected internal override Dictionary<Bone, string> FemaleBoneNames => throw new NotImplementedException();
         protected internal override int HeroineCount => throw new NotImplementedException();
         protected internal override int MaxHeroineCount => throw new NotImplementedException();
-        protected internal override bool IsHardSex => false;
+        protected override bool IsHardSex => false;
         protected internal override float TimeScale => 1f;
         protected internal override MethodInfo[] StartHMethods => throw new NotImplementedException();
         protected internal override MethodInfo[] EndHMethods => throw new NotImplementedException();
 
-        public override Animator GetFemaleAnimator(int girlIndex) => throw new NotImplementedException();
+        protected override Animator GetFemaleAnimator(int girlIndex) => throw new NotImplementedException();
 
-        protected internal override Transform PenisBase => throw new NotImplementedException();
+        protected override Transform PenisBase => throw new NotImplementedException();
 
-        protected internal override GameObject GetFemaleRoot(int girlIndex) => throw new NotImplementedException();
+        protected override GameObject GetFemaleRoot(int girlIndex) => throw new NotImplementedException();
 
         protected internal override string GetPose(int girlIndex) => throw new NotImplementedException();
 

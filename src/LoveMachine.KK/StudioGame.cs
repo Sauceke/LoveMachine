@@ -16,7 +16,7 @@ namespace LoveMachine.KK
         private Traverse<float> duration;
         private Traverse<float> playbackTime;
 
-        public override int AnimationLayer => throw new NotImplementedException();
+        protected override int AnimationLayer => throw new NotImplementedException();
 
         protected override int HeroineCount => 1;
 
@@ -29,7 +29,7 @@ namespace LoveMachine.KK
 
         protected override MethodInfo[] EndHMethods => new MethodInfo[] { };
 
-        public override Animator GetFemaleAnimator(int girlIndex) =>
+        protected override Animator GetFemaleAnimator(int girlIndex) =>
             throw new NotImplementedException();
 
         protected override GameObject GetFemaleRoot(int girlIndex) => GameObject.Find("chaF_001");

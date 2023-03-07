@@ -17,7 +17,7 @@ namespace LoveMachine.LE
         private Animation animation;
         private Traverse<int> animIndex;
 
-        public override int AnimationLayer => throw new NotImplementedException();
+        protected override int AnimationLayer => throw new NotImplementedException();
 
         protected override MethodInfo[] StartHMethods =>
             new[] { AccessTools.Method("EventSceneFramework, Assembly-CSharp:Init") };
@@ -42,7 +42,7 @@ namespace LoveMachine.LE
 
         protected override bool IsHardSex => animIndex.Value > 1;
 
-        public override Animator GetFemaleAnimator(int girlIndex) =>
+        protected override Animator GetFemaleAnimator(int girlIndex) =>
             throw new NotImplementedException();
 
         protected override void GetAnimState(int girlIndex, out float normalizedTime,

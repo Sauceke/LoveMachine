@@ -103,7 +103,6 @@ namespace LoveMachine.Core
             var results = femaleBones.Keys
                 .ToDictionary(bone => bone,
                     bone => GetPreferredWaveInfo(samples.Where(entry => entry.Bone == bone)));
-            // Prefer bones that are close and move a lot. Being close is more important.
             var autoBone = results
                 .OrderBy(result => result.Value.Preference)
                 .FirstOrDefault()
@@ -140,6 +139,7 @@ namespace LoveMachine.Core
                 Phase = trough.Time % 1f,
                 Frequency = GetFrequency(distances),
                 Amplitude = axis.magnitude,
+                // Prefer bones that are close and move a lot. Being close is more important.
                 Preference = Mathf.Pow(trough.RelativePos.magnitude, 3f) / axis.magnitude
             };
         }

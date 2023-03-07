@@ -6,19 +6,14 @@ namespace LoveMachine.Core
 {
     public static class CoreConfig
     {
-        private static Manager manager = new Manager();
-
         public const string PluginName = "LoveMachine IL2CPP";
         public const string GUID = "Sauceke.LoveMachine.IL2CPP";
         public const string Version = VersionInfo.Version;
 
         public static ManualLogSource Logger { get; private set; }
-        public static Manager ManagerObject => manager;
+        public static Manager ManagerObject { get; } = new();
 
-        internal static void Initialize(BaseUnityPlugin plugin, ManualLogSource logger)
-        {
-            Logger = logger;
-        }
+        internal static void Initialize(ManualLogSource logger) => Logger = logger;
 
         public class Manager
         {

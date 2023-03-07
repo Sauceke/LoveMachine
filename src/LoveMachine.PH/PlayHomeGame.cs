@@ -41,7 +41,7 @@ namespace LoveMachine.PH
 
         protected override bool IsHardSex => true;
 
-        public override int AnimationLayer => 0;
+        protected override int AnimationLayer => 0;
 
         protected override float PenisSize => 0.2f;
 
@@ -57,7 +57,7 @@ namespace LoveMachine.PH
         protected override MethodInfo[] EndHMethods =>
             new[] { AccessTools.Method(typeof(H_Scene), nameof(H_Scene.Exit)) };
 
-        public override Animator GetFemaleAnimator(int girlIndex) =>
+        protected override Animator GetFemaleAnimator(int girlIndex) =>
             scene.mainMembers.females[girlIndex].body.Anime;
 
         protected override GameObject GetFemaleRoot(int girlIndex) =>

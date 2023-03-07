@@ -33,7 +33,7 @@ namespace LoveMachine.HS2
 
         protected override bool IsHardSex => hScene.ctrlFlag.loopType == 1;
 
-        public override int AnimationLayer => 0;
+        protected override int AnimationLayer => 0;
 
         protected override float PenisSize => 0.4f;
 
@@ -50,7 +50,7 @@ namespace LoveMachine.HS2
         protected override MethodInfo[] EndHMethods =>
             new[] { AccessTools.Method(typeof(HScene), nameof(HScene.EndProc)) };
 
-        public override Animator GetFemaleAnimator(int girlIndex) =>
+        protected override Animator GetFemaleAnimator(int girlIndex) =>
             hScene?.GetFemales()[girlIndex]?.animBody;
 
         protected override GameObject GetFemaleRoot(int girlIndex) =>

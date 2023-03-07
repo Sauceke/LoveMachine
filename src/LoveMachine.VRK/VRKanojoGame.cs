@@ -11,7 +11,7 @@ namespace LoveMachine.VRK
     {
         private CharFemale sakura;
 
-        public override int AnimationLayer => 0;
+        protected override int AnimationLayer => 0;
 
         protected override Dictionary<Bone, string> FemaleBoneNames => new Dictionary<Bone, string>
         {
@@ -40,7 +40,7 @@ namespace LoveMachine.VRK
             AccessTools.Method(typeof(VK_H_Houshi_Sonyu), nameof(VK_H_Houshi_Sonyu.OnDestroy))
         };
 
-        public override Animator GetFemaleAnimator(int girlIndex) => sakura.animBody;
+        protected override Animator GetFemaleAnimator(int girlIndex) => sakura.animBody;
 
         protected override Transform PenisBase => GameObject.Find("cm_J_dan_s").transform;
 

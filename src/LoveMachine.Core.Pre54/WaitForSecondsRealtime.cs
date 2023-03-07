@@ -4,7 +4,7 @@ namespace UnityEngine
 {
     internal class WaitForSecondsRealtime : IEnumerator
     {
-        private float seconds;
+        private readonly float seconds;
         private bool done = false;
 
         public WaitForSecondsRealtime(float seconds) => this.seconds = seconds;

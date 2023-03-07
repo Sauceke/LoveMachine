@@ -15,7 +15,7 @@ namespace LoveMachine.SCS
         private Animator[] femaleAnimators;
         private Traverse<int> state;
 
-        public override int AnimationLayer => 0;
+        protected override int AnimationLayer => 0;
 
         protected override Dictionary<Bone, string> FemaleBoneNames => new Dictionary<Bone, string>
         {
@@ -39,7 +39,7 @@ namespace LoveMachine.SCS
         protected override MethodInfo[] EndHMethods =>
             new[] { AccessTools.Method("H_Scene, Assembly-CSharp:EndScene") };
 
-        public override Animator GetFemaleAnimator(int girlIndex) => femaleAnimators[girlIndex];
+        protected override Animator GetFemaleAnimator(int girlIndex) => femaleAnimators[girlIndex];
 
         protected override Transform PenisBase => GameObject.Find("a_J_tamaL").transform;
 

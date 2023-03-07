@@ -51,7 +51,7 @@ namespace LoveMachine.COM3D2
 
         protected override float PenisSize => 0.08f;
 
-        public override int AnimationLayer => throw new NotImplementedException();
+        protected override int AnimationLayer => throw new NotImplementedException();
 
         protected override MethodInfo[] StartHMethods =>
             new[] { AccessTools.Method("YotogiPlayManager, Assembly-CSharp:UIStartup") };
@@ -64,7 +64,7 @@ namespace LoveMachine.COM3D2
             yield return new WaitForSeconds(1f);
         }
 
-        public override Animator GetFemaleAnimator(int girlIndex) =>
+        protected override Animator GetFemaleAnimator(int girlIndex) =>
             throw new NotImplementedException();
 
         protected override void GetAnimState(int girlIndex, out float normalizedTime,

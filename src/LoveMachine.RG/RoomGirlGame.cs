@@ -19,7 +19,7 @@ namespace LoveMachine.RG
 
         private string AnimationName => AnimationInfo.Property<string>("NameAnimation").Value;
 
-        public override int AnimationLayer => 0;
+        protected override int AnimationLayer => 0;
 
         protected override Dictionary<Bone, string> FemaleBoneNames => new Dictionary<Bone, string>
         {
@@ -47,7 +47,7 @@ namespace LoveMachine.RG
         protected override MethodInfo[] EndHMethods =>
             new[] { AccessTools.Method("HScene, Assembly-CSharp:OnDestroy") };
 
-        public override Animator GetFemaleAnimator(int girlIndex) => femaleAnimator;
+        protected override Animator GetFemaleAnimator(int girlIndex) => femaleAnimator;
 
         protected override Transform PenisBase => GameObject.Find("chaM_001/BodyTop/p_cf_anim/" +
             "cf_J_Root/cf_N_height/cf_J_Hips/cf_J_Kosi01/cf_J_Kosi02/cm_J_dan_s/cm_J_dan_top/" +

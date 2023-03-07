@@ -42,7 +42,7 @@ namespace LoveMachine.AGH
 
         protected override bool IsHardSex => true;
 
-        public override int AnimationLayer => 0;
+        protected override int AnimationLayer => 0;
 
         protected override float PenisSize => 0.5f;
 
@@ -60,7 +60,7 @@ namespace LoveMachine.AGH
             AccessTools.Method("RI_SetUp, Assembly-CSharp:Unload")
         };
 
-        public override Animator GetFemaleAnimator(int girlIndex) => femaleAnimator;
+        protected override Animator GetFemaleAnimator(int girlIndex) => femaleAnimator;
 
         protected override GameObject GetFemaleRoot(int girlIndex) => femaleRoot;
 
