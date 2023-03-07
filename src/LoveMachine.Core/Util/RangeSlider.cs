@@ -22,7 +22,7 @@ namespace LoveMachine.Core
         private readonly float max;
         private readonly int id;
 
-        public RangeSlider(Rect position, float value1, float value2, float min, float max, int id)
+        private RangeSlider(Rect position, float value1, float value2, float min, float max, int id)
         {
             this.position = position;
             this.value1 = value1;
@@ -40,7 +40,7 @@ namespace LoveMachine.Core
             new RangeSlider(position, lower, upper, min, max, id).Handle(out lower, out upper);
         }
 
-        public void Handle(out float lower, out float upper)
+        private void Handle(out float lower, out float upper)
         {
             switch (Event.current.GetTypeForControl(id))
             {
@@ -62,7 +62,6 @@ namespace LoveMachine.Core
             }
             lower = Mathf.Min(value1, value2);
             upper = Mathf.Max(value1, value2);
-            return;
         }
 
         private void OnMouseDown()
@@ -143,9 +142,9 @@ namespace LoveMachine.Core
             Mathf.Lerp(position.x, position.x + position.size.x,
                 t: Mathf.InverseLerp(min, max, value));
 
-        private float ThumbWidth => thumbStyle.CalcSize(GUIContent.none).x;
+        private static float ThumbWidth => thumbStyle.CalcSize(GUIContent.none).x;
 
-        private float ThumbHeight => thumbStyle.CalcSize(GUIContent.none).y;
+        private static float ThumbHeight => thumbStyle.CalcSize(GUIContent.none).y;
 
         private static Texture2D BandTexture()
         {

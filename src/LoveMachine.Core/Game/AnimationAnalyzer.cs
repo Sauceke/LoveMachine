@@ -132,9 +132,9 @@ namespace LoveMachine.Core
                 .OrderBy(sample => -(sample.RelativePos - crest.RelativePos).magnitude)
                 .First();
             var axis = crest.RelativePos - trough.RelativePos;
-            float getDistance(Vector3 v) =>
+            float GetDistance(Vector3 v) =>
                 Vector3.Project(v - trough.RelativePos, axis).magnitude;
-            var distances = samples.Select(sample => getDistance(sample.RelativePos));
+            var distances = samples.Select(sample => GetDistance(sample.RelativePos));
             return new WaveInfo
             {
                 Phase = trough.Time % 1f,

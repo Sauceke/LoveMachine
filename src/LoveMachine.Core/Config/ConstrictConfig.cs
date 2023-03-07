@@ -19,7 +19,7 @@ namespace LoveMachine.Core
                 new ConfigDescription(
                     "Duration of a cycle in Cycle mode.",
                     new AcceptableValueRange<float>(5f, 200f),
-                    new ConfigurationManagerAttributes { Order = order-- }));
+                    new ConfigurationManagerAttributes { Order = --order }));
             Mode = plugin.Config.Bind(
                section: constrictSettingsTitle,
                key: "Pressure Mode",
@@ -28,7 +28,7 @@ namespace LoveMachine.Core
                    "Cycle: repeat building up and releasing pressure over a set duration\n" +
                    "Stroke Length: pressure is based on the in-game stroke length\n" +
                    "Stroke Speed: pressure is based on the in-game stroke speed",
-                   tags: new ConfigurationManagerAttributes { Order = order-- }));
+                   tags: new ConfigurationManagerAttributes { Order = --order }));
         }
 
         public enum ConstrictMode

@@ -40,9 +40,9 @@ namespace LoveMachine.Core
             CoreConfig.Logger.LogInfo($"Connecting to Intiface server at {address}");
             websocket = new WebSocket(address);
             // StartCoroutine is only safe to call inside Unity's main thread
-            websocket.Opened += (s, e) => incoming.Enqueue(OnOpened(s, e));
-            websocket.MessageReceived += (s, e) => incoming.Enqueue(OnMessageReceived(s, e));
-            websocket.Error += (s, e) => incoming.Enqueue(OnError(s, e));
+            websocket.Opened += (s, e) => incoming.Enqueue(OnOpened());
+            websocket.MessageReceived += (s, e) => incoming.Enqueue(OnMessageReceived(e));
+            websocket.Error += (s, e) => incoming.Enqueue(OnError(e));
             websocket.Open();
             HandleCoroutine(RunReceiveLoop());
             HandleCoroutine(RunKillSwitchLoop());
@@ -100,14 +100,14 @@ namespace LoveMachine.Core
             }
         }
 
-        private IEnumerator OnOpened(object sender, EventArgs e)
+        private IEnumerator OnOpened()
         {
             yield return new WaitForEndOfFrame();
             CoreConfig.Logger.LogInfo("Succesfully connected to Intiface.");
             RequestServerInfo();
         }
 
-        private IEnumerator OnMessageReceived(object sender, MessageReceivedEventArgs e)
+        private IEnumerator OnMessageReceived(MessageReceivedEventArgs e)
         {
             yield return new WaitForEndOfFrame();
             foreach (JsonData data in JsonMapper.ToObject(e.Message))
@@ -120,7 +120,7 @@ namespace LoveMachine.Core
             }
         }
 
-        private IEnumerator OnError(object sender, SuperSocket.ClientEngine.ErrorEventArgs e)
+        private IEnumerator OnError(SuperSocket.ClientEngine.ErrorEventArgs e)
         {
             yield return new WaitForEndOfFrame();
             CoreConfig.Logger.LogWarning($"Websocket error: {e.Exception.Message}");

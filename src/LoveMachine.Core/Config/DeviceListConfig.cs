@@ -31,13 +31,13 @@ namespace LoveMachine.Core
                 key: "Save Device Assignments",
                 defaultValue: false,
                 new ConfigDescription("",
-                    tags: new ConfigurationManagerAttributes { Order = order-- }));
+                    tags: new ConfigurationManagerAttributes { Order = --order }));
             showOfflineDevices = plugin.Config.Bind(
                 section: deviceListTitle,
                 key: "Show Offline Devices",
                 defaultValue: false,
                 new ConfigDescription("",
-                    tags: new ConfigurationManagerAttributes { Order = order-- }));
+                    tags: new ConfigurationManagerAttributes { Order = --order }));
             deviceSettingsJson = plugin.Config.Bind(
                 section: deviceListTitle,
                 key: "Devices",
@@ -48,7 +48,7 @@ namespace LoveMachine.Core
                         CustomDrawer = DeviceListDrawer,
                         HideSettingName = true,
                         HideDefaultButton = true,
-                        Order = order--
+                        Order = --order
                     }));
         }
 

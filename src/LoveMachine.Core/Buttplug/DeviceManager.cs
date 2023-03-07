@@ -16,7 +16,8 @@ namespace LoveMachine.Core
 
         private void OnDestroy() => SaveDeviceSettings(client.Devices, exiting: true);
 
-        private void ReloadDeviceSettings(object sender, ButtplugWsClient.DeviceListEventArgs args)
+        private static void ReloadDeviceSettings(object sender,
+            ButtplugWsClient.DeviceListEventArgs args)
         {
             SaveDeviceSettings(args.Before);
             LoadDeviceSettings(args.After);

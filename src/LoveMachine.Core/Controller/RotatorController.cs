@@ -14,10 +14,10 @@ namespace LoveMachine.Core
             float strokeTimeSecs = GetAnimationTimeSecs(device) / waveInfo.Frequency;
             for (int i = 0; i < waveInfo.Frequency - 1; i++)
             {
-                HandleCoroutine(DoRotate(device, clockwise, strokeTimeSecs));
+                HandleCoroutine(DoRotate(device, strokeTimeSecs));
                 yield return new WaitForSecondsRealtime(strokeTimeSecs);
             }
-            yield return HandleCoroutine(DoRotate(device, clockwise, strokeTimeSecs));
+            yield return HandleCoroutine(DoRotate(device, strokeTimeSecs));
             if (UnityEngine.Random.value <= RotatorConfig.RotationDirectionChangeChance.Value)
             {
                 clockwise = !clockwise;
@@ -32,7 +32,7 @@ namespace LoveMachine.Core
             client.StopDeviceCmd(device);
         }
 
-        private IEnumerator DoRotate(Device device, bool clockwise, float strokeTimeSecs)
+        private IEnumerator DoRotate(Device device, float strokeTimeSecs)
         {
             float downStrokeTimeSecs = strokeTimeSecs / 2f;
             float downSpeed = Mathf.Lerp(0.3f, 1f, 0.4f / strokeTimeSecs) *
