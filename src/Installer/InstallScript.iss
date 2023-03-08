@@ -53,7 +53,6 @@ OutputBaseFilename=LoveMachineInstaller
 WizardStyle=modern
 DisableDirPage=yes
 DisableWelcomePage=no
-InfoBeforeFile=Readme.rtf
 PrivilegesRequired=lowest
 SetupLogging=yes
 
