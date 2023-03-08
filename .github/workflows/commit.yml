@@ -11,7 +11,7 @@ on:
 jobs:
   build-netfx3:
     runs-on: windows-2019
-    timeout-minutes: 5
+    timeout-minutes: 10
 
     env:
       ACTIONS_ALLOW_UNSECURE_COMMANDS: true
@@ -41,7 +41,7 @@ jobs:
 
   build-net6:
     runs-on: windows-2022
-    timeout-minutes: 5
+    timeout-minutes: 10
 
     env:
       ACTIONS_ALLOW_UNSECURE_COMMANDS: true
