@@ -1,32 +1,38 @@
-﻿using HarmonyLib;
+﻿using System;
+using HarmonyLib;
 using IllusionUtility.GetUtility;
 using System.Collections;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.Serialization;
+using LoveMachine.Core;
 using UnityEngine;
 
 namespace LoveMachine.KK
 {
     internal sealed class KoikatsuGame : AbstractKoikatsuGame
     {
-        private static readonly HFlag.EMode[] supportedModes =
+        private static readonly HFlag.EMode[] playerlessModes =
+            { HFlag.EMode.lesbian, HFlag.EMode.masturbation };
+        
+        private static readonly HFlag.EMode[] supportedModes = new []
         {
             HFlag.EMode.houshi, HFlag.EMode.sonyu, HFlag.EMode.houshi3P, HFlag.EMode.sonyu3P,
             HFlag.EMode.houshi3PMMF, HFlag.EMode.sonyu3PMMF
-        };
+        }
+            .Concat(playerlessModes).ToArray();
 
         private static readonly string[] orgasmAnimations =
         {
             "OUT_START", "OUT_LOOP", "IN_START", "IN_LOOP", "IN_Start", "IN_Loop",
             "M_OUT_Start", "M_OUT_Loop", "M_IN_Start", "M_IN_Loop",
             "WS_IN_Start", "WS_IN_Loop", "SS_IN_Start", "SS_IN_Loop",
-            "A_WS_IN_Start", "A_WS_IN_Loop", "A_SS_IN_Start", "A_SS_IN_Loop",
+            "A_WS_IN_Start", "A_WS_IN_Loop", "A_SS_IN_Start", "A_SS_IN_Loop", "Orgasm"
         };
 
         private static readonly string[] activeAnimations =
         {
-            "WLoop", "SLoop",
+            "WLoop", "MLoop", "SLoop",
             // anal
             "A_WLoop", "A_SLoop", "A_OLoop",
             // orgasm
@@ -60,7 +66,7 @@ namespace LoveMachine.KK
 
         protected override bool IsIdle(int girlIndex) => !supportedModes.Contains(Flags.mode)
             || !activeAnimations.Contains(Flags.nowAnimStateName)
-            || Flags.speed < 1f;
+            || (Flags.speed < 1f && !playerlessModes.Contains(Flags.mode));
 
         protected override bool IsOrgasming(int girlIndex) =>
             orgasmAnimations.Contains(Flags.nowAnimStateName);
@@ -71,8 +77,30 @@ namespace LoveMachine.KK
         protected override GameObject GetFemaleRoot(int girlIndex) =>
             Flags.lstHeroine[girlIndex].chaCtrl.objBodyBone;
 
-        protected override Transform PenisBase =>
-            Flags.player.chaCtrl.objBodyBone.transform.FindLoop("k_f_tamaL_00").transform;
+        protected override Transform PenisBase => throw new NotImplementedException();
+        
+        protected override Transform[] PenisBases
+        {
+            get
+            {
+                Transform root;
+                switch (Flags.mode)
+                {
+                    case HFlag.EMode.masturbation:
+                        root = GetFemaleRoot(0).transform;
+                        return new[] { root.FindLoop(FemaleBoneNames[Bone.RightHand]).transform };
+                    case HFlag.EMode.lesbian:
+                        root = GetFemaleRoot(1).transform;
+                        return new[] { Bone.Vagina, Bone.RightHand, Bone.Mouth }
+                            .Select(bone => FemaleBoneNames[bone])
+                            .Select(name => root.FindLoop(name).transform)
+                            .ToArray();
+                    default:
+                        root = Flags.player.chaCtrl.objBodyBone.transform;
+                        return new[] { root.FindLoop("k_f_tamaL_00").transform };
+                }
+            }
+        }
 
         protected override string GetPose(int girlIndex) =>
             // Sideloaded animations all have the same id and name.
