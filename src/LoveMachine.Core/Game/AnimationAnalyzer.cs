@@ -140,7 +140,9 @@ namespace LoveMachine.Core
                 Frequency = GetFrequency(distances),
                 Amplitude = axis.magnitude,
                 // Prefer bones that are close and move a lot. Being close is more important.
-                Preference = Mathf.Pow(trough.RelativePos.magnitude, 3f) / axis.magnitude
+                Preference = axis.magnitude == 0
+                    ? float.PositiveInfinity
+                    : Mathf.Pow(trough.RelativePos.magnitude, 3f) / axis.magnitude
             };
         }
 
