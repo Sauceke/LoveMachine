@@ -242,7 +242,7 @@ namespace LoveMachine.Core
             character?
                 .GetComponentsInChildren<Transform>()?
                 .Where(child => child.name == name)
-                .ToArray();
+                .ToArray() ?? new Transform[] {};
 
         public class HEventArgs : EventArgs
         { }
