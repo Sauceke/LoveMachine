@@ -226,7 +226,7 @@ namespace LoveMachine.Core
         protected AnimatorStateInfo GetAnimatorStateInfo(int girlIndex) =>
             GetFemaleAnimator(girlIndex).GetCurrentAnimatorStateInfo(AnimationLayer);
 
-        internal Dictionary<Bone, Transform> GetFemaleBones(int girlIndex) => FemaleBoneNames
+        protected internal virtual Dictionary<Bone, Transform> GetFemaleBones(int girlIndex) => FemaleBoneNames
             .ToDictionary(kvp => kvp.Key,
                 kvp => FindBoneByPath(GetFemaleRoot(girlIndex), kvp.Value));
 

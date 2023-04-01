@@ -46,6 +46,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LoveMachine.LE", "LoveMachi
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LoveMachine.SC", "LoveMachine.SC\LoveMachine.SC.csproj", "{78087F9F-3FDA-4FB7-8D85-C653E8C57121}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LoveMachine.MNVR", "LoveMachine.MNVR\LoveMachine.MNVR.csproj", "{BD7D58E7-EF26-461E-B6FE-B8740834CCEF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -179,6 +181,13 @@ Global
 		{78087F9F-3FDA-4FB7-8D85-C653E8C57121}.Release-net6|Any CPU.ActiveCfg = Release|Any CPU
 		{78087F9F-3FDA-4FB7-8D85-C653E8C57121}.Release-netfx3|Any CPU.ActiveCfg = Release|Any CPU
 		{78087F9F-3FDA-4FB7-8D85-C653E8C57121}.Release-netfx3|Any CPU.Build.0 = Release|Any CPU
+		{BD7D58E7-EF26-461E-B6FE-B8740834CCEF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BD7D58E7-EF26-461E-B6FE-B8740834CCEF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BD7D58E7-EF26-461E-B6FE-B8740834CCEF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BD7D58E7-EF26-461E-B6FE-B8740834CCEF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BD7D58E7-EF26-461E-B6FE-B8740834CCEF}.Release-net6|Any CPU.ActiveCfg = Debug|Any CPU
+		{BD7D58E7-EF26-461E-B6FE-B8740834CCEF}.Release-net6|Any CPU.Build.0 = Debug|Any CPU
+		{BD7D58E7-EF26-461E-B6FE-B8740834CCEF}.Release-netfx3|Any CPU.ActiveCfg = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -201,6 +210,7 @@ Global
 		{B1B25411-FC00-4D2A-B929-136BF0CD57AA} = {E5481B50-A363-4C59-903A-505C77E139E5}
 		{0A502B4B-C487-476B-910C-EA01A4DD5C02} = {C9AD8132-2D49-41BF-8AFB-E7AE8870880C}
 		{78087F9F-3FDA-4FB7-8D85-C653E8C57121} = {C9AD8132-2D49-41BF-8AFB-E7AE8870880C}
+		{BD7D58E7-EF26-461E-B6FE-B8740834CCEF} = {C9AD8132-2D49-41BF-8AFB-E7AE8870880C}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {446d456d-8d87-438a-9dac-1b76093e0305}
