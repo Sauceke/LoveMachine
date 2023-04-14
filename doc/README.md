@@ -145,7 +145,7 @@ PRs for onboarding new games are welcome. The process is relatively simple and r
 This mod is provided free of charge, but I do accept donations. If you'd like to boost my morale, please check me out on [Patreon].
 
 ### Developers
-Sauceke   •   nhydock   •   hogefugamoga   •   RPKU
+Sauceke   •   nhydock   •   hogefugamoga   •   RPKU   •   andama777 (JP translation)
 
 ### Patrons
 [ManlyMarco]   •   Aftercurve   •   AkronusWings   •   Ambicatus   •   AstralClock   •   Benos Hentai   •   boaz   •   Bri   •   cat tail   •   CBN ヴい   •   Ceruleon   •   CROM   •   Daniel   •   EPTG   •   er er   •   Flan   •   funnychicken   •   Gabbelgu   •   gold25   •   GOU YOSIHIRO   •   Greg   •   hiro   •   Ior1yagami   •   Kai Yami   •   KTKT   •   kuni   •   Laneo   •   mokochurin   •   Nemi   •   nppon   •   PhazR   •   Phil   •   prepare55   •   real name   •   rolandmitch   •   RP君   •   SavagePastry   •   Shakes   •   Taibe   •   tanu   •   TO   •   Tom   •   TrashTaste   •   ttrs   •   tutinoko   •   unitora   •   uruurian   •   Wel Adunno   •   yamada tarou   •   Zesty Cucumber   •   Zijian Wang   •   シルバー   •   ふ   •   一太 川崎   •   優希 岩永   •   哲慶 宗   •   国崎往人   •   将也 三田   •   洋 冨岡   •   猛 羽場   •   终晓   •   郁弥 中村   •   闇《YAMI》   •   高島　渉
