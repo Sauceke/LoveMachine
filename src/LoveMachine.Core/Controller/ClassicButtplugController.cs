@@ -15,7 +15,10 @@ namespace LoveMachine.Core
             {
                 if (game.IsOrgasming(device.Settings.GirlIndex))
                 {
-                    yield return HandleCoroutine(HandleOrgasm(device));
+                    var orgasm = HandleCoroutine(HandleOrgasm(device));
+                    yield return new WaitForSecondsRealtime(game.MinOrgasmDurationSecs);
+                    yield return WaitWhile(() => game.IsOrgasming(device.Settings.GirlIndex));
+                    StopCoroutine(orgasm);
                     continue;
                 }
                 if (game.IsIdle(device.Settings.GirlIndex))

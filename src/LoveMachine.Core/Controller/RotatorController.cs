@@ -27,9 +27,7 @@ namespace LoveMachine.Core
         protected override IEnumerator HandleOrgasm(Device device)
         {
             client.RotateCmd(device, 1f, clockwise);
-            yield return new WaitForSecondsRealtime(game.MinOrgasmDurationSecs);
-            yield return WaitWhile(() => game.IsOrgasming(device.Settings.GirlIndex));
-            client.StopDeviceCmd(device);
+            yield break;
         }
 
         private IEnumerator DoRotate(Device device, float strokeTimeSecs)

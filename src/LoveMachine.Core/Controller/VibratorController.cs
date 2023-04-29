@@ -26,9 +26,7 @@ namespace LoveMachine.Core
         protected override IEnumerator HandleOrgasm(Device device)
         {
             client.VibrateCmd(device, device.Settings.VibratorSettings.IntensityMax);
-            yield return new WaitForSecondsRealtime(game.MinOrgasmDurationSecs);
-            yield return WaitWhile(() => game.IsOrgasming(device.Settings.GirlIndex));
-            client.StopDeviceCmd(device);
+            yield break;
         }
 
         private static float GetStrength(float x, VibratorSettings settings)
