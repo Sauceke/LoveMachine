@@ -1,4 +1,4 @@
-[日本語](マニュアル.md)
+[日本語](README-jp.md)
 
 # BepInEx LoveMachine
 [![.NET](https://github.com/Sauceke/LoveMachine/actions/workflows/commit.yml/badge.svg)](#)
