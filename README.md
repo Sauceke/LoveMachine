@@ -1,32 +1,32 @@
-[日本語](マニュアル.md)
+[日本語](README-jp.md)
 
 # BepInEx LoveMachine
-[![.NET](https://github.com/Sauceke/LoveMachine/actions/workflows/commit.yml/badge.svg)](#)
-[![Download](https://img.shields.io/github/downloads/Sauceke/LoveMachine/total)][installer]
-[![Patreon](https://shields.io/badge/patreon-grey?logo=patreon)][Patreon]
+[![.NET][CI Badge]](#)
+[![Download][Downloads Badge]][installer]
+[![Patreon][Patreon Badge]][Patreon]
 
-| [⬇ Download][installer] |
-|----|
+[![Download][Download Button]][installer] &nbsp;
+[![Watch Demo (NSFW)][Demo Button]][Demo video]
 
 Adds support for [some computer-controlled sex toys](#supported-devices) in the following games:
 
-| Game                      | Developer        | VR supported      |
-|---------------------------|------------------|-------------------|
-| [Custom Order Maid 3D 2]  | Kiss             | Yes               |
-| [Holy Knight Ricca]       | Mogurasoft       | No                |
-| [Honey Select 2]          | Illusion         | Yes               |
-| [Houkago Rinkan Chuudoku] | Miconisomi       | Yes, with [AGHVR] |
-| [Insult Order]            | Miconisomi       | Yes, with [IOVR]  |
-| [Koikatsu]                | Illusion         | Yes               |
-| [Koikatsu Party]          | Illusion         | Yes               |
-| [Koikatsu Sunshine]       | Illusion         | Yes               |
-| [Last Evil]               | Flametorch       | No                |
-| [Our Apartment]           | Momoiro Software | No                |
-| [PlayHome]                | Illusion         | Yes               |
-| [RoomGirl]                | Illusion         | No                |
-| [Secrossphere]            | Illusion         | No                |
-| [Succubus Cafe]           | MIGI STUDIO      | No                |
-| [VR Kanojo]               | Illusion         | Yes               |
+| Game                      | Developer        | VR support       |
+|---------------------------|------------------|------------------|
+| [Custom Order Maid 3D 2]  | Kiss             | ✓                |
+| [Holy Knight Ricca]       | Mogurasoft       | ✗                |
+| [Honey Select 2]          | Illusion         | ✓                |
+| [Houkago Rinkan Chuudoku] | Miconisomi       | ✓ (with [AGHVR]) |
+| [Insult Order]            | Miconisomi       | ✓ (with [IOVR])  |
+| [Koikatsu]                | Illusion         | ✓                |
+| [Koikatsu Party]          | Illusion         | ✓                |
+| [Koikatsu Sunshine]       | Illusion         | ✓                |
+| [Last Evil]               | Flametorch       | ✗                |
+| [Our Apartment]           | Momoiro Software | ✗                |
+| [PlayHome]                | Illusion         | ✓                |
+| [RoomGirl]                | Illusion         | ✗                |
+| [Secrossphere]            | Illusion         | ✗                |
+| [Succubus Cafe]           | MIGI STUDIO      | ✗                |
+| [VR Kanojo]               | Illusion         | ✓                |
 
 ## Supported devices
 LoveMachine relies on the [Buttplug.io] project to communicate with toys. At the time of writing, Buttplug.io supports over 200 devices.
@@ -154,11 +154,19 @@ Sauceke   •   nhydock   •   hogefugamoga   •   RPKU   �
 ## Acknowledgements
 This mod would not have been possible without the [BepInEx] plugin framework and, of course, the [Buttplug.io] project.
 
+<!-- badges -->
+[CI Badge]: https://github.com/Sauceke/LoveMachine/actions/workflows/commit.yml/badge.svg
+[Downloads Badge]: https://img.shields.io/github/downloads/Sauceke/LoveMachine/total
+[Patreon Badge]: https://shields.io/badge/patreon-grey?logo=patreon
+[Download Button]: https://img.shields.io/badge/%E2%87%93_Download-blue?style=for-the-badge
+[Demo Button]: https://img.shields.io/badge/%E2%96%B6_Watch_Demo_(NSFW)-pink?style=for-the-badge
+
 <!-- own links -->
 [installer]: https://github.com/Sauceke/LoveMachine/releases/latest/download/LoveMachineInstaller.exe
 [LoveMachine.Experiments]: https://sauceke.github.io/LoveMachine.Experiments
 [Hotdog]: https://sauceke.github.io/hotdog
 [Patreon]: https://www.patreon.com/sauceke
+[Demo video]: https://www.erome.com/a/DhT7BF4B
 
 <!-- sponsored game links -->
 [Custom Order Maid 3D 2]: https://www.dlsite.com/pro/dlaf/=/t/n/link/work/aid/sauceke/locale/en_US/id/VJ011538.html/?locale=en_US
