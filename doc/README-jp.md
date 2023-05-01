@@ -1,10 +1,10 @@
 # BepInEx LoveMachine
-[![.NET](https://github.com/Sauceke/LoveMachine/actions/workflows/commit.yml/badge.svg)](#)
-[![Download](https://img.shields.io/github/downloads/Sauceke/LoveMachine/total)][installer]
-[![Patreon](https://shields.io/badge/patreon-grey?logo=patreon)][Patreon]
+[![.NET][CI Badge]](#)
+[![Download][Downloads Badge]][インストーラ]
+[![Patreon][Patreon Badge]][Patreon]
 
-| [インストーラ](https://github.com/Sauceke/LoveMachine/releases/latest/download/LoveMachineInstaller.exe) |
-|----|
+[![インストーラ][Download Button]][インストーラ] &nbsp;
+[![動画(R18)][Demo Button]][Demo video]
 
 LoveMachineはアダルトゲームのキャラクターと連動してアダルトグッズを動かすプラグインです。 
 
@@ -149,11 +149,19 @@ Sauceke   •   nhydock   •   hogefugamoga   •   RPKU   ・ a
 ## 謝辞
 LoveMachineは[BepInEx]プラグインフレームワークと、そしてもちろん[Buttplug.io]プロジェクトのお陰で作られています。
 
+<!-- badges -->
+[CI Badge]: https://github.com/Sauceke/LoveMachine/actions/workflows/commit.yml/badge.svg
+[Downloads Badge]: https://img.shields.io/github/downloads/Sauceke/LoveMachine/total
+[Patreon Badge]: https://shields.io/badge/patreon-grey?logo=patreon
+[Download Button]: https://img.shields.io/badge/%E2%87%93%E3%82%A4%E3%83%B3%E3%82%B9%E3%83%88%E3%83%BC%E3%83%A9-blue?style=for-the-badge
+[Demo Button]: https://img.shields.io/badge/%E2%96%B6_%E5%8B%95%E7%94%BB(R18)-pink?style=for-the-badge
+
 <!-- own links -->
-[installer]: https://github.com/Sauceke/LoveMachine/releases/latest/download/LoveMachineInstaller.exe
+[インストーラ]: https://github.com/Sauceke/LoveMachine/releases/latest/download/LoveMachineInstaller.exe
 [LoveMachine.Experiments]: https://sauceke.github.io/LoveMachine.Experiments
 [Hotdog]: https://sauceke.github.io/hotdog
 [Patreon]: https://www.patreon.com/sauceke
+[Demo video]: https://www.erome.com/a/DhT7BF4B
 
 <!-- sponsored game links -->
 [カスタムオーダーメイド3D2]: https://www.dlsite.com/pro/dlaf/=/t/n/link/work/aid/sauceke/locale/en_US/id/VJ011538.html/?locale=en_US
