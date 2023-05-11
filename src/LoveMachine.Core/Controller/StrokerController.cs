@@ -14,8 +14,10 @@ namespace LoveMachine.Core
             // max number of subdivisions given the update frequency
             int subdivisions = 2 * (int)Mathf.Max(1f, durationSecs * updateFrequency / 2);
             int segments = device.Settings.StrokerSettings.SmoothStroking ? subdivisions : 2;
-            float nextSegmentCompletion = Mathf.Ceil(strokeInfo.Completion * segments) / segments;
-            yield return WaitForStrokeCompletion(device, nextSegmentCompletion);
+            float startCompletion = strokeInfo.Completion;
+            yield return WaitWhile(() =>
+                TryGetCurrentStrokeInfo(device, out var info) &&
+                (int)(startCompletion * segments) == (int)(info.Completion * segments));
             if (!TryGetCurrentStrokeInfo(device, out strokeInfo))
             {
                 yield break;

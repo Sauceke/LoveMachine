@@ -124,29 +124,5 @@ namespace LoveMachine.Core
             float normalizedTime = GetLatencyCorrectedNormalizedTime(device);
             return analyzer.TryGetCurrentStrokeInfo(girlIndex, bone, normalizedTime, out result);
         }
-
-        protected IEnumerator WaitForStrokeCompletion(Device device, float targetCompletion)
-        {
-            float lastCompletion = float.PositiveInfinity;
-            targetCompletion %= 1f;
-            while (true)
-            {
-                yield return new WaitForEndOfFrame();
-                if (!TryGetCurrentStrokeInfo(device, out var strokeInfo))
-                {
-                    yield break;
-                }
-                float completion = strokeInfo.Completion;
-                if (lastCompletion > completion)
-                {
-                    lastCompletion -= 1;
-                }
-                if (lastCompletion < targetCompletion && targetCompletion < completion)
-                {
-                    yield break;
-                }
-                lastCompletion = completion;
-            }
-        }
     }
 }
