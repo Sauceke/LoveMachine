@@ -17,7 +17,7 @@ namespace LoveMachine.Core
         private readonly Dictionary<string, Result> resultCache =
             new Dictionary<string, Result>();
 
-        private GameDescriptor game;
+        protected GameDescriptor game;
 
         private void Start()
         {

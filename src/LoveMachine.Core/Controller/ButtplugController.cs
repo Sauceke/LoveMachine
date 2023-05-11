@@ -67,7 +67,7 @@ namespace LoveMachine.Core
             yield return new WaitForEndOfFrame();
             var testGame = new TestGame();
             game = testGame;
-            analyzer = new TestAnimationAnalyzer();
+            analyzer = new TestAnimationAnalyzer(testGame);
             if (IsDeviceSupported(device))
             {
                 var test = HandleCoroutine(Run(device));
