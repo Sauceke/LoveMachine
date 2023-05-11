@@ -8,8 +8,8 @@ namespace LoveMachine.Core
     {
         protected override bool IsDeviceSupported(Device device) => device.IsConstrictor;
 
-        protected override IEnumerator HandleAnimation(Device device, WaveInfo waveInfo) =>
-            DoConstrict(device, GetPressure(device, waveInfo));
+        protected override IEnumerator HandleAnimation(Device device, StrokeInfo strokeInfo) =>
+            DoConstrict(device, GetPressure(device, strokeInfo));
 
         protected override IEnumerator HandleOrgasm(Device device) => DoConstrict(device, 1f);
 
@@ -23,7 +23,7 @@ namespace LoveMachine.Core
             yield return new WaitForSecondsRealtime(settings.UpdateIntervalSecs);
         }
 
-        private float GetPressure(Device device, WaveInfo waveInfo)
+        private float GetPressure(Device device, StrokeInfo strokeInfo)
         {
             switch (ConstrictConfig.Mode.Value)
             {
@@ -31,10 +31,10 @@ namespace LoveMachine.Core
                     return GetSineBasedPressure();
 
                 case ConstrictConfig.ConstrictMode.StrokeLength:
-                    return GetStrokeLengthBasedPressure(waveInfo);
+                    return GetStrokeLengthBasedPressure(strokeInfo);
 
                 case ConstrictConfig.ConstrictMode.StrokeSpeed:
-                    return GetStrokeSpeedBasedPressure(device, waveInfo);
+                    return GetStrokeSpeedBasedPressure(device, strokeInfo);
             }
             throw new Exception("unreachable");
         }
@@ -42,13 +42,13 @@ namespace LoveMachine.Core
         private float GetSineBasedPressure() => Mathf.InverseLerp(-1f, 1f,
             value: Mathf.Sin(Time.time * 2f * Mathf.PI / ConstrictConfig.CycleLengthSecs.Value));
 
-        private float GetStrokeLengthBasedPressure(WaveInfo waveInfo) =>
-            Mathf.InverseLerp(0, game.PenisSize, value: waveInfo.Amplitude);
+        private float GetStrokeLengthBasedPressure(StrokeInfo strokeInfo) =>
+            Mathf.InverseLerp(0, game.PenisSize, value: strokeInfo.Amplitude);
 
-        private float GetStrokeSpeedBasedPressure(Device device, WaveInfo waveInfo) =>
+        private float GetStrokeSpeedBasedPressure(Device device, StrokeInfo strokeInfo) =>
             Mathf.InverseLerp(
                 1f / device.Settings.ConstrictSettings.SpeedSensitivityMin,
                 1f / device.Settings.ConstrictSettings.SpeedSensitivityMax,
-                value: GetAnimationTimeSecs(device) / waveInfo.Frequency);
+                value: strokeInfo.DurationSecs);
     }
 }

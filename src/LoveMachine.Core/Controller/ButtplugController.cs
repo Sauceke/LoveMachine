@@ -102,12 +102,12 @@ namespace LoveMachine.Core
                 // there's a gradual change in animation speed
                 // updating every 3s and caching the result solves this
                 yield return new WaitForSecondsRealtime(3f);
-                float animTimeSecs = GetAnimationTimeSecs(device);
+                float animTimeSecs = game.GetAnimationTimeSecs(device.Settings.GirlIndex);
                 normalizedLatencies[device] = device.Settings.LatencyMs / 1000f / animTimeSecs;
             }
         }
 
-        protected float GetLatencyCorrectedNormalizedTime(Device device)
+        private float GetLatencyCorrectedNormalizedTime(Device device)
         {
             if (!normalizedLatencies.TryGetValue(device, out float normalizedLatency))
             {
@@ -117,15 +117,36 @@ namespace LoveMachine.Core
             return currentNormTime + normalizedLatency;
         }
 
-        protected float GetAnimationTimeSecs(Device device)
+        protected bool TryGetCurrentStrokeInfo(Device device, out StrokeInfo result)
         {
-            int girlIndex = device.Settings.GirlIndex;
-            game.GetAnimState(girlIndex, out _, out float length, out float speed);
-            float animTimeSecs = length / speed / game.TimeScale;
-            // prevent coroutines from hanging e.g. when the game is paused
-            return animTimeSecs > 100f || animTimeSecs < 0.001f || float.IsNaN(animTimeSecs)
-                ? .01f
-                : animTimeSecs;
+            var girlIndex = device.Settings.GirlIndex;
+            var bone = device.Settings.Bone;
+            float normalizedTime = GetLatencyCorrectedNormalizedTime(device);
+            return analyzer.TryGetCurrentStrokeInfo(girlIndex, bone, normalizedTime, out result);
+        }
+
+        protected IEnumerator WaitForStrokeCompletion(Device device, float targetCompletion)
+        {
+            float lastCompletion = float.PositiveInfinity;
+            targetCompletion %= 1f;
+            while (true)
+            {
+                yield return new WaitForEndOfFrame();
+                if (!TryGetCurrentStrokeInfo(device, out var strokeInfo))
+                {
+                    yield break;
+                }
+                float completion = strokeInfo.Completion;
+                if (lastCompletion > completion)
+                {
+                    lastCompletion -= 1;
+                }
+                if (lastCompletion < targetCompletion && targetCompletion < completion)
+                {
+                    yield break;
+                }
+                lastCompletion = completion;
+            }
         }
     }
 }
