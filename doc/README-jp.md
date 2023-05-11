@@ -15,6 +15,7 @@ LoveMachineはアダルトゲームのキャラクターと連動してアダル
 | [聖騎士リッカの物語] | もぐらソフト | ❌ |
 | [ハニーセレクト2] | ILLUSION | ⭕ |
 | [放課後輪姦中毒] | みこにそみ | ⭕※[AGHVR]のみ |
+| [淫魔界2: カムラン] | 淡泊室 | ❌ |
 | [インサルトオーダー] | みこにそみ | ⭕※[IOVR]のみ |
 | [コイカツ！] | ILLUSION | ⭕ |
 | [コイカツ！パーティ] | ILLUSION | ⭕ |
@@ -168,6 +169,7 @@ LoveMachineは[BepInEx]プラグインフレームワークと、そしてもち
 [聖騎士リッカの物語]: https://www.dlsite.com/maniax/dlaf/=/t/n/link/work/aid/sauceke/locale/en_US/id/RJ363824.html/?locale=en_US
 [ハニーセレクト2]: https://www.dlsite.com/pro/dlaf/=/t/n/link/work/aid/sauceke/locale/en_US/id/VJ013722.html/?locale=en_US
 [放課後輪姦中毒]: https://www.dlsite.com/maniax/dlaf/=/t/n/link/work/aid/sauceke/locale/en_US/id/RJ189924.html/?locale=en_US
+[淫魔界2: カムラン]: https://www.dlsite.com/maniax/dlaf/=/t/n/link/work/aid/sauceke/locale/en_US/id/RJ321625.html/?locale=en_US
 [インサルトオーダー]: https://www.dlsite.com/maniax/dlaf/=/t/n/link/work/aid/sauceke/locale/en_US/id/RJ220246.html/?locale=en_US
 [ROOMガール]: https://www.dlsite.com/pro/dlaf/=/t/n/link/work/aid/sauceke/locale/en_US/id/VJ015465.html/?locale=en_US
 [コイカツ！サンシャイン]: https://www.dlsite.com/pro/dlaf/=/t/n/link/work/aid/sauceke/locale/en_US/id/VJ015724.html/?locale=en_US

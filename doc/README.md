@@ -16,6 +16,7 @@ Adds support for [some computer-controlled sex toys](#supported-devices) in the 
 | [Holy Knight Ricca]       | Mogurasoft       | ✗                |
 | [Honey Select 2]          | Illusion         | ✓                |
 | [Houkago Rinkan Chuudoku] | Miconisomi       | ✓ (with [AGHVR]) |
+| [Incubus 2: Camlann]      | Tanpakusitsu     | ✗                |
 | [Insult Order]            | Miconisomi       | ✓ (with [IOVR])  |
 | [Koikatsu]                | Illusion         | ✓                |
 | [Koikatsu Party]          | Illusion         | ✓                |
@@ -173,6 +174,7 @@ This mod would not have been possible without the [BepInEx] plugin framework and
 [Holy Knight Ricca]: https://www.dlsite.com/maniax/dlaf/=/t/n/link/work/aid/sauceke/locale/en_US/id/RJ363824.html/?locale=en_US
 [Honey Select 2]: https://www.dlsite.com/pro/dlaf/=/t/n/link/work/aid/sauceke/locale/en_US/id/VJ013722.html/?locale=en_US
 [Houkago Rinkan Chuudoku]: https://www.dlsite.com/maniax/dlaf/=/t/n/link/work/aid/sauceke/locale/en_US/id/RJ189924.html/?locale=en_US
+[Incubus 2: Camlann]: https://www.dlsite.com/maniax/dlaf/=/t/n/link/work/aid/sauceke/locale/en_US/id/RJ321625.html/?locale=en_US
 [Insult Order]: https://www.dlsite.com/maniax/dlaf/=/t/n/link/work/aid/sauceke/locale/en_US/id/RJ220246.html/?locale=en_US
 [RoomGirl]: https://www.dlsite.com/pro/dlaf/=/t/n/link/work/aid/sauceke/locale/en_US/id/VJ015465.html/?locale=en_US
 [Koikatsu Sunshine]: https://www.dlsite.com/pro/dlaf/=/t/n/link/work/aid/sauceke/locale/en_US/id/VJ015724.html/?locale=en_US
