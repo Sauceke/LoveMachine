@@ -14,8 +14,8 @@ namespace LoveMachine.Core
         private const float MinStrokeLength = 0.5f;
         
         // pose -> result
-        private readonly Dictionary<string, WaveInfo> resultCache =
-            new Dictionary<string, WaveInfo>();
+        private readonly Dictionary<string, Result> resultCache =
+            new Dictionary<string, Result>();
 
         private GameDescriptor game;
 
@@ -29,10 +29,11 @@ namespace LoveMachine.Core
         private string GetExactPose(int girlIndex, Bone bone) =>
             $"{game.GetPose(girlIndex)}.girl{girlIndex}.{bone}";
 
+        [HideFromIl2Cpp]
         public bool TryGetCurrentStrokeInfo(int girlIndex, Bone bone, float normalizedTime,
             out StrokeInfo strokeInfo)
         {
-            if (!TryGetWaveInfo(girlIndex, bone, out var result))
+            if (!TryGetResult(girlIndex, bone, out var result))
             {
                 strokeInfo = default;
                 return false;
@@ -40,7 +41,7 @@ namespace LoveMachine.Core
             var delimiters = result.StrokeDelimiters;
             float animTimeSecs = game.GetAnimationTimeSecs(girlIndex);
             int delimIndex = Enumerable.Range(0, delimiters.Length)
-                .Where(i => delimiters[i] < normalizedTime % 1f)
+                .Where(i => delimiters[i] <= normalizedTime % 1f)
                 .DefaultIfEmpty(delimiters.Length - 1)
                 .Last();
             float start = delimiters[delimIndex];
@@ -63,7 +64,7 @@ namespace LoveMachine.Core
         }
         
         [HideFromIl2Cpp]
-        protected virtual bool TryGetWaveInfo(int girlIndex, Bone bone, out WaveInfo result)
+        protected virtual bool TryGetResult(int girlIndex, Bone bone, out Result result)
         {
             try
             {
@@ -72,7 +73,7 @@ namespace LoveMachine.Core
             catch (Exception e)
             {
                 CoreConfig.Logger.LogError($"Error while trying to get wave info: {e}");
-                result = new WaveInfo();
+                result = new Result();
                 return false;
             }
         }
@@ -94,7 +95,7 @@ namespace LoveMachine.Core
         {
             while (true)
             {
-                if (TryGetWaveInfo(girlIndex, Bone.Auto, out var _))
+                if (TryGetResult(girlIndex, Bone.Auto, out var _))
                 {
                     yield return new WaitForSecondsRealtime(0.1f);
                     continue;
@@ -134,7 +135,7 @@ namespace LoveMachine.Core
             }
             var results = femaleBones.Keys
                 .ToDictionary(bone => bone,
-                    bone => GetPreferredWaveInfo(samples.Where(entry => entry.Bone == bone)));
+                    bone => GetPreferredResult(samples.Where(entry => entry.Bone == bone)));
             var autoBone = results
                 .OrderBy(result => result.Value.Preference)
                 .FirstOrDefault()
@@ -147,13 +148,13 @@ namespace LoveMachine.Core
                 $"Leading bone: {autoBone}, result: {JsonMapper.ToJson(results[Bone.Auto])}.");
         }
 
-        private static WaveInfo GetPreferredWaveInfo(IEnumerable<Sample> samples) => samples
+        private static Result GetPreferredResult(IEnumerable<Sample> samples) => samples
             .GroupBy(sample => sample.PenisBase)
-            .Select(GetWaveInfo)
-            .OrderBy(waveInfo => waveInfo.Preference)
+            .Select(EvaluateSamples)
+            .OrderBy(result => result.Preference)
             .First();
 
-        private static WaveInfo GetWaveInfo(IEnumerable<Sample> samples)
+        private static Result EvaluateSamples(IEnumerable<Sample> samples)
         {
             // probably safe to assume the farthest point from the origin is an extremity
             var crest = samples
@@ -171,7 +172,7 @@ namespace LoveMachine.Core
                 Time = sample.Time,
                 Position = Mathf.InverseLerp(0f, amplitude, GetDistance(sample.RelativePos)),
             });
-            return new WaveInfo
+            return new Result
             {
                 StrokeDelimiters = GetStrokeDelimiters(nodes, tolerance: MinStrokeLength),
                 Amplitude = axis.magnitude,
@@ -221,7 +222,7 @@ namespace LoveMachine.Core
             public float Position { get; set; }
         }
         
-        protected struct WaveInfo
+        protected struct Result
         {
             public float[] StrokeDelimiters { get; set; }
             public float Amplitude { get; set; }

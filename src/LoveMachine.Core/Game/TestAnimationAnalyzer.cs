@@ -2,9 +2,9 @@
 {
     internal sealed class TestAnimationAnalyzer : AnimationAnalyzer
     {
-        protected override bool TryGetWaveInfo(int girlIndex, Bone bone, out WaveInfo result)
+        protected override bool TryGetResult(int girlIndex, Bone bone, out Result result)
         {
-            result = new WaveInfo
+            result = new Result
             {
                 StrokeDelimiters = new[] { 0f, 1f },
                 Amplitude = 1f,
