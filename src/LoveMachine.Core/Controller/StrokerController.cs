@@ -7,27 +7,27 @@ namespace LoveMachine.Core
     {
         protected override bool IsDeviceSupported(Device device) => device.IsStroker;
 
-        protected override IEnumerator HandleAnimation(Device device, WaveInfo waveInfo)
+        protected override IEnumerator HandleAnimation(Device device, StrokeInfo strokeInfo)
         {
             int updateFrequency = device.Settings.UpdatesHz;
-            float animTimeSecs = GetAnimationTimeSecs(device);
-            // min number of subdivisions
-            int turns = 2 * waveInfo.Frequency;
+            float durationSecs = strokeInfo.DurationSecs;
             // max number of subdivisions given the update frequency
-            int subdivisions = turns * (int)Mathf.Max(1f, animTimeSecs * updateFrequency / turns);
-            int segments = device.Settings.StrokerSettings.SmoothStroking ? subdivisions : turns;
-            float startNormTime = GetLatencyCorrectedNormalizedTime(device);
-            int GetSegment(float time) => (int)((time - waveInfo.Phase) * segments);
-            yield return WaitWhile(() =>
-                GetSegment(GetLatencyCorrectedNormalizedTime(device)) == GetSegment(startNormTime));
-            animTimeSecs = GetAnimationTimeSecs(device);
-            float refreshTimeSecs = animTimeSecs / segments;
-            float refreshNormTime = 1f / segments;
-            float currentNormTime = GetLatencyCorrectedNormalizedTime(device);
-            float nextNormTime = currentNormTime + refreshNormTime;
-            GetStrokeZone(animTimeSecs, device, waveInfo, out float bottom, out float top);
-            float currentPosition = Mathf.Lerp(bottom, top, Sinusoid(currentNormTime, waveInfo));
-            float nextPosition = Mathf.Lerp(bottom, top, Sinusoid(nextNormTime, waveInfo));
+            int subdivisions = 2 * (int)Mathf.Max(1f, durationSecs * updateFrequency / 2);
+            int segments = device.Settings.StrokerSettings.SmoothStroking ? subdivisions : 2;
+            float nextSegmentCompletion = Mathf.Ceil(strokeInfo.Completion * segments) / segments;
+            yield return WaitForStrokeCompletion(device, nextSegmentCompletion);
+            if (!TryGetCurrentStrokeInfo(device, out strokeInfo))
+            {
+                yield break;
+            }
+            durationSecs = strokeInfo.DurationSecs;
+            float refreshTimeSecs = durationSecs / segments;
+            float refreshRate = 1f / segments;
+            float completion = strokeInfo.Completion;
+            float nextCompletion = completion + refreshRate;
+            GetStrokeZone(durationSecs, device, strokeInfo, out float bottom, out float top);
+            float currentPosition = Mathf.Lerp(bottom, top, Sinusoid(completion));
+            float nextPosition = Mathf.Lerp(bottom, top, Sinusoid(nextCompletion));
             bool movingUp = currentPosition < nextPosition;
             float targetPosition = movingUp ? top : bottom;
             float speed = (nextPosition - currentPosition) / refreshTimeSecs;
@@ -50,15 +50,15 @@ namespace LoveMachine.Core
             }
         }
 
-        private static float Sinusoid(float x, WaveInfo info) =>
-            Mathf.InverseLerp(1f, -1f, Mathf.Cos(2 * Mathf.PI * info.Frequency * (x - info.Phase)));
+        private static float Sinusoid(float x) =>
+            Mathf.InverseLerp(1f, -1f, Mathf.Cos(2 * Mathf.PI * x));
 
-        private void GetStrokeZone(float strokeTimeSecs, Device device, WaveInfo waveInfo,
+        private void GetStrokeZone(float strokeTimeSecs, Device device, StrokeInfo strokeInfo,
             out float min, out float max)
         {
             // decrease stroke length gradually as speed approaches the device limit
             float rate = 60f / device.Settings.StrokerSettings.MaxStrokesPerMin / strokeTimeSecs;
-            float relativeLength = waveInfo.Amplitude / game.PenisSize;
+            float relativeLength = strokeInfo.Amplitude / game.PenisSize;
             float scale = Mathf.Lerp(
                 1f - StrokerConfig.StrokeLengthRealism.Value,
                 1f,

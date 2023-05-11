@@ -226,6 +226,16 @@ namespace LoveMachine.Core
         protected AnimatorStateInfo GetAnimatorStateInfo(int girlIndex) =>
             GetFemaleAnimator(girlIndex).GetCurrentAnimatorStateInfo(AnimationLayer);
 
+        internal float GetAnimationTimeSecs(int girlIndex)
+        {
+            GetAnimState(girlIndex, out _, out float length, out float speed);
+            float animTimeSecs = length / speed / TimeScale;
+            // prevent coroutines from hanging e.g. when the game is paused
+            return animTimeSecs > 100f || animTimeSecs < 0.001f || float.IsNaN(animTimeSecs)
+                ? .01f
+                : animTimeSecs;
+        }
+        
         internal Dictionary<Bone, Transform> GetFemaleBones(int girlIndex) => FemaleBoneNames
             .ToDictionary(kvp => kvp.Key,
                 kvp => FindBoneByPath(GetFemaleRoot(girlIndex), kvp.Value));

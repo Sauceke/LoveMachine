@@ -9,14 +9,9 @@ namespace LoveMachine.Core
 
         protected override bool IsDeviceSupported(Device device) => device.IsRotator;
 
-        protected override IEnumerator HandleAnimation(Device device, WaveInfo waveInfo)
+        protected override IEnumerator HandleAnimation(Device device, StrokeInfo strokeInfo)
         {
-            float strokeTimeSecs = GetAnimationTimeSecs(device) / waveInfo.Frequency;
-            for (int i = 0; i < waveInfo.Frequency - 1; i++)
-            {
-                HandleCoroutine(DoRotate(device, strokeTimeSecs));
-                yield return new WaitForSecondsRealtime(strokeTimeSecs);
-            }
+            float strokeTimeSecs = strokeInfo.DurationSecs;
             yield return HandleCoroutine(DoRotate(device, strokeTimeSecs));
             if (UnityEngine.Random.value <= RotatorConfig.RotationDirectionChangeChance.Value)
             {
