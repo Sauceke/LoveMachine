@@ -188,7 +188,6 @@ namespace LoveMachine.Core
             var edge = nodes.OrderBy(node => node.Position).First();
             int index = nodes.ToList().IndexOf(edge);
             nodes = nodes.Skip(index).Concat(nodes.Take(index));
-            CoreConfig.Logger.LogDebug(JsonMapper.ToJson(nodes.ToList()));
             int direction = 1;
             var edges = new List<Node>();
             foreach (var node in nodes)
