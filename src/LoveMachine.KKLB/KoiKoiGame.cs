@@ -10,15 +10,17 @@ namespace LoveMachine.KKLB
 {
     public class KoiKoiGame : GameDescriptor
     {
-        private Animator animator;
+        private Traverse<GameObject> root;
+        private Traverse<bool> busy;
         private TimeUnlooper unlooper;
         
-        protected override MethodInfo[] StartHMethods => new[]
-        {
-            AccessTools.Method("sv08.CostumeSelectScript, Assembly-CSharp:StartAdultMode")
-        };
+        private Animator Animator => root.Value.GetComponent<Animator>();
+        
+        protected override MethodInfo[] StartHMethods =>
+            new[] { AccessTools.Method("sv08.AdultManager, Assembly-CSharp:Start") };
 
-        protected override MethodInfo[] EndHMethods => new MethodInfo[] { };
+        protected override MethodInfo[] EndHMethods =>
+            new[] { AccessTools.Method("sv08.AdultManager, Assembly-CSharp:OnDestroy") };
 
         protected override Dictionary<Bone, string> FemaleBoneNames => new Dictionary<Bone, string>
         {
@@ -31,6 +33,8 @@ namespace LoveMachine.KKLB
             .Find("CharacterManager/M01_player_combine/BaseBone/Root/Hips_00/Balls_00/Balls_01")?
             .transform;
 
+        protected override float PenisSize => 0.1f;
+        
         protected override int AnimationLayer => 0;
         
         protected override int HeroineCount => 1;
@@ -42,31 +46,35 @@ namespace LoveMachine.KKLB
         protected override Animator GetFemaleAnimator(int girlIndex) =>
             throw new NotImplementedException();
 
-        protected override GameObject GetFemaleRoot(int girlIndex) =>
-            GameObject.Find("CharacterManager/F02_umeko_combine/BaseBone");
+        protected override GameObject GetFemaleRoot(int girlIndex) => root.Value;
 
         protected override void GetAnimState(int girlIndex, out float normalizedTime, out float length, out float speed)
         {
-            var state = animator.GetCurrentAnimatorStateInfo(0);
+            var state = Animator.GetCurrentAnimatorStateInfo(0);
             normalizedTime = unlooper.LoopingToMonotonic(state.normalizedTime);
             length = state.length;
             speed = state.speed;
         }
 
         protected override string GetPose(int girlIndex) =>
-            animator.GetCurrentAnimatorStateInfo(0).fullPathHash.ToString();
+            Animator.GetCurrentAnimatorStateInfo(0).fullPathHash.ToString();
 
-        protected override bool IsIdle(int girlIndex) => false;
+        protected override bool IsIdle(int girlIndex) => !busy.Value;
+
+        protected override void SetStartHInstance(object instance)
+        {
+            var adultManager = Traverse.Create(instance);
+            root = adultManager.Field<GameObject>("PartnerBase");
+            busy = adultManager.Field<bool>("bBusy");
+            unlooper = new TimeUnlooper();
+        }
         
         protected override IEnumerator UntilReady()
         {
-            while (PenisBase == null || GetFemaleRoot(0) == null)
+            while (PenisBase == null)
             {
                 yield return new WaitForSeconds(1f);
             }
-            animator = GetFemaleRoot(0).GetComponent<Animator>();
-            unlooper = new TimeUnlooper();
-            yield return null;
         }
     }
 }
