@@ -28,7 +28,10 @@ jobs:
       uses: microsoft/setup-msbuild@v1.1
       with:
         vs-version: '[16.0,17.0)'
-      
+  
+    - name: Install Alias
+      run: dotnet tool install --global Alias
+
     - name: Build and Publish
       run: msbuild LoveMachine.sln /r /p:Configuration=Release-netfx3 /p:DeployOnBuild=true /p:PublishProfile=FolderProfile /p:Version=${{ github.event.inputs.version }}
 
