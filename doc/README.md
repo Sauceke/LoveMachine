@@ -10,24 +10,25 @@
 
 Adds support for [some computer-controlled sex toys](#supported-devices) in the following games:
 
-| Game                      | Developer        | VR support       |
-|---------------------------|------------------|------------------|
-| [Custom Order Maid 3D 2]  | Kiss             | ✓                |
-| [Holy Knight Ricca]       | Mogurasoft       | ✗                |
-| [Honey Select 2]          | Illusion         | ✓                |
-| [Houkago Rinkan Chuudoku] | Miconisomi       | ✓ (with [AGHVR]) |
-| [Incubus 2: Camlann]      | Tanpakusitsu     | ✗                |
-| [Insult Order]            | Miconisomi       | ✓ (with [IOVR])  |
-| [Koikatsu]                | Illusion         | ✓                |
-| [Koikatsu Party]          | Illusion         | ✓                |
-| [Koikatsu Sunshine]       | Illusion         | ✓                |
-| [Last Evil]               | Flametorch       | ✗                |
-| [Our Apartment]           | Momoiro Software | ✗                |
-| [PlayHome]                | Illusion         | ✓                |
-| [RoomGirl]                | Illusion         | ✗                |
-| [Secrossphere]            | Illusion         | ✗                |
-| [Succubus Cafe]           | MIGI STUDIO      | ✗                |
-| [VR Kanojo]               | Illusion         | ✓                |
+| Game                        | Developer        | VR support       |
+|-----------------------------|------------------|------------------|
+| [Custom Order Maid 3D 2]    | Kiss             | ✓                |
+| [Holy Knight Ricca]         | Mogurasoft       | ✗                |
+| [Honey Select 2]            | Illusion         | ✓                |
+| [Houkago Rinkan Chuudoku]   | Miconisomi       | ✓ (with [AGHVR]) |
+| [Incubus 2: Camlann]        | Tanpakusitsu     | ✗                |
+| [Insult Order]              | Miconisomi       | ✓ (with [IOVR])  |
+| [Koikatsu]                  | Illusion         | ✓                |
+| [Koikatsu Party]            | Illusion         | ✓                |
+| [Koikatsu Sunshine]         | Illusion         | ✓                |
+| [Koi-Koi VR: Love Blossoms] | Apricot Heart    | ✓                |
+| [Last Evil]                 | Flametorch       | ✗                |
+| [Our Apartment]             | Momoiro Software | ✗                |
+| [PlayHome]                  | Illusion         | ✓                |
+| [RoomGirl]                  | Illusion         | ✗                |
+| [Secrossphere]              | Illusion         | ✗                |
+| [Succubus Cafe]             | Migi Studio      | ✗                |
+| [VR Kanojo]                 | Illusion         | ✓                |
 
 ## Supported devices
 LoveMachine relies on the [Buttplug.io] project to communicate with toys. At the time of writing, Buttplug.io supports over 200 devices.
@@ -181,6 +182,7 @@ This mod would not have been possible without the [BepInEx] plugin framework and
 [Secrossphere]: https://www.dlsite.com/pro/dlaf/=/t/n/link/work/aid/sauceke/locale/en_US/id/VJ015728.html/?locale=en_US
 [PlayHome]: https://www.dlsite.com/pro/dlaf/=/t/n/link/work/aid/sauceke/locale/en_US/id/VJ015713.html/?locale=en_US
 [Koikatsu]: https://www.dlsite.com/pro/dlaf/=/t/n/link/work/aid/sauceke/locale/en_US/id/VJ015719.html/?locale=en_US
+[Koi-Koi VR: Love Blossoms]: https://www.dlsite.com/pro/dlaf/=/t/n/link/work/aid/sauceke/locale/en_US/id/VJ01000460.html/?locale=en_US
 
 <!-- sponsored sex toy links -->
 [The Handy]: https://www.thehandy.com/?ref=saucekebenfield&utm_source=saucekebenfield&utm_medium=affiliate&utm_campaign=The+Handy+Affiliate+program
