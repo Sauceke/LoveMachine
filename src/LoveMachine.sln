@@ -188,15 +188,15 @@ Global
 		{A17A77E0-9257-498A-80EB-22467AFD3921}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A17A77E0-9257-498A-80EB-22467AFD3921}.Release|Any CPU.Build.0 = Release|Any CPU
 		{A17A77E0-9257-498A-80EB-22467AFD3921}.Release-net6|Any CPU.ActiveCfg = Debug|Any CPU
-		{A17A77E0-9257-498A-80EB-22467AFD3921}.Release-netfx3|Any CPU.ActiveCfg = Debug|Any CPU
-		{A17A77E0-9257-498A-80EB-22467AFD3921}.Release-netfx3|Any CPU.Build.0 = Debug|Any CPU
+		{A17A77E0-9257-498A-80EB-22467AFD3921}.Release-netfx3|Any CPU.ActiveCfg = Release|Any CPU
+		{A17A77E0-9257-498A-80EB-22467AFD3921}.Release-netfx3|Any CPU.Build.0 = Release|Any CPU
 		{5C97957C-01EE-4356-8AAE-7FCFB8DD4620}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{5C97957C-01EE-4356-8AAE-7FCFB8DD4620}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5C97957C-01EE-4356-8AAE-7FCFB8DD4620}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5C97957C-01EE-4356-8AAE-7FCFB8DD4620}.Release|Any CPU.Build.0 = Release|Any CPU
 		{5C97957C-01EE-4356-8AAE-7FCFB8DD4620}.Release-net6|Any CPU.ActiveCfg = Debug|Any CPU
-		{5C97957C-01EE-4356-8AAE-7FCFB8DD4620}.Release-netfx3|Any CPU.ActiveCfg = Debug|Any CPU
-		{5C97957C-01EE-4356-8AAE-7FCFB8DD4620}.Release-netfx3|Any CPU.Build.0 = Debug|Any CPU
+		{5C97957C-01EE-4356-8AAE-7FCFB8DD4620}.Release-netfx3|Any CPU.ActiveCfg = Release|Any CPU
+		{5C97957C-01EE-4356-8AAE-7FCFB8DD4620}.Release-netfx3|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
