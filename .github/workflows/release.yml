@@ -47,8 +47,7 @@ jobs:
 
     - name: Download and install Inno Setup
       run: |
-        [Net.ServicePointManager]::SecurityProtocol = "tls12, tls11, tls"
-        Invoke-WebRequest -Uri ${{env.INNO_SETUP_URL}} -OutFile innosetup.exe
+        wget ${{env.INNO_SETUP_URL}} -O innosetup.exe
         & ./innosetup.exe /VERYSILENT /NORESTART /ALLUSERS
 
     - name: Zip artifacts
@@ -67,11 +66,10 @@ jobs:
     - name: Download BepInEx
       working-directory: src/Installer
       run: |
-        [Net.ServicePointManager]::SecurityProtocol = "tls12, tls11, tls"
-        Invoke-WebRequest -Uri ${{env.BEPINEX_32_URL}} -OutFile BepInEx32.zip
-        Invoke-WebRequest -Uri ${{env.BEPINEX_64_URL}} -OutFile BepInEx64.zip
-        Invoke-WebRequest -Uri ${{env.BEPINEX_IL2CPP_64_URL}} -OutFile BepInExIl2cpp64.zip
-        Invoke-WebRequest -Uri ${{env.BEPINEX_CONF_MGR_URL}} -OutFile BepInEx.ConfigurationManager.zip
+        wget ${{env.BEPINEX_32_URL}} -O BepInEx32.zip
+        wget ${{env.BEPINEX_64_URL}} -O BepInEx64.zip
+        wget ${{env.BEPINEX_IL2CPP_64_URL}} -O BepInExIl2cpp64.zip
+        wget ${{env.BEPINEX_CONF_MGR_URL}} -O BepInEx.ConfigurationManager.zip
         Expand-Archive -Path BepInEx32.zip -DestinationPath BepInEx32
         Expand-Archive -Path BepInEx64.zip -DestinationPath BepInEx64
         Expand-Archive -Path BepInExIl2cpp64.zip -DestinationPath BepInExIl2cpp64
