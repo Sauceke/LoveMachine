@@ -60,6 +60,7 @@ jobs:
           $gameName = $gameName.Substring($gameName.IndexOf("= ") + 2)
           $gameName = $gameName.Replace(" ", "_")
           $gameName = $gameName -Replace "[^a-zA-Z0-9_]", ""
+          $gameName = $gameName.Replace("__", "_")
           & ./alias-deps.bat "./bin/$plugin/BepInEx/plugins"
           Compress-Archive -Path "./bin/$plugin/BepInEx" -DestinationPath "./assets/LoveMachine_for_${gameName}.zip"
         }
