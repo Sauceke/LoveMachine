@@ -2,13 +2,15 @@ name: Post-release workflow
 
 on:
   release:
-    types: [published]
+    types: [ published ]
   workflow_dispatch:
 
 jobs:
-  update_docs:
-    runs-on: ubuntu-latest
 
+  update_docs:
+
+    runs-on: ubuntu-latest
+    
     steps:
       - name: Checkout repo
         uses: actions/checkout@v2

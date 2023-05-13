@@ -9,68 +9,15 @@ on:
 
 jobs:
 
-  build-netfx3:
-    runs-on: windows-2019
-    timeout-minutes: 10
+  build:
 
-    env:
-      ACTIONS_ALLOW_UNSECURE_COMMANDS: true
-
-    defaults:
-      run:
-        working-directory: src
-
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v1
-
-    - name: Setup MSBuild path
-      uses: microsoft/setup-msbuild@v1.1
-      with:
-        vs-version: '[16.0,17.0)'
-  
-    - name: Build and Publish
-      run: msbuild LoveMachine.sln /r /p:Configuration=Release-netfx3 /p:DeployOnBuild=true /p:PublishProfile=FolderProfile /p:Version=${{ github.event.inputs.version }}
-
-    - name: Upload binaries
-      uses: actions/upload-artifact@v3
-      with:
-        name: netfx3-bin
-        path: src/bin
-
-  build-net6:
-    runs-on: windows-2022
-    timeout-minutes: 10
-
-    env:
-      ACTIONS_ALLOW_UNSECURE_COMMANDS: true
-
-    defaults:
-      run:
-        working-directory: src
-
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v1
-
-    - name: Setup MSBuild path
-      uses: microsoft/setup-msbuild@v1.1
-      with:
-        vs-version: '[17.0,)'
-      
-    - name: Build and Publish
-      run: msbuild LoveMachine.sln /r /p:Configuration=Release-net6 /p:DeployOnBuild=true /p:PublishProfile=FolderProfile /p:Version=${{ github.event.inputs.version }}
-
-    - name: Upload binaries
-      uses: actions/upload-artifact@v3
-      with:
-        name: net6-bin
-        path: src/bin
+    uses: ./.github/workflows/build.yml
+    with:
+      version: ${{ github.event.inputs.version }}
 
   release:
-    needs:
-    - build-netfx3
-    - build-net6
+  
+    needs: build
     runs-on: windows-2022
     timeout-minutes: 10
     
@@ -97,12 +44,6 @@ jobs:
       uses: actions/download-artifact@v3
       with:
         path: src
-
-    - name: Copy artifacts
-      run: |
-        mkdir bin
-        Copy-Item netfx3-bin/* -Destination bin -Recurse
-        Copy-Item net6-bin/* -Destination bin -Recurse
 
     - name: Download and install Inno Setup
       run: |
