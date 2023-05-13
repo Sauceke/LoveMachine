@@ -103,6 +103,9 @@ jobs:
         draft: true
         prerelease: false
 
+    - name: what the ever-fucking fuck is going on
+      run: dir src/assets
+
     - name: Upload release assets
       id: upload-release-assets
       uses: dwenegar/upload-release-assets@v1
