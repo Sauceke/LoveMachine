@@ -1,7 +1,7 @@
 name: Build
 
 on:
-  workflow_dispatch:
+  workflow_call:
     inputs:
       version:
         description: 'Version'
@@ -10,7 +10,7 @@ on:
 jobs:
 
   build:
-  
+
     strategy:
       matrix:
         include:
