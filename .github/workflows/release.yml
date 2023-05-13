@@ -29,9 +29,6 @@ jobs:
       with:
         vs-version: '[16.0,17.0)'
   
-    - name: Install Alias
-      run: dotnet tool install --global Alias
-
     - name: Build and Publish
       run: msbuild LoveMachine.sln /r /p:Configuration=Release-netfx3 /p:DeployOnBuild=true /p:PublishProfile=FolderProfile /p:Version=${{ github.event.inputs.version }}
 
@@ -93,6 +90,9 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v1
 
+    - name: Install Alias
+      run: dotnet tool install --global Alias
+
     - name: Download artifacts
       uses: actions/download-artifact@v3
       with:
@@ -119,7 +119,7 @@ jobs:
           $gameName = $gameName.Substring($gameName.IndexOf("= ") + 2)
           $gameName = $gameName.Replace(" ", "_")
           & ./alias-deps.bat "./bin/$plugin/BepInEx/plugins/*"
-          Compress-Archive -Path "./bin/$plugin/BepInEx" -DestinationPath "assets/LoveMachine_for_${gameName}.zip"
+          Compress-Archive -Path "./bin/$plugin/BepInEx" -DestinationPath "./assets/LoveMachine_for_${gameName}.zip"
         }
 
     - name: Download BepInEx
