@@ -16,7 +16,7 @@ jobs:
       version: ${{ github.event.inputs.version }}
 
   release:
-  
+
     needs: build
     runs-on: windows-2022
     timeout-minutes: 10
@@ -47,6 +47,7 @@ jobs:
 
     - name: Download and install Inno Setup
       run: |
+        [Net.ServicePointManager]::SecurityProtocol = "tls12, tls11, tls"
         Invoke-WebRequest -Uri ${{env.INNO_SETUP_URL}} -OutFile innosetup.exe
         & ./innosetup.exe /VERYSILENT /NORESTART /ALLUSERS
 
@@ -66,6 +67,7 @@ jobs:
     - name: Download BepInEx
       working-directory: src/Installer
       run: |
+        [Net.ServicePointManager]::SecurityProtocol = "tls12, tls11, tls"
         Invoke-WebRequest -Uri ${{env.BEPINEX_32_URL}} -OutFile BepInEx32.zip
         Invoke-WebRequest -Uri ${{env.BEPINEX_64_URL}} -OutFile BepInEx64.zip
         Invoke-WebRequest -Uri ${{env.BEPINEX_IL2CPP_64_URL}} -OutFile BepInExIl2cpp64.zip
