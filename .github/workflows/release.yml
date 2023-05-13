@@ -59,6 +59,7 @@ jobs:
           $gameName = Get-Content -Path $info | Where-Object { $_ -match "NameEN = *" }
           $gameName = $gameName.Substring($gameName.IndexOf("= ") + 2)
           $gameName = $gameName.Replace(" ", "_")
+          $gameName = $gameName -Replace "[^a-zA-Z0-9_]", ""
           & ./alias-deps.bat "./bin/$plugin/BepInEx/plugins"
           Compress-Archive -Path "./bin/$plugin/BepInEx" -DestinationPath "./assets/LoveMachine_for_${gameName}.zip"
         }
@@ -100,9 +101,6 @@ jobs:
         body: write the changelog you lazy fuk
         draft: true
         prerelease: false
-
-    - name: what the ever-fucking fuck is going on
-      run: dir assets
 
     - name: Upload release assets
       id: upload-release-assets
