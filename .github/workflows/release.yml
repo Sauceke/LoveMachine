@@ -118,7 +118,7 @@ jobs:
           $gameName = Get-Content -Path $info | Where-Object { $_ -match "NameEN = *" }
           $gameName = $gameName.Substring($gameName.IndexOf("= ") + 2)
           $gameName = $gameName.Replace(" ", "_")
-          & ./alias-deps.bat "./bin/$plugin/BepInEx/plugins/*"
+          & ./alias-deps.bat "./bin/$plugin/BepInEx/plugins"
           Compress-Archive -Path "./bin/$plugin/BepInEx" -DestinationPath "./assets/LoveMachine_for_${gameName}.zip"
         }
 
