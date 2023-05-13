@@ -104,7 +104,7 @@ jobs:
         prerelease: false
 
     - name: what the ever-fucking fuck is going on
-      run: dir src/assets
+      run: dir assets
 
     - name: Upload release assets
       id: upload-release-assets
