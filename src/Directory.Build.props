@@ -2,7 +2,7 @@
 	<Target Name="WriteReferenceForAlias" AfterTargets="AfterCompile">
 		<WriteLinesToFile File="$(TargetDir)/alias-references.txt" Lines="@(ReferencePath)" Overwrite="true" />
 	</Target>
-	<Target Name="AliasDependencies" AfterTargets="AfterBuild" Condition="!$(ProjectName.Contains('LoveMachine.Core'))">
-		<Exec Command="assemblyalias --target-directory $(OutputPath) --suffix _Of_Love --assemblies-to-alias &quot;LitJSON;SuperSocket.ClientEngine;WebSocket4Net&quot;" />
+	<Target Name="AliasDependencies" AfterTargets="AfterBuild" Condition="!$(ProjectName.Contains('LoveMachine.Core')) And $(Configuration) == 'Debug'">
+		<Exec Command="$(SolutionDir)alias-deps.bat $(OutputPath)" />
 	</Target>
 </Project>
