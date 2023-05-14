@@ -52,7 +52,7 @@ jobs:
 
     - name: Add Japanese.isl explicitly since Inno Setup's installer doesn't always add it for whatever fucking reason
       run: |
-        curl -L https://raw.githubusercontent.com/HeliumProject/InnoSetup/3786cc42fdae8fe80a8f2e6ce1fe7defdac193e9/Languages/Japanese.isl -o C:\Program Files (x86)\Inno Setup 6\Languages\Japanese.isl
+        curl -L "https://raw.githubusercontent.com/HeliumProject/InnoSetup/3786cc42fdae8fe80a8f2e6ce1fe7defdac193e9/Languages/Japanese.isl" -o "C:\Program Files (x86)\Inno Setup 6\Languages\Japanese.isl"
 
     - name: Zip artifacts
       run: |
