@@ -37,6 +37,9 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v1
 
+    - name: Install Japanese language pack
+      run: Install-Language ja-JP
+
     - name: Install Alias
       run: dotnet tool install --global Alias
 
