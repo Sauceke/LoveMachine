@@ -10,23 +10,25 @@
 
 Adds support for [some computer-controlled sex toys](#supported-devices) in the following games:
 
-| Game                      | Developer        | VR support       |
-|---------------------------|------------------|------------------|
-| [Custom Order Maid 3D 2]  | Kiss             | ✓                |
-| [Holy Knight Ricca]       | Mogurasoft       | ✗                |
-| [Honey Select 2]          | Illusion         | ✓                |
-| [Houkago Rinkan Chuudoku] | Miconisomi       | ✓ (with [AGHVR]) |
-| [Insult Order]            | Miconisomi       | ✓ (with [IOVR])  |
-| [Koikatsu]                | Illusion         | ✓                |
-| [Koikatsu Party]          | Illusion         | ✓                |
-| [Koikatsu Sunshine]       | Illusion         | ✓                |
-| [Last Evil]               | Flametorch       | ✗                |
-| [Our Apartment]           | Momoiro Software | ✗                |
-| [PlayHome]                | Illusion         | ✓                |
-| [RoomGirl]                | Illusion         | ✗                |
-| [Secrossphere]            | Illusion         | ✗                |
-| [Succubus Cafe]           | MIGI STUDIO      | ✗                |
-| [VR Kanojo]               | Illusion         | ✓                |
+| Game                        | Developer        | VR support       |
+|-----------------------------|------------------|------------------|
+| [Custom Order Maid 3D 2]    | Kiss             | ✓                |
+| [Holy Knight Ricca]         | Mogurasoft       | ✗                |
+| [Honey Select 2]            | Illusion         | ✓                |
+| [Houkago Rinkan Chuudoku]   | Miconisomi       | ✓ (with [AGHVR]) |
+| [Incubus 2: Camlann]        | Tanpakusitsu     | ✗                |
+| [Insult Order]              | Miconisomi       | ✓ (with [IOVR])  |
+| [Koikatsu]                  | Illusion         | ✓                |
+| [Koikatsu Party]            | Illusion         | ✓                |
+| [Koikatsu Sunshine]         | Illusion         | ✓                |
+| [Koi-Koi VR: Love Blossoms] | Apricot Heart    | ✓                |
+| [Last Evil]                 | Flametorch       | ✗                |
+| [Our Apartment]             | Momoiro Software | ✗                |
+| [PlayHome]                  | Illusion         | ✓                |
+| [RoomGirl]                  | Illusion         | ✗                |
+| [Secrossphere]              | Illusion         | ✗                |
+| [Succubus Cafe]             | Migi Studio      | ✗                |
+| [VR Kanojo]                 | Illusion         | ✓                |
 
 ## Supported devices
 LoveMachine relies on the [Buttplug.io] project to communicate with toys. At the time of writing, Buttplug.io supports over 200 devices.
@@ -148,8 +150,7 @@ This mod is provided free of charge, but I do accept donations. If you'd like to
 Sauceke   •   nhydock   •   hogefugamoga   •   RPKU   •   andama777 (JP translation)
 
 ### Patrons
-[ManlyMarco]   •   Aftercurve   •   AkronusWings   •   Ambicatus   •   AstralClock   •   Benos Hentai   •   boaz   •   Bri   •   cat tail   •   CBN ヴい   •   Ceruleon   •   CROM   •   Daniel   •   EPTG   •   er er   •   Flan   •   funnychicken   •   Gabbelgu   •   gold25   •   GOU YOSIHIRO   •   Greg   •   hiro   •   Ior1yagami   •   Kai Yami   •   KTKT   •   kuni   •   Laneo   •   mokochurin   •   Nemi   •   nppon   •   PhazR   •   Phil   •   prepare55   •   real name   •   rolandmitch   •   RP君   •   SavagePastry   •   Shakes   •   Taibe   •   tanu   •   TO   •   Tom   •   TrashTaste   •   ttrs   •   tutinoko   •   unitora   •   uruurian   •   Wel Adunno   •   yamada tarou   •   Zesty Cucumber   •   Zijian Wang   •   シルバー   •   ふ   •   一太 川崎   •   優希 岩永   •   哲慶 宗   •   国崎往人   •   将也 三田   •   洋 冨岡   •   猛 羽場   •   终晓   •   郁弥 中村   •   闇《YAMI》   •   高島　渉
-
+[ManlyMarco]   •   Aftercurve   •   AkronusWings   •   Ambicatus   •   Andrew Hall   •   AstralClock   •   Benos Hentai   •   boaz   •   Bri   •   cat tail   •   CBN ヴい   •   Ceruleon   •   CROM   •   Daniel   •   EPTG   •   er er   •   Flan   •   funnychicken   •   Gabbelgu   •   gold25   •   GOU YOSIHIRO   •   Greg   •   hiro   •   Ior1yagami   •   Kai Yami   •   KTKT   •   kuni   •   Laneo   •   mokochurin   •   Nemi   •   nppon   •   PhazR   •   Phil   •   prepare55   •   real name   •   rolandmitch   •   RP君   •   SavagePastry   •   Shakes   •   Taibe   •   tanu   •   TO   •   Tom   •   TrashTaste   •   ttrs   •   tutinoko   •   unitora   •   uruurian   •   Wel Adunno   •   yamada tarou   •   Zesty Cucumber   •   Zijian Wang   •   しゃどみん   •   シルバー   •   ふ   •   一太 川崎   •   優希 岩永   •   哲慶 宗   •   国崎往人   •   将也 三田   •   洋 冨岡   •   猛 羽場   •   终晓   •   郁弥 中村   •   闇《YAMI》   •   高島　渉
 
 ## Acknowledgements
 This mod would not have been possible without the [BepInEx] plugin framework and, of course, the [Buttplug.io] project.
@@ -173,12 +174,14 @@ This mod would not have been possible without the [BepInEx] plugin framework and
 [Holy Knight Ricca]: https://www.dlsite.com/maniax/dlaf/=/t/n/link/work/aid/sauceke/locale/en_US/id/RJ363824.html/?locale=en_US
 [Honey Select 2]: https://www.dlsite.com/pro/dlaf/=/t/n/link/work/aid/sauceke/locale/en_US/id/VJ013722.html/?locale=en_US
 [Houkago Rinkan Chuudoku]: https://www.dlsite.com/maniax/dlaf/=/t/n/link/work/aid/sauceke/locale/en_US/id/RJ189924.html/?locale=en_US
+[Incubus 2: Camlann]: https://www.dlsite.com/maniax/dlaf/=/t/n/link/work/aid/sauceke/locale/en_US/id/RJ321625.html/?locale=en_US
 [Insult Order]: https://www.dlsite.com/maniax/dlaf/=/t/n/link/work/aid/sauceke/locale/en_US/id/RJ220246.html/?locale=en_US
 [RoomGirl]: https://www.dlsite.com/pro/dlaf/=/t/n/link/work/aid/sauceke/locale/en_US/id/VJ015465.html/?locale=en_US
 [Koikatsu Sunshine]: https://www.dlsite.com/pro/dlaf/=/t/n/link/work/aid/sauceke/locale/en_US/id/VJ015724.html/?locale=en_US
 [Secrossphere]: https://www.dlsite.com/pro/dlaf/=/t/n/link/work/aid/sauceke/locale/en_US/id/VJ015728.html/?locale=en_US
 [PlayHome]: https://www.dlsite.com/pro/dlaf/=/t/n/link/work/aid/sauceke/locale/en_US/id/VJ015713.html/?locale=en_US
 [Koikatsu]: https://www.dlsite.com/pro/dlaf/=/t/n/link/work/aid/sauceke/locale/en_US/id/VJ015719.html/?locale=en_US
+[Koi-Koi VR: Love Blossoms]: https://www.dlsite.com/pro/dlaf/=/t/n/link/work/aid/sauceke/locale/en_US/id/VJ01000460.html/?locale=en_US
 
 <!-- sponsored sex toy links -->
 [The Handy]: https://www.thehandy.com/?ref=saucekebenfield&utm_source=saucekebenfield&utm_medium=affiliate&utm_campaign=The+Handy+Affiliate+program
