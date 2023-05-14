@@ -1,8 +1,0 @@
-<Project>
-	<Target Name="WriteReferenceForAlias" AfterTargets="AfterCompile">
-		<WriteLinesToFile File="$(TargetDir)/alias-references.txt" Lines="@(ReferencePath)" Overwrite="true" />
-	</Target>
-	<Target Name="AliasDependencies" AfterTargets="AfterBuild" Condition="!$(ProjectName.Contains('LoveMachine.Core')) And $(Configuration) == 'Debug'">
-		<Exec Command="$(SolutionDir)alias-deps.bat $(OutputPath)" />
-	</Target>
-</Project>
