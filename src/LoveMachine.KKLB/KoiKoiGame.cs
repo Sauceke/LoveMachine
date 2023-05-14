@@ -34,7 +34,9 @@ namespace LoveMachine.KKLB
             .transform;
 
         protected override float PenisSize => 0.1f;
-        
+
+        protected override float MinStrokeLength => 0.3f;
+
         protected override int AnimationLayer => 0;
         
         protected override int HeroineCount => 1;

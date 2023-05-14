@@ -83,6 +83,11 @@ namespace LoveMachine.Core
         protected internal virtual float PenisSize => 0f;
 
         /// <summary>
+        /// Minimum length, relative to the full movement length, that counts as a stroke.
+        /// </summary>
+        protected internal virtual float MinStrokeLength => 0.5f;
+
+        /// <summary>
         /// Override this to control the maximum vibration intensity. <br/>
         /// Value must be between 0 (=no vibration) and 1 (=full intensity).
         /// </summary>

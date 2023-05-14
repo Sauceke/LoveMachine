@@ -10,9 +10,6 @@ namespace LoveMachine.Core
 {
     public class AnimationAnalyzer : CoroutineHandler
     {
-        // Minimum length, relative to the full movement length, that counts as a stroke
-        private const float MinStrokeLength = 0.5f;
-        
         // pose -> result
         private readonly Dictionary<string, Result> resultCache =
             new Dictionary<string, Result>();
@@ -148,13 +145,13 @@ namespace LoveMachine.Core
                 $"Leading bone: {autoBone}, result: {JsonMapper.ToJson(results[Bone.Auto])}.");
         }
 
-        private static Result GetPreferredResult(IEnumerable<Sample> samples) => samples
+        private Result GetPreferredResult(IEnumerable<Sample> samples) => samples
             .GroupBy(sample => sample.PenisBase)
             .Select(EvaluateSamples)
             .OrderBy(result => result.Preference)
             .First();
 
-        private static Result EvaluateSamples(IEnumerable<Sample> samples)
+        private Result EvaluateSamples(IEnumerable<Sample> samples)
         {
             // probably safe to assume the farthest point from the origin is an extremity
             var crest = samples
@@ -174,7 +171,7 @@ namespace LoveMachine.Core
             });
             return new Result
             {
-                StrokeDelimiters = GetStrokeDelimiters(nodes, tolerance: MinStrokeLength),
+                StrokeDelimiters = GetStrokeDelimiters(nodes, tolerance: game.MinStrokeLength),
                 Amplitude = axis.magnitude,
                 // Prefer bones that are close and move a lot. Being close is more important.
                 Preference = axis.magnitude == 0
