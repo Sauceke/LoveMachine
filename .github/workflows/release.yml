@@ -43,8 +43,7 @@ jobs:
         & ./innosetup.exe /VERYSILENT /NORESTART /ALLUSERS
 
     - name: Add Japanese.isl explicitly since Inno Setup's installer doesn't always add it for whatever fucking reason
-      run: |
-        curl -L "https://raw.githubusercontent.com/HeliumProject/InnoSetup/3786cc42fdae8fe80a8f2e6ce1fe7defdac193e9/Languages/Japanese.isl" -o "C:\Program Files (x86)\Inno Setup 6\Languages\Japanese.isl"
+      run: curl -L "https://raw.githubusercontent.com/HeliumProject/InnoSetup/3786cc42fdae8fe80a8f2e6ce1fe7defdac193e9/Languages/Japanese.isl" -o "C:\Program Files (x86)\Inno Setup 6\Languages\Japanese.isl"
 
     - name: Download artifacts
       uses: actions/download-artifact@v3
@@ -55,18 +54,7 @@ jobs:
       run: ./alias-deps.ps1
 
     - name: Zip artifacts
-      run: |
-        mkdir assets
-        $plugins = Get-ChildItem -Name -Path bin/ | Where-Object { $_ -notlike "LoveMachine.Core*" }
-        foreach ($plugin in $plugins) {
-          $info = "./$plugin/PluginInfo.ini"
-          $gameName = Get-Content -Path $info | Where-Object { $_ -match "NameEN = *" }
-          $gameName = $gameName.Substring($gameName.IndexOf("= ") + 2)
-          $gameName = $gameName.Replace(" ", "_")
-          $gameName = $gameName -Replace "[^a-zA-Z0-9_]", ""
-          $gameName = $gameName.Replace("__", "_")
-          Compress-Archive -Path "./bin/$plugin/BepInEx" -DestinationPath "./assets/LoveMachine_for_${gameName}.zip"
-        }
+      run: ./zip-plugins.ps1
 
     - name: Download BepInEx
       working-directory: src/Installer
