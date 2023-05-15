@@ -1,4 +1,4 @@
 markdown: GFM
-remote_theme: ThomasBoxall/ghp-simple-dark
+remote_theme: rundocs/jekyll-rtd-theme
 plugins:
   - jekyll-remote-theme
