@@ -50,7 +50,8 @@ namespace LoveMachine.KKLB
 
         protected override GameObject GetFemaleRoot(int girlIndex) => root.Value;
 
-        protected override void GetAnimState(int girlIndex, out float normalizedTime, out float length, out float speed)
+        protected override void GetAnimState(int girlIndex,
+            out float normalizedTime, out float length, out float speed)
         {
             var state = Animator.GetCurrentAnimatorStateInfo(0);
             normalizedTime = unlooper.LoopingToMonotonic(state.normalizedTime);
