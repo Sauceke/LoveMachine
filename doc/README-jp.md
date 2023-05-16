@@ -1,3 +1,5 @@
+[English](README.md) | [日本語](README-jp.md)
+
 # BepInEx LoveMachine
 [![.NET][CI Badge]](#)
 [![Download][Downloads Badge]][インストーラ]
