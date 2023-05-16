@@ -10,7 +10,7 @@
 
 Adds support for [some computer-controlled sex toys](#supported-devices) in the following games:
 
-| Game                        | Developer        | VR support       |
+| Title                       | Developer        | VR support       |
 |-----------------------------|------------------|------------------|
 | [Custom Order Maid 3D 2]    | Kiss             | ✓                |
 | [Holy Knight Ricca]         | Mogurasoft       | ✗                |
@@ -109,13 +109,11 @@ Pressure settings:
 - **Pressure Range:** Minimum and maximum pressure allowed on this device, in percentages.
 - **Pressure Update Interval (seconds)** How much time it takes for this device to change pressure, in seconds. Defaults to 5.
 
-
 You may also want to:
 - **Save device assignments:** If enabled, the Threesome Role and Body Part attributes will be saved for all devices. Disabled by default.
 
 ### Intiface Settings
-- **Intiface CLI location:** The path to Intiface CLI. The plugin will attempt to run this program when the game is launched.
-- **WebSocket host:** The URL of the host Intiface is running on. Should be `ws://localhost` unless it's running on a remote machine.
+- **WebSocket host:** The URL of the host Intiface is running on. Should be `ws://127.0.0.1` unless it's running on a remote machine.
 - **WebSocket port:** The port Intiface is listening on. Usually `12345`.
 
 ### Kill Switch Settings
@@ -125,7 +123,7 @@ Safety measure to avoid hurting yourself if the sex gets too rough or something 
 
 ### Stroker Settings
 - **Stroke Length Realism:** How much the stroke length should match the animation. 0% means every stroke will use the full available length. 100% means every stroke will be scaled to its in-game length.
-- **Hard Sex Intensity:** How fast your stroker will fall during hard sex animations. 100% is twice as fast as 0% and feels much rougher (at least on a Handy). I'm not responsible for any injuries that may occur due to the use of LoveMachine.
+- **Hard Sex Intensity:** How fast your stroker will fall during hard sex animations. 100% is twice as fast as 0%. I'm not responsible for any injuries that may occur due to the use of LoveMachine.
 - **Orgasm Depth:** The position of the stroker during orgasm.
 - **Orgasm Shaking Frequency:** How many strokes to do per second during orgasm.
 
