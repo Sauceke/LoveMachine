@@ -161,7 +161,7 @@ LoveMachineは[BepInEx]プラグインフレームワークと、そしてもち
 [LoveMachine.Experiments]: https://sauceke.github.io/LoveMachine.Experiments
 [Hotdog]: https://sauceke.github.io/hotdog
 [Patreon]: https://www.patreon.com/sauceke
-[Demo video]: https://www.erome.com/a/DhT7BF4B
+[Demo video]: https://www.erome.com/a/f2XKHJ1I
 
 <!-- sponsored game links -->
 [カスタムオーダーメイド3D2]: https://www.dlsite.com/pro/dlaf/=/t/n/link/work/aid/sauceke/locale/en_US/id/VJ011538.html/?locale=en_US
