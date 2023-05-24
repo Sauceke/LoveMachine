@@ -18,7 +18,11 @@ namespace LoveMachine.Core
                     var orgasm = HandleCoroutine(HandleOrgasm(device));
                     yield return new WaitForSecondsRealtime(game.MinOrgasmDurationSecs);
                     yield return WaitWhile(() => game.IsOrgasming(device.Settings.GirlIndex));
-                    StopCoroutine(orgasm);
+                    // unity may have destroyed the coroutine if it's already finished
+                    if (orgasm != null)
+                    {
+                        StopCoroutine(orgasm);
+                    }
                     continue;
                 }
                 if (game.IsIdle(device.Settings.GirlIndex))
