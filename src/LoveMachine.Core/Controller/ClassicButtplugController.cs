@@ -25,10 +25,10 @@ namespace LoveMachine.Core
                     }
                     continue;
                 }
-                if (game.IsIdle(device.Settings.GirlIndex))
+                if (IsIdleOrPaused(device))
                 {
                     client.StopDeviceCmd(device);
-                    while (game.IsIdle(device.Settings.GirlIndex))
+                    while (IsIdleOrPaused(device))
                     {
                         yield return new WaitForSecondsRealtime(0.1f);
                     }
@@ -44,5 +44,8 @@ namespace LoveMachine.Core
                 }
             }
         }
+        
+        private bool IsIdleOrPaused(Device device) =>
+            game.IsIdle(device.Settings.GirlIndex) || game.TimeScale == 0f;
     }
 }
