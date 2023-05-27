@@ -52,7 +52,9 @@ namespace LoveMachine.Core
         protected abstract int AnimationLayer { get; }
 
         /// <summary>
-        /// Number of heroines in the current H-scene.
+        /// Number of heroines in the current H-scene. <br/>
+        /// This is NOT expected to change during an H-scene! Any code path that
+        /// changes it must be covered by StartHMethods.
         /// </summary>
         [HideFromIl2Cpp]
         protected internal abstract int HeroineCount { get; }
@@ -120,7 +122,8 @@ namespace LoveMachine.Core
 
         /// <summary>
         /// The animator of the heroine at the given index. <br/>
-        /// If the game doesn't use Animators, override GetAnimState instead.
+        /// If the game doesn't use Animators, override GetAnimState instead. <br/>
+        /// This will be called often, so keep it lightweight!
         /// </summary>
         [HideFromIl2Cpp]
         protected abstract Animator GetFemaleAnimator(int girlIndex);
@@ -142,7 +145,8 @@ namespace LoveMachine.Core
 
         /// <summary>
         /// True if this girl is currently NOT engaging in sex,
-        /// false otherwise.
+        /// false otherwise. <br/>
+        /// This will be called often, so keep it lightweight!
         /// </summary>
         [HideFromIl2Cpp]
         protected internal abstract bool IsIdle(int girlIndex);
@@ -186,7 +190,8 @@ namespace LoveMachine.Core
         /// <param name="length">equivalent to AnimatorStateInfo.length</param>
         /// <param name="speed">
         /// equivalent to AnimatorStateInfo.speed; must be relative to in-game
-        /// time (i.e. ignoring timeScale)
+        /// time (i.e. ignoring timeScale) <br/>
+        /// This will be called often, so keep it lightweight!
         /// </param>
         [HideFromIl2Cpp]
         protected internal virtual void GetAnimState(int girlIndex, out float normalizedTime,
@@ -200,7 +205,8 @@ namespace LoveMachine.Core
 
         /// <summary>
         /// True if this heroine (or the player) is currently orgasming;
-        /// false otherwise.
+        /// false otherwise. <br/>
+        /// This will be called often, so keep it lightweight!
         /// </summary>
         [HideFromIl2Cpp]
         protected internal virtual bool IsOrgasming(int girlIndex) => false;
