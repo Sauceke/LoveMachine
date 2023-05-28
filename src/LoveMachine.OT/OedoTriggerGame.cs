@@ -21,7 +21,14 @@ namespace LoveMachine.OT
 
         protected override Dictionary<Bone, string> FemaleBoneNames => new Dictionary<Bone, string>
         {
-            { Bone.Vagina, "PssyPos" }
+            { Bone.Vagina, "PssyPos" },
+            { Bone.Mouth, "MouthPos" },
+            { Bone.LeftHand, "DEF-f_index.03.L" },
+            { Bone.RightHand, "DEF-f_index.03.R" },
+            { Bone.LeftFoot, "DEF-toe.L" },
+            { Bone.RightFoot, "DEF-toe.R" },
+            { Bone.LeftBreast, "DEF-Breast.L" },
+            { Bone.RightBreast, "DEF-Breast.R" }
         };
 
         protected override Transform PenisBase => GameObject.Find(
