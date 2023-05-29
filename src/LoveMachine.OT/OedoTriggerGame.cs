@@ -35,6 +35,10 @@ namespace LoveMachine.OT
             "SubSystem/NKDirection/PlayableDirector/BoyOriginal/rig/root/DEF-spine/Penis0")
             .transform;
 
+        protected override float PenisSize => 0.16f;
+
+        protected override float MinStrokeLength => 0.3f;
+
         protected override int HeroineCount => femaleRoots.Length;
 
         protected override int MaxHeroineCount => 3;
