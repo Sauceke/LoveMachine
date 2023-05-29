@@ -24,6 +24,7 @@ LoveMachineはアダルトゲームのキャラクターと連動してアダル
 | [コイカツ！サンシャイン] | ILLUSION | ⭕ |
 | [恋来い温泉物語] | アプリコットハート | ⭕ |
 | [Last Evil] | Flametorch | ❌ |
+| [大江戸とりがー!!] | CQC Software | ❌ |
 | [Our Apartment] | Momoiro Software | ❌ |
 | [プレイホーム] | ILLUSION | ⭕ |
 | [ROOMガール] | ILLUSION | ❌ |
@@ -176,6 +177,7 @@ LoveMachineは[BepInEx]プラグインフレームワークと、そしてもち
 [プレイホーム]: https://www.dlsite.com/pro/dlaf/=/t/n/link/work/aid/sauceke/locale/en_US/id/VJ015713.html/?locale=en_US
 [コイカツ！]: https://www.dlsite.com/pro/dlaf/=/t/n/link/work/aid/sauceke/locale/en_US/id/VJ015719.html/?locale=en_US
 [恋来い温泉物語]: https://www.dlsite.com/pro/dlaf/=/t/n/link/work/aid/sauceke/locale/en_US/id/VJ01000460.html/?locale=en_US
+[大江戸とりがー!!]: https://www.dlsite.com/maniax/dlaf/=/t/n/link/work/aid/sauceke/locale/en_US/id/RJ439205.html/?locale=en_US
 
 <!-- sponsored sex toy links -->
 [The Handy]: https://www.thehandy.com/?ref=saucekebenfield&utm_source=saucekebenfield&utm_medium=affiliate&utm_campaign=The+Handy+Affiliate+program
