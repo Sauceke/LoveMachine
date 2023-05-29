@@ -4,7 +4,7 @@ using LoveMachine.Core;
 namespace LoveMachine.VRK
 {
     [BepInProcess("VR_Kanojo")]
-    [BepInPlugin(CoreConfig.GUID, CoreConfig.PluginName, CoreConfig.Version)]
+    [BepInPlugin(Globals.GUID, Globals.PluginName, Globals.Version)]
     internal class Plugin : LoveMachinePlugin<VRKanojoGame>
     { }
 }

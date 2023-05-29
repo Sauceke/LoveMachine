@@ -54,7 +54,7 @@ namespace LoveMachine.Core
 
         private static void DeviceListDrawer(ConfigEntryBase entry)
         {
-            var serverController = CoreConfig.ManagerObject.GetComponent<ButtplugWsClient>();
+            var serverController = Globals.ManagerObject.GetComponent<ButtplugWsClient>();
             GUILayout.BeginVertical(GUILayout.ExpandWidth(true));
             {
                 GUILayout.BeginHorizontal();

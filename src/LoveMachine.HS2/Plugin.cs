@@ -5,7 +5,7 @@ namespace LoveMachine.HS2
 {
     [BepInProcess("HoneySelect2")]
     [BepInProcess("HoneySelect2VR")]
-    [BepInPlugin(CoreConfig.GUID, CoreConfig.PluginName, CoreConfig.Version)]
+    [BepInPlugin(Globals.GUID, Globals.PluginName, Globals.Version)]
     internal class Plugin : LoveMachinePlugin<HoneySelect2Game>
     { }
 

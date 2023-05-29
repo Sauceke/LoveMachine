@@ -9,14 +9,14 @@ namespace LoveMachine.KK
     [BepInProcess("Koikatsu Party VR")]
     [BepInProcess("KoikatsuSunshine")]
     [BepInProcess("KoikatsuSunshine_VR")]
-    [BepInPlugin(CoreConfig.GUID, "LoveMachine", CoreConfig.Version)]
+    [BepInPlugin(Globals.GUID, Globals.PluginName, Globals.Version)]
     internal class Plugin : LoveMachinePlugin<KoikatsuGame>
     {
         protected override void Start()
         {
             base.Start();
             KKAnimationConfig.Initialize(this);
-            var manager = CoreConfig.ManagerObject;
+            var manager = Globals.ManagerObject;
             manager.AddComponent<KoikatsuAnimationController>();
             manager.AddComponent<KoikatsuAibuStrokerController>();
             manager.AddComponent<KoikatsuAibuVibratorController>();
@@ -24,7 +24,7 @@ namespace LoveMachine.KK
     }
 
     [BepInProcess("CharaStudio")]
-    [BepInPlugin(CoreConfig.GUID, "LoveMachine", CoreConfig.Version)]
+    [BepInPlugin(Globals.GUID, Globals.PluginName, Globals.Version)]
     internal class StudioPlugin : LoveMachinePlugin<StudioGame>
     { }
 

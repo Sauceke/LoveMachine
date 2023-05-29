@@ -69,7 +69,7 @@ namespace LoveMachine.Core
             }
             catch (Exception e)
             {
-                CoreConfig.Logger.LogError($"Error while trying to get wave info: {e}");
+                Logger.LogError($"Error while trying to get wave info: {e}");
                 result = new Result();
                 return false;
             }
@@ -97,7 +97,7 @@ namespace LoveMachine.Core
                     yield return new WaitForSecondsRealtime(0.1f);
                     continue;
                 }
-                CoreConfig.Logger.LogDebug("New animation playing, starting to analyze.");
+                Logger.LogDebug("New animation playing, starting to analyze.");
                 yield return HandleCoroutine(AnalyzeAnimation(girlIndex), suppressExceptions: true);
             }
         }
@@ -126,7 +126,7 @@ namespace LoveMachine.Core
                 samples.AddRange(newSamples);
                 if (pose != GetExactPose(girlIndex, Bone.Auto) || currentTime < startTime)
                 {
-                    CoreConfig.Logger.LogWarning($"Pose {pose} interrupted; canceling analysis.");
+                    Logger.LogWarning($"Pose {pose} interrupted; canceling analysis.");
                     yield break;
                 }
             }
@@ -140,7 +140,7 @@ namespace LoveMachine.Core
             results[Bone.Auto] = results[autoBone];
             results.ToList()
                 .ForEach(kvp => resultCache[GetExactPose(girlIndex, kvp.Key)] = kvp.Value);
-            CoreConfig.Logger.LogInfo($"Calibration for pose {pose} completed. " +
+            Logger.LogInfo($"Calibration for pose {pose} completed. " +
                 $"{samples.Count / femaleBones.Count} frames inspected. " +
                 $"Leading bone: {autoBone}, result: {JsonMapper.ToJson(results[Bone.Auto])}.");
         }

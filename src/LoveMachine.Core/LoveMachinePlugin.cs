@@ -11,14 +11,14 @@ namespace LoveMachine.Core
     {
         protected virtual void Start()
         {
-            CoreConfig.Initialize(Logger);
+            Globals.Initialize(Logger);
             ButtplugConfig.Initialize(this);
             DeviceListConfig.Initialize(this);
             KillSwitchConfig.Initialize(this);
             RotatorConfig.Initialize(this);
             StrokerConfig.Initialize(this);
             ConstrictConfig.Initialize(this);
-            var manager = CoreConfig.ManagerObject;
+            var manager = Globals.ManagerObject;
             manager.AddComponent<G>();
             manager.AddComponent<ButtplugWsClient>();
             manager.AddComponent<DeviceManager>();

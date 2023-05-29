@@ -25,7 +25,7 @@ namespace LoveMachine.Core
         {
             foreach (var device in client.Devices.Where(IsDeviceSupported))
             {
-                CoreConfig.Logger.LogInfo($"Running controller {GetType().Name} " +
+                Logger.LogInfo($"Running controller {GetType().Name} " +
                     $"on device #{device.DeviceIndex} ({device.DeviceName}).");
                 HandleCoroutine(Run(device));
                 HandleCoroutine(RunLatencyUpdateLoop(device));
@@ -57,7 +57,7 @@ namespace LoveMachine.Core
         public static void Test<T>(Device device, Action<float> display)
             where T : ButtplugController
         {
-            var testController = CoreConfig.ManagerObject.AddComponent<T>();
+            var testController = Globals.ManagerObject.AddComponent<T>();
             testController.isTestController = true;
             testController.HandleCoroutine(testController.RunTest(device, display));
         }

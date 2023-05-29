@@ -21,7 +21,7 @@ namespace LoveMachine.Core
             }
             catch (Exception e)
             {
-                CoreConfig.Logger.LogError($"Coroutine failed with exception: {e}");
+                Globals.Logger.LogError($"Coroutine failed with exception: {e}");
                 if (suppressExceptions)
                 {
                     return false;

@@ -37,7 +37,7 @@ namespace LoveMachine.Core
             incoming = new ConcurrentQueue<IEnumerator>();
             string address = ButtplugConfig.WebSocketHost.Value
                 + ":" + ButtplugConfig.WebSocketPort.Value;
-            CoreConfig.Logger.LogInfo($"Connecting to Intiface server at {address}");
+            Logger.LogInfo($"Connecting to Intiface server at {address}");
             websocket = new WebSocket(address);
             // StartCoroutine is only safe to call inside Unity's main thread
             websocket.Opened += (s, e) => incoming.Enqueue(OnOpened());
@@ -53,7 +53,7 @@ namespace LoveMachine.Core
         {
             StopAllCoroutines();
             IsConnected = false;
-            CoreConfig.Logger.LogInfo("Disconnecting from Intiface server.");
+            Logger.LogInfo("Disconnecting from Intiface server.");
             websocket.Close();
             websocket.Dispose();
         }
@@ -103,7 +103,7 @@ namespace LoveMachine.Core
         private IEnumerator OnOpened()
         {
             yield return new WaitForEndOfFrame();
-            CoreConfig.Logger.LogInfo("Successfully connected to Intiface.");
+            Logger.LogInfo("Successfully connected to Intiface.");
             RequestServerInfo();
         }
 
@@ -123,10 +123,10 @@ namespace LoveMachine.Core
         private IEnumerator OnError(SuperSocket.ClientEngine.ErrorEventArgs e)
         {
             yield return new WaitForEndOfFrame();
-            CoreConfig.Logger.LogWarning($"Websocket error: {e.Exception.Message}");
+            Logger.LogWarning($"Websocket error: {e.Exception.Message}");
             if (e.Exception.Message.Contains("unreachable"))
             {
-                CoreConfig.Logger.LogMessage("Error: Failed to connect to Intiface server.");
+                Logger.LogMessage("Error: Failed to connect to Intiface server.");
             }
         }
 
@@ -135,7 +135,7 @@ namespace LoveMachine.Core
             bool handled = data.ContainsKey("Error");
             if (handled)
             {
-                CoreConfig.Logger.LogWarning($"Error from Intiface: {data.ToJson()}");
+                Logger.LogWarning($"Error from Intiface: {data.ToJson()}");
             }
             return handled;
         }
@@ -146,7 +146,7 @@ namespace LoveMachine.Core
             if (handled)
             {
                 IsConnected = true;
-                CoreConfig.Logger.LogInfo("Handshake successful.");
+                Logger.LogInfo("Handshake successful.");
                 StartScan();
                 RequestDeviceList();
             }
@@ -195,17 +195,17 @@ namespace LoveMachine.Core
 
         private void LogDevices()
         {
-            CoreConfig.Logger.LogInfo($"List of devices: {JsonMapper.ToJson(Devices)}");
+            Logger.LogInfo($"List of devices: {JsonMapper.ToJson(Devices)}");
             if (Devices.Count == 0)
             {
-                CoreConfig.Logger.LogMessage("Warning: No devices connected to Intiface.");
+                Logger.LogMessage("Warning: No devices connected to Intiface.");
                 return;
             }
-            CoreConfig.Logger.LogMessage($"{Devices.Count} device(s) connected to Intiface.");
+            Logger.LogMessage($"{Devices.Count} device(s) connected to Intiface.");
             Devices
                 .Where(device => !device.IsSupported)
                 .Select(device => $"Warning: device \"{device.DeviceName}\" not supported.")
-                .ToList().ForEach(CoreConfig.Logger.LogMessage);
+                .ToList().ForEach(Logger.LogMessage);
         }
 
         private void ReadBatteryLevels() =>
@@ -231,7 +231,7 @@ namespace LoveMachine.Core
                 killSwitchThrown &= !KillSwitchConfig.ResumeSwitch.Value.IsPressed();
                 if (KillSwitchConfig.KillSwitch.Value.IsDown())
                 {
-                    CoreConfig.Logger.LogMessage("LoveMachine: Emergency stop pressed.");
+                    Logger.LogMessage("LoveMachine: Emergency stop pressed.");
                     StopAllDevices();
                     killSwitchThrown = true;
                 }
@@ -247,7 +247,7 @@ namespace LoveMachine.Core
                 Devices
                     .Where(device => device.BatteryLevel > 0f && device.BatteryLevel < 0.2f)
                     .Select(device => $"{device.DeviceName}: battery low.")
-                    .ToList().ForEach(CoreConfig.Logger.LogMessage);
+                    .ToList().ForEach(Logger.LogMessage);
             }
         }
 

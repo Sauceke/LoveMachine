@@ -3,7 +3,7 @@ using LoveMachine.Core;
 
 namespace LoveMachine.I2C
 {
-    [BepInPlugin(CoreConfig.GUID, CoreConfig.PluginName, CoreConfig.Version)]
+    [BepInPlugin(Globals.GUID, Globals.PluginName, Globals.Version)]
     public class Plugin : LoveMachinePlugin<CamlannGame>
     { }
 }

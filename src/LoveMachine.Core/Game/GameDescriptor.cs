@@ -224,14 +224,14 @@ namespace LoveMachine.Core
             IsHSceneRunning = false;
             StopAllCoroutines();
             OnHEnded.Invoke(this, new HEventArgs());
-            CoreConfig.Logger.LogInfo("H scene ended.");
+            Logger.LogInfo("H scene ended.");
         }
 
         private IEnumerator StartHWhenReady()
         {
             yield return HandleCoroutine(UntilReady());
             OnHStarted.Invoke(this, new HEventArgs());
-            CoreConfig.Logger.LogInfo("New H scene started.");
+            Logger.LogInfo("New H scene started.");
         }
 
         protected AnimatorStateInfo GetAnimatorStateInfo(int girlIndex) =>

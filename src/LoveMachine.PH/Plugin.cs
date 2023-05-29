@@ -5,7 +5,7 @@ namespace LoveMachine.PH
 {
     [BepInProcess("PlayHome32bit")]
     [BepInProcess("PlayHome64bit")]
-    [BepInPlugin(CoreConfig.GUID, CoreConfig.PluginName, CoreConfig.Version)]
+    [BepInPlugin(Globals.GUID, Globals.PluginName, Globals.Version)]
     internal class Plugin : LoveMachinePlugin<PlayHomeGame>
     { }
 }

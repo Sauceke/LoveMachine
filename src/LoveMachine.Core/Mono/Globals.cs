@@ -1,12 +1,10 @@
-﻿using BepInEx;
-using BepInEx.Bootstrap;
+﻿using BepInEx.Bootstrap;
 using BepInEx.Logging;
-using System.IO;
 using UnityEngine;
 
 namespace LoveMachine.Core
 {
-    public static class CoreConfig
+    public static class Globals
     {
         public const string PluginName = "LoveMachine";
         public const string GUID = "Sauceke.LoveMachine";

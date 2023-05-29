@@ -1,11 +1,14 @@
 ﻿using BepInEx.Unity.IL2CPP.Utils.Collections;
 using System.Collections;
+using BepInEx.Logging;
 using UnityEngine;
 
 namespace LoveMachine.Core
 {
     public class CoroutineHandler : MonoBehaviour
     {
+        protected ManualLogSource Logger => Globals.Logger;
+        
         protected Coroutine HandleCoroutine(IEnumerator coroutine,
             bool suppressExceptions = false) =>
             StartCoroutine(CoroutineUtil.HandleExceptions(coroutine, suppressExceptions)
