@@ -95,6 +95,7 @@ namespace LoveMachine.Core
             director = Director;
             timeline = Timeline;
             clipCache = new Dictionary<string, Traverse>();
+            cachedPose = null;
             unlooper = new TimeUnlooper();
         }
     }
