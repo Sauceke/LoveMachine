@@ -31,6 +31,9 @@ namespace LoveMachine.Core
         [HideFromIl2Cpp]
         protected abstract Traverse Timeline { get; }
         
+        /// <summary>
+        /// Name of the Timeline track that contains the H-scene animations.
+        /// </summary>
         [HideFromIl2Cpp]
         protected abstract string TrackName { get; }
         
