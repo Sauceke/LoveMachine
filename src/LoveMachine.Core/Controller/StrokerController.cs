@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace LoveMachine.Core
 {
-    public sealed class StrokerController : ClassicButtplugController
+    internal sealed class StrokerController : ClassicButtplugController
     {
         protected override bool IsDeviceSupported(Device device) => device.IsStroker;
 
@@ -51,6 +51,9 @@ namespace LoveMachine.Core
                 yield return new WaitForSecondsRealtime(time);
             }
         }
+
+        protected override void HandleLevel(Device device, float level, float durationSecs) =>
+            client.LinearCmd(device, level, durationSecs);
 
         private static float Sinusoid(float x) =>
             Mathf.InverseLerp(1f, -1f, Mathf.Cos(2 * Mathf.PI * x));

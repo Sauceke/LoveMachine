@@ -20,7 +20,7 @@ namespace LoveMachine.KK
             {
                 if (KKAnimationConfig.SuppressAnimationBlending.Value)
                 {
-                    kk.Flags.curveMotion = new AnimationCurve(new Keyframe[] { new Keyframe() });
+                    kk.Flags.curveMotion = new AnimationCurve(new Keyframe());
                 }
                 yield return new WaitForSeconds(.5f);
             }

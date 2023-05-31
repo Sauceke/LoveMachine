@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace LoveMachine.Core
 {
-    internal class ConstrictController : ClassicButtplugController
+    internal sealed class ConstrictController : ClassicButtplugController
     {
         protected override bool IsDeviceSupported(Device device) => device.IsConstrictor;
 
@@ -12,6 +12,9 @@ namespace LoveMachine.Core
             DoConstrict(device, GetPressure(device, strokeInfo));
 
         protected override IEnumerator HandleOrgasm(Device device) => DoConstrict(device, 1f);
+        
+        protected override void HandleLevel(Device device, float level, float durationSecs)
+        { }
 
         private IEnumerator DoConstrict(Device device, float relativePressure)
         {

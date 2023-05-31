@@ -3,14 +3,22 @@ using UnityEngine;
 
 namespace LoveMachine.Core
 {
-    public abstract class ClassicButtplugController : ButtplugController
+    internal abstract class ClassicButtplugController : ButtplugController
     {
         protected abstract IEnumerator HandleAnimation(Device device, StrokeInfo strokeInfo);
 
         protected abstract IEnumerator HandleOrgasm(Device device);
 
+        protected abstract void HandleLevel(Device device, float level, float durationSecs);
+        
         protected override IEnumerator Run(Device device)
         {
+            foreach (var gimmick in GetComponents<Gimmick>())
+            {
+                Logger.LogInfo($"Running gimmick {gimmick.GetType()} for device " +
+                    $"#{device.DeviceIndex} in controller {GetType()}.");
+                HandleCoroutine(gimmick.Run(device, HandleLevel));
+            }
             while (true)
             {
                 if (game.IsOrgasming(device.Settings.GirlIndex))

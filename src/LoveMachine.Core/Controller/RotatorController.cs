@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace LoveMachine.Core
 {
-    public sealed class RotatorController : ClassicButtplugController
+    internal sealed class RotatorController : ClassicButtplugController
     {
         private bool clockwise = true;
 
@@ -24,6 +24,9 @@ namespace LoveMachine.Core
             client.RotateCmd(device, 1f, clockwise);
             yield break;
         }
+
+        protected override void HandleLevel(Device device, float level, float durationSecs) =>
+            client.RotateCmd(device, level, true);
 
         private IEnumerator DoRotate(Device device, float strokeTimeSecs)
         {

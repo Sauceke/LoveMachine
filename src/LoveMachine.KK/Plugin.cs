@@ -18,8 +18,7 @@ namespace LoveMachine.KK
             KKAnimationConfig.Initialize(this);
             var manager = Globals.ManagerObject;
             manager.AddComponent<KoikatsuAnimationController>();
-            manager.AddComponent<KoikatsuAibuStrokerController>();
-            manager.AddComponent<KoikatsuAibuVibratorController>();
+            manager.AddComponent<FondleGimmick>();
         }
     }
 

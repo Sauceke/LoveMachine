@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace LoveMachine.Core
 {
-    public sealed class VibratorController : ClassicButtplugController
+    internal sealed class VibratorController : ClassicButtplugController
     {
         protected override bool IsDeviceSupported(Device device) => device.IsVibrator;
 
@@ -24,6 +24,9 @@ namespace LoveMachine.Core
             client.VibrateCmd(device, device.Settings.VibratorSettings.IntensityMax);
             yield break;
         }
+
+        protected override void HandleLevel(Device device, float level, float durationSecs) =>
+            client.VibrateCmd(device, level);
 
         private static float GetStrength(float x, VibratorSettings settings)
         {

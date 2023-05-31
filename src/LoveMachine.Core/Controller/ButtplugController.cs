@@ -10,7 +10,7 @@ namespace LoveMachine.Core
     {
         protected ButtplugWsClient client;
         protected GameDescriptor game;
-        protected AnimationAnalyzer analyzer;
+        private AnimationAnalyzer analyzer;
 
         private readonly Dictionary<Device, float> normalizedLatencies =
             new Dictionary<Device, float>();
