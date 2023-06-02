@@ -15,27 +15,18 @@ namespace LoveMachine.Core
             int subdivisions = 2 * (int)Mathf.Max(1f, durationSecs * updateFrequency / 2);
             int segments = device.Settings.StrokerSettings.SmoothStroking ? subdivisions : 2;
             float startCompletion = strokeInfo.Completion;
-            yield return WaitWhile(() =>
-                TryGetCurrentStrokeInfo(device, out var info) &&
-                (int)(startCompletion * segments) == (int)(info.Completion * segments));
-            if (!TryGetCurrentStrokeInfo(device, out strokeInfo))
-            {
-                yield break;
-            }
-            durationSecs = strokeInfo.DurationSecs;
-            float refreshTimeSecs = durationSecs / segments;
-            float refreshRate = 1f / segments;
-            float completion = strokeInfo.Completion;
-            float nextCompletion = completion + refreshRate;
+            float nextSegmentCompletion = Mathf.Floor(startCompletion * segments + 1) / segments;
+            float timeToNextSegmentSecs = (nextSegmentCompletion - startCompletion) * durationSecs;
             GetStrokeZone(durationSecs, device, strokeInfo, out float bottom, out float top);
-            float currentPosition = Mathf.Lerp(bottom, top, Sinusoid(completion));
-            float nextPosition = Mathf.Lerp(bottom, top, Sinusoid(nextCompletion));
+            float currentPosition = Mathf.Lerp(bottom, top, Sinusoid(startCompletion));
+            float nextPosition = Mathf.Lerp(bottom, top, Sinusoid(nextSegmentCompletion));
             bool movingUp = currentPosition < nextPosition;
             float targetPosition = movingUp ? top : bottom;
-            float speed = (nextPosition - currentPosition) / refreshTimeSecs;
+            float speed = (nextPosition - currentPosition) / timeToNextSegmentSecs;
             speed *= movingUp ? 1f : 1f + game.StrokingIntensity;
             float timeToTargetSecs = (targetPosition - currentPosition) / speed;
             client.LinearCmd(device, targetPosition, timeToTargetSecs);
+            yield return new WaitForSecondsRealtime(timeToNextSegmentSecs);
         }
 
         protected override IEnumerator HandleOrgasm(Device device)
