@@ -19,7 +19,7 @@ namespace LoveMachine.Core
             {
                 Logger.LogInfo($"Running gimmick {gimmick.GetType()} for device " +
                     $"#{device.DeviceIndex} in controller {GetType()}.");
-                HandleCoroutine(gimmick.Run(device, HandleLevel));
+                HandleCoroutine(gimmick.Run(device, HandleLevel, HandleStroke));
             }
             while (true)
             {
@@ -76,6 +76,9 @@ namespace LoveMachine.Core
                 yield return HandleCoroutine(EmulateStroke(device, duration, display));
             }
         }
+
+        private IEnumerator HandleStroke(Device device, float durationSecs) =>
+            EmulateStroke(device, durationSecs, position => { });
 
         private IEnumerator EmulateStroke(Device device, float durationSecs,
             DisplayPosition display)
