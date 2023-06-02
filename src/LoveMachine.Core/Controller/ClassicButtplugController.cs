@@ -5,12 +5,35 @@ using UnityEngine;
 
 namespace LoveMachine.Core
 {
+    /// <summary>
+    /// If you want to add a new device type, you'll probably need to extend
+    /// this class.
+    /// </summary>
     internal abstract class ClassicButtplugController : ButtplugController
     {
+        /// <summary>
+        /// How to react to the current state of the animation. <br/>
+        /// This will be called repeatedly while there is a sex animation
+        /// playing AND the character assigned to this device is not currently
+        /// climaxing. <br/>
+        /// This is also used for testing, so do NOT do anything here that
+        /// depends on some external state that isn't available outside of
+        /// H-scenes.
+        /// </summary>
         protected abstract IEnumerator HandleAnimation(Device device, StrokeInfo strokeInfo);
 
+        /// <summary>
+        /// How to react to orgasms. <br/>
+        /// This will be stopped automatically once the orgasm is over.
+        /// </summary>
         protected abstract IEnumerator HandleOrgasm(Device device);
 
+        /// <summary>
+        /// If this device type has a (preferably safe) way to handle a given
+        /// float value between 0.0 and 1.0 (level) over a set duration
+        /// (durationSecs), then you can do that here.
+        /// If it doesn't, then do nothing.
+        /// </summary>
         protected abstract void HandleLevel(Device device, float level, float durationSecs);
         
         protected override IEnumerator Run(Device device)
