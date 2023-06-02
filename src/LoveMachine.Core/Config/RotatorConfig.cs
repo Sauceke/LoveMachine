@@ -3,7 +3,7 @@ using BepInEx.Configuration;
 
 namespace LoveMachine.Core
 {
-    public static class RotatorConfig
+    internal static class RotatorConfig
     {
         public static ConfigEntry<float> RotationSpeedRatio { get; private set; }
         public static ConfigEntry<float> RotationDirectionChangeChance { get; private set; }

@@ -13,7 +13,7 @@ namespace LoveMachine.Core
         {
             Globals.Initialize(Logger);
             ButtplugConfig.Initialize(this);
-            DeviceListConfig.Initialize(this);
+            DeviceListConfig.Initialize(this, DeviceListGUI.DeviceListDrawer);
             KillSwitchConfig.Initialize(this);
             RotatorConfig.Initialize(this);
             StrokerConfig.Initialize(this);

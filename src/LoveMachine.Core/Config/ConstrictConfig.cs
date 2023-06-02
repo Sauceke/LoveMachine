@@ -3,7 +3,7 @@ using BepInEx.Configuration;
 
 namespace LoveMachine.Core
 {
-    public static class ConstrictConfig
+    internal static class ConstrictConfig
     {
         public static ConfigEntry<ConstrictMode> Mode { get; private set; }
         public static ConfigEntry<float> CycleLengthSecs { get; private set; }

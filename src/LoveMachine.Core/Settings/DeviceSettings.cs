@@ -24,7 +24,7 @@ namespace LoveMachine.Core
                         .Select(index => $"{ordinals[index]} Girl")
                         .Concat(new[] { "Off" })
                         .ToArray();
-            var bones = new Bone[] { Bone.Auto }
+            var bones = new[] { Bone.Auto }
                 .Concat(game.FemaleBoneNames.Keys)
                 .OrderBy(bone => bone)
                 .ToList();

@@ -3,7 +3,7 @@ using BepInEx.Configuration;
 
 namespace LoveMachine.Core
 {
-    public static class StrokerConfig
+    internal static class StrokerConfig
     {
         public static ConfigEntry<float> StrokeLengthRealism { get; private set; }
         public static ConfigEntry<int> HardSexIntensity { get; private set; }
