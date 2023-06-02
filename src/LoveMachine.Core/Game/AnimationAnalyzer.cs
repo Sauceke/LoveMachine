@@ -14,7 +14,7 @@ namespace LoveMachine.Core
         private readonly Dictionary<string, Result> resultCache =
             new Dictionary<string, Result>();
 
-        protected GameDescriptor game;
+        private GameDescriptor game;
 
         private void Start()
         {
@@ -60,8 +60,7 @@ namespace LoveMachine.Core
             return true;
         }
         
-        [HideFromIl2Cpp]
-        protected virtual bool TryGetResult(int girlIndex, Bone bone, out Result result)
+        private bool TryGetResult(int girlIndex, Bone bone, out Result result)
         {
             try
             {
@@ -92,7 +91,7 @@ namespace LoveMachine.Core
         {
             while (true)
             {
-                if (TryGetResult(girlIndex, Bone.Auto, out var _))
+                if (TryGetResult(girlIndex, Bone.Auto, out _))
                 {
                     yield return new WaitForSecondsRealtime(0.1f);
                     continue;
@@ -167,7 +166,7 @@ namespace LoveMachine.Core
             var nodes = samples.Select(sample => new Node
             {
                 Time = sample.Time,
-                Position = Mathf.InverseLerp(0f, amplitude, GetDistance(sample.RelativePos)),
+                Position = Mathf.InverseLerp(0f, amplitude, GetDistance(sample.RelativePos))
             });
             return new Result
             {
@@ -217,8 +216,8 @@ namespace LoveMachine.Core
             public float Time { get; set; }
             public float Position { get; set; }
         }
-        
-        protected struct Result
+
+        private struct Result
         {
             public float[] StrokeDelimiters { get; set; }
             public float Amplitude { get; set; }

@@ -160,7 +160,7 @@ namespace LoveMachine.Core
         private static Texture2D GetTexture(Color color)
         {
             var texture = new Texture2D(1, 1);
-            texture.SetPixels(new Color[] { color });
+            texture.SetPixels(new[] { color });
             texture.Apply();
             return texture;
         }

@@ -6,7 +6,7 @@ namespace LoveMachine.Core
 {
     public class BaseUnityPlugin : BasePlugin
     {
-        public ManualLogSource Logger => Log;
+        protected ManualLogSource Logger => Log;
 
         public override void Load() => Traverse.Create(this).Method("Start").GetValue();
     }

@@ -9,7 +9,7 @@ using UnityEngine;
 namespace LoveMachine.Core
 {
     /// <summary>
-    /// Contains everything LoveMachine needs to interface with a game.
+    /// Extend this class if you want to add a new game.
     /// </summary>
     public abstract class GameDescriptor : CoroutineHandler
     {

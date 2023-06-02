@@ -7,7 +7,7 @@ namespace LoveMachine.Core
 {
     public class CoroutineHandler : MonoBehaviour
     {
-        protected ManualLogSource Logger => Globals.Logger;
+        protected static ManualLogSource Logger => Globals.Logger;
         
         protected Coroutine HandleCoroutine(IEnumerator coroutine,
             bool suppressExceptions = false) =>

@@ -22,7 +22,7 @@ namespace LoveMachine.Core
             string[] ordinals = { "First", "Second", "Third", "Fourth", "Fifth", "Sixth" };
             string[] girlChoices = Enumerable.Range(0, game.MaxHeroineCount)
                         .Select(index => $"{ordinals[index]} Girl")
-                        .Concat(new string[] { "Off" })
+                        .Concat(new[] { "Off" })
                         .ToArray();
             var bones = new Bone[] { Bone.Auto }
                 .Concat(game.FemaleBoneNames.Keys)
