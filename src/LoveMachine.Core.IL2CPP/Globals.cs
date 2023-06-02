@@ -39,6 +39,9 @@ namespace LoveMachine.Core
 
             public T GetComponent<T>()
                 where T : MonoBehaviour => go.GetComponent<T>();
+
+            public T[] GetComponents<T>()
+                where T : MonoBehaviour => go.GetComponents<T>();
         }
     }
 }

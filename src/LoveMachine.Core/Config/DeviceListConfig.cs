@@ -1,4 +1,5 @@
-﻿using BepInEx;
+﻿using System;
+using BepInEx;
 using BepInEx.Configuration;
 using LitJson;
 using System.Collections.Generic;
@@ -140,15 +141,9 @@ namespace LoveMachine.Core
             DeviceSettings = settings;
         }
 
-        private static void TestDevice(Device device)
-        {
-            Globals.ManagerObject.GetComponent<StrokerController>()
-                .Test(device, pos => testPosition = pos);
-            Globals.ManagerObject.GetComponent<VibratorController>()
-                .Test(device, pos => testPosition = pos);
-            Globals.ManagerObject.GetComponent<RotatorController>()
-                .Test(device, pos => testPosition = pos);
-        }
+        private static void TestDevice(Device device) => Array.ForEach(
+            Globals.ManagerObject.GetComponents<ClassicButtplugController>(),
+            controller => controller.Test(device, pos => testPosition = pos));
 
         private static GUIStyle GetDevicePanelStyle() => new GUIStyle
         {
