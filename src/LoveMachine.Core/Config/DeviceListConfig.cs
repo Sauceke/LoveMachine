@@ -142,9 +142,12 @@ namespace LoveMachine.Core
 
         private static void TestDevice(Device device)
         {
-            ButtplugController.Test<StrokerController>(device, pos => testPosition = pos);
-            ButtplugController.Test<VibratorController>(device, pos => testPosition = pos);
-            ButtplugController.Test<RotatorController>(device, pos => testPosition = pos);
+            Globals.ManagerObject.GetComponent<StrokerController>()
+                .Test(device, pos => testPosition = pos);
+            Globals.ManagerObject.GetComponent<VibratorController>()
+                .Test(device, pos => testPosition = pos);
+            Globals.ManagerObject.GetComponent<RotatorController>()
+                .Test(device, pos => testPosition = pos);
         }
 
         private static GUIStyle GetDevicePanelStyle() => new GUIStyle

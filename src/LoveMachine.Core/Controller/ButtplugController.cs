@@ -15,8 +15,6 @@ namespace LoveMachine.Core
         private readonly Dictionary<Device, float> normalizedLatencies =
             new Dictionary<Device, float>();
 
-        private bool isTestController = false;
-
         protected abstract bool IsDeviceSupported(Device device);
 
         protected abstract IEnumerator Run(Device device);
@@ -38,12 +36,9 @@ namespace LoveMachine.Core
             client = GetComponent<ButtplugWsClient>();
             game = GetComponent<GameDescriptor>();
             analyzer = GetComponent<AnimationAnalyzer>();
-            if (!isTestController)
-            {
-                game.OnHStarted += (s, a) => OnStartH();
-                game.OnHEnded += (s, a) => OnEndH();
-                client.OnDeviceListUpdated += (s, a) => Restart();
-            }
+            game.OnHStarted += (s, a) => OnStartH();
+            game.OnHEnded += (s, a) => OnEndH();
+            client.OnDeviceListUpdated += (s, a) => Restart();
         }
 
         private void OnStartH() => HandleCoroutine(Run());
@@ -52,35 +47,6 @@ namespace LoveMachine.Core
         {
             StopAllCoroutines();
             client.StopAllDevices();
-        }
-
-        public static void Test<T>(Device device, Action<float> display)
-            where T : ButtplugController
-        {
-            var testController = Globals.ManagerObject.AddComponent<T>();
-            testController.isTestController = true;
-            testController.HandleCoroutine(testController.RunTest(device, display));
-        }
-
-        private IEnumerator RunTest(Device device, Action<float> display)
-        {
-            yield return new WaitForEndOfFrame();
-            var testGame = new TestGame();
-            game = testGame;
-            analyzer = new TestAnimationAnalyzer(testGame);
-            if (IsDeviceSupported(device))
-            {
-                var test = HandleCoroutine(Run(device));
-                yield return HandleCoroutine(
-                    testGame.RunTest(strokes: 2, strokesPerSec: 0.5f, display));
-                yield return HandleCoroutine(
-                    testGame.RunTest(strokes: 2, strokesPerSec: 1f, display));
-                yield return HandleCoroutine(
-                    testGame.RunTest(strokes: 5, strokesPerSec: 3f, display));
-                StopCoroutine(test);
-                client.StopAllDevices();
-            }
-            Destroy(this);
         }
 
         private void Restart()

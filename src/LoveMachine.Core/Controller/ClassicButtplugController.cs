@@ -1,4 +1,6 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace LoveMachine.Core
@@ -55,5 +57,45 @@ namespace LoveMachine.Core
         
         private bool IsIdleOrPaused(Device device) =>
             game.IsIdle(device.Settings.GirlIndex) || game.TimeScale == 0f;
+
+        public void Test(Device device, DisplayPosition display) =>
+            HandleCoroutine(RunTest(device, display));
+
+        private IEnumerator RunTest(Device device, DisplayPosition display)
+        {
+            if (!IsDeviceSupported(device))
+            {
+                yield break;
+            }
+            float[] durations = Enumerable.Repeat(2f, 2)
+                .Concat(Enumerable.Repeat(1f, 2))
+                .Concat(Enumerable.Repeat(0.3f, 5))
+                .ToArray();
+            foreach (float duration in durations)
+            {
+                yield return HandleCoroutine(EmulateStroke(device, duration, display));
+            }
+        }
+
+        private IEnumerator EmulateStroke(Device device, float durationSecs,
+            DisplayPosition display)
+        {
+            float startTime = Time.unscaledTime;
+            while (Time.unscaledTime - startTime < durationSecs)
+            {
+                float completion = (Time.unscaledTime - startTime) / durationSecs;
+                var strokeInfo = new StrokeInfo
+                {
+                    Amplitude = 1f,
+                    Completion = completion,
+                    DurationSecs = durationSecs
+                };
+                float position = (completion < 0.5f ? completion : 1f - completion) * 2f;
+                display(position);
+                yield return HandleCoroutine(HandleAnimation(device, strokeInfo));
+            }
+        }
+
+        public delegate void DisplayPosition(float position);
     }
 }
