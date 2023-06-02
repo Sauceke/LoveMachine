@@ -1,5 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System;
+using System.Collections;
 using System.Linq;
 using UnityEngine;
 
@@ -67,7 +67,7 @@ namespace LoveMachine.Core
                     }
                     continue;
                 }
-                if (TryGetCurrentStrokeInfo(device, out var strokeInfo))
+                if (base.TryGetCurrentStrokeInfo(device, out var strokeInfo))
                 {
                     yield return HandleCoroutine(HandleAnimation(device, strokeInfo));
                 }
@@ -77,7 +77,11 @@ namespace LoveMachine.Core
                 }
             }
         }
-        
+
+        [Obsolete("Do NOT use this; use the StrokeInfo provided as parameter.")]
+        protected override bool TryGetCurrentStrokeInfo(Device device, out StrokeInfo result) =>
+            throw new NotImplementedException();
+
         private bool IsIdleOrPaused(Device device) =>
             game.IsIdle(device.Settings.GirlIndex) || game.TimeScale == 0f;
 

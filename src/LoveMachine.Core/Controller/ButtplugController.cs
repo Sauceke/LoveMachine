@@ -83,7 +83,7 @@ namespace LoveMachine.Core
             return currentNormTime + normalizedLatency;
         }
 
-        protected bool TryGetCurrentStrokeInfo(Device device, out StrokeInfo result)
+        protected virtual bool TryGetCurrentStrokeInfo(Device device, out StrokeInfo result)
         {
             var girlIndex = device.Settings.GirlIndex;
             var bone = device.Settings.Bone;
