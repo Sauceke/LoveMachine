@@ -16,7 +16,7 @@ namespace LoveMachine.Core
                 device.Settings.VibratorSettings.IntensityMax,
                 t: strength * game.VibrationIntensity);
             client.VibrateCmd(device, intensity);
-            yield return new WaitForSecondsRealtime(1.0f / device.Settings.UpdatesHz);
+            yield return WaitForSecondsUnscaled(1f / device.Settings.UpdatesHz);
         }
 
         protected override IEnumerator HandleOrgasm(Device device)

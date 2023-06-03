@@ -26,7 +26,7 @@ namespace LoveMachine.Core
             speed *= movingUp ? 1f : 1f + game.StrokingIntensity;
             float timeToTargetSecs = (targetPosition - currentPosition) / speed;
             client.LinearCmd(device, targetPosition, timeToTargetSecs);
-            yield return new WaitForSecondsRealtime(timeToNextSegmentSecs);
+            yield return WaitForSecondsUnscaled(timeToNextSegmentSecs - Time.deltaTime);
         }
 
         protected override IEnumerator HandleOrgasm(Device device)

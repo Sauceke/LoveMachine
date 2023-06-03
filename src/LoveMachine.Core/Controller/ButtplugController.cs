@@ -89,5 +89,9 @@ namespace LoveMachine.Core
             float normalizedTime = GetLatencyCorrectedNormalizedTime(device);
             return analyzer.TryGetCurrentStrokeInfo(girlIndex, bone, normalizedTime, out result);
         }
+        
+        protected object WaitForSecondsUnscaled(float seconds) => Time.timeScale > 0f
+            ? (object)new WaitForSeconds(seconds * Time.timeScale)
+            : new WaitForSecondsRealtime(seconds);
     }
 }

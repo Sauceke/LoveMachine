@@ -35,7 +35,7 @@ namespace LoveMachine.Core
                 RotatorConfig.RotationSpeedRatio.Value;
             float upSpeed = downSpeed * 0.8f;
             client.RotateCmd(device, downSpeed, clockwise);
-            yield return new WaitForSecondsRealtime(downStrokeTimeSecs);
+            yield return WaitForSecondsUnscaled(downStrokeTimeSecs);
             client.RotateCmd(device, upSpeed, !clockwise);
         }
     }
