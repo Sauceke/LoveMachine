@@ -14,11 +14,11 @@ namespace LoveMachine.Core
         private readonly Dictionary<string, Result> resultCache =
             new Dictionary<string, Result>();
 
-        private GameDescriptor game;
+        private GameAdapter game;
 
         private void Start()
         {
-            game = GetComponent<GameDescriptor>();
+            game = GetComponent<GameAdapter>();
             game.OnHStarted += (s, a) => StartAnalyze();
             game.OnHEnded += (s, a) => StopAnalyze();
         }

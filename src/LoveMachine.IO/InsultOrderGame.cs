@@ -9,7 +9,7 @@ using UnityEngine;
 
 namespace LoveMachine.IO
 {
-    internal sealed class InsultOrderGame : GameDescriptor
+    internal sealed class InsultOrderGame : GameAdapter
     {
         private static readonly string[] idleMotions = { "", "H1", "H2" };
 

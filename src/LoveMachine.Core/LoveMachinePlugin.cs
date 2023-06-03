@@ -5,9 +5,9 @@ namespace LoveMachine.Core
     /// <summary>
     /// Base type for all LoveMachine plugins.
     /// </summary>
-    /// <typeparam name="G">The GameDescriptor type for this plugin.</typeparam>
+    /// <typeparam name="G">The GameAdapter type for this plugin.</typeparam>
     public abstract class LoveMachinePlugin<G> : BaseUnityPlugin
-        where G : GameDescriptor
+        where G : GameAdapter
     {
         protected virtual void Start()
         {

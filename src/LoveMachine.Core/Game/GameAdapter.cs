@@ -11,7 +11,7 @@ namespace LoveMachine.Core
     /// <summary>
     /// Extend this class if you want to add a new game.
     /// </summary>
-    public abstract class GameDescriptor : CoroutineHandler
+    public abstract class GameAdapter : CoroutineHandler
     {
         internal event EventHandler<HEventArgs> OnHStarted;
 

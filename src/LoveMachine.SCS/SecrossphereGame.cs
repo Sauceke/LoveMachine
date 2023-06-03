@@ -8,7 +8,7 @@ using UnityEngine;
 
 namespace LoveMachine.SCS
 {
-    internal class SecrossphereGame : GameDescriptor
+    internal class SecrossphereGame : GameAdapter
     {
         private object scene;
         private MonoBehaviour[] females;

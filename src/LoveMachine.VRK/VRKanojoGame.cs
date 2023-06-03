@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace LoveMachine.VRK
 {
-    internal class VRKanojoGame : GameDescriptor
+    internal class VRKanojoGame : GameAdapter
     {
         private CharFemale sakura;
 

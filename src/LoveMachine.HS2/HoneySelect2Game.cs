@@ -10,7 +10,7 @@ using UnityEngine;
 
 namespace LoveMachine.HS2
 {
-    internal sealed class HoneySelect2Game : GameDescriptor
+    internal sealed class HoneySelect2Game : GameAdapter
     {
         private HScene hScene;
         private GameObject[] roots;

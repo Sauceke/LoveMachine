@@ -5,8 +5,8 @@ namespace LoveMachine.Core
 {
     internal static class GameHooks
     {
-        private static GameDescriptor Game =>
-            Globals.ManagerObject.GetComponent<GameDescriptor>();
+        private static GameAdapter Game =>
+            Globals.ManagerObject.GetComponent<GameAdapter>();
 
         public static void InstallHooks()
         {

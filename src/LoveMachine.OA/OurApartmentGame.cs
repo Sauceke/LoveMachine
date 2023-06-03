@@ -8,7 +8,7 @@ using UnityEngine;
 
 namespace LoveMachine.OA
 {
-    internal sealed class OurApartmentGame : GameDescriptor
+    internal sealed class OurApartmentGame : GameAdapter
     {
         private static readonly string[] layerNames =
             { "Base SexSim", "From Behind SexSim", "Couch Missionary SexSim" };

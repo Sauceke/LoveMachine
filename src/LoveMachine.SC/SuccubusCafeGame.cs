@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace LoveMachine.SC
 {
-    internal class SuccubusCafeGame : GameDescriptor
+    internal class SuccubusCafeGame : GameAdapter
     {
         private Traverse<int> ladyNumber;
         private Traverse<int> aideNumber;

@@ -11,7 +11,7 @@ using UnityEngine;
 
 namespace LoveMachine.PH
 {
-    internal sealed class PlayHomeGame : GameDescriptor
+    internal sealed class PlayHomeGame : GameAdapter
     {
         private static readonly H_STATE[] activeHStates = { H_STATE.LOOP, H_STATE.SPURT };
 

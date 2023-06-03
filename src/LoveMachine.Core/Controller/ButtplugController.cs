@@ -8,7 +8,7 @@ namespace LoveMachine.Core
     public abstract class ButtplugController : CoroutineHandler
     {
         protected ButtplugWsClient client;
-        protected GameDescriptor game;
+        protected GameAdapter game;
         private AnimationAnalyzer analyzer;
 
         private readonly Dictionary<Device, float> normalizedLatencies =
@@ -33,7 +33,7 @@ namespace LoveMachine.Core
         protected virtual void Start()
         {
             client = GetComponent<ButtplugWsClient>();
-            game = GetComponent<GameDescriptor>();
+            game = GetComponent<GameAdapter>();
             analyzer = GetComponent<AnimationAnalyzer>();
             game.OnHStarted += (s, a) => OnStartH();
             game.OnHEnded += (s, a) => OnEndH();

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace LoveMachine.KK
 {
-    internal abstract class AbstractKoikatsuGame : GameDescriptor
+    internal abstract class AbstractKoikatsuGame : GameAdapter
     {
         protected override Dictionary<Bone, string> FemaleBoneNames => new Dictionary<Bone, string>
         {

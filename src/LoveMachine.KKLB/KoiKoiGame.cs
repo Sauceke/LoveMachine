@@ -8,7 +8,7 @@ using UnityEngine;
 
 namespace LoveMachine.KKLB
 {
-    public class KoiKoiGame : GameDescriptor
+    public class KoiKoiGame : GameAdapter
     {
         private Traverse<GameObject> root;
         private Traverse<bool> busy;

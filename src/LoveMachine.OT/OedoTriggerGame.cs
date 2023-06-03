@@ -9,7 +9,7 @@ using UnityEngine;
 
 namespace LoveMachine.OT
 {
-    internal class OedoTriggerGame : TimelineGameDescriptor
+    internal class OedoTriggerGame : TimelineGameAdapter
     {
         private GameObject[] femaleRoots;
         

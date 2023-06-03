@@ -9,7 +9,7 @@ using UnityEngine;
 
 namespace LoveMachine.LE
 {
-    public class LastEvilGame : GameDescriptor
+    public class LastEvilGame : GameAdapter
     {
         private const string root = "EventSceneFramework/Root/Entities";
         private static readonly string[] ballsNames = { "ActorMan_Ball2", "Dick_Ball2" };

@@ -9,9 +9,9 @@ using UnityEngine;
 namespace LoveMachine.Core
 {
     /// <summary>
-    /// GameDescriptor for games that use Unity Timeline to animate H-scenes.
+    /// GameAdapter for games that use Unity Timeline to animate H-scenes.
     /// </summary>
-    public abstract class TimelineGameDescriptor : GameDescriptor
+    public abstract class TimelineGameAdapter : GameAdapter
     {
         private Traverse director;
         private Traverse timeline;

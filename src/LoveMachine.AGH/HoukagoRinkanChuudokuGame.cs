@@ -9,7 +9,7 @@ using UnityEngine;
 
 namespace LoveMachine.AGH
 {
-    internal sealed class HoukagoRinkanChuudokuGame : GameDescriptor
+    internal sealed class HoukagoRinkanChuudokuGame : GameAdapter
     {
         private static readonly Dictionary<Bone, string> sayaBones = new Dictionary<Bone, string>
         {

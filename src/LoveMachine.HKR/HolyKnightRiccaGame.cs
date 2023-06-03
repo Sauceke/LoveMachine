@@ -7,7 +7,7 @@ using UnityEngine.Timeline;
 
 namespace LoveMachine.HKR;
 
-internal class HolyKnightRiccaGame : TimelineGameDescriptor
+internal class HolyKnightRiccaGame : TimelineGameAdapter
 {
     private static readonly string[] dickBasePaths =
     {

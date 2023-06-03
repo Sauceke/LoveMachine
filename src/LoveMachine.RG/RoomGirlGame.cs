@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace LoveMachine.RG;
 
-internal class RoomGirlGame : GameDescriptor
+internal class RoomGirlGame : GameAdapter
 {
     private Animator femaleAnimator;
     private Traverse ctrlFlag;

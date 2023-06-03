@@ -8,7 +8,7 @@ using UnityEngine;
 
 namespace LoveMachine.I2C
 {
-    public class CamlannGame : GameDescriptor
+    public class CamlannGame : GameAdapter
     {
         private GameObject hRoot;
         private Animator hAnimator;
