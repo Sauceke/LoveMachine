@@ -15,7 +15,7 @@ namespace LoveMachine.Core
             int subdivisions = 2 * (int)Mathf.Max(1f, durationSecs * updateFrequency / 2);
             int segments = device.Settings.StrokerSettings.SmoothStroking ? subdivisions : 2;
             float startCompletion = strokeInfo.Completion;
-            float nextSegmentCompletion = Mathf.Floor(startCompletion * segments + 1) / segments;
+            float nextSegmentCompletion = Mathf.Round(startCompletion * segments + 1) / segments;
             float timeToNextSegmentSecs = (nextSegmentCompletion - startCompletion) * durationSecs;
             GetStrokeZone(durationSecs, device, strokeInfo, out float bottom, out float top);
             float currentPosition = Mathf.Lerp(bottom, top, Sinusoid(startCompletion));
