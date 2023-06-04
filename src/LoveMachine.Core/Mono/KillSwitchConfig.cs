@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace LoveMachine.Core
 {
-    public static class KillSwitchConfig
+    internal static class KillSwitchConfig
     {
         public static ConfigEntry<KeyboardShortcut> KillSwitch { get; private set; }
         public static ConfigEntry<KeyboardShortcut> ResumeSwitch { get; private set; }

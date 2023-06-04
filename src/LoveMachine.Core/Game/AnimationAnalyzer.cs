@@ -8,7 +8,7 @@ using UnityEngine;
 
 namespace LoveMachine.Core
 {
-    public class AnimationAnalyzer : CoroutineHandler
+    internal class AnimationAnalyzer : CoroutineHandler
     {
         // pose -> result
         private readonly Dictionary<string, Result> resultCache =
