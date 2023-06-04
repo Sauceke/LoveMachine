@@ -13,6 +13,8 @@ namespace LoveMachine.Core
             float durationSecs = strokeInfo.DurationSecs;
             // max number of subdivisions given the update frequency
             int subdivisions = 2 * (int)Mathf.Max(1f, durationSecs * updateFrequency / 2);
+            // 4 subdivisions is mathematically the same as 2
+            subdivisions = subdivisions == 4 ? 2 : subdivisions;
             int segments = device.Settings.StrokerSettings.SmoothStroking ? subdivisions : 2;
             float startCompletion = strokeInfo.Completion;
             float nextSegmentCompletion = Mathf.Round(startCompletion * segments + 1) / segments;
