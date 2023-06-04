@@ -5,7 +5,7 @@ namespace LoveMachine.Core
 {
     internal sealed class StrokerController : ClassicButtplugController
     {
-        protected override bool IsDeviceSupported(Device device) => device.IsStroker;
+        public override bool IsDeviceSupported(Device device) => device.IsStroker;
 
         protected override IEnumerator HandleAnimation(Device device, StrokeInfo strokeInfo)
         {

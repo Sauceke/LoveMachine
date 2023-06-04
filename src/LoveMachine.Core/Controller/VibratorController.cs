@@ -6,7 +6,7 @@ namespace LoveMachine.Core
 {
     internal sealed class VibratorController : ClassicButtplugController
     {
-        protected override bool IsDeviceSupported(Device device) => device.IsVibrator;
+        public override bool IsDeviceSupported(Device device) => device.IsVibrator;
 
         protected override IEnumerator HandleAnimation(Device device, StrokeInfo strokeInfo)
         {

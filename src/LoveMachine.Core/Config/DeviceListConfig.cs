@@ -10,8 +10,9 @@ namespace LoveMachine.Core
         public static ConfigEntry<bool> ShowOfflineDevices { get; private set; }
         public static ConfigEntry<string> DeviceSettingsJson { get; private set; }
 
-        internal static void Initialize(BaseUnityPlugin plugin,
-            Action<ConfigEntryBase> deviceListDrawer)
+        public static event EventHandler<EventArgs> OnDraw; 
+
+        internal static void Initialize(BaseUnityPlugin plugin)
         {
             int order = 1000;
             const string deviceListTitle = "Device List";
@@ -34,7 +35,7 @@ namespace LoveMachine.Core
                 new ConfigDescription("",
                     tags: new ConfigurationManagerAttributes
                     {
-                        CustomDrawer = deviceListDrawer,
+                        CustomDrawer = entry => OnDraw.Invoke(null, EventArgs.Empty),
                         HideSettingName = true,
                         HideDefaultButton = true,
                         Order = --order

@@ -7,7 +7,7 @@ namespace LoveMachine.Core
     {
         private bool clockwise = true;
 
-        protected override bool IsDeviceSupported(Device device) => device.IsRotator;
+        public override bool IsDeviceSupported(Device device) => device.IsRotator;
 
         protected override IEnumerator HandleAnimation(Device device, StrokeInfo strokeInfo)
         {

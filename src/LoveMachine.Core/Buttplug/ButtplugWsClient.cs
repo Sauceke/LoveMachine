@@ -173,7 +173,6 @@ namespace LoveMachine.Core
                     .DeviceList.Devices;
                 var args = new DeviceListEventArgs(before: previousDevices, after: Devices);
                 OnDeviceListUpdated.Invoke(this, args);
-                LogDevices();
                 ReadBatteryLevels();
             }
             return handled;
@@ -191,21 +190,6 @@ namespace LoveMachine.Core
                     .ForEach(device => device.BatteryLevel = level);
             }
             return handled;
-        }
-
-        private void LogDevices()
-        {
-            Logger.LogInfo($"List of devices: {JsonMapper.ToJson(Devices)}");
-            if (Devices.Count == 0)
-            {
-                Logger.LogMessage("Warning: No devices connected to Intiface.");
-                return;
-            }
-            Logger.LogMessage($"{Devices.Count} device(s) connected to Intiface.");
-            Devices
-                .Where(device => !device.IsSupported)
-                .Select(device => $"Warning: device \"{device.DeviceName}\" not supported.")
-                .ToList().ForEach(Logger.LogMessage);
         }
 
         private void ReadBatteryLevels() =>

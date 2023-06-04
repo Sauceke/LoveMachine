@@ -6,7 +6,7 @@ namespace LoveMachine.Core
 {
     internal sealed class ConstrictController : ClassicButtplugController
     {
-        protected override bool IsDeviceSupported(Device device) => device.IsConstrictor;
+        public override bool IsDeviceSupported(Device device) => device.IsConstrictor;
 
         protected override IEnumerator HandleAnimation(Device device, StrokeInfo strokeInfo) =>
             DoConstrict(device, GetPressure(device, strokeInfo));

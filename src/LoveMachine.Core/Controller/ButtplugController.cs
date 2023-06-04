@@ -14,7 +14,7 @@ namespace LoveMachine.Core
         private readonly Dictionary<Device, float> normalizedLatencies =
             new Dictionary<Device, float>();
 
-        protected abstract bool IsDeviceSupported(Device device);
+        public abstract bool IsDeviceSupported(Device device);
 
         protected abstract IEnumerator Run(Device device);
 

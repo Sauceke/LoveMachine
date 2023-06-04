@@ -14,7 +14,6 @@ namespace LoveMachine.Core
         public float BatteryLevel { get; set; }
         public DeviceSettings Settings { get; set; } = new DeviceSettings();
 
-        public bool IsSupported => IsVibrator || IsConstrictor || IsStroker || IsRotator;
         public bool IsVibrator => DeviceMessages.ScalarCmd?.Any(f => f.IsVibrator) ?? false;
         public bool IsConstrictor => DeviceMessages.ScalarCmd?.Any(f => f.IsConstrictor) ?? false;
         public bool IsStroker => DeviceMessages.LinearCmd != null;

@@ -1,20 +1,45 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using BepInEx.Configuration;
+using LitJson;
 using UnityEngine;
 
 namespace LoveMachine.Core
 {
-    internal class DeviceListGUI
+    internal class DeviceListGUI : CoroutineHandler
     {
-        private static List<Device> cachedDeviceList = new List<Device>();
-        
-        private static float testPosition;
-        
-        public static void DeviceListDrawer(ConfigEntryBase entry)
+        private ButtplugWsClient client;
+        private ClassicButtplugController[] controllers;
+        private List<Device> cachedDeviceList = new List<Device>();
+        private float testPosition;
+
+        private void Start()
         {
-            var serverController = Globals.ManagerObject.GetComponent<ButtplugWsClient>();
+            client = GetComponent<ButtplugWsClient>();
+            controllers = GetComponents<ClassicButtplugController>();
+            client.OnDeviceListUpdated += LogDevices;
+            DeviceListConfig.OnDraw += DrawFullDeviceList;
+        }
+
+        private void LogDevices(object sender, ButtplugWsClient.DeviceListEventArgs args)
+        {
+            var devices = args.After;
+            Logger.LogInfo($"List of devices: {JsonMapper.ToJson(devices)}");
+            if (devices.Count == 0)
+            {
+                Logger.LogMessage("Warning: No devices connected to Intiface.");
+                return;
+            }
+            Logger.LogMessage($"{devices.Count} device(s) connected to Intiface.");
+            devices
+                .Where(device => !IsDeviceSupported(device))
+                .Select(device => $"Warning: device \"{device.DeviceName}\" not supported.")
+                .ToList()
+                .ForEach(Logger.LogMessage);
+        }
+
+        private void DrawFullDeviceList(object sender, EventArgs args)
+        {
             GUILayout.BeginVertical(GUILayout.ExpandWidth(true));
             {
                 GUILayout.BeginHorizontal();
@@ -22,12 +47,12 @@ namespace LoveMachine.Core
                     GUILayout.FlexibleSpace();
                     if (GUILayout.Button("Connect", GUILayout.Width(150)))
                     {
-                        serverController.Connect();
+                        client.Connect();
                     }
-                    GUI.enabled = serverController.IsConnected;
+                    GUI.enabled = client.IsConnected;
                     if (GUILayout.Button("Scan", GUILayout.Width(150)))
                     {
-                        serverController.StartScan();
+                        client.StartScan();
                     }
                     GUI.enabled = true;
                     GUILayout.FlexibleSpace();
@@ -37,7 +62,7 @@ namespace LoveMachine.Core
                 // imgui doesn't expect the layout to change outside of layout events
                 if (Event.current.type == EventType.Layout)
                 {
-                    cachedDeviceList = serverController.Devices;
+                    cachedDeviceList = client.Devices;
                 }
                 foreach (var device in cachedDeviceList)
                 {
@@ -51,7 +76,7 @@ namespace LoveMachine.Core
             GUILayout.EndVertical();
         }
 
-        private static void DrawDevicePanel(Device device)
+        private void DrawDevicePanel(Device device)
         {
             GUILayout.BeginVertical(GetDevicePanelStyle());
             {
@@ -73,7 +98,7 @@ namespace LoveMachine.Core
             GUIUtil.SingleSpace();
         }
 
-        private static void DrawOfflineDeviceList(List<Device> onlineDevices)
+        private void DrawOfflineDeviceList(List<Device> onlineDevices)
         {
             var settings = DeviceManager.DeviceSettings;
             foreach (var setting in settings)
@@ -100,9 +125,11 @@ namespace LoveMachine.Core
             DeviceManager.DeviceSettings = settings;
         }
 
-        private static void TestDevice(Device device) => Array.ForEach(
-            Globals.ManagerObject.GetComponents<ClassicButtplugController>(),
-            controller => controller.Test(device, pos => testPosition = pos));
+        private void TestDevice(Device device) => controllers.ToList()
+            .ForEach(controller => controller.Test(device, pos => testPosition = pos));
+
+        private bool IsDeviceSupported(Device device) =>
+            controllers.Any(controller => controller.IsDeviceSupported(device));
 
         private static GUIStyle GetDevicePanelStyle() => new GUIStyle
         {

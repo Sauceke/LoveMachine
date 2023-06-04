@@ -7,7 +7,7 @@ namespace LoveMachine.KK
 {
     internal class KoikatsuAnimationController : ButtplugController
     {
-        protected override bool IsDeviceSupported(Device device) =>
+        public override bool IsDeviceSupported(Device device) =>
             throw new NotImplementedException();
 
         protected override IEnumerator Run(Device device) =>
