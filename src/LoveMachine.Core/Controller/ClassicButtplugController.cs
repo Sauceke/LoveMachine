@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections;
-using System.Linq;
 using UnityEngine;
 
 namespace LoveMachine.Core
@@ -94,26 +93,21 @@ namespace LoveMachine.Core
             {
                 yield break;
             }
-            float[] durations = Enumerable.Repeat(2f, 2)
-                .Concat(Enumerable.Repeat(1f, 2))
-                .Concat(Enumerable.Repeat(0.3f, 5))
-                .ToArray();
-            foreach (float duration in durations)
-            {
-                yield return HandleCoroutine(EmulateStroke(device, duration, display));
-            }
+            yield return HandleCoroutine(EmulateStrokes(device, 2, 2f, display));
+            yield return HandleCoroutine(EmulateStrokes(device, 2, 1f, display));
+            yield return HandleCoroutine(EmulateStrokes(device, 5, 0.3f, display));
         }
 
         private IEnumerator HandleStroke(Device device, float durationSecs) =>
-            EmulateStroke(device, durationSecs, position => { });
+            EmulateStrokes(device, count: 1, durationSecs, position => { });
 
-        private IEnumerator EmulateStroke(Device device, float durationSecs,
+        private IEnumerator EmulateStrokes(Device device, int count, float durationSecs,
             DisplayPosition display)
         {
             float startTime = Time.unscaledTime;
-            while (Time.unscaledTime - startTime < durationSecs)
+            while (Time.unscaledTime < startTime + count * durationSecs)
             {
-                float completion = (Time.unscaledTime - startTime) / durationSecs;
+                float completion = ((Time.unscaledTime - startTime) / durationSecs) % 1f;
                 var strokeInfo = new StrokeInfo
                 {
                     Amplitude = 1f,
