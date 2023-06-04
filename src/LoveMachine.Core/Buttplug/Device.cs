@@ -24,6 +24,13 @@ namespace LoveMachine.Core
 
         internal bool Matches(DeviceSettings settings) => settings.DeviceName == DeviceName;
 
+        internal void CleanUpSettings()
+        {
+            Settings.StrokerSettings = IsStroker ? Settings.StrokerSettings : null;
+            Settings.VibratorSettings = IsVibrator ? Settings.VibratorSettings : null;
+            Settings.ConstrictSettings = IsConstrictor ? Settings.ConstrictSettings : null;
+        }
+
         internal void Draw()
         {
             GUILayout.BeginHorizontal();

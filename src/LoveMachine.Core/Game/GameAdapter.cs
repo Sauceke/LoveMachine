@@ -112,12 +112,6 @@ namespace LoveMachine.Core
         [HideFromIl2Cpp]
         protected internal virtual float MinOrgasmDurationSecs => 0f;
 
-        /// <summary>
-        /// Wrapper of Time.timeScale for testability.
-        /// </summary>
-        [HideFromIl2Cpp]
-        protected internal virtual float TimeScale => Time.timeScale;
-
         internal bool IsHSceneRunning { get; private set; }
 
         /// <summary>
@@ -240,7 +234,7 @@ namespace LoveMachine.Core
         internal float GetAnimationTimeSecs(int girlIndex)
         {
             GetAnimState(girlIndex, out _, out float length, out float speed);
-            float animTimeSecs = length / speed / TimeScale;
+            float animTimeSecs = length / speed / Time.timeScale;
             // prevent coroutines from hanging e.g. when the game is paused
             return animTimeSecs > 100f || animTimeSecs < 0.001f || float.IsNaN(animTimeSecs)
                 ? .01f

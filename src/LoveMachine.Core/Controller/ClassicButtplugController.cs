@@ -5,6 +5,8 @@ using UnityEngine;
 namespace LoveMachine.Core
 {
     /// <summary>
+    /// More refined version of ButtplugController with stroke emulation
+    /// capabilities.
     /// If you want to add a new device type, you'll probably need to extend
     /// this class.
     /// </summary>
@@ -14,10 +16,7 @@ namespace LoveMachine.Core
         /// How to react to the current state of the animation. <br/>
         /// This will be called repeatedly while there is a sex animation
         /// playing AND the character assigned to this device is not currently
-        /// climaxing. <br/>
-        /// This is also used for testing, so do NOT do anything here that
-        /// depends on some external state that isn't available outside of
-        /// H-scenes.
+        /// climaxing.
         /// </summary>
         protected abstract IEnumerator HandleAnimation(Device device, StrokeInfo strokeInfo);
 
@@ -82,7 +81,7 @@ namespace LoveMachine.Core
             throw new NotImplementedException();
 
         private bool IsIdleOrPaused(Device device) =>
-            game.IsIdle(device.Settings.GirlIndex) || game.TimeScale == 0f;
+            game.IsIdle(device.Settings.GirlIndex) || Time.timeScale == 0f;
 
         public void Test(Device device, DisplayPosition display) =>
             HandleCoroutine(RunTest(device, display));

@@ -54,15 +54,7 @@ namespace LoveMachine.Core
             {
                 device.Settings = settings.Find(device.Matches) ?? device.Settings;
                 settings.Remove(device.Settings);
-                device.Settings.StrokerSettings = device.IsStroker
-                    ? device.Settings.StrokerSettings
-                    : null;
-                device.Settings.VibratorSettings = device.IsVibrator
-                    ? device.Settings.VibratorSettings
-                    : null;
-                device.Settings.ConstrictSettings = device.IsConstrictor
-                    ? device.Settings.ConstrictSettings
-                    : null;
+                device.CleanUpSettings();
             }
         }
     }

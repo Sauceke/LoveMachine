@@ -10,7 +10,7 @@ namespace LoveMachine.Core
         public static ConfigEntry<bool> ShowOfflineDevices { get; private set; }
         public static ConfigEntry<string> DeviceSettingsJson { get; private set; }
 
-        public static event EventHandler<EventArgs> OnDraw; 
+        public static event EventHandler<EventArgs> OnDraw;
 
         internal static void Initialize(BaseUnityPlugin plugin)
         {
