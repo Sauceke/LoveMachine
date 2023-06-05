@@ -95,11 +95,15 @@ namespace LoveMachine.Core
             yield return HandleCoroutine(EmulateStrokes(device, 2, 2f, display));
             yield return HandleCoroutine(EmulateStrokes(device, 2, 1f, display));
             yield return HandleCoroutine(EmulateStrokes(device, 5, 0.3f, display));
+            client.StopDeviceCmd(device);
         }
 
-        private IEnumerator HandleStroke(Device device, float durationSecs) =>
-            EmulateStrokes(device, count: 1, durationSecs, position => { });
-
+        private IEnumerator HandleStroke(Device device, float durationSecs)
+        {
+            yield return HandleCoroutine(EmulateStrokes(device, count: 1, durationSecs, _ => { }));
+            client.StopDeviceCmd(device);
+        }
+        
         private IEnumerator EmulateStrokes(Device device, int count, float durationSecs,
             DisplayPosition display)
         {
