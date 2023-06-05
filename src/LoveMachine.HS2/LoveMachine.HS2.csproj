@@ -2,7 +2,6 @@
   <PropertyGroup>
     <TargetFramework>net46</TargetFramework>
     <OutputPath>..\bin\LoveMachine.HS2\BepInEx\plugins\HS2_LoveMachine\</OutputPath>
-    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\LoveMachine.Core\LoveMachine.Core.csproj" />

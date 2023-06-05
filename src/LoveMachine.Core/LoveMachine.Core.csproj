@@ -2,14 +2,9 @@
   <PropertyGroup>
     <TargetFramework>net35</TargetFramework>
     <AssemblyTitle>LoveMachine.Core</AssemblyTitle>
-    <AssemblyVersion>$(Version)</AssemblyVersion>
-    <AssemblyFileVersion>$(Version)</AssemblyFileVersion>
-    <Company>Sauceke</Company>
     <Product>LoveMachine.Core</Product>
-    <Copyright>2021</Copyright>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <OutputPath>..\bin\LoveMachine.Core\</OutputPath>
-    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
   </PropertyGroup>
   <Target Name="EmbedVersion" BeforeTargets="BeforeBuild">
     <PropertyGroup>

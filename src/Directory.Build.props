@@ -1,0 +1,10 @@
+<Project>
+    <PropertyGroup>
+        <Company>Sauceke</Company>
+        <Copyright>2021-2023 Sauceke</Copyright>
+        <Description>https://sauceke.github.io/LoveMachine</Description>
+        <AssemblyVersion>$(Version)</AssemblyVersion>
+        <AssemblyFileVersion>$(Version)</AssemblyFileVersion>
+        <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    </PropertyGroup>
+</Project>

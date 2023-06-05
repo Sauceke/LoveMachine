@@ -2,7 +2,6 @@
   <PropertyGroup>
     <TargetFramework>net35</TargetFramework>
     <OutputPath>..\bin\LoveMachine.IO\BepInEx\plugins\IO_LoveMachine\</OutputPath>
-    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\LoveMachine.Core\LoveMachine.Core.csproj" />

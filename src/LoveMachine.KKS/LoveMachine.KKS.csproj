@@ -3,7 +3,6 @@
     <TargetFramework>net46</TargetFramework>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <OutputPath>..\bin\LoveMachine.KKS\BepInEx\plugins\KKS_LoveMachine\</OutputPath>
-    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="..\LoveMachine.KK\*.cs" LinkBase="Included" />
