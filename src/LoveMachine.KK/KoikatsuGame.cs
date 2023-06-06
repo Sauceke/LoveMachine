@@ -102,6 +102,15 @@ namespace LoveMachine.KK
             }
         }
 
+        protected override void GetAnimState(int girlIndex, out float normalizedTime,
+            out float length, out float speed)
+        {
+            var state = GetAnimatorStateInfo(girlIndex);
+            normalizedTime = state.normalizedTime;
+            length = state.length;
+            speed = 1f; // inexplicably becomes 2 during OLoop
+        }
+
         protected override string GetPose(int girlIndex) =>
             // Sideloaded animations all have the same id and name.
             // The only surefire way to uniquely identify an animation seems
