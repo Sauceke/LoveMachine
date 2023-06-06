@@ -9,7 +9,4 @@
     <ItemGroup>
         <PackageReference Include="UnityEngine.Core" Version="5.6.0" ExcludeAssets="runtime" />
     </ItemGroup>
-    <ItemGroup>
-      <Folder Include="tweaks" />
-    </ItemGroup>
 </Project>

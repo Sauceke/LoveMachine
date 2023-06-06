@@ -1,12 +1,12 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-  <PropertyGroup>
-    <TargetFramework>net35</TargetFramework>
-    <OutputPath>..\bin\LoveMachine.COM3D2\BepInEx\plugins\COM3D2_LoveMachine\</OutputPath>
-  </PropertyGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\LoveMachine.Core\LoveMachine.Core.csproj" />
-  </ItemGroup>
-  <ItemGroup>
-    <PackageReference Include="UnityEngine.Core" Version="5.6.0" ExcludeAssets="runtime" />
-  </ItemGroup>
+    <PropertyGroup>
+        <TargetFramework>net35</TargetFramework>
+        <OutputPath>..\bin\LoveMachine.COM3D2\BepInEx\plugins\COM3D2_LoveMachine\</OutputPath>
+    </PropertyGroup>
+    <ItemGroup>
+        <ProjectReference Include="..\LoveMachine.Core\LoveMachine.Core.csproj" />
+    </ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="UnityEngine.Core" Version="5.6.0" ExcludeAssets="runtime" />
+    </ItemGroup>
 </Project>

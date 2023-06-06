@@ -1,19 +1,22 @@
 <Project Sdk="Microsoft.NET.Sdk">
-  <PropertyGroup>
-    <TargetFramework>net35</TargetFramework>
-    <AssemblyTitle>LoveMachine.Core.Pre54</AssemblyTitle>
-    <Product>LoveMachine.Core.Pre54</Product>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <OutputPath>..\bin\LoveMachine.Core.Pre54\</OutputPath>
-  </PropertyGroup>
-  <ItemGroup>
-    <Compile Include="..\LoveMachine.Core\**\*.cs" Exclude="..\LoveMachine.Core\obj\**\*.cs" LinkBase="Included" />
-  </ItemGroup>
-  <ItemGroup>
-    <PackageReference Include="BepInEx.Core" Version="5.4.11" ExcludeAssets="runtime" />
-    <PackageReference Include="HarmonyX" Version="2.4.2" ExcludeAssets="runtime" />
-    <PackageReference Include="LitJson" Version="0.17.0" PrivateAssets="all" />
-    <PackageReference Include="UnityEngine.Core" Version="5.6.0" ExcludeAssets="runtime" PrivateAssets="all" />
-    <PackageReference Include="WebSocket4Net" Version="0.15.2" PrivateAssets="all" />
-  </ItemGroup>
+    <PropertyGroup>
+        <TargetFramework>net35</TargetFramework>
+        <AssemblyTitle>LoveMachine.Core.Pre54</AssemblyTitle>
+        <Product>LoveMachine.Core.Pre54</Product>
+        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+        <OutputPath>..\bin\LoveMachine.Core.Pre54\</OutputPath>
+    </PropertyGroup>
+    <ItemGroup>
+        <Compile Include="..\LoveMachine.Core\**\*.cs"
+                 Exclude="..\LoveMachine.Core\obj\**\*.cs"
+                 LinkBase="Included" />
+    </ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="BepInEx.Core" Version="5.4.11" ExcludeAssets="runtime" />
+        <PackageReference Include="HarmonyX" Version="2.4.2" ExcludeAssets="runtime" />
+        <PackageReference Include="LitJson" Version="0.17.0" PrivateAssets="all" />
+        <PackageReference Include="UnityEngine.Core" Version="5.6.0" ExcludeAssets="runtime"
+                          PrivateAssets="all" />
+        <PackageReference Include="WebSocket4Net" Version="0.15.2" PrivateAssets="all" />
+    </ItemGroup>
 </Project>

@@ -1,14 +1,16 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-  <PropertyGroup>
-    <TargetFramework>net35</TargetFramework>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <OutputPath>..\bin\LoveMachine.VRK\BepInEx\plugins\VRK_LoveMachine\</OutputPath>
-  </PropertyGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\LoveMachine.Core\LoveMachine.Core.csproj" />
-  </ItemGroup>
-  <ItemGroup>
-    <PackageReference Include="IllusionLibs.VRKanojo.Assembly-CSharp" Version="2021.1.13.4" ExcludeAssets="runtime" />
-    <PackageReference Include="IllusionLibs.VRKanojo.UnityEngine" Version="5.4.5.4" ExcludeAssets="runtime" />
-  </ItemGroup>
+    <PropertyGroup>
+        <TargetFramework>net35</TargetFramework>
+        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+        <OutputPath>..\bin\LoveMachine.VRK\BepInEx\plugins\VRK_LoveMachine\</OutputPath>
+    </PropertyGroup>
+    <ItemGroup>
+        <ProjectReference Include="..\LoveMachine.Core\LoveMachine.Core.csproj" />
+    </ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="IllusionLibs.VRKanojo.Assembly-CSharp" Version="2021.1.13.4"
+                          ExcludeAssets="runtime" />
+        <PackageReference Include="IllusionLibs.VRKanojo.UnityEngine" Version="5.4.5.4"
+                          ExcludeAssets="runtime" />
+    </ItemGroup>
 </Project>
