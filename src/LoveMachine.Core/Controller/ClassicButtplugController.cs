@@ -36,7 +36,7 @@ namespace LoveMachine.Core
         
         protected override IEnumerator Run(Device device)
         {
-            foreach (var gimmick in Globals.ManagerObject.GetComponents<Gimmick>())
+            foreach (var gimmick in GetComponents<Gimmick>())
             {
                 Logger.LogInfo($"Running gimmick {gimmick.GetType()} for device " +
                     $"#{device.DeviceIndex} in controller {GetType()}.");

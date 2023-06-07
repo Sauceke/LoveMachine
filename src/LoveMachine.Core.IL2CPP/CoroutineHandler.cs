@@ -1,6 +1,7 @@
 ﻿using BepInEx.Unity.IL2CPP.Utils.Collections;
 using System.Collections;
 using BepInEx.Logging;
+using Il2CppInterop.Runtime.Injection;
 using UnityEngine;
 
 namespace LoveMachine.Core
@@ -28,5 +29,12 @@ namespace LoveMachine.Core
             HandleCoroutine(_WaitWhile(condition));
 
         protected Coroutine WaitUntil(Func<bool> condition) => WaitWhile(() => !condition());
+
+        protected new T[] GetComponents<T>()
+            where T : MonoBehaviour
+        {
+            ClassInjector.RegisterTypeInIl2Cpp<T>();
+            return base.GetComponents<T>();
+        }
     }
 }
