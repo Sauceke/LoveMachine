@@ -40,8 +40,9 @@ namespace LoveMachine.Core
             public T GetComponent<T>()
                 where T : MonoBehaviour => go.GetComponent<T>();
 
+            // temp fix until I figure out wtf went wrong here
             public T[] GetComponents<T>()
-                where T : MonoBehaviour => go.GetComponents<T>();
+                where T : MonoBehaviour => Array.Empty<T>();
         }
     }
 }

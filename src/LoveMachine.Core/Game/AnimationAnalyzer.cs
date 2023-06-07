@@ -60,6 +60,7 @@ namespace LoveMachine.Core
             return true;
         }
         
+        [HideFromIl2Cpp]
         private bool TryGetResult(int girlIndex, Bone bone, out Result result)
         {
             try
