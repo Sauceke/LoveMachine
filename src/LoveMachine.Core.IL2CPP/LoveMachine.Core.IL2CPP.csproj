@@ -9,14 +9,13 @@
         <OutputPath>..\bin\LoveMachine.Core.IL2CPP\</OutputPath>
     </PropertyGroup>
     <Target Name="EmbedVersion" BeforeTargets="BeforeBuild">
-        <WriteLinesToFile File="VersionInfo.cs"
+        <WriteLinesToFile File="PlatformSpecific/VersionInfo.cs"
                           Lines="$(_VersionTemplate.Replace('VERSION', $(Version)))"
-                          WriteOnlyWhenDifferent="true"
-                          Overwrite="true" />
+                          WriteOnlyWhenDifferent="true" Overwrite="true" />
     </Target>
     <ItemGroup>
         <Compile Include="..\LoveMachine.Core\**\*.cs"
-                 Exclude="..\LoveMachine.Core\obj\**\*.cs;..\LoveMachine.Core\Mono\*.cs"
+                 Exclude="..\LoveMachine.Core\obj\**\*.cs;..\LoveMachine.Core\PlatformSpecific\*.cs"
                  LinkBase="Included" />
     </ItemGroup>
     <ItemGroup>

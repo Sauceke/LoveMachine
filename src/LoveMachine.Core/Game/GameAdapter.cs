@@ -1,12 +1,14 @@
-﻿using Il2CppInterop.Runtime.Attributes;
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using Il2CppInterop.Runtime.Attributes;
+using LoveMachine.Core.Config;
+using LoveMachine.Core.PlatformSpecific;
 using UnityEngine;
 
-namespace LoveMachine.Core
+namespace LoveMachine.Core.Game
 {
     /// <summary>
     /// Extend this class if you want to add a new game.

@@ -3,7 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
 using HarmonyLib;
-using LoveMachine.Core;
+using LoveMachine.Core.Game;
+using LoveMachine.Core.Util;
 using UnityEngine;
 
 namespace LoveMachine.KKLB

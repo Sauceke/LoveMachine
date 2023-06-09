@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Linq;
 using System.Text.RegularExpressions;
+using LoveMachine.Core.Game;
+using LoveMachine.Core.PlatformSpecific;
+using LoveMachine.Core.Util;
 
-namespace LoveMachine.Core
+namespace LoveMachine.Core.Settings
 {
     public class DeviceSettings
     {

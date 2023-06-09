@@ -1,7 +1,7 @@
 ﻿using BepInEx;
 using BepInEx.Configuration;
 
-namespace LoveMachine.Core
+namespace LoveMachine.Core.Config
 {
     internal static class ConstrictConfig
     {

@@ -1,11 +1,11 @@
 ﻿using System;
-using HarmonyLib;
-using IllusionUtility.GetUtility;
 using System.Collections;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.Serialization;
-using LoveMachine.Core;
+using HarmonyLib;
+using IllusionUtility.GetUtility;
+using LoveMachine.Core.Game;
 using UnityEngine;
 
 namespace LoveMachine.KK

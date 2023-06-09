@@ -4,9 +4,10 @@ using System.Collections.Generic;
 using System.Linq;
 using HarmonyLib;
 using Il2CppInterop.Runtime.Attributes;
+using LoveMachine.Core.Util;
 using UnityEngine;
 
-namespace LoveMachine.Core
+namespace LoveMachine.Core.Game
 {
     /// <summary>
     /// GameAdapter for games that use Unity Timeline to animate H-scenes.

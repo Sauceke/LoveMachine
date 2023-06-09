@@ -7,10 +7,9 @@
         <OutputPath>..\bin\LoveMachine.Core\</OutputPath>
     </PropertyGroup>
     <Target Name="EmbedVersion" BeforeTargets="BeforeBuild">
-        <WriteLinesToFile File="Mono/VersionInfo.cs"
+        <WriteLinesToFile File="PlatformSpecific/VersionInfo.cs"
                           Lines="$(_VersionTemplate.Replace('VERSION', $(Version)))"
-                          WriteOnlyWhenDifferent="true"
-                          Overwrite="true" />
+                          WriteOnlyWhenDifferent="true" Overwrite="true" />
     </Target>
     <ItemGroup>
         <PackageReference Include="BepInEx.Core" Version="5.4.11" ExcludeAssets="runtime" />

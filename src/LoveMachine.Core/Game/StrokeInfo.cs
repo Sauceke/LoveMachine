@@ -1,4 +1,4 @@
-﻿namespace LoveMachine.Core
+﻿namespace LoveMachine.Core.Game
 {
     public struct StrokeInfo
     {

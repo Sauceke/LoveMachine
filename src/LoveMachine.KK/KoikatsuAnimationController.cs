@@ -1,6 +1,7 @@
-﻿using LoveMachine.Core;
-using System;
+﻿using System;
 using System.Collections;
+using LoveMachine.Core.Buttplug;
+using LoveMachine.Core.Controller;
 using UnityEngine;
 
 namespace LoveMachine.KK

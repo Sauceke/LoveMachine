@@ -1,4 +1,6 @@
-﻿namespace LoveMachine.Core
+﻿using LoveMachine.Core.Util;
+
+namespace LoveMachine.Core.Settings
 {
     public class ConstrictSettings
     {

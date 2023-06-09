@@ -1,19 +1,22 @@
 ﻿using System;
 using System.Collections;
+using BepInEx.Logging;
 
-namespace LoveMachine.Core
+namespace LoveMachine.Core.Util
 {
     internal static class CoroutineUtil
     {
-        public static IEnumerator HandleExceptions(IEnumerator coroutine, bool suppressExceptions)
+        public static IEnumerator HandleExceptions(IEnumerator coroutine, bool suppressExceptions,
+            ManualLogSource logger)
         {
-            while (TryNext(coroutine, suppressExceptions))
+            while (TryNext(coroutine, suppressExceptions, logger))
             {
                 yield return coroutine.Current;
             }
         }
 
-        private static bool TryNext(IEnumerator coroutine, bool suppressExceptions)
+        private static bool TryNext(IEnumerator coroutine, bool suppressExceptions,
+            ManualLogSource logger)
         {
             try
             {
@@ -21,7 +24,7 @@ namespace LoveMachine.Core
             }
             catch (Exception e)
             {
-                Globals.Logger.LogError($"Coroutine failed with exception: {e}");
+                logger.LogError($"Coroutine failed with exception: {e}");
                 if (suppressExceptions)
                 {
                     return false;

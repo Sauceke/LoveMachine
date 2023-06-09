@@ -2,7 +2,7 @@
 using BepInEx.Configuration;
 using UnityEngine;
 
-namespace LoveMachine.Core
+namespace LoveMachine.Core.PlatformSpecific
 {
     internal static class KillSwitchConfig
     {

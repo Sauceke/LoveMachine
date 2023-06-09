@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace LoveMachine.Core
+namespace LoveMachine.Core.Util
 {
     internal static class GUIUtil
     {
@@ -11,7 +11,7 @@ namespace LoveMachine.Core
                 LabelWithTooltip(label, tooltip);
                 float lower = 0f;
                 float upper = value;
-                Core.RangeSlider.Create(ref lower, ref upper, 0f, 1f);
+                Util.RangeSlider.Create(ref lower, ref upper, 0f, 1f);
                 PercentLabel(upper);
             }
             GUILayout.EndHorizontal();
@@ -26,7 +26,7 @@ namespace LoveMachine.Core
             {
                 LabelWithTooltip(label, tooltip);
                 GUILayout.Label(lower.ToString("N2"), GUILayout.ExpandWidth(false));
-                Core.RangeSlider.Create(ref lower, ref upper, min, max);
+                Util.RangeSlider.Create(ref lower, ref upper, min, max);
                 GUILayout.Label(upper.ToString("N2"), GUILayout.ExpandWidth(false));
                 if (ResetButton)
                 {
@@ -45,7 +45,7 @@ namespace LoveMachine.Core
             {
                 LabelWithTooltip(label, tooltip);
                 PercentLabel(lower);
-                Core.RangeSlider.Create(ref lower, ref upper, 0f, 1f);
+                Util.RangeSlider.Create(ref lower, ref upper, 0f, 1f);
                 PercentLabel(upper);
                 if (ResetButton)
                 {

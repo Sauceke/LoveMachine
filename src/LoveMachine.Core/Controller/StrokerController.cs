@@ -1,7 +1,10 @@
 ﻿using System.Collections;
+using LoveMachine.Core.Buttplug;
+using LoveMachine.Core.Config;
+using LoveMachine.Core.Game;
 using UnityEngine;
 
-namespace LoveMachine.Core
+namespace LoveMachine.Core.Controller
 {
     internal sealed class StrokerController : ClassicButtplugController
     {

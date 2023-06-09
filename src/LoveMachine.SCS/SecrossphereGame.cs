@@ -1,9 +1,9 @@
-﻿using HarmonyLib;
-using LoveMachine.Core;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using HarmonyLib;
+using LoveMachine.Core.Game;
 using UnityEngine;
 
 namespace LoveMachine.SCS

@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections;
+using LoveMachine.Core.Buttplug;
+using LoveMachine.Core.Extras;
+using LoveMachine.Core.Game;
 using UnityEngine;
 
-namespace LoveMachine.Core
+namespace LoveMachine.Core.Controller
 {
     /// <summary>
     /// More refined version of ButtplugController with stroke emulation

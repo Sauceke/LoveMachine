@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections;
+using LoveMachine.Core.Buttplug;
+using LoveMachine.Core.Game;
+using LoveMachine.Core.Settings;
 using UnityEngine;
 
-namespace LoveMachine.Core
+namespace LoveMachine.Core.Controller
 {
     internal sealed class VibratorController : ClassicButtplugController
     {

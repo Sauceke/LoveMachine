@@ -1,9 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using LitJson;
+using LoveMachine.Core.Config;
+using LoveMachine.Core.Settings;
 using UnityEngine;
 
-namespace LoveMachine.Core
+namespace LoveMachine.Core.Buttplug
 {
     internal class DeviceManager : MonoBehaviour
     {

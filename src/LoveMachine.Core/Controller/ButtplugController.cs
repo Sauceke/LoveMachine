@@ -1,9 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using LoveMachine.Core.Buttplug;
+using LoveMachine.Core.Game;
+using LoveMachine.Core.PlatformSpecific;
 using UnityEngine;
 
-namespace LoveMachine.Core
+namespace LoveMachine.Core.Controller
 {
     public abstract class ButtplugController : CoroutineHandler
     {

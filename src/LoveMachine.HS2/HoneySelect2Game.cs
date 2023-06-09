@@ -1,11 +1,11 @@
-﻿using HarmonyLib;
-using IllusionUtility.GetUtility;
-using LoveMachine.Core;
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using HarmonyLib;
+using IllusionUtility.GetUtility;
+using LoveMachine.Core.Game;
 using UnityEngine;
 
 namespace LoveMachine.HS2

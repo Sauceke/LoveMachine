@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace LoveMachine.Core
+namespace LoveMachine.Core.Util
 {
     public struct RangeSlider
     {

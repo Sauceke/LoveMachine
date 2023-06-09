@@ -1,6 +1,8 @@
-﻿using LoveMachine.Core;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
+using LoveMachine.Core.Buttplug;
+using LoveMachine.Core.Extras;
+using LoveMachine.Core.Game;
 using UnityEngine;
 
 namespace LoveMachine.KK

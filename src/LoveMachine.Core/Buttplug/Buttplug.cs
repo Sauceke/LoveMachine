@@ -1,9 +1,9 @@
-﻿using BepInEx;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using BepInEx;
 
-namespace LoveMachine.Core
+namespace LoveMachine.Core.Buttplug
 {
     public class Buttplug
     {

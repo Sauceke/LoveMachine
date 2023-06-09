@@ -1,7 +1,9 @@
 ﻿using System.Linq;
+using LoveMachine.Core.Settings;
+using LoveMachine.Core.Util;
 using UnityEngine;
 
-namespace LoveMachine.Core
+namespace LoveMachine.Core.Buttplug
 {
     public class Device : Buttplug.Device
     {

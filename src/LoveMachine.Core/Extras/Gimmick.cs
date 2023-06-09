@@ -1,8 +1,9 @@
 ﻿using System.Collections;
 using Il2CppInterop.Runtime.Attributes;
+using LoveMachine.Core.Buttplug;
 using UnityEngine;
 
-namespace LoveMachine.Core
+namespace LoveMachine.Core.Extras
 {
     /// <summary>
     /// Extend this if the game you're modding has additional "buttplug-able"

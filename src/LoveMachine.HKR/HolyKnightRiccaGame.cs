@@ -1,6 +1,6 @@
 ﻿using System.Reflection;
 using HarmonyLib;
-using LoveMachine.Core;
+using LoveMachine.Core.Game;
 using UnityEngine;
 using UnityEngine.Playables;
 using UnityEngine.Timeline;

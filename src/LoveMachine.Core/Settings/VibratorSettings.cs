@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Linq;
+using LoveMachine.Core.Util;
 using UnityEngine;
 
-namespace LoveMachine.Core
+namespace LoveMachine.Core.Settings
 {
     public class VibratorSettings
     {

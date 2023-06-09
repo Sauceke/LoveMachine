@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Linq;
 using LoveMachine.Core;
+using LoveMachine.Core.Buttplug;
+using LoveMachine.Core.Extras;
 using UnityEngine;
 
 namespace LoveMachine.HS2

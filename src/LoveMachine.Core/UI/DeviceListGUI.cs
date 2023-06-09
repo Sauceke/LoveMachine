@@ -2,9 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using LitJson;
+using LoveMachine.Core.Buttplug;
+using LoveMachine.Core.Config;
+using LoveMachine.Core.Controller;
+using LoveMachine.Core.PlatformSpecific;
+using LoveMachine.Core.Util;
 using UnityEngine;
 
-namespace LoveMachine.Core
+namespace LoveMachine.Core.UI
 {
     internal class DeviceListGUI : CoroutineHandler
     {
