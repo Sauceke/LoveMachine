@@ -16,21 +16,6 @@ public class CoroutineHandler : MonoBehaviour
         StartCoroutine(CoroutineUtil.HandleExceptions(coroutine, suppressExceptions, Logger)
             .WrapToIl2Cpp());
 
-    // couldn't figure out how to convert Func<> to Il2CppSystem.Func<>
-    // oh well
-    private static IEnumerator _WaitWhile(Func<bool> condition)
-    {
-        while (condition())
-        {
-            yield return new WaitForEndOfFrame();
-        }
-    }
-
-    protected Coroutine WaitWhile(Func<bool> condition) =>
-        HandleCoroutine(_WaitWhile(condition));
-
-    protected Coroutine WaitUntil(Func<bool> condition) => WaitWhile(() => !condition());
-
     protected new T[] GetComponents<T>()
         where T : MonoBehaviour
     {

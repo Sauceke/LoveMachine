@@ -13,11 +13,5 @@ namespace LoveMachine.Core.PlatformSpecific
         protected Coroutine HandleCoroutine(IEnumerator coroutine,
             bool suppressExceptions = false) =>
             StartCoroutine(CoroutineUtil.HandleExceptions(coroutine, suppressExceptions, Logger));
-
-        protected CustomYieldInstruction WaitWhile(Func<bool> condition) =>
-            new WaitWhile(condition);
-
-        protected CustomYieldInstruction WaitUntil(Func<bool> condition) =>
-            new WaitUntil(condition);
     }
 }

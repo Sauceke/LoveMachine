@@ -45,37 +45,44 @@ namespace LoveMachine.Core.Controller
                     $"#{device.DeviceIndex} in controller {GetType()}.");
                 HandleCoroutine(gimmick.Run(device, HandleLevel, HandleStroke));
             }
+            Coroutine strokeLoop = null;
+            const float refreshTimeSecs = 0.3f;
             while (true)
             {
+                yield return WaitForSecondsUnscaled(refreshTimeSecs);
                 if (game.IsOrgasming(device.Settings.GirlIndex))
                 {
+                    TryStopCoroutine(ref strokeLoop);
                     var orgasm = HandleCoroutine(HandleOrgasm(device));
-                    yield return new WaitForSecondsRealtime(game.MinOrgasmDurationSecs);
-                    yield return WaitWhile(() => game.IsOrgasming(device.Settings.GirlIndex));
-                    // unity may have destroyed the coroutine if it's already finished
-                    if (orgasm != null)
+                    yield return WaitForSecondsUnscaled(game.MinOrgasmDurationSecs);
+                    while (game.IsOrgasming(device.Settings.GirlIndex))
                     {
-                        StopCoroutine(orgasm);
+                        yield return WaitForSecondsUnscaled(refreshTimeSecs);
                     }
+                    TryStopCoroutine(ref orgasm);
                     continue;
                 }
                 if (IsIdleOrPaused(device))
                 {
+                    TryStopCoroutine(ref strokeLoop);
                     client.StopDeviceCmd(device);
                     while (IsIdleOrPaused(device))
                     {
-                        yield return new WaitForSecondsRealtime(0.1f);
+                        yield return WaitForSecondsUnscaled(refreshTimeSecs);
                     }
                     continue;
                 }
-                if (base.TryGetCurrentStrokeInfo(device, out var strokeInfo))
-                {
-                    yield return HandleCoroutine(HandleAnimation(device, strokeInfo));
-                }
-                else
-                {
-                    yield return new WaitForSecondsRealtime(0.1f);
-                }
+                strokeLoop = strokeLoop ?? HandleCoroutine(RunStrokeLoop(device));
+            }
+        }
+
+        private IEnumerator RunStrokeLoop(Device device)
+        {
+            while (true)
+            {
+                yield return base.TryGetCurrentStrokeInfo(device, out var strokeInfo)
+                    ? HandleCoroutine(HandleAnimation(device, strokeInfo))
+                    : WaitForSecondsUnscaled(0.1f);
             }
         }
 
@@ -123,6 +130,16 @@ namespace LoveMachine.Core.Controller
                 float position = (completion < 0.5f ? completion : 1f - completion) * 2f;
                 display(position);
                 yield return HandleCoroutine(HandleAnimation(device, strokeInfo));
+            }
+        }
+
+        private void TryStopCoroutine(ref Coroutine coroutine)
+        {
+            // unity may have destroyed the coroutine if it's already finished
+            if (coroutine != null)
+            {
+                StopCoroutine(coroutine);
+                coroutine = null;
             }
         }
 
