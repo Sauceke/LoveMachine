@@ -104,34 +104,37 @@ namespace LoveMachine.Core.Buttplug
 
         private IEnumerator OnOpened()
         {
-            yield return new WaitForEndOfFrame();
             Logger.LogInfo("Successfully connected to Intiface.");
             RequestServerInfo();
+            yield break;
         }
 
         private IEnumerator OnMessageReceived(MessageReceivedEventArgs e)
         {
-            yield return new WaitForEndOfFrame();
             foreach (JsonData data in JsonMapper.ToObject(e.Message))
             {
-                bool _ = CheckErrorMsg(data)
+                bool _ = CheckOkMsg(data)
+                    || CheckErrorMsg(data)
                     || CheckServerInfoMsg(data)
                     || CheckDeviceAddedRemovedMsg(data)
                     || CheckDeviceListMsg(data)
                     || CheckBatteryLevelReadingMsg(data);
             }
+            yield break;
         }
 
         private IEnumerator OnError(SuperSocket.ClientEngine.ErrorEventArgs e)
         {
-            yield return new WaitForEndOfFrame();
             Logger.LogWarning($"Websocket error: {e.Exception.Message}");
             if (e.Exception.Message.Contains("unreachable"))
             {
                 Logger.LogMessage("Error: Failed to connect to Intiface server.");
             }
+            yield break;
         }
 
+        private bool CheckOkMsg(JsonData data) => data.ContainsKey("Ok");
+        
         private bool CheckErrorMsg(JsonData data)
         {
             bool handled = data.ContainsKey("Error");
