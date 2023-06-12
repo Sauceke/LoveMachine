@@ -137,64 +137,64 @@ namespace LoveMachine.Core.Buttplug
         
         private bool CheckErrorMsg(JsonData data)
         {
-            bool handled = data.ContainsKey("Error");
-            if (handled)
+            if (!data.ContainsKey("Error"))
             {
-                Logger.LogWarning($"Error from Intiface: {data.ToJson()}");
+                return false;
             }
-            return handled;
+            Logger.LogWarning($"Error from Intiface: {data.ToJson()}");
+            return true;
         }
 
         private bool CheckServerInfoMsg(JsonData data)
         {
-            bool handled = data.ContainsKey("ServerInfo");
-            if (handled)
+            if (!data.ContainsKey("ServerInfo"))
             {
-                IsConnected = true;
-                Logger.LogInfo("Handshake successful.");
-                StartScan();
-                RequestDeviceList();
+                return false;
             }
-            return handled;
+            IsConnected = true;
+            Logger.LogInfo("Handshake successful.");
+            StartScan();
+            RequestDeviceList();
+            return true;
         }
 
         private bool CheckDeviceAddedRemovedMsg(JsonData data)
         {
-            bool handled = data.ContainsKey("DeviceAdded") || data.ContainsKey("DeviceRemoved");
-            if (handled)
+            if (!data.ContainsKey("DeviceAdded") && !data.ContainsKey("DeviceRemoved"))
             {
-                RequestDeviceList();
+                return false;
             }
-            return handled;
+            RequestDeviceList();
+            return true;
         }
 
         private bool CheckDeviceListMsg(JsonData data)
         {
-            bool handled = data.ContainsKey("DeviceList");
-            if (handled)
+            if (!data.ContainsKey("DeviceList"))
             {
-                var previousDevices = Devices;
-                Devices = JsonMapper.ToObject<Buttplug.DeviceListMessage<Device>>(data.ToJson())
-                    .DeviceList.Devices;
-                var args = new DeviceListEventArgs(before: previousDevices, after: Devices);
-                OnDeviceListUpdated.Invoke(this, args);
-                ReadBatteryLevels();
+                return false;
             }
-            return handled;
+            var previousDevices = Devices;
+            Devices = JsonMapper.ToObject<Buttplug.DeviceListMessage<Device>>(data.ToJson())
+                .DeviceList.Devices;
+            var args = new DeviceListEventArgs(before: previousDevices, after: Devices);
+            OnDeviceListUpdated.Invoke(this, args);
+            ReadBatteryLevels();
+            return true;
         }
 
         private bool CheckBatteryLevelReadingMsg(JsonData data)
         {
             var reading = JsonMapper.ToObject<Buttplug.SensorReadingMessage>(data.ToJson());
-            bool handled = reading.SensorReading?.SensorType == Buttplug.Feature.Battery;
-            if (handled)
+            if (reading.SensorReading?.SensorType != Buttplug.Feature.Battery)
             {
-                float level = reading.SensorReading.Data[0] / 100f;
-                int index = reading.SensorReading.DeviceIndex;
-                Devices.Where(device => device.DeviceIndex == index).ToList()
-                    .ForEach(device => device.BatteryLevel = level);
+                return false;
             }
-            return handled;
+            float level = reading.SensorReading.Data[0] / 100f;
+            int index = reading.SensorReading.DeviceIndex;
+            Devices.Where(device => device.DeviceIndex == index).ToList()
+                .ForEach(device => device.BatteryLevel = level);
+            return true;
         }
 
         private void ReadBatteryLevels() =>
