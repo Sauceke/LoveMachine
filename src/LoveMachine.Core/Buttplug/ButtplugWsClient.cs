@@ -126,9 +126,9 @@ namespace LoveMachine.Core.Buttplug
         private IEnumerator OnError(SuperSocket.ClientEngine.ErrorEventArgs e)
         {
             Logger.LogWarning($"Websocket error: {e.Exception.Message}");
-            if (e.Exception.Message.Contains("unreachable"))
+            if (!IsConnected)
             {
-                Logger.LogMessage("Error: Failed to connect to Intiface server.");
+                Logger.LogMessage("Error: Failed to connect to Intiface.");
             }
             yield break;
         }
