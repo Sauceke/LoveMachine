@@ -75,7 +75,6 @@ namespace LoveMachine.COM3D2
             normalizedTime = unlooper.LoopingToMonotonic(state.normalizedTime);
             length = state.length;
             speed = state.speed;
-            return;
         }
 
         private AnimationState GetActiveState() => FindCharaObject("Man[0]")
@@ -94,7 +93,7 @@ namespace LoveMachine.COM3D2
 
         private static GameObject FindCharaObject(string pattern) =>
             GameObject.Find("__GameMain__/Character/Active/AllOffset").transform.Cast<Transform>()
-                .Where(child => child?.gameObject?.name?.StartsWith(pattern) ?? false)
+                .Where(child => child?.gameObject.name.StartsWith(pattern) ?? false)
                 .Select(child => child.Find("Offset")?.GetChild(0))
                 .FirstOrDefault()?
                 .gameObject;

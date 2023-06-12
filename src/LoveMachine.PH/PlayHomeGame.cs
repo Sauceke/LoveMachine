@@ -32,7 +32,7 @@ namespace LoveMachine.PH
             { Bone.LeftHand, "cf_J_Hand_Index01_L" },
             { Bone.RightHand, "cf_J_Hand_Index01_R" },
             { Bone.LeftFoot, "k_f_toeL_00" },
-            { Bone.RightFoot, "k_f_toeR_00" },
+            { Bone.RightFoot, "k_f_toeR_00" }
         };
 
         protected override int HeroineCount => scene.mainMembers.females.Count;

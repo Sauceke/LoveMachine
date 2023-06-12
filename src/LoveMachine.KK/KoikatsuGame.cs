@@ -36,7 +36,7 @@ namespace LoveMachine.KK
             // anal
             "A_WLoop", "A_SLoop", "A_OLoop",
             // orgasm
-            "OLoop", "A_OLoop",
+            "OLoop", "A_OLoop"
         };
 
         private ObjectIDGenerator idGenerator;

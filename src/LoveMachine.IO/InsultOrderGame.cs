@@ -27,7 +27,7 @@ namespace LoveMachine.IO
             { Bone.LeftBreast, "HS_Breast_LL" },
             { Bone.RightBreast, "HS_Breast_RR" },
             { Bone.LeftFoot, "bip01 L Toe0Nub" },
-            { Bone.RightFoot, "bip01 R Toe0Nub" },
+            { Bone.RightFoot, "bip01 R Toe0Nub" }
         };
 
         protected override int HeroineCount => 1;

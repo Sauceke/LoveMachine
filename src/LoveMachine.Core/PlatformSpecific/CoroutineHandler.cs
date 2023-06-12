@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using BepInEx.Logging;
 using LoveMachine.Core.Util;
 using UnityEngine;
