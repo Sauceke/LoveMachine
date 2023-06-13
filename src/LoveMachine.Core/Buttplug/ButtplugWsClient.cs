@@ -47,8 +47,6 @@ namespace LoveMachine.Core.Buttplug
             websocket.Error += (s, e) => incoming.Enqueue(OnError(e));
             websocket.Open();
             HandleCoroutine(RunReceiveLoop());
-            HandleCoroutine(RunKillSwitchLoop());
-            HandleCoroutine(RunBatteryLoop());
         }
 
         public void Close()
@@ -104,7 +102,7 @@ namespace LoveMachine.Core.Buttplug
 
         private IEnumerator OnOpened()
         {
-            Logger.LogInfo("Successfully connected to Intiface.");
+            Logger.LogInfo("Connected to Intiface. Commencing handshake.");
             RequestServerInfo();
             yield break;
         }
@@ -151,10 +149,17 @@ namespace LoveMachine.Core.Buttplug
             {
                 return false;
             }
+            if (IsConnected)
+            {
+                Logger.LogWarning("Ignoring handshake message, client already registered.");
+                return true;
+            }
             IsConnected = true;
             Logger.LogInfo("Handshake successful.");
             StartScan();
             RequestDeviceList();
+            HandleCoroutine(RunKillSwitchLoop(), suppressExceptions: true);
+            HandleCoroutine(RunBatteryLoop());
             return true;
         }
 
@@ -220,9 +225,9 @@ namespace LoveMachine.Core.Buttplug
                 killSwitchThrown &= !KillSwitchConfig.ResumeSwitch.Value.IsPressed();
                 if (KillSwitchConfig.KillSwitch.Value.IsDown())
                 {
-                    Logger.LogMessage("LoveMachine: Emergency stop pressed.");
                     StopAllDevices();
                     killSwitchThrown = true;
+                    Logger.LogMessage("LoveMachine: Emergency stop pressed.");
                 }
             }
         }
