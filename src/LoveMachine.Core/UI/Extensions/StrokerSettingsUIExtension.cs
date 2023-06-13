@@ -1,4 +1,4 @@
-﻿using LoveMachine.Core.Settings;
+﻿using LoveMachine.Core.Buttplug.Settings;
 using LoveMachine.Core.UI.Util;
 
 namespace LoveMachine.Core.UI.Extensions

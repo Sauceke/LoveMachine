@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using LitJson;
+using LoveMachine.Core.Buttplug.Settings;
 using LoveMachine.Core.Config;
-using LoveMachine.Core.Settings;
 using UnityEngine;
 
 namespace LoveMachine.Core.Buttplug

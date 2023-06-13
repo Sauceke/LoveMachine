@@ -1,6 +1,6 @@
 ﻿using LoveMachine.Core.Common;
 
-namespace LoveMachine.Core.Settings
+namespace LoveMachine.Core.Buttplug.Settings
 {
     public class DeviceSettings
     {

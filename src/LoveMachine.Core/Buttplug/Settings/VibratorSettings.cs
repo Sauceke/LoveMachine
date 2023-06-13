@@ -1,4 +1,4 @@
-﻿namespace LoveMachine.Core.Settings
+﻿namespace LoveMachine.Core.Buttplug.Settings
 {
     public class VibratorSettings
     {

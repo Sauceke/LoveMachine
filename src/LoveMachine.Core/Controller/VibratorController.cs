@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections;
 using LoveMachine.Core.Buttplug;
+using LoveMachine.Core.Buttplug.Settings;
 using LoveMachine.Core.Game;
-using LoveMachine.Core.Settings;
 using UnityEngine;
 
 namespace LoveMachine.Core.Controller

@@ -1,5 +1,5 @@
 ﻿using System.Linq;
-using LoveMachine.Core.Settings;
+using LoveMachine.Core.Buttplug.Settings;
 
 namespace LoveMachine.Core.Buttplug
 {
