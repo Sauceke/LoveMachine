@@ -5,6 +5,7 @@ using System.Linq;
 using Il2CppInterop.Runtime.Attributes;
 using LitJson;
 using LoveMachine.Core.PlatformSpecific;
+using LoveMachine.Core.Common;
 using UnityEngine;
 
 namespace LoveMachine.Core.Game

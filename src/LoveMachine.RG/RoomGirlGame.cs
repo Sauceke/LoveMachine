@@ -2,6 +2,7 @@
 using System.Reflection;
 using HarmonyLib;
 using LoveMachine.Core.Game;
+using LoveMachine.Core.Common;
 using UnityEngine;
 
 namespace LoveMachine.RG;

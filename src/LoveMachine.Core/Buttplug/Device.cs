@@ -1,7 +1,5 @@
 ﻿using System.Linq;
 using LoveMachine.Core.Settings;
-using LoveMachine.Core.Util;
-using UnityEngine;
 
 namespace LoveMachine.Core.Buttplug
 {
@@ -31,38 +29,6 @@ namespace LoveMachine.Core.Buttplug
             Settings.StrokerSettings = IsStroker ? Settings.StrokerSettings : null;
             Settings.VibratorSettings = IsVibrator ? Settings.VibratorSettings : null;
             Settings.ConstrictSettings = IsConstrictor ? Settings.ConstrictSettings : null;
-        }
-
-        internal void Draw()
-        {
-            GUILayout.BeginHorizontal();
-            {
-                GUILayout.FlexibleSpace();
-                GUILayout.Label(DeviceName);
-                GUILayout.FlexibleSpace();
-            }
-            GUILayout.EndHorizontal();
-            if (HasBatteryLevel)
-            {
-                GUIUtil.SingleSpace();
-                GUILayout.BeginHorizontal();
-                {
-                    GUIUtil.PercentBar("Battery", "Current battery level.", BatteryLevel);
-                }
-                GUILayout.EndHorizontal();
-            }
-            GUIUtil.SingleSpace();
-            GUILayout.BeginHorizontal();
-            {
-                GUIUtil.LabelWithTooltip("Features", "What this device can do.");
-                GUILayout.Toggle(IsStroker, "Position");
-                GUILayout.Toggle(IsVibrator, "Vibration");
-                GUILayout.Toggle(IsRotator, "Rotation");
-                GUILayout.Toggle(IsConstrictor, "Pressure");
-            }
-            GUILayout.EndHorizontal();
-            GUIUtil.SingleSpace();
-            Settings.Draw();
         }
     }
 }

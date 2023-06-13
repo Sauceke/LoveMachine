@@ -7,6 +7,7 @@ using H;
 using HarmonyLib;
 using IllusionUtility.GetUtility;
 using LoveMachine.Core.Game;
+using LoveMachine.Core.Common;
 using UnityEngine;
 
 namespace LoveMachine.PH

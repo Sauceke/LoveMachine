@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using LoveMachine.Core.Buttplug;
 using LoveMachine.Core.Extras;
 using LoveMachine.Core.Game;
+using LoveMachine.Core.Common;
 using UnityEngine;
 
 namespace LoveMachine.KK

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using LoveMachine.Core.Game;
+using LoveMachine.Core.Common;
 
 namespace LoveMachine.KK
 {

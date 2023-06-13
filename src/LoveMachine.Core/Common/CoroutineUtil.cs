@@ -2,7 +2,7 @@
 using System.Collections;
 using BepInEx.Logging;
 
-namespace LoveMachine.Core.Util
+namespace LoveMachine.Core.Common
 {
     internal static class CoroutineUtil
     {

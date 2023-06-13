@@ -1,4 +1,4 @@
-﻿namespace LoveMachine.Core.Game
+﻿namespace LoveMachine.Core.Common
 {
     public enum Bone
     {

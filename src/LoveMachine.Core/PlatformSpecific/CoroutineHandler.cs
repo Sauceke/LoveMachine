@@ -1,6 +1,6 @@
 ﻿using System.Collections;
 using BepInEx.Logging;
-using LoveMachine.Core.Util;
+using LoveMachine.Core.Common;
 using UnityEngine;
 
 namespace LoveMachine.Core.PlatformSpecific

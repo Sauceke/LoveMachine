@@ -6,6 +6,7 @@ using System.Reflection;
 using Il2CppInterop.Runtime.Attributes;
 using LoveMachine.Core.Config;
 using LoveMachine.Core.PlatformSpecific;
+using LoveMachine.Core.Common;
 using UnityEngine;
 
 namespace LoveMachine.Core.Game

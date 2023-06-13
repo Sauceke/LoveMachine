@@ -2,7 +2,7 @@
 using System.Collections;
 using BepInEx.Logging;
 using Il2CppInterop.Runtime.Injection;
-using LoveMachine.Core.Util;
+using LoveMachine.Core.Common;
 using UnityEngine;
 
 namespace LoveMachine.Core.PlatformSpecific;

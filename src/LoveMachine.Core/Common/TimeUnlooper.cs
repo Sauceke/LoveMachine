@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace LoveMachine.Core.Util
+namespace LoveMachine.Core.Common
 {
     public class TimeUnlooper
     {

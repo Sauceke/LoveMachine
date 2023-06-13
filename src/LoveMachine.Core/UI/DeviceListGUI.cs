@@ -6,7 +6,8 @@ using LoveMachine.Core.Buttplug;
 using LoveMachine.Core.Config;
 using LoveMachine.Core.Controller;
 using LoveMachine.Core.PlatformSpecific;
-using LoveMachine.Core.Util;
+using LoveMachine.Core.UI.Extensions;
+using LoveMachine.Core.UI.Util;
 using UnityEngine;
 
 namespace LoveMachine.Core.UI

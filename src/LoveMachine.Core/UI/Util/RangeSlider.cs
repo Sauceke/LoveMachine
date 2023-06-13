@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 
-namespace LoveMachine.Core.Util
+namespace LoveMachine.Core.UI.Util
 {
-    public struct RangeSlider
+    internal struct RangeSlider
     {
         private static readonly GUIStyle sliderStyle = GUI.skin.horizontalSlider;
         private static readonly GUIStyle thumbStyle = GUI.skin.horizontalSliderThumb;
