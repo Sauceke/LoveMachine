@@ -65,10 +65,8 @@ namespace LoveMachine.Core.Controller
             min = Mathf.Lerp(settings.SlowStrokeZoneMin, settings.FastStrokeZoneMin, t: rate);
             max = Mathf.Lerp(settings.SlowStrokeZoneMax, settings.FastStrokeZoneMax, t: rate);
             // scale down according to stroke length realism
-            float scale = Mathf.Lerp(
-                1f - StrokerConfig.StrokeLengthRealism.Value,
-                1f,
-                t: relativeLength);
+            float realism = StrokerConfig.StrokeLengthRealism.Value;
+            float scale = Mathf.Lerp(1f - realism, 1f, t: relativeLength);
             max = Mathf.Lerp(min, max, scale);
         }
     }
