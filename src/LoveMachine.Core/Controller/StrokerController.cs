@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using LoveMachine.Core.Buttplug;
+using LoveMachine.Core.Buttplug.Settings;
 using LoveMachine.Core.Config;
 using LoveMachine.Core.Game;
 using UnityEngine;
@@ -12,17 +13,18 @@ namespace LoveMachine.Core.Controller
 
         protected override IEnumerator HandleAnimation(Device device, StrokeInfo strokeInfo)
         {
+            var settings = device.Settings.StrokerSettings;
             int updateFrequency = device.Settings.UpdatesHz;
             float durationSecs = strokeInfo.DurationSecs;
             // max number of subdivisions given the update frequency
             int subdivisions = 2 * (int)Mathf.Max(1f, durationSecs * updateFrequency / 2);
             // 4 subdivisions is mathematically the same as 2
             subdivisions = subdivisions == 4 ? 2 : subdivisions;
-            int segments = device.Settings.StrokerSettings.SmoothStroking ? subdivisions : 2;
+            int segments = settings.SmoothStroking ? subdivisions : 2;
             float startCompletion = strokeInfo.Completion;
             float nextSegmentCompletion = Mathf.Round(startCompletion * segments + 1) / segments;
             float timeToNextSegmentSecs = (nextSegmentCompletion - startCompletion) * durationSecs;
-            GetStrokeZone(durationSecs, device, strokeInfo, out float bottom, out float top);
+            GetStrokeZone(durationSecs, settings, strokeInfo, out float bottom, out float top);
             float currentPosition = Mathf.Lerp(bottom, top, Sinusoid(startCompletion));
             float nextPosition = Mathf.Lerp(bottom, top, Sinusoid(nextSegmentCompletion));
             bool movingUp = currentPosition < nextPosition;
@@ -54,24 +56,20 @@ namespace LoveMachine.Core.Controller
         private static float Sinusoid(float x) =>
             Mathf.InverseLerp(1f, -1f, Mathf.Cos(2 * Mathf.PI * x));
 
-        private void GetStrokeZone(float strokeTimeSecs, Device device, StrokeInfo strokeInfo,
-            out float min, out float max)
+        private void GetStrokeZone(float strokeTimeSecs, StrokerSettings settings,
+            StrokeInfo strokeInfo, out float min, out float max)
         {
             // decrease stroke length gradually as speed approaches the device limit
-            float rate = 60f / device.Settings.StrokerSettings.MaxStrokesPerMin / strokeTimeSecs;
+            float rate = 60f / settings.MaxStrokesPerMin / strokeTimeSecs;
             float relativeLength = strokeInfo.Amplitude / game.PenisSize;
+            min = Mathf.Lerp(settings.SlowStrokeZoneMin, settings.FastStrokeZoneMin, t: rate);
+            max = Mathf.Lerp(settings.SlowStrokeZoneMax, settings.FastStrokeZoneMax, t: rate);
+            // scale down according to stroke length realism
             float scale = Mathf.Lerp(
                 1f - StrokerConfig.StrokeLengthRealism.Value,
                 1f,
                 t: relativeLength);
-            min = scale * Mathf.Lerp(
-                device.Settings.StrokerSettings.SlowStrokeZoneMin,
-                device.Settings.StrokerSettings.FastStrokeZoneMin,
-                t: rate);
-            max = scale * Mathf.Lerp(
-                device.Settings.StrokerSettings.SlowStrokeZoneMax,
-                device.Settings.StrokerSettings.FastStrokeZoneMax,
-                t: rate);
+            max = Mathf.Lerp(min, max, scale);
         }
     }
 }
