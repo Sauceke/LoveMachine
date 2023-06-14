@@ -8,11 +8,8 @@
         <ProjectReference Include="..\LoveMachine.Core\LoveMachine.Core.csproj" />
     </ItemGroup>
     <ItemGroup>
-        <PackageReference Include="IllusionLibs.Koikatu.Assembly-CSharp" Version="2019.4.27.4"
-                          ExcludeAssets="runtime" />
-        <PackageReference Include="IllusionLibs.Koikatu.UnityEngine" Version="5.6.2.4"
-                          ExcludeAssets="runtime" />
-        <PackageReference Include="KoikatuCompatibilityAnalyzer" Version="1.0.1"
-                          ExcludeAssets="runtime" />
+        <PackageReference Include="IllusionLibs.Koikatu.Assembly-CSharp" Version="2019.4.27.4" ExcludeAssets="runtime" />
+        <PackageReference Include="IllusionLibs.Koikatu.UnityEngine" Version="5.6.2.4" ExcludeAssets="runtime" />
+        <PackageReference Include="KoikatuCompatibilityAnalyzer" Version="1.0.1" ExcludeAssets="runtime" />
     </ItemGroup>
 </Project>

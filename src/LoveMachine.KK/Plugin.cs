@@ -16,10 +16,8 @@ namespace LoveMachine.KK
         protected override void Start()
         {
             base.Start();
-            KKAnimationConfig.Initialize(this);
-            var manager = Globals.ManagerObject;
-            manager.AddComponent<KoikatsuAnimationController>();
-            manager.AddComponent<FondleGimmick>();
+            AnimationConfig.Initialize(this);
+            Globals.ManagerObject.AddComponent<FondleGimmick>();
         }
     }
 

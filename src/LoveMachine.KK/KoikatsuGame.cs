@@ -5,7 +5,6 @@ using System.Reflection;
 using System.Runtime.Serialization;
 using HarmonyLib;
 using IllusionUtility.GetUtility;
-using LoveMachine.Core.Game;
 using LoveMachine.Core.Common;
 using UnityEngine;
 
@@ -43,6 +42,10 @@ namespace LoveMachine.KK
         private ObjectIDGenerator idGenerator;
 
         public HFlag Flags { get; private set; }
+
+        private string Blend => AnimationConfig.TrackAnimationBlending.Value
+            ? $"blend{Mathf.Round(Flags.motion)}"
+            : "noblend";
 
         protected override int HeroineCount => Flags.lstHeroine.Count;
 
@@ -118,7 +121,8 @@ namespace LoveMachine.KK
             // to be the object reference itself.
             idGenerator.GetId(Flags.nowAnimationInfo, out _)
                 + "." + Flags.nowAnimationInfo.nameAnimation
-                + "." + Flags.nowAnimStateName;
+                + "." + Flags.nowAnimStateName
+                + "." + Blend;
 
         protected override IEnumerator WaitAfterPoseChange()
         {

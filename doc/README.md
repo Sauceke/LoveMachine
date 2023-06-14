@@ -81,8 +81,8 @@ The Space key acts as a kill switch for all devices while in-game. To reactivate
 
 In Plugin Settings > LoveMachine, you can set the following parameters:
 
-### Animation Settings (Koikatsu and KKS only)
-- **Simplify animations:** If enabled, LoveMachine will remove motion blending from animations. Motion blending messes up the timing algorithm, so this setting is essential if you want real immersion, especially with Sideloader animations. Turned off by default. May interfere with other mods.
+### Animation Settings (KK/KKS only)
+- **Track Animation Blending:** H-Scene animations in Koikatsu and KKS shift slowly back and forth between two variants of the same animation. The two variants sometimes have different stroke patterns. This setting allows you to track both variants, which makes animation tracking more precise, but may also result in some abrupt changes mid-stroke. Turned off by default.
 
 ### Device List
 This is where all your devices connected to Intiface are listed.
