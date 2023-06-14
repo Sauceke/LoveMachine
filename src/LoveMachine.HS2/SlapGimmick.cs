@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Linq;
 using LoveMachine.Core.Buttplug;
-using LoveMachine.Core.Extras;
+using LoveMachine.Core.Controller.Addons;
 
 namespace LoveMachine.HS2
 {

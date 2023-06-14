@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections;
 using LoveMachine.Core.Buttplug;
-using LoveMachine.Core.Extras;
+using LoveMachine.Core.Controller.Addons;
 using LoveMachine.Core.Game;
 using UnityEngine;
 

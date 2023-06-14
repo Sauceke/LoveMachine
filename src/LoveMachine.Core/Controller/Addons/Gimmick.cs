@@ -3,7 +3,7 @@ using Il2CppInterop.Runtime.Attributes;
 using LoveMachine.Core.Buttplug;
 using UnityEngine;
 
-namespace LoveMachine.Core.Extras
+namespace LoveMachine.Core.Controller.Addons
 {
     /// <summary>
     /// Extend this if the game you're modding has additional "buttplug-able"
