@@ -86,9 +86,8 @@ namespace LoveMachine.Core.Controller
             }
         }
 
-        [Obsolete("Do NOT use this; use the StrokeInfo provided as parameter.")]
         protected override bool TryGetCurrentStrokeInfo(Device device, out StrokeInfo result) =>
-            throw new NotImplementedException();
+            throw new NotImplementedException("Do NOT use this; use the strokeInfo parameter!");
 
         private bool IsIdleOrPaused(Device device) =>
             game.IsIdle(device.Settings.GirlIndex) || Time.timeScale == 0f;
