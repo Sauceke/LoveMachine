@@ -8,7 +8,7 @@ using UnityEngine;
 
 namespace LoveMachine.Core.Controller
 {
-    public abstract class ButtplugController : CoroutineHandler
+    internal abstract class ButtplugController : CoroutineHandler
     {
         protected ButtplugWsClient client;
         protected GameAdapter game;
@@ -20,20 +20,8 @@ namespace LoveMachine.Core.Controller
         public abstract bool IsDeviceSupported(Device device);
 
         protected abstract IEnumerator Run(Device device);
-
-        protected virtual IEnumerator Run()
-        {
-            foreach (var device in client.Devices.Where(IsDeviceSupported))
-            {
-                Logger.LogInfo($"Running controller {GetType().Name} " +
-                    $"on device #{device.DeviceIndex} ({device.DeviceName}).");
-                HandleCoroutine(Run(device));
-                HandleCoroutine(RunLatencyUpdateLoop(device));
-            }
-            yield break;
-        }
-
-        protected virtual void Start()
+        
+        private void Start()
         {
             client = GetComponent<ButtplugWsClient>();
             game = GetComponent<GameAdapter>();
@@ -62,6 +50,18 @@ namespace LoveMachine.Core.Controller
 
         private void OnDestroy() => StopAllCoroutines();
 
+        private IEnumerator Run()
+        {
+            foreach (var device in client.Devices.Where(IsDeviceSupported))
+            {
+                Logger.LogInfo($"Running controller {GetType().Name} " +
+                               $"on device #{device.DeviceIndex} ({device.DeviceName}).");
+                HandleCoroutine(Run(device));
+                HandleCoroutine(RunLatencyUpdateLoop(device));
+            }
+            yield break;
+        }
+        
         private IEnumerator RunLatencyUpdateLoop(Device device)
         {
             while (true)

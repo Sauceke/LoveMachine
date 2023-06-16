@@ -11,13 +11,13 @@ using WebSocket4Net;
 
 namespace LoveMachine.Core.Buttplug
 {
-    public class ButtplugWsClient : CoroutineHandler
+    internal class ButtplugWsClient : CoroutineHandler
     {
         private WebSocket websocket;
         private bool killSwitchThrown = false;
         private ConcurrentQueue<IEnumerator> incoming;
 
-        internal event EventHandler<DeviceListEventArgs> OnDeviceListUpdated;
+        public event EventHandler<DeviceListEventArgs> OnDeviceListUpdated;
 
         public List<Device> Devices { get; private set; }
 
@@ -245,7 +245,7 @@ namespace LoveMachine.Core.Buttplug
             }
         }
 
-        internal class DeviceListEventArgs : EventArgs
+        public class DeviceListEventArgs : EventArgs
         {
             public List<Device> Before { get; }
             public List<Device> After { get; }
