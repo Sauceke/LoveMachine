@@ -13,7 +13,7 @@ namespace LoveMachine.KK
             TrackAnimationBlending = plugin.Config.Bind(
                 section: animationSettingsTitle,
                 key: "Track Animation Blending",
-                defaultValue: false,
+                defaultValue: true,
                 description: "Makes animation tracking more precise but also less uniform");
         }
     }

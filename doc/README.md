@@ -82,7 +82,7 @@ The Space key acts as a kill switch for all devices while in-game. To reactivate
 In Plugin Settings > LoveMachine, you can set the following parameters:
 
 ### Animation Settings (KK/KKS only)
-- **Track Animation Blending:** H-Scene animations in Koikatsu and KKS shift slowly back and forth between two variants of the same animation. The two variants sometimes have different stroke patterns. This setting allows you to track both variants, which makes animation tracking more precise, but may also result in some abrupt changes mid-stroke. Turned off by default.
+- **Track Animation Blending:** H-Scene animations in Koikatsu and KKS shift slowly back and forth between two variants of the same animation. The two variants sometimes have different stroke patterns. This setting allows you to track both variants, which makes animation tracking more precise, but may also result in some abrupt changes mid-stroke. Turned on by default.
 
 ### Device List
 This is where all your devices connected to Intiface are listed.
