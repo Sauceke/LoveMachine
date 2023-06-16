@@ -17,19 +17,19 @@ namespace LoveMachine.Core.Controller
             float intensity = Mathf.Lerp(
                 device.Settings.VibratorSettings.IntensityMin,
                 device.Settings.VibratorSettings.IntensityMax,
-                t: strength * game.VibrationIntensity);
-            client.VibrateCmd(device, intensity);
+                t: strength * Game.VibrationIntensity);
+            Client.VibrateCmd(device, intensity);
             yield return WaitForSecondsUnscaled(1f / device.Settings.UpdatesHz);
         }
 
         protected override IEnumerator HandleOrgasm(Device device)
         {
-            client.VibrateCmd(device, device.Settings.VibratorSettings.IntensityMax);
+            Client.VibrateCmd(device, device.Settings.VibratorSettings.IntensityMax);
             yield break;
         }
 
         protected override void HandleLevel(Device device, float level, float durationSecs) =>
-            client.VibrateCmd(device, level);
+            Client.VibrateCmd(device, level);
 
         private static float GetStrength(float x, VibratorSettings settings)
         {

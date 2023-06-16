@@ -10,25 +10,27 @@ namespace LoveMachine.Core.Controller
 {
     internal abstract class ButtplugController : CoroutineHandler
     {
-        protected ButtplugWsClient client;
-        protected GameAdapter game;
-        private AnimationAnalyzer analyzer;
-
         private readonly Dictionary<Device, float> normalizedLatencies =
             new Dictionary<Device, float>();
-
+        
+        private AnimationAnalyzer analyzer;
+        
+        protected ButtplugWsClient Client { get; private set; }
+        
+        protected GameAdapter Game { get; private set; }
+        
         public abstract bool IsDeviceSupported(Device device);
 
         protected abstract IEnumerator Run(Device device);
         
         private void Start()
         {
-            client = GetComponent<ButtplugWsClient>();
-            game = GetComponent<GameAdapter>();
+            Client = GetComponent<ButtplugWsClient>();
+            Game = GetComponent<GameAdapter>();
             analyzer = GetComponent<AnimationAnalyzer>();
-            game.OnHStarted += (s, a) => OnStartH();
-            game.OnHEnded += (s, a) => OnEndH();
-            client.OnDeviceListUpdated += (s, a) => Restart();
+            Game.OnHStarted += (s, a) => OnStartH();
+            Game.OnHEnded += (s, a) => OnEndH();
+            Client.OnDeviceListUpdated += (s, a) => Restart();
         }
 
         private void OnStartH() => HandleCoroutine(Run());
@@ -36,12 +38,12 @@ namespace LoveMachine.Core.Controller
         private void OnEndH()
         {
             StopAllCoroutines();
-            client.StopAllDevices();
+            Client.StopAllDevices();
         }
 
         private void Restart()
         {
-            if (game.IsHSceneRunning)
+            if (Game.IsHSceneRunning)
             {
                 OnEndH();
                 OnStartH();
@@ -52,7 +54,7 @@ namespace LoveMachine.Core.Controller
 
         private IEnumerator Run()
         {
-            foreach (var device in client.Devices.Where(IsDeviceSupported))
+            foreach (var device in Client.Devices.Where(IsDeviceSupported))
             {
                 Logger.LogInfo($"Running controller {GetType().Name} " +
                                $"on device #{device.DeviceIndex} ({device.DeviceName}).");
@@ -70,7 +72,7 @@ namespace LoveMachine.Core.Controller
                 // there's a gradual change in animation speed
                 // updating every 3s and caching the result solves this
                 yield return new WaitForSecondsRealtime(3f);
-                float animTimeSecs = game.GetAnimationTimeSecs(device.Settings.GirlIndex);
+                float animTimeSecs = Game.GetAnimationTimeSecs(device.Settings.GirlIndex);
                 normalizedLatencies[device] = device.Settings.LatencyMs / 1000f / animTimeSecs;
             }
         }
@@ -81,7 +83,7 @@ namespace LoveMachine.Core.Controller
             {
                 normalizedLatency = 0f;
             }
-            game.GetAnimState(device.Settings.GirlIndex, out float currentNormTime, out _, out _);
+            Game.GetAnimState(device.Settings.GirlIndex, out float currentNormTime, out _, out _);
             return currentNormTime + normalizedLatency;
         }
 

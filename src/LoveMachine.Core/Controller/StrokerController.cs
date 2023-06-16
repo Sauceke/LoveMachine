@@ -30,9 +30,9 @@ namespace LoveMachine.Core.Controller
             bool movingUp = currentPosition < nextPosition;
             float targetPosition = movingUp ? top : bottom;
             float speed = (nextPosition - currentPosition) / timeToNextSegmentSecs;
-            speed *= movingUp ? 1f : 1f + game.StrokingIntensity;
+            speed *= movingUp ? 1f : 1f + Game.StrokingIntensity;
             float timeToTargetSecs = (targetPosition - currentPosition) / speed;
-            client.LinearCmd(device, targetPosition, timeToTargetSecs);
+            Client.LinearCmd(device, targetPosition, timeToTargetSecs);
             yield return WaitForSecondsUnscaled(timeToNextSegmentSecs - Time.deltaTime);
         }
 
@@ -43,15 +43,15 @@ namespace LoveMachine.Core.Controller
             float top = bottom + device.Settings.StrokerSettings.MaxStrokesPerMin / 60f / 2f * time;
             while (true)
             {
-                client.LinearCmd(device, top, time);
+                Client.LinearCmd(device, top, time);
                 yield return new WaitForSecondsRealtime(time);
-                client.LinearCmd(device, bottom, time);
+                Client.LinearCmd(device, bottom, time);
                 yield return new WaitForSecondsRealtime(time);
             }
         }
 
         protected override void HandleLevel(Device device, float level, float durationSecs) =>
-            client.LinearCmd(device, level, durationSecs);
+            Client.LinearCmd(device, level, durationSecs);
 
         private static float Sinusoid(float x) =>
             Mathf.InverseLerp(1f, -1f, Mathf.Cos(2 * Mathf.PI * x));
@@ -61,7 +61,7 @@ namespace LoveMachine.Core.Controller
         {
             // decrease stroke length gradually as speed approaches the device limit
             float rate = 60f / settings.MaxStrokesPerMin / strokeTimeSecs;
-            float relativeLength = strokeInfo.Amplitude / game.PenisSize;
+            float relativeLength = strokeInfo.Amplitude / Game.PenisSize;
             min = Mathf.Lerp(settings.SlowStrokeZoneMin, settings.FastStrokeZoneMin, t: rate);
             max = Mathf.Lerp(settings.SlowStrokeZoneMax, settings.FastStrokeZoneMax, t: rate);
             // scale down according to stroke length realism

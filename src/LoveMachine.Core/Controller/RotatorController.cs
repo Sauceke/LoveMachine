@@ -24,12 +24,12 @@ namespace LoveMachine.Core.Controller
 
         protected override IEnumerator HandleOrgasm(Device device)
         {
-            client.RotateCmd(device, 1f, clockwise);
+            Client.RotateCmd(device, 1f, clockwise);
             yield break;
         }
 
         protected override void HandleLevel(Device device, float level, float durationSecs) =>
-            client.RotateCmd(device, level, true);
+            Client.RotateCmd(device, level, true);
 
         private IEnumerator DoRotate(Device device, float strokeTimeSecs)
         {
@@ -37,9 +37,9 @@ namespace LoveMachine.Core.Controller
             float downSpeed = Mathf.Lerp(0.3f, 1f, 0.4f / strokeTimeSecs) *
                 RotatorConfig.RotationSpeedRatio.Value;
             float upSpeed = downSpeed * 0.8f;
-            client.RotateCmd(device, downSpeed, clockwise);
+            Client.RotateCmd(device, downSpeed, clockwise);
             yield return WaitForSecondsUnscaled(downStrokeTimeSecs);
-            client.RotateCmd(device, upSpeed, !clockwise);
+            Client.RotateCmd(device, upSpeed, !clockwise);
         }
     }
 }

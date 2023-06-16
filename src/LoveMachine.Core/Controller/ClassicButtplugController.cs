@@ -50,12 +50,12 @@ namespace LoveMachine.Core.Controller
             while (true)
             {
                 yield return WaitForSecondsUnscaled(refreshTimeSecs);
-                if (game.IsOrgasming(device.Settings.GirlIndex))
+                if (Game.IsOrgasming(device.Settings.GirlIndex))
                 {
                     TryStopCoroutine(ref strokeLoop);
                     var orgasm = HandleCoroutine(HandleOrgasm(device));
-                    yield return WaitForSecondsUnscaled(game.MinOrgasmDurationSecs);
-                    while (game.IsOrgasming(device.Settings.GirlIndex))
+                    yield return WaitForSecondsUnscaled(Game.MinOrgasmDurationSecs);
+                    while (Game.IsOrgasming(device.Settings.GirlIndex))
                     {
                         yield return WaitForSecondsUnscaled(refreshTimeSecs);
                     }
@@ -65,7 +65,7 @@ namespace LoveMachine.Core.Controller
                 if (IsIdleOrPaused(device))
                 {
                     TryStopCoroutine(ref strokeLoop);
-                    client.StopDeviceCmd(device);
+                    Client.StopDeviceCmd(device);
                     while (IsIdleOrPaused(device))
                     {
                         yield return WaitForSecondsUnscaled(refreshTimeSecs);
@@ -90,7 +90,7 @@ namespace LoveMachine.Core.Controller
             throw new NotImplementedException("Do NOT use this; use the strokeInfo parameter!");
 
         private bool IsIdleOrPaused(Device device) =>
-            game.IsIdle(device.Settings.GirlIndex) || Time.timeScale == 0f;
+            Game.IsIdle(device.Settings.GirlIndex) || Time.timeScale == 0f;
 
         public void Test(Device device, DisplayPosition display) =>
             HandleCoroutine(RunTest(device, display));
@@ -104,13 +104,13 @@ namespace LoveMachine.Core.Controller
             yield return HandleCoroutine(EmulateStrokes(device, 2, 2f, display));
             yield return HandleCoroutine(EmulateStrokes(device, 2, 1f, display));
             yield return HandleCoroutine(EmulateStrokes(device, 5, 0.3f, display));
-            client.StopDeviceCmd(device);
+            Client.StopDeviceCmd(device);
         }
 
         private IEnumerator HandleStroke(Device device, float durationSecs)
         {
             yield return HandleCoroutine(EmulateStrokes(device, count: 1, durationSecs, _ => { }));
-            client.StopDeviceCmd(device);
+            Client.StopDeviceCmd(device);
         }
         
         private IEnumerator EmulateStrokes(Device device, int count, float durationSecs,

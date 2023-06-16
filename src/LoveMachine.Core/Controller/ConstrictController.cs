@@ -25,7 +25,7 @@ namespace LoveMachine.Core.Controller
             float pressure = settings.Enabled
                 ? Mathf.Lerp(settings.PressureMin, settings.PressureMax, t: relativePressure)
                 : 0f;
-            client.ConstrictCmd(device, pressure);
+            Client.ConstrictCmd(device, pressure);
             yield return new WaitForSecondsRealtime(settings.UpdateIntervalSecs);
         }
 
@@ -49,7 +49,7 @@ namespace LoveMachine.Core.Controller
             value: Mathf.Sin(Time.time * 2f * Mathf.PI / ConstrictConfig.CycleLengthSecs.Value));
 
         private float GetStrokeLengthBasedPressure(StrokeInfo strokeInfo) =>
-            Mathf.InverseLerp(0, game.PenisSize, value: strokeInfo.Amplitude);
+            Mathf.InverseLerp(0, Game.PenisSize, value: strokeInfo.Amplitude);
 
         private float GetStrokeSpeedBasedPressure(Device device, StrokeInfo strokeInfo) =>
             Mathf.InverseLerp(
