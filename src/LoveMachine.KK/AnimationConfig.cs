@@ -9,7 +9,7 @@ namespace LoveMachine.KK
 
         public static void Initialize(BaseUnityPlugin plugin)
         {
-            const string animationSettingsTitle = "Animation Settings (KK/KKS only)";
+            const string animationSettingsTitle = "Animation Settings";
             TrackAnimationBlending = plugin.Config.Bind(
                 section: animationSettingsTitle,
                 key: "Track Animation Blending",
