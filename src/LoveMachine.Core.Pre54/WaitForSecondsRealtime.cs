@@ -11,17 +11,8 @@ namespace UnityEngine
 
         public object Current => new WaitForSeconds(seconds);
 
-        public bool MoveNext()
-        {
-            if (done)
-            {
-                return false;
-            }
-            done = true;
-            return true;
-        }
+        public bool MoveNext() => !done && (done = true);
 
-        public void Reset()
-        { }
+        public void Reset() => done = false;
     }
 }
