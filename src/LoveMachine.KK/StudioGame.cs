@@ -36,6 +36,8 @@ namespace LoveMachine.KK
 
         protected override Transform PenisBase => GameObject.Find(balls).transform;
 
+        protected override float MinStrokeLength => 0.2f;
+
         protected override string GetPose(int girlIndex) =>
             Studio.Studio.Instance.sceneInfo.GetHashCode().ToString() + isPlaying.Value;
 
