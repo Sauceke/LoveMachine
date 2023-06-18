@@ -81,8 +81,8 @@ The Space key acts as a kill switch for all devices while in-game. To reactivate
 
 In Plugin Settings > LoveMachine, you can set the following parameters:
 
-### Animation Settings (Koikatsu and KKS only)
-- **Simplify animations:** If enabled, LoveMachine will remove motion blending from animations. Motion blending messes up the timing algorithm, so this setting is essential if you want real immersion, especially with Sideloader animations. Turned off by default. May interfere with other mods.
+### Animation Settings (KK/KKS only)
+- **Track Animation Blending:** H-Scene animations in Koikatsu and KKS shift slowly back and forth between two variants of the same animation. The two variants sometimes have different stroke patterns. This setting allows you to track both variants, which makes animation tracking more precise, but may also result in some abrupt changes mid-stroke. Turned on by default.
 
 ### Device List
 This is where all your devices connected to Intiface are listed.
@@ -149,7 +149,7 @@ This mod is provided free of charge, but I do accept donations. If you'd like to
 Sauceke   •   nhydock   •   hogefugamoga   •   RPKU   •   andama777 (JP translation)
 
 ### Patrons
-[ManlyMarco]   •   Aftercurve   •   AkronusWings   •   Ambicatus   •   Andrew Hall   •   AstralClock   •   Atlantic Dragon   •   Benos Hentai   •   boaz   •   Bri   •   cat tail   •   CBN ヴい   •   Ceruleon   •   CROM   •   Daniel   •   EPTG   •   er er   •   Flan   •   funnychicken   •   Gabbelgu   •   gold25   •   GOU YOSIHIRO   •   Greg   •   hiro   •   Ior1yagami   •   Kai Yami   •   KTKT   •   kuni   •   Laneo   •   mokochurin   •   Nemi   •   nppon   •   PhazR   •   Phil   •   prepare55   •   real name   •   rolandmitch   •   RP君   •   SavagePastry   •   Sean McKagan   •   Shakes   •   Taibe   •   tanu   •   TO   •   Tom   •   TrashTaste   •   ttrs   •   tutinoko   •   unitora   •   uruurian   •   Wel Adunno   •   yamada tarou   •   Zesty Cucumber   •   Zijian Wang   •   Zomba Mann   •   しゃどみん   •   シルバー   •   ふ   •   りょすけ みのかわ   •   一太 川崎   •   優希 岩永   •   哲慶 宗   •   国崎往人   •   将也 三田   •   洋 冨岡   •   猛 羽場   •   终晓   •   郁弥 中村   •   闇《YAMI》   •   高島　渉
+[ManlyMarco]   •   Aftercurve   •   AkronusWings   •   Ambicatus   •   Andrew Hall   •   AstralClock   •   Atlantic Dragon   •   Benos Hentai   •   boaz   •   Bri   •   cat tail   •   CBN ヴい   •   Ceruleon   •   CROM   •   Daniel   •   EPTG   •   er er   •   Flan   •   funnychicken   •   Gabbelgu   •   gold25   •   GOU YOSIHIRO   •   Greg   •   hiro   •   Ior1yagami   •   Junk   •   Kai Yami   •   KTKT   •   kuni   •   Laneo   •   mokochurin   •   Nemi   •   nppon   •   PhazR   •   Phil   •   prepare55   •   real name   •   rolandmitch   •   RP君   •   SavagePastry   •   Sean McKagan   •   Shakes   •   Taibe   •   tanu   •   TO   •   Tom   •   TrashTaste   •   ttrs   •   tutinoko   •   unitora   •   uruurian   •   Wel Adunno   •   yamada tarou   •   Zesty Cucumber   •   Zijian Wang   •   Zomba Mann   •   しゃどみん   •   シルバー   •   ふ   •   りょすけ みのかわ   •   一太 川崎   •   優希 岩永   •   哲慶 宗   •   国崎往人   •   将也 三田   •   洋 冨岡   •   猛 羽場   •   终晓   •   郁弥 中村   •   闇《YAMI》   •   高島　渉
 
 ## Acknowledgements
 This mod would not have been possible without the [BepInEx] plugin framework and, of course, the [Buttplug.io] project.
