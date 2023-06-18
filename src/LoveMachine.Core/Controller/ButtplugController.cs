@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Il2CppInterop.Runtime.Attributes;
 using LoveMachine.Core.Buttplug;
 using LoveMachine.Core.Game;
 using LoveMachine.Core.PlatformSpecific;
@@ -15,8 +16,10 @@ namespace LoveMachine.Core.Controller
         
         private AnimationAnalyzer analyzer;
         
+        [HideFromIl2Cpp]
         protected ButtplugWsClient Client { get; private set; }
         
+        [HideFromIl2Cpp]
         protected GameAdapter Game { get; private set; }
         
         public abstract bool IsDeviceSupported(Device device);
