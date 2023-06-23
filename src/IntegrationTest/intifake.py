@@ -111,7 +111,10 @@ def start():
     server_thread.start()
 
 def stop():
-    global stop_handle
-    stop_handle.set_result(0)
-    global server_thread
-    server_thread.join()
+    try:
+        global stop_handle
+        stop_handle.set_result(0)
+        global server_thread
+        server_thread.join()
+    except:
+        pass

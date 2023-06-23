@@ -76,7 +76,6 @@ class LoveMachineLibrary(object):
 
     def start_secrossphere_demo(self):
         self.scs_process = subprocess.Popen([scs_path + "Trial.exe"])
-        time.sleep(10)
         robot.api.logger.info("Started Secrossphere demo")
 
     def close_secrossphere_demo(self):
