@@ -1,0 +1,36 @@
+name: Integration testing
+
+on:
+  workflow_dispatch:
+
+jobs:
+
+  build:
+
+    uses: ./.github/workflows/build.yml
+    with:
+      version: ${{ github.event.inputs.version }}
+
+  test:
+
+    needs: build
+    runs-on: windows-2022
+    timeout-minutes: 10
+    
+    defaults:
+      run:
+        working-directory: src
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v1
+
+    - name: Download artifacts
+      uses: actions/download-artifact@v3
+      with:
+        path: src
+
+    - name: Run tests
+      run: |
+        cd ./IntegrationTest
+        robot ./SecrossphereDemoTestSuite.robot
