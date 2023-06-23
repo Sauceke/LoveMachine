@@ -72,7 +72,8 @@ async def handle(websocket):
     while True:
         try:
             message = await websocket.recv()
-        except:
+        except Exception as e:
+            print(e)
             print("recv error, assuming connection closed")
             stop_handle.set_result(0)
             continue
