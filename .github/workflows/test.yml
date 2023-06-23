@@ -43,7 +43,9 @@ jobs:
     
     - name: Copy BepInEx logs
       if: always()
-      run: cp ./IntegrationTest/test/scs/BepInEx/LogOutput.log ./IntegrationTest/bepinex.log
+      run: |
+        dir ./IntegrationTest/test/scs/BepInEx/
+        cp ./IntegrationTest/test/scs/BepInEx/LogOutput.log ./IntegrationTest/bepinex.log
 
     - name: Upload test logs
       if: always()
