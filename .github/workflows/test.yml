@@ -16,7 +16,7 @@ jobs:
     needs: build
     runs-on: windows-2022
     timeout-minutes: 10
-    
+
     defaults:
       run:
         working-directory: src
@@ -40,3 +40,10 @@ jobs:
         cd ./IntegrationTest
         pip install -r requirements.txt
         robot ./SecrossphereDemoTestSuite.robot
+    
+    - name: Upload test logs
+      if: always()
+      uses: actions/upload-artifact@v3
+      with:
+        name: log
+        path: src/IntegrationTest
