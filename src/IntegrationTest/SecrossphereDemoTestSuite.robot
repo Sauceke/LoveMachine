@@ -28,3 +28,4 @@ Clean Up
     Close Secrossphere Demo
     Stop Fake Intiface Server
     Sleep    5 seconds
+    Delete Downloaded Files

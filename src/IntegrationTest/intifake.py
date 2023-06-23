@@ -96,7 +96,7 @@ async def handle(websocket):
 async def run_loop():
     global stop_handle
     stop_handle = asyncio.Future()
-    server = await websockets.serve(handle, "localhost", 12345)
+    server = await websockets.serve(handle, host="localhost", port=12345, ping_timeout=600)
     await stop_handle
     try:
         await server.close()
