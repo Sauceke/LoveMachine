@@ -1,0 +1,4 @@
+pynput==1.7.6
+Requests==2.31.0
+robotframework==6.1
+websockets==11.0.3

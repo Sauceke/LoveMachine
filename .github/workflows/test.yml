@@ -9,7 +9,7 @@ jobs:
 
     uses: ./.github/workflows/build.yml
     with:
-      version: ${{ github.event.inputs.version }}
+      version: 1.0.0
 
   test:
 
@@ -30,7 +30,13 @@ jobs:
       with:
         path: src
 
+    - name: Setup Python
+      uses: actions/setup-python@v3.1.4
+      with:
+        python-version: 3.11.4
+
     - name: Run tests
       run: |
         cd ./IntegrationTest
+        pip install -r requirements.txt
         robot ./SecrossphereDemoTestSuite.robot
