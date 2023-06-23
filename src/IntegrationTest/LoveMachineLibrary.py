@@ -36,6 +36,7 @@ class LoveMachineLibrary(object):
         shutil.rmtree(root_path)
 
     def number_of_linear_commands_should_be_at_least(self, min):
+        robot.api.logger.info("Captured linear commands: " + intifake.linear_commands)
         assert len(intifake.linear_commands) >= min
 
     def milliseconds_between_linear_commands_should_be_about(self, millis):
