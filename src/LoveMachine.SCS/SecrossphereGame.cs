@@ -49,7 +49,7 @@ namespace LoveMachine.SCS
         protected override string GetPose(int girlIndex) =>
             GetFemaleAnimator(girlIndex).GetCurrentAnimatorStateInfo(0).fullPathHash.ToString();
 
-        protected override bool IsIdle(int girlIndex) => state.Value < 0 || state.Value > 2;
+        protected override bool IsIdle(int girlIndex) => state.Value != 1 && state.Value != 2;
 
         protected override bool IsOrgasming(int girlIndex) => state.Value == 3;
 
