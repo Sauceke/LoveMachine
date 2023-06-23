@@ -93,8 +93,10 @@ class LoveMachineLibrary(object):
         keyboard.release(pynput.keyboard.Key.enter)
         time.sleep(5)
         for i in range(14):
-            mouse.click(pynput.mouse.Button.left)
-            time.sleep(1)
+            mouse.press(pynput.mouse.Button.left)
+            time.sleep(0.5)
+            mouse.release(pynput.mouse.Button.left)
+            time.sleep(0.5)
         robot.api.logger.info("Started H Scene in Secrossphere demo")
     
     def set_secrossphere_resolution(self, width, height, fullscreen):
