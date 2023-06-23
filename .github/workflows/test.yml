@@ -41,6 +41,10 @@ jobs:
         pip install -r requirements.txt
         robot ./SecrossphereDemoTestSuite.robot
     
+    - name: Copy BepInEx logs
+      if: always()
+      run: cp ./IntegrationTest/test/scs/BepInEx/LogOutput.log ./IntegrationTest/bepinex.log
+
     - name: Upload test logs
       if: always()
       uses: actions/upload-artifact@v3
