@@ -74,6 +74,8 @@ class LoveMachineLibrary(object):
         shutil.copytree(scs_tweaks_path, scs_path, dirs_exist_ok = True)
         shutil.copytree(scs_lovemachine_path, scs_path, dirs_exist_ok = True)
         robot.api.logger.info("Patched Secrossphere demo")
+        print(os.listdir(scs_path + "BepInEx"))
+        print(os.listdir(scs_path + "BepInEx/Core"))
 
     def start_secrossphere_demo(self):
         self.scs_process = subprocess.Popen([scs_path + "Trial.exe"])
