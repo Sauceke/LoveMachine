@@ -6,8 +6,8 @@ import robot
 import shutil
 import subprocess
 import time
-import zipfile
 import winreg
+import zipfile
 
 root_path = "./test/"
 bepinex32_url = "https://github.com/BepInEx/BepInEx/releases/download/v5.4.21/BepInEx_x86_5.4.21.0.zip"
@@ -17,7 +17,7 @@ scs_path = root_path + "scs/"
 scs_tweaks_path = "../LoveMachine.SCS/tweaks"
 scs_lovemachine_path = "../bin/LoveMachine.SCS"
 
-class LoveMachineLibrary(object):
+class LoveMachineLibrary:
     
     def _timestamp_gaps_should_be_about(self, timestamps, millis):
         tolerance_absolute_ms = 150

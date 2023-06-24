@@ -1,9 +1,8 @@
-import concurrent
-import json
 import asyncio
+import json
+import threading
 import time
 import websockets
-import threading
 
 # Fake Intiface server using example responses taken straight from the Buttplug docs.
 
