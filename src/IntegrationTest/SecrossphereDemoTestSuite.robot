@@ -1,4 +1,8 @@
 *** Settings ***
+Name              Secrossphere Demo Test Suite
+Documentation     Tests LoveMachine.SCS running on Secrossphere demo
+...               with a fake Intiface server emulating a stroker and
+...               a vibrator.
 Library           LoveMachineLibrary.py
 Suite Setup       Play The Game
 Suite Teardown    Clean Up
@@ -10,6 +14,7 @@ Check Linear Commands
     Positions Of Linear Commands Should Alternate
 
 Check Vibrate Commands
+    Number Of Vibrate Commands Should Be At Least    ${10}
     Milliseconds Between Vibrate Commands Should Be About    ${100}
 
 *** Keywords ***

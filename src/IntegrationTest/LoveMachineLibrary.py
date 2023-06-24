@@ -23,6 +23,9 @@ class LoveMachineLibrary(object):
         gaps = list(map(lambda tup: tup[1] - tup[0], zip(timestamps[:-1], timestamps[1:])))
         for gap in gaps:
             assert abs((gap * 1000) - millis) < millis * 0.5
+    
+    def _get_linear_cmd_position(self, cmd):
+        return cmd["LinearCmd"]["Vectors"][0]["Position"]
 
     def start_fake_intiface_server(self):
         intifake.start()
@@ -38,20 +41,30 @@ class LoveMachineLibrary(object):
     def number_of_linear_commands_should_be_at_least(self, min):
         robot.api.logger.info("Captured linear commands: " + str(intifake.linear_commands))
         assert len(intifake.linear_commands) >= min
+    
+    def number_of_vibrate_commands_should_be_at_least(self, min):
+        robot.api.logger.info("Captured vibrate commands: " + str(intifake.vibrate_commands))
+        assert len(intifake.vibrate_commands) >= min
 
     def milliseconds_between_linear_commands_should_be_about(self, millis):
-        timestamps = list(intifake.linear_commands.keys())
-        timestamps.sort()
+        timestamps = sorted(intifake.linear_commands.keys())
         self._timestamp_gaps_should_be_about(timestamps, millis)
         
-    # TODO
-    def positions_of_linear_commands_should_alternate(self):
-        pass
-    
     def milliseconds_between_vibrate_commands_should_be_about(self, millis):
-        timestamps = list(intifake.vibrate_commands.keys())
-        timestamps.sort()
+        timestamps = sorted(intifake.vibrate_commands.keys())
         self._timestamp_gaps_should_be_about(timestamps, millis)
+
+    def positions_of_linear_commands_should_alternate(self):
+        commands_dict = intifake.linear_commands
+        timestamps = sorted(commands_dict.keys())
+        commands = map(lambda t: commands_dict[t], timestamps)
+        positions = map(lambda cmd: cmd["LinearCmd"]["Vectors"][0]["Position"], commands)
+        odd_positions = positions[1::2]
+        even_positions = positions[::2]
+        assert max(odd_positions) - min(odd_positions) < 0.2
+        assert max(even_positions) - min(even_positions) < 0.2
+        assert abs(max(odd_positions) - min(even_positions)) > 0.5
+        assert abs(max(even_positions) - min(odd_positions)) > 0.5
 
     def download_secrossphere_demo(self):
         os.mkdir(root_path)
@@ -74,8 +87,6 @@ class LoveMachineLibrary(object):
         shutil.copytree(scs_tweaks_path, scs_path, dirs_exist_ok = True)
         shutil.copytree(scs_lovemachine_path, scs_path, dirs_exist_ok = True)
         robot.api.logger.info("Patched Secrossphere demo")
-        print(os.listdir(scs_path + "BepInEx"))
-        print(os.listdir(scs_path + "BepInEx/Core"))
 
     def start_secrossphere_demo(self):
         self.scs_process = subprocess.Popen([scs_path + "Trial.exe"])

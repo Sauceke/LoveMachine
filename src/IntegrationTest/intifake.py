@@ -86,11 +86,11 @@ async def handle(websocket):
             continue
         if "LinearCmd" in obj:
             global linear_commands
-            linear_commands[time.time()] = message
+            linear_commands[time.time()] = obj
             continue
         if "ScalarCmd" in obj:
             global vibrate_commands
-            vibrate_commands[time.time()] = message
+            vibrate_commands[time.time()] = obj
             continue
 
 async def run_loop():
