@@ -41,8 +41,6 @@ namespace LoveMachine.Core.Buttplug
                 + ":" + ButtplugConfig.WebSocketPort.Value;
             Logger.LogInfo($"Connecting to Intiface server at {address}");
             websocket = new WebSocket(address);
-            websocket.EnableAutoSendPing = true;
-            websocket.AutoSendPingInterval = 10;
             // StartCoroutine is only safe to call inside Unity's main thread
             websocket.Opened += (s, e) => incoming.Enqueue(OnOpened());
             websocket.MessageReceived += (s, e) => incoming.Enqueue(OnMessageReceived(e));
