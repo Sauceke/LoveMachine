@@ -27,9 +27,6 @@ class LoveMachineLibrary(object):
             assert abs((1000 * gap) - millis) < tolerance_absolute_ms
         assert abs(1000 * sum(gaps) / len(gaps) - millis) < millis * tolerance_relative
     
-    def _get_linear_cmd_position(self, cmd):
-        return cmd["LinearCmd"]["Vectors"][0]["Position"]
-
     def start_fake_intiface_server(self):
         intifake.start()
         robot.api.logger.info("Started fake Intiface server")
