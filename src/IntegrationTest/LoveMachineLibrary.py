@@ -99,12 +99,16 @@ class LoveMachineLibrary:
     def start_h_scene_in_secrossphere_demo(self):
         mouse = pynput.mouse.Controller()
         keyboard = pynput.keyboard.Controller()
-        keyboard.tap("s")
+        keyboard.type("s")
         time.sleep(1)
-        keyboard.tap(pynput.keyboard.Key.enter)
+        keyboard.press(pynput.keyboard.Key.enter)
+        time.sleep(1)
+        keyboard.release(pynput.keyboard.Key.enter)
         time.sleep(5)
         for i in range(14):
-            mouse.click(pynput.mouse.Button.left)
+            mouse.press(pynput.mouse.Button.left)
+            time.sleep(0.5)
+            mouse.release(pynput.mouse.Button.left)
             time.sleep(0.5)
         robot.api.logger.info("Started H Scene in Secrossphere demo")
     
