@@ -10,4 +10,5 @@ jobs:
       version: "1.0.0"
 
   test:
+    needs: build
     uses: ./.github/workflows/test.yml
