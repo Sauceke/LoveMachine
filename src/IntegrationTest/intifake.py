@@ -65,7 +65,10 @@ device_list = """
 ]
 """
 
+# Dict of linear commands keyed with the time each command was received in epoch seconds
 linear_commands = {}
+
+# Dict of vibrate commands keyed with the time each command was received in epoch seconds
 vibrate_commands = {}
 
 async def handle(websocket):
