@@ -1,19 +1,12 @@
-name: Integration testing
+name: [Reusable] Integration tests
 
 on:
-  workflow_dispatch:
+  workflow_call:
 
 jobs:
 
-  build:
-
-    uses: ./.github/workflows/build.yml
-    with:
-      version: 1.0.0
-
   test:
 
-    needs: build
     runs-on: windows-2022
     timeout-minutes: 10
 

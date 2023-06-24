@@ -1,4 +1,4 @@
-name: Manual release
+name: Release
 
 on:
   workflow_dispatch:
@@ -10,10 +10,13 @@ on:
 jobs:
 
   build:
-
     uses: ./.github/workflows/build.yml
     with:
       version: ${{ github.event.inputs.version }}
+
+  test:
+    needs: build
+    uses: ./.github/workflows/test.yml
 
   release:
 
