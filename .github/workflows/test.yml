@@ -45,7 +45,7 @@ jobs:
       if: always()
       uses: actions/upload-artifact@v3
       with:
-        name: log
+        name: results
         path: src/IntegrationTest/results
 
   report:
