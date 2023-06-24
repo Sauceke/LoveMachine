@@ -20,9 +20,12 @@ scs_lovemachine_path = "../bin/LoveMachine.SCS"
 class LoveMachineLibrary(object):
     
     def _timestamp_gaps_should_be_about(self, timestamps, millis):
+        tolerance_absolute_ms = 150
+        tolerance_relative = 0.2
         gaps = list(map(lambda tup: tup[1] - tup[0], zip(timestamps[:-1], timestamps[1:])))
         for gap in gaps:
-            assert abs((gap * 1000) - millis) < millis * 0.5
+            assert abs((1000 * gap) - millis) < tolerance_absolute_ms
+        assert abs(1000 * sum(gaps) / len(gaps) - millis) < millis * tolerance_relative
     
     def _get_linear_cmd_position(self, cmd):
         return cmd["LinearCmd"]["Vectors"][0]["Position"]
