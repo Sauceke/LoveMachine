@@ -2,12 +2,11 @@ name: Commit
 
 on:
   push:
-    branches: [ mastur ]
-    paths: [ 'src/LoveMachine.*/**' ]
+    branches: [mastur]
+    paths: ["src/LoveMachine.*/**"]
 
 jobs:
-
   build:
     uses: ./.github/workflows/build.yml
     with:
-      version: '1.0.0'
+      version: "1.0.0"

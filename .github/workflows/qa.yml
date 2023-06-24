@@ -4,11 +4,10 @@ on:
   workflow_dispatch:
 
 jobs:
-
   build:
     uses: ./.github/workflows/build.yml
     with:
-      version: '1.0.0'
+      version: "1.0.0"
 
   test:
     uses: ./.github/workflows/test.yml

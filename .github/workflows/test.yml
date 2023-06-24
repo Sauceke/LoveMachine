@@ -4,9 +4,7 @@ on:
   workflow_call:
 
 jobs:
-
   test:
-
     runs-on: windows-2022
     timeout-minutes: 10
 
@@ -15,46 +13,45 @@ jobs:
         working-directory: src
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v1
+      - name: Checkout code
+        uses: actions/checkout@v1
 
-    - name: Download artifacts
-      uses: actions/download-artifact@v3
-      with:
-        path: src
+      - name: Download artifacts
+        uses: actions/download-artifact@v3
+        with:
+          path: src
 
-    - name: Setup Python
-      uses: actions/setup-python@v3.1.4
-      with:
-        python-version: 3.11.4
+      - name: Setup Python
+        uses: actions/setup-python@v3.1.4
+        with:
+          python-version: 3.11.4
 
-    - name: Run tests
-      run: |
-        cd ./IntegrationTest
-        pip install -r requirements.txt
-        robot --outputdir results ./SecrossphereDemoTestSuite.robot
+      - name: Run tests
+        run: |
+          cd ./IntegrationTest
+          pip install -r requirements.txt
+          robot --outputdir results ./SecrossphereDemoTestSuite.robot
 
-    - name: Upload test results
-      if: always()
-      uses: actions/upload-artifact@v3
-      with:
-        name: results
-        path: src/IntegrationTest/results
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: results
+          path: src/IntegrationTest/results
 
   report:
-
     if: always()
     needs: test
     runs-on: ubuntu-latest
 
     steps:
-    - name: Download artifacts
-      uses: actions/download-artifact@v3
-      with:
-        path: .
+      - name: Download artifacts
+        uses: actions/download-artifact@v3
+        with:
+          path: .
 
-    - name: Generate test report
-      uses: joonvena/robotframework-reporter-action@v2.2
-      with:
-        gh_access_token: ${{ secrets.GITHUB_TOKEN }}
-        report_path: results
+      - name: Generate test report
+        uses: joonvena/robotframework-reporter-action@v2.2
+        with:
+          gh_access_token: ${{ secrets.GITHUB_TOKEN }}
+          report_path: results
