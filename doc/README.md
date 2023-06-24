@@ -1,7 +1,7 @@
 [English](README.md) | [日本語](README-jp.md)
 
 # BepInEx LoveMachine
-[![.NET][CI Badge]](#)
+[![QA][CI Badge]](#)
 [![Download][Downloads Badge]][installer]
 [![Patreon][Patreon Badge]][Patreon]
 
@@ -155,7 +155,7 @@ Sauceke   •   nhydock   •   hogefugamoga   •   RPKU   �
 This mod would not have been possible without the [BepInEx] plugin framework and, of course, the [Buttplug.io] project.
 
 <!-- badges -->
-[CI Badge]: https://github.com/Sauceke/LoveMachine/actions/workflows/commit.yml/badge.svg
+[CI Badge]: https://github.com/Sauceke/LoveMachine/actions/workflows/qa.yml/badge.svg
 [Downloads Badge]: https://img.shields.io/github/downloads/Sauceke/LoveMachine/total
 [Patreon Badge]: https://shields.io/badge/patreon-grey?logo=patreon
 [Download Button]: https://img.shields.io/badge/%E2%87%93_Download-blue?style=for-the-badge

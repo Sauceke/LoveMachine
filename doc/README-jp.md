@@ -1,7 +1,7 @@
 [English](README.md) | [日本語](README-jp.md)
 
 # BepInEx LoveMachine
-[![.NET][CI Badge]](#)
+[![QA][CI Badge]](#)
 [![Download][Downloads Badge]][インストーラ]
 [![Patreon][Patreon Badge]][Patreon]
 
@@ -151,7 +151,7 @@ Sauceke   •   nhydock   •   hogefugamoga   •   RPKU   ・ a
 LoveMachineは[BepInEx]プラグインフレームワークと、そしてもちろん[Buttplug.io]プロジェクトのお陰で作られています。
 
 <!-- badges -->
-[CI Badge]: https://github.com/Sauceke/LoveMachine/actions/workflows/commit.yml/badge.svg
+[CI Badge]: https://github.com/Sauceke/LoveMachine/actions/workflows/qa.yml/badge.svg
 [Downloads Badge]: https://img.shields.io/github/downloads/Sauceke/LoveMachine/total
 [Patreon Badge]: https://shields.io/badge/patreon-grey?logo=patreon
 [Download Button]: https://img.shields.io/badge/%E2%87%93%E3%82%A4%E3%83%B3%E3%82%B9%E3%83%88%E3%83%BC%E3%83%A9-blue?style=for-the-badge
