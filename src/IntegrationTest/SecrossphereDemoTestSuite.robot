@@ -25,7 +25,7 @@ Play The Game
     Use Secrossphere Config    ./scs-config
     Start Fake Intiface Server
     Start Secrossphere Demo
-    Sleep    30 seconds
+    Sleep    10 seconds
     Start H Scene In Secrossphere Demo
     Sleep    20 seconds
 
