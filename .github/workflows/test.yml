@@ -40,10 +40,17 @@ jobs:
         cd ./IntegrationTest
         pip install -r requirements.txt
         robot ./SecrossphereDemoTestSuite.robot
-    
+
     - name: Upload test logs
       if: always()
       uses: actions/upload-artifact@v3
       with:
         name: log
-        path: src/IntegrationTest
+        path: src/IntegrationTest/log.html
+
+    - name: Generate test report
+      if: always()
+      uses: joonvena/robotframework-reporter-action@v2.2
+      with:
+        gh_access_token: ${{ secrets.GITHUB_TOKEN }}
+        report_path: src/IntegrationTest
