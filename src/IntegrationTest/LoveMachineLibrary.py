@@ -10,7 +10,7 @@ import zipfile
 import winreg
 
 root_path = "./test/"
-bepinex32_url = "https://github.com/BepInEx/BepInEx/releases/download/v5.4.18/BepInEx_x86_5.4.18.0.zip "
+bepinex32_url = "https://github.com/BepInEx/BepInEx/releases/download/v5.4.21/BepInEx_x86_5.4.21.0.zip"
 
 scs_url = "https://trial.dlsite.com/professional/VJ016000/VJ015728_trial.zip"
 scs_path = root_path + "scs/"
