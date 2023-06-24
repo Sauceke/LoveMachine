@@ -99,13 +99,12 @@ class LoveMachineLibrary:
     def start_h_scene_in_secrossphere_demo(self):
         mouse = pynput.mouse.Controller()
         keyboard = pynput.keyboard.Controller()
-        keyboard.type("s")
+        keyboard.tap("s")
         time.sleep(1)
-        keyboard.press(pynput.keyboard.Key.enter)
-        time.sleep(1)
-        keyboard.release(pynput.keyboard.Key.enter)
+        keyboard.tap(pynput.keyboard.Key.enter)
         time.sleep(5)
         for i in range(14):
+            # on github runners fps drops to 4 at this point, so let's click slowly
             mouse.press(pynput.mouse.Button.left)
             time.sleep(0.5)
             mouse.release(pynput.mouse.Button.left)
