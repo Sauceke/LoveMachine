@@ -61,7 +61,7 @@ class LoveMachineLibrary(object):
         commands_dict = intifake.linear_commands
         timestamps = sorted(commands_dict.keys())
         commands = map(lambda t: commands_dict[t], timestamps)
-        positions = map(lambda cmd: cmd["LinearCmd"]["Vectors"][0]["Position"], commands)
+        positions = list(map(lambda cmd: cmd["LinearCmd"]["Vectors"][0]["Position"], commands))
         odd_positions = positions[1::2]
         even_positions = positions[::2]
         assert max(odd_positions) - min(odd_positions) < 0.2
