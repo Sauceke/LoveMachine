@@ -18,7 +18,7 @@ Linear Command Semantics
     Positions Of Linear Commands Should Alternate
 
 Vibrate Command Count
-    Number Of Vibrate Commands Should Be At Least            ${10}
+    Number Of Vibrate Commands Should Be At Least            ${50}
 
 Vibrate Command Timing
     Milliseconds Between Vibrate Commands Should Be About    ${100}
