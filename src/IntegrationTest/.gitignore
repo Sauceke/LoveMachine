@@ -180,3 +180,6 @@ report.html
 selenium-screenshot-*.png
 
 # End of https://www.toptal.com/developers/gitignore/api/python,robotframework
+
+# binaries of the games being tested
+bin/

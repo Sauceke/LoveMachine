@@ -9,7 +9,7 @@ import time
 import winreg
 import zipfile
 
-root_path = "./test/"
+root_path = "./bin/"
 bepinex32_url = "https://github.com/BepInEx/BepInEx/releases/download/v5.4.21/BepInEx_x86_5.4.21.0.zip"
 
 scs_url = "https://trial.dlsite.com/professional/VJ016000/VJ015728_trial.zip"
