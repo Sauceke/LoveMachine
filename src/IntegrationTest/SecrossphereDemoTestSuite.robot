@@ -8,20 +8,25 @@ Suite Setup       Play The Game
 Suite Teardown    Clean Up
 
 *** Test Cases ***
-Check Linear Command Count
+Linear Command Count
     Number Of Linear Commands Should Be At Least    ${10}
 
-Check Linear Command Timing
+Linear Command Timing
     Milliseconds Between Linear Commands Should Be About    ${400}
 
-Check Linear Command Semantics
+Linear Command Semantics
     Positions Of Linear Commands Should Alternate
 
-Check Vibrate Command Count
+Vibrate Command Count
     Number Of Vibrate Commands Should Be At Least    ${10}
 
-Check Vibrate Command Timing
+Vibrate Command Timing
     Milliseconds Between Vibrate Commands Should Be About    ${100}
+
+Kill Switch
+    Press Space Bar
+    Sleep    5 seconds
+    No Command Should Have Been Received In The Last    4 seconds
 
 *** Keywords ***
 Play The Game

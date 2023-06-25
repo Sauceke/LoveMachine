@@ -19,6 +19,10 @@ scs_lovemachine_path = "../bin/LoveMachine.SCS"
 
 class LoveMachineLibrary:
     
+    def __init__(self):
+        self._mouse = pynput.mouse.Controller()
+        self._keyboard = pynput.keyboard.Controller()
+
     def _timestamp_gaps_should_be_about(self, timestamps, millis):
         tolerance_absolute_ms = 150
         tolerance_relative = 0.2
@@ -34,6 +38,9 @@ class LoveMachineLibrary:
     def stop_fake_intiface_server(self):
         intifake.stop()
         robot.api.logger.info("Stopped fake Intiface server")
+
+    def press_space_bar(self):
+        self._keyboard.tap(pynput.keyboard.Key.space)
 
     def delete_downloaded_files(self):
         shutil.rmtree(root_path)
@@ -66,6 +73,12 @@ class LoveMachineLibrary:
         assert abs(max(odd_positions) - min(even_positions)) > 0.5
         assert abs(max(even_positions) - min(odd_positions)) > 0.5
 
+    def no_command_should_have_been_received_in_the_last(self, duration_str):
+        seconds = robot.libraries.DateTime.convert_time(duration_str)
+        end = time.time() - seconds
+        assert all(timestamp < end for timestamp in intifake.linear_commands.keys())
+        assert all(timestamp < end for timestamp in intifake.vibrate_commands.keys())
+
     def download_secrossphere_demo(self):
         os.mkdir(root_path)
         robot.api.logger.info("Downloading Secrossphere demo...")
@@ -97,17 +110,15 @@ class LoveMachineLibrary:
         robot.api.logger.info("Closed Secrossphere demo")
 
     def start_h_scene_in_secrossphere_demo(self):
-        mouse = pynput.mouse.Controller()
-        keyboard = pynput.keyboard.Controller()
-        keyboard.tap("s")
+        self._keyboard.tap("s")
         time.sleep(1)
-        keyboard.tap(pynput.keyboard.Key.enter)
+        self._keyboard.tap(pynput.keyboard.Key.enter)
         time.sleep(5)
         for i in range(14):
             # on github runners fps drops to 4 at this point, so let's click slowly
-            mouse.press(pynput.mouse.Button.left)
+            self._mouse.press(pynput.mouse.Button.left)
             time.sleep(0.5)
-            mouse.release(pynput.mouse.Button.left)
+            self._mouse.release(pynput.mouse.Button.left)
             time.sleep(0.5)
         robot.api.logger.info("Started H Scene in Secrossphere demo")
     
