@@ -9,39 +9,39 @@ Suite Teardown    Clean Up
 
 *** Test Cases ***
 Linear Command Count
-    Number Of Linear Commands Should Be At Least    ${10}
+    Number Of Linear Commands Should Be At Least             ${10}
 
 Linear Command Timing
-    Milliseconds Between Linear Commands Should Be About    ${400}
+    Milliseconds Between Linear Commands Should Be About     ${400}
 
 Linear Command Semantics
     Positions Of Linear Commands Should Alternate
 
 Vibrate Command Count
-    Number Of Vibrate Commands Should Be At Least    ${10}
+    Number Of Vibrate Commands Should Be At Least            ${10}
 
 Vibrate Command Timing
     Milliseconds Between Vibrate Commands Should Be About    ${100}
 
 Kill Switch
-    Press Space Bar
-    Sleep    5 seconds
-    No Command Should Have Been Received In The Last    4 seconds
+    WHEN Press Space Bar
+    AND Sleep                                                5 seconds
+    THEN No Command Should Have Been Received In The Last    4 seconds
 
 *** Keywords ***
 Play The Game
     Download Secrossphere Demo
     Patch Secrossphere Demo
-    Set Secrossphere Resolution    ${320}    ${240}    ${1}
-    Use Secrossphere Config    ./scs-config
+    Set Secrossphere Resolution           ${320}    ${240}    ${1}
+    Use Secrossphere Config               ./scs-config
     Start Fake Intiface Server
     Start Secrossphere Demo
-    Sleep    30 seconds
+    Sleep                                 30 seconds
     Start H Scene In Secrossphere Demo
-    Sleep    20 seconds
+    Sleep                                 20 seconds
 
 Clean Up
     Close Secrossphere Demo
     Stop Fake Intiface Server
-    Sleep    5 seconds
+    Sleep                                 5 seconds
     Delete Downloaded Files
