@@ -55,7 +55,8 @@ class LoveMachineLibrary:
         assert len(self._intifake.vibrate_commands) >= min
 
     def milliseconds_between_linear_commands_should_be_about(self, millis):
-        timestamps = sorted(self._intifake.linear_commands.keys())
+        # discard first command as it's not guaranteed to be aligned
+        timestamps = sorted(self._intifake.linear_commands.keys())[1:]
         self._timestamp_gaps_should_be_about(timestamps, millis)
         
     def milliseconds_between_vibrate_commands_should_be_about(self, millis):
