@@ -4,8 +4,6 @@ import threading
 import time
 import websockets
 
-# Fake Intiface server using example responses taken straight from the Buttplug docs.
-
 server_info = """
 [
     {
@@ -64,60 +62,56 @@ device_list = """
 ]
 """
 
-# Dict of linear commands keyed with the time each command was received in epoch seconds
-linear_commands = {}
+class Intifake:
+    """Fake Intiface server using example responses taken straight from the Buttplug docs."""
 
-# Dict of vibrate commands keyed with the time each command was received in epoch seconds
-vibrate_commands = {}
+    def __init__(self):
+        # Dict of linear commands keyed with the time each command was received in epoch seconds
+        self.linear_commands = {}
+        # Dict of vibrate commands keyed with the time each command was received in epoch seconds
+        self.vibrate_commands = {}
 
-async def handle(websocket):
-    while True:
+    async def _handle(self, websocket):
+        while True:
+            try:
+                message = await websocket.recv()
+            except:
+                print("recv error, assuming connection closed")
+                self._stop_handle.set_result(0)
+                continue
+            obj = json.loads(message)[0]
+            if "RequestServerInfo" in obj:
+                await websocket.send(server_info)
+                continue
+            if "RequestDeviceList" in obj:
+                await websocket.send(device_list)
+                continue
+            if "LinearCmd" in obj:
+                self.linear_commands[time.time()] = obj["LinearCmd"]
+                continue
+            if "ScalarCmd" in obj:
+                self.vibrate_commands[time.time()] = obj["ScalarCmd"]
+                continue
+
+    async def _run_loop(self):
+        self._stop_handle = asyncio.Future()
+        server = await websockets.serve(self._handle, host="localhost", port=12345, ping_timeout=600)
+        await self._stop_handle
         try:
-            message = await websocket.recv()
-        except Exception as e:
-            print(e)
-            print("recv error, assuming connection closed")
-            stop_handle.set_result(0)
-            continue
-        obj = json.loads(message)[0]
-        if "RequestServerInfo" in obj:
-            await websocket.send(server_info)
-            continue
-        if "RequestDeviceList" in obj:
-            await websocket.send(device_list)
-            continue
-        if "LinearCmd" in obj:
-            global linear_commands
-            linear_commands[time.time()] = obj
-            continue
-        if "ScalarCmd" in obj:
-            global vibrate_commands
-            vibrate_commands[time.time()] = obj
-            continue
+            await server.close()
+        except:
+            pass
 
-async def run_loop():
-    global stop_handle
-    stop_handle = asyncio.Future()
-    server = await websockets.serve(handle, host="localhost", port=12345, ping_timeout=600)
-    await stop_handle
-    try:
-        await server.close()
-    except:
-        pass
+    def _run_fg(self):
+        asyncio.run(self._run_loop())
 
-def run_fg():
-    asyncio.run(run_loop())
+    def start(self):
+        self._server_thread = threading.Thread(target=self._run_fg)
+        self._server_thread.start()
 
-def start():
-    global server_thread
-    server_thread = threading.Thread(target = run_fg)
-    server_thread.start()
-
-def stop():
-    try:
-        global stop_handle
-        stop_handle.set_result(0)
-        global server_thread
-        server_thread.join()
-    except:
-        pass
+    def stop(self):
+        try:
+            self._stop_handle.set_result(0)
+            self._server_thread.join()
+        except:
+            pass

@@ -20,6 +20,7 @@ scs_lovemachine_path = "../bin/LoveMachine.SCS"
 class LoveMachineLibrary:
     
     def __init__(self):
+        self._intifake = intifake.Intifake()
         self._mouse = pynput.mouse.Controller()
         self._keyboard = pynput.keyboard.Controller()
 
@@ -31,11 +32,11 @@ class LoveMachineLibrary:
         assert abs(1000 * sum(gaps) / len(gaps) - millis) < millis * tolerance_relative
     
     def start_fake_intiface_server(self):
-        intifake.start()
+        self._intifake.start()
         robot.api.logger.info("Started fake Intiface server")
     
     def stop_fake_intiface_server(self):
-        intifake.stop()
+        self._intifake.stop()
         robot.api.logger.info("Stopped fake Intiface server")
 
     def press_space_bar(self):
@@ -45,26 +46,26 @@ class LoveMachineLibrary:
         shutil.rmtree(root_path)
 
     def number_of_linear_commands_should_be_at_least(self, min):
-        robot.api.logger.info("Captured linear commands: " + str(intifake.linear_commands))
-        assert len(intifake.linear_commands) >= min
+        robot.api.logger.info("Captured linear commands: " + str(self._intifake.linear_commands))
+        assert len(self._intifake.linear_commands) >= min
     
     def number_of_vibrate_commands_should_be_at_least(self, min):
-        robot.api.logger.info("Captured vibrate commands: " + str(intifake.vibrate_commands))
-        assert len(intifake.vibrate_commands) >= min
+        robot.api.logger.info("Captured vibrate commands: " + str(self._intifake.vibrate_commands))
+        assert len(self._intifake.vibrate_commands) >= min
 
     def milliseconds_between_linear_commands_should_be_about(self, millis):
-        timestamps = sorted(intifake.linear_commands.keys())
+        timestamps = sorted(self._intifake.linear_commands.keys())
         self._timestamp_gaps_should_be_about(timestamps, millis)
         
     def milliseconds_between_vibrate_commands_should_be_about(self, millis):
-        timestamps = sorted(intifake.vibrate_commands.keys())
+        timestamps = sorted(self._intifake.vibrate_commands.keys())
         self._timestamp_gaps_should_be_about(timestamps, millis)
 
     def positions_of_linear_commands_should_alternate(self):
-        commands_dict = intifake.linear_commands
+        commands_dict = self._intifake.linear_commands
         timestamps = sorted(commands_dict.keys())
         commands = [commands_dict[t] for t in timestamps]
-        positions = [cmd["LinearCmd"]["Vectors"][0]["Position"] for cmd in commands]
+        positions = [cmd["Vectors"][0]["Position"] for cmd in commands]
         odd_positions = positions[1::2]
         even_positions = positions[::2]
         assert max(odd_positions) - min(odd_positions) < 0.2
@@ -75,29 +76,29 @@ class LoveMachineLibrary:
     def no_command_should_have_been_received_in_the_last(self, duration_str):
         seconds = robot.libraries.DateTime.convert_time(duration_str)
         end = time.time() - seconds
-        assert all(timestamp < end for timestamp in intifake.linear_commands.keys())
-        assert all(timestamp < end for timestamp in intifake.vibrate_commands.keys())
+        assert all(timestamp < end for timestamp in self._intifake.linear_commands.keys())
+        assert all(timestamp < end for timestamp in self._intifake.vibrate_commands.keys())
 
     def download_secrossphere_demo(self):
         os.mkdir(root_path)
         robot.api.logger.info("Downloading Secrossphere demo...")
         scs_zip_path = root_path + "scs.zip"
-        req = requests.get(scs_url, allow_redirects = True)
+        req = requests.get(scs_url, allow_redirects=True)
         open(scs_zip_path, 'wb').write(req.content)
         robot.api.logger.info("Downloaded Secrossphere demo")
-        with zipfile.ZipFile(scs_zip_path, "r", metadata_encoding = "cp932") as scs_zip:
+        with zipfile.ZipFile(scs_zip_path, "r", metadata_encoding="cp932") as scs_zip:
             scs_zip.extractall(root_path)
         os.rename(root_path + "セクロスフィア H体験版", scs_path)
         robot.api.logger.info("Extracted Secrossphere demo")
 
     def patch_secrossphere_demo(self):
         bepinex_zip_path = root_path + "/bepinex32.zip"
-        req = requests.get(bepinex32_url, allow_redirects = True)
+        req = requests.get(bepinex32_url, allow_redirects=True)
         open(bepinex_zip_path, 'wb').write(req.content)
         with zipfile.ZipFile(bepinex_zip_path, "r") as bepinex_zip:
             bepinex_zip.extractall(scs_path)
-        shutil.copytree(scs_tweaks_path, scs_path, dirs_exist_ok = True)
-        shutil.copytree(scs_lovemachine_path, scs_path, dirs_exist_ok = True)
+        shutil.copytree(scs_tweaks_path, scs_path, dirs_exist_ok=True)
+        shutil.copytree(scs_lovemachine_path, scs_path, dirs_exist_ok=True)
         robot.api.logger.info("Patched Secrossphere demo")
 
     def start_secrossphere_demo(self):
