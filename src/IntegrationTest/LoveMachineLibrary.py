@@ -17,9 +17,9 @@ scs_path = root_path + "scs/"
 scs_tweaks_path = "../LoveMachine.SCS/tweaks"
 scs_lovemachine_path = "../bin/LoveMachine.SCS"
 
-@robot.api.deco.library(scope='SUITE')
 class LoveMachineLibrary:
-    
+    ROBOT_LIBRARY_SCOPE = 'SUITE'
+
     def __init__(self):
         self._intifake = intifake.Intifake()
         self._mouse = pynput.mouse.Controller()
