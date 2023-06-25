@@ -26,9 +26,8 @@ class LoveMachineLibrary:
     def _timestamp_gaps_should_be_about(self, timestamps, millis):
         tolerance_absolute_ms = 150
         tolerance_relative = 0.2
-        gaps = list(map(lambda tup: tup[1] - tup[0], zip(timestamps[:-1], timestamps[1:])))
-        for gap in gaps:
-            assert abs((1000 * gap) - millis) < tolerance_absolute_ms
+        gaps = [tup[1] - tup[0] for tup in zip(timestamps[:-1], timestamps[1:])]
+        assert all(abs((1000 * gap) - millis) < tolerance_absolute_ms for gap in gaps)
         assert abs(1000 * sum(gaps) / len(gaps) - millis) < millis * tolerance_relative
     
     def start_fake_intiface_server(self):
@@ -64,8 +63,8 @@ class LoveMachineLibrary:
     def positions_of_linear_commands_should_alternate(self):
         commands_dict = intifake.linear_commands
         timestamps = sorted(commands_dict.keys())
-        commands = map(lambda t: commands_dict[t], timestamps)
-        positions = list(map(lambda cmd: cmd["LinearCmd"]["Vectors"][0]["Position"], commands))
+        commands = [commands_dict[t] for t in timestamps]
+        positions = [cmd["LinearCmd"]["Vectors"][0]["Position"] for cmd in commands]
         odd_positions = positions[1::2]
         even_positions = positions[::2]
         assert max(odd_positions) - min(odd_positions) < 0.2
