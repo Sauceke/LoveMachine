@@ -1,32 +1,31 @@
 *** Settings ***
 Name              Secrossphere Demo Test Suite
-Documentation     Tests LoveMachine.SCS running on Secrossphere demo
-...               with a fake Intiface server emulating a stroker and
-...               a vibrator.
+Documentation     Tests LoveMachine.SCS running on Secrossphere demo,
+...               connected to a fake Intiface server.
 Library           LoveMachineLibrary.py
 Suite Setup       Play The Game
 Suite Teardown    Clean Up
 
 *** Test Cases ***
 Linear Command Count
-    Number Of Linear Commands Should Be At Least             ${10}
+    Number Of Linear Commands Should Be At Least       ${10}
 
 Linear Command Timing
-    Milliseconds Between Linear Commands Should Be About     ${400}
+    Time Between Linear Commands Should Be About       400 ms
 
 Linear Command Semantics
     Positions Of Linear Commands Should Alternate
 
 Vibrate Command Count
-    Number Of Vibrate Commands Should Be At Least            ${50}
+    Number Of Vibrate Commands Should Be At Least      ${50}
 
 Vibrate Command Timing
-    Milliseconds Between Vibrate Commands Should Be About    ${100}
+    Time Between Vibrate Commands Should Be About      100 ms
 
 Kill Switch
-    WHEN Press Key                                           space
-    AND Sleep                                                5 seconds
-    THEN No Command Should Have Been Received In The Last    5 seconds
+    WHEN Press Key                                     space
+    AND Sleep                                          5 seconds
+    THEN No Command Should Have Arrived In The Last    5 seconds
 
 *** Keywords ***
 Play The Game

@@ -25,12 +25,13 @@ class LoveMachineLibrary:
         self._mouse = pynput.mouse.Controller()
         self._keyboard = pynput.keyboard.Controller()
 
-    def _timestamp_gaps_should_be_about(self, timestamps, millis):
-        tolerance_absolute_ms = 150
+    def _timestamp_gaps_should_be_about(self, timestamps, duration_str):
+        seconds = robot.libraries.DateTime.convert_time(duration_str)
+        tolerance_absolute_secs = 0.15
         tolerance_relative = 0.2
         gaps = [tup[1] - tup[0] for tup in zip(timestamps[:-1], timestamps[1:])]
-        assert all(abs((1000 * gap) - millis) < tolerance_absolute_ms for gap in gaps)
-        assert abs(1000 * sum(gaps) / len(gaps) - millis) < millis * tolerance_relative
+        assert all(abs(gap - seconds) < tolerance_absolute_secs for gap in gaps)
+        assert abs(sum(gaps) / len(gaps) - seconds) < seconds * tolerance_relative
     
     def start_fake_intiface_server(self):
         self._intifake.start()
@@ -59,14 +60,14 @@ class LoveMachineLibrary:
         robot.api.logger.info("Captured vibrate commands: " + str(self._intifake.vibrate_commands))
         assert len(self._intifake.vibrate_commands) >= min
 
-    def milliseconds_between_linear_commands_should_be_about(self, millis):
+    def time_between_linear_commands_should_be_about(self, duration_str):
         # discard first command as it's not guaranteed to be aligned
         timestamps = sorted(self._intifake.linear_commands.keys())[1:]
-        self._timestamp_gaps_should_be_about(timestamps, millis)
+        self._timestamp_gaps_should_be_about(timestamps, duration_str)
         
-    def milliseconds_between_vibrate_commands_should_be_about(self, millis):
+    def time_between_vibrate_commands_should_be_about(self, duration_str):
         timestamps = sorted(self._intifake.vibrate_commands.keys())
-        self._timestamp_gaps_should_be_about(timestamps, millis)
+        self._timestamp_gaps_should_be_about(timestamps, duration_str)
 
     def positions_of_linear_commands_should_alternate(self):
         commands_dict = self._intifake.linear_commands
@@ -80,7 +81,7 @@ class LoveMachineLibrary:
         assert abs(max(odd_positions) - min(even_positions)) > 0.5
         assert abs(max(even_positions) - min(odd_positions)) > 0.5
 
-    def no_command_should_have_been_received_in_the_last(self, duration_str):
+    def no_command_should_have_arrived_in_the_last(self, duration_str):
         seconds = robot.libraries.DateTime.convert_time(duration_str)
         end = time.time() - seconds
         assert all(timestamp < end for timestamp in self._intifake.linear_commands.keys())
