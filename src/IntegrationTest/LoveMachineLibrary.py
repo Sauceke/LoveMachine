@@ -40,8 +40,13 @@ class LoveMachineLibrary:
         self._intifake.stop()
         robot.api.logger.info("Stopped fake Intiface server")
 
-    def press_space_bar(self):
-        self._keyboard.tap(pynput.keyboard.Key.space)
+    def press_key(self, key):
+        self._keyboard.tap(key if len(key) == 1 else pynput.keyboard.Key[key])
+        time.sleep(1)
+
+    def left_click(self):
+        self._mouse.click(pynput.mouse.Button.left)
+        time.sleep(1)
 
     def delete_downloaded_files(self):
         shutil.rmtree(root_path)
@@ -111,19 +116,6 @@ class LoveMachineLibrary:
         self.scs_process.terminate()
         robot.api.logger.info("Closed Secrossphere demo")
 
-    def start_h_scene_in_secrossphere_demo(self):
-        self._keyboard.tap("s")
-        time.sleep(1)
-        self._keyboard.tap(pynput.keyboard.Key.enter)
-        time.sleep(5)
-        for i in range(14):
-            # on github runners fps drops to 4 at this point, so let's click slowly
-            self._mouse.press(pynput.mouse.Button.left)
-            time.sleep(0.5)
-            self._mouse.release(pynput.mouse.Button.left)
-            time.sleep(0.5)
-        robot.api.logger.info("Started H Scene in Secrossphere demo")
-    
     def set_secrossphere_resolution(self, width, height, fullscreen):
         key_path = "SOFTWARE\illusion\Secrossphere_Trial"
         winreg.CreateKey(winreg.HKEY_CURRENT_USER, key_path)

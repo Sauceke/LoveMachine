@@ -24,24 +24,30 @@ Vibrate Command Timing
     Milliseconds Between Vibrate Commands Should Be About    ${100}
 
 Kill Switch
-    WHEN Press Space Bar
+    WHEN Press Key                                           space
     AND Sleep                                                5 seconds
-    THEN No Command Should Have Been Received In The Last    4 seconds
+    THEN No Command Should Have Been Received In The Last    5 seconds
 
 *** Keywords ***
 Play The Game
     Download Secrossphere Demo
     Patch Secrossphere Demo
-    Set Secrossphere Resolution           ${320}    ${240}    ${1}
-    Use Secrossphere Config               ./scs-config
+    Set Secrossphere Resolution    ${320}        ${240}    ${1}
+    Use Secrossphere Config        ./scs-config
     Start Fake Intiface Server
     Start Secrossphere Demo
-    Sleep                                 30 seconds
-    Start H Scene In Secrossphere Demo
-    Sleep                                 20 seconds
+    Sleep                          30 seconds    Until game loads
+    Start H Scene
+    Sleep                          20 seconds    Let it run
+
+Start H Scene
+    Press Key                      s
+    Press Key                      enter
+    Sleep                          5 seconds     Until dialog loads
+    Repeat Keyword                 14 times      Left Click
 
 Clean Up
     Close Secrossphere Demo
     Stop Fake Intiface Server
-    Sleep                                 5 seconds
+    Sleep                          5 seconds     Until game is closed
     Delete Downloaded Files
