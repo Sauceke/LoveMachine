@@ -35,18 +35,18 @@ Play The Game
     Use Secrossphere Config        ./scs-config
     Start Fake Intiface Server
     Start Secrossphere Demo
-    Sleep                          30 seconds    Until game loads
+    Sleep                          30 seconds    let the game load
     Start H Scene
-    Sleep                          20 seconds    Let it run
+    Sleep                          20 seconds    let the h-scene run
 
 Start H Scene
     Press Key                      s
     Press Key                      enter
-    Sleep                          5 seconds     Until dialog loads
+    Sleep                          5 seconds     let the dialog load
     Repeat Keyword                 14 times      Left Click
 
 Clean Up
     Close Secrossphere Demo
     Stop Fake Intiface Server
-    Sleep                          5 seconds     Until game is closed
+    Sleep                          5 seconds     let the game exit
     Delete Downloaded Files
