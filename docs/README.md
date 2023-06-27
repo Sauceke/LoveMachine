@@ -40,8 +40,8 @@ Some of the devices that were actually tested with the mod:
 
 Strokers
 - [The Handy]
+- [Kiiroo KEON]
 - OSR2
-- KIIROO KEON
 
 Vibrators
 - [Lovense Gush]
@@ -185,6 +185,7 @@ This mod would not have been possible without the [BepInEx] plugin framework and
 
 <!-- sponsored sex toy links -->
 [The Handy]: https://www.thehandy.com/?ref=saucekebenfield&utm_source=saucekebenfield&utm_medium=affiliate&utm_campaign=The+Handy+Affiliate+program
+[Kiiroo KEON]: https://feelrobotics.go2cloud.org/aff_c?offer_id=4&aff_id=1125&url_id=203
 [Lovense Calor]: https://www.lovense.com/r/vu65q6
 [Lovense Gush]: https://www.lovense.com/r/f7lki7
 [Lovense Max 2]: https://www.lovense.com/r/k8bbja
