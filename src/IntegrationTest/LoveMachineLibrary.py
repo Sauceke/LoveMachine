@@ -50,7 +50,7 @@ class LoveMachineLibrary:
             root_path + "intiface-engine.exe",
             "--websocket-port", "12345",
             "--use-device-websocket-server",
-            "--device-websocket-server-port", wsdm_port,
+            "--device-websocket-server-port", str(wsdm_port),
             "--user-device-config-file", "./buttplug-user-device-config.json"
             ]
         self._intiface_process = subprocess.Popen(args)
