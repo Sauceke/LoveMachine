@@ -65,11 +65,12 @@ class LoveMachineLibrary:
         self._intiface_process.terminate()
         robot.api.logger.info("Closed Intiface Engine")
 
-    def connect_stroker_to_intiface(self):
-        self._stroker = device.TCodeStrokerDevice(wsdm_port)
+    def connect_osr2(self):
+        self._stroker = device.OSR2(wsdm_port)
 
-    def connect_vibrator_to_intiface(self):
-        self._vibrator = device.LovenseVibratorDevice(wsdm_port)
+    def connect_lovense_nora(self):
+        self._vibrator = device.LovenseNora(wsdm_port)
+        self._rotator = self._vibrator
     
     def press_key(self, key):
         self._keyboard.tap(key if len(key) == 1 else pynput.keyboard.Key[key])
@@ -90,6 +91,10 @@ class LoveMachineLibrary:
         robot.api.logger.info("Captured vibrate commands: " + str(self._vibrator.vibrate_cmd_log))
         assert len(self._vibrator.vibrate_cmd_log) >= min
 
+    def number_of_rotate_commands_should_be_at_least(self, min):
+        robot.api.logger.info("Captured rotate commands: " + str(self._rotator.rotate_cmd_log))
+        assert len(self._rotator.rotate_cmd_log) >= min
+
     def time_between_linear_commands_should_be_about(self, duration_str):
         # discard first command as it's not guaranteed to be aligned
         timestamps = sorted(self._stroker.linear_cmd_log.keys())[1:]
@@ -97,6 +102,10 @@ class LoveMachineLibrary:
         
     def time_between_vibrate_commands_should_be_about(self, duration_str):
         timestamps = sorted(self._vibrator.vibrate_cmd_log.keys())
+        self._timestamp_gaps_should_be_about(timestamps, duration_str)
+
+    def time_between_rotate_commands_should_be_about(self, duration_str):
+        timestamps = sorted(self._rotator.rotate_cmd_log.keys())
         self._timestamp_gaps_should_be_about(timestamps, duration_str)
 
     def positions_of_linear_commands_should_alternate(self):

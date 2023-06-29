@@ -26,6 +26,12 @@ Vibrate Command Count
 Vibrate Command Timing
     Time Between Vibrate Commands Should Be About      100 ms
 
+Rotate Command Count
+    Number Of Rotate Commands Should Be At Least       ${10}
+
+Rotate Command Timing
+    Time Between Rotate Commands Should Be About       400 ms
+
 Battery Level
     Battery Level Of Vibrator Should Have Been Read
 
@@ -38,25 +44,25 @@ Kill Switch
 Play The Game
     Download Secrossphere Demo
     Patch Secrossphere Demo
-    Set Secrossphere Resolution     ${320}        ${240}    ${1}
-    Use Secrossphere Config         ./scs-config
+    Set Secrossphere Resolution    ${320}        ${240}    ${1}
+    Use Secrossphere Config        ./scs-config
     Download Intiface Engine
     Start Intiface Engine
-    Connect Stroker To Intiface
-    Connect Vibrator To Intiface
+    Connect Lovense Nora
+    Connect OSR2
     Start Secrossphere Demo
-    Sleep                           30 seconds    let the game load
+    Sleep                          30 seconds    let the game load
     Start H Scene
-    Sleep                           20 seconds    let the h-scene run
+    Sleep                          20 seconds    let the h-scene run
 
 Start H Scene
-    Press Key                       s
-    Press Key                       enter
-    Sleep                           5 seconds     let the dialog load
-    Repeat Keyword                  14 times      Left Click
+    Press Key                      s
+    Press Key                      enter
+    Sleep                          5 seconds     let the dialog load
+    Repeat Keyword                 14 times      Left Click
 
 Clean Up
     Close Secrossphere Demo
     Close Intiface Engine
-    Sleep                           5 seconds     let the game exit
+    Sleep                          5 seconds     let the game exit
     Delete Downloaded Files
