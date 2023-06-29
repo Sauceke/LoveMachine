@@ -1,4 +1,4 @@
-name: "[Reusable] Integration tests"
+name: "[Reusable] End-to-end tests"
 
 on:
   workflow_call:
@@ -28,7 +28,7 @@ jobs:
 
       - name: Run tests
         run: |
-          cd ./IntegrationTest
+          cd ./E2ETest
           pip install -r requirements.txt
           robot --outputdir results ./SecrossphereDemoTestSuite.robot
 
@@ -37,7 +37,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: results
-          path: src/IntegrationTest/results
+          path: src/E2ETest/results
 
   report:
     if: always()
