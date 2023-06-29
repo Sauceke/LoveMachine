@@ -21,7 +21,7 @@ class SimulatedDevice:
     self._thread.start()
 
   async def _connect(self, port):
-    async with websockets.connect(uri = f"ws://127.0.0.1:{port}", ping_interval = 0.5) as ws:
+    async with websockets.connect(uri=f"ws://127.0.0.1:{port}", ping_interval=0.5) as ws:
       await self.listen(ws)
   
   @abc.abstractmethod

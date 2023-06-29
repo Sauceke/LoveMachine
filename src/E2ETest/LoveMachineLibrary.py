@@ -9,6 +9,7 @@ import time
 import winreg
 import zipfile
 
+
 root_path = "./bin/"
 bepinex32_url = "https://github.com/BepInEx/BepInEx/releases/download/v5.4.21/BepInEx_x86_5.4.21.0.zip"
 intiface_url = "https://github.com/intiface/intiface-engine/releases/download/v1.4.0/intiface-engine-win-x64-Release.zip"
@@ -18,6 +19,7 @@ scs_url = "https://trial.dlsite.com/professional/VJ016000/VJ015728_trial.zip"
 scs_path = root_path + "scs/"
 scs_tweaks_path = "../LoveMachine.SCS/tweaks"
 scs_lovemachine_path = "../bin/LoveMachine.SCS"
+
 
 class LoveMachineLibrary:
     ROBOT_LIBRARY_SCOPE = 'SUITE'
