@@ -91,8 +91,7 @@ class LoveMachineLibrary:
         self._timestamp_gaps_should_be_about(timestamps, duration_str)
         
     def time_between_vibrate_commands_should_be_about(self, duration_str):
-        # discard first command because it came from a StopDeviceCmd
-        timestamps = sorted(self._vibrator.vibrate_cmd_log.keys())[1:]
+        timestamps = sorted(self._vibrator.vibrate_cmd_log.keys())
         self._timestamp_gaps_should_be_about(timestamps, duration_str)
 
     def positions_of_linear_commands_should_alternate(self):

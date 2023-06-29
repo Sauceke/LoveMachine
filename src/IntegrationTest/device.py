@@ -40,6 +40,10 @@ class LovenseVibratorDevice(SimulatedDevice):
         if packet.startswith("DeviceType;"):
           await ws.send(bytes(f"Z:{address}:10", "utf-8"))
         elif packet.startswith("Vibrate:"):
+          if packet == "Vibrate:0;" and len(self.vibrate_cmd_log) == 0:
+            # only start recording from the first nonzero command,
+            # ignore StopDeviceCmd messages
+            continue
           self.vibrate_cmd_log[time.time()] = packet
         elif packet.startswith("Battery"):
           self.battery_query_received = True
