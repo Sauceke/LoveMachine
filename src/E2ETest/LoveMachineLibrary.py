@@ -28,13 +28,16 @@ class LoveMachineLibrary:
         self._mouse = pynput.mouse.Controller()
         self._keyboard = pynput.keyboard.Controller()
 
-    def _timestamp_gaps_should_be_about(self, timestamps, duration_str):
-        seconds = robot.libraries.DateTime.convert_time(duration_str)
-        tolerance_absolute_secs = 0.3
-        tolerance_relative = 0.3
-        gaps = [tup[1] - tup[0] for tup in zip(timestamps[:-1], timestamps[1:])]
-        assert all(abs(gap - seconds) < tolerance_absolute_secs for gap in gaps)
-        assert abs(sum(gaps) / len(gaps) - seconds) < seconds * tolerance_relative
+    def _durations_should_be_about(self, durations_s, expected_str):
+        expected_s = robot.libraries.DateTime.convert_time(expected_str)
+        tolerance_s = 0.3
+        tolerance_ratio = 0.3
+        assert all(abs(actual_s - expected_s) < tolerance_s for actual_s in durations_s)
+        assert abs(sum(durations_s) / len(durations_s) - expected_s) < expected_s * tolerance_ratio
+
+    def _timestamp_gaps_should_be_about(self, timestamps_s, expected_str):
+        gaps = [tup[1] - tup[0] for tup in zip(timestamps_s[:-1], timestamps_s[1:])]
+        self._durations_should_be_about(gaps, expected_str)
     
     def download_intiface_engine(self):
         intiface_zip_path = root_path + "intiface.zip"
@@ -97,14 +100,19 @@ class LoveMachineLibrary:
     def positions_of_linear_commands_should_alternate(self):
         commands_dict = self._stroker.linear_cmd_log
         timestamps = sorted(commands_dict.keys())
-        commands = [commands_dict[t] for t in timestamps]
-        positions = [cmd.position for cmd in commands]
+        positions = [commands_dict[t].position for t in timestamps]
         odd_positions = positions[1::2]
         even_positions = positions[::2]
         assert max(odd_positions) - min(odd_positions) < 0.2
         assert max(even_positions) - min(even_positions) < 0.2
         assert abs(max(odd_positions) - min(even_positions)) > 0.5
         assert abs(max(even_positions) - min(odd_positions)) > 0.5
+
+    def durations_of_linear_commands_should_be_about(self, duration_str):
+        commands_dict = self._stroker.linear_cmd_log
+        timestamps = sorted(commands_dict.keys())
+        durations_s = [commands_dict[t].millis / 1000 for t in timestamps]
+        self._durations_should_be_about(durations_s, duration_str)
 
     def battery_level_of_vibrator_should_have_been_read(self):
         assert self._vibrator.battery_query_received

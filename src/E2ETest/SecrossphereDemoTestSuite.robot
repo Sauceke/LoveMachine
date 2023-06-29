@@ -14,8 +14,11 @@ Linear Command Count
 Linear Command Timing
     Time Between Linear Commands Should Be About       400 ms
 
-Linear Command Semantics
+Linear Command Position
     Positions Of Linear Commands Should Alternate
+
+Linear Command Duration
+    Durations Of Linear Commands Should Be About       400 ms
 
 Vibrate Command Count
     Number Of Vibrate Commands Should Be At Least      ${50}
