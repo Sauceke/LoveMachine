@@ -1,7 +1,8 @@
 *** Settings ***
 Name              Secrossphere Demo Test Suite
-Documentation     Tests LoveMachine.SCS running on Secrossphere demo,
-...               connected to a fake Intiface server.
+Documentation     End-to-end tests of LoveMachine.SCS running on
+...               Secrossphere demo, with simulated websocket
+...               devices connected to Intiface Engine.
 Library           LoveMachineLibrary.py
 Suite Setup       Play The Game
 Suite Teardown    Clean Up
@@ -22,6 +23,9 @@ Vibrate Command Count
 Vibrate Command Timing
     Time Between Vibrate Commands Should Be About      100 ms
 
+Battery Level
+    Battery Level Of Vibrator Should Have Been Read
+
 Kill Switch
     WHEN Press Key                                     space
     AND Sleep                                          5 seconds
@@ -31,22 +35,25 @@ Kill Switch
 Play The Game
     Download Secrossphere Demo
     Patch Secrossphere Demo
-    Set Secrossphere Resolution    ${320}        ${240}    ${1}
-    Use Secrossphere Config        ./scs-config
-    Start Fake Intiface Server
+    Set Secrossphere Resolution     ${320}        ${240}    ${1}
+    Use Secrossphere Config         ./scs-config
+    Download Intiface Engine
+    Start Intiface Engine
+    Connect Stroker To Intiface
+    Connect Vibrator To Intiface
     Start Secrossphere Demo
-    Sleep                          30 seconds    let the game load
+    Sleep                           30 seconds    let the game load
     Start H Scene
-    Sleep                          20 seconds    let the h-scene run
+    Sleep                           20 seconds    let the h-scene run
 
 Start H Scene
-    Press Key                      s
-    Press Key                      enter
-    Sleep                          5 seconds     let the dialog load
-    Repeat Keyword                 14 times      Left Click
+    Press Key                       s
+    Press Key                       enter
+    Sleep                           5 seconds     let the dialog load
+    Repeat Keyword                  14 times      Left Click
 
 Clean Up
     Close Secrossphere Demo
-    Stop Fake Intiface Server
-    Sleep                          5 seconds     let the game exit
+    Close Intiface Engine
+    Sleep                           5 seconds     let the game exit
     Delete Downloaded Files

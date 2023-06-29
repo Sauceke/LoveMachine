@@ -1,4 +1,4 @@
-import intifake
+import device
 import os
 import pynput
 import requests
@@ -11,6 +11,8 @@ import zipfile
 
 root_path = "./bin/"
 bepinex32_url = "https://github.com/BepInEx/BepInEx/releases/download/v5.4.21/BepInEx_x86_5.4.21.0.zip"
+intiface_url = "https://github.com/intiface/intiface-engine/releases/download/v1.4.0/intiface-engine-win-x64-Release.zip"
+wsdm_port = 54817
 
 scs_url = "https://trial.dlsite.com/professional/VJ016000/VJ015728_trial.zip"
 scs_path = root_path + "scs/"
@@ -21,7 +23,7 @@ class LoveMachineLibrary:
     ROBOT_LIBRARY_SCOPE = 'SUITE'
 
     def __init__(self):
-        self._intifake = intifake.Intifake()
+        os.mkdir(root_path)
         self._mouse = pynput.mouse.Controller()
         self._keyboard = pynput.keyboard.Controller()
 
@@ -33,14 +35,36 @@ class LoveMachineLibrary:
         assert all(abs(gap - seconds) < tolerance_absolute_secs for gap in gaps)
         assert abs(sum(gaps) / len(gaps) - seconds) < seconds * tolerance_relative
     
-    def start_fake_intiface_server(self):
-        self._intifake.start()
-        robot.api.logger.info("Started fake Intiface server")
-    
-    def stop_fake_intiface_server(self):
-        self._intifake.stop()
-        robot.api.logger.info("Stopped fake Intiface server")
+    def download_intiface_engine(self):
+        intiface_zip_path = root_path + "intiface.zip"
+        req = requests.get(intiface_url, allow_redirects=True)
+        open(intiface_zip_path, 'wb').write(req.content)
+        robot.api.logger.info("Downloaded Intiface Engine")
+        with zipfile.ZipFile(intiface_zip_path, "r", metadata_encoding="cp932") as intiface_zip:
+            intiface_zip.extractall(root_path)
+        robot.api.logger.info("Extracted Intiface Engine")
 
+    def start_intiface_engine(self):
+        args = [
+            root_path + "intiface-engine.exe",
+            "--websocket-port", "12345",
+            "--use-device-websocket-server",
+            "--device-websocket-server-port", wsdm_port,
+            "--user-device-config-file", "./buttplug-user-device-config.json"
+            ]
+        self._intiface_process = subprocess.Popen(args)
+        robot.api.logger.info("Started Intiface Engine")
+
+    def close_intiface_engine(self):
+        self._intiface_process.terminate()
+        robot.api.logger.info("Closed Intiface Engine")
+
+    def connect_stroker_to_intiface(self):
+        self._stroker = device.TCodeStrokerDevice(wsdm_port)
+
+    def connect_vibrator_to_intiface(self):
+        self._vibrator = device.LovenseVibratorDevice(wsdm_port)
+    
     def press_key(self, key):
         self._keyboard.tap(key if len(key) == 1 else pynput.keyboard.Key[key])
         time.sleep(1)
@@ -53,27 +77,28 @@ class LoveMachineLibrary:
         shutil.rmtree(root_path)
 
     def number_of_linear_commands_should_be_at_least(self, min):
-        robot.api.logger.info("Captured linear commands: " + str(self._intifake.linear_commands))
-        assert len(self._intifake.linear_commands) >= min
+        robot.api.logger.info("Captured linear commands: " + str(self._stroker.linear_cmd_log))
+        assert len(self._stroker.linear_cmd_log) >= min
     
     def number_of_vibrate_commands_should_be_at_least(self, min):
-        robot.api.logger.info("Captured vibrate commands: " + str(self._intifake.vibrate_commands))
-        assert len(self._intifake.vibrate_commands) >= min
+        robot.api.logger.info("Captured vibrate commands: " + str(self._vibrator.vibrate_cmd_log))
+        assert len(self._vibrator.vibrate_cmd_log) >= min
 
     def time_between_linear_commands_should_be_about(self, duration_str):
         # discard first command as it's not guaranteed to be aligned
-        timestamps = sorted(self._intifake.linear_commands.keys())[1:]
+        timestamps = sorted(self._stroker.linear_cmd_log.keys())[1:]
         self._timestamp_gaps_should_be_about(timestamps, duration_str)
         
     def time_between_vibrate_commands_should_be_about(self, duration_str):
-        timestamps = sorted(self._intifake.vibrate_commands.keys())
+        # discard first command because it came from a StopDeviceCmd
+        timestamps = sorted(self._vibrator.vibrate_cmd_log.keys())[1:]
         self._timestamp_gaps_should_be_about(timestamps, duration_str)
 
     def positions_of_linear_commands_should_alternate(self):
-        commands_dict = self._intifake.linear_commands
+        commands_dict = self._stroker.linear_cmd_log
         timestamps = sorted(commands_dict.keys())
         commands = [commands_dict[t] for t in timestamps]
-        positions = [cmd["Vectors"][0]["Position"] for cmd in commands]
+        positions = [cmd.position for cmd in commands]
         odd_positions = positions[1::2]
         even_positions = positions[::2]
         assert max(odd_positions) - min(odd_positions) < 0.2
@@ -81,14 +106,16 @@ class LoveMachineLibrary:
         assert abs(max(odd_positions) - min(even_positions)) > 0.5
         assert abs(max(even_positions) - min(odd_positions)) > 0.5
 
+    def battery_level_of_vibrator_should_have_been_read(self):
+        assert self._vibrator.battery_query_received
+
     def no_command_should_have_arrived_in_the_last(self, duration_str):
         seconds = robot.libraries.DateTime.convert_time(duration_str)
         end = time.time() - seconds
-        assert all(timestamp < end for timestamp in self._intifake.linear_commands.keys())
-        assert all(timestamp < end for timestamp in self._intifake.vibrate_commands.keys())
+        assert all(timestamp < end for timestamp in self._stroker.linear_cmd_log.keys())
+        assert all(timestamp < end for timestamp in self._vibrator.vibrate_cmd_log.keys())
 
     def download_secrossphere_demo(self):
-        os.mkdir(root_path)
         robot.api.logger.info("Downloading Secrossphere demo...")
         scs_zip_path = root_path + "scs.zip"
         req = requests.get(scs_url, allow_redirects=True)
