@@ -1,11 +1,12 @@
-import asyncio
-import json
-import websockets
-import time
 import abc
-import threading
-import re
+import asyncio
 import dataclasses
+import json
+import re
+import threading
+import time
+import websockets
+
 
 @dataclasses.dataclass
 class LinearCmd:
