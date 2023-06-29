@@ -5,12 +5,12 @@ import time
 import abc
 import threading
 import re
+import dataclasses
 
+@dataclasses.dataclass
 class LinearCmd:
-  
-  def __init__(self, position, millis):
-    self.position = position
-    self.millis = millis
+  position: float
+  millis: int
 
 
 class SimulatedDevice:
