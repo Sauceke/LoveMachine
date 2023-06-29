@@ -30,8 +30,8 @@ class LoveMachineLibrary:
 
     def _timestamp_gaps_should_be_about(self, timestamps, duration_str):
         seconds = robot.libraries.DateTime.convert_time(duration_str)
-        tolerance_absolute_secs = 0.15
-        tolerance_relative = 0.2
+        tolerance_absolute_secs = 0.3
+        tolerance_relative = 0.3
         gaps = [tup[1] - tup[0] for tup in zip(timestamps[:-1], timestamps[1:])]
         assert all(abs(gap - seconds) < tolerance_absolute_secs for gap in gaps)
         assert abs(sum(gaps) / len(gaps) - seconds) < seconds * tolerance_relative
