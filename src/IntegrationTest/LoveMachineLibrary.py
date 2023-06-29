@@ -23,7 +23,8 @@ class LoveMachineLibrary:
     ROBOT_LIBRARY_SCOPE = 'SUITE'
 
     def __init__(self):
-        os.mkdir(root_path)
+        if not os.path.exists(root_path):
+            os.makedirs(root_path)
         self._mouse = pynput.mouse.Controller()
         self._keyboard = pynput.keyboard.Controller()
 
