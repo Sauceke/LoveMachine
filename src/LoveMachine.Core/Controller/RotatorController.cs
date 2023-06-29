@@ -15,7 +15,9 @@ namespace LoveMachine.Core.Controller
         protected override IEnumerator HandleAnimation(Device device, StrokeInfo strokeInfo)
         {
             float strokeTimeSecs = strokeInfo.DurationSecs;
-            yield return HandleCoroutine(DoRotate(device, strokeTimeSecs));
+            float timeToCompletionSecs = strokeTimeSecs * (1f - strokeInfo.Completion);
+            HandleCoroutine(DoRotate(device, strokeTimeSecs));
+            yield return WaitForSecondsUnscaled(timeToCompletionSecs);
             if (UnityEngine.Random.value <= RotatorConfig.RotationDirectionChangeChance.Value)
             {
                 clockwise = !clockwise;
