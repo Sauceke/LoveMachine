@@ -16,8 +16,7 @@ namespace LoveMachine.Core.Controller
         {
             float strokeTimeSecs = strokeInfo.DurationSecs;
             float timeToCompletionSecs = strokeTimeSecs * (1f - strokeInfo.Completion);
-            HandleCoroutine(DoRotate(device, strokeTimeSecs));
-            yield return WaitForSecondsUnscaled(timeToCompletionSecs);
+            yield return HandleCoroutine(DoRotate(device, timeToCompletionSecs));
             if (UnityEngine.Random.value <= RotatorConfig.RotationDirectionChangeChance.Value)
             {
                 clockwise = !clockwise;
@@ -35,13 +34,14 @@ namespace LoveMachine.Core.Controller
 
         private IEnumerator DoRotate(Device device, float strokeTimeSecs)
         {
-            float downStrokeTimeSecs = strokeTimeSecs / 2f;
+            float halfStrokeTimeSecs = strokeTimeSecs / 2f;
             float downSpeed = Mathf.Lerp(0.3f, 1f, 0.4f / strokeTimeSecs) *
                 RotatorConfig.RotationSpeedRatio.Value;
             float upSpeed = downSpeed * 0.8f;
             Client.RotateCmd(device, downSpeed, clockwise);
-            yield return WaitForSecondsUnscaled(downStrokeTimeSecs);
+            yield return WaitForSecondsUnscaled(halfStrokeTimeSecs);
             Client.RotateCmd(device, upSpeed, !clockwise);
+            yield return WaitForSecondsUnscaled(halfStrokeTimeSecs);
         }
     }
 }
