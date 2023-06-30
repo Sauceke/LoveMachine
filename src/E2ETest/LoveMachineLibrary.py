@@ -108,7 +108,8 @@ class LoveMachineLibrary:
         self._timestamp_gaps_should_be_about(timestamps, duration_str)
 
     def time_between_rotate_commands_should_be_about(self, duration_str):
-        timestamps = sorted(self._rotator.rotate_cmd_log.keys())
+        # first 2 commands not guaranteed to be aligned
+        timestamps = sorted(self._rotator.rotate_cmd_log.keys())[2:]
         self._timestamp_gaps_should_be_about(timestamps, duration_str)
 
     def positions_of_linear_commands_should_alternate(self):
@@ -124,7 +125,8 @@ class LoveMachineLibrary:
 
     def durations_of_linear_commands_should_be_about(self, duration_str):
         commands_dict = self._stroker.linear_cmd_log
-        timestamps = sorted(commands_dict.keys())
+        # first command not guaranteed to be aligned
+        timestamps = sorted(commands_dict.keys())[1:]
         durations_s = [commands_dict[t].millis / 1000 for t in timestamps]
         self._durations_should_be_about(durations_s, duration_str)
 

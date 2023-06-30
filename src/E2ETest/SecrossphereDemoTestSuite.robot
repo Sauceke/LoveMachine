@@ -53,7 +53,7 @@ Play The Game
     Start Secrossphere Demo
     Sleep                          30 seconds    let the game load
     Start H Scene
-    Sleep                          20 seconds    let the h-scene run
+    Sleep                          30 seconds    let the h-scene run
 
 Start H Scene
     Press Key                      s
