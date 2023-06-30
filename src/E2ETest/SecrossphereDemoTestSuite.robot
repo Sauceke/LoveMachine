@@ -9,7 +9,7 @@ Suite Teardown    Clean Up
 
 *** Test Cases ***
 Linear Command Count
-    Number Of Linear Commands Should Be At Least       ${10}
+    Number Of Linear Commands Should Be At Least       ${30}
 
 Linear Command Timing
     Time Between Linear Commands Should Be About       400 ms
@@ -21,13 +21,13 @@ Linear Command Duration
     Durations Of Linear Commands Should Be About       400 ms
 
 Vibrate Command Count
-    Number Of Vibrate Commands Should Be At Least      ${50}
+    Number Of Vibrate Commands Should Be At Least      ${100}
 
 Vibrate Command Timing
     Time Between Vibrate Commands Should Be About      100 ms
 
 Rotate Command Count
-    Number Of Rotate Commands Should Be At Least       ${10}
+    Number Of Rotate Commands Should Be At Least       ${30}
 
 Rotate Command Timing
     Time Between Rotate Commands Should Be About       400 ms
