@@ -4,6 +4,7 @@ import pynput
 import requests
 import robot
 import shutil
+import statistics
 import subprocess
 import time
 import winreg
@@ -33,9 +34,11 @@ class LoveMachineLibrary:
     def _durations_should_be_about(self, durations_s, expected_str):
         expected_s = robot.libraries.DateTime.convert_time(expected_str)
         tolerance_s = 0.3
-        tolerance_ratio = 0.3
+        tolerance_mean = 0.3
+        tolerance_stdev_s = 0.1
         assert all(abs(actual_s - expected_s) < tolerance_s for actual_s in durations_s)
-        assert abs(sum(durations_s) / len(durations_s) - expected_s) < expected_s * tolerance_ratio
+        assert abs(statistics.mean(durations_s) - expected_s) < expected_s * tolerance_mean
+        assert statistics.stdev(durations_s) < tolerance_stdev_s
 
     def _timestamp_gaps_should_be_about(self, timestamps_s, expected_str):
         gaps = [tup[1] - tup[0] for tup in zip(timestamps_s[:-1], timestamps_s[1:])]
