@@ -41,12 +41,13 @@ namespace LoveMachine.Core.Controller
             float bottom = StrokerConfig.OrgasmDepth.Value;
             float time = 0.5f / StrokerConfig.OrgasmShakingFrequency.Value;
             float top = bottom + device.Settings.StrokerSettings.MaxStrokesPerMin / 60f / 2f * time;
+            var rest = new WaitForSecondsRealtime(time);
             while (true)
             {
                 Client.LinearCmd(device, top, time);
-                yield return new WaitForSecondsRealtime(time);
+                yield return rest;
                 Client.LinearCmd(device, bottom, time);
-                yield return new WaitForSecondsRealtime(time);
+                yield return rest;
             }
         }
 

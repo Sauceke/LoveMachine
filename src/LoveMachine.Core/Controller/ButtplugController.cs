@@ -69,12 +69,13 @@ namespace LoveMachine.Core.Controller
         
         private IEnumerator RunLatencyUpdateLoop(Device device)
         {
+            var rest = new WaitForSecondsRealtime(3f);
             while (true)
             {
                 // updating the latency in real time causes a lot of stutter when
                 // there's a gradual change in animation speed
                 // updating every 3s and caching the result solves this
-                yield return new WaitForSecondsRealtime(3f);
+                yield return rest;
                 float animTimeSecs = Game.GetAnimationTimeSecs(device.Settings.GirlIndex);
                 normalizedLatencies[device] = device.Settings.LatencyMs / 1000f / animTimeSecs;
             }

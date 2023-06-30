@@ -207,13 +207,14 @@ namespace LoveMachine.Core.Buttplug
 
         private IEnumerator RunReceiveLoop()
         {
+            var rest = new WaitForSecondsRealtime(1f);
             while (true)
             {
                 while (incoming.TryDequeue(out var coroutine))
                 {
                     HandleCoroutine(coroutine);
                 }
-                yield return new WaitForSecondsRealtime(1f);
+                yield return rest;
             }
         }
 
