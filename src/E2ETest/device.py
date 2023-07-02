@@ -39,7 +39,6 @@ class LovenseNora(SimulatedDevice):
     await ws.send(json.dumps({ "identifier": "LVSDevice", "address": address, "version": 0}))
     while True:
         packet: str = (await ws.recv()).decode("utf-8")
-        print(packet)
         if packet.startswith("DeviceType;"):
           await ws.send(bytes(f"A:{address}:10", "utf-8"))
         elif packet.startswith("Vibrate:"):
