@@ -40,7 +40,7 @@ jobs:
           vs-version: ${{ matrix.vs-version }}
 
       - name: Build and Publish
-        run: msbuild LoveMachine.sln /m /r /p:Configuration=${{ matrix.configuration }} /p:DeployOnBuild=true /p:PublishProfile=FolderProfile /p:Version=${{ inputs.version }}
+        run: msbuild LoveMachine.sln /r /p:Configuration=${{ matrix.configuration }} /p:DeployOnBuild=true /p:PublishProfile=FolderProfile /p:Version=${{ inputs.version }}
 
       - name: Upload binaries
         uses: actions/upload-artifact@v3
