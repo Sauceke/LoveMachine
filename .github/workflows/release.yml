@@ -17,7 +17,7 @@ jobs:
     needs: build
     uses: ./.github/workflows/test.yml
 
-  release:
+  pack:
     needs: build
     runs-on: windows-2022
     timeout-minutes: 10
@@ -82,6 +82,24 @@ jobs:
           vt_api_key: ${{ secrets.VIRUSTOTAL_API_KEY }}
           files: |
             src/assets/LoveMachineInstaller.exe
+
+      - name: Upload assets
+        uses: actions/upload-artifact@v3
+        with:
+          name: assets
+          path: src/assets
+
+  release:
+    needs:
+      - test
+      - pack
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Download artifacts
+        uses: actions/download-artifact@v3
+        with:
+          path: src
 
       - name: Create release
         id: create_release
