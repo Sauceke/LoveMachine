@@ -38,14 +38,6 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v1
 
-      - name: Download and install Inno Setup
-        run: |
-          curl -L ${{env.INNO_SETUP_URL}} -o innosetup.exe
-          & ./innosetup.exe /VERYSILENT /NORESTART /ALLUSERS
-
-      - name: Add Japanese.isl explicitly since Inno Setup's installer doesn't always add it for whatever fucking reason
-        run: curl -L "https://raw.githubusercontent.com/HeliumProject/InnoSetup/3786cc42fdae8fe80a8f2e6ce1fe7defdac193e9/Languages/Japanese.isl" -o "C:\Program Files (x86)\Inno Setup 6\Languages\Japanese.isl"
-
       - name: Download artifacts
         uses: actions/download-artifact@v3
         with:
@@ -60,20 +52,25 @@ jobs:
       - name: Download BepInEx
         working-directory: src/Installer
         run: |
-          curl -L ${{env.BEPINEX_32_URL}} -o BepInEx32.zip
-          curl -L ${{env.BEPINEX_64_URL}} -o BepInEx64.zip
-          curl -L ${{env.BEPINEX_IL2CPP_64_URL}} -o BepInExIl2cpp64.zip
-          curl -L ${{env.BEPINEX_CONF_MGR_URL}} -o BepInEx.ConfigurationManager.zip
+          curl -L ${{ env.BEPINEX_32_URL }} -o BepInEx32.zip
+          curl -L ${{ env.BEPINEX_64_URL }} -o BepInEx64.zip
+          curl -L ${{ env.BEPINEX_IL2CPP_64_URL }} -o BepInExIl2cpp64.zip
+          curl -L ${{ env.BEPINEX_CONF_MGR_URL }} -o BepInEx.ConfigurationManager.zip
           Expand-Archive -Path BepInEx32.zip -DestinationPath BepInEx32
           Expand-Archive -Path BepInEx64.zip -DestinationPath BepInEx64
           Expand-Archive -Path BepInExIl2cpp64.zip -DestinationPath BepInExIl2cpp64
           Expand-Archive -Path BepInEx.ConfigurationManager.zip -DestinationPath BepInEx32
           Expand-Archive -Path BepInEx.ConfigurationManager.zip -DestinationPath BepInEx64
 
+      - name: Download and install Inno Setup
+        run: |
+          curl -L ${{ env.INNO_SETUP_URL }} -o innosetup.exe
+          & ./innosetup.exe /VERYSILENT /NORESTART /CURRENTUSER
+
       - name: Build installer
         working-directory: src/Installer
         run: |
-          & "C:\Program Files (x86)\Inno Setup 6\ISCC.exe" InstallScript.iss
+          & "$env:LOCALAPPDATA/Programs/Inno Setup 6/ISCC.exe" InstallScript.iss
           copy bin/LoveMachineInstaller.exe ../assets/LoveMachineInstaller.exe
 
       - name: Scan installer with VirusTotal
@@ -93,6 +90,7 @@ jobs:
     needs:
       - test
       - pack
+
     runs-on: ubuntu-latest
 
     steps:
