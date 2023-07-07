@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       version:
-        description: "Release version"
+        description: "Release version (major.minor.patch, without the v)"
         required: true
 
 jobs:
@@ -65,7 +65,7 @@ jobs:
       - name: Download and install Inno Setup
         run: |
           curl -L ${{ env.INNO_SETUP_URL }} -o innosetup.exe
-          & ./innosetup.exe /VERYSILENT /NORESTART /CURRENTUSER
+          Start-Process -FilePath ./innosetup.exe -ArgumentList "/VERYSILENT /NORESTART /CURRENTUSER" -Wait
 
       - name: Build installer
         working-directory: src/Installer

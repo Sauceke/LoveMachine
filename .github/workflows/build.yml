@@ -4,7 +4,7 @@ on:
   workflow_call:
     inputs:
       version:
-        description: "Version"
+        description: "Build version (major.minor.patch, without the v)"
         required: true
         type: string
 
