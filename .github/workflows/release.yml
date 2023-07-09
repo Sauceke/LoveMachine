@@ -46,6 +46,9 @@ jobs:
       - name: Alias dependencies
         run: ./alias-deps.ps1
 
+      - name: Bundle Intiface Engine
+        run: ./bundle-intiface.ps1
+
       - name: Zip artifacts
         run: ./zip-plugins.ps1
 
