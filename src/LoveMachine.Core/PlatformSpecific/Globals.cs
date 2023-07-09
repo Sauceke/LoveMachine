@@ -1,6 +1,4 @@
-﻿using System.IO;
-using BepInEx;
-using BepInEx.Bootstrap;
+﻿using BepInEx.Bootstrap;
 using BepInEx.Logging;
 using UnityEngine;
 
@@ -12,14 +10,9 @@ namespace LoveMachine.Core.PlatformSpecific
         public const string GUID = "Sauceke.LoveMachine";
         public const string Version = VersionInfo.Version;
 
-        public static string PluginPath { get; private set; }
         public static ManualLogSource Logger { get; private set; }
         public static GameObject ManagerObject => Chainloader.ManagerObject;
 
-        internal static void Initialize(ManualLogSource logger, PluginInfo info)
-        {
-            Logger = logger;
-            PluginPath = Path.GetDirectoryName(info.Location);
-        }
+        internal static void Initialize(ManualLogSource logger) => Logger = logger;
     }
 }

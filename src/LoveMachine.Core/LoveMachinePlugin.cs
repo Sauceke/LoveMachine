@@ -17,7 +17,7 @@ namespace LoveMachine.Core
     {
         protected virtual void Start()
         {
-            Globals.Initialize(Logger, Info);
+            Globals.Initialize(Logger);
             KillSwitchConfig.Initialize(this);
             ButtplugConfig.Initialize(this);
             DeviceListConfig.Initialize(this);
@@ -26,7 +26,6 @@ namespace LoveMachine.Core
             ConstrictConfig.Initialize(this);
             var manager = Globals.ManagerObject;
             manager.AddComponent<G>();
-            manager.AddComponent<IntifaceRunner>();
             manager.AddComponent<ButtplugWsClient>();
             manager.AddComponent<DeviceManager>();
             manager.AddComponent<AnimationAnalyzer>();

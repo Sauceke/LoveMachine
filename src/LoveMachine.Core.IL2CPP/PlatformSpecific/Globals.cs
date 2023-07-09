@@ -1,5 +1,4 @@
-﻿using BepInEx;
-using BepInEx.Logging;
+﻿using BepInEx.Logging;
 using Il2CppInterop.Runtime.Injection;
 using UnityEngine;
 
@@ -11,14 +10,12 @@ public static class Globals
     public const string GUID = "Sauceke.LoveMachine.IL2CPP";
     public const string Version = VersionInfo.Version;
 
-    public static string PluginPath { get; private set; }
     public static ManualLogSource Logger { get; private set; }
     public static Manager ManagerObject { get; private set; }
 
-    internal static void Initialize(ManualLogSource logger, PluginInfo info)
+    internal static void Initialize(ManualLogSource logger)
     {
         Logger = logger;
-        PluginPath = Path.GetDirectoryName(info.Location);
         ManagerObject = new();
     }
 

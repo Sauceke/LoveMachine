@@ -7,8 +7,6 @@ namespace LoveMachine.Core.Config
     {
         public static ConfigEntry<string> WebSocketHost { get; private set; }
         public static ConfigEntry<int> WebSocketPort { get; private set; }
-        public static ConfigEntry<bool> RunIntiface { get; private set; }
-        public static ConfigEntry<string> IntifaceArgs { get; private set; }
 
         internal static void Initialize(BaseUnityPlugin plugin)
         {
@@ -27,20 +25,6 @@ namespace LoveMachine.Core.Config
                 defaultValue: 12345,
                 new ConfigDescription(
                     "The Intiface server port.",
-                    tags: new ConfigurationManagerAttributes { Order = --order }));
-            RunIntiface = plugin.Config.Bind(
-                section: intifaceSettingsTitle,
-                key: "Run Intiface Engine",
-                defaultValue: true,
-                new ConfigDescription(
-                    "Run the Intiface Engine bundled with the plugin on startup.",
-                    tags: new ConfigurationManagerAttributes { Order = --order }));
-            IntifaceArgs = plugin.Config.Bind(
-                section: intifaceSettingsTitle,
-                key: "Intiface Engine Arguments",
-                defaultValue: "--websocket-port 12345 --use-bluetooth-le --use-serial --use-xinput",
-                new ConfigDescription(
-                    "Start Intiface Engine with these arguments.",
                     tags: new ConfigurationManagerAttributes { Order = --order }));
         }
     }
