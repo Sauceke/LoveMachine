@@ -86,6 +86,7 @@ In Plugin Settings > LoveMachine, you can set the following parameters:
 
 ### Device List
 This is where all your devices connected to Intiface are listed.
+- **Restart:** Restarts Intiface Engine (if **Run Intiface Engine** is enabled).
 - **Connect:** Connect or reconnect to the Intiface server.
 - **Scan:** Scan for devices.
 
@@ -116,6 +117,8 @@ You may also want to:
 ### Intiface Settings
 - **WebSocket host:** The URL of the host Intiface is running on. Should be `ws://127.0.0.1` unless it's running on a remote machine.
 - **WebSocket port:** The port Intiface is listening on. Usually `12345`.
+- **Run Intiface Engine:** For your convenience, the plugin comes with an Intiface Engine executable. This setting enables running it when the plugin is loaded. Turned on by default. (If, when starting the game, there already is a running Intiface instance on the same port, that one takes priority.)
+- **Intiface Engine Arguments:** Arguments to pass to Intiface Engine when running it. Defaults to `--websocket-port 12345 --use-bluetooth-le --use-serial --use-xinput`.
 
 ### Kill Switch Settings
 Safety measure to avoid hurting yourself if the sex gets too rough or something goes wrong. By default, pressing Spacebar will immediately stop all connected devices.

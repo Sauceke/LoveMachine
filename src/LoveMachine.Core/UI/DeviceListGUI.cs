@@ -15,6 +15,7 @@ namespace LoveMachine.Core.UI
     internal class DeviceListGUI : CoroutineHandler
     {
         private ButtplugWsClient client;
+        private IntifaceRunner runner;
         private ClassicButtplugController[] controllers;
         private List<Device> cachedDeviceList = new List<Device>();
         private float testPosition;
@@ -22,6 +23,7 @@ namespace LoveMachine.Core.UI
         private void Start()
         {
             client = GetComponent<ButtplugWsClient>();
+            runner = GetComponent<IntifaceRunner>();
             controllers = GetComponents<ClassicButtplugController>();
             client.OnDeviceListUpdated += LogDevices;
             DeviceListConfig.OnDraw += DrawFullDeviceList;
@@ -51,6 +53,11 @@ namespace LoveMachine.Core.UI
                 GUILayout.BeginHorizontal();
                 {
                     GUILayout.FlexibleSpace();
+                    if (GUILayout.Button("Restart", GUILayout.Width(150)))
+                    {
+                        runner.Restart();
+                        client.Connect();
+                    }
                     if (GUILayout.Button("Connect", GUILayout.Width(150)))
                     {
                         client.Connect();
