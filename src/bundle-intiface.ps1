@@ -5,5 +5,5 @@ Expand-Archive -Path ./intiface.zip -DestinationPath ./intiface
 $plugins = Get-ChildItem -Name -Path ./bin/ | Where-Object { $_ -notlike "LoveMachine.Core*" }
 foreach ($plugin in $plugins) {
 	$dest_path = (Get-ChildItem "./bin/$plugin/BepInEx/plugins/").FullName
-	copy ./intiface $dest_path
+	Copy-Item -Path ./intiface -Destination $dest_path -Recurse
 }
