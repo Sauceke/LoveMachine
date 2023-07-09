@@ -61,6 +61,8 @@ Download and run the [installer]. If you encounter the "Windows protected your P
 
 [Intiface Central] must also be installed.
 
+⚠ The IL2CPP plugins (RoomGirl, Holy Knight Ricca) are not compatible with other BepInEx plugins at the moment. To use LoveMachine in IL2CPP games, you'll have to remove the BepInEx folder if there is one (thus also removing all other mods from the game), before running the installer.
+
 ## How to use
 1. Open Intiface Central.
 1. Click on the big Play button.
@@ -72,12 +74,14 @@ The Space key acts as a kill switch for all devices while in-game. To reactivate
 ⚠ In certain games, the kill switch may not work if the BepInEx console is open while playing in VR, because it can steal focus from the game window. It is recommended to disable the console.
 
 ## How it works, limitations
-- LoveMachine analyzes the movement of certain bones in female characters (hands, crotch, breasts, mouth) at the start of each animation loop, to determine the exact timing of the up-strokes.
-- The stroking movement (and the intensity oscillation for vibrators) will be matched to the movements of the bone closest to the male character's balls as recorded during calibration (this messes up syncing with ball licking animations, but works for just about everything else).
-- As the whole thing is based on bone positions, this will only work for reasonably sized and proportioned characters.
+Whenever a new animation loop starts, LoveMachine records the relative positions of certain bones for one cycle, then it tries to guess which bones are the most likely to be involved in the action (e.g. a penis and a mouth). More often than not, it guesses correctly; when it doesn't, you can manually select which bone of which character to track in the Plugin Settings. You can even select a different bone for each device to reenact more complex scenes.
+
+After one cycle of learning, the plugin translates the relative movement of the guessed/selected bones into something that the device can perform (e.g. axial movement for strokers, or rotating back-and-forth for rotators).
+
+As the whole thing is based on bone positions, this will only work for reasonably sized and proportioned characters.
 
 ## Configuration
-⚠ IL2CPP games (RoomGirl, Holy Knight Ricca) are not compatible with ConfigurationManager at the moment. Please edit the configuration file instead.
+⚠ IL2CPP games (RoomGirl, Holy Knight Ricca) are not compatible with ConfigurationManager at the moment. If you want to change the settings in those games, you can edit the configuration file (`BepInEx\config\Sauceke.LoveMachine.IL2CPP.cfg`) in Notepad.
 
 In Plugin Settings > LoveMachine, you can set the following parameters:
 
