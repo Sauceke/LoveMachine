@@ -1,0 +1,24 @@
+name: "Test report"
+
+on:
+  workflow_run:
+    workflows: ["[Reusable] End-to-end tests"]
+    types: [completed]
+
+jobs:
+  report:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Download test results
+        uses: dawidd6/action-download-artifact@v2
+        with:
+          name: results
+          workflow: ${{ github.event.workflow.id }}
+          run_id: ${{ github.event.workflow_run.id }}
+
+      - name: Generate test report
+        uses: joonvena/robotframework-reporter-action@v2.2
+        with:
+          gh_access_token: ${{ secrets.GITHUB_TOKEN }}
+          report_path: results

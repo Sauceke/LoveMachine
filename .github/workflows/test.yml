@@ -38,20 +38,3 @@ jobs:
         with:
           name: results
           path: src/E2ETest/results
-
-  report:
-    if: always()
-    needs: test
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Download artifacts
-        uses: actions/download-artifact@v3
-        with:
-          path: .
-
-      - name: Generate test report
-        uses: joonvena/robotframework-reporter-action@v2.2
-        with:
-          gh_access_token: ${{ secrets.PAT }}
-          report_path: results
