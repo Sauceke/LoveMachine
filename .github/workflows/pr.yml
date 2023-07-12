@@ -1,6 +1,7 @@
 name: Pull Request
 
 permissions: write-all
+
 on:
   pull_request:
     branches: [mastur]
