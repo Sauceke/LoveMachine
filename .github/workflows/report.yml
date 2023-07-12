@@ -22,8 +22,16 @@ jobs:
           workflow: ${{ github.event.workflow.id }}
           run_id: ${{ github.event.workflow_run.id }}
 
+      - name: "Get information about the origin 'CI' run"
+        uses: potiuk/get-workflow-origin@v1_1
+        id: source-run-info
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          sourceRunId: ${{ github.event.workflow_run.id }}
+
       - name: Generate test report
         uses: joonvena/robotframework-reporter-action@v2.2
         with:
           gh_access_token: ${{ secrets.GITHUB_TOKEN }}
           report_path: results
+          pull_request_id: ${{ steps.source-run-info.outputs.pullRequestNumber }}
