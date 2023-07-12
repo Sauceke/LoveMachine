@@ -67,6 +67,9 @@ namespace LoveMachine.Core.Buttplug
         public void ConstrictCmd(Device device, float pressure) =>
             SendKillable(Buttplug.ScalarCmd(device, pressure, Buttplug.Feature.Constrict));
 
+        public void OscillateCmd(Device device, float pressure) =>
+            SendKillable(Buttplug.ScalarCmd(device, pressure, Buttplug.Feature.Oscillate));
+
         public void RotateCmd(Device device, float speed, bool clockwise) =>
             SendKillable(Buttplug.RotateCmd(device, speed, clockwise));
 

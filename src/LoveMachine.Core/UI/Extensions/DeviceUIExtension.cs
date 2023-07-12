@@ -32,6 +32,7 @@ namespace LoveMachine.Core.UI.Extensions
                 GUILayout.Toggle(device.IsVibrator, "Vibration");
                 GUILayout.Toggle(device.IsRotator, "Rotation");
                 GUILayout.Toggle(device.IsConstrictor, "Pressure");
+                GUILayout.Toggle(device.IsOscillate, "Oscillation");
             }
             GUILayout.EndHorizontal();
             GUIUtil.SingleSpace();

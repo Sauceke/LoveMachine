@@ -37,6 +37,7 @@ namespace LoveMachine.Core.UI
                 return;
             }
             Logger.LogMessage($"{devices.Count} device(s) connected to Intiface.");
+            Logger.LogMessage($"{devices.First().IsOscillate} - {devices.First().Settings?.OscillateSettings!=null} - {devices.First().Settings?.OscillateSettings?.Enabled} - {devices.First().Settings?.VibratorSettings?.IntensityMax} - {devices.First().Settings!=null}");
             devices
                 .Where(device => !IsDeviceSupported(device))
                 .Select(device => $"Warning: device \"{device.DeviceName}\" not supported.")
