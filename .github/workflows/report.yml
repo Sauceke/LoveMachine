@@ -2,7 +2,7 @@ name: "Test report"
 
 on:
   workflow_run:
-    workflows: ["[Reusable] End-to-end tests"]
+    workflows: ["Pull Request", "QA"]
     types: [completed]
 
 jobs:
