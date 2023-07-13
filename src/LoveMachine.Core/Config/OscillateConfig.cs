@@ -9,7 +9,7 @@ namespace LoveMachine.Core.Config
 {
     internal static class OscillateConfig
     {
-        public static ConfigEntry<ConstrictMode> Mode { get; private set; }
+        public static ConfigEntry<OscillateMode> Mode { get; private set; }
 
         internal static void Initialize(BaseUnityPlugin plugin)
         {
@@ -18,7 +18,7 @@ namespace LoveMachine.Core.Config
             Mode = plugin.Config.Bind(
                section: constrictSettingsTitle,
                key: "Oscillate Mode",
-               defaultValue: ConstrictMode.Cycle,
+               defaultValue: OscillateMode.StrokeSpeed,
                new ConfigDescription(
                    "Cycle: repeat building up and releasing oscillation over a set duration\n" +
                    "Stroke Length: oscillation is based on the in-game stroke length\n" +
@@ -26,7 +26,7 @@ namespace LoveMachine.Core.Config
                    tags: new ConfigurationManagerAttributes { Order = --order }));
         }
 
-        public enum ConstrictMode
+        public enum OscillateMode
         {
             StrokeSpeed, Cycle, StrokeLength
         }

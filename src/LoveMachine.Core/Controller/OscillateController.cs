@@ -30,7 +30,6 @@ namespace LoveMachine.Core.Controller
                 ? Mathf.Lerp(settings.SpeedMin, settings.SpeedMax, t: relativePressure)
                 : 0f;
             Client.OscillateCmd(device, pressure);
-            Logger.LogMessage("ZZZZ");
             yield return new WaitForSecondsRealtime(settings.UpdateIntervalSecs);
         }
 
@@ -38,13 +37,13 @@ namespace LoveMachine.Core.Controller
         {
             switch (OscillateConfig.Mode.Value)
             {
-                case OscillateConfig.ConstrictMode.Cycle:
+                case OscillateConfig.OscillateMode.Cycle:
                     return GetSineBasedPressure();
 
-                case OscillateConfig.ConstrictMode.StrokeLength:
+                case OscillateConfig.OscillateMode.StrokeLength:
                     return GetStrokeLengthBasedPressure(strokeInfo);
 
-                case OscillateConfig.ConstrictMode.StrokeSpeed:
+                case OscillateConfig.OscillateMode.StrokeSpeed:
                     return GetStrokeSpeedBasedPressure(device, strokeInfo);
             }
             throw new Exception("unreachable");
