@@ -64,5 +64,3 @@ Start H Scene
 Clean Up
     Close Secrossphere Demo
     Close Intiface Engine
-    Sleep                          5 seconds     let the game exit
-    Delete Downloaded Files

@@ -49,7 +49,7 @@ class LoveMachineLibrary:
         req = requests.get(intiface_url, allow_redirects=True)
         open(intiface_zip_path, 'wb').write(req.content)
         robot.api.logger.info("Downloaded Intiface Engine")
-        with zipfile.ZipFile(intiface_zip_path, "r", metadata_encoding="cp932") as intiface_zip:
+        with zipfile.ZipFile(intiface_zip_path, "r") as intiface_zip:
             intiface_zip.extractall(root_path)
         robot.api.logger.info("Extracted Intiface Engine")
 
@@ -82,9 +82,6 @@ class LoveMachineLibrary:
     def left_click(self):
         self._mouse.click(pynput.mouse.Button.left)
         time.sleep(1)
-
-    def delete_downloaded_files(self):
-        shutil.rmtree(root_path)
 
     def number_of_linear_commands_should_be_at_least(self, min):
         robot.api.logger.info("Captured linear commands: " + str(self._stroker.linear_cmd_log))
@@ -140,11 +137,13 @@ class LoveMachineLibrary:
         assert all(timestamp < end for timestamp in self._vibrator.vibrate_cmd_log.keys())
 
     def download_secrossphere_demo(self):
-        robot.api.logger.info("Downloading Secrossphere demo...")
         scs_zip_path = root_path + "scs.zip"
-        req = requests.get(scs_url, allow_redirects=True)
-        open(scs_zip_path, 'wb').write(req.content)
-        robot.api.logger.info("Downloaded Secrossphere demo")
+        if os.path.exists(scs_zip_path):
+            robot.api.logger.info("Secrossphere demo already present, not downloading.")
+        else:
+            req = requests.get(scs_url, allow_redirects=True)
+            open(scs_zip_path, 'wb').write(req.content)
+            robot.api.logger.info("Downloaded Secrossphere demo")
         with zipfile.ZipFile(scs_zip_path, "r", metadata_encoding="cp932") as scs_zip:
             scs_zip.extractall(root_path)
         os.rename(root_path + "セクロスフィア H体験版", scs_path)

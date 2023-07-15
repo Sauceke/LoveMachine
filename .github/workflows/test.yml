@@ -21,6 +21,12 @@ jobs:
         with:
           path: src
 
+      - name: Cache Secrossphere demo
+        uses: actions/cache@v3
+        with:
+          path: ./E2ETest/bin/scs.zip
+          key: scs-demo
+
       - name: Setup Python
         uses: actions/setup-python@v3.1.4
         with:
