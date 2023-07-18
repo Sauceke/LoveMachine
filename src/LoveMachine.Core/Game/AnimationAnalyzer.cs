@@ -46,7 +46,7 @@ namespace LoveMachine.Core.Game
             float start = delimiters[delimIndex];
             float end = delimIndex == delimiters.Length - 1
                 ? delimiters[0] + 1f
-                : delimiters[(delimIndex + 1) % delimiters.Length];
+                : delimiters[delimIndex + 1];
             if (normalizedTime % 1f < start)
             {
                 start -= 1f;
