@@ -1,33 +1,18 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using HarmonyLib;
 using IllusionUtility.GetUtility;
-using LoveMachine.Core.Game;
-using LoveMachine.Core.Common;
 using UnityEngine;
 
 namespace LoveMachine.HS2
 {
-    internal sealed class HoneySelect2Game : GameAdapter
+    internal sealed class HoneySelect2Game : AbstractHS2Game
     {
         private HScene hScene;
         private GameObject[] roots;
         internal Animator[] animators;
-
-        protected override Dictionary<Bone, string> FemaleBoneNames => new Dictionary<Bone, string>
-        {
-            { Bone.Vagina, "cf_J_Kokan" },
-            { Bone.RightHand, "cf_J_Hand_Wrist_s_R" },
-            { Bone.LeftHand, "cf_J_Hand_Wrist_s_L" },
-            { Bone.RightBreast, "cf_J_Mune04_s_R" },
-            { Bone.LeftBreast, "cf_J_Mune04_s_L" },
-            { Bone.Mouth, "cf_J_MouthCavity" },
-            { Bone.RightFoot, "cf_J_Toes01_L" },
-            { Bone.LeftFoot, "cf_J_Toes01_R" }
-        };
 
         protected override int HeroineCount =>
             Array.FindAll(hScene.GetFemales(), f => f != null).Length;
