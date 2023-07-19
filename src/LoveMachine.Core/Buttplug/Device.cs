@@ -16,6 +16,7 @@ namespace LoveMachine.Core.Buttplug
 
         public bool IsVibrator => DeviceMessages.ScalarCmd?.Any(f => f.IsVibrator) ?? false;
         public bool IsConstrictor => DeviceMessages.ScalarCmd?.Any(f => f.IsConstrictor) ?? false;
+        public bool IsOscillate => DeviceMessages.ScalarCmd?.Any(f => f.IsOscillator) ?? false;
         public bool IsStroker => DeviceMessages.LinearCmd != null;
         public bool IsRotator => DeviceMessages.RotateCmd != null;
 
@@ -28,6 +29,7 @@ namespace LoveMachine.Core.Buttplug
         {
             Settings.StrokerSettings = IsStroker ? Settings.StrokerSettings : null;
             Settings.VibratorSettings = IsVibrator ? Settings.VibratorSettings : null;
+            Settings.OscillateSettings = IsOscillate ? Settings.OscillateSettings : null;
             Settings.ConstrictSettings = IsConstrictor ? Settings.ConstrictSettings : null;
         }
     }

@@ -59,6 +59,7 @@ namespace LoveMachine.Core.UI.Extensions
             settings.StrokerSettings?.Draw();
             settings.VibratorSettings?.Draw();
             settings.ConstrictSettings?.Draw();
+            settings.OscillateSettings?.Draw();
         }
     }
 }

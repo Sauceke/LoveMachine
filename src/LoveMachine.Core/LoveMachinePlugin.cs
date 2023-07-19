@@ -24,6 +24,7 @@ namespace LoveMachine.Core
             StrokerConfig.Initialize(this);
             RotatorConfig.Initialize(this);
             ConstrictConfig.Initialize(this);
+            OscillateConfig.Initialize(this);
             var manager = Globals.ManagerObject;
             manager.AddComponent<G>();
             manager.AddComponent<ButtplugWsClient>();
@@ -33,6 +34,7 @@ namespace LoveMachine.Core
             manager.AddComponent<VibratorController>();
             manager.AddComponent<RotatorController>();
             manager.AddComponent<ConstrictController>();
+            manager.AddComponent<OscillateController>();
             manager.AddComponent<DeviceListGUI>();
             GameHooks.InstallHooks();
         }

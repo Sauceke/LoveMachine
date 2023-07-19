@@ -11,6 +11,7 @@ namespace LoveMachine.Core.Buttplug.Settings
         public int UpdatesHz { get; set; } = 10;
         public StrokerSettings StrokerSettings { get; set; } = new StrokerSettings();
         public VibratorSettings VibratorSettings { get; set; } = new VibratorSettings();
+        public OscillateSettings OscillateSettings { get; set; } = new OscillateSettings();
         public ConstrictSettings ConstrictSettings { get; set; } = new ConstrictSettings();
     }
 }
