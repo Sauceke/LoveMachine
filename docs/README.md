@@ -86,6 +86,10 @@ Settings.
 ⚠ In certain games, the kill switch may not work if the BepInEx console is open while playing in VR,
 because it can steal focus from the game window. It is recommended to disable the console.
 
+If you need further help in using the plugin, please open an [issue].
+
+If you found this project useful, please give it a ⭐.
+
 ## How it works, limitations
 
 Whenever a new animation loop starts, LoveMachine records the relative positions of certain bones
@@ -260,6 +264,7 @@ This mod would not have been possible without the [BepInEx] plugin framework and
 [Hotdog]: https://sauceke.github.io/hotdog
 [Patreon]: https://www.patreon.com/sauceke
 [Demo video]: https://www.erome.com/a/f2XKHJ1I
+[issue]: https://github.com/Sauceke/LoveMachine/issues/new?template=technical-problem.md
 
 <!-- sponsored game links -->
 
