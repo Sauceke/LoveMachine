@@ -249,19 +249,19 @@ LoveMachine は[BepInEx]プラグインフレームワークと、そしても�
 
 <!-- sponsored game links -->
 
-[カスタムオーダーメイド3D2]:
+[カスタムオーダーメイド 3D2]:
   https://www.dlsite.com/pro/dlaf/=/t/n/link/work/aid/sauceke/locale/en_US/id/VJ011538.html/?locale=en_US
 [聖騎士リッカの物語]:
   https://www.dlsite.com/maniax/dlaf/=/t/n/link/work/aid/sauceke/locale/en_US/id/RJ363824.html/?locale=en_US
-[ハニーセレクト2]:
+[ハニーセレクト 2]:
   https://www.dlsite.com/pro/dlaf/=/t/n/link/work/aid/sauceke/locale/en_US/id/VJ013722.html/?locale=en_US
 [放課後輪姦中毒]:
   https://www.dlsite.com/maniax/dlaf/=/t/n/link/work/aid/sauceke/locale/en_US/id/RJ189924.html/?locale=en_US
-[淫魔界2: カムラン]:
+[淫魔界 2: カムラン]:
   https://www.dlsite.com/maniax/dlaf/=/t/n/link/work/aid/sauceke/locale/en_US/id/RJ321625.html/?locale=en_US
 [インサルトオーダー]:
   https://www.dlsite.com/maniax/dlaf/=/t/n/link/work/aid/sauceke/locale/en_US/id/RJ220246.html/?locale=en_US
-[ROOMガール]:
+[ROOM ガール]:
   https://www.dlsite.com/pro/dlaf/=/t/n/link/work/aid/sauceke/locale/en_US/id/VJ015465.html/?locale=en_US
 [コイカツ！サンシャイン]:
   https://www.dlsite.com/pro/dlaf/=/t/n/link/work/aid/sauceke/locale/en_US/id/VJ015724.html/?locale=en_US
@@ -297,6 +297,6 @@ LoveMachine は[BepInEx]プラグインフレームワークと、そしても�
 [IOVR]: https://github.com/Eusth/IOVR
 [Our Apartment]: https://www.patreon.com/momoirosoftware
 [コイカツ！パーティ]: https://store.steampowered.com/app/1073440/__Koikatsu_Party/
-[VRカノジョ]: http://www.illusion.jp/preview/vrkanojo/index_en.php
+[VR カノジョ]: http://www.illusion.jp/preview/vrkanojo/index_en.php
 [Last Evil]: https://store.steampowered.com/app/823910/last_evil/
 [Succubus Cafe]: https://store.steampowered.com/app/1520500/Succubus_Cafe/
