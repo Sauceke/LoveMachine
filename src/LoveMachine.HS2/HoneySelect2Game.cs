@@ -10,6 +10,13 @@ namespace LoveMachine.HS2
 {
     internal sealed class HoneySelect2Game : AbstractHS2Game
     {
+        private readonly string[] idleAnimations =
+        {
+            "Idle", "WIdle", "SIdle", "Insert", "D_Idle", "D_Insert",
+            "Orgasm_A", "Orgasm_OUT_A", "Drink_A", "Vomit_A", "Orgasm_IN_A", "OrgasmM_OUT_A",
+            "D_Orgasm_A", "D_Orgasm_OUT_A", "D_Orgasm_IN_A", "D_OrgasmM_OUT_A"
+        };
+        
         private HScene hScene;
         private GameObject[] roots;
         internal Animator[] animators;
@@ -33,7 +40,7 @@ namespace LoveMachine.HS2
             .ToArray();
 
         protected override MethodInfo[] StartHMethods =>
-            new[] { AccessTools.Method(typeof(HScene), nameof(HScene.Start)) };
+            new[] { AccessTools.Method(typeof(HScene), nameof(HScene.SetStartVoice)) };
 
         protected override MethodInfo[] EndHMethods =>
             new[] { AccessTools.Method(typeof(HScene), nameof(HScene.EndProc)) };
@@ -59,7 +66,8 @@ namespace LoveMachine.HS2
             roots = hScene?.GetFemales().Select(female => female?.objBodyBone).ToArray();
         }
 
-        protected override bool IsIdle(int girlIndex) => hScene.ctrlFlag.loopType == -1;
+        protected override bool IsIdle(int girlIndex) =>
+            idleAnimations.Any(GetAnimatorStateInfo(girlIndex).IsName);
 
         protected override bool IsOrgasming(int girlIndex) => hScene.ctrlFlag.nowOrgasm;
     }
