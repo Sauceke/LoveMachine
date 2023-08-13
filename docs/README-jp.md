@@ -24,7 +24,7 @@ LoveMachine はアダルトゲームのキャラクターと連動してアダ�
 | [コイカツ！サンシャイン]     | ILLUSION           | ⭕             |
 | [恋来い温泉物語]             | アプリコットハート | ⭕             |
 | [Last Evil]                  | Flametorch         | ❌             |
-| [大江戸とりがー!!]           | CQC Software       | ❌             |
+| [大江戸とりがー!!]           | CQC Software       | ⭕ ※別売り     |
 | [Our Apartment]              | Momoiro Software   | ❌             |
 | [プレイホーム]               | ILLUSION           | ⭕             |
 | [ROOM ガール]                | ILLUSION           | ❌             |

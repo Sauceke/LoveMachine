@@ -8,26 +8,26 @@
 
 Adds support for [some computer-controlled sex toys](#supported-devices) in the following games:
 
-| Title                       | Developer        | VR support       |
-| --------------------------- | ---------------- | ---------------- |
-| [Custom Order Maid 3D 2]    | Kiss             | ✓                |
-| [Holy Knight Ricca]         | Mogurasoft       | ✗                |
-| [Honey Select 2]            | Illusion         | ✓                |
-| [Houkago Rinkan Chuudoku]   | Miconisomi       | ✓ (with [AGHVR]) |
-| [Incubus 2: Camlann]        | Tanpakusitsu     | ✗                |
-| [Insult Order]              | Miconisomi       | ✓ (with [IOVR])  |
-| [Koikatsu]                  | Illusion         | ✓                |
-| [Koikatsu Party]            | Illusion         | ✓                |
-| [Koikatsu Sunshine]         | Illusion         | ✓                |
-| [Koi-Koi VR: Love Blossoms] | Apricot Heart    | ✓                |
-| [Last Evil]                 | Flametorch       | ✗                |
-| [Oedo Trigger]              | CQC Software     | ✗                |
-| [Our Apartment]             | Momoiro Software | ✗                |
-| [PlayHome]                  | Illusion         | ✓                |
-| [RoomGirl]                  | Illusion         | ✗                |
-| [Secrossphere]              | Illusion         | ✗                |
-| [Succubus Cafe]             | Migi Studio      | ✗                |
-| [VR Kanojo]                 | Illusion         | ✓                |
+| Title                       | Developer        | VR support          |
+| --------------------------- | ---------------- | ------------------- |
+| [Custom Order Maid 3D 2]    | Kiss             | ✓                   |
+| [Holy Knight Ricca]         | Mogurasoft       | ✗                   |
+| [Honey Select 2]            | Illusion         | ✓                   |
+| [Houkago Rinkan Chuudoku]   | Miconisomi       | ✓ (with [AGHVR])    |
+| [Incubus 2: Camlann]        | Tanpakusitsu     | ✗                   |
+| [Insult Order]              | Miconisomi       | ✓ (with [IOVR])     |
+| [Koikatsu]                  | Illusion         | ✓                   |
+| [Koikatsu Party]            | Illusion         | ✓                   |
+| [Koikatsu Sunshine]         | Illusion         | ✓                   |
+| [Koi-Koi VR: Love Blossoms] | Apricot Heart    | ✓                   |
+| [Last Evil]                 | Flametorch       | ✗                   |
+| [Oedo Trigger]              | CQC Software     | ✗ (sold separately) |
+| [Our Apartment]             | Momoiro Software | ✗                   |
+| [PlayHome]                  | Illusion         | ✓                   |
+| [RoomGirl]                  | Illusion         | ✗                   |
+| [Secrossphere]              | Illusion         | ✗                   |
+| [Succubus Cafe]             | Migi Studio      | ✗                   |
+| [VR Kanojo]                 | Illusion         | ✓                   |
 
 ## Supported devices
 
