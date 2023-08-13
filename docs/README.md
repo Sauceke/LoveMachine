@@ -21,7 +21,7 @@ Adds support for [some computer-controlled sex toys](#supported-devices) in the 
 | [Koikatsu Sunshine]         | Illusion         | ✓                   |
 | [Koi-Koi VR: Love Blossoms] | Apricot Heart    | ✓                   |
 | [Last Evil]                 | Flametorch       | ✗                   |
-| [Oedo Trigger]              | CQC Software     | ✗ (sold separately) |
+| [Oedo Trigger]              | CQC Software     | ✓ (sold separately) |
 | [Our Apartment]             | Momoiro Software | ✗                   |
 | [PlayHome]                  | Illusion         | ✓                   |
 | [RoomGirl]                  | Illusion         | ✗                   |
