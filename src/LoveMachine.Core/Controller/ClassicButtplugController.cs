@@ -46,10 +46,10 @@ namespace LoveMachine.Core.Controller
                 HandleCoroutine(gimmick.Run(device, HandleLevel, HandleStroke));
             }
             Coroutine strokeLoop = null;
-            var rest = WaitForSecondsUnscaled(0.3f);
+            const float refreshTimeSecs = 0.3f;
             while (true)
             {
-                yield return rest;
+                yield return WaitForSecondsUnscaled(refreshTimeSecs);
                 if (Game.IsOrgasming(device.Settings.GirlIndex))
                 {
                     TryStopCoroutine(ref strokeLoop);
@@ -57,7 +57,7 @@ namespace LoveMachine.Core.Controller
                     yield return WaitForSecondsUnscaled(Game.MinOrgasmDurationSecs);
                     while (Game.IsOrgasming(device.Settings.GirlIndex))
                     {
-                        yield return rest;
+                        yield return WaitForSecondsUnscaled(refreshTimeSecs);
                     }
                     TryStopCoroutine(ref orgasm);
                     continue;
@@ -68,7 +68,7 @@ namespace LoveMachine.Core.Controller
                     Client.StopDeviceCmd(device);
                     while (IsIdleOrPaused(device))
                     {
-                        yield return rest;
+                        yield return WaitForSecondsUnscaled(refreshTimeSecs);
                     }
                     continue;
                 }
@@ -78,12 +78,11 @@ namespace LoveMachine.Core.Controller
 
         private IEnumerator RunStrokeLoop(Device device)
         {
-            var rest = WaitForSecondsUnscaled(0.1f);
             while (true)
             {
                 yield return base.TryGetCurrentStrokeInfo(device, out var strokeInfo)
                     ? HandleCoroutine(HandleAnimation(device, strokeInfo))
-                    : rest;
+                    : WaitForSecondsUnscaled(0.1f);
             }
         }
 

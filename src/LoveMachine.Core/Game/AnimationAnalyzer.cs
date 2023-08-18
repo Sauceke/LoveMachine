@@ -92,12 +92,11 @@ namespace LoveMachine.Core.Game
 
         private IEnumerator RunAnalysisLoop(int girlIndex)
         {
-            var rest = new WaitForSecondsRealtime(0.1f);
             while (true)
             {
                 if (TryGetResult(girlIndex, Bone.Auto, out _))
                 {
-                    yield return rest;
+                    yield return new WaitForSecondsRealtime(0.1f);
                     continue;
                 }
                 Logger.LogDebug("New animation playing, starting to analyze.");
@@ -113,11 +112,10 @@ namespace LoveMachine.Core.Game
             yield return HandleCoroutine(game.WaitAfterPoseChange());
             var samples = new List<Sample>();
             game.GetAnimState(girlIndex, out float startTime, out _, out _);
-            var waitForEndOfFrame = new WaitForEndOfFrame();
             float currentTime = startTime;
             while (currentTime - 1f < startTime)
             {
-                yield return waitForEndOfFrame;
+                yield return new WaitForEndOfFrame();
                 game.GetAnimState(girlIndex, out currentTime, out _, out _);
                 var newSamples = femaleBones
                     .SelectMany(entry => penisBases, (entry, penisBase) => new Sample
