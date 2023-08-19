@@ -17,22 +17,22 @@ LoveMachine はアダルトゲームのキャラクターと連動してアダ�
 | [カスタムオーダーメイド 3D2] | Kiss               | ⭕             |
 | [聖騎士リッカの物語]         | もぐらソフト       | ❌             |
 | ハニーセレクト               | ILLUSION           | ❌             |
-| [ハニーセレクト 2]           | ILLUSION           | ⭕             |
+| ハニーセレクト 2             | ILLUSION           | ⭕             |
 | [放課後輪姦中毒]             | みこにそみ         | ⭕※[AGHVR]のみ |
 | [淫魔界 2: カムラン]         | 淡泊室             | ❌             |
 | [インサルトオーダー]         | みこにそみ         | ⭕※[IOVR]のみ  |
-| [コイカツ！]                 | ILLUSION           | ⭕             |
-| [コイカツ！パーティ]         | ILLUSION           | ⭕             |
-| [コイカツ！サンシャイン]     | ILLUSION           | ⭕             |
+| コイカツ！                   | ILLUSION           | ⭕             |
+| コイカツ！パーティ           | ILLUSION           | ⭕             |
+| コイカツ！サンシャイン       | ILLUSION           | ⭕             |
 | [恋来い温泉物語]             | アプリコットハート | ⭕             |
 | [Last Evil]                  | Flametorch         | ❌             |
 | [大江戸とりがー!!]           | CQC Software       | ⭕ ※別売り     |
 | [Our Apartment]              | Momoiro Software   | ❌             |
-| [プレイホーム]               | ILLUSION           | ⭕             |
-| [ROOM ガール]                | ILLUSION           | ❌             |
-| [セクロスフィア]             | ILLUSION           | ❌             |
+| プレイホーム                 | ILLUSION           | ⭕             |
+| ROOM ガール                  | ILLUSION           | ❌             |
+| セクロスフィア               | ILLUSION           | ❌             |
 | [Succubus Cafe]              | MIGI STUDIO        | ❌             |
-| [VR カノジョ]                | ILLUSION           | ⭕             |
+| VR カノジョ                  | ILLUSION           | ⭕             |
 
 ## サポートしているデバイス
 
