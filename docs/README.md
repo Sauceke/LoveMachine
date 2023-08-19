@@ -10,8 +10,10 @@ Adds support for [some computer-controlled sex toys](#supported-devices) in the 
 
 | Title                       | Developer        | VR support          |
 | --------------------------- | ---------------- | ------------------- |
+| AI Shoujo                   | Illusion         | ✗                   |
 | [Custom Order Maid 3D 2]    | Kiss             | ✓                   |
 | [Holy Knight Ricca]         | Mogurasoft       | ✗                   |
+| Honey Select                | Illusion         | ✗                   |
 | [Honey Select 2]            | Illusion         | ✓                   |
 | [Houkago Rinkan Chuudoku]   | Miconisomi       | ✓ (with [AGHVR])    |
 | [Incubus 2: Camlann]        | Tanpakusitsu     | ✗                   |
