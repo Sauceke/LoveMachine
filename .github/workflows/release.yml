@@ -24,7 +24,7 @@ jobs:
 
     env:
       ACTIONS_ALLOW_UNSECURE_COMMANDS: true
-      INNO_SETUP_URL: https://web.archive.org/web/20220519201547if_/https://files.jrsoftware.org/is/6/innosetup-6.2.1.exe
+      INNO_SETUP_URL: https://files.jrsoftware.org/is/6/innosetup-6.2.1.exe
       BEPINEX_32_URL: https://github.com/BepInEx/BepInEx/releases/download/v5.4.18/BepInEx_x86_5.4.18.0.zip
       BEPINEX_64_URL: https://github.com/BepInEx/BepInEx/releases/download/v5.4.18/BepInEx_x64_5.4.18.0.zip
       BEPINEX_IL2CPP_64_URL: https://builds.bepinex.dev/projects/bepinex_be/673/BepInEx-Unity.IL2CPP-win-x64-6.0.0-be.673%2B06a7278.zip
