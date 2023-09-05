@@ -14,14 +14,18 @@ namespace LoveMachine.DJ
         private Animator femaleAnimator;
         
         protected override MethodInfo[] StartHMethods =>
-            new []{ AccessTools.Method("AnimeManager, Assembly-CSharp:SetAnimation") };
+            new [] { AccessTools.Method("CanvasFlag, Assembly-CSharp:MotionFlagCheck") };
     
         protected override MethodInfo[] EndHMethods =>
-            new []{ AccessTools.Method("AnimeManager, Assembly-CSharp:ExitSexScene") };
+            new [] { AccessTools.Method("AnimeManager, Assembly-CSharp:ExitSexScene") };
         
         protected override Dictionary<Bone, string> FemaleBoneNames => new Dictionary<Bone, string>
         {
-            { Bone.RightHand, "Right_Index_Tip" }  
+            { Bone.Vagina, "L_Vagina" },
+            { Bone.Mouth, "Tongue03" },
+            { Bone.RightHand, "Right_Index_Tip" },
+            { Bone.LeftBreast, "L_Brest_Tip" },
+            { Bone.RightBreast, "R_Brest_Tip" },
         };
 
         protected override Transform PenisBase => GameObject.Find("Fukuro").transform;
@@ -41,7 +45,7 @@ namespace LoveMachine.DJ
 
         protected override IEnumerator UntilReady()
         {
-            yield return new WaitForSeconds(5f);
+            yield return new WaitForSeconds(1f);
             female = GameObject.Find("Sonoe (1)");
             femaleAnimator = female.GetComponent<Animator>();
         }
