@@ -33,13 +33,11 @@ Adds support for [some computer-controlled sex toys](#supported-devices) in the 
 
 ## Supported devices
 
-LoveMachine relies on the [Buttplug.io] project to communicate with toys. At the time of writing,
-Buttplug.io supports over 200 devices.
-
-This plugin is for **linear** (moving back-and-forth), **vibrating**, **rotating** and
+LoveMachine connects to adult toys through [Buttplug.io], which supports over 200 devices. Among
+those, LoveMachine can recognize **linear** (moving back-and-forth), **vibrating**, **rotating** and
 **tightening** sex toys.
 
-Some of the devices that were actually tested with the mod:
+Some of the devices that have been confirmed to work well with the mod:
 
 Strokers
 
