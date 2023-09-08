@@ -33,7 +33,7 @@ Adds support for [some computer-controlled sex toys](#supported-devices) in the 
 
 ## Supported devices
 
-LoveMachine connects to adult toys through [Buttplug.io], which supports over 200 devices. Among
+LoveMachine connects to adult toys through the Buttplug protocol, which supports over 200 devices. Among
 those, LoveMachine can recognize **linear** (moving back-and-forth), **vibrating**, **rotating** and
 **tightening** sex toys.
 
