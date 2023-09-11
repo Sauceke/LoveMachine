@@ -16,6 +16,7 @@ LoveMachine はアダルトゲームのキャラクターと連動してアダ�
 | AI＊少女                     | ILLUSION           | ❌             |
 | [カスタムオーダーメイド 3D2] | Kiss               | ⭕             |
 | [聖騎士リッカの物語]         | もぐらソフト       | ❌             |
+| [ハニカム]                   | ILLGAMES           | ❌             |
 | ハニーセレクト               | ILLUSION           | ❌             |
 | ハニーセレクト 2             | ILLUSION           | ⭕             |
 | [放課後輪姦中毒]             | みこにそみ         | ⭕※[AGHVR]のみ |
@@ -278,6 +279,8 @@ LoveMachine は[BepInEx]プラグインフレームワークと、そしても�
   https://www.dlsite.com/pro/dlaf/=/t/n/link/work/aid/sauceke/locale/en_US/id/VJ01000460.html/?locale=en_US
 [大江戸とりがー!!]:
   https://www.dlsite.com/maniax/dlaf/=/t/n/link/work/aid/sauceke/locale/en_US/id/RJ439205.html/?locale=en_US
+[ハニカム]:
+  https://www.dlsite.com/pro/dlaf/=/t/n/link/work/aid/sauceke/locale/en_US/id/VJ01000785.html/?locale=en_US
 
 <!-- sponsored sex toy links -->
 

@@ -13,6 +13,7 @@ Adds support for [some computer-controlled sex toys](#supported-devices) in the 
 | AI Shoujo                   | Illusion         | ✗                   |
 | [Custom Order Maid 3D 2]    | Kiss             | ✓                   |
 | [Holy Knight Ricca]         | Mogurasoft       | ✗                   |
+| [HoneyCome]                 | Illgames         | ✗                   |
 | Honey Select                | Illusion         | ✗                   |
 | Honey Select 2              | Illusion         | ✓                   |
 | [Houkago Rinkan Chuudoku]   | Miconisomi       | ✓ (with [AGHVR])    |
@@ -295,6 +296,8 @@ This mod would not have been possible without the [BepInEx] plugin framework and
   https://www.dlsite.com/pro/dlaf/=/t/n/link/work/aid/sauceke/locale/en_US/id/VJ01000460.html/?locale=en_US
 [Oedo Trigger]:
   https://www.dlsite.com/maniax/dlaf/=/t/n/link/work/aid/sauceke/locale/en_US/id/RJ439205.html/?locale=en_US
+[HoneyCome]:
+  https://www.dlsite.com/pro/dlaf/=/t/n/link/work/aid/sauceke/locale/en_US/id/VJ01000785.html/?locale=en_US
 
 <!-- sponsored sex toy links -->
 
