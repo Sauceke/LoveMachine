@@ -18,6 +18,7 @@ namespace LoveMachine.WP
         private Traverse<bool> PlayAuto; 
         private Traverse<bool> IsAutoSceneChange;
         private Traverse<int> CurrentPose;
+        private Traverse<int> EcstasyLevel;
         private Traverse<float> autoMouseCount;
         private Traverse<float> autoSpeed;
         private Traverse<float> autoSpeedTurn;
@@ -26,8 +27,7 @@ namespace LoveMachine.WP
         protected override MethodInfo[] StartHMethods =>
             new [] { AccessTools.Method("ai, Assembly-UnityScript:Start") };
         
-        protected override MethodInfo[] EndHMethods =>
-            new MethodInfo[] { };
+        protected override MethodInfo[] EndHMethods => new MethodInfo[] { };
         
         protected override Dictionary<Bone, string> FemaleBoneNames => new Dictionary<Bone, string>
         {
@@ -47,10 +47,11 @@ namespace LoveMachine.WP
 
         protected override GameObject GetFemaleRoot(int girlIndex) => ChrA;
 
-        protected override string GetPose(int girlIndex) =>
-            CurrentPose.Value + "." + PlayAuto.Value;
+        protected override string GetPose(int girlIndex) => $"{CurrentPose.Value}.{PlayAuto.Value}";
 
         protected override bool IsIdle(int girlIndex) => !PlayAuto.Value || IsAutoSceneChange.Value;
+
+        protected override bool IsOrgasming(int girlIndex) => EcstasyLevel.Value == 3;
 
         protected override void SetStartHInstance(object instance) =>
             ai = Traverse.Create(instance);
@@ -74,6 +75,7 @@ namespace LoveMachine.WP
             TypeAI = gs.Field<string>("TypeAI");
             PlayAuto = gs.Field<bool>("PlayAuto");
             CurrentPose = gs.Field<int>("CurrentPose");
+            EcstasyLevel = gs.Field<int>("EcstasyLevel");
             IsAutoSceneChange = gs.Field<bool>("IsAutoSceneChange");
             autoMouseCount = ai.Field<float>("autoMouseCount");
             autoSpeed = ai.Field<float>("autoSpeed");
