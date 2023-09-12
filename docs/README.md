@@ -13,6 +13,7 @@ Adds support for [some computer-controlled sex toys](#supported-devices) in the 
 | AI Shoujo                   | Illusion         | ✗                   |
 | [Custom Order Maid 3D 2]    | Kiss             | ✓                   |
 | [Holy Knight Ricca]         | Mogurasoft       | ✗                   |
+| [HoneyCome]                 | Illgames         | ✗                   |
 | Honey Select                | Illusion         | ✗                   |
 | Honey Select 2              | Illusion         | ✓                   |
 | [Houkago Rinkan Chuudoku]   | Miconisomi       | ✓ (with [AGHVR])    |
@@ -33,13 +34,11 @@ Adds support for [some computer-controlled sex toys](#supported-devices) in the 
 
 ## Supported devices
 
-LoveMachine relies on the [Buttplug.io] project to communicate with toys. At the time of writing,
-Buttplug.io supports over 200 devices.
+LoveMachine connects to adult toys through the Buttplug protocol, which supports over 200 devices.
+Among those, LoveMachine can recognize **linear** (moving back-and-forth), **vibrating**,
+**rotating** and **tightening** sex toys.
 
-This plugin is for **linear** (moving back-and-forth), **vibrating**, **rotating** and
-**tightening** sex toys.
-
-Some of the devices that were actually tested with the mod:
+Some of the devices that have been confirmed to work well with the mod:
 
 Strokers
 
@@ -233,17 +232,18 @@ Sauceke   •   nhydock   •   hogefugamoga   •   RPKU   �
 
 [ManlyMarco]   •   Aftercurve   •   AkronusWings   •   Ambicatus   •   Andrew Hall   •  
 AstralClock   •   Atlantic Dragon   •   Average MBT viewer   •   Benos Hentai   •   boaz   •  
-Bri   •   butz   •   cat tail   •   CBN ヴい    •   Ceruleon   •   CROM   •   Daniel   •  
-EPTG   •   er er   •   Ergo   •   Flan   •   funnychicken   •   Gabbelgu   •   Gaku Kihara   •  
-gmolnmol   •   gold25   •   GOU YOSIHIRO   •   Greg   •   hiro   •   Ior1yagami   •   Junk   •  
-jwk   •   Kai Yami   •   KodFish   •   KTKT   •   kuni   •   Laneo   •   le d   •   mokochurin   •  
-Nemi   •   Nephilim Bacon   •   nppon   •   PhazR   •   Phil   •   prepare55   •   purena   •   real
-name   •   rolandmitch   •   RP 君    •   SavagePastry   •   Sean McKagan   •   Shakes   •  
-Taibe   •   tanu   •   TO   •   Tom   •   TrashTaste   •   ttrs   •   tutinoko   •   unitora   •  
-uruurian   •   Wel Adunno   •   yamada tarou   •   Zesty Cucumber   •   Zijian Wang   •   Zomba
-Mann   •   しゃどみん    •   シルバー    •   ふ    •   りょすけ みのかわ    •   一太 川崎    •   優
-希 岩永    •   哲慶 宗    •   国崎往人    •   将也 三田    •   洋 冨岡    •   猛 羽場    •   终晓
-   •   郁弥 中村    •   闇《YAMI》   •   高島　渉
+BOOK   •   Bri   •   butz   •   cat tail   •   CBN ヴい    •   Ceruleon   •   CROM   •  
+Daniel   •   DDJTK   •   EPTG   •   er er   •   Ergo   •   Flan   •   funnychicken   •  
+Gabbelgu   •   Gaku Kihara   •   gmolnmol   •   gold25   •   GOU YOSIHIRO   •   Greg   •  
+hiro   •   Ior1yagami   •   jason   •   Junk   •   jwk   •   Kai Yami   •   KodFish   •   KTKT   •  
+kuni   •   Laneo   •   le d   •   mokochurin   •   Nemi   •   Nephilim Bacon   •   nppon   •  
+PhazR   •   Phil   •   prepare55   •   purena   •   real name   •   rolandmitch   •   RP 君    •  
+SavagePastry   •   Sean McKagan   •   Shakes   •   Taibe   •   tanu   •   TO   •   Tom   •  
+TrashTaste   •   ttrs   •   tutinoko   •   unitora   •   uruurian   •   Wel Adunno   •   yamada
+tarou   •   Zesty Cucumber   •   Zijian Wang   •   Zomba Mann   •   しゃどみん    •   シルバー
+   •   ふ    •   りょすけ みのかわ    •   一太 川崎    •   優希 岩永    •   哲慶 宗    •   国崎往人
+   •   将也 三田    •   洋 冨岡    •   猛 羽場    •   终晓    •   郁弥 中村    •   闇《YAMI》   •  
+高島　渉
 
 ## Acknowledgements
 
@@ -296,6 +296,8 @@ This mod would not have been possible without the [BepInEx] plugin framework and
   https://www.dlsite.com/pro/dlaf/=/t/n/link/work/aid/sauceke/locale/en_US/id/VJ01000460.html/?locale=en_US
 [Oedo Trigger]:
   https://www.dlsite.com/maniax/dlaf/=/t/n/link/work/aid/sauceke/locale/en_US/id/RJ439205.html/?locale=en_US
+[HoneyCome]:
+  https://www.dlsite.com/pro/dlaf/=/t/n/link/work/aid/sauceke/locale/en_US/id/VJ01000785.html/?locale=en_US
 
 <!-- sponsored sex toy links -->
 
