@@ -265,10 +265,9 @@ Global
 		{6610D6B2-93E2-43FA-8BFB-982A020FAB49}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6610D6B2-93E2-43FA-8BFB-982A020FAB49}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6610D6B2-93E2-43FA-8BFB-982A020FAB49}.Release|Any CPU.Build.0 = Release|Any CPU
-		{6610D6B2-93E2-43FA-8BFB-982A020FAB49}.Release-net6|Any CPU.ActiveCfg = Debug|Any CPU
-		{6610D6B2-93E2-43FA-8BFB-982A020FAB49}.Release-net6|Any CPU.Build.0 = Debug|Any CPU
-		{6610D6B2-93E2-43FA-8BFB-982A020FAB49}.Release-netfx3|Any CPU.ActiveCfg = Debug|Any CPU
-		{6610D6B2-93E2-43FA-8BFB-982A020FAB49}.Release-netfx3|Any CPU.Build.0 = Debug|Any CPU
+		{6610D6B2-93E2-43FA-8BFB-982A020FAB49}.Release-net6|Any CPU.ActiveCfg = Release|Any CPU
+		{6610D6B2-93E2-43FA-8BFB-982A020FAB49}.Release-netfx3|Any CPU.ActiveCfg = Release|Any CPU
+		{6610D6B2-93E2-43FA-8BFB-982A020FAB49}.Release-netfx3|Any CPU.Build.0 = Release|Any CPU
 		{5502A264-E13A-40AE-9476-46FB8413BBAD}.Release-netfx3|Any CPU.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
