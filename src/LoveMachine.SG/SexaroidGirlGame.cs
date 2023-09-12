@@ -15,17 +15,17 @@ namespace LoveMachine.SG
         private Traverse<string> _taii;
         private Traverse<float> now_blend;
         private Traverse<bool> girl_idling;
+        private Traverse<bool> shasei_now;
 
-        protected override MethodInfo[] StartHMethods => new[]
-        {
-            AccessTools.Method("AnimatorControl3, Assembly-CSharp:_change_Taii")
-        };
+        protected override MethodInfo[] StartHMethods =>
+            new[] { AccessTools.Method("AnimatorControl3, Assembly-CSharp:_change_Taii") };
         
         protected override MethodInfo[] EndHMethods => new MethodInfo[] {};
         
         protected override Dictionary<Bone, string> FemaleBoneNames => new Dictionary<Bone, string>
         {
             { Bone.Vagina, "kr_root_end" },
+            { Bone.Mouth, "mouth_b_end" },
             { Bone.RightHand, "yubi_2_str_R_end" }
         };
 
@@ -43,6 +43,8 @@ namespace LoveMachine.SG
 
         protected override bool IsIdle(int girlIndex) => girl_idling.Value;
 
+        protected override bool IsOrgasming(int girlIndex) => shasei_now.Value;
+
         protected override void SetStartHInstance(object instance)
         {
             var script = Traverse.Create(instance);
@@ -51,6 +53,7 @@ namespace LoveMachine.SG
             _taii = script.Field<string>("_taii");
             now_blend = script.Field<float>("now_blend");
             girl_idling = script.Field<bool>("girl_idling");
+            shasei_now = script.Field<bool>("shasei_now");
         }
 
         protected override IEnumerator UntilReady()
