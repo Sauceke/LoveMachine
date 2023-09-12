@@ -1,16 +1,15 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-  <PropertyGroup>
-    <TargetFramework>net35</TargetFramework>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <OutputPath>..\bin\LoveMachine.KK\BepInEx\plugins\KK_LoveMachine\</OutputPath>
-    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
-  </PropertyGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\LoveMachine.Core\LoveMachine.Core.csproj" />
-  </ItemGroup>
-  <ItemGroup>
-    <PackageReference Include="IllusionLibs.Koikatu.Assembly-CSharp" Version="2019.4.27.4" ExcludeAssets="runtime" />
-    <PackageReference Include="IllusionLibs.Koikatu.UnityEngine" Version="5.6.2.4" ExcludeAssets="runtime" />
-    <PackageReference Include="KoikatuCompatibilityAnalyzer" Version="1.0.1" ExcludeAssets="runtime" />
-  </ItemGroup>
+    <PropertyGroup>
+        <TargetFramework>net35</TargetFramework>
+        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+        <OutputPath>..\bin\LoveMachine.KK\BepInEx\plugins\KK_LoveMachine\</OutputPath>
+    </PropertyGroup>
+    <ItemGroup>
+        <ProjectReference Include="..\LoveMachine.Core\LoveMachine.Core.csproj" />
+    </ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="IllusionLibs.Koikatu.Assembly-CSharp" Version="2019.4.27.4" ExcludeAssets="runtime" />
+        <PackageReference Include="IllusionLibs.Koikatu.UnityEngine" Version="5.6.2.4" ExcludeAssets="runtime" />
+        <PackageReference Include="KoikatuCompatibilityAnalyzer" Version="1.0.1" ExcludeAssets="runtime" />
+    </ItemGroup>
 </Project>

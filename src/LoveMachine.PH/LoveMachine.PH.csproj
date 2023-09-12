@@ -1,15 +1,16 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-  <PropertyGroup>
-    <TargetFramework>net35</TargetFramework>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <OutputPath>..\bin\LoveMachine.PH\BepInEx\plugins\PH_LoveMachine\</OutputPath>
-    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
-  </PropertyGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\LoveMachine.Core\LoveMachine.Core.csproj" />
-  </ItemGroup>
-  <ItemGroup>
-    <PackageReference Include="IllusionLibs.PlayHome.Assembly-CSharp" Version="2018.3.11.4" ExcludeAssets="runtime" />
-    <PackageReference Include="IllusionLibs.PlayHome.UnityEngine" Version="5.5.5.4" ExcludeAssets="runtime" />
-  </ItemGroup>
+    <PropertyGroup>
+        <TargetFramework>net35</TargetFramework>
+        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+        <OutputPath>..\bin\LoveMachine.PH\BepInEx\plugins\PH_LoveMachine\</OutputPath>
+    </PropertyGroup>
+    <ItemGroup>
+        <ProjectReference Include="..\LoveMachine.Core\LoveMachine.Core.csproj" />
+    </ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="IllusionLibs.PlayHome.Assembly-CSharp" Version="2018.3.11.4"
+                          ExcludeAssets="runtime" />
+        <PackageReference Include="IllusionLibs.PlayHome.UnityEngine" Version="5.5.5.4"
+                          ExcludeAssets="runtime" />
+    </ItemGroup>
 </Project>

@@ -1,30 +1,25 @@
-﻿using HarmonyLib;
-using IllusionUtility.GetUtility;
-using LoveMachine.Core;
-using System;
+﻿using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using HarmonyLib;
+using IllusionUtility.GetUtility;
 using UnityEngine;
 
 namespace LoveMachine.HS2
 {
-    internal sealed class HoneySelect2Game : GameDescriptor
+    internal sealed class HoneySelect2Game : AbstractHS2Game
     {
-        private HScene hScene;
-
-        protected override Dictionary<Bone, string> FemaleBoneNames => new Dictionary<Bone, string>
+        private readonly string[] idleAnimations =
         {
-            { Bone.Vagina, "cf_J_Kokan" },
-            { Bone.RightHand, "cf_J_Hand_Wrist_s_R" },
-            { Bone.LeftHand, "cf_J_Hand_Wrist_s_L" },
-            { Bone.RightBreast, "cf_J_Mune04_s_R" },
-            { Bone.LeftBreast, "cf_J_Mune04_s_L" },
-            { Bone.Mouth, "cf_J_MouthCavity" },
-            { Bone.RightFoot, "cf_J_Toes01_L" },
-            { Bone.LeftFoot, "cf_J_Toes01_R" }
+            "Idle", "WIdle", "SIdle", "Insert", "D_Idle", "D_Insert",
+            "Orgasm_A", "Orgasm_OUT_A", "Drink_A", "Vomit_A", "Orgasm_IN_A", "OrgasmM_OUT_A",
+            "D_Orgasm_A", "D_Orgasm_OUT_A", "D_Orgasm_IN_A", "D_OrgasmM_OUT_A"
         };
+        
+        private HScene hScene;
+        private GameObject[] roots;
+        internal Animator[] animators;
 
         protected override int HeroineCount =>
             Array.FindAll(hScene.GetFemales(), f => f != null).Length;
@@ -45,23 +40,21 @@ namespace LoveMachine.HS2
             .ToArray();
 
         protected override MethodInfo[] StartHMethods =>
-            new[] { AccessTools.Method(typeof(HScene), nameof(HScene.Start)) };
+            new[] { AccessTools.Method(typeof(HScene), nameof(HScene.SetStartVoice)) };
 
         protected override MethodInfo[] EndHMethods =>
             new[] { AccessTools.Method(typeof(HScene), nameof(HScene.EndProc)) };
 
-        protected override Animator GetFemaleAnimator(int girlIndex) =>
-            hScene?.GetFemales()[girlIndex]?.animBody;
+        protected override Animator GetFemaleAnimator(int girlIndex) => animators[girlIndex];
 
-        protected override GameObject GetFemaleRoot(int girlIndex) =>
-            hScene.GetFemales()[girlIndex].objBodyBone;
+        protected override GameObject GetFemaleRoot(int girlIndex) => roots[girlIndex];
 
         protected override void SetStartHInstance(object hScene) => this.hScene = (HScene)hScene;
 
         protected override string GetPose(int girlIndex) =>
             // couldn't find accessor for animation name so going with hash
             hScene.ctrlFlag.nowAnimationInfo.id
-                + "." + hScene.GetFemales()[girlIndex].getAnimatorStateInfo(0).fullPathHash;
+                + "." + GetAnimatorStateInfo(girlIndex).fullPathHash;
 
         protected override IEnumerator UntilReady()
         {
@@ -69,9 +62,12 @@ namespace LoveMachine.HS2
                 || hScene.GetFemales()[0] == null
                 || hScene.GetMales().Length == 0
                 || hScene.GetMales()[0] == null);
+            animators = hScene?.GetFemales().Select(female => female?.animBody).ToArray();
+            roots = hScene?.GetFemales().Select(female => female?.objBodyBone).ToArray();
         }
 
-        protected override bool IsIdle(int girlIndex) => hScene.ctrlFlag.loopType == -1;
+        protected override bool IsIdle(int girlIndex) =>
+            idleAnimations.Any(GetAnimatorStateInfo(girlIndex).IsName);
 
         protected override bool IsOrgasming(int girlIndex) => hScene.ctrlFlag.nowOrgasm;
     }

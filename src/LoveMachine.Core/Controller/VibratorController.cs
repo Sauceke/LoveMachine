@@ -1,33 +1,35 @@
 ﻿using System;
 using System.Collections;
+using LoveMachine.Core.Buttplug;
+using LoveMachine.Core.Buttplug.Settings;
+using LoveMachine.Core.Game;
 using UnityEngine;
 
-namespace LoveMachine.Core
+namespace LoveMachine.Core.Controller
 {
-    public sealed class VibratorController : ClassicButtplugController
+    internal sealed class VibratorController : ClassicButtplugController
     {
-        protected override bool IsDeviceSupported(Device device) => device.IsVibrator;
+        public override bool IsDeviceSupported(Device device) => device.IsVibrator;
 
-        protected override IEnumerator HandleAnimation(Device device, WaveInfo waveInfo)
+        protected override IEnumerator HandleAnimation(Device device, StrokeInfo strokeInfo)
         {
-            float normalizedTime = GetLatencyCorrectedNormalizedTime(device);
-            float phase = waveInfo.Phase;
-            float frequency = waveInfo.Frequency;
-            float time = normalizedTime - phase;
-            float strength = GetStrength(time * frequency, device.Settings.VibratorSettings);
+            float strength = GetStrength(strokeInfo.Completion, device.Settings.VibratorSettings);
             float intensity = Mathf.Lerp(
                 device.Settings.VibratorSettings.IntensityMin,
                 device.Settings.VibratorSettings.IntensityMax,
-                t: strength * game.VibrationIntensity);
-            client.VibrateCmd(device, intensity);
-            yield return new WaitForSecondsRealtime(1.0f / device.Settings.UpdatesHz);
+                t: strength * Game.VibrationIntensity);
+            Client.VibrateCmd(device, intensity);
+            yield return WaitForSecondsUnscaled(1f / device.Settings.UpdatesHz);
         }
 
         protected override IEnumerator HandleOrgasm(Device device)
         {
-            client.VibrateCmd(device, device.Settings.VibratorSettings.IntensityMax);
+            Client.VibrateCmd(device, device.Settings.VibratorSettings.IntensityMax);
             yield break;
         }
+
+        protected override void HandleLevel(Device device, float level, float durationSecs) =>
+            Client.VibrateCmd(device, level);
 
         private static float GetStrength(float x, VibratorSettings settings)
         {

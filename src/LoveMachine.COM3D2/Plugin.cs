@@ -1,9 +1,10 @@
 ﻿using BepInEx;
 using LoveMachine.Core;
+using LoveMachine.Core.PlatformSpecific;
 
 namespace LoveMachine.COM3D2
 {
-    [BepInPlugin(CoreConfig.GUID, CoreConfig.PluginName, CoreConfig.Version)]
+    [BepInPlugin(Globals.GUID, Globals.PluginName, Globals.Version)]
     internal class Plugin : LoveMachinePlugin<Com3d2Game>
     { }
 }

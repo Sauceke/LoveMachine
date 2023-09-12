@@ -1,7 +1,7 @@
 ﻿using System.Linq;
-using UnityEngine;
+using LoveMachine.Core.Buttplug.Settings;
 
-namespace LoveMachine.Core
+namespace LoveMachine.Core.Buttplug
 {
     public class Device : Buttplug.Device
     {
@@ -14,7 +14,6 @@ namespace LoveMachine.Core
         public float BatteryLevel { get; set; }
         public DeviceSettings Settings { get; set; } = new DeviceSettings();
 
-        public bool IsSupported => IsVibrator || IsConstrictor || IsStroker || IsRotator;
         public bool IsVibrator => DeviceMessages.ScalarCmd?.Any(f => f.IsVibrator) ?? false;
         public bool IsConstrictor => DeviceMessages.ScalarCmd?.Any(f => f.IsConstrictor) ?? false;
         public bool IsStroker => DeviceMessages.LinearCmd != null;
@@ -25,36 +24,11 @@ namespace LoveMachine.Core
 
         internal bool Matches(DeviceSettings settings) => settings.DeviceName == DeviceName;
 
-        internal void Draw()
+        internal void CleanUpSettings()
         {
-            GUILayout.BeginHorizontal();
-            {
-                GUILayout.FlexibleSpace();
-                GUILayout.Label(DeviceName);
-                GUILayout.FlexibleSpace();
-            }
-            GUILayout.EndHorizontal();
-            if (HasBatteryLevel)
-            {
-                GUIUtil.SingleSpace();
-                GUILayout.BeginHorizontal();
-                {
-                    GUIUtil.PercentBar("Battery", "Current battery level.", BatteryLevel);
-                }
-                GUILayout.EndHorizontal();
-            }
-            GUIUtil.SingleSpace();
-            GUILayout.BeginHorizontal();
-            {
-                GUIUtil.LabelWithTooltip("Features", "What this device can do.");
-                GUILayout.Toggle(IsStroker, "Position");
-                GUILayout.Toggle(IsVibrator, "Vibration");
-                GUILayout.Toggle(IsRotator, "Rotation");
-                GUILayout.Toggle(IsConstrictor, "Pressure");
-            }
-            GUILayout.EndHorizontal();
-            GUIUtil.SingleSpace();
-            Settings.Draw();
+            Settings.StrokerSettings = IsStroker ? Settings.StrokerSettings : null;
+            Settings.VibratorSettings = IsVibrator ? Settings.VibratorSettings : null;
+            Settings.ConstrictSettings = IsConstrictor ? Settings.ConstrictSettings : null;
         }
     }
 }

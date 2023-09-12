@@ -1,0 +1,8 @@
+---
+---
+
+@import "{{ site.theme }}";
+
+header, div#no-downloads, span.banner-fix, a#forkme_banner {
+  display: none !important;
+}

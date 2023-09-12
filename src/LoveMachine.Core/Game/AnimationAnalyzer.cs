@@ -1,28 +1,26 @@
-﻿using Il2CppInterop.Runtime.Attributes;
-using LitJson;
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Il2CppInterop.Runtime.Attributes;
+using LitJson;
+using LoveMachine.Core.PlatformSpecific;
+using LoveMachine.Core.Common;
 using UnityEngine;
 
-namespace LoveMachine.Core
+namespace LoveMachine.Core.Game
 {
-    public class AnimationAnalyzer : CoroutineHandler
+    internal class AnimationAnalyzer : CoroutineHandler
     {
-        // com3d2 has animations with more than 10 strokes, but those aren't
-        // evenly spaced, so can't do much about them atm
-        private const int MaxFrequency = 10;
-
         // pose -> result
-        private readonly Dictionary<string, WaveInfo> resultCache =
-            new Dictionary<string, WaveInfo>();
+        private readonly Dictionary<string, Result> resultCache =
+            new Dictionary<string, Result>();
 
-        private GameDescriptor game;
+        private GameAdapter game;
 
         private void Start()
         {
-            game = GetComponent<GameDescriptor>();
+            game = GetComponent<GameAdapter>();
             game.OnHStarted += (s, a) => StartAnalyze();
             game.OnHEnded += (s, a) => StopAnalyze();
         }
@@ -31,7 +29,41 @@ namespace LoveMachine.Core
             $"{game.GetPose(girlIndex)}.girl{girlIndex}.{bone}";
 
         [HideFromIl2Cpp]
-        public virtual bool TryGetWaveInfo(int girlIndex, Bone bone, out WaveInfo result)
+        public bool TryGetCurrentStrokeInfo(int girlIndex, Bone bone, float normalizedTime,
+            out StrokeInfo strokeInfo)
+        {
+            if (!TryGetResult(girlIndex, bone, out var result))
+            {
+                strokeInfo = default;
+                return false;
+            }
+            var delimiters = result.StrokeDelimiters;
+            float animTimeSecs = game.GetAnimationTimeSecs(girlIndex);
+            int delimIndex = Enumerable.Range(0, delimiters.Length)
+                .Where(i => delimiters[i] <= normalizedTime % 1f)
+                .DefaultIfEmpty(delimiters.Length - 1)
+                .Last();
+            float start = delimiters[delimIndex];
+            float end = delimIndex == delimiters.Length - 1
+                ? delimiters[0] + 1f
+                : delimiters[delimIndex + 1];
+            if (normalizedTime % 1f < start)
+            {
+                start -= 1f;
+                end -= 1f;
+            }
+            float normalizedStrokeDuration = end - start;
+            strokeInfo = new StrokeInfo
+            {
+                Amplitude = result.Amplitude,
+                DurationSecs = animTimeSecs * normalizedStrokeDuration,
+                Completion = Mathf.InverseLerp(start, end, normalizedTime % 1f)
+            };
+            return true;
+        }
+        
+        [HideFromIl2Cpp]
+        private bool TryGetResult(int girlIndex, Bone bone, out Result result)
         {
             try
             {
@@ -39,8 +71,8 @@ namespace LoveMachine.Core
             }
             catch (Exception e)
             {
-                CoreConfig.Logger.LogError($"Error while trying to get wave info: {e}");
-                result = new WaveInfo();
+                Logger.LogError($"Error while trying to get wave info: {e}");
+                result = new Result();
                 return false;
             }
         }
@@ -62,12 +94,12 @@ namespace LoveMachine.Core
         {
             while (true)
             {
-                if (TryGetWaveInfo(girlIndex, Bone.Auto, out var _))
+                if (TryGetResult(girlIndex, Bone.Auto, out _))
                 {
                     yield return new WaitForSecondsRealtime(0.1f);
                     continue;
                 }
-                CoreConfig.Logger.LogDebug("New animation playing, starting to analyze.");
+                Logger.LogDebug("New animation playing, starting to analyze.");
                 yield return HandleCoroutine(AnalyzeAnimation(girlIndex), suppressExceptions: true);
             }
         }
@@ -96,13 +128,13 @@ namespace LoveMachine.Core
                 samples.AddRange(newSamples);
                 if (pose != GetExactPose(girlIndex, Bone.Auto) || currentTime < startTime)
                 {
-                    CoreConfig.Logger.LogWarning($"Pose {pose} interrupted; canceling analysis.");
+                    Logger.LogWarning($"Pose {pose} interrupted; canceling analysis.");
                     yield break;
                 }
             }
             var results = femaleBones.Keys
                 .ToDictionary(bone => bone,
-                    bone => GetPreferredWaveInfo(samples.Where(entry => entry.Bone == bone)));
+                    bone => GetPreferredResult(samples.Where(entry => entry.Bone == bone)));
             var autoBone = results
                 .OrderBy(result => result.Value.Preference)
                 .FirstOrDefault()
@@ -110,18 +142,18 @@ namespace LoveMachine.Core
             results[Bone.Auto] = results[autoBone];
             results.ToList()
                 .ForEach(kvp => resultCache[GetExactPose(girlIndex, kvp.Key)] = kvp.Value);
-            CoreConfig.Logger.LogInfo($"Calibration for pose {pose} completed. " +
+            Logger.LogInfo($"Calibration for pose {pose} completed. " +
                 $"{samples.Count / femaleBones.Count} frames inspected. " +
                 $"Leading bone: {autoBone}, result: {JsonMapper.ToJson(results[Bone.Auto])}.");
         }
 
-        private static WaveInfo GetPreferredWaveInfo(IEnumerable<Sample> samples) => samples
+        private Result GetPreferredResult(IEnumerable<Sample> samples) => samples
             .GroupBy(sample => sample.PenisBase)
-            .Select(GetWaveInfo)
-            .OrderBy(waveInfo => waveInfo.Preference)
+            .Select(EvaluateSamples)
+            .OrderBy(result => result.Preference)
             .First();
 
-        private static WaveInfo GetWaveInfo(IEnumerable<Sample> samples)
+        private Result EvaluateSamples(IEnumerable<Sample> samples)
         {
             // probably safe to assume the farthest point from the origin is an extremity
             var crest = samples
@@ -133,11 +165,15 @@ namespace LoveMachine.Core
             var axis = crest.RelativePos - trough.RelativePos;
             float GetDistance(Vector3 v) =>
                 Vector3.Project(v - trough.RelativePos, axis).magnitude;
-            var distances = samples.Select(sample => GetDistance(sample.RelativePos));
-            return new WaveInfo
+            float amplitude = samples.Max(sample => GetDistance(sample.RelativePos));
+            var nodes = samples.Select(sample => new Node
             {
-                Phase = trough.Time % 1f,
-                Frequency = GetFrequency(distances),
+                Time = sample.Time,
+                Position = Mathf.InverseLerp(0f, amplitude, GetDistance(sample.RelativePos))
+            });
+            return new Result
+            {
+                StrokeDelimiters = GetStrokeDelimiters(nodes, tolerance: game.MinStrokeLength),
                 Amplitude = axis.magnitude,
                 // Prefer bones that are close and move a lot. Being close is more important.
                 Preference = axis.magnitude == 0
@@ -146,39 +182,49 @@ namespace LoveMachine.Core
             };
         }
 
-        private static int GetFrequency(IEnumerable<float> samples)
+        private static float[] GetStrokeDelimiters(IEnumerable<Node> nodes, float tolerance)
         {
-            // Catch flatlines.
-            const float epsilon = 0.000001f;
-            if (samples.Max() - samples.Min() <= epsilon)
+            var edge = nodes.OrderBy(node => node.Position).First();
+            int index = nodes.ToList().IndexOf(edge);
+            nodes = nodes.Skip(index).Concat(nodes.Take(index));
+            int direction = 1;
+            var edges = new List<Node>();
+            foreach (var node in nodes)
             {
-                return 1;
+                float delta = edge.Position - node.Position;
+                edge = Math.Sign(delta) == direction ? node : edge;
+                if (Mathf.Abs(delta) > tolerance)
+                {
+                    edges.Add(edge);
+                    edge = node;
+                    direction *= -1;
+                }
             }
-            // Cap to Nyquist frequency.
-            // Why not collect samples until we have enough of them?
-            // 1. Because it would increase downtime for the device.
-            // 2. Because we might end up collecting samples from the same
-            //    spots over and over again, and thus never have enough of them to
-            //    meaningfully test for higher frequencies.
-            var maxFreq = Mathf.Min(MaxFrequency, samples.Count() / 2);
-            // Get frequency using Fourier series.
-            var dfsMagnitudes = new float[maxFreq];
-            for (int k = 1; k <= maxFreq; k++)
-            {
-                float freq = 2f * Mathf.PI / samples.Count() * k;
-                float re = samples.Select((amp, index) => amp * Mathf.Cos(freq * index)).Sum();
-                float im = samples.Select((amp, index) => amp * Mathf.Sin(freq * index)).Sum();
-                dfsMagnitudes[k - 1] = re * re + im * im;
-            }
-            return Array.IndexOf(dfsMagnitudes, dfsMagnitudes.Max()) + 1;
+            return edges.Where((node, i) => i % 2 == 0)
+                .Select(node => node.Time % 1f)
+                .OrderBy(time => time)
+                .ToArray();
         }
-
+        
         private struct Sample
         {
             public Bone Bone { get; set; }
             public Transform PenisBase { get; set; }
             public float Time { get; set; }
             public Vector3 RelativePos { get; set; }
+        }
+        
+        private struct Node
+        {
+            public float Time { get; set; }
+            public float Position { get; set; }
+        }
+
+        private struct Result
+        {
+            public float[] StrokeDelimiters { get; set; }
+            public float Amplitude { get; set; }
+            public float Preference { get; set; } // smaller is better
         }
     }
 }

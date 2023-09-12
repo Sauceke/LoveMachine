@@ -1,21 +1,23 @@
-﻿using LitJson;
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
+using LitJson;
+using LoveMachine.Core.Config;
+using LoveMachine.Core.PlatformSpecific;
 using UnityEngine;
 using WebSocket4Net;
 
-namespace LoveMachine.Core
+namespace LoveMachine.Core.Buttplug
 {
-    public class ButtplugWsClient : CoroutineHandler
+    internal class ButtplugWsClient : CoroutineHandler
     {
         private WebSocket websocket;
         private bool killSwitchThrown = false;
         private ConcurrentQueue<IEnumerator> incoming;
 
-        internal event EventHandler<DeviceListEventArgs> OnDeviceListUpdated;
+        public event EventHandler<DeviceListEventArgs> OnDeviceListUpdated;
 
         public List<Device> Devices { get; private set; }
 
@@ -37,7 +39,7 @@ namespace LoveMachine.Core
             incoming = new ConcurrentQueue<IEnumerator>();
             string address = ButtplugConfig.WebSocketHost.Value
                 + ":" + ButtplugConfig.WebSocketPort.Value;
-            CoreConfig.Logger.LogInfo($"Connecting to Intiface server at {address}");
+            Logger.LogInfo($"Connecting to Intiface server at {address}");
             websocket = new WebSocket(address);
             // StartCoroutine is only safe to call inside Unity's main thread
             websocket.Opened += (s, e) => incoming.Enqueue(OnOpened());
@@ -45,15 +47,13 @@ namespace LoveMachine.Core
             websocket.Error += (s, e) => incoming.Enqueue(OnError(e));
             websocket.Open();
             HandleCoroutine(RunReceiveLoop());
-            HandleCoroutine(RunKillSwitchLoop());
-            HandleCoroutine(RunBatteryLoop());
         }
 
         public void Close()
         {
             StopAllCoroutines();
             IsConnected = false;
-            CoreConfig.Logger.LogInfo("Disconnecting from Intiface server.");
+            Logger.LogInfo("Disconnecting from Intiface server.");
             websocket.Close();
             websocket.Dispose();
         }
@@ -102,110 +102,104 @@ namespace LoveMachine.Core
 
         private IEnumerator OnOpened()
         {
-            yield return new WaitForEndOfFrame();
-            CoreConfig.Logger.LogInfo("Successfully connected to Intiface.");
+            Logger.LogInfo("Connected to Intiface. Commencing handshake.");
             RequestServerInfo();
+            yield break;
         }
 
         private IEnumerator OnMessageReceived(MessageReceivedEventArgs e)
         {
-            yield return new WaitForEndOfFrame();
             foreach (JsonData data in JsonMapper.ToObject(e.Message))
             {
-                bool _ = CheckErrorMsg(data)
+                bool _ = CheckOkMsg(data)
+                    || CheckErrorMsg(data)
                     || CheckServerInfoMsg(data)
                     || CheckDeviceAddedRemovedMsg(data)
                     || CheckDeviceListMsg(data)
                     || CheckBatteryLevelReadingMsg(data);
             }
+            yield break;
         }
 
         private IEnumerator OnError(SuperSocket.ClientEngine.ErrorEventArgs e)
         {
-            yield return new WaitForEndOfFrame();
-            CoreConfig.Logger.LogWarning($"Websocket error: {e.Exception.Message}");
-            if (e.Exception.Message.Contains("unreachable"))
+            Logger.LogWarning($"Websocket error: {e.Exception.Message}");
+            if (!IsConnected)
             {
-                CoreConfig.Logger.LogMessage("Error: Failed to connect to Intiface server.");
+                Logger.LogMessage("Error: Failed to connect to Intiface.");
             }
+            yield break;
         }
 
+        private bool CheckOkMsg(JsonData data) => data.ContainsKey("Ok");
+        
         private bool CheckErrorMsg(JsonData data)
         {
-            bool handled = data.ContainsKey("Error");
-            if (handled)
+            if (!data.ContainsKey("Error"))
             {
-                CoreConfig.Logger.LogWarning($"Error from Intiface: {data.ToJson()}");
+                return false;
             }
-            return handled;
+            Logger.LogWarning($"Error from Intiface: {data.ToJson()}");
+            return true;
         }
 
         private bool CheckServerInfoMsg(JsonData data)
         {
-            bool handled = data.ContainsKey("ServerInfo");
-            if (handled)
+            if (!data.ContainsKey("ServerInfo"))
             {
-                IsConnected = true;
-                CoreConfig.Logger.LogInfo("Handshake successful.");
-                StartScan();
-                RequestDeviceList();
+                return false;
             }
-            return handled;
+            if (IsConnected)
+            {
+                Logger.LogWarning("Ignoring handshake message, client already registered.");
+                return true;
+            }
+            IsConnected = true;
+            Logger.LogInfo("Handshake successful.");
+            StartScan();
+            RequestDeviceList();
+            HandleCoroutine(RunKillSwitchLoop(), suppressExceptions: true);
+            HandleCoroutine(RunBatteryLoop());
+            return true;
         }
 
         private bool CheckDeviceAddedRemovedMsg(JsonData data)
         {
-            bool handled = data.ContainsKey("DeviceAdded") || data.ContainsKey("DeviceRemoved");
-            if (handled)
+            if (!data.ContainsKey("DeviceAdded") && !data.ContainsKey("DeviceRemoved"))
             {
-                RequestDeviceList();
+                return false;
             }
-            return handled;
+            RequestDeviceList();
+            return true;
         }
 
         private bool CheckDeviceListMsg(JsonData data)
         {
-            bool handled = data.ContainsKey("DeviceList");
-            if (handled)
+            if (!data.ContainsKey("DeviceList"))
             {
-                var previousDevices = Devices;
-                Devices = JsonMapper.ToObject<Buttplug.DeviceListMessage<Device>>(data.ToJson())
-                    .DeviceList.Devices;
-                var args = new DeviceListEventArgs(before: previousDevices, after: Devices);
-                OnDeviceListUpdated.Invoke(this, args);
-                LogDevices();
-                ReadBatteryLevels();
+                return false;
             }
-            return handled;
+            var previousDevices = Devices;
+            Devices = JsonMapper.ToObject<Buttplug.DeviceListMessage<Device>>(data.ToJson())
+                .DeviceList.Devices;
+            var args = new DeviceListEventArgs(before: previousDevices, after: Devices);
+            OnDeviceListUpdated.Invoke(this, args);
+            ReadBatteryLevels();
+            return true;
         }
 
         private bool CheckBatteryLevelReadingMsg(JsonData data)
         {
             var reading = JsonMapper.ToObject<Buttplug.SensorReadingMessage>(data.ToJson());
-            bool handled = reading.SensorReading?.SensorType == Buttplug.Feature.Battery;
-            if (handled)
+            if (reading.SensorReading?.SensorType != Buttplug.Feature.Battery)
             {
-                float level = reading.SensorReading.Data[0] / 100f;
-                int index = reading.SensorReading.DeviceIndex;
-                Devices.Where(device => device.DeviceIndex == index).ToList()
-                    .ForEach(device => device.BatteryLevel = level);
+                return false;
             }
-            return handled;
-        }
-
-        private void LogDevices()
-        {
-            CoreConfig.Logger.LogInfo($"List of devices: {JsonMapper.ToJson(Devices)}");
-            if (Devices.Count == 0)
-            {
-                CoreConfig.Logger.LogMessage("Warning: No devices connected to Intiface.");
-                return;
-            }
-            CoreConfig.Logger.LogMessage($"{Devices.Count} device(s) connected to Intiface.");
-            Devices
-                .Where(device => !device.IsSupported)
-                .Select(device => $"Warning: device \"{device.DeviceName}\" not supported.")
-                .ToList().ForEach(CoreConfig.Logger.LogMessage);
+            float level = reading.SensorReading.Data[0] / 100f;
+            int index = reading.SensorReading.DeviceIndex;
+            Devices.Where(device => device.DeviceIndex == index).ToList()
+                .ForEach(device => device.BatteryLevel = level);
+            return true;
         }
 
         private void ReadBatteryLevels() =>
@@ -231,9 +225,9 @@ namespace LoveMachine.Core
                 killSwitchThrown &= !KillSwitchConfig.ResumeSwitch.Value.IsPressed();
                 if (KillSwitchConfig.KillSwitch.Value.IsDown())
                 {
-                    CoreConfig.Logger.LogMessage("LoveMachine: Emergency stop pressed.");
                     StopAllDevices();
                     killSwitchThrown = true;
+                    Logger.LogMessage("LoveMachine: Emergency stop pressed.");
                 }
             }
         }
@@ -247,11 +241,11 @@ namespace LoveMachine.Core
                 Devices
                     .Where(device => device.BatteryLevel > 0f && device.BatteryLevel < 0.2f)
                     .Select(device => $"{device.DeviceName}: battery low.")
-                    .ToList().ForEach(CoreConfig.Logger.LogMessage);
+                    .ToList().ForEach(Logger.LogMessage);
             }
         }
 
-        internal class DeviceListEventArgs : EventArgs
+        public class DeviceListEventArgs : EventArgs
         {
             public List<Device> Before { get; }
             public List<Device> After { get; }

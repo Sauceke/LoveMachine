@@ -1,15 +1,16 @@
-﻿using HarmonyLib;
-using LoveMachine.Core;
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using HarmonyLib;
+using LoveMachine.Core.Game;
+using LoveMachine.Core.Common;
 using UnityEngine;
 
 namespace LoveMachine.AGH
 {
-    internal sealed class HoukagoRinkanChuudokuGame : GameDescriptor
+    internal sealed class HoukagoRinkanChuudokuGame : GameAdapter
     {
         private static readonly Dictionary<Bone, string> sayaBones = new Dictionary<Bone, string>
         {

@@ -1,9 +1,9 @@
 ﻿using BepInEx;
 using BepInEx.Configuration;
 
-namespace LoveMachine.Core
+namespace LoveMachine.Core.Config
 {
-    public static class ConstrictConfig
+    internal static class ConstrictConfig
     {
         public static ConfigEntry<ConstrictMode> Mode { get; private set; }
         public static ConfigEntry<float> CycleLengthSecs { get; private set; }

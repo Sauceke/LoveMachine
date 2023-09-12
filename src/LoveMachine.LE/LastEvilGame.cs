@@ -1,15 +1,16 @@
-﻿using HarmonyLib;
-using LoveMachine.Core;
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using HarmonyLib;
+using LoveMachine.Core.Game;
+using LoveMachine.Core.Common;
 using UnityEngine;
 
 namespace LoveMachine.LE
 {
-    public class LastEvilGame : GameDescriptor
+    public class LastEvilGame : GameAdapter
     {
         private const string root = "EventSceneFramework/Root/Entities";
         private static readonly string[] ballsNames = { "ActorMan_Ball2", "Dick_Ball2" };

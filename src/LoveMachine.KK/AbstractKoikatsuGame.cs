@@ -1,9 +1,10 @@
-﻿using LoveMachine.Core;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using LoveMachine.Core.Game;
+using LoveMachine.Core.Common;
 
 namespace LoveMachine.KK
 {
-    internal abstract class AbstractKoikatsuGame : GameDescriptor
+    internal abstract class AbstractKoikatsuGame : GameAdapter
     {
         protected override Dictionary<Bone, string> FemaleBoneNames => new Dictionary<Bone, string>
         {

@@ -1,13 +1,14 @@
-﻿using HarmonyLib;
-using LoveMachine.Core;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
+using HarmonyLib;
+using LoveMachine.Core.Game;
+using LoveMachine.Core.Common;
 using UnityEngine;
 
 namespace LoveMachine.SC
 {
-    internal class SuccubusCafeGame : GameDescriptor
+    internal class SuccubusCafeGame : GameAdapter
     {
         private Traverse<int> ladyNumber;
         private Traverse<int> aideNumber;

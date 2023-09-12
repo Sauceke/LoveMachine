@@ -1,0 +1,16 @@
+name: Pull Request
+
+permissions: write-all
+on:
+  pull_request:
+    branches: [mastur]
+
+jobs:
+  build:
+    uses: ./.github/workflows/build.yml
+    with:
+      version: "1.0.0"
+
+  test:
+    needs: build
+    uses: ./.github/workflows/test.yml

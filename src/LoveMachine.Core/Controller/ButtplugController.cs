@@ -1,49 +1,39 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Il2CppInterop.Runtime.Attributes;
+using LoveMachine.Core.Buttplug;
+using LoveMachine.Core.Game;
+using LoveMachine.Core.PlatformSpecific;
 using UnityEngine;
 
-namespace LoveMachine.Core
+namespace LoveMachine.Core.Controller
 {
-    public abstract class ButtplugController : CoroutineHandler
+    internal abstract class ButtplugController : CoroutineHandler
     {
-        protected ButtplugWsClient client;
-        protected GameDescriptor game;
-        protected AnimationAnalyzer analyzer;
-
         private readonly Dictionary<Device, float> normalizedLatencies =
             new Dictionary<Device, float>();
-
-        private bool isTestController = false;
-
-        protected abstract bool IsDeviceSupported(Device device);
+        
+        private AnimationAnalyzer analyzer;
+        
+        [HideFromIl2Cpp]
+        protected ButtplugWsClient Client { get; private set; }
+        
+        [HideFromIl2Cpp]
+        protected GameAdapter Game { get; private set; }
+        
+        public abstract bool IsDeviceSupported(Device device);
 
         protected abstract IEnumerator Run(Device device);
-
-        protected virtual IEnumerator Run()
+        
+        private void Start()
         {
-            foreach (var device in client.Devices.Where(IsDeviceSupported))
-            {
-                CoreConfig.Logger.LogInfo($"Running controller {GetType().Name} " +
-                    $"on device #{device.DeviceIndex} ({device.DeviceName}).");
-                HandleCoroutine(Run(device));
-                HandleCoroutine(RunLatencyUpdateLoop(device));
-            }
-            yield break;
-        }
-
-        protected virtual void Start()
-        {
-            client = GetComponent<ButtplugWsClient>();
-            game = GetComponent<GameDescriptor>();
+            Client = GetComponent<ButtplugWsClient>();
+            Game = GetComponent<GameAdapter>();
             analyzer = GetComponent<AnimationAnalyzer>();
-            if (!isTestController)
-            {
-                game.OnHStarted += (s, a) => OnStartH();
-                game.OnHEnded += (s, a) => OnEndH();
-                client.OnDeviceListUpdated += (s, a) => Restart();
-            }
+            Game.OnHStarted += (s, a) => OnStartH();
+            Game.OnHEnded += (s, a) => OnEndH();
+            Client.OnDeviceListUpdated += (s, a) => Restart();
         }
 
         private void OnStartH() => HandleCoroutine(Run());
@@ -51,41 +41,12 @@ namespace LoveMachine.Core
         private void OnEndH()
         {
             StopAllCoroutines();
-            client.StopAllDevices();
-        }
-
-        public static void Test<T>(Device device, Action<float> display)
-            where T : ButtplugController
-        {
-            var testController = CoreConfig.ManagerObject.AddComponent<T>();
-            testController.isTestController = true;
-            testController.HandleCoroutine(testController.RunTest(device, display));
-        }
-
-        private IEnumerator RunTest(Device device, Action<float> display)
-        {
-            yield return new WaitForEndOfFrame();
-            var testGame = new TestGame();
-            game = testGame;
-            analyzer = new TestAnimationAnalyzer();
-            if (IsDeviceSupported(device))
-            {
-                var test = HandleCoroutine(Run(device));
-                yield return HandleCoroutine(
-                    testGame.RunTest(strokes: 2, strokesPerSec: 0.5f, display));
-                yield return HandleCoroutine(
-                    testGame.RunTest(strokes: 2, strokesPerSec: 1f, display));
-                yield return HandleCoroutine(
-                    testGame.RunTest(strokes: 5, strokesPerSec: 3f, display));
-                StopCoroutine(test);
-                client.StopAllDevices();
-            }
-            Destroy(this);
+            Client.StopAllDevices();
         }
 
         private void Restart()
         {
-            if (game.IsHSceneRunning)
+            if (Game.IsHSceneRunning)
             {
                 OnEndH();
                 OnStartH();
@@ -94,6 +55,18 @@ namespace LoveMachine.Core
 
         private void OnDestroy() => StopAllCoroutines();
 
+        private IEnumerator Run()
+        {
+            foreach (var device in Client.Devices.Where(IsDeviceSupported))
+            {
+                Logger.LogInfo($"Running controller {GetType().Name} " +
+                               $"on device #{device.DeviceIndex} ({device.DeviceName}).");
+                HandleCoroutine(Run(device));
+                HandleCoroutine(RunLatencyUpdateLoop(device));
+            }
+            yield break;
+        }
+        
         private IEnumerator RunLatencyUpdateLoop(Device device)
         {
             while (true)
@@ -102,30 +75,31 @@ namespace LoveMachine.Core
                 // there's a gradual change in animation speed
                 // updating every 3s and caching the result solves this
                 yield return new WaitForSecondsRealtime(3f);
-                float animTimeSecs = GetAnimationTimeSecs(device);
+                float animTimeSecs = Game.GetAnimationTimeSecs(device.Settings.GirlIndex);
                 normalizedLatencies[device] = device.Settings.LatencyMs / 1000f / animTimeSecs;
             }
         }
 
-        protected float GetLatencyCorrectedNormalizedTime(Device device)
+        private float GetLatencyCorrectedNormalizedTime(Device device)
         {
             if (!normalizedLatencies.TryGetValue(device, out float normalizedLatency))
             {
                 normalizedLatency = 0f;
             }
-            game.GetAnimState(device.Settings.GirlIndex, out float currentNormTime, out _, out _);
+            Game.GetAnimState(device.Settings.GirlIndex, out float currentNormTime, out _, out _);
             return currentNormTime + normalizedLatency;
         }
 
-        protected float GetAnimationTimeSecs(Device device)
+        protected virtual bool TryGetCurrentStrokeInfo(Device device, out StrokeInfo result)
         {
-            int girlIndex = device.Settings.GirlIndex;
-            game.GetAnimState(girlIndex, out _, out float length, out float speed);
-            float animTimeSecs = length / speed / game.TimeScale;
-            // prevent coroutines from hanging e.g. when the game is paused
-            return animTimeSecs > 100f || animTimeSecs < 0.001f || float.IsNaN(animTimeSecs)
-                ? .01f
-                : animTimeSecs;
+            var girlIndex = device.Settings.GirlIndex;
+            var bone = device.Settings.Bone;
+            float normalizedTime = GetLatencyCorrectedNormalizedTime(device);
+            return analyzer.TryGetCurrentStrokeInfo(girlIndex, bone, normalizedTime, out result);
         }
+        
+        protected object WaitForSecondsUnscaled(float seconds) => Time.timeScale > 0f
+            ? (object)new WaitForSeconds(seconds * Time.timeScale)
+            : new WaitForSecondsRealtime(seconds);
     }
 }

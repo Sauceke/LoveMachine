@@ -1,0 +1,46 @@
+name: "[Reusable] End-to-end tests"
+
+on:
+  workflow_call:
+
+jobs:
+  test:
+    runs-on: windows-2022
+    timeout-minutes: 10
+
+    defaults:
+      run:
+        working-directory: src
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v1
+
+      - name: Download artifacts
+        uses: actions/download-artifact@v3
+        with:
+          path: src
+
+      - name: Cache Secrossphere demo
+        uses: actions/cache@v3
+        with:
+          path: src/E2ETest/bin/scs.zip
+          key: scs-demo
+
+      - name: Setup Python
+        uses: actions/setup-python@v3.1.4
+        with:
+          python-version: 3.11.4
+
+      - name: Run tests
+        run: |
+          cd ./E2ETest
+          pip install -r requirements.txt
+          robot --outputdir results ./SecrossphereDemoTestSuite.robot
+
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: results
+          path: src/E2ETest/results

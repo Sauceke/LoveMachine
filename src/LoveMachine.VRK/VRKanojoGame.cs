@@ -1,13 +1,14 @@
-﻿using HarmonyLib;
-using LoveMachine.Core;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
+using HarmonyLib;
+using LoveMachine.Core.Game;
+using LoveMachine.Core.Common;
 using UnityEngine;
 
 namespace LoveMachine.VRK
 {
-    internal class VRKanojoGame : GameDescriptor
+    internal class VRKanojoGame : GameAdapter
     {
         private CharFemale sakura;
 

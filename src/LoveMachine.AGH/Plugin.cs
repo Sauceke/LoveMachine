@@ -1,9 +1,10 @@
 ﻿using BepInEx;
 using LoveMachine.Core;
+using LoveMachine.Core.PlatformSpecific;
 
 namespace LoveMachine.AGH
 {
-    [BepInPlugin(CoreConfig.GUID, CoreConfig.PluginName, CoreConfig.Version)]
+    [BepInPlugin(Globals.GUID, Globals.PluginName, Globals.Version)]
     internal class Plugin : LoveMachinePlugin<HoukagoRinkanChuudokuGame>
     { }
 }

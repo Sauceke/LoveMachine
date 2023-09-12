@@ -1,13 +1,22 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using LitJson;
+using LoveMachine.Core.Buttplug.Settings;
+using LoveMachine.Core.Config;
 using UnityEngine;
 
-namespace LoveMachine.Core
+namespace LoveMachine.Core.Buttplug
 {
     internal class DeviceManager : MonoBehaviour
     {
         private ButtplugWsClient client;
 
+        public static List<DeviceSettings> DeviceSettings
+        {
+            get => JsonMapper.ToObject<List<DeviceSettings>>(DeviceListConfig.DeviceSettingsJson.Value);
+            set => DeviceListConfig.DeviceSettingsJson.Value = JsonMapper.ToJson(value);
+        }
+        
         private void Start()
         {
             client = GetComponent<ButtplugWsClient>();
@@ -25,7 +34,7 @@ namespace LoveMachine.Core
 
         private static void SaveDeviceSettings(List<Device> devices, bool exiting = false)
         {
-            var settings = DeviceListConfig.DeviceSettings;
+            var settings = DeviceSettings;
             devices.ForEach(device => settings.Remove(settings.Find(device.Matches)));
             settings = devices.Select(device => device.Settings).Concat(settings).ToList();
             if (exiting && !DeviceListConfig.SaveDeviceMapping.Value)
@@ -37,25 +46,17 @@ namespace LoveMachine.Core
                     setting.Bone = defaults.Bone;
                 }
             }
-            DeviceListConfig.DeviceSettings = settings;
+            DeviceSettings = settings;
         }
 
         private static void LoadDeviceSettings(List<Device> devices)
         {
-            var settings = DeviceListConfig.DeviceSettings;
+            var settings = DeviceSettings;
             foreach (var device in devices)
             {
                 device.Settings = settings.Find(device.Matches) ?? device.Settings;
                 settings.Remove(device.Settings);
-                device.Settings.StrokerSettings = device.IsStroker
-                    ? device.Settings.StrokerSettings
-                    : null;
-                device.Settings.VibratorSettings = device.IsVibrator
-                    ? device.Settings.VibratorSettings
-                    : null;
-                device.Settings.ConstrictSettings = device.IsConstrictor
-                    ? device.Settings.ConstrictSettings
-                    : null;
+                device.CleanUpSettings();
             }
         }
     }

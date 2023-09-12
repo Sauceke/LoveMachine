@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <TargetFramework>net35</TargetFramework>
+        <OutputPath>..\bin\LoveMachine.HS\BepInEx\plugins\HS_LoveMachine\</OutputPath>
+    </PropertyGroup>
+    <ItemGroup>
+        <ProjectReference Include="..\LoveMachine.Core.Pre54\LoveMachine.Core.Pre54.csproj" />
+    </ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="IllusionLibs.HoneySelect.Assembly-CSharp" Version="2017.6.30.2" ExcludeAssets="runtime" />
+        <PackageReference Include="IllusionLibs.HoneySelect.UnityEngine" Version="5.3.5.2" ExcludeAssets="runtime" />
+    </ItemGroup>
+</Project>

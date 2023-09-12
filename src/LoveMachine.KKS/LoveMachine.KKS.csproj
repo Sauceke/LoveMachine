@@ -1,19 +1,21 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-  <PropertyGroup>
-    <TargetFramework>net46</TargetFramework>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <OutputPath>..\bin\LoveMachine.KKS\BepInEx\plugins\KKS_LoveMachine\</OutputPath>
-    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
-  </PropertyGroup>
-  <ItemGroup>
-    <Compile Include="..\LoveMachine.KK\*.cs" LinkBase="Included" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\LoveMachine.Core\LoveMachine.Core.csproj" />
-  </ItemGroup>
-  <ItemGroup>
-    <PackageReference Include="IllusionLibs.KoikatsuSunshine.Assembly-CSharp" Version="2021.8.27.2" ExcludeAssets="runtime" />
-    <PackageReference Include="IllusionLibs.KoikatsuSunshine.UnityEngine.AnimationModule" Version="2019.4.9" ExcludeAssets="runtime" />
-    <PackageReference Include="IllusionLibs.KoikatsuSunshine.UnityEngine.IMGUIModule" Version="2019.4.9" ExcludeAssets="runtime" />
-  </ItemGroup>
+    <PropertyGroup>
+        <TargetFramework>net46</TargetFramework>
+        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+        <OutputPath>..\bin\LoveMachine.KKS\BepInEx\plugins\KKS_LoveMachine\</OutputPath>
+    </PropertyGroup>
+    <ItemGroup>
+        <Compile Include="..\LoveMachine.KK\*.cs" LinkBase="Included" />
+    </ItemGroup>
+    <ItemGroup>
+        <ProjectReference Include="..\LoveMachine.Core\LoveMachine.Core.csproj" />
+    </ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="IllusionLibs.KoikatsuSunshine.Assembly-CSharp"
+                          Version="2021.8.27.2" ExcludeAssets="runtime" />
+        <PackageReference Include="IllusionLibs.KoikatsuSunshine.UnityEngine.AnimationModule"
+                          Version="2019.4.9" ExcludeAssets="runtime" />
+        <PackageReference Include="IllusionLibs.KoikatsuSunshine.UnityEngine.IMGUIModule"
+                          Version="2019.4.9" ExcludeAssets="runtime" />
+    </ItemGroup>
 </Project>

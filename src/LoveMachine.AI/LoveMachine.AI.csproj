@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <TargetFramework>net46</TargetFramework>
+        <OutputPath>..\bin\LoveMachine.AI\BepInEx\plugins\AI_LoveMachine\</OutputPath>
+    </PropertyGroup>
+    <ItemGroup>
+        <ProjectReference Include="..\LoveMachine.Core\LoveMachine.Core.csproj" />
+    </ItemGroup>
+    <ItemGroup>
+        <Compile Include="..\LoveMachine.HS2\*.cs" LinkBase="Included" />
+    </ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="IllusionLibs.AIGirl.Assembly-CSharp" Version="2020.5.29.4" ExcludeAssets="runtime" />
+        <PackageReference Include="IllusionLibs.AIGirl.Assembly-CSharp-firstpass" Version="2020.5.29.4" ExcludeAssets="runtime" />
+        <PackageReference Include="IllusionLibs.AIGirl.UnityEngine.AnimationModule" Version="2018.2.21.4" ExcludeAssets="runtime" />
+        <PackageReference Include="IllusionLibs.AIGirl.UnityEngine.CoreModule" Version="2018.2.21.4" ExcludeAssets="runtime" />
+    </ItemGroup>
+</Project>

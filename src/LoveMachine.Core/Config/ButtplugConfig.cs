@@ -1,9 +1,9 @@
 ﻿using BepInEx;
 using BepInEx.Configuration;
 
-namespace LoveMachine.Core
+namespace LoveMachine.Core.Config
 {
-    public static class ButtplugConfig
+    internal static class ButtplugConfig
     {
         public static ConfigEntry<string> WebSocketHost { get; private set; }
         public static ConfigEntry<int> WebSocketPort { get; private set; }

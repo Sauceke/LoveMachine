@@ -5,6 +5,7 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
   <Target Name="BuildInstaller" AfterTargets="AfterBuild" Condition=" '$(Configuration)' == 'Debug' ">
+    <Exec Command="powershell -NonInteractive -executionpolicy Unrestricted -command &quot;&amp; ..\alias-deps.ps1 &quot;" />
     <Exec Command="&quot;C:\Program Files (x86)\Inno Setup 6\ISCC.exe&quot; InstallScript.iss" />
     <Exec Command=".\bin\LoveMachineInstaller.exe" />
   </Target>

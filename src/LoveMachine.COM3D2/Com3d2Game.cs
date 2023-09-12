@@ -1,15 +1,16 @@
-﻿using HarmonyLib;
-using LoveMachine.Core;
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using HarmonyLib;
+using LoveMachine.Core.Game;
+using LoveMachine.Core.Common;
 using UnityEngine;
 
 namespace LoveMachine.COM3D2
 {
-    internal sealed class Com3d2Game : GameDescriptor
+    internal sealed class Com3d2Game : GameAdapter
     {
         private const string SpineF = "Bip01/Bip01 Spine/Bip01 Spine0a/Bip01 Spine1/Bip01 Spine1a";
         private const string PelvisF = "Bip01/Bip01 Pelvis";
@@ -74,7 +75,6 @@ namespace LoveMachine.COM3D2
             normalizedTime = unlooper.LoopingToMonotonic(state.normalizedTime);
             length = state.length;
             speed = state.speed;
-            return;
         }
 
         private AnimationState GetActiveState() => FindCharaObject("Man[0]")
@@ -93,7 +93,7 @@ namespace LoveMachine.COM3D2
 
         private static GameObject FindCharaObject(string pattern) =>
             GameObject.Find("__GameMain__/Character/Active/AllOffset").transform.Cast<Transform>()
-                .Where(child => child?.gameObject?.name?.StartsWith(pattern) ?? false)
+                .Where(child => child?.gameObject.name.StartsWith(pattern) ?? false)
                 .Select(child => child.Find("Offset")?.GetChild(0))
                 .FirstOrDefault()?
                 .gameObject;

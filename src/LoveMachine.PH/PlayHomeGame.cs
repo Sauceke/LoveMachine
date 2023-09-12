@@ -1,17 +1,18 @@
-﻿using H;
-using HarmonyLib;
-using IllusionUtility.GetUtility;
-using LoveMachine.Core;
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using H;
+using HarmonyLib;
+using IllusionUtility.GetUtility;
+using LoveMachine.Core.Game;
+using LoveMachine.Core.Common;
 using UnityEngine;
 
 namespace LoveMachine.PH
 {
-    internal sealed class PlayHomeGame : GameDescriptor
+    internal sealed class PlayHomeGame : GameAdapter
     {
         private static readonly H_STATE[] activeHStates = { H_STATE.LOOP, H_STATE.SPURT };
 
@@ -32,7 +33,7 @@ namespace LoveMachine.PH
             { Bone.LeftHand, "cf_J_Hand_Index01_L" },
             { Bone.RightHand, "cf_J_Hand_Index01_R" },
             { Bone.LeftFoot, "k_f_toeL_00" },
-            { Bone.RightFoot, "k_f_toeR_00" },
+            { Bone.RightFoot, "k_f_toeR_00" }
         };
 
         protected override int HeroineCount => scene.mainMembers.females.Count;

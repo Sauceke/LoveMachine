@@ -1,9 +1,9 @@
 ﻿using BepInEx;
 using LoveMachine.Core;
+using LoveMachine.Core.PlatformSpecific;
 
-namespace LoveMachine.RG
-{
-    [BepInPlugin(CoreConfig.GUID, CoreConfig.PluginName, CoreConfig.Version)]
-    internal class Plugin : LoveMachinePlugin<RoomGirlGame>
-    { }
-}
+namespace LoveMachine.RG;
+
+[BepInPlugin(Globals.GUID, Globals.PluginName, Globals.Version)]
+internal class Plugin : LoveMachinePlugin<RoomGirlGame>
+{ }

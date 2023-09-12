@@ -1,0 +1,157 @@
+﻿using UnityEngine;
+
+namespace LoveMachine.Core.UI.Util
+{
+    internal struct RangeSlider
+    {
+        private static readonly GUIStyle sliderStyle = GUI.skin.horizontalSlider;
+        private static readonly GUIStyle thumbStyle = GUI.skin.horizontalSliderThumb;
+
+        private static readonly GUIStyle bandStyle = new GUIStyle
+        {
+            normal = new GUIStyleState
+            {
+                background = BandTexture()
+            }
+        };
+
+        private readonly Rect position;
+        private float value1;
+        private float value2;
+        private readonly float min;
+        private readonly float max;
+        private readonly int id;
+
+        private RangeSlider(Rect position, float value1, float value2, float min, float max, int id)
+        {
+            this.position = position;
+            this.value1 = value1;
+            this.value2 = value2;
+            this.min = min;
+            this.max = max;
+            this.id = id;
+        }
+
+        public static void Create(ref float lower, ref float upper, float min, float max,
+            params GUILayoutOption[] options)
+        {
+            var position = GUILayoutUtility.GetRect(GUIContent.none, sliderStyle, options);
+            int id = GUIUtility.GetControlID("Slider".GetHashCode(), FocusType.Passive, position);
+            new RangeSlider(position, lower, upper, min, max, id).Handle(out lower, out upper);
+        }
+
+        private void Handle(out float lower, out float upper)
+        {
+            switch (Event.current.GetTypeForControl(id))
+            {
+                case EventType.MouseDown:
+                    OnMouseDown();
+                    break;
+
+                case EventType.MouseDrag:
+                    OnMouseDrag();
+                    break;
+
+                case EventType.MouseUp:
+                    OnMouseUp();
+                    break;
+
+                case EventType.Repaint:
+                    OnRepaint();
+                    break;
+            }
+            lower = Mathf.Min(value1, value2);
+            upper = Mathf.Max(value1, value2);
+        }
+
+        private void OnMouseDown()
+        {
+            if (position.Contains(Event.current.mousePosition))
+            {
+                GUIUtility.hotControl = id;
+                Event.current.Use();
+                GUI.changed = true;
+                UpdateValues();
+            }
+        }
+
+        private void OnMouseDrag()
+        {
+            if (GUIUtility.hotControl == id)
+            {
+                Event.current.Use();
+                GUI.changed = true;
+                UpdateValues();
+            }
+        }
+
+        private void OnMouseUp()
+        {
+            if (GUIUtility.hotControl == id)
+            {
+                Event.current.Use();
+                GUIUtility.hotControl = 0;
+            }
+        }
+
+        private void OnRepaint()
+        {
+            sliderStyle.Draw(position, GUIContent.none, id);
+            bandStyle.Draw(BandRect(), GUIContent.none, id);
+            thumbStyle.Draw(ThumbRect(value1), GUIContent.none, id);
+            thumbStyle.Draw(ThumbRect(value2), GUIContent.none, id);
+        }
+
+        private void UpdateValues()
+        {
+            float value = AbscissToSliderValue(Event.current.mousePosition.x);
+            float distance1 = Mathf.Abs(value - value1);
+            float distance2 = Mathf.Abs(value - value2);
+            if (distance1 < distance2)
+            {
+                value1 = value;
+            }
+            else
+            {
+                value2 = value;
+            }
+        }
+
+        private Rect BandRect()
+        {
+            float startX = SliderValueToAbsciss(Mathf.Min(value1, value2));
+            float endX = SliderValueToAbsciss(Mathf.Max(value1, value2));
+            return new Rect(
+                sliderStyle.padding.left + startX,
+                position.y + sliderStyle.padding.top + ThumbHeight / 4,
+                endX - startX,
+                position.height - sliderStyle.padding.vertical - ThumbHeight / 2);
+        }
+
+        private Rect ThumbRect(float value) => new Rect(
+            sliderStyle.padding.left + SliderValueToAbsciss(value) - ThumbWidth / 2,
+            position.y + sliderStyle.padding.top,
+            ThumbWidth,
+            position.height - sliderStyle.padding.vertical);
+
+        private float AbscissToSliderValue(float x) =>
+            Mathf.Lerp(min, max,
+                t: Mathf.InverseLerp(position.x, position.x + position.size.x, x));
+
+        private float SliderValueToAbsciss(float value) =>
+            Mathf.Lerp(position.x, position.x + position.size.x,
+                t: Mathf.InverseLerp(min, max, value));
+
+        private static float ThumbWidth => thumbStyle.CalcSize(GUIContent.none).x;
+
+        private static float ThumbHeight => thumbStyle.CalcSize(GUIContent.none).y;
+
+        private static Texture2D BandTexture()
+        {
+            var texture = new Texture2D(1, 1);
+            texture.SetPixels(new[] { new Color(1, 1, 1, 0.5f) });
+            texture.Apply();
+            return texture;
+        }
+    }
+}

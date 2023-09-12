@@ -1,17 +1,23 @@
 ﻿using System;
 using System.Collections;
+using LoveMachine.Core.Buttplug;
+using LoveMachine.Core.Config;
+using LoveMachine.Core.Game;
 using UnityEngine;
 
-namespace LoveMachine.Core
+namespace LoveMachine.Core.Controller
 {
-    internal class ConstrictController : ClassicButtplugController
+    internal sealed class ConstrictController : ClassicButtplugController
     {
-        protected override bool IsDeviceSupported(Device device) => device.IsConstrictor;
+        public override bool IsDeviceSupported(Device device) => device.IsConstrictor;
 
-        protected override IEnumerator HandleAnimation(Device device, WaveInfo waveInfo) =>
-            DoConstrict(device, GetPressure(device, waveInfo));
+        protected override IEnumerator HandleAnimation(Device device, StrokeInfo strokeInfo) =>
+            DoConstrict(device, GetPressure(device, strokeInfo));
 
         protected override IEnumerator HandleOrgasm(Device device) => DoConstrict(device, 1f);
+        
+        protected override void HandleLevel(Device device, float level, float durationSecs)
+        { }
 
         private IEnumerator DoConstrict(Device device, float relativePressure)
         {
@@ -19,11 +25,11 @@ namespace LoveMachine.Core
             float pressure = settings.Enabled
                 ? Mathf.Lerp(settings.PressureMin, settings.PressureMax, t: relativePressure)
                 : 0f;
-            client.ConstrictCmd(device, pressure);
+            Client.ConstrictCmd(device, pressure);
             yield return new WaitForSecondsRealtime(settings.UpdateIntervalSecs);
         }
 
-        private float GetPressure(Device device, WaveInfo waveInfo)
+        private float GetPressure(Device device, StrokeInfo strokeInfo)
         {
             switch (ConstrictConfig.Mode.Value)
             {
@@ -31,10 +37,10 @@ namespace LoveMachine.Core
                     return GetSineBasedPressure();
 
                 case ConstrictConfig.ConstrictMode.StrokeLength:
-                    return GetStrokeLengthBasedPressure(waveInfo);
+                    return GetStrokeLengthBasedPressure(strokeInfo);
 
                 case ConstrictConfig.ConstrictMode.StrokeSpeed:
-                    return GetStrokeSpeedBasedPressure(device, waveInfo);
+                    return GetStrokeSpeedBasedPressure(device, strokeInfo);
             }
             throw new Exception("unreachable");
         }
@@ -42,13 +48,13 @@ namespace LoveMachine.Core
         private float GetSineBasedPressure() => Mathf.InverseLerp(-1f, 1f,
             value: Mathf.Sin(Time.time * 2f * Mathf.PI / ConstrictConfig.CycleLengthSecs.Value));
 
-        private float GetStrokeLengthBasedPressure(WaveInfo waveInfo) =>
-            Mathf.InverseLerp(0, game.PenisSize, value: waveInfo.Amplitude);
+        private float GetStrokeLengthBasedPressure(StrokeInfo strokeInfo) =>
+            Mathf.InverseLerp(0, Game.PenisSize, value: strokeInfo.Amplitude);
 
-        private float GetStrokeSpeedBasedPressure(Device device, WaveInfo waveInfo) =>
+        private float GetStrokeSpeedBasedPressure(Device device, StrokeInfo strokeInfo) =>
             Mathf.InverseLerp(
                 1f / device.Settings.ConstrictSettings.SpeedSensitivityMin,
                 1f / device.Settings.ConstrictSettings.SpeedSensitivityMax,
-                value: GetAnimationTimeSecs(device) / waveInfo.Frequency);
+                value: strokeInfo.DurationSecs);
     }
 }

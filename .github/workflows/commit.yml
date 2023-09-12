@@ -1,70 +1,12 @@
-name: .NET
+name: Commit
 
 on:
   push:
-    branches: [ mastur ]
-    paths: [ 'src/**' ]
-  pull_request:
-    branches: [ mastur ]
-  workflow_dispatch:
+    branches: [mastur]
+    paths: ["src/LoveMachine.*/**"]
 
 jobs:
-  build-netfx3:
-    runs-on: windows-2019
-    timeout-minutes: 10
-
-    env:
-      ACTIONS_ALLOW_UNSECURE_COMMANDS: true
-
-    defaults:
-      run:
-        working-directory: src
-
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v1
-
-    - name: Setup MSBuild path
-      uses: microsoft/setup-msbuild@v1.1
-      with:
-        vs-version: '[16.0,17.0)'
-
-    - name: Build and Publish
-      run: msbuild LoveMachine.sln /r /p:Configuration=Release-netfx3 /p:DeployOnBuild=true /p:PublishProfile=FolderProfile
-
-    - name: Upload binaries
-      if: ${{ github.event_name == 'workflow_dispatch' || (github.event_name == 'pull_request' && github.event.pull_request.user.login != github.repository_owner) }}
-      uses: actions/upload-artifact@v1.0.0
-      with:
-        name: .NET Framework artifacts
-        path: src/bin
-
-  build-net6:
-    runs-on: windows-2022
-    timeout-minutes: 10
-
-    env:
-      ACTIONS_ALLOW_UNSECURE_COMMANDS: true
-
-    defaults:
-      run:
-        working-directory: src
-
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v1
-
-    - name: Setup MSBuild path
-      uses: microsoft/setup-msbuild@v1.1
-      with:
-        vs-version: '[17.0,)'
-
-    - name: Build and Publish
-      run: msbuild LoveMachine.sln /r /p:Configuration=Release-net6 /p:DeployOnBuild=true /p:PublishProfile=FolderProfile
-
-    - name: Upload binaries
-      if: ${{ github.event_name == 'workflow_dispatch' || (github.event_name == 'pull_request' && github.event.pull_request.user.login != github.repository_owner) }}
-      uses: actions/upload-artifact@v1.0.0
-      with:
-        name: .NET 6 artifacts
-        path: src/bin
+  build:
+    uses: ./.github/workflows/build.yml
+    with:
+      version: "1.0.0"

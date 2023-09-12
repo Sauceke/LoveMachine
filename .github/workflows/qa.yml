@@ -1,0 +1,14 @@
+name: QA
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    uses: ./.github/workflows/build.yml
+    with:
+      version: "1.0.0"
+
+  test:
+    needs: build
+    uses: ./.github/workflows/test.yml
