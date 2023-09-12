@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using HarmonyLib;
 using LoveMachine.Core.Common;
@@ -10,8 +11,12 @@ namespace LoveMachine.DJ
 {
     public class DatsuiJankenGame : GameAdapter
     {
+        private static readonly int[] idleStates = { 0, 1, 9, 10 };
+        private static readonly int[] orgasmStates = { 7, 8 };
+        
         private GameObject female;
         private Animator femaleAnimator;
+        private Traverse<int> status;
         
         protected override MethodInfo[] StartHMethods =>
             new [] { AccessTools.Method("CanvasFlag, Assembly-CSharp:MotionFlagCheck") };
@@ -41,13 +46,16 @@ namespace LoveMachine.DJ
         protected override string GetPose(int girlIndex) =>
             GetAnimatorStateInfo(0).fullPathHash.ToString();
 
-        protected override bool IsIdle(int girlIndex) => false;
+        protected override bool IsIdle(int girlIndex) => idleStates.Contains(status.Value);
+
+        protected override bool IsOrgasming(int girlIndex) => orgasmStates.Contains(status.Value);
 
         protected override IEnumerator UntilReady()
         {
             yield return new WaitForSeconds(1f);
             female = GameObject.Find("Sonoe (1)");
             femaleAnimator = female.GetComponent<Animator>();
+            status = Traverse.Create(female.GetComponent("VoiceObject")).Field<int>("status");
         }
     }
 }
