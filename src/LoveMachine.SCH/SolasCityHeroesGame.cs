@@ -1,12 +1,13 @@
 ﻿using System.Collections;
 using System.Reflection;
 using HarmonyLib;
-using LoveMachine.Core;
+using LoveMachine.Core.Common;
+using LoveMachine.Core.Game;
 using UnityEngine;
 
 namespace LoveMachine.SCH;
 
-public class SolasCityHeroesGame : GameDescriptor
+internal class SolasCityHeroesGame : GameAdapter
 {
     private Traverse sexSystem;
     
