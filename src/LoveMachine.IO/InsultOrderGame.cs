@@ -64,7 +64,7 @@ namespace LoveMachine.IO
         protected override bool IsOrgasming(int girlIndex) =>
             femaleClimax.Value || maleClimax.Value;
 
-        protected override void SetStartHInstance(object animeController) =>
+        protected override void OnStartH(object animeController) =>
             motionId = Traverse.Create(animeController).Field<string>("MotionID");
 
         protected override IEnumerator UntilReady()

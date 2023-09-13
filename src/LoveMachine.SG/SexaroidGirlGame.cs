@@ -45,7 +45,7 @@ namespace LoveMachine.SG
 
         protected override bool IsOrgasming(int girlIndex) => shasei_now.Value;
 
-        protected override void SetStartHInstance(object instance)
+        protected override void OnStartH(object instance)
         {
             var script = Traverse.Create(instance);
             girl_Prefab = script.Field<GameObject>("girl_Prefab").Value;

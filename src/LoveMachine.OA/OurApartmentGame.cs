@@ -64,7 +64,7 @@ namespace LoveMachine.OA
 
         protected override bool IsOrgasming(int girlIndex) => GetPose(0).Contains("Cum");
 
-        protected override void SetStartHInstance(object sexSimControl) =>
+        protected override void OnStartH(object sexSimControl) =>
             isSex = Traverse.Create(sexSimControl).Field<bool>("_sexActive");
 
         protected override IEnumerator UntilReady()

@@ -134,7 +134,7 @@ namespace LoveMachine.KK
             yield return new WaitForSeconds(0.1f);
         }
 
-        protected override void SetStartHInstance(object flags) => Flags = (HFlag)flags;
+        protected override void OnStartH(object flags) => Flags = (HFlag)flags;
 
         protected override IEnumerator UntilReady()
         {

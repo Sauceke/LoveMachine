@@ -55,7 +55,7 @@ namespace LoveMachine.VRK
         protected override bool IsOrgasming(int girlIndex) =>
             sakura.nowMotionName.StartsWith("Orgasm") && !sakura.nowMotionName.EndsWith("_A");
 
-        protected override void SetStartHInstance(object hscene) =>
+        protected override void OnStartH(object hscene) =>
             sakura = ((VK_H_Houshi_Sonyu)hscene).chaFemale;
 
         protected override IEnumerator UntilReady()

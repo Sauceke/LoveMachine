@@ -53,7 +53,7 @@ namespace LoveMachine.SCS
 
         protected override bool IsOrgasming(int girlIndex) => state.Value == 3;
 
-        protected override void SetStartHInstance(object scene) => this.scene = scene;
+        protected override void OnStartH(object scene) => this.scene = scene;
 
         protected override IEnumerator UntilReady()
         {

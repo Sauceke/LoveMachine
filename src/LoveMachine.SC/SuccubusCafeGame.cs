@@ -62,7 +62,7 @@ namespace LoveMachine.SC
 
         protected override bool IsOrgasming(int girlIndex) => !lowerAnimEvent.Value;
 
-        protected override void SetStartHInstance(object menu)
+        protected override void OnStartH(object menu)
         {
             var script = Traverse.Create(menu).Field("ladySexAnimation_Function");
             ladyNumber = script.Field<int>("ladyNumber");

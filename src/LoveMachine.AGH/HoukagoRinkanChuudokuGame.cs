@@ -79,7 +79,7 @@ namespace LoveMachine.AGH
 
         protected override bool IsOrgasming(int girlIndex) => coom.localPosition != Vector3.zero;
 
-        protected override void SetStartHInstance(object animeController) =>
+        protected override void OnStartH(object animeController) =>
             mode = Traverse.Create(animeController).Field<int>("Mode");
 
         protected override IEnumerator UntilReady()

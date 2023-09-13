@@ -68,7 +68,7 @@ namespace LoveMachine.LE
 
         protected override bool IsIdle(int girlIndex) => false;
 
-        protected override void SetStartHInstance(object eventSceneFramework)
+        protected override void OnStartH(object eventSceneFramework)
         {
             var traverse = Traverse.Create(eventSceneFramework);
             animation = traverse.Field<Animation>("_animation").Value;

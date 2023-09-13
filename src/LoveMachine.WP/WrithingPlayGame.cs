@@ -53,7 +53,7 @@ namespace LoveMachine.WP
 
         protected override bool IsOrgasming(int girlIndex) => EcstasyLevel.Value == 3;
 
-        protected override void SetStartHInstance(object instance) =>
+        protected override void OnStartH(object instance) =>
             ai = Traverse.Create(instance);
 
         // this is the most wtf code i've ever modded ;_;

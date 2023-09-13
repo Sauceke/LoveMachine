@@ -69,7 +69,7 @@ namespace LoveMachine.HS
         protected override bool IsOrgasming(int girlIndex) => 
             orgasmAnimations.Any(GetAnimatorStateInfo(girlIndex).IsName);
 
-        protected override void SetStartHInstance(object instance) => scene = (HScene)instance;
+        protected override void OnStartH(object instance) => scene = (HScene)instance;
 
         protected override IEnumerator UntilReady()
         {

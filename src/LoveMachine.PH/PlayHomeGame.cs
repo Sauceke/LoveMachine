@@ -74,7 +74,7 @@ namespace LoveMachine.PH
         protected override bool IsOrgasming(int _) =>
             orgasmStates.Contains(scene.mainMembers.StateMgr.nowStateID);
 
-        protected override void SetStartHInstance(object scene) => this.scene = (H_Scene)scene;
+        protected override void OnStartH(object scene) => this.scene = (H_Scene)scene;
 
         protected override IEnumerator UntilReady()
         {

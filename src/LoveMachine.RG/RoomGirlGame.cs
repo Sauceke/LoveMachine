@@ -63,7 +63,7 @@ internal class RoomGirlGame : GameAdapter
 
     protected override bool IsOrgasming(int girlIndex) => nowOrgasm.Value;
 
-    protected override void SetStartHInstance(object hscene)
+    protected override void OnStartH(object hscene)
     {
         ctrlFlag = Traverse.Create(hscene).Property("CtrlFlag");
         loopType = ctrlFlag.Property<int>("LoopType");

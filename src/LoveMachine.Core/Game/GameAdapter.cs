@@ -156,11 +156,13 @@ namespace LoveMachine.Core.Game
         protected abstract IEnumerator UntilReady();
 
         /// <summary>
-        /// The instance on which the method in StartHMethods was called
-        /// will be passed to this method.
+        /// This gets called each time a method in StartHMethods is called,
+        /// and the instance on which it was called is passed to it.
+        /// You can use this to set up fields that are derived from the
+        /// instance.
         /// </summary>
         [HideFromIl2Cpp]
-        protected virtual void SetStartHInstance(object instance)
+        protected virtual void OnStartH(object instance)
         { }
 
         /// <summary>
@@ -212,7 +214,7 @@ namespace LoveMachine.Core.Game
         {
             EndH();
             IsHSceneRunning = true;
-            SetStartHInstance(instance);
+            OnStartH(instance);
             HandleCoroutine(StartHWhenReady());
         }
 

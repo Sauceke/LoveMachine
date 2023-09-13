@@ -53,7 +53,7 @@ namespace LoveMachine.I2C
         protected override bool IsOrgasming(int girlIndex) =>
             GetAnimatorStateInfo(0).IsName("orgasm");
 
-        protected override void SetStartHInstance(object instance)
+        protected override void OnStartH(object instance)
         {
             hAnimator = Traverse.Create(instance).Field<Animator>("motion_animator").Value;
             hRoot = hAnimator.gameObject;

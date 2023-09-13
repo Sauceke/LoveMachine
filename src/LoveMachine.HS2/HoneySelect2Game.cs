@@ -49,7 +49,7 @@ namespace LoveMachine.HS2
 
         protected override GameObject GetFemaleRoot(int girlIndex) => roots[girlIndex];
 
-        protected override void SetStartHInstance(object hScene) => this.hScene = (HScene)hScene;
+        protected override void OnStartH(object hScene) => this.hScene = (HScene)hScene;
 
         protected override string GetPose(int girlIndex) =>
             // couldn't find accessor for animation name so going with hash
