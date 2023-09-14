@@ -25,6 +25,7 @@ namespace LoveMachine.Core
             RotatorConfig.Initialize(this);
             ConstrictConfig.Initialize(this);
             var manager = Globals.ManagerObject;
+            manager.AddComponent<KillSwitch>();
             manager.AddComponent<G>();
             manager.AddComponent<ButtplugWsClient>();
             manager.AddComponent<DeviceManager>();

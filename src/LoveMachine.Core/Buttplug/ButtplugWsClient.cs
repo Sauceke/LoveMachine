@@ -14,7 +14,6 @@ namespace LoveMachine.Core.Buttplug
     internal class ButtplugWsClient : CoroutineHandler
     {
         private WebSocket websocket;
-        private bool killSwitchThrown = false;
         private ConcurrentQueue<IEnumerator> incoming;
 
         public event EventHandler<DeviceListEventArgs> OnDeviceListUpdated;
@@ -22,6 +21,8 @@ namespace LoveMachine.Core.Buttplug
         public List<Device> Devices { get; private set; }
 
         public bool IsConnected { get; private set; }
+
+        public bool IsConsensual { get; set; } = true;
 
         private void Start() => Open();
 
@@ -59,16 +60,16 @@ namespace LoveMachine.Core.Buttplug
         }
 
         public void LinearCmd(Device device, float position, float durationSecs) =>
-            SendKillable(Buttplug.LinearCmd(device, position, durationSecs));
+            SendWithConsent(Buttplug.LinearCmd(device, position, durationSecs));
 
         public void VibrateCmd(Device device, float intensity) =>
-            SendKillable(Buttplug.ScalarCmd(device, intensity, Buttplug.Feature.Vibrate));
+            SendWithConsent(Buttplug.ScalarCmd(device, intensity, Buttplug.Feature.Vibrate));
 
         public void ConstrictCmd(Device device, float pressure) =>
-            SendKillable(Buttplug.ScalarCmd(device, pressure, Buttplug.Feature.Constrict));
+            SendWithConsent(Buttplug.ScalarCmd(device, pressure, Buttplug.Feature.Constrict));
 
         public void RotateCmd(Device device, float speed, bool clockwise) =>
-            SendKillable(Buttplug.RotateCmd(device, speed, clockwise));
+            SendWithConsent(Buttplug.RotateCmd(device, speed, clockwise));
 
         public void BatteryLevelCmd(Device device) => Send(Buttplug.BatteryLevelCmd(device));
 
@@ -92,9 +93,9 @@ namespace LoveMachine.Core.Buttplug
 
         private void Send(object command) => websocket.Send(JsonMapper.ToJson(new[] { command }));
 
-        private void SendKillable(object command)
+        private void SendWithConsent(object command)
         {
-            if (!killSwitchThrown)
+            if (IsConsensual)
             {
                 Send(command);
             }
@@ -158,7 +159,6 @@ namespace LoveMachine.Core.Buttplug
             Logger.LogInfo("Handshake successful.");
             StartScan();
             RequestDeviceList();
-            HandleCoroutine(RunKillSwitchLoop(), suppressExceptions: true);
             HandleCoroutine(RunBatteryLoop());
             return true;
         }
@@ -216,22 +216,7 @@ namespace LoveMachine.Core.Buttplug
                 yield return new WaitForSecondsRealtime(1f);
             }
         }
-
-        private IEnumerator RunKillSwitchLoop()
-        {
-            while (true)
-            {
-                yield return null;
-                killSwitchThrown &= !KillSwitchConfig.ResumeSwitch.Value.IsPressed();
-                if (KillSwitchConfig.KillSwitch.Value.IsDown())
-                {
-                    StopAllDevices();
-                    killSwitchThrown = true;
-                    Logger.LogMessage("LoveMachine: Emergency stop pressed.");
-                }
-            }
-        }
-
+        
         private IEnumerator RunBatteryLoop()
         {
             while (true)
