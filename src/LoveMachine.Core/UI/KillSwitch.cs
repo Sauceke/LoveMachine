@@ -1,4 +1,5 @@
 ﻿using LoveMachine.Core.Buttplug;
+using LoveMachine.Core.Game;
 using LoveMachine.Core.PlatformSpecific;
 
 namespace LoveMachine.Core.UI
@@ -10,6 +11,10 @@ namespace LoveMachine.Core.UI
         public void Start()
         {
             client = GetComponent<ButtplugWsClient>();
+            var game = GetComponent<GameAdapter>();
+            game.OnHStarted += (s, a) => enabled = true;
+            game.OnHEnded += (s, a) => enabled = false;
+            enabled = false;
         }
         
         public void Update()
