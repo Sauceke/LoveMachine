@@ -43,15 +43,11 @@ public class HoneyComeGame: GameAdapter
     };
 
     protected override Transform PenisBase => throw new NotImplementedException();
-
     protected override Transform[] PenisBases => penises;
-    
+    protected override float PenisSize => 0.07f;
     protected override int AnimationLayer => 0;
-
     protected override int HeroineCount => females.Length;
-    
     protected override int MaxHeroineCount => 2;
-    
     protected override bool IsHardSex => false;
 
     protected override Animator GetFemaleAnimator(int girlIndex) =>

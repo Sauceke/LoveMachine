@@ -30,6 +30,7 @@ namespace LoveMachine.SG
         };
 
         protected override Transform PenisBase => GameObject.Find("DEF-tama_L_end").transform;
+        protected override float PenisSize => 0.08f;
         protected override int AnimationLayer => 0;
         protected override int HeroineCount => 1;
         protected override int MaxHeroineCount => 1;

@@ -34,6 +34,7 @@ namespace LoveMachine.DJ
         };
 
         protected override Transform PenisBase => GameObject.Find("Fukuro").transform;
+        protected override float PenisSize => 0.1f;
         protected override int AnimationLayer => 0;
         protected override int HeroineCount => 1;
         protected override int MaxHeroineCount => 1;
