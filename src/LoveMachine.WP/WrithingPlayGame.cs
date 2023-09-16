@@ -23,7 +23,8 @@ namespace LoveMachine.WP
         private Traverse<float> autoSpeed;
         private Traverse<float> autoSpeedTurn;
         private Traverse<float> autoSpeedScale;
-        
+        private Traverse<float> autoRestCounter;
+
         protected override MethodInfo[] StartHMethods =>
             new [] { AccessTools.Method("ai, Assembly-UnityScript:Start") };
         
@@ -49,7 +50,8 @@ namespace LoveMachine.WP
 
         protected override string GetPose(int girlIndex) => $"{CurrentPose.Value}.{PlayAuto.Value}";
 
-        protected override bool IsIdle(int girlIndex) => !PlayAuto.Value || IsAutoSceneChange.Value;
+        protected override bool IsIdle(int girlIndex) =>
+            !PlayAuto.Value || IsAutoSceneChange.Value || autoRestCounter.Value > 0f;
 
         protected override bool IsOrgasming(int girlIndex) => EcstasyLevel.Value == 3;
 
@@ -81,6 +83,7 @@ namespace LoveMachine.WP
             autoSpeed = ai.Field<float>("autoSpeed");
             autoSpeedTurn = ai.Field<float>("autoSpeedTurn");
             autoSpeedScale = ai.Field<float>("autoSpeedScale");
+            autoRestCounter = ai.Field<float>("autoRestCounter");
         }
     }
 }
