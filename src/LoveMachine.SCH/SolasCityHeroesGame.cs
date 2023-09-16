@@ -9,6 +9,8 @@ namespace LoveMachine.SCH;
 
 internal class SolasCityHeroesGame : GameAdapter
 {
+    private const string EnemyWaist = "Enemy/ArmatureFem_000/Global/Position/waist";
+    
     private Traverse sexSystem;
     
     protected override MethodInfo[] StartHMethods =>
@@ -32,10 +34,10 @@ internal class SolasCityHeroesGame : GameAdapter
 
     protected override Transform[] PenisBases => new[]
     {
-        GameObject.Find("Enemy/ArmatureFem_000/Global/Position/waist/groin_R").transform,
-        GameObject.Find("Enemy/ArmatureFem_000/Global/Position/waist/stomach/torso/neck/head/MouthLower").transform,
-        GameObject.Find("Enemy/ArmatureFem_000/Global/Position/waist/stomach/torso/collar_L/shoulder_L/arm_L/hand_L").transform,
-        GameObject.Find("Enemy/ArmatureFem_000/Global/Position/waist/stomach/torso/collar_R/shoulder_R/arm_R/hand_R").transform
+        GameObject.Find($"{EnemyWaist}/groin_R").transform,
+        GameObject.Find($"{EnemyWaist}/stomach/torso/neck/head/MouthLower").transform,
+        GameObject.Find($"{EnemyWaist}/stomach/torso/collar_L/shoulder_L/arm_L/hand_L").transform,
+        GameObject.Find($"{EnemyWaist}/stomach/torso/collar_R/shoulder_R/arm_R/hand_R").transform
     };
     
     protected override int AnimationLayer => 0;
@@ -56,8 +58,7 @@ internal class SolasCityHeroesGame : GameAdapter
 
     protected override bool IsIdle(int girlIndex) => Time.timeScale == 0f;
 
-    protected override void OnStartH(object instance) =>
-        sexSystem = Traverse.Create(instance);
+    protected override void OnStartH(object instance) => sexSystem = Traverse.Create(instance);
     
     protected override IEnumerator UntilReady()
     {
