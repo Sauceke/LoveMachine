@@ -28,7 +28,8 @@ namespace LoveMachine.WP
         protected override MethodInfo[] StartHMethods =>
             new [] { AccessTools.Method("ai, Assembly-UnityScript:Start") };
         
-        protected override MethodInfo[] EndHMethods => new MethodInfo[] { };
+        protected override MethodInfo[] EndHMethods =>
+            new[] { AccessTools.Method("gs, Assembly-UnityScript:SceneChange") };
         
         protected override Dictionary<Bone, string> FemaleBoneNames => new Dictionary<Bone, string>
         {
