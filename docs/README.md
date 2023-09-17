@@ -59,8 +59,7 @@ Rotators
 
 - Vorze A10 Cyclone
 
-> [!NOTE]
-> Every supported device works with every game. No exceptions.
+ℹ **Every supported device works with every game. No exceptions.**
 
 The [LoveMachine.Experiments] plugin also adds experimental support for two depth sensing devices
 ([Lovense Calor] and the [Hotdog]) to Koikatsu and Koikatsu Sunshine.
@@ -72,8 +71,7 @@ More info > Run anyway.
 
 [Intiface Central] must also be installed.
 
-> [!WARNING]
-> The IL2CPP plugins (RoomGirl, Holy Knight Ricca) are not compatible with other BepInEx plugins at
+⚠ The IL2CPP plugins (RoomGirl, Holy Knight Ricca) are not compatible with other BepInEx plugins at
 the moment. To use LoveMachine in IL2CPP games, you'll have to remove the BepInEx folder if there is
 one (thus also removing all other mods from the game), before running the installer.
 
@@ -88,8 +86,7 @@ The Space key acts as a kill switch for all devices while in-game. To reactivate
 F8. Both of these key bindings can be modified under Plugin Settings > LoveMachine > Kill Switch
 Settings.
 
-> [!WARNING]
-> In certain games, the kill switch may not work if the BepInEx console is open while playing in VR,
+⚠ In certain games, the kill switch may not work if the BepInEx console is open while playing in VR,
 because it can steal focus from the game window. It is recommended to disable the console.
 
 If you need further help in using the plugin, please open an [issue].
@@ -113,8 +110,7 @@ proportioned characters.
 
 ## Configuration
 
-> [!WARNING]
-> IL2CPP games (RoomGirl, Holy Knight Ricca) are not compatible with ConfigurationManager at the
+⚠ IL2CPP games (RoomGirl, Holy Knight Ricca) are not compatible with ConfigurationManager at the
 moment. If you want to change the settings in those games, you can edit the configuration file
 (`BepInEx\config\Sauceke.LoveMachine.IL2CPP.cfg`) in Notepad.
 
