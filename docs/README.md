@@ -59,7 +59,7 @@ Rotators
 
 - Vorze A10 Cyclone
 
-ℹ **Every supported device works with every game. No exceptions.**
+ℹ️ **Every supported device works with every game. No exceptions.**
 
 The [LoveMachine.Experiments] plugin also adds experimental support for two depth sensing devices
 ([Lovense Calor] and the [Hotdog]) to Koikatsu and Koikatsu Sunshine.
