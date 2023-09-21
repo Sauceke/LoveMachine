@@ -12,6 +12,7 @@ Adds support for [some computer-controlled sex toys](#supported-devices) in the 
 | --------------------------- | ---------------- | ------------------- |
 | AI Shoujo                   | Illusion         | ✗                   |
 | [Custom Order Maid 3D 2]    | Kiss             | ✓                   |
+| [Datsui Janken]             | Visionary        | ✗                   |
 | [Holy Knight Ricca]         | Mogurasoft       | ✗                   |
 | [HoneyCome]                 | Illgames         | ✗                   |
 | Honey Select                | Illusion         | ✗                   |
@@ -29,8 +30,11 @@ Adds support for [some computer-controlled sex toys](#supported-devices) in the 
 | PlayHome                    | Illusion         | ✓                   |
 | RoomGirl                    | Illusion         | ✗                   |
 | Secrossphere                | Illusion         | ✗                   |
+| [Sexaroid Girl]             | Daminz           | ✓                   |
+| [Solas City Heroes]         | MrZGames         | ✗                   |
 | [Succubus Cafe]             | Migi Studio      | ✗                   |
 | VR Kanojo                   | Illusion         | ✓                   |
+| [Writhing Play]             | Robi             | ✓                   |
 
 ## Supported devices
 
@@ -300,6 +304,12 @@ This mod would not have been possible without the [BepInEx] plugin framework and
   https://www.dlsite.com/maniax/dlaf/=/t/n/link/work/aid/sauceke/locale/en_US/id/RJ439205.html/?locale=en_US
 [HoneyCome]:
   https://www.dlsite.com/pro/dlaf/=/t/n/link/work/aid/sauceke/locale/en_US/id/VJ01000785.html/?locale=en_US
+[Datsui Janken]:
+  https://www.dlsite.com/maniax/dlaf/=/t/s/link/work/aid/sauceke/locale/en_US/id/RJ435105.html/?locale=en_US
+[Sexaroid Girl]:
+  https://www.dlsite.com/maniax/dlaf/=/t/s/link/work/aid/sauceke/locale/en_US/id/RJ188839.html/?locale=en_US
+[Writhing Play]:
+  https://www.dlsite.com/maniax/dlaf/=/t/s/link/work/aid/sauceke/locale/en_US/id/RJ303936.html/?locale=en_US
 
 <!-- sponsored sex toy links -->
 
@@ -325,3 +335,4 @@ This mod would not have been possible without the [BepInEx] plugin framework and
 [VR Kanojo]: http://www.illusion.jp/preview/vrkanojo/index_en.php
 [Last Evil]: https://store.steampowered.com/app/823910/last_evil/
 [Succubus Cafe]: https://store.steampowered.com/app/1520500/Succubus_Cafe/
+[Solas City Heroes]: https://store.steampowered.com/app/2060170/Solas_City_Heroes/

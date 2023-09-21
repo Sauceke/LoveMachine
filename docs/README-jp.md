@@ -15,6 +15,7 @@ LoveMachine はアダルトゲームのキャラクターと連動してアダ�
 | :--------------------------- | :----------------- | :------------- |
 | AI＊少女                     | ILLUSION           | ❌             |
 | [カスタムオーダーメイド 3D2] | Kiss               | ⭕             |
+| [隣人彼女と脱衣ジャンケン]   | Visionary          | ❌             |
 | [聖騎士リッカの物語]         | もぐらソフト       | ❌             |
 | [ハニカム]                   | ILLGAMES           | ❌             |
 | ハニーセレクト               | ILLUSION           | ❌             |
@@ -32,8 +33,11 @@ LoveMachine はアダルトゲームのキャラクターと連動してアダ�
 | プレイホーム                 | ILLUSION           | ⭕             |
 | ROOM ガール                  | ILLUSION           | ❌             |
 | セクロスフィア               | ILLUSION           | ❌             |
+| [セクサロイドな彼女]         | Daminz             | ⭕             |
+| [Solas City Heroes]          | MrZGames           | ❌             |
 | [Succubus Cafe]              | MIGI STUDIO        | ❌             |
 | VR カノジョ                  | ILLUSION           | ⭕             |
+| [ライジングプレイ]           | Robi               | ⭕             |
 
 ## サポートしているデバイス
 
@@ -281,6 +285,11 @@ LoveMachine は[BepInEx]プラグインフレームワークと、そしても�
   https://www.dlsite.com/maniax/dlaf/=/t/n/link/work/aid/sauceke/locale/en_US/id/RJ439205.html/?locale=en_US
 [ハニカム]:
   https://www.dlsite.com/pro/dlaf/=/t/n/link/work/aid/sauceke/locale/en_US/id/VJ01000785.html/?locale=en_US
+[隣人彼女と脱衣ジャンケン]:
+  https://www.dlsite.com/maniax/dlaf/=/t/s/link/work/aid/sauceke/locale/en_US/id/RJ435105.html/?locale=en_US
+[セクサロイドな彼女]:
+  https://www.dlsite.com/maniax/dlaf/=/t/s/link/work/aid/sauceke/locale/en_US/id/RJ188839.html/?locale=en_US
+[ライジングプレイ]: https://www.dlsite.com/maniax/dlaf/=/t/n/link/work/aid/sauceke/id/RJ167339.html
 
 <!-- sponsored sex toy links -->
 
@@ -306,3 +315,4 @@ LoveMachine は[BepInEx]プラグインフレームワークと、そしても�
 [VR カノジョ]: http://www.illusion.jp/preview/vrkanojo/index_en.php
 [Last Evil]: https://store.steampowered.com/app/823910/last_evil/
 [Succubus Cafe]: https://store.steampowered.com/app/1520500/Succubus_Cafe/
+[Solas City Heroes]: https://store.steampowered.com/app/2060170/Solas_City_Heroes/
