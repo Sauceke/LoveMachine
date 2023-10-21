@@ -44,6 +44,7 @@ namespace LoveMachine.Core.Buttplug
             websocket = new WebSocket(address);
             // StartCoroutine is only safe to call inside Unity's main thread
             websocket.Opened += (s, e) => incoming.Enqueue(OnOpened());
+            websocket.Closed += (s, e) => incoming.Enqueue(OnClosed());
             websocket.MessageReceived += (s, e) => incoming.Enqueue(OnMessageReceived(e));
             websocket.Error += (s, e) => incoming.Enqueue(OnError(e));
             websocket.Open();
@@ -52,11 +53,11 @@ namespace LoveMachine.Core.Buttplug
 
         public void Close()
         {
-            StopAllCoroutines();
-            IsConnected = false;
             Logger.LogInfo("Disconnecting from Intiface server.");
+            StopAllCoroutines();
             websocket.Close();
             websocket.Dispose();
+            IsConnected = false;
         }
 
         public void LinearCmd(Device device, float position, float durationSecs) =>
@@ -108,6 +109,15 @@ namespace LoveMachine.Core.Buttplug
             yield break;
         }
 
+        private IEnumerator OnClosed()
+        {
+            Logger.LogInfo("Disconnected from Intiface.");
+            StopAllCoroutines();
+            IsConnected = false;
+            HandleCoroutine(Reconnect());
+            yield break;
+        }
+
         private IEnumerator OnMessageReceived(MessageReceivedEventArgs e)
         {
             foreach (JsonData data in JsonMapper.ToObject(e.Message))
@@ -130,6 +140,14 @@ namespace LoveMachine.Core.Buttplug
                 Logger.LogMessage("Error: Failed to connect to Intiface.");
             }
             yield break;
+        }
+
+        private IEnumerator Reconnect()
+        {
+            int retrySecs = 10;
+            Logger.LogInfo($"Attempting to reconnect in {retrySecs} seconds...");
+            yield return new WaitForSecondsRealtime(retrySecs);
+            Connect();
         }
 
         private bool CheckOkMsg(JsonData data) => data.ContainsKey("Ok");
