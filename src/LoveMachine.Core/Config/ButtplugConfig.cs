@@ -7,6 +7,7 @@ namespace LoveMachine.Core.Config
     {
         public static ConfigEntry<string> WebSocketHost { get; private set; }
         public static ConfigEntry<int> WebSocketPort { get; private set; }
+        public static ConfigEntry<int> ReconnectBackoffSecs { get; private set; }
 
         internal static void Initialize(BaseUnityPlugin plugin)
         {
@@ -25,6 +26,14 @@ namespace LoveMachine.Core.Config
                 defaultValue: 12345,
                 new ConfigDescription(
                     "The Intiface server port.",
+                    tags: new ConfigurationManagerAttributes { Order = --order }));
+            ReconnectBackoffSecs = plugin.Config.Bind(
+                section: intifaceSettingsTitle,
+                key: "Reconnect Backoff Time (seconds)",
+                defaultValue: 20,
+                new ConfigDescription(
+                    "Wait this long before reconnecting after a failed connection or disconnect.",
+                    acceptableValues: new AcceptableValueRange<int>(1, 60),
                     tags: new ConfigurationManagerAttributes { Order = --order }));
         }
     }

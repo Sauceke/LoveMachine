@@ -184,6 +184,8 @@ You may also want to:
 - **WebSocket host:** The URL of the host Intiface is running on. Should be `ws://127.0.0.1` unless
   it's running on a remote machine.
 - **WebSocket port:** The port Intiface is listening on. Usually `12345`.
+- **Reconnect Backoff Time (seconds):** Waiting time between attempts to connect if the connection
+  was lost or not made.
 
 ### Kill Switch Settings
 

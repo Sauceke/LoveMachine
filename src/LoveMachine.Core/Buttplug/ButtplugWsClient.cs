@@ -111,12 +111,14 @@ namespace LoveMachine.Core.Buttplug
 
         private IEnumerator OnClosed()
         {
-            Logger.LogInfo("Disconnected from Intiface.");
+            Logger.LogInfo(IsConnected
+                ? "Disconnected from Intiface."
+                : "Failed to connect to Intiface.");
             StopAllCoroutines();
             IsConnected = false;
             HandleCoroutine(Reconnect());
             yield break;
-        }
+        } 
 
         private IEnumerator OnMessageReceived(MessageReceivedEventArgs e)
         {
@@ -135,16 +137,12 @@ namespace LoveMachine.Core.Buttplug
         private IEnumerator OnError(SuperSocket.ClientEngine.ErrorEventArgs e)
         {
             Logger.LogWarning($"Websocket error: {e.Exception.Message}");
-            if (!IsConnected)
-            {
-                Logger.LogMessage("Error: Failed to connect to Intiface.");
-            }
             yield break;
         }
 
         private IEnumerator Reconnect()
         {
-            int retrySecs = 10;
+            int retrySecs = ButtplugConfig.ReconnectBackoffSecs.Value;
             Logger.LogInfo($"Attempting to reconnect in {retrySecs} seconds...");
             yield return new WaitForSecondsRealtime(retrySecs);
             Connect();
