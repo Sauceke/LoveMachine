@@ -165,16 +165,16 @@ namespace LoveMachine.Core.Buttplug
             public bool HasBatteryLevel => SensorType == Battery;
         }
 
-        public class DeviceListMessage<D>
-            where D : Device
+        public class DeviceListMessage<T>
+            where T : Device
         {
-            public DeviceList<D> DeviceList { get; set; }
+            public DeviceList<T> DeviceList { get; set; }
         }
 
-        public class DeviceList<D>
-            where D : Device
+        public class DeviceList<T>
+            where T : Device
         {
-            public List<D> Devices { get; set; }
+            public List<T> Devices { get; set; }
         }
     }
 }

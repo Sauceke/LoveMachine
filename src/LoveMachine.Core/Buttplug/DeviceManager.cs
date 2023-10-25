@@ -13,7 +13,8 @@ namespace LoveMachine.Core.Buttplug
 
         public static List<DeviceSettings> DeviceSettings
         {
-            get => JsonMapper.ToObject<List<DeviceSettings>>(DeviceListConfig.DeviceSettingsJson.Value);
+            get => JsonMapper.ToObject<List<DeviceSettings>>(
+                DeviceListConfig.DeviceSettingsJson.Value);
             set => DeviceListConfig.DeviceSettingsJson.Value = JsonMapper.ToJson(value);
         }
         

@@ -11,9 +11,9 @@ namespace LoveMachine.Core
     /// <summary>
     /// Base type for all LoveMachine plugins.
     /// </summary>
-    /// <typeparam name="G">The GameAdapter type for this plugin.</typeparam>
-    public abstract class LoveMachinePlugin<G> : BaseUnityPlugin
-        where G : GameAdapter
+    /// <typeparam name="TGame">The GameAdapter type for this plugin.</typeparam>
+    public abstract class LoveMachinePlugin<TGame> : BaseUnityPlugin
+        where TGame : GameAdapter
     {
         protected virtual void Start()
         {
@@ -26,7 +26,7 @@ namespace LoveMachine.Core
             ConstrictConfig.Initialize(this);
             var manager = Globals.ManagerObject;
             manager.AddComponent<KillSwitch>();
-            manager.AddComponent<G>();
+            manager.AddComponent<TGame>();
             manager.AddComponent<ButtplugWsClient>();
             manager.AddComponent<DeviceManager>();
             manager.AddComponent<AnimationAnalyzer>();
