@@ -31,7 +31,7 @@ namespace LoveMachine.Core.UI
         {
             var devices = args.After;
             Logger.LogInfo($"List of devices: {JsonMapper.ToJson(devices)}");
-            if (devices.Count == 0)
+            if (devices.Count == 0 && client.IsConnected)
             {
                 Logger.LogMessage("Warning: No devices connected to Intiface.");
                 return;

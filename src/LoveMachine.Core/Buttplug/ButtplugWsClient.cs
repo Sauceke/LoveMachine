@@ -54,10 +54,8 @@ namespace LoveMachine.Core.Buttplug
         public void Close()
         {
             Logger.LogInfo("Disconnecting from Intiface server.");
-            StopAllCoroutines();
             websocket.Close();
-            websocket.Dispose();
-            IsConnected = false;
+            CleanUp();
         }
 
         public void LinearCmd(Device device, float position, float durationSecs) =>
@@ -102,6 +100,17 @@ namespace LoveMachine.Core.Buttplug
             }
         }
 
+        private void CleanUp()
+        {
+            websocket.Dispose();
+            StopAllCoroutines();
+            if (Devices.Any())
+            {
+                UpdateDeviceList(new List<Device>());
+            }
+            IsConnected = false;
+        }
+
         private IEnumerator OnOpened()
         {
             Logger.LogInfo("Connected to Intiface. Commencing handshake.");
@@ -114,11 +123,10 @@ namespace LoveMachine.Core.Buttplug
             Logger.LogInfo(IsConnected
                 ? "Disconnected from Intiface."
                 : "Failed to connect to Intiface.");
-            StopAllCoroutines();
-            IsConnected = false;
+            CleanUp();
             HandleCoroutine(Reconnect());
             yield break;
-        } 
+        }
 
         private IEnumerator OnMessageReceived(MessageReceivedEventArgs e)
         {
@@ -145,7 +153,7 @@ namespace LoveMachine.Core.Buttplug
             int retrySecs = ButtplugConfig.ReconnectBackoffSecs.Value;
             Logger.LogInfo($"Attempting to reconnect in {retrySecs} seconds...");
             yield return new WaitForSecondsRealtime(retrySecs);
-            Connect();
+            Open();
         }
 
         private bool CheckOkMsg(JsonData data) => data.ContainsKey("Ok");
@@ -195,11 +203,8 @@ namespace LoveMachine.Core.Buttplug
             {
                 return false;
             }
-            var previousDevices = Devices;
-            Devices = JsonMapper.ToObject<Buttplug.DeviceListMessage<Device>>(data.ToJson())
-                .DeviceList.Devices;
-            var args = new DeviceListEventArgs(before: previousDevices, after: Devices);
-            OnDeviceListUpdated.Invoke(this, args);
+            UpdateDeviceList(JsonMapper.ToObject<Buttplug.DeviceListMessage<Device>>(data.ToJson())
+                .DeviceList.Devices);
             ReadBatteryLevels();
             return true;
         }
@@ -221,6 +226,14 @@ namespace LoveMachine.Core.Buttplug
         private void ReadBatteryLevels() =>
             Devices.Where(device => device.HasBatteryLevel).ToList().ForEach(BatteryLevelCmd);
 
+        private void UpdateDeviceList(List<Device> newDevices)
+        {
+            var oldDevices = Devices;
+            Devices = newDevices;
+            var args = new DeviceListEventArgs(before: oldDevices, after: Devices);
+            OnDeviceListUpdated.Invoke(this, args);
+        }
+        
         private IEnumerator RunReceiveLoop()
         {
             while (true)
