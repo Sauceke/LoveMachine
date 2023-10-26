@@ -49,7 +49,8 @@ namespace LoveMachine.Core.Controller
             const float refreshTimeSecs = 0.3f;
             while (true)
             {
-                yield return WaitForSecondsUnscaled(refreshTimeSecs);
+                // must be realtime to avoid hanging if the game is paused during this yield
+                yield return new WaitForSecondsRealtime(refreshTimeSecs);
                 if (Game.IsOrgasming(device.Settings.GirlIndex))
                 {
                     TryStopCoroutine(ref strokeLoop);
@@ -80,17 +81,9 @@ namespace LoveMachine.Core.Controller
         {
             while (true)
             {
-                if (!base.TryGetCurrentStrokeInfo(device, out var strokeInfo))
-                {
-                    yield return WaitForSecondsUnscaled(0.1f);
-                    continue;
-                }
-                // unwrap the coroutine so we can interrupt it midway
-                var handleAnimation = HandleAnimation(device, strokeInfo);
-                while (handleAnimation.MoveNext())
-                {
-                    yield return handleAnimation.Current;
-                }
+                yield return base.TryGetCurrentStrokeInfo(device, out var strokeInfo)
+                    ? HandleCoroutine(HandleAnimation(device, strokeInfo))
+                    : WaitForSecondsUnscaled(0.1f);
             }
         }
 

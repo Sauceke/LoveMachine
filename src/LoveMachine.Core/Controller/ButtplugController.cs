@@ -98,6 +98,11 @@ namespace LoveMachine.Core.Controller
             return analyzer.TryGetCurrentStrokeInfo(girlIndex, bone, normalizedTime, out result);
         }
         
+        /// <summary>
+        /// Converts the given seconds to in-game time if possible, and waits that long. <br/>
+        /// WARNING: THIS WILL STILL HANG IF THE GAME IS PAUSED DURING THE YIELD! <br/>
+        /// Why use it then: more in-sync with the game than Realtime, and probably more efficient
+        /// </summary>
         protected object WaitForSecondsUnscaled(float seconds) => Time.timeScale > 0f
             ? (object)new WaitForSeconds(seconds * Time.timeScale)
             : new WaitForSecondsRealtime(seconds);
