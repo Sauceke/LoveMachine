@@ -1,5 +1,5 @@
 markdown: GFM
-remote_theme: pages-themes/merlot@v0.2.0
+remote_theme: pages-themes/midnight@v0.2.0
 show_downloads: false
 plugins:
   - jekyll-remote-theme
