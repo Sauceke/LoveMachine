@@ -3,6 +3,6 @@
 
 @import "{{ site.theme }}";
 
-header, div#no-downloads, span.banner-fix, a#forkme_banner {
+div#header, div#title {
   display: none !important;
 }
