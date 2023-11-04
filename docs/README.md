@@ -8,33 +8,33 @@
 
 Adds support for [some computer-controlled sex toys](#supported-devices) in the following games:
 
-| Title                       | Developer        | VR support          |
-| --------------------------- | ---------------- | ------------------- |
-| AI Shoujo                   | Illusion         | ✗                   |
-| [Custom Order Maid 3D 2]    | Kiss             | ✓                   |
-| [Datsui Janken]             | Visionary        | ✗                   |
-| [Holy Knight Ricca]         | Mogurasoft       | ✗                   |
-| [HoneyCome]                 | Illgames         | ✗                   |
-| Honey Select                | Illusion         | ✗                   |
-| Honey Select 2              | Illusion         | ✓                   |
-| [Houkago Rinkan Chuudoku]   | Miconisomi       | ✓ (with [AGHVR])    |
-| [Incubus 2: Camlann]        | Tanpakusitsu     | ✗                   |
-| [Insult Order]              | Miconisomi       | ✓ (with [IOVR])     |
-| Koikatsu                    | Illusion         | ✓                   |
-| Koikatsu Party              | Illusion         | ✓                   |
-| Koikatsu Sunshine           | Illusion         | ✓                   |
-| [Koi-Koi VR: Love Blossoms] | Apricot Heart    | ✓                   |
-| [Last Evil]                 | Flametorch       | ✗                   |
-| [Oedo Trigger]              | CQC Software     | ✓ (sold separately) |
-| [Our Apartment]             | Momoiro Software | ✗                   |
-| PlayHome                    | Illusion         | ✓                   |
-| RoomGirl                    | Illusion         | ✗                   |
-| Secrossphere                | Illusion         | ✗                   |
-| [Sexaroid Girl]             | Daminz           | ✓                   |
-| [Solas City Heroes]         | MrZGames         | ✗                   |
-| [Succubus Cafe]             | Migi Studio      | ✗                   |
-| VR Kanojo                   | Illusion         | ✓                   |
-| [Writhing Play]             | Robi             | ✓                   |
+| Title                       | Developer        | 🥽 VR                        | 🖥 Desktop |
+| --------------------------- | ---------------- | ---------------------------- | --------- |
+| AI Shoujo                   | Illusion         |                              | ✓         |
+| [Custom Order Maid 3D 2]    | Kiss             | ✓                            | ✓         |
+| [Datsui Janken]             | Visionary        |                              | ✓         |
+| [Holy Knight Ricca]         | Mogurasoft       |                              | ✓         |
+| [HoneyCome]                 | Illgames         |                              | ✓         |
+| Honey Select                | Illusion         |                              | ✓         |
+| Honey Select 2              | Illusion         | ✓                            | ✓         |
+| [Houkago Rinkan Chuudoku]   | Miconisomi       | ✓ <sup>with [AGHVR]</sup>    | ✓         |
+| [Incubus 2: Camlann]        | Tanpakusitsu     |                              | ✓         |
+| [Insult Order]              | Miconisomi       | ✓ <sup>with [IOVR]</sup>     | ✓         |
+| Koikatsu                    | Illusion         | ✓                            | ✓         |
+| Koikatsu Party              | Illusion         | ✓                            | ✓         |
+| Koikatsu Sunshine           | Illusion         | ✓                            | ✓         |
+| [Koi-Koi VR: Love Blossoms] | Apricot Heart    | ✓                            | ✓         |
+| [Last Evil]                 | Flametorch       |                              | ✓         |
+| [Oedo Trigger]              | CQC Software     | ✓ <sup>sold separately</sup> | ✓         |
+| [Our Apartment]             | Momoiro Software |                              | ✓         |
+| PlayHome                    | Illusion         | ✓                            | ✓         |
+| RoomGirl                    | Illusion         |                              | ✓         |
+| Secrossphere                | Illusion         |                              | ✓         |
+| [Sexaroid Girl]             | Daminz           | ✓                            |           |
+| [Solas City Heroes]         | MrZGames         |                              | ✓         |
+| [Succubus Cafe]             | Migi Studio      |                              | ✓         |
+| VR Kanojo                   | Illusion         | ✓                            |           |
+| [Writhing Play]             | Robi             | ✓                            | ✓         |
 
 ## Supported devices
 

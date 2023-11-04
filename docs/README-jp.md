@@ -11,33 +11,33 @@ LoveMachine はアダルトゲームのキャラクターと連動してアダ�
 
 [一部の自律型デバイス](#サポートしているデバイス)について、以下のゲームに対応しています。
 
-| ゲームタイトル               | 開発者             | VR 対応        |
-| :--------------------------- | :----------------- | :------------- |
-| AI＊少女                     | ILLUSION           | ❌             |
-| [カスタムオーダーメイド 3D2] | Kiss               | ⭕             |
-| [隣人彼女と脱衣ジャンケン]   | Visionary          | ❌             |
-| [聖騎士リッカの物語]         | もぐらソフト       | ❌             |
-| [ハニカム]                   | ILLGAMES           | ❌             |
-| ハニーセレクト               | ILLUSION           | ❌             |
-| ハニーセレクト 2             | ILLUSION           | ⭕             |
-| [放課後輪姦中毒]             | みこにそみ         | ⭕※[AGHVR]のみ |
-| [淫魔界 2: カムラン]         | 淡泊室             | ❌             |
-| [インサルトオーダー]         | みこにそみ         | ⭕※[IOVR]のみ  |
-| コイカツ！                   | ILLUSION           | ⭕             |
-| コイカツ！パーティ           | ILLUSION           | ⭕             |
-| コイカツ！サンシャイン       | ILLUSION           | ⭕             |
-| [恋来い温泉物語]             | アプリコットハート | ⭕             |
-| [Last Evil]                  | Flametorch         | ❌             |
-| [大江戸とりがー!!]           | CQC Software       | ⭕ ※別売り     |
-| [Our Apartment]              | Momoiro Software   | ❌             |
-| プレイホーム                 | ILLUSION           | ⭕             |
-| ROOM ガール                  | ILLUSION           | ❌             |
-| セクロスフィア               | ILLUSION           | ❌             |
-| [セクサロイドな彼女]         | Daminz             | ⭕             |
-| [Solas City Heroes]          | MrZGames           | ❌             |
-| [Succubus Cafe]              | MIGI STUDIO        | ❌             |
-| VR カノジョ                  | ILLUSION           | ⭕             |
-| [ライジングプレイ]           | Robi               | ⭕             |
+| ゲームタイトル               | 開発者             | 🥽 VR 版       | 🖥 PC 版 |
+| :--------------------------- | :----------------- | :------------- | :------ |
+| AI＊少女                     | ILLUSION           |                | ⭕      |
+| [カスタムオーダーメイド 3D2] | Kiss               | ⭕             | ⭕      |
+| [隣人彼女と脱衣ジャンケン]   | Visionary          |                | ⭕      |
+| [聖騎士リッカの物語]         | もぐらソフト       |                | ⭕      |
+| [ハニカム]                   | ILLGAMES           |                | ⭕      |
+| ハニーセレクト               | ILLUSION           |                | ⭕      |
+| ハニーセレクト 2             | ILLUSION           | ⭕             | ⭕      |
+| [放課後輪姦中毒]             | みこにそみ         | ⭕※[AGHVR]のみ | ⭕      |
+| [淫魔界 2: カムラン]         | 淡泊室             |                | ⭕      |
+| [インサルトオーダー]         | みこにそみ         | ⭕※[IOVR]のみ  | ⭕      |
+| コイカツ！                   | ILLUSION           | ⭕             | ⭕      |
+| コイカツ！パーティ           | ILLUSION           | ⭕             | ⭕      |
+| コイカツ！サンシャイン       | ILLUSION           | ⭕             | ⭕      |
+| [恋来い温泉物語]             | アプリコットハート | ⭕             | ⭕      |
+| [Last Evil]                  | Flametorch         |                | ⭕      |
+| [大江戸とりがー!!]           | CQC Software       | ⭕ ※別売り     | ⭕      |
+| [Our Apartment]              | Momoiro Software   |                | ⭕      |
+| プレイホーム                 | ILLUSION           | ⭕             | ⭕      |
+| ROOM ガール                  | ILLUSION           |                | ⭕      |
+| セクロスフィア               | ILLUSION           |                | ⭕      |
+| [セクサロイドな彼女]         | Daminz             | ⭕             |         |
+| [Solas City Heroes]          | MrZGames           |                | ⭕      |
+| [Succubus Cafe]              | MIGI STUDIO        |                | ⭕      |
+| VR カノジョ                  | ILLUSION           | ⭕             |         |
+| [ライジングプレイ]           | Robi               | ⭕             | ⭕      |
 
 ## サポートしているデバイス
 
