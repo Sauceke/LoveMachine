@@ -238,20 +238,20 @@ Sauceke   •   nhydock   •   hogefugamoga   •   RPKU   �
 
 ### Patrons
 
-[ManlyMarco]   •   Aftercurve   •   AkronusWings   •   Ambicatus   •   Andrew Hall   •  
-AstralClock   •   Atlantic Dragon   •   Average MBT viewer   •   Benos Hentai   •   boaz   •  
-BOOK   •   Bri   •   butz   •   cat tail   •   CBN ヴい    •   Ceruleon   •   CROM   •  
-Daniel   •   DDJTK   •   EPTG   •   er er   •   Ergo   •   Flan   •   funnychicken   •  
-Gabbelgu   •   Gaku Kihara   •   gmolnmol   •   gold25   •   GOU YOSIHIRO   •   Greg   •  
-hiro   •   Ior1yagami   •   jason   •   Junk   •   jwk   •   Kai Yami   •   KodFish   •   KTKT   •  
-kuni   •   Laneo   •   le d   •   mokochurin   •   Nemi   •   Nephilim Bacon   •   nppon   •  
-PhazR   •   Phil   •   prepare55   •   purena   •   real name   •   rolandmitch   •   RP 君    •  
-SavagePastry   •   Sean McKagan   •   Shakes   •   Taibe   •   tanu   •   TO   •   Tom   •  
-TrashTaste   •   ttrs   •   tutinoko   •   unitora   •   uruurian   •   Wel Adunno   •   yamada
-tarou   •   Zesty Cucumber   •   Zijian Wang   •   Zomba Mann   •   しゃどみん    •   シルバー
-   •   ふ    •   りょすけ みのかわ    •   一太 川崎    •   優希 岩永    •   哲慶 宗    •   国崎往人
-   •   将也 三田    •   洋 冨岡    •   猛 羽場    •   终晓    •   郁弥 中村    •   闇《YAMI》   •  
-高島　渉
+[ManlyMarco]   •   AbGz   •   Aftercurve   •   AkronusWings   •   Ambicatus   •   Andrew Hall   •  
+as a1031   •   AstralClock   •   asuka   •   Atlantic Dragon   •   Average MBT viewer   •   Benos
+Hentai   •   boaz   •   BOOK   •   Bri   •   butz   •   cat tail   •   CBN ヴい    •  
+Ceruleon   •   CROM   •   Daniel   •   DDJTK   •   EPTG   •   er er   •   Ergo   •   Flan   •  
+funnychicken   •   Gabbelgu   •   Gaku Kihara   •   gmolnmol   •   gold25   •   GOU YOSIHIRO   •  
+Greg   •   hiro   •   Ior1yagami   •   jason   •   Junk   •   jwk   •   Kai Yami   •   KodFish   •  
+KTKT   •   kuni   •   Laneo   •   le d   •   mokochurin   •   Nemi   •   Nephilim Bacon   •  
+nppon   •   PhazR   •   Phil   •   prepare55   •   purena   •   real name   •   rolandmitch   •   RP
+君    •   SavagePastry   •   Sean McKagan   •   Shakes   •   Taibe   •   tanu   •   TO   •  
+Tom   •   TrashTaste   •   ttrs   •   tutinoko   •   unitora   •   uruurian   •   Wel Adunno   •  
+yamada tarou   •   Zesty Cucumber   •   Zijian Wang   •   Zomba Mann   •   シルバー    •   ふ    •  
+マラカス    •   もふさん    •   りょすけ みのかわ    •   一太 川崎    •   優希 岩永    •   哲慶 宗
+   •   国崎往人    •   将也 三田    •   洋 冨岡    •   猛 羽場    •   终晓    •   郁弥 中村    •  
+闇《YAMI》   •   高島　渉
 
 ## Acknowledgements
 
