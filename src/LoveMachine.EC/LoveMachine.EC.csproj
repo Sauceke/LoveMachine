@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <TargetFramework>net46</TargetFramework>
+        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+        <OutputPath>..\bin\LoveMachine.EC\BepInEx\plugins\EC_LoveMachine\</OutputPath>
+    </PropertyGroup>
+    <ItemGroup>
+        <ProjectReference Include="..\LoveMachine.Core\LoveMachine.Core.csproj" />
+    </ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="IllusionLibs.EmotionCreators.Assembly-CSharp" Version="2019.6.6.4" />
+        <PackageReference Include="IllusionLibs.EmotionCreators.IL" Version="2019.6.6.4" />
+        <PackageReference Include="IllusionLibs.EmotionCreators.UnityEngine.CoreModule" Version="2017.4.24.4" />
+        <PackageReference Include="IllusionLibs.EmotionCreators.UnityEngine.AnimationModule" Version="2017.4.24.4" />
+    </ItemGroup>
+</Project>
