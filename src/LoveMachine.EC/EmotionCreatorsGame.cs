@@ -14,14 +14,14 @@ namespace LoveMachine.EC
 {
     public class EmotionCreatorsGame : GameAdapter
     {
-        private ChaControl[] females;
+        private Chara[] females;
         private Transform[] penisBases;
         
         protected override MethodInfo[] StartHMethods =>
-            new [] { AccessTools.Method(typeof(HPlayScene), nameof(HPlayScene.Start)) };
+            new [] { AccessTools.Method(typeof(HPlayScene), nameof(HPlayScene.InitPart)) };
 
         protected override MethodInfo[] EndHMethods =>
-            new [] { AccessTools.Method(typeof(HPlayScene), nameof(HPlayScene.OnDestroy)) };
+            new [] { AccessTools.Method(typeof(HPlayScene), nameof(HPlayScene.SceneEndProc)) };
         
         protected override Dictionary<Bone, string> FemaleBoneNames => new Dictionary<Bone, string>
         {
@@ -45,17 +45,21 @@ namespace LoveMachine.EC
         protected override int MaxHeroineCount => 5;
         protected override bool IsHardSex => false;
 
-        protected override Animator GetFemaleAnimator(int girlIndex) => females[girlIndex].animBody;
+        protected override Animator GetFemaleAnimator(int girlIndex) =>
+            females[girlIndex].ChaControl.animBody;
 
         protected override GameObject GetFemaleRoot(int girlIndex) =>
-            females[girlIndex].objBodyBone;
+            females[girlIndex].ChaControl.objBodyBone;
 
         protected override string GetPose(int girlIndex) =>
-            HPlayData.Instance.groupInfos.First().nowMotion.ToString();
+            HPlayData.Instance.groupInfos[females[girlIndex].GroupID].nowMotion.ToString();
 
         protected override bool IsIdle(int girlIndex) =>
-            HPlayData.Instance.groupInfos.First().nowMotion == 0;
-        
+            HPlayData.Instance.groupInfos[females[girlIndex].GroupID].nowMotion == 0;
+
+        protected override bool IsOrgasming(int girlIndex) =>
+            HPlayData.Instance.groupInfos[females[girlIndex].GroupID].nowMotion > 1;
+
         protected override IEnumerator UntilReady()
         {
             while (HPlayData.Instance?.basePart?.kind != 0)
@@ -64,12 +68,22 @@ namespace LoveMachine.EC
             }
             var hPart = (HPart)HPlayData.Instance.basePart;
             var charas = hPart.groups
-                .SelectMany(group => group.infoCharas)
-                .Select(info => HEditData.Instance.charas[info.useCharaID]);
-            females = charas.Where(chara => chara.sex == 1).ToArray();
-            penisBases = charas.Where(chara => chara.sex == 0)
+                .Select(group => group.infoCharas)
+                .Select(infos => infos.Select(info => HEditData.Instance.charas[info.useCharaID]))
+                .Select((lst, i) => lst.Select(cha => new Chara { GroupID = i, ChaControl = cha }))
+                .SelectMany(lst => lst);
+            females = charas.Where(chara => chara.ChaControl.sex == 1).ToArray();
+            penisBases = charas
+                .Select(chara => chara.ChaControl)
+                .Where(cha => cha.sex == 0)
                 .SelectMany(cha => FindDeepChildrenByName(cha.objBodyBone, "k_f_tamaL_00"))
                 .ToArray();
+        }
+
+        private struct Chara
+        {
+            public int GroupID { get; set; }
+            public ChaControl ChaControl { get; set; }
         }
     }
 }
