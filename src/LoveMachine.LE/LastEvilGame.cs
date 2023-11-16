@@ -13,7 +13,14 @@ namespace LoveMachine.LE
     public class LastEvilGame : GameAdapter
     {
         private const string root = "EventSceneFramework/Root/Entities";
-        private static readonly string[] ballsNames = { "ActorMan_Ball2", "Dick_Ball2" };
+        private static readonly string[] ballsNames =
+        {
+            "ActorMan_Ball2",
+            "Dick_Ball2",
+            "TentacleSub_Virgin/Bip01/Bip02/Bip03/Bip04/Bip05",
+            "TentacleSub_Mouth/Bip01/Bip02/Bip03/Bip04/Bip05",
+            "TentacleSub_Ass/Bip01/Bip02/Bip03/Bip04/Bip05"
+        };
 
         private Animation animation;
         private Traverse<int> animIndex;
@@ -58,7 +65,7 @@ namespace LoveMachine.LE
         protected override Transform PenisBase => throw new NotImplementedException();
 
         protected override Transform[] PenisBases => ballsNames
-            .SelectMany(name => FindDeepChildrenByName(GameObject.Find(root), name))
+            .SelectMany(name => FindByPathOrName(GameObject.Find(root), name))
             .ToArray();
 
         protected override GameObject GetFemaleRoot(int girlIndex) =>
@@ -78,6 +85,12 @@ namespace LoveMachine.LE
         protected override IEnumerator UntilReady()
         {
             yield return new WaitForSeconds(5f);
+        }
+
+        private Transform[] FindByPathOrName(GameObject root, string path)
+        {
+            var child = root.transform.Find(path);
+            return child == null ? FindDeepChildrenByName(root, path) : new[] { child };
         }
     }
 }
