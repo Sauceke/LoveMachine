@@ -51,14 +51,12 @@ namespace LoveMachine.EC
         protected override GameObject GetFemaleRoot(int girlIndex) =>
             females[girlIndex].ChaControl.objBodyBone;
 
-        protected override string GetPose(int girlIndex) =>
-            HPlayData.Instance.groupInfos[females[girlIndex].GroupID].nowMotion.ToString();
+        protected override string GetPose(int girlIndex) => GetMotion(girlIndex).ToString();
 
-        protected override bool IsIdle(int girlIndex) =>
-            HPlayData.Instance.groupInfos[females[girlIndex].GroupID].nowMotion == 0;
+        protected override bool IsIdle(int girlIndex) => GetMotion(girlIndex) != 1;
 
         protected override bool IsOrgasming(int girlIndex) =>
-            HPlayData.Instance.groupInfos[females[girlIndex].GroupID].nowMotion > 1;
+            GetMotion(girlIndex) > 1 && GetMotion(girlIndex) < 6;
 
         protected override IEnumerator UntilReady()
         {
@@ -80,6 +78,9 @@ namespace LoveMachine.EC
                 .ToArray();
         }
 
+        private int GetMotion(int girlIndex) =>
+            HPlayData.Instance.groupInfos[females[girlIndex].GroupID].nowMotion;
+        
         private struct Chara
         {
             public int GroupID { get; set; }
