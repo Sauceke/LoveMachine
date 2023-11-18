@@ -250,20 +250,25 @@ namespace LoveMachine.Core.Game
             .ToDictionary(kvp => kvp.Key,
                 kvp => FindBoneByPath(GetFemaleRoot(girlIndex), kvp.Value));
 
-        protected static Transform FindBoneByPath(GameObject character, string path) =>
-            // Search children
-            character?.transform.Find(path)
+        protected static Transform FindBoneByPath(GameObject root, string path) =>
+            // Try direct path
+            root?.transform.Find(path)
                 // If that fails, search recursively
-                ?? FindDeepChildrenByName(character, path.Split('/').Last()).FirstOrDefault()
-                    // If even that fails, search the entire game
-                    ?? GameObject.Find(path.Split('/').Last()).transform;
+                ?? FindDeepChildrenByName(root, path).FirstOrDefault()
+                    // If still no luck, search by name only
+                    ?? FindDeepChildrenByName(root, path.Split('/').Last()).FirstOrDefault()
+                        // If even that fails, search the entire game
+                        ?? GameObject.Find(path.Split('/').Last())?.transform;
 
-        protected static Transform[] FindDeepChildrenByName(GameObject character, string name) =>
-            character?
-                .GetComponentsInChildren<Transform>()?
-                .Where(child => child.name == name)
+        protected static Transform[] FindDeepChildrenByName(GameObject root, string path) =>
+            root?
+                .GetComponentsInChildren<Transform>()
+                .Where(child => GetPath(child).EndsWith("/" + path))
                 .ToArray() ?? new Transform[] {};
 
+        private static string GetPath(Transform t) =>
+            t == null ? "" : GetPath(t.parent) + "/" + t.name;
+        
         public class HEventArgs : EventArgs
         { }
     }
