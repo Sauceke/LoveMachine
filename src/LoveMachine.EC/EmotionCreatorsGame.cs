@@ -76,7 +76,7 @@ namespace LoveMachine.EC
             penisBases = charas
                 .Select(chara => chara.ChaControl)
                 .Where(cha => cha.sex == 0)
-                .SelectMany(cha => FindDeepChildrenByName(cha.objBodyBone, "k_f_tamaL_00"))
+                .SelectMany(cha => FindDeepChildrenByPath(cha.objBodyBone, "k_f_tamaL_00"))
                 .ToArray();
         }
 

@@ -90,7 +90,7 @@ namespace LoveMachine.LE
         private Transform[] FindByPathOrName(GameObject root, string path)
         {
             var child = root.transform.Find(path);
-            return child == null ? FindDeepChildrenByName(root, path) : new[] { child };
+            return child == null ? FindDeepChildrenByPath(root, path) : new[] { child };
         }
     }
 }

@@ -254,13 +254,13 @@ namespace LoveMachine.Core.Game
             // Try direct path
             root?.transform.Find(path)
                 // If that fails, search recursively
-                ?? FindDeepChildrenByName(root, path).FirstOrDefault()
+                ?? FindDeepChildrenByPath(root, path).FirstOrDefault()
                     // If still no luck, search by name only
-                    ?? FindDeepChildrenByName(root, path.Split('/').Last()).FirstOrDefault()
+                    ?? FindDeepChildrenByPath(root, path.Split('/').Last()).FirstOrDefault()
                         // If even that fails, search the entire game
                         ?? GameObject.Find(path.Split('/').Last())?.transform;
 
-        protected static Transform[] FindDeepChildrenByName(GameObject root, string path) =>
+        protected static Transform[] FindDeepChildrenByPath(GameObject root, string path) =>
             root?
                 .GetComponentsInChildren<Transform>()
                 .Where(child => GetPath(child).EndsWith("/" + path))

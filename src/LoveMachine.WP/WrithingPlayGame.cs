@@ -38,7 +38,7 @@ namespace LoveMachine.WP
             { Bone.RightHand, "joint_RightIndex3Tip" }
         };
 
-        protected override Transform PenisBase => FindDeepChildrenByName(ChrB, "point_Penis")[0];
+        protected override Transform PenisBase => FindDeepChildrenByPath(ChrB, "point_Penis")[0];
         protected override int AnimationLayer => throw new NotImplementedException();
         protected override int HeroineCount => 1;
         protected override int MaxHeroineCount => 1;

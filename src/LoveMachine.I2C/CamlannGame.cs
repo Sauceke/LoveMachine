@@ -30,7 +30,7 @@ namespace LoveMachine.I2C
 
         protected override Transform PenisBase => throw new NotImplementedException();
 
-        protected override Transform[] PenisBases => FindDeepChildrenByName(hRoot, "Dildo");
+        protected override Transform[] PenisBases => FindDeepChildrenByPath(hRoot, "Dildo");
 
         protected override int AnimationLayer => 0;
 

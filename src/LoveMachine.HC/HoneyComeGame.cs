@@ -80,7 +80,7 @@ public class HoneyComeGame: GameAdapter
         penises = new[] { "chaM_00", "chaM_01" }
             .Select(GameObject.Find)
             .Where(go => go != null && go.active)
-            .Select(chara => FindDeepChildrenByName(chara, "k_f_tamaC_00").First())
+            .Select(chara => FindDeepChildrenByPath(chara, "k_f_tamaC_00").First())
             .ToArray();
     }
 }
