@@ -65,7 +65,7 @@ namespace LoveMachine.LE
         protected override Transform PenisBase => throw new NotImplementedException();
 
         protected override Transform[] PenisBases => ballsNames
-            .SelectMany(name => FindByPathOrName(GameObject.Find(root), name))
+            .SelectMany(path => FindDeepChildrenByPath(GameObject.Find(root), path))
             .ToArray();
 
         protected override GameObject GetFemaleRoot(int girlIndex) =>
@@ -85,12 +85,6 @@ namespace LoveMachine.LE
         protected override IEnumerator UntilReady()
         {
             yield return new WaitForSeconds(5f);
-        }
-
-        private Transform[] FindByPathOrName(GameObject root, string path)
-        {
-            var child = root.transform.Find(path);
-            return child == null ? FindDeepChildrenByPath(root, path) : new[] { child };
         }
     }
 }
