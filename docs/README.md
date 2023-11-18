@@ -1,6 +1,6 @@
 [English](README.md) | [日本語](README-jp.md)
 
-# BepInEx LoveMachine
+# LoveMachine
 
 [![QA][CI Badge]](#) [![Download][Downloads Badge]][installer] [![Patreon][Patreon Badge]][Patreon]
 
@@ -10,9 +10,10 @@ Adds support for [some computer-controlled sex toys](#supported-devices) in the 
 
 | Title                       | Developer        | 🥽 VR                        | 🖥 Desktop |
 | --------------------------- | ---------------- | ---------------------------- | --------- |
-| AI Shoujo                   | Illusion         |                              | ✓         |
+| AI Shoujo                   | Illusion         | ✓ <sup>with [AISVR]</sup>    | ✓         |
 | [Custom Order Maid 3D 2]    | Kiss             | ✓                            | ✓         |
 | [Datsui Janken]             | Visionary        |                              | ✓         |
+| Emotion Creators            | Illusion         | ✓ <sup>with [EC_VR]</sup>    | ✓         |
 | [Holy Knight Ricca]         | Mogurasoft       |                              | ✓         |
 | [HoneyCome]                 | Illgames         |                              | ✓         |
 | Honey Select                | Illusion         |                              | ✓         |
@@ -331,6 +332,8 @@ This mod would not have been possible without the [BepInEx] plugin framework and
 [Intiface Central]: https://intiface.com/central
 [BepInEx]: https://github.com/BepInEx
 [AGHVR]: https://github.com/Eusth/AGHVR
+[AISVR]: https://vr-erogamer.com/archives/665
+[EC_VR]: https://yuki-portal.com/uploader/emotioncreator/52532/
 [IOVR]: https://github.com/Eusth/IOVR
 [Our Apartment]: https://www.patreon.com/momoirosoftware
 [Koikatsu Party]: https://store.steampowered.com/app/1073440/__Koikatsu_Party/

@@ -1,6 +1,6 @@
 [English](README.md) | [日本語](README-jp.md)
 
-# BepInEx LoveMachine
+# LoveMachine
 
 [![QA][CI Badge]](#) [![Download][Downloads Badge]][インストーラ]
 [![Patreon][Patreon Badge]][Patreon]
@@ -13,9 +13,10 @@ LoveMachine はアダルトゲームのキャラクターと連動してアダ�
 
 | ゲームタイトル               | 開発者             | 🥽 VR 版       | 🖥 PC 版 |
 | :--------------------------- | :----------------- | :------------- | :------ |
-| AI＊少女                     | ILLUSION           |                | ⭕      |
+| AI＊少女                     | ILLUSION           | ⭕※[AISVR]のみ | ⭕      |
 | [カスタムオーダーメイド 3D2] | Kiss               | ⭕             | ⭕      |
 | [隣人彼女と脱衣ジャンケン]   | Visionary          |                | ⭕      |
+| エモーション・クリエイターズ | ILLUSION           | ⭕※[EC_VR]のみ | ⭕      |
 | [聖騎士リッカの物語]         | もぐらソフト       |                | ⭕      |
 | [ハニカム]                   | ILLGAMES           |                | ⭕      |
 | ハニーセレクト               | ILLUSION           |                | ⭕      |
@@ -309,6 +310,8 @@ LoveMachine は[BepInEx]プラグインフレームワークと、そしても�
 [Intiface Central]: https://intiface.com/central
 [BepInEx]: https://github.com/BepInEx
 [AGHVR]: https://github.com/Eusth/AGHVR
+[AISVR]: https://vr-erogamer.com/archives/665
+[EC_VR]: https://yuki-portal.com/uploader/emotioncreator/52532/
 [IOVR]: https://github.com/Eusth/IOVR
 [Our Apartment]: https://www.patreon.com/momoirosoftware
 [コイカツ！パーティ]: https://store.steampowered.com/app/1073440/__Koikatsu_Party/
