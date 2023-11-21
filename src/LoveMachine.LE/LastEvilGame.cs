@@ -17,9 +17,22 @@ namespace LoveMachine.LE
         {
             "ActorMan_Ball2",
             "Dick_Ball2",
+            "Slime_Collect_Acid",
+            "Slime_AnimEvent1/Bone001/Bone002/Bone003/Bone004/Bone005",
+            "Slime_Collect/Bip01_Root/Bip01_Bone1/Bip01_Bone2/Bip01_Bone3/Bip01_Bone4/Bip01_Bone5",
+            "Slime_Defeat/Bip01_Root/Bip01_Bone1/Bip01_Bone2/Bip01_Bone3/Bip01_Bone4",
+            "TentacleSub (1)/Bip01/Bip02/Bip03/Bip04/Bip05",
+            "TentacleSub (2)/Bip01/Bip02/Bip03/Bip04/Bip05",
             "TentacleSub_Virgin/Bip01/Bip02/Bip03/Bip04/Bip05",
             "TentacleSub_Mouth/Bip01/Bip02/Bip03/Bip04/Bip05",
-            "TentacleSub_Ass/Bip01/Bip02/Bip03/Bip04/Bip05"
+            "TentacleSub_Ass/Bip01/Bip02/Bip03/Bip04/Bip05",
+            "Mimic/Bip01_Box/Bip01_BoxBody/Bip01_Tentacle (3)/Bip01_Tentacle_02/" +
+                "Bip01_Tentacle_03/Bip01_Tentacle_04/Bip01_Tentacle_05/Bip01_Tentacle_06/" +
+                "Bip01_Tentacle_07/Bip01_Tentacle_08/Bip01_Tentacle_09/Bip01_Tentacle_10",
+            "Mimic/Bip01_Box/Bip01_BoxBody/Bip01_Tentacle (5)/Bip01_Tentacle_02/"+
+                "Bip01_Tentacle_03/Bip01_Tentacle_04/Bip01_Tentacle_05/Bip01_Tentacle_06/"+
+                "Bip01_Tentacle_07/Bip01_Tentacle_08/Bip01_Tentacle_09/Bip01_Tentacle_10",
+            
         };
 
         private Animation animation;
