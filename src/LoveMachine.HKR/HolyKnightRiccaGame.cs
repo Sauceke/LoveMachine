@@ -10,16 +10,20 @@ namespace LoveMachine.HKR;
 
 internal class HolyKnightRiccaGame : TimelineGameAdapter
 {
-    private GameObject SceneRoot => GameObject.Find("ATDTimeline");
-    
     private static readonly string[] dickBasePaths =
     {
         "DEF-testicle",
         "ORG-testicle",
         "DEF-Ovipositor",
-        "mainTentacle03_013",
-        "hellbeetle/Base/belly/belly_001/belly_002/tail"
+        "slimeAtd/root/DEF-mainTentacle_030",
+        "roper/base/mainTentacle03_013",
+        "gazer/root/lowerHand_L_006",
+        "hellplant_parasiteIvy/root/DEF-ivy_020",
+        "hellbeetle/Base/belly/belly_001/belly_002/tail",
+        "arclichTentacleSet/root_front_L/DEF-tentacle_front_L_012"
     };
+
+    private PlayableDirector AtdAnvDirector => FindObjectOfType<PlayableDirector>();
 
     protected override MethodInfo[] StartHMethods => new[]
     {
@@ -33,7 +37,7 @@ internal class HolyKnightRiccaGame : TimelineGameAdapter
         AccessTools.Method("ATD.UIController, ATDAssemblyDifinition:OnDestroy")
     };
     
-    protected override Traverse Director => Traverse.Create(FindObjectOfType<PlayableDirector>());
+    protected override Traverse Director => Traverse.Create(AtdAnvDirector);
 
     protected override Traverse Timeline =>
         Traverse.Create(FindObjectOfType<PlayableDirector>().playableAsset.Cast<TimelineAsset>());
@@ -49,11 +53,12 @@ internal class HolyKnightRiccaGame : TimelineGameAdapter
     protected override int HeroineCount => 1;
     protected override int MaxHeroineCount => 1;
     protected override bool IsHardSex => true;
+    protected override float MinStrokeLength => 0.3f;
     protected override float PenisSize => 0.1f;
     protected override Transform PenisBase => throw new NotImplementedException();
 
     protected override Transform[] PenisBases => dickBasePaths
-        .SelectMany(path => FindDeepChildrenByPath(SceneRoot, path))
+        .SelectMany(path => FindDeepChildrenByPath(AtdAnvDirector.gameObject, path))
         .ToArray();
 
     protected override GameObject GetFemaleRoot(int girlIndex) => GameObject.Find("ricasso/root");
