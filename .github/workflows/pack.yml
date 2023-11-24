@@ -2,6 +2,9 @@ name: "[Reusable] Build installer"
 
 on:
   workflow_call:
+    secrets:
+      VIRUSTOTAL_API_KEY:
+        required: true
 
 jobs:
   pack:

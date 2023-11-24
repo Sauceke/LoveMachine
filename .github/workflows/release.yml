@@ -20,6 +20,7 @@ jobs:
   pack:
     needs: build
     uses: ./.github/workflows/pack.yml
+    secrets: inherit
 
   release:
     needs:
