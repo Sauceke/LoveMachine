@@ -283,24 +283,12 @@ This mod would not have been possible without the [BepInEx] plugin framework and
   https://www.dlsite.com/pro/dlaf/=/t/n/link/work/aid/sauceke/locale/en_US/id/VJ011538.html/?locale=en_US
 [Holy Knight Ricca]:
   https://www.dlsite.com/maniax/dlaf/=/t/n/link/work/aid/sauceke/locale/en_US/id/RJ363824.html/?locale=en_US
-[Honey Select 2]:
-  https://www.dlsite.com/pro/dlaf/=/t/n/link/work/aid/sauceke/locale/en_US/id/VJ013722.html/?locale=en_US
 [Houkago Rinkan Chuudoku]:
   https://www.dlsite.com/maniax/dlaf/=/t/n/link/work/aid/sauceke/locale/en_US/id/RJ189924.html/?locale=en_US
 [Incubus 2: Camlann]:
   https://www.dlsite.com/maniax/dlaf/=/t/n/link/work/aid/sauceke/locale/en_US/id/RJ321625.html/?locale=en_US
 [Insult Order]:
   https://www.dlsite.com/maniax/dlaf/=/t/n/link/work/aid/sauceke/locale/en_US/id/RJ220246.html/?locale=en_US
-[RoomGirl]:
-  https://www.dlsite.com/pro/dlaf/=/t/n/link/work/aid/sauceke/locale/en_US/id/VJ015465.html/?locale=en_US
-[Koikatsu Sunshine]:
-  https://www.dlsite.com/pro/dlaf/=/t/n/link/work/aid/sauceke/locale/en_US/id/VJ015724.html/?locale=en_US
-[Secrossphere]:
-  https://www.dlsite.com/pro/dlaf/=/t/n/link/work/aid/sauceke/locale/en_US/id/VJ015728.html/?locale=en_US
-[PlayHome]:
-  https://www.dlsite.com/pro/dlaf/=/t/n/link/work/aid/sauceke/locale/en_US/id/VJ015713.html/?locale=en_US
-[Koikatsu]:
-  https://www.dlsite.com/pro/dlaf/=/t/n/link/work/aid/sauceke/locale/en_US/id/VJ015719.html/?locale=en_US
 [Koi-Koi VR: Love Blossoms]:
   https://www.dlsite.com/pro/dlaf/=/t/n/link/work/aid/sauceke/locale/en_US/id/VJ01000460.html/?locale=en_US
 [Oedo Trigger]:
@@ -336,8 +324,6 @@ This mod would not have been possible without the [BepInEx] plugin framework and
 [EC_VR]: https://yuki-portal.com/uploader/emotioncreator/52532/
 [IOVR]: https://github.com/Eusth/IOVR
 [Our Apartment]: https://www.patreon.com/momoirosoftware
-[Koikatsu Party]: https://store.steampowered.com/app/1073440/__Koikatsu_Party/
-[VR Kanojo]: http://www.illusion.jp/preview/vrkanojo/index_en.php
 [Last Evil]: https://store.steampowered.com/app/823910/last_evil/
 [Succubus Cafe]: https://store.steampowered.com/app/1520500/Succubus_Cafe/
 [Solas City Heroes]: https://store.steampowered.com/app/2060170/Solas_City_Heroes/
