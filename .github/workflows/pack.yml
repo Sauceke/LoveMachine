@@ -1,4 +1,4 @@
-name: [Reusable] Build installer
+name: "[Reusable] Build installer"
 
 on:
   workflow_call:
