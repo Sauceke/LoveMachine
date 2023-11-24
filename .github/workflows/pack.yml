@@ -1,0 +1,73 @@
+name: [Reusable] Build installer
+
+on:
+  workflow_call:
+
+jobs:
+  pack:
+    runs-on: windows-2022
+    timeout-minutes: 10
+
+    env:
+      ACTIONS_ALLOW_UNSECURE_COMMANDS: true
+      INNO_SETUP_URL: https://files.jrsoftware.org/is/6/innosetup-6.2.1.exe
+      BEPINEX_32_URL: https://github.com/BepInEx/BepInEx/releases/download/v5.4.18/BepInEx_x86_5.4.18.0.zip
+      BEPINEX_64_URL: https://github.com/BepInEx/BepInEx/releases/download/v5.4.18/BepInEx_x64_5.4.18.0.zip
+      BEPINEX_IL2CPP_64_URL: https://builds.bepinex.dev/projects/bepinex_be/673/BepInEx-Unity.IL2CPP-win-x64-6.0.0-be.673%2B06a7278.zip
+      BEPINEX_CONF_MGR_URL: https://github.com/BepInEx/BepInEx.ConfigurationManager/releases/download/v16.4/BepInEx.ConfigurationManager_v16.4.zip
+
+    defaults:
+      run:
+        working-directory: src
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v1
+
+      - name: Download artifacts
+        uses: actions/download-artifact@v3
+        with:
+          path: src
+
+      - name: Alias dependencies
+        run: ./alias-deps.ps1
+
+      - name: Zip artifacts
+        run: ./zip-plugins.ps1
+
+      - name: Download BepInEx
+        working-directory: src/Installer
+        run: |
+          curl -L ${{ env.BEPINEX_32_URL }} -o BepInEx32.zip
+          curl -L ${{ env.BEPINEX_64_URL }} -o BepInEx64.zip
+          curl -L ${{ env.BEPINEX_IL2CPP_64_URL }} -o BepInExIl2cpp64.zip
+          curl -L ${{ env.BEPINEX_CONF_MGR_URL }} -o BepInEx.ConfigurationManager.zip
+          Expand-Archive -Path BepInEx32.zip -DestinationPath BepInEx32
+          Expand-Archive -Path BepInEx64.zip -DestinationPath BepInEx64
+          Expand-Archive -Path BepInExIl2cpp64.zip -DestinationPath BepInExIl2cpp64
+          Expand-Archive -Path BepInEx.ConfigurationManager.zip -DestinationPath BepInEx32
+          Expand-Archive -Path BepInEx.ConfigurationManager.zip -DestinationPath BepInEx64
+
+      - name: Download and install Inno Setup
+        run: |
+          curl -L ${{ env.INNO_SETUP_URL }} -o innosetup.exe
+          Start-Process -FilePath ./innosetup.exe -ArgumentList "/VERYSILENT /NORESTART /CURRENTUSER" -Wait
+
+      - name: Build installer
+        working-directory: src/Installer
+        run: |
+          & "$env:LOCALAPPDATA/Programs/Inno Setup 6/ISCC.exe" InstallScript.iss
+          copy bin/LoveMachineInstaller.exe ../assets/LoveMachineInstaller.exe
+
+      - name: Scan installer with VirusTotal
+        uses: crazy-max/ghaction-virustotal@v3
+        with:
+          vt_api_key: ${{ secrets.VIRUSTOTAL_API_KEY }}
+          files: |
+            src/assets/LoveMachineInstaller.exe
+
+      - name: Upload assets
+        uses: actions/upload-artifact@v3
+        with:
+          name: assets
+          path: src/assets
