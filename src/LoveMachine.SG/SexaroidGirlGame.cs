@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using HarmonyLib;
 using LoveMachine.Core.Common;
@@ -10,12 +11,19 @@ namespace LoveMachine.SG
 {
     public class SexaroidGirlGame: GameAdapter
     {
+        private static readonly string[] sexLayerNames =
+        {
+            "fera", "kuni", "kuni_upper", "seijou", "seijou_upper", "kouhai", "kouhai_upper",
+            "kijou", "kijou_upper"
+        };
+        
+        private int[] sexLayers;
         private GameObject girl_Prefab;
         private Animator girlAC;
         private Traverse<string> _taii;
-        private Traverse<float> now_blend;
         private Traverse<bool> girl_idling;
         private Traverse<bool> shasei_now;
+        private Traverse<bool> autoPiston;
 
         protected override MethodInfo[] StartHMethods =>
             new[] { AccessTools.Method("AnimatorControl3, Assembly-CSharp:_change_Taii") };
@@ -31,7 +39,7 @@ namespace LoveMachine.SG
 
         protected override Transform PenisBase => GameObject.Find("DEF-tama_L_end").transform;
         protected override float PenisSize => 0.08f;
-        protected override int AnimationLayer => 0;
+        protected override int AnimationLayer => sexLayers.OrderBy(girlAC.GetLayerWeight).Last();
         protected override int HeroineCount => 1;
         protected override int MaxHeroineCount => 1;
         protected override bool IsHardSex => false;
@@ -40,7 +48,8 @@ namespace LoveMachine.SG
 
         protected override GameObject GetFemaleRoot(int girlIndex) => girl_Prefab;
 
-        protected override string GetPose(int girlIndex) => $"{_taii.Value}.{now_blend.Value}";
+        protected override string GetPose(int girlIndex) =>
+            $"{_taii.Value}.{AnimationLayer}.{autoPiston.Value}";
 
         protected override bool IsIdle(int girlIndex) => girl_idling.Value;
 
@@ -52,14 +61,19 @@ namespace LoveMachine.SG
             girl_Prefab = script.Field<GameObject>("girl_Prefab").Value;
             girlAC = script.Field<Animator>("girlAC").Value;
             _taii = script.Field<string>("_taii");
-            now_blend = script.Field<float>("now_blend");
             girl_idling = script.Field<bool>("girl_idling");
             shasei_now = script.Field<bool>("shasei_now");
+            autoPiston = script.Field<bool>("autoPiston");
+            sexLayers = sexLayerNames.Select(girlAC.GetLayerIndex).ToArray();
         }
 
         protected override IEnumerator UntilReady()
         {
             yield return new WaitForSeconds(5f);
+            while (!autoPiston.Value)
+            {
+                yield return new WaitForSeconds(1f);
+            }
         }
     }
 }
