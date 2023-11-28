@@ -260,14 +260,17 @@ namespace LoveMachine.Core.Game
                         // If even that fails, search the entire game
                         ?? GameObject.Find(path.Split('/').Last())?.transform;
 
-        protected static Transform[] FindDeepChildrenByPath(GameObject root, string path) =>
-            root?
+        protected static Transform[] FindDeepChildrenByPath(GameObject root, string path)
+        {
+            var pathFragments = path.Split('/').Reverse().ToArray();
+            return root?
                 .GetComponentsInChildren<Transform>()
-                .Where(child => GetPath(child).EndsWith("/" + path))
+                .Where(child => HasPath(child, pathFragments))
                 .ToArray() ?? new Transform[] {};
-
-        private static string GetPath(Transform t) =>
-            t == null ? "" : GetPath(t.parent) + "/" + t.name;
+        }
+        
+        private static bool HasPath(Transform tf, string[] path, int index = 0) =>
+            index == path.Length || (tf?.name == path[index] && HasPath(tf?.parent, path, ++index));
         
         public class HEventArgs : EventArgs
         { }
