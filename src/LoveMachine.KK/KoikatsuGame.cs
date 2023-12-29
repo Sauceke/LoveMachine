@@ -133,11 +133,10 @@ namespace LoveMachine.KK
             }
             yield return new WaitForSeconds(0.1f);
         }
-
-        protected override void OnStartH(object flags) => Flags = (HFlag)flags;
-
-        protected override IEnumerator UntilReady()
+        
+        protected override IEnumerator UntilReady(object flags)
         {
+            Flags = (HFlag)flags;
             idGenerator = new ObjectIDGenerator();
             yield return new WaitWhile(() => Flags.lstHeroine.IsNullOrEmpty()
                 || Flags.lstHeroine.Any(girl => girl.chaCtrl?.animBody == null)

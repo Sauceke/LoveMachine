@@ -62,20 +62,16 @@ internal class RoomGirlGame : GameAdapter
     protected override bool IsIdle(int girlIndex) => loopType.Value == -1;
 
     protected override bool IsOrgasming(int girlIndex) => nowOrgasm.Value;
-
-    protected override void OnStartH(object hscene)
-    {
-        ctrlFlag = Traverse.Create(hscene).Property("CtrlFlag");
-        loopType = ctrlFlag.Property<int>("LoopType");
-        nowOrgasm = ctrlFlag.Property<bool>("NowOrgasm");
-    }
-
-    protected override IEnumerator UntilReady()
+    
+    protected override IEnumerator UntilReady(object hscene)
     {
         while (GetFemaleRoot(0) == null)
         {
             yield return new WaitForSeconds(5f);
         }
+        ctrlFlag = Traverse.Create(hscene).Property("CtrlFlag");
+        loopType = ctrlFlag.Property<int>("LoopType");
+        nowOrgasm = ctrlFlag.Property<bool>("NowOrgasm");
         femaleAnimator = GameObject.Find("chaF_001/BodyTop/p_cf_anim").GetComponent<Animator>();
     }
 }

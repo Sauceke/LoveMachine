@@ -57,9 +57,9 @@ namespace LoveMachine.OT
 
         protected override string TrackName => "Loop Track";
 
-        protected override IEnumerator UntilReady()
+        protected override IEnumerator UntilReady(object instance)
         {
-            yield return base.UntilReady();
+            yield return base.UntilReady(instance);
             femaleRoots = Enumerable.Range(1, 3)
                 .Select(i => GameObject.Find(
                     $"SubSystem/NKDirection/PlayableDirector/CQC_GirlOriginal_G{i}/rig/root"))

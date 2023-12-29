@@ -11,7 +11,6 @@ namespace LoveMachine.SCS
 {
     internal class SecrossphereGame : GameAdapter
     {
-        private object scene;
         private MonoBehaviour[] females;
         private Animator[] femaleAnimators;
         private Traverse<int> state;
@@ -53,9 +52,7 @@ namespace LoveMachine.SCS
 
         protected override bool IsOrgasming(int girlIndex) => state.Value == 3;
 
-        protected override void OnStartH(object scene) => this.scene = scene;
-
-        protected override IEnumerator UntilReady()
+        protected override IEnumerator UntilReady(object scene)
         {
             yield return new WaitForSeconds(5f);
             females = Traverse.Create(scene)

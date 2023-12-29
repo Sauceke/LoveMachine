@@ -11,7 +11,6 @@ namespace LoveMachine.WP
 {
     public class WrithingPlayGame: GameAdapter
     {
-        private Traverse ai;
         private GameObject ChrA;
         private GameObject ChrB;
         private Traverse<string> TypeAI;
@@ -56,8 +55,6 @@ namespace LoveMachine.WP
 
         protected override bool IsOrgasming(int girlIndex) => EcstasyLevel.Value == 3;
 
-        protected override void OnStartH(object instance) => ai = Traverse.Create(instance);
-
         // this is the most wtf code i've ever modded ;_;
         protected override void GetAnimState(int girlIndex, out float normalizedTime,
             out float length, out float speed)
@@ -68,9 +65,10 @@ namespace LoveMachine.WP
             speed = autoSpeed.Value * autoSpeedTurn.Value * autoSpeedScale.Value;
         }
 
-        protected override IEnumerator UntilReady()
+        protected override IEnumerator UntilReady(object instance)
         {
             yield return new WaitForSeconds(5f);
+            var ai = Traverse.Create(instance);
             var gs = ai.Field("gls");
             ChrA = gs.Field<GameObject>("ChrA").Value;
             ChrB = gs.Field<GameObject>("ChrB").Value;

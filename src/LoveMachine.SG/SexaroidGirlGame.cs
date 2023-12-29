@@ -55,8 +55,9 @@ namespace LoveMachine.SG
 
         protected override bool IsOrgasming(int girlIndex) => shasei_now.Value;
 
-        protected override void OnStartH(object instance)
+        protected override IEnumerator UntilReady(object instance)
         {
+            yield return new WaitForSeconds(5f);
             var script = Traverse.Create(instance);
             girl_Prefab = script.Field<GameObject>("girl_Prefab").Value;
             girlAC = script.Field<Animator>("girlAC").Value;
@@ -65,11 +66,6 @@ namespace LoveMachine.SG
             shasei_now = script.Field<bool>("shasei_now");
             autoPiston = script.Field<bool>("autoPiston");
             sexLayers = sexLayerNames.Select(girlAC.GetLayerIndex).ToArray();
-        }
-
-        protected override IEnumerator UntilReady()
-        {
-            yield return new WaitForSeconds(5f);
             while (!autoPiston.Value)
             {
                 yield return new WaitForSeconds(1f);

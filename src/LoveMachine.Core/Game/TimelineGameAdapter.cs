@@ -89,7 +89,7 @@ namespace LoveMachine.Core.Game
                 clip.Property<double>("start").Value;
         }
 
-        protected override IEnumerator UntilReady()
+        protected override IEnumerator UntilReady(object instance)
         {
             while (Director.GetValue() == null)
             {

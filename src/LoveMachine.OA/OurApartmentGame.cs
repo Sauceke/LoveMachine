@@ -63,14 +63,12 @@ namespace LoveMachine.OA
         protected override bool IsIdle(int girlIndex) => !isSex.Value;
 
         protected override bool IsOrgasming(int girlIndex) => GetPose(0).Contains("Cum");
-
-        protected override void OnStartH(object sexSimControl) =>
-            isSex = Traverse.Create(sexSimControl).Field<bool>("_sexActive");
-
-        protected override IEnumerator UntilReady()
+        
+        protected override IEnumerator UntilReady(object sexSimControl)
         {
             yield return new WaitWhile(() =>
                 (naomiAnimator = GameObject.Find("NaomiRig").GetComponent<Animator>()) == null);
+            isSex = Traverse.Create(sexSimControl).Field<bool>("_sexActive");
             animationLayers = Enumerable.Range(0, naomiAnimator.layerCount)
                 .Where(i => layerNames.Contains(naomiAnimator.GetLayerName(i)));
         }

@@ -62,8 +62,9 @@ namespace LoveMachine.SC
 
         protected override bool IsOrgasming(int girlIndex) => !lowerAnimEvent.Value;
 
-        protected override void OnStartH(object menu)
+        protected override IEnumerator UntilReady(object menu)
         {
+            yield return new WaitWhile(() => PenisBase == null);
             var script = Traverse.Create(menu).Field("ladySexAnimation_Function");
             ladyNumber = script.Field<int>("ladyNumber");
             aideNumber = script.Field<int>("aideNumber");
@@ -72,11 +73,6 @@ namespace LoveMachine.SC
             upperAnimBlend = script.Field<float>("upperAnimBlend");
             upperpower = script.Field<int>("upperpower");
             lowerAnimEvent = script.Field<bool>("lowerAnimEvent");
-        }
-
-        protected override IEnumerator UntilReady()
-        {
-            yield return new WaitWhile(() => PenisBase == null);
         }
     }
 }

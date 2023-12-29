@@ -58,7 +58,7 @@ namespace LoveMachine.EC
         protected override bool IsOrgasming(int girlIndex) =>
             GetMotion(girlIndex) > 1 && GetMotion(girlIndex) < 6;
 
-        protected override IEnumerator UntilReady()
+        protected override IEnumerator UntilReady(object instance)
         {
             while (HPlayData.Instance?.basePart?.kind != 0)
             {

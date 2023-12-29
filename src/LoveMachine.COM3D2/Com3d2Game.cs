@@ -98,7 +98,7 @@ namespace LoveMachine.COM3D2
         protected override bool IsOrgasming(int girlIndex) =>
             climaxPoseNames.Any(GetPose(girlIndex).Contains);
 
-        protected override IEnumerator UntilReady()
+        protected override IEnumerator UntilReady(object instance)
         {
             yield return new WaitForSeconds(5f);
             unlooper = new TimeUnlooper();

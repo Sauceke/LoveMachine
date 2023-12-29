@@ -46,15 +46,11 @@ public class AIDealRaysGame : GameAdapter
     protected override bool IsIdle(int girlIndex) =>
         float.IsInfinity(GetAnimatorStateInfo(0).length);
 
-    protected override void OnStartH(object instance)
+    protected override IEnumerator UntilReady(object instance)
     {
+        yield return new WaitForSeconds(1f);
         var eventManager = Traverse.Create(instance);
         AIdeal = eventManager.Property<GameObject>("AIdeal").Value;
         AIdealAnimator = eventManager.Property<Animator>("AIdealAnimator").Value;
-    }
-
-    protected override IEnumerator UntilReady()
-    {
-        yield return new WaitForSeconds(1f);
     }
 }

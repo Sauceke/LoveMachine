@@ -52,7 +52,7 @@ namespace LoveMachine.KK
             speed = 1f;
         }
 
-        protected override IEnumerator UntilReady()
+        protected override IEnumerator UntilReady(object instance)
         {
             yield return new WaitForSeconds(5f);
             while (GetFemaleRoot(0) == null || PenisBase == null)

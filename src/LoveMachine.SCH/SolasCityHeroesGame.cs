@@ -58,10 +58,9 @@ internal class SolasCityHeroesGame : GameAdapter
 
     protected override bool IsIdle(int girlIndex) => Time.timeScale == 0f;
 
-    protected override void OnStartH(object instance) => sexSystem = Traverse.Create(instance);
-    
-    protected override IEnumerator UntilReady()
+    protected override IEnumerator UntilReady(object instance)
     {
         yield return new WaitForSecondsRealtime(1f);
+        sexSystem = Traverse.Create(instance);
     }
 }

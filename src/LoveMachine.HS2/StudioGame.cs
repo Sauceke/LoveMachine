@@ -45,7 +45,7 @@ namespace LoveMachine.HS2
             speed = 1f;
         }
 
-        protected override IEnumerator UntilReady()
+        protected override IEnumerator UntilReady(object instance)
         {
             yield return new WaitForSeconds(5f);
             var timeline = Traverse.Create(Type.GetType("Timeline.Timeline, Timeline"));

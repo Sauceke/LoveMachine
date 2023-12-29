@@ -152,18 +152,9 @@ namespace LoveMachine.Core.Game
         /// A coroutine that waits until the H-scene is fully initialized. <br/>
         /// You might also want to set up your fields here, if you have any.
         /// </summary>
+        /// <param name="instance">the object one of the StartHMethods was called on</param>
         [HideFromIl2Cpp]
-        protected abstract IEnumerator UntilReady();
-
-        /// <summary>
-        /// This gets called each time a method in StartHMethods is called,
-        /// and the instance on which it was called is passed to it.
-        /// You can use this to set up fields that are derived from the
-        /// instance.
-        /// </summary>
-        [HideFromIl2Cpp]
-        protected virtual void OnStartH(object instance)
-        { }
+        protected abstract IEnumerator UntilReady(object instance);
 
         /// <summary>
         /// Override this if the game has long cross-fade sections between
@@ -214,8 +205,7 @@ namespace LoveMachine.Core.Game
         {
             EndH();
             IsHSceneRunning = true;
-            OnStartH(instance);
-            HandleCoroutine(StartHWhenReady());
+            HandleCoroutine(StartHWhenReady(instance));
         }
 
         internal void EndH()
@@ -226,9 +216,9 @@ namespace LoveMachine.Core.Game
             Logger.LogInfo("H scene ended.");
         }
 
-        private IEnumerator StartHWhenReady()
+        private IEnumerator StartHWhenReady(object instance)
         {
-            yield return HandleCoroutine(UntilReady());
+            yield return HandleCoroutine(UntilReady(instance));
             OnHStarted.Invoke(this, new HEventArgs());
             Logger.LogInfo("New H scene started.");
         }

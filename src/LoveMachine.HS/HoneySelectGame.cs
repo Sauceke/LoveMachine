@@ -69,11 +69,10 @@ namespace LoveMachine.HS
         protected override bool IsOrgasming(int girlIndex) => 
             orgasmAnimations.Any(GetAnimatorStateInfo(girlIndex).IsName);
 
-        protected override void OnStartH(object instance) => scene = (HScene)instance;
-
-        protected override IEnumerator UntilReady()
+        protected override IEnumerator UntilReady(object instance)
         {
             yield return new WaitForSeconds(5f);
+            scene = (HScene)instance;
             female = GameObject.Find("/CommonSpace/chaF00");
             femaleAnimator = GameObject.Find("/CommonSpace/chaF00/BodyTop/p_cf_anim")
                 .GetComponent<Animator>();

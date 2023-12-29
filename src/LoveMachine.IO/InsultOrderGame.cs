@@ -64,12 +64,10 @@ namespace LoveMachine.IO
         protected override bool IsOrgasming(int girlIndex) =>
             femaleClimax.Value || maleClimax.Value;
 
-        protected override void OnStartH(object animeController) =>
-            motionId = Traverse.Create(animeController).Field<string>("MotionID");
-
-        protected override IEnumerator UntilReady()
+        protected override IEnumerator UntilReady(object animeController)
         {
             yield return new WaitForSeconds(5f);
+            motionId = Traverse.Create(animeController).Field<string>("MotionID");
             femaleRoot = GameObject.Find("CH01/CH0001") ?? GameObject.Find("CH02/CH0002");
             femaleAnimator = femaleRoot.GetComponent<Animator>();
             femaleClimax = Traverse.Create(Type.GetType("GameClass, Assembly-CSharp"))

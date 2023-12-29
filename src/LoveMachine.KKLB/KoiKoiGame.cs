@@ -65,20 +65,16 @@ namespace LoveMachine.KKLB
 
         protected override bool IsIdle(int girlIndex) => !busy.Value;
 
-        protected override void OnStartH(object instance)
-        {
-            var adultManager = Traverse.Create(instance);
-            root = adultManager.Field<GameObject>("PartnerBase");
-            busy = adultManager.Field<bool>("bBusy");
-            unlooper = new TimeUnlooper();
-        }
-        
-        protected override IEnumerator UntilReady()
+        protected override IEnumerator UntilReady(object instance)
         {
             while (PenisBase == null)
             {
                 yield return new WaitForSeconds(1f);
             }
+            var adultManager = Traverse.Create(instance);
+            root = adultManager.Field<GameObject>("PartnerBase");
+            busy = adultManager.Field<bool>("bBusy");
+            unlooper = new TimeUnlooper();
         }
     }
 }

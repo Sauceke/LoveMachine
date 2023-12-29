@@ -49,15 +49,14 @@ namespace LoveMachine.HS2
 
         protected override GameObject GetFemaleRoot(int girlIndex) => roots[girlIndex];
 
-        protected override void OnStartH(object hScene) => this.hScene = (HScene)hScene;
-
         protected override string GetPose(int girlIndex) =>
             // couldn't find accessor for animation name so going with hash
             hScene.ctrlFlag.nowAnimationInfo.id
                 + "." + GetAnimatorStateInfo(girlIndex).fullPathHash;
 
-        protected override IEnumerator UntilReady()
+        protected override IEnumerator UntilReady(object instance)
         {
+            hScene = (HScene)instance;
             yield return new WaitWhile(() => hScene.GetFemales().Length == 0
                 || hScene.GetFemales()[0] == null
                 || hScene.GetMales().Length == 0

@@ -51,7 +51,7 @@ namespace LoveMachine.DJ
 
         protected override bool IsOrgasming(int girlIndex) => orgasmStates.Contains(status.Value);
 
-        protected override IEnumerator UntilReady()
+        protected override IEnumerator UntilReady(object instance)
         {
             yield return new WaitForSeconds(1f);
             female = GameObject.Find("Sonoe (1)");

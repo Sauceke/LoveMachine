@@ -61,17 +61,13 @@ public class HoneyComeGame: GameAdapter
     protected override bool IsIdle(int girlIndex) => loopType.Value == -1;
 
     protected override bool IsOrgasming(int girlIndex) => nowOrgasm.Value;
-
-    protected override void OnStartH(object hscene)
+    
+    protected override IEnumerator UntilReady(object hscene)
     {
+        yield return new WaitForSeconds(10f);
         ctrlFlag = Traverse.Create(hscene).Property("CtrlFlag");
         loopType = ctrlFlag.Property<int>("LoopType");
         nowOrgasm = ctrlFlag.Property<bool>("NowOrgasm");
-    }
-
-    protected override IEnumerator UntilReady()
-    {
-        yield return new WaitForSeconds(10f);
         females = new[] { "chaF_00", "chaF_01" }
             .Select(GameObject.Find)
             .Where(go => go != null && go.active)

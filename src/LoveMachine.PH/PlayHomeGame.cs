@@ -74,10 +74,9 @@ namespace LoveMachine.PH
         protected override bool IsOrgasming(int _) =>
             orgasmStates.Contains(scene.mainMembers.StateMgr.nowStateID);
 
-        protected override void OnStartH(object scene) => this.scene = (H_Scene)scene;
-
-        protected override IEnumerator UntilReady()
+        protected override IEnumerator UntilReady(object instance)
         {
+            scene = (H_Scene)instance;
             yield return new WaitWhile(() => scene.mainMembers?.StyleData == null
                 || scene.mainMembers.females.IsNullOrEmpty()
                 || scene.mainMembers.males.IsNullOrEmpty()

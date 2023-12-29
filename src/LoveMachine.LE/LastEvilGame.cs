@@ -89,17 +89,13 @@ namespace LoveMachine.LE
         protected override string GetPose(int girlIndex) => animIndex.Value.ToString();
 
         protected override bool IsIdle(int girlIndex) => false;
-
-        protected override void OnStartH(object eventSceneFramework)
+        
+        protected override IEnumerator UntilReady(object eventSceneFramework)
         {
+            yield return new WaitForSeconds(5f);
             var traverse = Traverse.Create(eventSceneFramework);
             animation = traverse.Field<Animation>("_animation").Value;
             animIndex = traverse.Field<int>("_animIndex");
-        }
-
-        protected override IEnumerator UntilReady()
-        {
-            yield return new WaitForSeconds(5f);
         }
     }
 }
