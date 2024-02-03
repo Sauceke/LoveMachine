@@ -17,6 +17,9 @@ namespace LoveMachine.LE
         {
             "ActorMan_Ball2",
             "Dick_Ball2",
+            "Succubus_Doppelganger/Bip_Root/Bip_Dick_1",
+            "Bip_Ball",
+            "Bip_Ball02",
             "Slime_Collect_Acid",
             "Slime_AnimEvent1/Bone001/Bone002/Bone003/Bone004/Bone005",
             "Slime_Collect/Bip01_Root/Bip01_Bone1/Bip01_Bone2/Bip01_Bone3/Bip01_Bone4/Bip01_Bone5",
