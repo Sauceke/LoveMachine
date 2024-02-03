@@ -24,7 +24,10 @@ internal class HolyKnightRiccaGame : TimelineGameAdapter
         "Sword01/zweihander",
         "magicDildo/base/dildoBase/ball_L",
         "ClaretParent/rcWG_noLoad_atd/RicassoModule/RicassoSlopeParent/rcc_maleGenital",
-        "RicassoKnightActor_wing_noLoad_atd/RicassoModule/RicassoSlopeParent/rcc_maleGenital"
+        "RicassoKnightActor_wing_noLoad_atd/RicassoModule/RicassoSlopeParent/rcc_maleGenital",
+        "witchGirl/root/DEF-spine/DEF-spine_001/DEF-spine_002/DEF-spine_003/DEF-shoulder_R/"
+            + "DEF-upper_arm_R/DEF-upper_arm_R_001/DEF-forearm_R/DEF-forearm_R_001/DEF-hand_R/"
+            + "DEF-palm_02_R/DEF-f_middle_01_R"
     };
 
     private PlayableDirector AtdAnvDirector => FindObjectOfType<PlayableDirector>();
