@@ -20,7 +20,11 @@ internal class HolyKnightRiccaGame : TimelineGameAdapter
         "gazer/root/lowerHand_L_006",
         "hellplant_parasiteIvy/root/DEF-ivy_020",
         "hellbeetle/Base/belly/belly_001/belly_002/tail",
-        "arclichTentacleSet/root_front_L/DEF-tentacle_front_L_012"
+        "arclichTentacleSet/root_front_L/DEF-tentacle_front_L_012",
+        "Sword01/zweihander",
+        "magicDildo/base/dildoBase/ball_L",
+        "ClaretParent/rcWG_noLoad_atd/RicassoModule/RicassoSlopeParent/rcc_maleGenital",
+        "RicassoKnightActor_wing_noLoad_atd/RicassoModule/RicassoSlopeParent/rcc_maleGenital"
     };
 
     private PlayableDirector AtdAnvDirector => FindObjectOfType<PlayableDirector>();
