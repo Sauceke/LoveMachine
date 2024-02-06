@@ -27,11 +27,6 @@ jobs:
           path: src/E2ETest/bin/scs.zip
           key: scs-demo
 
-      - name: Setup Python
-        uses: actions/setup-python@v3.1.4
-        with:
-          python-version: 3.11.4
-
       - name: Run tests
         run: |
           cd ./E2ETest

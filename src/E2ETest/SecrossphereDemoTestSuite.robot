@@ -4,6 +4,7 @@ Documentation     End-to-end tests of LoveMachine.SCS running on
 ...               Secrossphere demo, with simulated websocket
 ...               devices connected to Intiface Engine.
 Library           LoveMachineLibrary.py
+Library           SecrossphereLibrary.py
 Suite Setup       Play The Game
 Suite Teardown    Clean Up
 
