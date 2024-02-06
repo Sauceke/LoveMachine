@@ -31,7 +31,7 @@ class SecrossphereLibrary:
         robot.api.logger.info("Extracted Secrossphere demo")
 
     def patch_secrossphere_demo(self):
-        bepinex_zip_path = root_path + "/bepinex32.zip"
+        bepinex_zip_path = root_path + "bepinex32.zip"
         req = requests.get(bepinex32_url, allow_redirects=True)
         open(bepinex_zip_path, 'wb').write(req.content)
         shutil.unpack_archive(bepinex_zip_path, scs_path)

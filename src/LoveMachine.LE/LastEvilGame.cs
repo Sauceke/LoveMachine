@@ -34,8 +34,7 @@ namespace LoveMachine.LE
                 "Bip01_Tentacle_07/Bip01_Tentacle_08/Bip01_Tentacle_09/Bip01_Tentacle_10",
             "Mimic/Bip01_Box/Bip01_BoxBody/Bip01_Tentacle (5)/Bip01_Tentacle_02/"+
                 "Bip01_Tentacle_03/Bip01_Tentacle_04/Bip01_Tentacle_05/Bip01_Tentacle_06/"+
-                "Bip01_Tentacle_07/Bip01_Tentacle_08/Bip01_Tentacle_09/Bip01_Tentacle_10",
-            
+                "Bip01_Tentacle_07/Bip01_Tentacle_08/Bip01_Tentacle_09/Bip01_Tentacle_10"
         };
 
         private Animation animation;
