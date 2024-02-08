@@ -34,7 +34,7 @@ namespace LoveMachine.KK
 
         protected override GameObject GetFemaleRoot(int girlIndex) => GameObject.Find("chaF_001");
 
-        protected override Transform PenisBase => GameObject.Find(balls).transform;
+        protected override Transform PenisBase => GameObject.Find(balls)?.transform;
 
         protected override float MinStrokeLength => 0.2f;
 
@@ -55,6 +55,10 @@ namespace LoveMachine.KK
         protected override IEnumerator UntilReady()
         {
             yield return new WaitForSeconds(5f);
+            while (GetFemaleRoot(0) == null || PenisBase == null)
+            {
+                yield return new WaitForSeconds(5f);
+            }
             var timeline = Traverse.Create(Type.GetType("Timeline.Timeline, Timeline"));
             isPlaying = timeline.Property<bool>("isPlaying");
             duration = timeline.Property<float>("duration");
