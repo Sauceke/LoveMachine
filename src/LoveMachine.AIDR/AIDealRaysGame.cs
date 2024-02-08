@@ -43,7 +43,8 @@ public class AIDealRaysGame : GameAdapter
     protected override string GetPose(int girlIndex) =>
         GetAnimatorStateInfo(0).fullPathHash.ToString();
 
-    protected override bool IsIdle(int girlIndex) => false;
+    protected override bool IsIdle(int girlIndex) =>
+        float.IsInfinity(GetAnimatorStateInfo(0).length);
 
     protected override void OnStartH(object instance)
     {
