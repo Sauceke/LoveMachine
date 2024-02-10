@@ -6,6 +6,7 @@
         <AssemblyVersion>$(Version)</AssemblyVersion>
         <AssemblyFileVersion>$(Version)</AssemblyFileVersion>
         <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+        <AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifierToOutputPath>
     </PropertyGroup>
     <PropertyGroup>
         <!-- %3B is semicolon (;)  -->

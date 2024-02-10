@@ -7,6 +7,7 @@
         <Nullable>enable</Nullable>
         <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
         <OutputPath>..\bin\LoveMachine.Core.IL2CPP\</OutputPath>
+        <RuntimeIdentifier>none</RuntimeIdentifier>
     </PropertyGroup>
     <Target Name="EmbedVersion" BeforeTargets="BeforeBuild">
         <WriteLinesToFile File="PlatformSpecific/VersionInfo.cs"
@@ -21,55 +22,9 @@
     <ItemGroup>
         <PackageReference Include="LitJson" Version="0.19.0" />
         <PackageReference Include="WebSocket4Net" Version="0.15.2" />
-    </ItemGroup>
-    <ItemGroup>
-        <Reference Include="0Harmony">
-            <HintPath>Lib\0Harmony.dll</HintPath>
-            <Private>False</Private>
-        </Reference>
-        <Reference Include="BepInEx.Core">
-            <HintPath>Lib\BepInEx.Core.dll</HintPath>
-            <Private>False</Private>
-        </Reference>
-        <Reference Include="BepInEx.Unity.Common">
-            <HintPath>Lib\BepInEx.Unity.Common.dll</HintPath>
-            <Private>False</Private>
-        </Reference>
-        <Reference Include="BepInEx.Unity.IL2CPP">
-            <HintPath>Lib\BepInEx.Unity.IL2CPP.dll</HintPath>
-            <Private>False</Private>
-        </Reference>
-        <Reference Include="Il2CppInterop.Common">
-            <HintPath>Lib\Il2CppInterop.Common.dll</HintPath>
-            <Private>False</Private>
-        </Reference>
-        <Reference Include="Il2CppInterop.Generator">
-            <HintPath>Lib\Il2CppInterop.Generator.dll</HintPath>
-            <Private>False</Private>
-        </Reference>
-        <Reference Include="Il2CppInterop.HarmonySupport">
-            <HintPath>Lib\Il2CppInterop.HarmonySupport.dll</HintPath>
-            <Private>False</Private>
-        </Reference>
-        <Reference Include="Il2CppInterop.Runtime">
-            <HintPath>Lib\Il2CppInterop.Runtime.dll</HintPath>
-            <Private>False</Private>
-        </Reference>
-        <Reference Include="Il2Cppmscorlib">
-            <HintPath>Lib\Il2Cppmscorlib.dll</HintPath>
-            <Private>False</Private>
-        </Reference>
-        <Reference Include="UnityEngine.AnimationModule">
-            <HintPath>Lib\UnityEngine.AnimationModule.dll</HintPath>
-            <Private>False</Private>
-        </Reference>
-        <Reference Include="UnityEngine.CoreModule">
-            <HintPath>Lib\UnityEngine.CoreModule.dll</HintPath>
-            <Private>False</Private>
-        </Reference>
-        <Reference Include="UnityEngine.IMGUIModule">
-            <HintPath>Lib\UnityEngine.IMGUIModule.dll</HintPath>
-            <Private>False</Private>
-        </Reference>
+        <PackageReference Include="BepInEx.Unity.IL2CPP" Version="6.0.0-be.664" ExcludeAssets="runtime" />
+        <PackageReference Include="IllusionLibs.HoneyCome.Il2Cppmscorlib" Version="2021.3.14.3" ExcludeAssets="runtime" />
+        <PackageReference Include="IllusionLibs.HoneyCome.UnityEngine" Version="2021.3.14.3" ExcludeAssets="runtime" />
+        <PackageReference Include="IllusionLibs.HoneyCome.UnityEngine.AnimationModule" Version="2021.3.14.3" ExcludeAssets="runtime" />
     </ItemGroup>
 </Project>
