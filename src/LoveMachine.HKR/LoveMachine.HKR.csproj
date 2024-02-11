@@ -11,13 +11,7 @@
         <ProjectReference Include="..\LoveMachine.Core.IL2CPP\LoveMachine.Core.IL2CPP.csproj"/>
     </ItemGroup>
     <ItemGroup>
-        <Reference Include="Unity.Timeline">
-            <HintPath>Lib\Unity.Timeline.dll</HintPath>
-            <Private>False</Private>
-        </Reference>
-        <Reference Include="UnityEngine.DirectorModule">
-            <HintPath>Lib\UnityEngine.DirectorModule.dll</HintPath>
-            <Private>False</Private>
-        </Reference>
+        <PackageReference Include="IllusionLibs.RoomGirl.Unity" Version="2020.3.33" ExcludeAssets="runtime" />
+        <PackageReference Include="IllusionLibs.RoomGirl.UnityEngine" Version="2020.3.33" ExcludeAssets="runtime" />
     </ItemGroup>
 </Project>
