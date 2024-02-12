@@ -5,7 +5,7 @@
 [![QA][CI Badge]](#) [![Download][Downloads Badge]][インストーラ]
 [![Patreon][Patreon Badge]][Patreon]
 
-[![インストーラ][Download Button]][インストーラ] &nbsp; [![動画(R18)][Demo Button]][Demo video]
+[![インストーラ][Download Button]][インストーラ] &nbsp; [![デモ(R18)][Demo Button]][Demo video]
 
 LoveMachine はアダルトゲームのキャラクターと連動してアダルトグッズを動かすプラグインです。
 
@@ -13,6 +13,7 @@ LoveMachine はアダルトゲームのキャラクターと連動してアダ�
 
 | ゲームタイトル               | 開発者             | 🥽 VR 版       | 🖥 PC 版 |
 | :--------------------------- | :----------------- | :------------- | :------ |
+| [駆動妖精アイディールレイズ] | Riez-ON            |                | ⭕      |
 | AI＊少女                     | ILLUSION           | ⭕※[AISVR]のみ | ⭕      |
 | [カスタムオーダーメイド 3D2] | Kiss               | ⭕             | ⭕      |
 | [隣人彼女と脱衣ジャンケン]   | Visionary          |                | ⭕      |
@@ -280,6 +281,8 @@ LoveMachine は[BepInEx]プラグインフレームワークと、そしても�
 [セクサロイドな彼女]:
   https://www.dlsite.com/maniax/dlaf/=/t/s/link/work/aid/sauceke/locale/en_US/id/RJ188839.html/?locale=en_US
 [ライジングプレイ]: https://www.dlsite.com/maniax/dlaf/=/t/n/link/work/aid/sauceke/id/RJ167339.html
+[駆動妖精アイディールレイズ]:
+  https://www.dlsite.com/maniax/dlaf/=/t/s/link/work/aid/sauceke/id/RJ406835.html
 
 <!-- sponsored sex toy links -->
 

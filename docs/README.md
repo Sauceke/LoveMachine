@@ -10,6 +10,7 @@ Adds support for [some computer-controlled sex toys](#supported-devices) in the 
 
 | Title                       | Developer        | 🥽 VR                        | 🖥 Desktop |
 | --------------------------- | ---------------- | ---------------------------- | --------- |
+| [AI-deal-Rays]              | Riez-ON          |                              | ✓         |
 | AI Shoujo                   | Illusion         | ✓ <sup>with [AISVR]</sup>    | ✓         |
 | [Custom Order Maid 3D 2]    | Kiss             | ✓                            | ✓         |
 | [Datsui Janken]             | Visionary        |                              | ✓         |
@@ -302,6 +303,8 @@ This mod would not have been possible without the [BepInEx] plugin framework and
   https://www.dlsite.com/maniax/dlaf/=/t/s/link/work/aid/sauceke/locale/en_US/id/RJ188839.html/?locale=en_US
 [Writhing Play]:
   https://www.dlsite.com/maniax/dlaf/=/t/s/link/work/aid/sauceke/locale/en_US/id/RJ303936.html/?locale=en_US
+[AI-deal-Rays]:
+  https://www.dlsite.com/maniax/dlaf/=/t/n/link/work/aid/sauceke/locale/en_US/id/RJ406835.html/?locale=en_US
 
 <!-- sponsored sex toy links -->
 
