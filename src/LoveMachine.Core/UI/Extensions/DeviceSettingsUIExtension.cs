@@ -11,13 +11,14 @@ namespace LoveMachine.Core.UI.Extensions
 {
     internal static class DeviceSettingsUIExtension
     {
+        private static readonly string[] ordinals = { "First", "Second", "Third" };
+        
         public static void Draw(this DeviceSettings settings)
         {
             var defaults = new DeviceSettings();
             var game = Globals.ManagerObject.GetComponent<GameAdapter>();
-            string[] ordinals = { "First", "Second", "Third", "Fourth", "Fifth", "Sixth" };
             string[] girlChoices = Enumerable.Range(0, game.MaxHeroineCount)
-                .Select(index => $"{ordinals[index]} Girl")
+                .Select(index => $"{GetOrdinal(index)} Girl")
                 .Concat(new[] { "Off" })
                 .ToArray();
             var bones = new[] { Bone.Auto }
@@ -60,5 +61,8 @@ namespace LoveMachine.Core.UI.Extensions
             settings.VibratorSettings?.Draw();
             settings.ConstrictSettings?.Draw();
         }
+
+        private static string GetOrdinal(int index) =>
+            index < ordinals.Length ? ordinals[index] : $"{index + 1}th";
     }
 }
