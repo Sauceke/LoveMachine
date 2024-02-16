@@ -8,6 +8,8 @@ namespace LoveMachine.Core.Controller
 {
     internal sealed class RotatorController : ClassicButtplugController
     {
+        public override string FeatureName => "Rotation";
+        
         private bool clockwise = true;
 
         public override bool IsDeviceSupported(Device device) => device.IsRotator;

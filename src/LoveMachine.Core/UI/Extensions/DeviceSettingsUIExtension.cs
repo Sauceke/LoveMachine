@@ -4,7 +4,6 @@ using System.Text.RegularExpressions;
 using LoveMachine.Core.Buttplug.Settings;
 using LoveMachine.Core.Common;
 using LoveMachine.Core.Game;
-using LoveMachine.Core.NonPortable;
 using LoveMachine.Core.UI.Util;
 
 namespace LoveMachine.Core.UI.Extensions
@@ -13,10 +12,9 @@ namespace LoveMachine.Core.UI.Extensions
     {
         private static readonly string[] ordinals = { "First", "Second", "Third" };
         
-        public static void Draw(this DeviceSettings settings)
+        public static void Draw(this DeviceSettings settings, GameAdapter game)
         {
             var defaults = new DeviceSettings();
-            var game = Globals.ManagerObject.GetComponent<GameAdapter>();
             string[] girlChoices = Enumerable.Range(0, game.MaxHeroineCount)
                 .Select(index => $"{GetOrdinal(index)} Girl")
                 .Concat(new[] { "Off" })

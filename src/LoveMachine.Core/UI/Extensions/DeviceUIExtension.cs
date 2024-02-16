@@ -1,4 +1,6 @@
 ﻿using LoveMachine.Core.Buttplug;
+using LoveMachine.Core.Controller;
+using LoveMachine.Core.Game;
 using LoveMachine.Core.UI.Util;
 using UnityEngine;
 
@@ -6,7 +8,8 @@ namespace LoveMachine.Core.UI.Extensions
 {
     internal static class DeviceUIExtension
     {
-        public static void Draw(this Device device)
+        public static void Draw(this Device device, GameAdapter game,
+            ClassicButtplugController[] controllers)
         {
             GUILayout.BeginHorizontal();
             {
@@ -28,14 +31,14 @@ namespace LoveMachine.Core.UI.Extensions
             GUILayout.BeginHorizontal();
             {
                 GUIUtil.LabelWithTooltip("Features", "What this device can do.");
-                GUILayout.Toggle(device.IsStroker, "Position");
-                GUILayout.Toggle(device.IsVibrator, "Vibration");
-                GUILayout.Toggle(device.IsRotator, "Rotation");
-                GUILayout.Toggle(device.IsConstrictor, "Pressure");
+                foreach (var controller in controllers)
+                {
+                    GUILayout.Toggle(controller.IsDeviceSupported(device), controller.FeatureName);
+                }
             }
             GUILayout.EndHorizontal();
             GUIUtil.SingleSpace();
-            device.Settings.Draw();
+            device.Settings.Draw(game);
         }
     }
 }

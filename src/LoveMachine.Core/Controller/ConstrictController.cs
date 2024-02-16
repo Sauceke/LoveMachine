@@ -9,6 +9,8 @@ namespace LoveMachine.Core.Controller
 {
     internal sealed class ConstrictController : ClassicButtplugController
     {
+        public override string FeatureName => "Pressure";
+        
         public override bool IsDeviceSupported(Device device) => device.IsConstrictor;
 
         protected override IEnumerator HandleAnimation(Device device, StrokeInfo strokeInfo) =>

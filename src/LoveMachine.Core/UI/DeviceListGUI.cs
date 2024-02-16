@@ -5,6 +5,7 @@ using LitJson;
 using LoveMachine.Core.Buttplug;
 using LoveMachine.Core.Config;
 using LoveMachine.Core.Controller;
+using LoveMachine.Core.Game;
 using LoveMachine.Core.NonPortable;
 using LoveMachine.Core.UI.Extensions;
 using LoveMachine.Core.UI.Util;
@@ -15,6 +16,7 @@ namespace LoveMachine.Core.UI
     internal class DeviceListGUI : CoroutineHandler
     {
         private ButtplugWsClient client;
+        private GameAdapter game;
         private ClassicButtplugController[] controllers;
         private List<Device> cachedDeviceList = new List<Device>();
         private float testPosition;
@@ -22,6 +24,7 @@ namespace LoveMachine.Core.UI
         private void Start()
         {
             client = GetComponent<ButtplugWsClient>();
+            game = GetComponent<GameAdapter>();
             controllers = GetComponents<ClassicButtplugController>();
             client.OnDeviceListUpdated += LogDevices;
             DeviceListConfig.OnDraw += DrawFullDeviceList;
@@ -86,7 +89,7 @@ namespace LoveMachine.Core.UI
         {
             GUILayout.BeginVertical(GetDevicePanelStyle());
             {
-                device.Draw();
+                device.Draw(game, controllers);
                 GUILayout.BeginHorizontal();
                 {
                     GUIUtil.LabelWithTooltip("Test", "Test this device");
@@ -123,7 +126,7 @@ namespace LoveMachine.Core.UI
                     }
                     GUILayout.EndHorizontal();
                     GUIUtil.SingleSpace();
-                    setting.Draw();
+                    setting.Draw(game);
                 }
                 GUILayout.EndVertical();
                 GUIUtil.SingleSpace();

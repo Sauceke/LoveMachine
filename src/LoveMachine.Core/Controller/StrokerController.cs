@@ -9,6 +9,8 @@ namespace LoveMachine.Core.Controller
 {
     internal sealed class StrokerController : ClassicButtplugController
     {
+        public override string FeatureName => "Position";
+        
         public override bool IsDeviceSupported(Device device) => device.IsStroker;
 
         protected override IEnumerator HandleAnimation(Device device, StrokeInfo strokeInfo)
