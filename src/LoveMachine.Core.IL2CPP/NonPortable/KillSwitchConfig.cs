@@ -1,6 +1,4 @@
-﻿using BepInEx;
-
-namespace LoveMachine.Core.PlatformSpecific;
+﻿namespace LoveMachine.Core.NonPortable;
 
 internal static class KillSwitchConfig
 {

@@ -1,10 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Il2CppInterop.Runtime.Attributes;
 using LoveMachine.Core.Buttplug;
 using LoveMachine.Core.Game;
-using LoveMachine.Core.PlatformSpecific;
+using LoveMachine.Core.NonPortable;
 using UnityEngine;
 
 namespace LoveMachine.Core.Controller

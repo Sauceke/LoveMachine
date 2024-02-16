@@ -3,7 +3,7 @@ using BepInEx.Logging;
 using LoveMachine.Core.Common;
 using UnityEngine;
 
-namespace LoveMachine.Core.PlatformSpecific
+namespace LoveMachine.Core.NonPortable
 {
     public class CoroutineHandler : MonoBehaviour
     {

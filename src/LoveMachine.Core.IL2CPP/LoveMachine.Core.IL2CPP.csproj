@@ -3,6 +3,7 @@
         <TargetFramework>net6.0</TargetFramework>
         <AssemblyTitle>LoveMachine.Core.IL2CPP</AssemblyTitle>
         <Product>LoveMachine.Core.IL2CPP</Product>
+        <RootNamespace>LoveMachine.Core</RootNamespace>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
         <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
@@ -10,13 +11,13 @@
         <RuntimeIdentifier>none</RuntimeIdentifier>
     </PropertyGroup>
     <Target Name="EmbedVersion" BeforeTargets="BeforeBuild">
-        <WriteLinesToFile File="PlatformSpecific/VersionInfo.cs"
+        <WriteLinesToFile File="NonPortable/VersionInfo.cs"
                           Lines="$(_VersionTemplate.Replace('VERSION', $(Version)))"
                           WriteOnlyWhenDifferent="true" Overwrite="true" />
     </Target>
     <ItemGroup>
         <Compile Include="..\LoveMachine.Core\**\*.cs"
-                 Exclude="..\LoveMachine.Core\obj\**\*.cs;..\LoveMachine.Core\PlatformSpecific\*.cs"
+                 Exclude="..\LoveMachine.Core\obj\**\*.cs;..\LoveMachine.Core\NonPortable\*.cs"
                  LinkBase="Included" />
     </ItemGroup>
     <ItemGroup>

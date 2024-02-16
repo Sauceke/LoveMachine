@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using HarmonyLib;
-using Il2CppInterop.Runtime.Attributes;
+using LoveMachine.Core.NonPortable;
 using UnityEngine;
 
 namespace LoveMachine.Core.Game

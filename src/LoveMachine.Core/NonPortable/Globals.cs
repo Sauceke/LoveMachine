@@ -2,7 +2,7 @@
 using BepInEx.Logging;
 using UnityEngine;
 
-namespace LoveMachine.Core.PlatformSpecific
+namespace LoveMachine.Core.NonPortable
 {
     public static class Globals
     {

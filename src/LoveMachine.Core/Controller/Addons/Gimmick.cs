@@ -1,6 +1,6 @@
 ﻿using System.Collections;
-using Il2CppInterop.Runtime.Attributes;
 using LoveMachine.Core.Buttplug;
+using LoveMachine.Core.NonPortable;
 using UnityEngine;
 
 namespace LoveMachine.Core.Controller.Addons

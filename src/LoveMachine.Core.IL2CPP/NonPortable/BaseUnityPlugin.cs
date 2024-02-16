@@ -2,7 +2,7 @@
 using BepInEx.Unity.IL2CPP;
 using HarmonyLib;
 
-namespace BepInEx;
+namespace LoveMachine.Core.NonPortable;
 
 public class BaseUnityPlugin : BasePlugin
 {

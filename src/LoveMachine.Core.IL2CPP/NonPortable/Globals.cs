@@ -2,7 +2,7 @@
 using Il2CppInterop.Runtime.Injection;
 using UnityEngine;
 
-namespace LoveMachine.Core.PlatformSpecific;
+namespace LoveMachine.Core.NonPortable;
 
 public static class Globals
 {

@@ -1,6 +1,7 @@
 ﻿using System;
 using BepInEx;
 using BepInEx.Configuration;
+using LoveMachine.Core.NonPortable;
 
 namespace LoveMachine.Core.Config
 {

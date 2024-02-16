@@ -1,6 +1,6 @@
 ﻿using System;
 using HarmonyLib;
-using LoveMachine.Core.PlatformSpecific;
+using LoveMachine.Core.NonPortable;
 
 namespace LoveMachine.Core.Game
 {

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Il2CppInterop.Runtime.Attributes
+namespace LoveMachine.Core.NonPortable
 {
     internal class HideFromIl2Cpp : Attribute
     { }

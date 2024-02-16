@@ -3,6 +3,7 @@
         <TargetFramework>net35</TargetFramework>
         <AssemblyTitle>LoveMachine.Core.Pre54</AssemblyTitle>
         <Product>LoveMachine.Core.Pre54</Product>
+        <RootNamespace>UnityEngine</RootNamespace>
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
         <OutputPath>..\bin\LoveMachine.Core.Pre54\</OutputPath>
     </PropertyGroup>

@@ -3,7 +3,7 @@ using LoveMachine.Core.Buttplug;
 using LoveMachine.Core.Config;
 using LoveMachine.Core.Controller;
 using LoveMachine.Core.Game;
-using LoveMachine.Core.PlatformSpecific;
+using LoveMachine.Core.NonPortable;
 using LoveMachine.Core.UI;
 
 namespace LoveMachine.Core

@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using LitJson;
 using LoveMachine.Core.Config;
-using LoveMachine.Core.PlatformSpecific;
+using LoveMachine.Core.NonPortable;
 using UnityEngine;
 using WebSocket4Net;
 

@@ -1,6 +1,6 @@
 ﻿using BepInEx;
 using LoveMachine.Core;
-using LoveMachine.Core.PlatformSpecific;
+using LoveMachine.Core.NonPortable;
 
 namespace LoveMachine.AIDR;
 

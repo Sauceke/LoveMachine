@@ -1,6 +1,6 @@
 ﻿using LoveMachine.Core.Buttplug;
 using LoveMachine.Core.Game;
-using LoveMachine.Core.PlatformSpecific;
+using LoveMachine.Core.NonPortable;
 
 namespace LoveMachine.Core.UI
 {

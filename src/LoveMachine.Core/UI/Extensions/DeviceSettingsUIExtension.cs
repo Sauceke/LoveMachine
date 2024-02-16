@@ -4,7 +4,7 @@ using System.Text.RegularExpressions;
 using LoveMachine.Core.Buttplug.Settings;
 using LoveMachine.Core.Common;
 using LoveMachine.Core.Game;
-using LoveMachine.Core.PlatformSpecific;
+using LoveMachine.Core.NonPortable;
 using LoveMachine.Core.UI.Util;
 
 namespace LoveMachine.Core.UI.Extensions

@@ -2,10 +2,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Il2CppInterop.Runtime.Attributes;
 using LitJson;
-using LoveMachine.Core.PlatformSpecific;
 using LoveMachine.Core.Common;
+using LoveMachine.Core.NonPortable;
 using UnityEngine;
 
 namespace LoveMachine.Core.Game
