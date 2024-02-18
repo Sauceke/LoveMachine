@@ -5,6 +5,7 @@ using LoveMachine.Core.Controller;
 using LoveMachine.Core.Game;
 using LoveMachine.Core.NonPortable;
 using LoveMachine.Core.UI;
+using LoveMachine.Core.UI.Settings;
 
 namespace LoveMachine.Core
 {
@@ -34,7 +35,11 @@ namespace LoveMachine.Core
             manager.AddComponent<VibratorController>();
             manager.AddComponent<RotatorController>();
             manager.AddComponent<ConstrictController>();
-            manager.AddComponent<DeviceListGUI>();
+            manager.AddComponent<DeviceListUI>();
+            manager.AddComponent<DeviceSettingsUI>();
+            manager.AddComponent<StrokerSettingsUI>();
+            manager.AddComponent<VibratorSettingsUI>();
+            manager.AddComponent<ConstrictSettingsUI>();
             GameHooks.InstallHooks();
         }
     }

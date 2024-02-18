@@ -4,15 +4,18 @@ using System.Text.RegularExpressions;
 using LoveMachine.Core.Buttplug.Settings;
 using LoveMachine.Core.Common;
 using LoveMachine.Core.Game;
+using LoveMachine.Core.NonPortable;
 using LoveMachine.Core.UI.Util;
 
-namespace LoveMachine.Core.UI.Extensions
+namespace LoveMachine.Core.UI.Settings
 {
-    internal static class DeviceSettingsUIExtension
+    internal class DeviceSettingsUI: SettingsUI
     {
         private static readonly string[] ordinals = { "First", "Second", "Third" };
+
+        private GameAdapter game;
         
-        public static void Draw(this DeviceSettings settings, GameAdapter game)
+        public override void Draw(DeviceSettings settings)
         {
             var defaults = new DeviceSettings();
             string[] girlChoices = Enumerable.Range(0, game.MaxHeroineCount)
@@ -55,10 +58,9 @@ namespace LoveMachine.Core.UI.Extensions
                 defaultValue: defaults.UpdatesHz,
                 min: 1,
                 max: 30);
-            settings.StrokerSettings?.Draw();
-            settings.VibratorSettings?.Draw();
-            settings.ConstrictSettings?.Draw();
         }
+        
+        private void Start() => game = GetComponent<GameAdapter>();
 
         private static string GetOrdinal(int index) =>
             index < ordinals.Length ? ordinals[index] : $"{index + 1}th";

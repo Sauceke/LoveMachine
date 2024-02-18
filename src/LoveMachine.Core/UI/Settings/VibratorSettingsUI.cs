@@ -4,12 +4,17 @@ using LoveMachine.Core.Buttplug.Settings;
 using LoveMachine.Core.UI.Util;
 using UnityEngine;
 
-namespace LoveMachine.Core.UI.Extensions
+namespace LoveMachine.Core.UI.Settings
 {
-    internal static class VibratorSettingsUIExtension
+    internal class VibratorSettingsUI: SettingsUI
     {
-        public static void Draw(this VibratorSettings settings)
+        public override void Draw(DeviceSettings deviceSettings)
         {
+            var settings = deviceSettings.VibratorSettings;
+            if (settings == null)
+            {
+                return;
+            }
             var defaults = new VibratorSettings();
             {
                 float min = settings.IntensityMin;

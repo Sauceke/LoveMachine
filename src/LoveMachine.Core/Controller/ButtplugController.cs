@@ -20,7 +20,8 @@ namespace LoveMachine.Core.Controller
         
         [HideFromIl2Cpp]
         protected GameAdapter Game { get; private set; }
-
+        
+        [HideFromIl2Cpp]
         public abstract string FeatureName { get; }
         
         public abstract bool IsDeviceSupported(Device device);

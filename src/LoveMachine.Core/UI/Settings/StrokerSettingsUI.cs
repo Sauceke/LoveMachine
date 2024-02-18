@@ -1,12 +1,17 @@
 ﻿using LoveMachine.Core.Buttplug.Settings;
 using LoveMachine.Core.UI.Util;
 
-namespace LoveMachine.Core.UI.Extensions
+namespace LoveMachine.Core.UI.Settings
 {
-    internal static class StrokerSettingsUIExtension
+    internal class StrokerSettingsUI: SettingsUI
     {
-        public static void Draw(this StrokerSettings settings)
+        public override void Draw(DeviceSettings deviceSettings)
         {
+            var settings = deviceSettings.StrokerSettings;
+            if (settings == null)
+            {
+                return;
+            }
             var defaults = new StrokerSettings();
             settings.MaxStrokesPerMin = GUIUtil.IntSlider(
                 label: "Max Strokes Per Minute",

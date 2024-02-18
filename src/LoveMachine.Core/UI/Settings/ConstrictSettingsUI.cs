@@ -1,12 +1,18 @@
 ﻿using LoveMachine.Core.Buttplug.Settings;
+using LoveMachine.Core.NonPortable;
 using LoveMachine.Core.UI.Util;
 
-namespace LoveMachine.Core.UI.Extensions
+namespace LoveMachine.Core.UI.Settings
 {
-    internal static class ConstrictSettingsUIExtension
+    internal class ConstrictSettingsUI: SettingsUI
     {
-        public static void Draw(this ConstrictSettings settings)
+        public override void Draw(DeviceSettings deviceSettings)
         {
+            var settings = deviceSettings.ConstrictSettings;
+            if (settings == null)
+            {
+                return;
+            }
             var defaults = new ConstrictSettings();
             settings.Enabled = GUIUtil.Toggle(
                 label: "Enable Pressure Control",

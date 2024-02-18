@@ -5,27 +5,26 @@ using LitJson;
 using LoveMachine.Core.Buttplug;
 using LoveMachine.Core.Config;
 using LoveMachine.Core.Controller;
-using LoveMachine.Core.Game;
 using LoveMachine.Core.NonPortable;
-using LoveMachine.Core.UI.Extensions;
+using LoveMachine.Core.UI.Settings;
 using LoveMachine.Core.UI.Util;
 using UnityEngine;
 
 namespace LoveMachine.Core.UI
 {
-    internal class DeviceListGUI : CoroutineHandler
+    internal class DeviceListUI : CoroutineHandler
     {
         private ButtplugWsClient client;
-        private GameAdapter game;
         private ClassicButtplugController[] controllers;
+        private SettingsUI[] drawers;
         private List<Device> cachedDeviceList = new List<Device>();
         private float testPosition;
 
         private void Start()
         {
             client = GetComponent<ButtplugWsClient>();
-            game = GetComponent<GameAdapter>();
             controllers = GetComponents<ClassicButtplugController>();
+            drawers = GetComponents<SettingsUI>();
             client.OnDeviceListUpdated += LogDevices;
             DeviceListConfig.OnDraw += DrawFullDeviceList;
         }
@@ -89,7 +88,7 @@ namespace LoveMachine.Core.UI
         {
             GUILayout.BeginVertical(GetDevicePanelStyle());
             {
-                device.Draw(game, controllers);
+                DrawDevice(device);
                 GUILayout.BeginHorizontal();
                 {
                     GUIUtil.LabelWithTooltip("Test", "Test this device");
@@ -126,12 +125,44 @@ namespace LoveMachine.Core.UI
                     }
                     GUILayout.EndHorizontal();
                     GUIUtil.SingleSpace();
-                    setting.Draw(game);
+                    Array.ForEach(drawers, drawer => drawer.Draw(setting));
                 }
                 GUILayout.EndVertical();
                 GUIUtil.SingleSpace();
             }
             DeviceManager.DeviceSettings = settings;
+        }
+        
+        private void DrawDevice(Device device)
+        {
+            GUILayout.BeginHorizontal();
+            {
+                GUILayout.FlexibleSpace();
+                GUILayout.Label(device.DeviceName);
+                GUILayout.FlexibleSpace();
+            }
+            GUILayout.EndHorizontal();
+            if (device.HasBatteryLevel)
+            {
+                GUIUtil.SingleSpace();
+                GUILayout.BeginHorizontal();
+                {
+                    GUIUtil.PercentBar("Battery", "Current battery level.", device.BatteryLevel);
+                }
+                GUILayout.EndHorizontal();
+            }
+            GUIUtil.SingleSpace();
+            GUILayout.BeginHorizontal();
+            {
+                GUIUtil.LabelWithTooltip("Features", "What this device can do.");
+                foreach (var controller in controllers)
+                {
+                    GUILayout.Toggle(controller.IsDeviceSupported(device), controller.FeatureName);
+                }
+            }
+            GUILayout.EndHorizontal();
+            GUIUtil.SingleSpace();
+            Array.ForEach(drawers, drawer => drawer.Draw(device.Settings));
         }
 
         private void TestDevice(Device device) => controllers.ToList()
