@@ -65,7 +65,10 @@ class LoveMachineLibrary:
     def connect_lovense_nora(self):
         self._vibrator = device.LovenseNora(wsdm_port)
         self._rotator = self._vibrator
-    
+
+    def connect_lovense_sex_machine(self):
+        self._oscillator = device.LovenseSexMachine(wsdm_port)
+
     def press_key(self, key):
         self._keyboard.tap(key if len(key) == 1 else pynput.keyboard.Key[key])
         time.sleep(1)
@@ -75,16 +78,24 @@ class LoveMachineLibrary:
         time.sleep(1)
 
     def number_of_linear_commands_should_be_at_least(self, min):
-        robot.api.logger.info("Captured linear commands: " + str(self._stroker.linear_cmd_log))
-        assert len(self._stroker.linear_cmd_log) >= min
+        cmds = self._stroker.linear_cmd_log
+        robot.api.logger.info("Captured linear commands: " + str(cmds))
+        assert len(cmds) >= min
     
     def number_of_vibrate_commands_should_be_at_least(self, min):
-        robot.api.logger.info("Captured vibrate commands: " + str(self._vibrator.vibrate_cmd_log))
-        assert len(self._vibrator.vibrate_cmd_log) >= min
+        cmds = self._vibrator.vibrate_cmd_log
+        robot.api.logger.info("Captured vibrate commands: " + str(cmds))
+        assert len(cmds) >= min
 
     def number_of_rotate_commands_should_be_at_least(self, min):
-        robot.api.logger.info("Captured rotate commands: " + str(self._rotator.rotate_cmd_log))
-        assert len(self._rotator.rotate_cmd_log) >= min
+        cmds = self._rotator.rotate_cmd_log
+        robot.api.logger.info("Captured rotate commands: " + str(cmds))
+        assert len(cmds) >= min
+
+    def number_of_oscillate_commands_should_be_at_least(self, min):
+        cmds = self._oscillator.oscillate_cmd_log
+        robot.api.logger.info("Captured oscillate commands: " + str(cmds))
+        assert len(cmds) >= min
 
     def time_between_linear_commands_should_be_about(self, duration_str):
         # discard first command as it's not guaranteed to be aligned
@@ -118,8 +129,14 @@ class LoveMachineLibrary:
         durations_s = [commands_dict[t].millis / 1000 for t in timestamps]
         self._durations_should_be_about(durations_s, duration_str)
 
+    def speeds_of_oscillate_commands_should_all_be(self, expected_speed):
+        assert all(speed == expected_speed for speed in self._oscillator.oscillate_cmd_log.values())
+
     def battery_level_of_vibrator_should_have_been_read(self):
         assert self._vibrator.battery_query_received
+
+    def battery_level_of_oscillator_should_have_been_read(self):
+        assert self._oscillator.battery_query_received
 
     def no_command_should_have_arrived_in_the_last(self, duration_str):
         seconds = robot.libraries.DateTime.convert_time(duration_str)
