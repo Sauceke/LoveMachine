@@ -38,7 +38,7 @@ namespace LoveMachine.Core.Controller
             switch (settings.Pattern)
             {
                 case VibrationPattern.Sine:
-                    return RectifiedSineWave(x);
+                    return AbsSineWave(x);
 
                 case VibrationPattern.Triangle:
                     return TriangleWave(x);
@@ -58,15 +58,15 @@ namespace LoveMachine.Core.Controller
             throw new Exception("unreachable");
         }
 
-        private static float RectifiedSineWave(float x) => Mathf.Abs(Mathf.Cos(Mathf.PI * x));
+        private static float AbsSineWave(float x) => Mathf.Abs(Mathf.Cos(Mathf.PI * x));
 
-        private static float TriangleWave(float x) => 2f * Mathf.Abs((x + 1f) % 1f - 0.5f);
+        private static float TriangleWave(float x) => Mathf.PingPong(x * 2f + 1f, 1f);
 
-        private static float SawWave(float x) => (x % 1f + 1f) % 1f;
+        private static float SawWave(float x) => Mathf.Repeat(x, 1f);
 
         private static float PulseWave(float x) => Mathf.Round(SawWave(x));
 
         private static float CustomWave(float x, float[] pattern) =>
-            pattern[(int)((x % 1f + 1f) % 1f * pattern.Length)];
+            pattern[(int)(SawWave(x) * pattern.Length)];
     }
 }
