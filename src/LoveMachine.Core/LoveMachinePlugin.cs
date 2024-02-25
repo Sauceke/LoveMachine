@@ -25,6 +25,7 @@ namespace LoveMachine.Core
             StrokerConfig.Initialize(this);
             RotatorConfig.Initialize(this);
             ConstrictConfig.Initialize(this);
+            OscillatorConfig.Initialize(this);
             var manager = Globals.ManagerObject;
             manager.AddComponent<KillSwitch>();
             manager.AddComponent<TGame>();
