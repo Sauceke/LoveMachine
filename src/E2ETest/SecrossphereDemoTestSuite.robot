@@ -33,8 +33,15 @@ Rotate Command Count
 Rotate Command Timing
     Time Between Rotate Commands Should Be About       400 ms
 
+Oscillate Command Count
+    Number Of Oscillate Commands Should Be At Least    ${1}
+
+Oscillate Command Speed
+    Speeds Of Oscillate Commands Should All Be         ${0.3}
+
 Battery Level
     Battery Level Of Vibrator Should Have Been Read
+    Battery Level Of Oscillator Should Have Been Read
 
 Kill Switch
     WHEN Press Key                                     space
@@ -50,6 +57,7 @@ Play The Game
     Download Intiface Engine
     Start Intiface Engine
     Connect Lovense Nora
+    Connect Lovense Sex Machine
     Connect OSR2
     Start Secrossphere Demo
     Sleep                          30 seconds    let the game load
