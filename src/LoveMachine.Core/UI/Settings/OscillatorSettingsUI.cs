@@ -13,13 +13,21 @@ namespace LoveMachine.Core.UI.Settings
                 return;
             }
             var defaults = new OscillatorSettings();
-            settings.MaxRpm = GUIUtil.IntSlider(
-                label: "Maximum RPM",
-                tooltip: "Rotations per minute when this device oscillates at full speed.",
-                value: settings.MaxRpm,
-                defaultValue: defaults.MaxRpm,
-                min: 60,
-                max: 600);
+            {
+                float min = settings.MinRpm;
+                float max = settings.MaxRpm;
+                GUIUtil.RangeSlider(
+                    label: "RPM Range",
+                    tooltip: "Range of strokes per minute for this device.",
+                    lower: ref min,
+                    upper: ref max,
+                    lowerDefault: defaults.MinRpm,
+                    upperDefault: defaults.MaxRpm,
+                    min: 10,
+                    max: 600);
+                settings.MinRpm = (int)min;
+                settings.MaxRpm = (int)max;
+            }
             settings.SpeedMixing = GUIUtil.Toggle(
                 label: "Speed Mixing",
                 tooltip: "Match speeds more accurately by modulating between two speeds.",

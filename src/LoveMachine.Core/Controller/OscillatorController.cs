@@ -44,7 +44,8 @@ namespace LoveMachine.Core.Controller
             int steps = feature.StepCount;
             float durationSecs = strokeInfo.DurationSecs;
             float rpm = Mathf.Min(60f / durationSecs, OscillatorConfig.RpmLimit.Value);
-            float speed = Mathf.InverseLerp(0f, settings.MaxRpm, rpm);
+            float level = Mathf.InverseLerp(settings.MinRpm, settings.MaxRpm, rpm);
+            float speed = Mathf.Lerp(1f / steps, 1f, level);
             if (!settings.SpeedMixing)
             {
                 Client.OscillateCmd(device, speed);
