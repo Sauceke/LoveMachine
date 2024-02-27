@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using LoveMachine.Core.Common;
+using UnityEngine;
 
 namespace LoveMachine.Core.UI.Util
 {
@@ -19,9 +20,10 @@ namespace LoveMachine.Core.UI.Util
         }
 
         internal static void RangeSlider(string label, string tooltip,
-            ref float lower, ref float upper, float lowerDefault, float upperDefault,
-            float min, float max)
+            RangeSetting setting, RangeSetting defaults, float min, float max)
         {
+            float lower = setting.Min;
+            float upper = setting.Max;
             GUILayout.BeginHorizontal();
             {
                 LabelWithTooltip(label, tooltip);
@@ -30,17 +32,21 @@ namespace LoveMachine.Core.UI.Util
                 GUILayout.Label(upper.ToString("N2"), GUILayout.ExpandWidth(false));
                 if (ResetButton)
                 {
-                    lower = lowerDefault;
-                    upper = upperDefault;
+                    lower = defaults.Min;
+                    upper = defaults.Max;
                 }
             }
             GUILayout.EndHorizontal();
             SingleSpace();
+            setting.Min = lower;
+            setting.Max = upper;
         }
 
         internal static void PercentRangeSlider(string label, string tooltip,
-            ref float lower, ref float upper, float lowerDefault, float upperDefault)
+            RangeSetting setting, RangeSetting defaults)
         {
+            float lower = setting.Min;
+            float upper = setting.Max;
             GUILayout.BeginHorizontal();
             {
                 LabelWithTooltip(label, tooltip);
@@ -49,12 +55,14 @@ namespace LoveMachine.Core.UI.Util
                 PercentLabel(upper);
                 if (ResetButton)
                 {
-                    lower = lowerDefault;
-                    upper = upperDefault;
+                    lower = defaults.Min;
+                    upper = defaults.Max;
                 }
             }
             GUILayout.EndHorizontal();
             SingleSpace();
+            setting.Min = lower;
+            setting.Max = upper;
         }
 
         public static int IntSlider(string label, string tooltip,

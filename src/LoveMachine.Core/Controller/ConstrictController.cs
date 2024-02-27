@@ -24,8 +24,9 @@ namespace LoveMachine.Core.Controller
         private IEnumerator DoConstrict(Device device, float relativePressure)
         {
             var settings = device.Settings.ConstrictSettings;
+            var pressureRange = settings.PressureRange;
             float pressure = settings.Enabled
-                ? Mathf.Lerp(settings.PressureMin, settings.PressureMax, t: relativePressure)
+                ? Mathf.Lerp(pressureRange.Min, pressureRange.Max, t: relativePressure)
                 : 0f;
             Client.ConstrictCmd(device, pressure);
             yield return new WaitForSecondsRealtime(settings.UpdateIntervalSecs);
@@ -55,8 +56,8 @@ namespace LoveMachine.Core.Controller
 
         private float GetStrokeSpeedBasedPressure(Device device, StrokeInfo strokeInfo) =>
             Mathf.InverseLerp(
-                1f / device.Settings.ConstrictSettings.SpeedSensitivityMin,
-                1f / device.Settings.ConstrictSettings.SpeedSensitivityMax,
+                1f / device.Settings.ConstrictSettings.SpeedSensitivityRange.Min,
+                1f / device.Settings.ConstrictSettings.SpeedSensitivityRange.Max,
                 value: strokeInfo.DurationSecs);
     }
 }

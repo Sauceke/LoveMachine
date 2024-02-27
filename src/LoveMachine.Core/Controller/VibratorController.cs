@@ -17,8 +17,8 @@ namespace LoveMachine.Core.Controller
         {
             float strength = GetStrength(strokeInfo.Completion, device.Settings.VibratorSettings);
             float intensity = Mathf.Lerp(
-                device.Settings.VibratorSettings.IntensityMin,
-                device.Settings.VibratorSettings.IntensityMax,
+                device.Settings.VibratorSettings.IntensityRange.Min,
+                device.Settings.VibratorSettings.IntensityRange.Max,
                 t: strength * Game.VibrationIntensity);
             Client.VibrateCmd(device, intensity);
             yield return WaitForSecondsUnscaled(1f / device.Settings.UpdatesHz);
@@ -26,7 +26,7 @@ namespace LoveMachine.Core.Controller
 
         protected override IEnumerator HandleOrgasm(Device device)
         {
-            Client.VibrateCmd(device, device.Settings.VibratorSettings.IntensityMax);
+            Client.VibrateCmd(device, device.Settings.VibratorSettings.IntensityRange.Max);
             yield break;
         }
 

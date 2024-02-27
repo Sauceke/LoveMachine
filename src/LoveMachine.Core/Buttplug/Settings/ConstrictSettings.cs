@@ -1,12 +1,12 @@
-﻿namespace LoveMachine.Core.Buttplug.Settings
+﻿using LoveMachine.Core.Common;
+
+namespace LoveMachine.Core.Buttplug.Settings
 {
     public class ConstrictSettings
     {
         public bool Enabled { get; set; } = true;
-        public float PressureMin { get; set; } = 0f;
-        public float PressureMax { get; set; } = 1f;
-        public float SpeedSensitivityMin { get; set; } = 1f;
-        public float SpeedSensitivityMax { get; set; } = 3f;
+        public RangeSetting PressureRange { get; set; } = new RangeSetting(0f, 1f);
+        public RangeSetting SpeedSensitivityRange { get; set; } = new RangeSetting(1f, 3f);
         public int UpdateIntervalSecs { get; set; } = 5;
     }
 }

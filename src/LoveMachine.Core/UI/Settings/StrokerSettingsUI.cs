@@ -20,32 +20,16 @@ namespace LoveMachine.Core.UI.Settings
                 defaultValue: defaults.MaxStrokesPerMin,
                 min: 60,
                 max: 300);
-            {
-                float min = settings.SlowStrokeZoneMin;
-                float max = settings.SlowStrokeZoneMax;
-                GUIUtil.PercentRangeSlider(
-                    label: "Stroke Zone - Slow",
-                    tooltip: "Range of stroking movement when going slow",
-                    lower: ref min,
-                    upper: ref max,
-                    lowerDefault: defaults.SlowStrokeZoneMin,
-                    upperDefault: defaults.SlowStrokeZoneMax);
-                settings.SlowStrokeZoneMin = min;
-                settings.SlowStrokeZoneMax = max;
-            }
-            {
-                float min = settings.FastStrokeZoneMin;
-                float max = settings.FastStrokeZoneMax;
-                GUIUtil.PercentRangeSlider(
-                    label: "Stroke Zone - Fast",
-                    tooltip: "Range of stroking movement when going fast",
-                    lower: ref min,
-                    upper: ref max,
-                    lowerDefault: defaults.FastStrokeZoneMin,
-                    upperDefault: defaults.FastStrokeZoneMax);
-                settings.FastStrokeZoneMin = min;
-                settings.FastStrokeZoneMax = max;
-            }
+            GUIUtil.PercentRangeSlider(
+                label: "Stroke Zone - Slow",
+                tooltip: "Range of stroking movement when going slow",
+                setting: settings.SlowStrokeZone,
+                defaults: defaults.SlowStrokeZone);
+            GUIUtil.PercentRangeSlider(
+                label: "Stroke Zone - Fast",
+                tooltip: "Range of stroking movement when going fast",
+                setting: settings.FastStrokeZone,
+                defaults: defaults.FastStrokeZone);
             settings.SmoothStroking = GUIUtil.Toggle(
                 label: "Smooth Stroking",
                 tooltip: "Warning: not all strokers support this.",

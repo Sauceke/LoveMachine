@@ -16,19 +16,11 @@ namespace LoveMachine.Core.UI.Settings
                 return;
             }
             var defaults = new VibratorSettings();
-            {
-                float min = settings.IntensityMin;
-                float max = settings.IntensityMax;
-                GUIUtil.PercentRangeSlider(
-                    label: "Intensity Range",
-                    tooltip: "Range of vibration strength",
-                    lower: ref min,
-                    upper: ref max,
-                    lowerDefault: defaults.IntensityMin,
-                    upperDefault: defaults.IntensityMax);
-                settings.IntensityMin = min;
-                settings.IntensityMax = max;
-            }
+            GUIUtil.PercentRangeSlider(
+                label: "Intensity Range",
+                tooltip: "Range of vibration strength",
+                setting: settings.IntensityRange,
+                defaults: defaults.IntensityRange);
             settings.Pattern = (VibrationPattern)GUIUtil.MultiChoice(
                 label: "Vibration Pattern",
                 tooltip: "Waveform of vibrations",
