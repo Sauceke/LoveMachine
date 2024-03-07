@@ -16,6 +16,7 @@ namespace LoveMachine.Core.UI.Settings
                 return;
             }
             var defaults = new VibratorSettings();
+            GUIUtil.Title("Vibration Settings");
             GUIUtil.PercentRangeSlider(
                 label: "Intensity Range",
                 tooltip: "Range of vibration strength",

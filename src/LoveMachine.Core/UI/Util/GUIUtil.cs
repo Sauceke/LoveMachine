@@ -5,6 +5,18 @@ namespace LoveMachine.Core.UI.Util
 {
     internal static class GUIUtil
     {
+        internal static void Title(string title)
+        {
+            GUILayout.BeginHorizontal();
+            {
+                GUILayout.FlexibleSpace();
+                GUILayout.Label(title);
+                GUILayout.FlexibleSpace();
+            }
+            GUILayout.EndHorizontal();
+            SingleSpace();
+        }
+        
         internal static void PercentBar(string label, string tooltip, float value)
         {
             GUILayout.BeginHorizontal();

@@ -13,6 +13,7 @@ namespace LoveMachine.Core.UI.Settings
                 return;
             }
             var defaults = new ConstrictSettings();
+            GUIUtil.Title("Pressure Settings");
             settings.Enabled = GUIUtil.Toggle(
                 label: "Enable Pressure Control",
                 tooltip: "Turns pressure control on/off",

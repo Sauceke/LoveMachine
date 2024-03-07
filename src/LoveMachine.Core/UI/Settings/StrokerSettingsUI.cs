@@ -13,6 +13,7 @@ namespace LoveMachine.Core.UI.Settings
                 return;
             }
             var defaults = new StrokerSettings();
+            GUIUtil.Title("Stroker Settings");
             settings.MaxStrokesPerMin = GUIUtil.IntSlider(
                 label: "Max Strokes Per Minute",
                 tooltip: "The top speed possible on this stroker at 100% stroke length.",

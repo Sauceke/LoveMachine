@@ -74,57 +74,40 @@ namespace LoveMachine.Core.UI
                 }
                 foreach (var device in cachedDeviceList)
                 {
-                    DrawDevicePanel(device);
+                    DrawDevice(device);
                 }
                 if (DeviceListConfig.ShowOfflineDevices.Value)
                 {
-                    DrawOfflineDeviceList(cachedDeviceList);
+                    DrawOfflineDeviceList();
                 }
             }
             GUILayout.EndVertical();
         }
 
-        private void DrawDevicePanel(Device device)
+        private void DrawDevice(Device device)
         {
             GUILayout.BeginVertical(GetDevicePanelStyle());
             {
-                DrawDevice(device);
-                GUILayout.BeginHorizontal();
-                {
-                    GUIUtil.LabelWithTooltip("Test", "Test this device");
-                    GUILayout.HorizontalSlider(testPosition, 0f, 1f);
-                    GUIUtil.SingleSpace();
-                    if (GUILayout.Button("Test", GUILayout.ExpandWidth(false)))
-                    {
-                        TestDevice(device);
-                    }
-                }
-                GUILayout.EndHorizontal();
-                GUIUtil.SingleSpace();
+                GUIUtil.Title(device.DeviceName);
+                DrawDeviceInfo(device);
+                Array.ForEach(drawers, drawer => drawer.Draw(device.Settings));
             }
             GUILayout.EndVertical();
             GUIUtil.SingleSpace();
         }
 
-        private void DrawOfflineDeviceList(List<Device> onlineDevices)
+        private void DrawOfflineDeviceList()
         {
             var settings = DeviceManager.DeviceSettings;
             foreach (var setting in settings)
             {
-                if (onlineDevices.Any(device => device.Matches(setting)))
+                if (cachedDeviceList.Any(device => device.Matches(setting)))
                 {
                     continue;
                 }
                 GUILayout.BeginVertical(GetOfflineDevicePanelStyle());
                 {
-                    GUILayout.BeginHorizontal();
-                    {
-                        GUILayout.FlexibleSpace();
-                        GUILayout.Label($"{setting.DeviceName} (Offline)");
-                        GUILayout.FlexibleSpace();
-                    }
-                    GUILayout.EndHorizontal();
-                    GUIUtil.SingleSpace();
+                    GUIUtil.Title($"{setting.DeviceName} (Offline)");
                     Array.ForEach(drawers, drawer => drawer.Draw(setting));
                 }
                 GUILayout.EndVertical();
@@ -133,25 +116,12 @@ namespace LoveMachine.Core.UI
             DeviceManager.DeviceSettings = settings;
         }
         
-        private void DrawDevice(Device device)
+        private void DrawDeviceInfo(Device device)
         {
-            GUILayout.BeginHorizontal();
-            {
-                GUILayout.FlexibleSpace();
-                GUILayout.Label(device.DeviceName);
-                GUILayout.FlexibleSpace();
-            }
-            GUILayout.EndHorizontal();
             if (device.HasBatteryLevel)
             {
-                GUIUtil.SingleSpace();
-                GUILayout.BeginHorizontal();
-                {
-                    GUIUtil.PercentBar("Battery", "Current battery level.", device.BatteryLevel);
-                }
-                GUILayout.EndHorizontal();
+                GUIUtil.PercentBar("Battery", "Current battery level.", device.BatteryLevel);
             }
-            GUIUtil.SingleSpace();
             GUILayout.BeginHorizontal();
             {
                 GUIUtil.LabelWithTooltip("Features", "What this device can do.");
@@ -162,7 +132,18 @@ namespace LoveMachine.Core.UI
             }
             GUILayout.EndHorizontal();
             GUIUtil.SingleSpace();
-            Array.ForEach(drawers, drawer => drawer.Draw(device.Settings));
+            GUILayout.BeginHorizontal();
+            {
+                GUIUtil.LabelWithTooltip("Test", "Test this device");
+                GUILayout.HorizontalSlider(testPosition, 0f, 1f);
+                GUIUtil.SingleSpace();
+                if (GUILayout.Button("Test", GUILayout.ExpandWidth(false)))
+                {
+                    TestDevice(device);
+                }
+            }
+            GUILayout.EndHorizontal();
+            GUIUtil.SingleSpace();
         }
 
         private void TestDevice(Device device) => controllers.ToList()
