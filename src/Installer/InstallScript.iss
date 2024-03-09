@@ -50,7 +50,7 @@ Compression=lzma2
 SolidCompression=yes
 OutputDir=bin
 OutputBaseFilename=LoveMachineInstaller
-WizardStyle=modern
+WizardStyle=classic
 DisableDirPage=yes
 DisableWelcomePage=no
 PrivilegesRequired=lowest
@@ -183,10 +183,10 @@ end;
 
 function ShouldInstallBepInEx(Index: Integer; Architecture: String): Boolean;
 var
-    BepInExConfigDir: String;
+    BepInExCoreDir: String;
 begin
-    BepInExConfigDir := AddBackslash(GetDir(IntToStr(Index))) + 'BepInEx\config';
-    Result := (not DirExists(BepInExConfigDir)) and (GetGameArchitecture(Index) = Architecture);
+    BepInExCoreDir := AddBackslash(GetDir(IntToStr(Index))) + 'BepInEx\core';
+    Result := (not DirExists(BepInExCoreDir)) and (GetGameArchitecture(Index) = Architecture);
 end;
 
 function GetPreviousDataKey(Index: Integer): String;
