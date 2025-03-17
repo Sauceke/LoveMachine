@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Linq;
 using LoveMachine.Core.Buttplug;
 using LoveMachine.Core.Config;
 using LoveMachine.Core.Game;
@@ -10,25 +11,26 @@ namespace LoveMachine.Core.Controller
     internal sealed class ConstrictController : ClassicButtplugController
     {
         public override string FeatureName => "Pressure";
-        
-        public override bool IsDeviceSupported(Device device) => device.IsConstrictor;
 
-        protected override IEnumerator HandleAnimation(Device device, StrokeInfo strokeInfo) =>
-            DoConstrict(device, GetPressure(device, strokeInfo));
+        public override Buttplug.Buttplug.Feature[] GetSupportedFeatures(Device device) =>
+            device.DeviceMessages.ScalarCmd.Where(feature => feature.IsConstrictor).ToArray();
 
-        protected override IEnumerator HandleOrgasm(Device device) => DoConstrict(device, 1f);
+        protected override IEnumerator HandleAnimation(DeviceFeature feature, StrokeInfo strokeInfo) =>
+            DoConstrict(feature, GetPressure(feature.Device, strokeInfo));
+
+        protected override IEnumerator HandleOrgasm(DeviceFeature feature) => DoConstrict(feature, 1f);
         
-        protected override void HandleLevel(Device device, float level, float durationSecs)
+        protected override void HandleLevel(DeviceFeature feature, float level, float durationSecs)
         { }
 
-        private IEnumerator DoConstrict(Device device, float relativePressure)
+        private IEnumerator DoConstrict(DeviceFeature feature, float relativePressure)
         {
-            var settings = device.Settings.ConstrictSettings;
+            var settings = feature.Device.Settings.ConstrictSettings;
             var pressureRange = settings.PressureRange;
             float pressure = settings.Enabled
                 ? Mathf.Lerp(pressureRange.Min, pressureRange.Max, t: relativePressure)
                 : 0f;
-            Client.ConstrictCmd(device, pressure);
+            Client.ConstrictCmd(feature, pressure);
             yield return new WaitForSecondsRealtime(settings.UpdateIntervalSecs);
         }
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using LoveMachine.Core.Buttplug;
 using LoveMachine.Core.Buttplug.Settings;
 using LoveMachine.Core.UI.Util;
 using UnityEngine;

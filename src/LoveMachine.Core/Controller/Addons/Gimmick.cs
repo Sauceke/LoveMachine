@@ -19,18 +19,18 @@ namespace LoveMachine.Core.Controller.Addons
         /// do whatever needs to be done.
         /// </summary>
         [HideFromIl2Cpp]
-        protected abstract IEnumerator Run(Device device);
+        protected abstract IEnumerator Run(DeviceFeature feature);
 
-        internal IEnumerator Run(Device device, HandleLevel handleLevel, HandleStroke handleStroke)
+        internal IEnumerator Run(DeviceFeature feature, HandleLevel handleLevel, HandleStroke handleStroke)
         {
             SetLevel = handleLevel;
             DoStroke = handleStroke;
-            yield return Run(device);
+            yield return Run(feature);
         }
         
-        protected internal delegate void HandleLevel(Device device, float level,
+        protected internal delegate void HandleLevel(DeviceFeature feature, float level,
             float durationSecs);
         
-        protected internal delegate IEnumerator HandleStroke(Device device, float durationSecs);
+        protected internal delegate IEnumerator HandleStroke(DeviceFeature feature, float durationSecs);
     }
 }

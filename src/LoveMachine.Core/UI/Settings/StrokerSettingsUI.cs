@@ -1,9 +1,10 @@
-﻿using LoveMachine.Core.Buttplug.Settings;
+﻿using LoveMachine.Core.Buttplug;
+using LoveMachine.Core.Buttplug.Settings;
 using LoveMachine.Core.UI.Util;
 
 namespace LoveMachine.Core.UI.Settings
 {
-    internal class StrokerSettingsUI: SettingsUI
+    internal class StrokerSettingsUI : SettingsUI
     {
         public override void Draw(DeviceSettings deviceSettings)
         {

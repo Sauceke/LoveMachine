@@ -10,8 +10,8 @@ namespace LoveMachine.Core.Controller
 {
     internal abstract class ButtplugController : CoroutineHandler
     {
-        private readonly Dictionary<Device, float> normalizedLatencies =
-            new Dictionary<Device, float>();
+        private readonly Dictionary<DeviceFeature, float> normalizedLatencies =
+            new Dictionary<DeviceFeature, float>();
         
         private AnimationAnalyzer analyzer;
         
@@ -23,11 +23,13 @@ namespace LoveMachine.Core.Controller
         
         [HideFromIl2Cpp]
         public abstract string FeatureName { get; }
-        
-        public abstract bool IsDeviceSupported(Device device);
 
-        protected abstract IEnumerator Run(Device device);
-        
+        public abstract Buttplug.Buttplug.Feature[] GetSupportedFeatures(Device device);
+
+        protected abstract IEnumerator Run(DeviceFeature feature);
+
+        public bool IsDeviceSupported(Device device) => GetSupportedFeatures(device).Any();
+
         private void Start()
         {
             Client = GetComponent<ButtplugWsClient>();
@@ -61,15 +63,20 @@ namespace LoveMachine.Core.Controller
         {
             foreach (var device in Client.Devices.Where(IsDeviceSupported))
             {
-                Logger.LogInfo($"Running controller {GetType().Name} " +
-                               $"on device #{device.DeviceIndex} ({device.DeviceName}).");
-                HandleCoroutine(Run(device));
-                HandleCoroutine(RunLatencyUpdateLoop(device));
+                foreach (var feature in GetSupportedFeatures(device))
+                {
+                    var deviceFeature = new DeviceFeature(device, feature);
+                    Logger.LogInfo($"Running controller {GetType().Name} on feature" +
+                        $"{feature.ActuatorType} (#{deviceFeature.FeatureIndex}) of device" +
+                        $"{device.DeviceName} (#{device.DeviceIndex}).");
+                    HandleCoroutine(Run(deviceFeature));
+                    HandleCoroutine(RunLatencyUpdateLoop(deviceFeature));
+                }
             }
             yield break;
         }
         
-        private IEnumerator RunLatencyUpdateLoop(Device device)
+        private IEnumerator RunLatencyUpdateLoop(DeviceFeature feature)
         {
             while (true)
             {
@@ -77,26 +84,26 @@ namespace LoveMachine.Core.Controller
                 // there's a gradual change in animation speed
                 // updating every 3s and caching the result solves this
                 yield return new WaitForSecondsRealtime(3f);
-                float animTimeSecs = Game.GetAnimationTimeSecs(device.Settings.GirlIndex);
-                normalizedLatencies[device] = device.Settings.LatencyMs / 1000f / animTimeSecs;
+                float animTimeSecs = Game.GetAnimationTimeSecs(feature.Settings.GirlIndex);
+                normalizedLatencies[feature] = feature.Device.Settings.LatencyMs / 1000f / animTimeSecs;
             }
         }
 
-        private float GetLatencyCorrectedNormalizedTime(Device device)
+        private float GetLatencyAndPhaseCorrectedNormalizedTime(DeviceFeature feature)
         {
-            if (!normalizedLatencies.TryGetValue(device, out float normalizedLatency))
+            if (!normalizedLatencies.TryGetValue(feature, out float normalizedLatency))
             {
                 normalizedLatency = 0f;
             }
-            Game.GetAnimState(device.Settings.GirlIndex, out float currentNormTime, out _, out _);
-            return currentNormTime + normalizedLatency;
+            Game.GetAnimState(feature.Settings.GirlIndex, out float currentNormTime, out _, out _);
+            return currentNormTime + normalizedLatency + feature.Settings.PhaseShift;
         }
 
-        protected virtual bool TryGetCurrentStrokeInfo(Device device, out StrokeInfo result)
+        protected virtual bool TryGetCurrentStrokeInfo(DeviceFeature feature, out StrokeInfo result)
         {
-            var girlIndex = device.Settings.GirlIndex;
-            var bone = device.Settings.Bone;
-            float normalizedTime = GetLatencyCorrectedNormalizedTime(device);
+            var girlIndex = feature.Settings.GirlIndex;
+            var bone = feature.Settings.Bone;
+            float normalizedTime = GetLatencyAndPhaseCorrectedNormalizedTime(feature);
             return analyzer.TryGetCurrentStrokeInfo(girlIndex, bone, normalizedTime, out result);
         }
         

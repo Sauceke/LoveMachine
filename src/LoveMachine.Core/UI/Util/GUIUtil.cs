@@ -16,7 +16,7 @@ namespace LoveMachine.Core.UI.Util
             GUILayout.EndHorizontal();
             SingleSpace();
         }
-        
+
         internal static void PercentBar(string label, string tooltip, float value)
         {
             GUILayout.BeginHorizontal();
@@ -75,6 +75,25 @@ namespace LoveMachine.Core.UI.Util
             SingleSpace();
             setting.Min = lower;
             setting.Max = upper;
+        }
+
+        public static float FloatSlider(string label, string tooltip,
+            float value, float defaultValue, float min, float max)
+        {
+            GUILayout.BeginHorizontal();
+            {
+                LabelWithTooltip(label, tooltip);
+                value = GUILayout.HorizontalSlider(value, min, max);
+                value = float.Parse(GUILayout.TextField(value.ToString("N2"), GUILayout.Width(50)));
+                if (ResetButton)
+                {
+                    value = defaultValue;
+                }
+                value = Mathf.Clamp(value, min, max);
+            }
+            GUILayout.EndHorizontal();
+            SingleSpace();
+            return value;
         }
 
         public static int IntSlider(string label, string tooltip,

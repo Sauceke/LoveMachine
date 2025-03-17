@@ -90,7 +90,7 @@ namespace LoveMachine.Core.UI
             {
                 GUIUtil.Title(device.DeviceName);
                 DrawDeviceInfo(device);
-                Array.ForEach(drawers, drawer => drawer.Draw(device.Settings));
+                Array.ForEach(drawers, drawer => drawer.Draw(device));
             }
             GUILayout.EndVertical();
             GUIUtil.SingleSpace();

@@ -37,6 +37,7 @@ namespace LoveMachine.Core
             manager.AddComponent<ConstrictController>();
             manager.AddComponent<DeviceListUI>();
             manager.AddComponent<DeviceSettingsUI>();
+            manager.AddComponent<FeatureSettingsUI>();
             manager.AddComponent<StrokerSettingsUI>();
             manager.AddComponent<VibratorSettingsUI>();
             manager.AddComponent<ConstrictSettingsUI>();

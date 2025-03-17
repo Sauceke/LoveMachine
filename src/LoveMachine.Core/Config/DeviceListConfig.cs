@@ -31,7 +31,7 @@ namespace LoveMachine.Core.Config
                     tags: new ConfigurationManagerAttributes { Order = --order }));
             DeviceSettingsJson = plugin.Config.Bind(
                 section: deviceListTitle,
-                key: "Devices",
+                key: "Device Settings",
                 defaultValue: "[]",
                 new ConfigDescription("",
                     tags: new ConfigurationManagerAttributes

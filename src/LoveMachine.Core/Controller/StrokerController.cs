@@ -11,12 +11,13 @@ namespace LoveMachine.Core.Controller
     {
         public override string FeatureName => "Position";
         
-        public override bool IsDeviceSupported(Device device) => device.IsStroker;
+        public override Buttplug.Buttplug.Feature[] GetSupportedFeatures(Device device) =>
+            device.DeviceMessages.LinearCmd;
 
-        protected override IEnumerator HandleAnimation(Device device, StrokeInfo strokeInfo)
+        protected override IEnumerator HandleAnimation(DeviceFeature feature, StrokeInfo strokeInfo)
         {
-            var settings = device.Settings.StrokerSettings;
-            int updateFrequency = device.Settings.UpdatesHz;
+            var settings = feature.Device.Settings.StrokerSettings;
+            int updateFrequency = feature.Device.Settings.UpdatesHz;
             float durationSecs = strokeInfo.DurationSecs;
             // max number of subdivisions given the update frequency
             int subdivisions = 2 * (int)Mathf.Max(1f, durationSecs * updateFrequency / 2);
@@ -34,26 +35,26 @@ namespace LoveMachine.Core.Controller
             float speed = (nextPosition - currentPosition) / timeToNextSegmentSecs;
             speed *= movingUp ? 1f : 1f + Game.StrokingIntensity;
             float timeToTargetSecs = (targetPosition - currentPosition) / speed;
-            Client.LinearCmd(device, targetPosition, timeToTargetSecs);
+            Client.LinearCmd(feature, targetPosition, timeToTargetSecs);
             yield return WaitForSecondsUnscaled(timeToNextSegmentSecs - Time.deltaTime);
         }
 
-        protected override IEnumerator HandleOrgasm(Device device)
+        protected override IEnumerator HandleOrgasm(DeviceFeature feature)
         {
             float bottom = StrokerConfig.OrgasmDepth.Value;
             float time = 0.5f / StrokerConfig.OrgasmShakingFrequency.Value;
-            float top = bottom + device.Settings.StrokerSettings.MaxStrokesPerMin / 60f / 2f * time;
+            float top = bottom + feature.Device.Settings.StrokerSettings.MaxStrokesPerMin / 60f / 2f * time;
             while (true)
             {
-                Client.LinearCmd(device, top, time);
+                Client.LinearCmd(feature, top, time);
                 yield return new WaitForSecondsRealtime(time);
-                Client.LinearCmd(device, bottom, time);
+                Client.LinearCmd(feature, bottom, time);
                 yield return new WaitForSecondsRealtime(time);
             }
         }
 
-        protected override void HandleLevel(Device device, float level, float durationSecs) =>
-            Client.LinearCmd(device, level, durationSecs);
+        protected override void HandleLevel(DeviceFeature feature, float level, float durationSecs) =>
+            Client.LinearCmd(feature, level, durationSecs);
 
         private static float Sinusoid(float x) =>
             Mathf.InverseLerp(1f, -1f, Mathf.Cos(2 * Mathf.PI * x));

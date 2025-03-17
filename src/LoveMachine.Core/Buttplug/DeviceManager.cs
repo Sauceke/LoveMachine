@@ -40,11 +40,11 @@ namespace LoveMachine.Core.Buttplug
             settings = devices.Select(device => device.Settings).Concat(settings).ToList();
             if (exiting && !DeviceListConfig.SaveDeviceMapping.Value)
             {
-                var defaults = new DeviceSettings();
+                var defaults = new FeatureSettings();
                 foreach (var setting in settings)
                 {
-                    setting.GirlIndex = defaults.GirlIndex;
-                    setting.Bone = defaults.Bone;
+                    setting.GlobalFeatureSettings.GirlIndex = defaults.GirlIndex;
+                    setting.GlobalFeatureSettings.Bone = defaults.Bone;
                 }
             }
             DeviceSettings = settings;

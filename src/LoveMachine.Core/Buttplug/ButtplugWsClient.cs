@@ -58,17 +58,27 @@ namespace LoveMachine.Core.Buttplug
             CleanUp();
         }
 
-        public void LinearCmd(Device device, float position, float durationSecs) =>
-            SendWithConsent(Buttplug.LinearCmd(device, position, durationSecs));
+        public void LinearCmd(DeviceFeature feature, float position, float durationSecs) =>
+            SendWithConsent(
+                Buttplug.LinearCmd(feature.Device, feature.FeatureIndex, position, durationSecs),
+                feature);
 
-        public void VibrateCmd(Device device, float intensity) =>
-            SendWithConsent(Buttplug.ScalarCmd(device, intensity, Buttplug.Feature.Vibrate));
+        public void VibrateCmd(DeviceFeature feature, float intensity) =>
+            SendWithConsent(
+                Buttplug.ScalarCmd(feature.Device, feature.FeatureIndex, intensity,
+                    Buttplug.Feature.Vibrate),
+                feature);
 
-        public void ConstrictCmd(Device device, float pressure) =>
-            SendWithConsent(Buttplug.ScalarCmd(device, pressure, Buttplug.Feature.Constrict));
+        public void ConstrictCmd(DeviceFeature feature, float pressure) =>
+            SendWithConsent(
+                Buttplug.ScalarCmd(feature.Device, feature.FeatureIndex, pressure,
+                    Buttplug.Feature.Constrict),
+                feature);
 
-        public void RotateCmd(Device device, float speed, bool clockwise) =>
-            SendWithConsent(Buttplug.RotateCmd(device, speed, clockwise));
+        public void RotateCmd(DeviceFeature feature, float speed, bool clockwise) =>
+            SendWithConsent(
+                Buttplug.RotateCmd(feature.Device, feature.FeatureIndex, speed, clockwise),
+                feature);
 
         public void BatteryLevelCmd(Device device) => Send(Buttplug.BatteryLevelCmd(device));
 
@@ -92,9 +102,9 @@ namespace LoveMachine.Core.Buttplug
 
         private void Send(object command) => websocket.Send(JsonMapper.ToJson(new[] { command }));
 
-        private void SendWithConsent(object command)
+        private void SendWithConsent(object command, DeviceFeature feature)
         {
-            if (IsConsensual)
+            if (IsConsensual && feature.Settings.Enabled)
             {
                 Send(command);
             }
@@ -157,7 +167,7 @@ namespace LoveMachine.Core.Buttplug
         }
 
         private bool CheckOkMsg(JsonData data) => data.ContainsKey("Ok");
-        
+
         private bool CheckErrorMsg(JsonData data)
         {
             if (!data.ContainsKey("Error"))
@@ -233,7 +243,7 @@ namespace LoveMachine.Core.Buttplug
             var args = new DeviceListEventArgs(before: oldDevices, after: Devices);
             OnDeviceListUpdated.Invoke(this, args);
         }
-        
+
         private IEnumerator RunReceiveLoop()
         {
             while (true)
@@ -245,7 +255,7 @@ namespace LoveMachine.Core.Buttplug
                 yield return new WaitForSecondsRealtime(1f);
             }
         }
-        
+
         private IEnumerator RunBatteryLoop()
         {
             while (true)

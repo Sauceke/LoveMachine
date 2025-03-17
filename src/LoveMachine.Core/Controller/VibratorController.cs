@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using LoveMachine.Core.Buttplug;
 using LoveMachine.Core.Buttplug.Settings;
 using LoveMachine.Core.Game;
@@ -11,27 +13,28 @@ namespace LoveMachine.Core.Controller
     {
         public override string FeatureName => "Vibration";
         
-        public override bool IsDeviceSupported(Device device) => device.IsVibrator;
+        public override Buttplug.Buttplug.Feature[] GetSupportedFeatures(Device device) =>
+            device.DeviceMessages.ScalarCmd.Where(feature => feature.IsVibrator).ToArray();
 
-        protected override IEnumerator HandleAnimation(Device device, StrokeInfo strokeInfo)
+        protected override IEnumerator HandleAnimation(DeviceFeature feature, StrokeInfo strokeInfo)
         {
-            float strength = GetStrength(strokeInfo.Completion, device.Settings.VibratorSettings);
+            float strength = GetStrength(strokeInfo.Completion, feature.Device.Settings.VibratorSettings);
             float intensity = Mathf.Lerp(
-                device.Settings.VibratorSettings.IntensityRange.Min,
-                device.Settings.VibratorSettings.IntensityRange.Max,
+                feature.Device.Settings.VibratorSettings.IntensityRange.Min,
+                feature.Device.Settings.VibratorSettings.IntensityRange.Max,
                 t: strength * Game.VibrationIntensity);
-            Client.VibrateCmd(device, intensity);
-            yield return WaitForSecondsUnscaled(1f / device.Settings.UpdatesHz);
+            Client.VibrateCmd(feature, intensity);
+            yield return WaitForSecondsUnscaled(1f / feature.Device.Settings.UpdatesHz);
         }
 
-        protected override IEnumerator HandleOrgasm(Device device)
+        protected override IEnumerator HandleOrgasm(DeviceFeature feature)
         {
-            Client.VibrateCmd(device, device.Settings.VibratorSettings.IntensityRange.Max);
+            Client.VibrateCmd(feature, feature.Device.Settings.VibratorSettings.IntensityRange.Max);
             yield break;
         }
 
-        protected override void HandleLevel(Device device, float level, float durationSecs) =>
-            Client.VibrateCmd(device, level);
+        protected override void HandleLevel(DeviceFeature feature, float level, float durationSecs) =>
+            Client.VibrateCmd(feature, level);
 
         private static float GetStrength(float x, VibratorSettings settings)
         {
