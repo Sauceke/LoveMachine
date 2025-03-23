@@ -31,9 +31,11 @@ jobs:
 
     steps:
       - name: Download artifacts
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
-          path: src
+          path: src/assets
+          name: assets
+          merge-multiple: true
 
       - name: Create release
         id: create_release

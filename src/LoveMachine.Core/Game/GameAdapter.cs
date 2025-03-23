@@ -92,13 +92,6 @@ namespace LoveMachine.Core.Game
         protected internal virtual float MinStrokeLength => 0.5f;
 
         /// <summary>
-        /// Override this to control the maximum vibration intensity. <br/>
-        /// Value must be between 0 (=no vibration) and 1 (=full intensity).
-        /// </summary>
-        [HideFromIl2Cpp]
-        protected internal virtual float VibrationIntensity => 1f;
-
-        /// <summary>
         /// Override this to control the speed of down-strokes. <br/>
         /// Value must be between 0 (=normal speed) and 1 (=2x speed).
         /// </summary>

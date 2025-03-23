@@ -57,8 +57,6 @@ namespace LoveMachine.KK
 
         protected override float PenisSize => 0.1f;
 
-        protected override float VibrationIntensity => Flags.speedCalc == 0f ? 1f : Flags.speedCalc;
-
         protected override MethodInfo[] StartHMethods =>
             new[] { AccessTools.Method(typeof(HFlag), nameof(HFlag.Start)) };
 

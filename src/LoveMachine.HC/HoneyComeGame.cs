@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Reflection;
 using HarmonyLib;
+using Il2CppInterop.Runtime.InteropTypes.Arrays;
 using LoveMachine.Core.Common;
 using LoveMachine.Core.Game;
 using UnityEngine;
@@ -62,21 +63,20 @@ public class HoneyComeGame: GameAdapter
 
     protected override bool IsOrgasming(int girlIndex) => nowOrgasm.Value;
     
-    protected override IEnumerator UntilReady(object hscene)
+    protected override IEnumerator UntilReady(object instance)
     {
         yield return new WaitForSeconds(10f);
-        ctrlFlag = Traverse.Create(hscene).Property("CtrlFlag");
+        var hscene = Traverse.Create(instance);
+        ctrlFlag = hscene.Property("CtrlFlag");
         loopType = ctrlFlag.Property<int>("LoopType");
         nowOrgasm = ctrlFlag.Property<bool>("NowOrgasm");
-        females = new[] { "chaF_00", "chaF_01" }
-            .Select(GameObject.Find)
-            .Where(go => go != null && go.active)
-            .Select(chara => chara.transform.Find("BodyTop/p_cf_jm_body_bone_00").gameObject)
+        females = hscene.Property<Il2CppReferenceArray<Transform>>("_chaFemalesTrans").Value
+            .Where(tf => tf != null && tf.gameObject.active)
+            .Select(chara => chara.Find("BodyTop/p_cf_jm_body_bone_00").gameObject)
             .ToArray();
-        penises = new[] { "chaM_00", "chaM_01" }
-            .Select(GameObject.Find)
-            .Where(go => go != null && go.active)
-            .Select(chara => FindDeepChildrenByPath(chara, "k_f_tamaC_00").First())
+        penises = hscene.Property<Il2CppReferenceArray<Transform>>("_chaMalesTrans").Value
+            .Where(tf => tf != null && tf.gameObject.active)
+            .Select(chara => FindDeepChildrenByPath(chara.gameObject, "k_f_tamaC_00").First())
             .ToArray();
     }
 }

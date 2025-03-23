@@ -155,13 +155,16 @@ namespace LoveMachine.Core.Buttplug
         {
             internal const string Vibrate = "Vibrate";
             internal const string Constrict = "Constrict";
+            internal const string Oscillate = "Oscillate";
             internal const string Battery = "Battery";
 
             public string ActuatorType { get; set; }
             public string SensorType { get; set; }
+            public int StepCount { get; set; }
 
             public bool IsVibrator => ActuatorType == Vibrate;
             public bool IsConstrictor => ActuatorType == Constrict;
+            public bool IsOscillator => ActuatorType == Oscillate;
             public bool HasBatteryLevel => SensorType == Battery;
         }
 

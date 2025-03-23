@@ -1,13 +1,13 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
         <TargetFramework>net6.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
         <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
-        <OutputPath>..\bin\LoveMachine.OA\BepInEx\plugins\OA_LoveMachine\</OutputPath>
+        <OutputPath>..\bin\LoveMachine.HC.DigitalCraft\BepInEx\plugins\HC.DigitalCraft_LoveMachine\</OutputPath>
         <RuntimeIdentifier>none</RuntimeIdentifier>
     </PropertyGroup>
     <ItemGroup>
-        <ProjectReference Include="..\LoveMachine.Core.IL2CPP\LoveMachine.Core.IL2CPP.csproj"/>
+        <ProjectReference Include="..\LoveMachine.Core.IL2CPP\LoveMachine.Core.IL2CPP.csproj" />
     </ItemGroup>
 </Project>

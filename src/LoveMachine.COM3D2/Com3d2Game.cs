@@ -14,8 +14,9 @@ namespace LoveMachine.COM3D2
     {
         private const string SpineF = "Bip01/Bip01 Spine/Bip01 Spine0a/Bip01 Spine1/Bip01 Spine1a";
         private const string PelvisF = "Bip01/Bip01 Pelvis";
+        private const string FallbackPoseName = "???";
 
-        private readonly string[] idlePoseNames = { "taiki", "nade", "shaseigo" };
+        private readonly string[] idlePoseNames = { "taiki", "nade", "shaseigo", FallbackPoseName };
         private readonly string[] climaxPoseNames = { "shasei_", "zeccyou_" };
 
         private TimeUnlooper unlooper;
@@ -47,10 +48,20 @@ namespace LoveMachine.COM3D2
         protected override int AnimationLayer => throw new NotImplementedException();
 
         protected override MethodInfo[] StartHMethods =>
-            new[] { AccessTools.Method("YotogiPlayManager, Assembly-CSharp:UIStartup") };
+            new[]
+            {
+                AccessTools.Method("YotogiPlayManager, Assembly-CSharp:UIStartup"),
+                AccessTools.Method("SceneFreeModeSelectManager, Assembly-CSharp:CallScenePlayMainStory"),
+                AccessTools.Method("SceneFreeModeSelectManager, Assembly-CSharp:CallScenePlayEveryday"),
+                AccessTools.Method("SceneFreeModeSelectManager, Assembly-CSharp:CallScenePlayVip")
+            };
 
         protected override MethodInfo[] EndHMethods =>
-            new[] { AccessTools.Method("YotogiPlayManager, Assembly-CSharp:OnClickNext") };
+            new[]
+            {
+                AccessTools.Method("YotogiPlayManager, Assembly-CSharp:OnClickNext"),
+                AccessTools.Method("FreeModeInit, Assembly-CSharp:OnFinish")
+            };
 
         protected override IEnumerator WaitAfterPoseChange()
         {
@@ -64,19 +75,26 @@ namespace LoveMachine.COM3D2
             out float length, out float speed)
         {
             var state = GetActiveState();
+            if (state == null)
+            {
+                normalizedTime = 0;
+                length = 1;
+                speed = 1;
+                return;
+            }
             normalizedTime = unlooper.LoopingToMonotonic(state.normalizedTime);
             length = state.length;
             speed = state.speed;
         }
 
-        private AnimationState GetActiveState() => player
+        private AnimationState GetActiveState() => player?
             .GetComponentsInChildren<Animation>()
             .SelectMany(animation => animation.Cast<AnimationState>()
                 .Where(state => animation.IsPlaying(state.name)))
             .OrderBy(state => state.length)
             .ThenBy(state => state.name)
             .FirstOrDefault();
-
+        
         protected override GameObject GetFemaleRoot(int girlIndex) =>
             FindCharaObject($"Maid[{girlIndex}]");
 
@@ -90,7 +108,8 @@ namespace LoveMachine.COM3D2
                 .FirstOrDefault()?
                 .gameObject;
 
-        protected override string GetPose(int girlIndex) => GetActiveState()?.name;
+        protected override string GetPose(int girlIndex) =>
+            GetActiveState()?.name ?? FallbackPoseName;
 
         protected override bool IsIdle(int girlIndex) =>
             idlePoseNames.Any(GetPose(girlIndex).Contains);
@@ -100,9 +119,21 @@ namespace LoveMachine.COM3D2
 
         protected override IEnumerator UntilReady(object instance)
         {
-            yield return new WaitForSeconds(5f);
             unlooper = new TimeUnlooper();
-            player = FindCharaObject("Man[0]");
+            HandleCoroutine(SeekPlayer());
+            yield return null;
+        }
+
+        private IEnumerator SeekPlayer()
+        {
+            while (true)
+            {
+                yield return new WaitForSeconds(5f);
+                if (player == null || !player.activeInHierarchy)
+                {
+                    player = FindCharaObject("Man[0]");
+                }
+            }
         }
     }
 }

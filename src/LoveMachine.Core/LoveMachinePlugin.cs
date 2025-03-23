@@ -19,12 +19,14 @@ namespace LoveMachine.Core
         protected virtual void Start()
         {
             Globals.Initialize(Logger);
+            CoreConfig.Initialize(this);
             KillSwitchConfig.Initialize(this);
             ButtplugConfig.Initialize(this);
             DeviceListConfig.Initialize(this);
             StrokerConfig.Initialize(this);
             RotatorConfig.Initialize(this);
             ConstrictConfig.Initialize(this);
+            OscillatorConfig.Initialize(this);
             var manager = Globals.ManagerObject;
             manager.AddComponent<KillSwitch>();
             manager.AddComponent<TGame>();
@@ -35,12 +37,14 @@ namespace LoveMachine.Core
             manager.AddComponent<VibratorController>();
             manager.AddComponent<RotatorController>();
             manager.AddComponent<ConstrictController>();
+            manager.AddComponent<OscillatorController>();
             manager.AddComponent<DeviceListUI>();
             manager.AddComponent<DeviceSettingsUI>();
             manager.AddComponent<FeatureSettingsUI>();
             manager.AddComponent<StrokerSettingsUI>();
             manager.AddComponent<VibratorSettingsUI>();
             manager.AddComponent<ConstrictSettingsUI>();
+            manager.AddComponent<OscillatorSettingsUI>();
             GameHooks.InstallHooks();
         }
     }

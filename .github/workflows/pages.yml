@@ -2,7 +2,7 @@ name: Deploy to GitHub Pages
 
 on:
   release:
-    types: [ published ]
+    types: [published]
   workflow_dispatch:
 
 permissions:

@@ -7,17 +7,11 @@ assignees: ''
 
 ---
 
-> Are you using the latest version of LoveMachine and Intiface Central?
-(If not, update and try again. Your problem might already be solved in the latest version.)
+> Please read the Troubleshooting page before opening an issue. Your problem might already be answered there.
 
-[answer here]
+[I have read it, and it didn't help]
 
-> Did you install LoveMachine using the installer? If not, how did you install it?
-
-[answer here]
-
-> Can you connect your device to Intiface Central?
-(Intiface is not my project. If you have trouble using it, please read the Help tab of Intiface, and if the problem persists, raise an issue here: https://github.com/intiface/intiface-central/issues/new)
+> Please write down the title and version number of the game and the list of DLCs if you have any installed.
 
 [answer here]
 

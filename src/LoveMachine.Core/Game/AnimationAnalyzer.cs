@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using LitJson;
 using LoveMachine.Core.Common;
+using LoveMachine.Core.Config;
 using LoveMachine.Core.NonPortable;
 using UnityEngine;
 
@@ -12,8 +13,8 @@ namespace LoveMachine.Core.Game
     internal class AnimationAnalyzer : CoroutineHandler
     {
         // pose -> result
-        private readonly Dictionary<string, Result> resultCache =
-            new Dictionary<string, Result>();
+        private readonly Dictionary<string, Dictionary<POV, Result>> resultCache =
+            new Dictionary<string, Dictionary<POV, Result>>();
 
         private GameAdapter game;
 
@@ -66,7 +67,10 @@ namespace LoveMachine.Core.Game
         {
             try
             {
-                return resultCache.TryGetValue(GetExactPose(girlIndex, bone), out result);
+                var success = resultCache
+                    .TryGetValue(GetExactPose(girlIndex, bone), out var results);
+                result = success ? results[CoreConfig.POV.Value] : new Result();
+                return success;
             }
             catch (Exception e)
             {
@@ -122,7 +126,8 @@ namespace LoveMachine.Core.Game
                         Bone = entry.Key,
                         PenisBase = penisBase,
                         Time = currentTime,
-                        RelativePos = penisBase.position - entry.Value.position
+                        MalePos = penisBase.position,
+                        FemalePos = entry.Value.position
                     });
                 samples.AddRange(newSamples);
                 if (pose != GetExactPose(girlIndex, Bone.Auto) || currentTime < startTime)
@@ -135,7 +140,7 @@ namespace LoveMachine.Core.Game
                 .ToDictionary(bone => bone,
                     bone => GetPreferredResult(samples.Where(entry => entry.Bone == bone)));
             var autoBone = results
-                .OrderBy(result => result.Value.Preference)
+                .OrderBy(result => result.Value[POV.Balanced].Preference)
                 .FirstOrDefault()
                 .Key;
             results[Bone.Auto] = results[autoBone];
@@ -146,26 +151,70 @@ namespace LoveMachine.Core.Game
                 $"Leading bone: {autoBone}, result: {JsonMapper.ToJson(results[Bone.Auto])}.");
         }
 
-        private Result GetPreferredResult(IEnumerable<Sample> samples) => samples
+        private Dictionary<POV, Result> GetPreferredResult(IEnumerable<Sample> samples) => samples
             .GroupBy(sample => sample.PenisBase)
             .Select(EvaluateSamples)
-            .OrderBy(result => result.Preference)
+            .OrderBy(result => result[POV.Balanced].Preference)
             .First();
 
-        private Result EvaluateSamples(IEnumerable<Sample> samples)
+        private Dictionary<POV, Result> EvaluateSamples(IEnumerable<Sample> samples)
+        {
+            var deltas = SamplesToDeltas(samples);
+            return new Dictionary<POV, Result>
+            {
+                { POV.Balanced, EvaluateDeltas(deltas[POV.Balanced]) },
+                { POV.Male, EvaluateDeltas(deltas[POV.Male]) },
+                { POV.Female, EvaluateDeltas(deltas[POV.Female]) }
+            };
+        }
+
+        private Dictionary<POV, IEnumerable<Delta>> SamplesToDeltas(IEnumerable<Sample> samples)
+        {
+            var femaleCenter = samples
+                .Select(sample => sample.FemalePos)
+                .Aggregate(Vector3.zero, (acc, pos) => acc + pos / samples.Count());
+            var maleFarthest = samples
+                .OrderBy(sample => -(sample.MalePos - femaleCenter).sqrMagnitude)
+                .First()
+                .MalePos;
+            var femaleFarthest = samples
+                .OrderBy(sample => -(sample.FemalePos - maleFarthest).sqrMagnitude)
+                .First()
+                .MalePos;
+            return new Dictionary<POV, IEnumerable<Delta>>
+            {
+                [POV.Balanced] = samples.Select(sample => new Delta
+                    {
+                        Time = sample.Time,
+                        RelativePos = sample.MalePos - sample.FemalePos
+                    }),
+                [POV.Male] = samples.Select(sample => new Delta
+                    {
+                        Time = sample.Time,
+                        RelativePos = maleFarthest - sample.FemalePos
+                    }),
+                [POV.Female] = samples.Select(sample => new Delta
+                    {
+                        Time = sample.Time,
+                        RelativePos = sample.MalePos - femaleFarthest
+                    })
+            };
+        }
+        
+        private Result EvaluateDeltas(IEnumerable<Delta> deltas)
         {
             // probably safe to assume the farthest point from the origin is an extremity
-            var crest = samples
+            var crest = deltas
                 .OrderBy(sample => -sample.RelativePos.magnitude)
                 .First();
-            var trough = samples
+            var trough = deltas
                 .OrderBy(sample => -(sample.RelativePos - crest.RelativePos).magnitude)
                 .First();
             var axis = crest.RelativePos - trough.RelativePos;
             float GetDistance(Vector3 v) =>
                 Vector3.Project(v - trough.RelativePos, axis).magnitude;
-            float amplitude = samples.Max(sample => GetDistance(sample.RelativePos));
-            var nodes = samples.Select(sample => new Node
+            float amplitude = deltas.Max(sample => GetDistance(sample.RelativePos));
+            var nodes = deltas.Select(sample => new Node
             {
                 Time = sample.Time,
                 Position = Mathf.InverseLerp(0f, amplitude, GetDistance(sample.RelativePos))
@@ -209,6 +258,13 @@ namespace LoveMachine.Core.Game
         {
             public Bone Bone { get; set; }
             public Transform PenisBase { get; set; }
+            public float Time { get; set; }
+            public Vector3 MalePos { get; set; }
+            public Vector3 FemalePos { get; set; }
+        }
+
+        private struct Delta
+        {
             public float Time { get; set; }
             public Vector3 RelativePos { get; set; }
         }

@@ -75,6 +75,12 @@ namespace LoveMachine.Core.Buttplug
                     Buttplug.Feature.Constrict),
                 feature);
 
+        public void OscillateCmd(DeviceFeature feature, float speed) =>
+            SendWithConsent(
+                Buttplug.ScalarCmd(feature.Device, feature.FeatureIndex, speed,
+                    Buttplug.Feature.Oscillate),
+                feature);
+
         public void RotateCmd(DeviceFeature feature, float speed, bool clockwise) =>
             SendWithConsent(
                 Buttplug.RotateCmd(feature.Device, feature.FeatureIndex, speed, clockwise),

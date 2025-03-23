@@ -8,35 +8,47 @@
 
 Adds support for [some computer-controlled sex toys](#supported-devices) in the following games:
 
-| Title                       | Developer        | 🥽 VR                        | 🖥 Desktop |
-| --------------------------- | ---------------- | ---------------------------- | --------- |
-| [AI-deal-Rays]              | Riez-ON          |                              | ✓         |
-| AI Shoujo                   | Illusion         | ✓ <sup>with [AISVR]</sup>    | ✓         |
-| [Custom Order Maid 3D 2]    | Kiss             | ✓                            | ✓         |
-| [Datsui Janken]             | Visionary        |                              | ✓         |
-| Emotion Creators            | Illusion         | ✓ <sup>with [EC_VR]</sup>    | ✓         |
-| [Holy Knight Ricca]         | Mogurasoft       |                              | ✓         |
-| [HoneyCome]                 | Illgames         |                              | ✓         |
-| Honey Select                | Illusion         |                              | ✓         |
-| Honey Select 2              | Illusion         | ✓                            | ✓         |
-| [Houkago Rinkan Chuudoku]   | Miconisomi       | ✓ <sup>with [AGHVR]</sup>    | ✓         |
-| [Incubus 2: Camlann]        | Tanpakusitsu     |                              | ✓         |
-| [Insult Order]              | Miconisomi       | ✓ <sup>with [IOVR]</sup>     | ✓         |
-| Koikatsu                    | Illusion         | ✓                            | ✓         |
-| Koikatsu Party              | Illusion         | ✓                            | ✓         |
-| Koikatsu Sunshine           | Illusion         | ✓                            | ✓         |
-| [Koi-Koi VR: Love Blossoms] | Apricot Heart    | ✓                            | ✓         |
-| [Last Evil]                 | Flametorch       |                              | ✓         |
-| [Oedo Trigger]              | CQC Software     | ✓ <sup>sold separately</sup> | ✓         |
-| [Our Apartment]             | Momoiro Software |                              | ✓         |
-| PlayHome                    | Illusion         | ✓                            | ✓         |
-| RoomGirl                    | Illusion         |                              | ✓         |
-| Secrossphere                | Illusion         |                              | ✓         |
-| [Sexaroid Girl]             | Daminz           | ✓                            |           |
-| [Solas City Heroes]         | MrZGames         |                              | ✓         |
-| [Succubus Cafe]             | Migi Studio      |                              | ✓         |
-| VR Kanojo                   | Illusion         | ✓                            |           |
-| [Writhing Play]             | Robi             | ✓                            | ✓         |
+| Title                       | Developer     | 🥽 VR                         | 🖥 Desktop |
+| --------------------------- | ------------- | ----------------------------- | --------- |
+| [AI-deal-Rays]              | Riez-ON       |                               | ✓         |
+| AI Shoujo                   | Illusion      | ✓ <sup>with [AISVR]</sup>     | ✓         |
+| [Custom Order Maid 3D 2]    | Kiss          | ✓                             | ✓         |
+| [Datsui Janken]             | Visionary     |                               | ✓         |
+| Emotion Creators            | Illusion      | ✓ <sup>with [EC_VR]</sup>     | ✓         |
+| [Holy Knight Ricca]         | Mogurasoft    |                               | ✓         |
+| [HoneyCome] & Digital Craft | Illgames      | ✓ <sup>in Digital Craft</sup> | ✓         |
+| Honey Select                | Illusion      |                               | ✓         |
+| Honey Select 2              | Illusion      | ✓                             | ✓         |
+| [Houkago Rinkan Chuudoku]   | Miconisomi    | ✓ <sup>with [AGHVR]</sup>     | ✓         |
+| [Incubus 2: Camlann]        | Tanpakusitsu  |                               | ✓         |
+| [Insult Order]              | Miconisomi    | ✓ <sup>with [IOVR]</sup>      | ✓         |
+| Koikatsu                    | Illusion      | ✓                             | ✓         |
+| Koikatsu Party              | Illusion      | ✓                             | ✓         |
+| Koikatsu Sunshine           | Illusion      | ✓                             | ✓         |
+| [Koi-Koi VR: Love Blossoms] | Apricot Heart | ✓                             | ✓         |
+| [Last Evil]                 | Flametorch    |                               | ✓         |
+| [Oedo Trigger]              | CQC Software  | ✓ <sup>sold separately</sup>  | ✓         |
+| PlayHome                    | Illusion      | ✓                             | ✓         |
+| RoomGirl                    | Illusion      |                               | ✓         |
+| Secrossphere                | Illusion      |                               | ✓         |
+| [Sexaroid Girl]             | Daminz        | ✓                             |           |
+| [Solas City Heroes]         | MrZGames      |                               | ✓         |
+| [Succubus Cafe]             | Migi Studio   |                               | ✓         |
+| VR Kanojo                   | Illusion      | ✓                             |           |
+| [Writhing Play]             | Robi          | ✓                             | ✓         |
+
+The following early access games are also supported, but compatibility with later versions of them
+is not guaranteed.
+
+| Title                      | Developer          | Supported Version | Plugin                                                   |
+| -------------------------- | ------------------ | ----------------- | -------------------------------------------------------- |
+| [Our Apartment]            | Momoiro Software   | 0.5.3.a           | Available in the [installer]                             |
+| [Melty Night VR]           | Cauchemar          | 0.5.5             | [Patreon post][Patreon-MNVR], or build the `mnvr` branch |
+| [Orc Massage]              | TorchEntertainment | July 11, 2023     | [Patreon post][Patreon-OM], or build the `om` branch     |
+| [Summer In Heat]           | Miconisomi         | 1.00              | [Free patreon post][Patreon-SIH]                         |
+| [Summer Vacation Scramble] | Illgames           | 1.0.0             | [Free patreon post][Patreon-SVS]                         |
+| [Sex Formula]              | Migi Studio        | 1.3.0             | [Patreon post][Patreon-SF], or build the `sf` branch     |
+| [Gals Collector]           | Studio Tris        | 1.04              | [Free patreon post][Patreon-GC]                          |
 
 ## Supported devices
 
@@ -65,7 +77,16 @@ Rotators
 
 - Vorze A10 Cyclone
 
+Oscillators
+
+- [Lovense Gravity]
+- [Lovense Solace]
+
 ℹ️ **Every supported device works with every game. No exceptions.**
+
+⚠ **The devices listed under Oscillators have no positional feedback. They don't know which way is
+up and down, so they can't accurately sync to in-game characters. If you want to buy a device that
+can, you're looking for something under Strokers.**
 
 The [LoveMachine.Experiments] plugin also adds experimental support for two depth sensing devices
 ([Lovense Calor] and the [Hotdog]) to Koikatsu and Koikatsu Sunshine.
@@ -76,10 +97,6 @@ Download and run the [installer]. If you encounter the "Windows protected your P
 More info > Run anyway.
 
 [Intiface Central] must also be installed.
-
-⚠ The IL2CPP plugins (RoomGirl, Holy Knight Ricca) are not compatible with other BepInEx plugins at
-the moment. To use LoveMachine in IL2CPP games, you'll have to remove the BepInEx folder if there is
-one (thus also removing all other mods from the game), before running the installer.
 
 ## How to use
 
@@ -95,7 +112,8 @@ Settings.
 ⚠ In certain games, the kill switch may not work if the BepInEx console is open while playing in VR,
 because it can steal focus from the game window. It is recommended to disable the console.
 
-If you need further help in using the plugin, please open an [issue].
+If you need further help in using the plugin, check the [Troubleshooting](troubleshooting.md) page
+or open an [issue].
 
 If you found this project useful, please give it a ⭐.
 
@@ -128,6 +146,13 @@ In Plugin Settings > LoveMachine, you can set the following parameters:
   between two variants of the same animation. The two variants sometimes have different stroke
   patterns. This setting allows you to track both variants, which makes animation tracking more
   precise, but may also result in some abrupt changes mid-stroke. Turned on by default.
+
+### Core Settings
+
+- **POV:** Which character's point of view should be simulated. Possible values:
+  - **Balanced:** Replicates relative movement. Should work for most players, most of the time.
+  - **Male:** Male bottom POV. Only replicates the female character's movements.
+  - **Female:** Female bottom POV. Only replicates the male character's movements.
 
 ### Device List
 
@@ -169,6 +194,10 @@ Vibrator settings:
   Triangle, Saw, Pulse, Constant, and Custom.
 - **Custom Pattern:** Available if Vibration Pattern is set to Custom. You can set the vibration
   intensity curve using the sliders.
+
+Oscillator settings:
+
+- **RPM Range:** The minimum and maximum rotations per minute this device is capable of.
 
 Pressure settings:
 
@@ -215,6 +244,10 @@ default, pressing Spacebar will immediately stop all connected devices.
 - **Rotation Direction Change Chance:** The direction of rotation changes with the probability of
   this setting. Default is 30%.
 
+### Oscillation Settings
+
+- **RPM limit:** Maximum allowed rotations per minute for any device. Default is 300.
+
 ### Pressure Settings
 
 - **Enable Pressure Control:** Whether to use the pressure feature of this device. On by default.
@@ -234,29 +267,10 @@ welcome.
 This mod is provided free of charge, but I do accept donations. If you'd like to boost my morale,
 please check me out on [Patreon].
 
-### Developers
-
-Sauceke   •   nhydock   •   hogefugamoga   •   RPKU   •   andama777 (JP translation)
-
-### Patrons
-
-[ManlyMarco]   •   AbGz   •   Aftercurve   •   AkronusWings   •   Ambicatus   •   Andrew Hall   •  
-as a1031   •   AstralClock   •   asuka   •   Atlantic Dragon   •   Average MBT viewer   •   Benos
-Hentai   •   boaz   •   BOOK   •   Bri   •   butz   •   cat tail   •   CBN ヴい    •  
-Ceruleon   •   CJ   •   CookieMuncher   •   CROM   •   Daniel   •   DDJTK   •   dimo   •  
-EPTG   •   er er   •   Ergo   •   Flan   •   funnychicken   •   Gabbelgu   •   Gaku Kihara   •  
-gmolnmol   •   gold25   •   GOU YOSIHIRO   •   Greg   •   hiro   •   Ior1yagami   •   jason   •  
-Jayhawk   •   John Last   •   Junk   •   jwk   •   Kai Yami   •   KodFish   •   KTKT   •  
-kuni   •   Laneo   •   le d   •   mokochurin   •   Nemi   •   Nephilim Bacon   •   nppon   •  
-PhazR   •   Phil   •   pontatata   •   prepare55   •   purena   •   real name   •  
-rolandmitch   •   RP 君    •   SavagePastry   •   Sean McKagan   •   Shakes   •   Taibe   •  
-tanu   •   TO   •   Tom   •   TrashTaste   •   ttrs   •   tutinoko   •   uminekoZ   •  
-unitora   •   uruurian   •   Wel Adunno   •   Wu Lins   •   yamada tarou   •   Zesty Cucumber   •  
-Zijian Wang   •   Zomba Mann   •   シルバー    •   ふ    •   マラカス    •   もふさん    •   りょす
-け みのかわ    •   一太 川崎    •   優希 岩永    •   哲慶 宗    •   国崎往人    •   市民 藤沢    •  
-洋 冨岡    •   猛 羽場    •   终晓    •   郁弥 中村    •   闇《YAMI》   •   高島　渉
-
 ## Acknowledgements
+
+Thanks to nhydock, hogefugamoga, RPKU, and andama777 for contributing to the project, and to my
+Patreon members for their generous support.
 
 This mod would not have been possible without the [BepInEx] plugin framework and, of course, the
 [Buttplug.io] project.
@@ -276,6 +290,12 @@ This mod would not have been possible without the [BepInEx] plugin framework and
 [LoveMachine.Experiments]: https://sauceke.github.io/LoveMachine.Experiments
 [Hotdog]: https://sauceke.github.io/hotdog
 [Patreon]: https://www.patreon.com/sauceke
+[Patreon-MNVR]: https://www.patreon.com/posts/lovemachine-for-105156790
+[Patreon-OM]: https://www.patreon.com/posts/lovemachine-for-105156790
+[Patreon-SIH]: https://www.patreon.com/posts/lovemachine-for-121132226
+[Patreon-SVS]: https://www.patreon.com/posts/lovemachine-for-111228062
+[Patreon-SF]: https://www.patreon.com/posts/lovemachine-for-116761160
+[Patreon-GC]: https://www.patreon.com/posts/lovemachine-for-119312328
 [Demo video]: https://www.erome.com/a/f2XKHJ1I
 [issue]: https://github.com/Sauceke/LoveMachine/issues/new?template=technical-problem.md
 
@@ -305,6 +325,12 @@ This mod would not have been possible without the [BepInEx] plugin framework and
   https://www.dlsite.com/maniax/dlaf/=/t/s/link/work/aid/sauceke/locale/en_US/id/RJ303936.html/?locale=en_US
 [AI-deal-Rays]:
   https://www.dlsite.com/maniax/dlaf/=/t/n/link/work/aid/sauceke/locale/en_US/id/RJ406835.html/?locale=en_US
+[Summer Vacation Scramble]:
+  https://www.dlsite.com/pro/dlaf/=/t/n/link/work/aid/sauceke/locale/en_US/id/VJ01002420.html/?locale=en_US
+[Gals Collector]:
+  https://www.dlsite.com/maniax/dlaf/=/t/n/link/work/aid/sauceke/locale/en_US/id/RJ01285811.html/?locale=en_US
+[Summer In Heat]:
+  https://dlaf.jp/maniax/dlaf/=/t/n/link/work/aid/sauceke/locale/en_US/id/RJ365188.html/?locale=en_US
 
 <!-- sponsored sex toy links -->
 
@@ -316,6 +342,8 @@ This mod would not have been possible without the [BepInEx] plugin framework and
 [Lovense Max 2]: https://www.lovense.com/r/k8bbja
 [Lovense Diamo]: https://www.lovense.com/r/54xpc7
 [Lovense Domi 2]: https://www.lovense.com/r/77i51d
+[Lovense Gravity]: https://www.lovense.com/r/3n3jgv
+[Lovense Solace]: https://www.lovense.com/r/t1ivev
 
 <!-- other links -->
 
@@ -331,3 +359,6 @@ This mod would not have been possible without the [BepInEx] plugin framework and
 [Last Evil]: https://store.steampowered.com/app/823910/last_evil/
 [Succubus Cafe]: https://store.steampowered.com/app/1520500/Succubus_Cafe/
 [Solas City Heroes]: https://store.steampowered.com/app/2060170/Solas_City_Heroes/
+[Melty Night VR]: https://ci-en.dlsite.com/creator/3131
+[Orc Massage]: https://store.steampowered.com/app/1129540/Orc_Massage/
+[Sex Formula]: https://store.steampowered.com/app/2889660/Sex_Formula/

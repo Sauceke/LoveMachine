@@ -8,6 +8,7 @@
         public StrokerSettings StrokerSettings { get; set; } = new StrokerSettings();
         public VibratorSettings VibratorSettings { get; set; } = new VibratorSettings();
         public ConstrictSettings ConstrictSettings { get; set; } = new ConstrictSettings();
+        public OscillatorSettings OscillatorSettings { get; set; } = new OscillatorSettings();
         public FeatureSettings GlobalFeatureSettings { get; set; } = new FeatureSettings();
         public FeatureSettings[] LinearCmdSettings { get; set; } = new FeatureSettings[0];
         public FeatureSettings[] RotateCmdSettings { get; set; } = new FeatureSettings[0];
