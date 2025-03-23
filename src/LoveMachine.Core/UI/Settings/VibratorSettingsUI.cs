@@ -25,20 +25,12 @@ namespace LoveMachine.Core.UI.Settings
                 defaults: defaults.IntensityRange);
             settings.Pattern = (VibrationPattern)GUIUtil.MultiChoice(
                 label: "Vibration Pattern",
-                tooltip: "Waveform of vibrations",
+                tooltip: "The type of vibration sequence to use",
                 choices: Enum.GetNames(typeof(VibrationPattern)),
                 value: (int)settings.Pattern);
             if (settings.Pattern == VibrationPattern.Custom)
             {
-                GUILayout.BeginHorizontal();
-                {
-                    GUIUtil.LabelWithTooltip("Custom Pattern", "Draw your own pattern.");
-                    settings.CustomPattern = settings.CustomPattern
-                        .Select(y => GUILayout.VerticalSlider(y, 1f, 0f))
-                        .ToArray();
-                }
-                GUILayout.EndHorizontal();
-                GUIUtil.SingleSpace();
+                settings.CustomPattern = GUIUtil.PatternEditor(settings.CustomPattern);
             }
         }
     }

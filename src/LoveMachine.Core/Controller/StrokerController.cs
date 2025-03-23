@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using LoveMachine.Core.Buttplug;
 using LoveMachine.Core.Buttplug.Settings;
 using LoveMachine.Core.Config;
@@ -28,8 +29,9 @@ namespace LoveMachine.Core.Controller
             float nextSegmentCompletion = Mathf.Round(startCompletion * segments + 1) / segments;
             float timeToNextSegmentSecs = (nextSegmentCompletion - startCompletion) * durationSecs;
             GetStrokeZone(durationSecs, settings, strokeInfo, out float bottom, out float top);
-            float currentPosition = Mathf.Lerp(bottom, top, Sinusoid(startCompletion));
-            float nextPosition = Mathf.Lerp(bottom, top, Sinusoid(nextSegmentCompletion));
+            float currentPosition = Mathf.Lerp(bottom, top, GetPosition(startCompletion, settings));
+            float nextPosition =
+                Mathf.Lerp(bottom, top, GetPosition(nextSegmentCompletion, settings));
             bool movingUp = currentPosition < nextPosition;
             float targetPosition = movingUp ? top : bottom;
             float speed = (nextPosition - currentPosition) / timeToNextSegmentSecs;
@@ -56,8 +58,34 @@ namespace LoveMachine.Core.Controller
         protected override void HandleLevel(DeviceFeature feature, float level, float durationSecs) =>
             Client.LinearCmd(feature, level, durationSecs);
 
-        private static float Sinusoid(float x) =>
+        public float GetPosition(float x, StrokerSettings settings)
+        {
+            switch (settings.Pattern)
+            {
+                case StrokingPattern.Sine:
+                    return SineWave(x);
+
+                case StrokingPattern.Cups:
+                    return CupsWave(x);
+
+                case StrokingPattern.Arches:
+                    return ArchesWave(x);
+
+                case StrokingPattern.Custom:
+                    return CustomWave(x, settings.CustomPattern);
+            }
+            throw new Exception("unreachable");
+        }
+
+        private static float SineWave(float x) =>
             Mathf.InverseLerp(1f, -1f, Mathf.Cos(2 * Mathf.PI * x));
+
+        private static float CupsWave(float x) => 1 - Mathf.Abs(Mathf.Cos(Mathf.PI * x));
+
+        private static float ArchesWave(float x) => Mathf.Abs(Mathf.Sin(Mathf.PI * x));
+
+        private static float CustomWave(float x, float[] pattern) =>
+            pattern[(int)(Mathf.Repeat(x, 1f) * pattern.Length)];
 
         private void GetStrokeZone(float strokeTimeSecs, StrokerSettings settings,
             StrokeInfo strokeInfo, out float min, out float max)

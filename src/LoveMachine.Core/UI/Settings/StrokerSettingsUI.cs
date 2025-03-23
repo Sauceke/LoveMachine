@@ -1,6 +1,7 @@
 ﻿using LoveMachine.Core.Buttplug;
 using LoveMachine.Core.Buttplug.Settings;
 using LoveMachine.Core.UI.Util;
+using System;
 
 namespace LoveMachine.Core.UI.Settings
 {
@@ -34,9 +35,21 @@ namespace LoveMachine.Core.UI.Settings
                 defaults: defaults.FastStrokeZone);
             settings.SmoothStroking = GUIUtil.Toggle(
                 label: "Smooth Stroking",
-                tooltip: "Warning: not all strokers support this.",
+                tooltip: "Makes the movement less robotic. Not all strokers support this.",
                 value: settings.SmoothStroking,
                 defaultValue: defaults.SmoothStroking);
+            if (settings.SmoothStroking)
+            {
+                settings.Pattern = (StrokingPattern)GUIUtil.MultiChoice(
+                    label: "Stroking Pattern",
+                    tooltip: "The type of stroking motion to use",
+                    choices: Enum.GetNames(typeof(StrokingPattern)),
+                    value: (int)settings.Pattern);
+                if (settings.Pattern == StrokingPattern.Custom)
+                {
+                    settings.CustomPattern = GUIUtil.PatternEditor(settings.CustomPattern);
+                }
+            }
         }
     }
 }

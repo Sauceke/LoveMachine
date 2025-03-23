@@ -1,4 +1,5 @@
 ﻿using LoveMachine.Core.Common;
+using System.Linq;
 using UnityEngine;
 
 namespace LoveMachine.Core.UI.Util
@@ -144,6 +145,20 @@ namespace LoveMachine.Core.UI.Util
             GUILayout.EndHorizontal();
             SingleSpace();
             return value;
+        }
+
+        public static float[] PatternEditor(float[] pattern)
+        {
+            GUILayout.BeginHorizontal();
+            {
+                LabelWithTooltip("Custom Pattern", "Draw your own pattern.");
+                pattern = pattern
+                    .Select(y => GUILayout.VerticalSlider(y, 1f, 0f))
+                    .ToArray();
+            }
+            GUILayout.EndHorizontal();
+            SingleSpace();
+            return pattern;
         }
 
         public static void SingleSpace() => GUILayout.Space(10);
