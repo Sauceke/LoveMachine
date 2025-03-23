@@ -27,9 +27,7 @@ namespace LoveMachine.Core.Controller
         {
             var settings = feature.Device.Settings.ConstrictSettings;
             var pressureRange = settings.PressureRange;
-            float pressure = settings.Enabled
-                ? Mathf.Lerp(pressureRange.Min, pressureRange.Max, t: relativePressure)
-                : 0f;
+            float pressure = Mathf.Lerp(pressureRange.Min, pressureRange.Max, t: relativePressure);
             Client.ConstrictCmd(feature, pressure);
             yield return new WaitForSecondsRealtime(settings.UpdateIntervalSecs);
         }

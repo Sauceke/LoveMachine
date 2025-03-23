@@ -14,11 +14,6 @@ namespace LoveMachine.Core.UI.Settings
             }
             var defaults = new ConstrictSettings();
             GUIUtil.Title("Pressure Settings");
-            settings.Enabled = GUIUtil.Toggle(
-                label: "Enable Pressure Control",
-                tooltip: "Turns pressure control on/off",
-                value: settings.Enabled,
-                defaultValue: defaults.Enabled);
             GUIUtil.PercentRangeSlider(
                 label: "Pressure Range",
                 tooltip: "Range of pressure to apply",
