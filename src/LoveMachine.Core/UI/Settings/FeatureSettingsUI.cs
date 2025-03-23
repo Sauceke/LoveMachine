@@ -36,7 +36,8 @@ namespace LoveMachine.Core.UI.Settings
             }
             else
             {
-                DrawFeatureSettings(settings.GlobalFeatureSettings, "Global Tracking Settings");
+                DrawFeatureSettings(settings.GlobalFeatureSettings,
+                    "Tracking Settings: All Features");
             }
         }
 
@@ -67,7 +68,7 @@ namespace LoveMachine.Core.UI.Settings
             var defaults = new FeatureSettings();
             settings.Enabled = GUIUtil.Toggle(
                 label: "Enabled",
-                tooltip: "Turns this feature on/off",
+                tooltip: "Turns this feature on/off.",
                 value: settings.Enabled,
                 defaultValue: defaults.Enabled);
             if (game.MaxHeroineCount > 1)
