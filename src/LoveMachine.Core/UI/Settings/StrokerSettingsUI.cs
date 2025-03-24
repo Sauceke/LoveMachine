@@ -17,23 +17,16 @@ namespace LoveMachine.Core.UI.Settings
             }
             var defaults = new StrokerSettings();
             GUIUtil.Title("Stroker Settings");
-            settings.MaxStrokesPerMin = GUIUtil.IntSlider(
-                label: "Max Strokes Per Minute",
-                tooltip: "The top speed possible on this stroker at 100% stroke length.",
-                value: settings.MaxStrokesPerMin,
-                defaultValue: defaults.MaxStrokesPerMin,
-                min: 60,
-                max: 300);
             GUIUtil.PercentRangeSlider(
-                label: "Stroke Zone - Slow",
-                tooltip: "Range of stroking movement when going slow",
-                setting: settings.SlowStrokeZone,
-                defaults: defaults.SlowStrokeZone);
+                label: "Stroke Zone",
+                tooltip: "Range of the stroking movement.",
+                setting: settings.StrokeZone,
+                defaults: defaults.StrokeZone);
             GUIUtil.PercentRangeSlider(
-                label: "Stroke Zone - Fast",
-                tooltip: "Range of stroking movement when going fast",
-                setting: settings.FastStrokeZone,
-                defaults: defaults.FastStrokeZone);
+                label: "Orgasm Shake Zone",
+                tooltip: "Range of the shaking movement during orgasm.",
+                setting: settings.OrgasmShakeZone,
+                defaults: defaults.OrgasmShakeZone);
             settings.SmoothStroking = GUIUtil.Toggle(
                 label: "Smooth Stroking",
                 tooltip: "Makes the movement less robotic. Not all strokers support this.",

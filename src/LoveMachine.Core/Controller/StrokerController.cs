@@ -43,15 +43,14 @@ namespace LoveMachine.Core.Controller
 
         protected override IEnumerator HandleOrgasm(DeviceFeature feature)
         {
-            float bottom = StrokerConfig.OrgasmDepth.Value;
-            float time = 0.5f / StrokerConfig.OrgasmShakingFrequency.Value;
-            float top = bottom + feature.Device.Settings.StrokerSettings.MaxStrokesPerMin / 60f / 2f * time;
+            var zone = feature.Device.Settings.StrokerSettings.OrgasmShakeZone;
+            float secs = 1f / feature.Device.Settings.UpdatesHz;
             while (true)
             {
-                Client.LinearCmd(feature, top, time);
-                yield return new WaitForSecondsRealtime(time);
-                Client.LinearCmd(feature, bottom, time);
-                yield return new WaitForSecondsRealtime(time);
+                Client.LinearCmd(feature, zone.Max, secs);
+                yield return new WaitForSecondsRealtime(secs);
+                Client.LinearCmd(feature, zone.Min, secs);
+                yield return new WaitForSecondsRealtime(secs);
             }
         }
 
@@ -90,11 +89,9 @@ namespace LoveMachine.Core.Controller
         private void GetStrokeZone(float strokeTimeSecs, StrokerSettings settings,
             StrokeInfo strokeInfo, out float min, out float max)
         {
-            // decrease stroke length gradually as speed approaches the device limit
-            float rate = 60f / settings.MaxStrokesPerMin / strokeTimeSecs;
             float relativeLength = strokeInfo.Amplitude / Game.PenisSize;
-            min = Mathf.Lerp(settings.SlowStrokeZone.Min, settings.FastStrokeZone.Min, t: rate);
-            max = Mathf.Lerp(settings.SlowStrokeZone.Max, settings.FastStrokeZone.Max, t: rate);
+            min = settings.StrokeZone.Min;
+            max = settings.StrokeZone.Max;
             // scale down according to stroke length realism
             float realism = StrokerConfig.StrokeLengthRealism.Value;
             float scale = Mathf.Lerp(1f - realism, 1f, t: relativeLength);

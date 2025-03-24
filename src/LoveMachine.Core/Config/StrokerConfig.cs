@@ -8,8 +8,6 @@ namespace LoveMachine.Core.Config
     {
         public static ConfigEntry<float> StrokeLengthRealism { get; private set; }
         public static ConfigEntry<int> HardSexIntensity { get; private set; }
-        public static ConfigEntry<float> OrgasmDepth { get; private set; }
-        public static ConfigEntry<int> OrgasmShakingFrequency { get; private set; }
 
         internal static void Initialize(BaseUnityPlugin plugin)
         {
@@ -31,22 +29,6 @@ namespace LoveMachine.Core.Config
                new ConfigDescription(
                    "Makes hard sex animations feel hard",
                    new AcceptableValueRange<int>(0, 100),
-                   new ConfigurationManagerAttributes { Order = --order }));
-            OrgasmDepth = plugin.Config.Bind(
-               section: strokerSettingsTitle,
-               key: "Orgasm Depth",
-               defaultValue: 0.2f,
-               new ConfigDescription(
-                   "Stroker position when orgasming (lower = deeper)",
-                   new AcceptableValueRange<float>(0f, 1f),
-                   new ConfigurationManagerAttributes { Order = --order }));
-            OrgasmShakingFrequency = plugin.Config.Bind(
-               section: strokerSettingsTitle,
-               key: "Orgasm Shaking Frequency",
-               defaultValue: 10,
-               new ConfigDescription(
-                   "Amount of strokes per second when orgasming",
-                   new AcceptableValueRange<int>(3, 15),
                    new ConfigurationManagerAttributes { Order = --order }));
         }
     }
