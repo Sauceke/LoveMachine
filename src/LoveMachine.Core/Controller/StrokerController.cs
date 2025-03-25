@@ -59,6 +59,10 @@ namespace LoveMachine.Core.Controller
 
         public float GetPosition(float x, StrokerSettings settings)
         {
+            if (!settings.SmoothStroking)
+            {
+                return SineWave(x);
+            }
             switch (settings.Pattern)
             {
                 case StrokingPattern.Sine:
