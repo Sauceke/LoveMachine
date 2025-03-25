@@ -28,7 +28,7 @@ namespace LoveMachine.Core.Controller
             float startCompletion = strokeInfo.Completion;
             float nextSegmentCompletion = Mathf.Round(startCompletion * segments + 1) / segments;
             float timeToNextSegmentSecs = (nextSegmentCompletion - startCompletion) * durationSecs;
-            GetStrokeZone(durationSecs, settings, strokeInfo, out float bottom, out float top);
+            GetStrokeZone(feature.Device.Settings, strokeInfo, out float bottom, out float top);
             float currentPosition = Mathf.Lerp(bottom, top, GetPosition(startCompletion, settings));
             float nextPosition =
                 Mathf.Lerp(bottom, top, GetPosition(nextSegmentCompletion, settings));
@@ -90,15 +90,13 @@ namespace LoveMachine.Core.Controller
         private static float CustomWave(float x, float[] pattern) =>
             pattern[(int)(Mathf.Repeat(x, 1f) * pattern.Length)];
 
-        private void GetStrokeZone(float strokeTimeSecs, StrokerSettings settings,
-            StrokeInfo strokeInfo, out float min, out float max)
+        private void GetStrokeZone(DeviceSettings settings, StrokeInfo strokeInfo,
+            out float min, out float max)
         {
-            float relativeLength = strokeInfo.Amplitude / Game.PenisSize;
-            min = settings.StrokeZone.Min;
-            max = settings.StrokeZone.Max;
-            // scale down according to stroke length realism
-            float realism = StrokerConfig.StrokeLengthRealism.Value;
-            float scale = Mathf.Lerp(1f - realism, 1f, t: relativeLength);
+            min = settings.StrokerSettings.StrokeZone.Min;
+            max = settings.StrokerSettings.StrokeZone.Max;
+            // scale down according to intensity
+            float scale = GetIntensity(StrokerConfig.IntensitySettings, settings, strokeInfo);
             max = Mathf.Lerp(min, max, scale);
         }
     }

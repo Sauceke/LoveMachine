@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using LoveMachine.Core.Buttplug;
 using LoveMachine.Core.Buttplug.Settings;
+using LoveMachine.Core.Config;
 using LoveMachine.Core.Game;
 using UnityEngine;
 
@@ -18,7 +19,10 @@ namespace LoveMachine.Core.Controller
 
         protected override IEnumerator HandleAnimation(DeviceFeature feature, StrokeInfo strokeInfo)
         {
-            float strength = GetStrength(strokeInfo.Completion, feature.Device.Settings.VibratorSettings);
+            float strength =
+                GetStrength(strokeInfo.Completion, feature.Device.Settings.VibratorSettings);
+            strength *=
+                GetIntensity(VibratorConfig.IntensitySettings, feature.Device.Settings, strokeInfo);
             float intensity = Mathf.Lerp(
                 feature.Device.Settings.VibratorSettings.IntensityRange.Min,
                 feature.Device.Settings.VibratorSettings.IntensityRange.Max,

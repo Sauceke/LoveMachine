@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections;
 using LoveMachine.Core.Buttplug;
+using LoveMachine.Core.Buttplug.Settings;
+using LoveMachine.Core.Config;
 using LoveMachine.Core.Controller.Addons;
 using LoveMachine.Core.Game;
 using UnityEngine;
@@ -158,5 +160,38 @@ namespace LoveMachine.Core.Controller
         }
 
         public delegate void DisplayPosition(float position);
+
+        protected float GetIntensity(IntensityConfigSettings intensitySettings,
+            DeviceSettings deviceSettings, StrokeInfo strokeInfo) =>
+            Mathf.Lerp(1f, GetUnscaledIntensity(intensitySettings, deviceSettings, strokeInfo),
+                t: intensitySettings.Scale.Value);
+
+        private float GetUnscaledIntensity(IntensityConfigSettings intensitySettings,
+            DeviceSettings deviceSettings, StrokeInfo strokeInfo)
+        {
+            switch (intensitySettings.Mode.Value)
+            {
+                case IntensityMode.Cycle:
+                    return GetSineBasedIntensity(intensitySettings.CycleLengthSecs.Value);
+
+                case IntensityMode.StrokeLength:
+                    return GetStrokeLengthBasedIntensity(strokeInfo);
+
+                case IntensityMode.StrokeSpeed:
+                    return GetStrokeSpeedBasedIntensity(deviceSettings, strokeInfo);
+            }
+            throw new Exception("unreachable");
+        }
+
+        private float GetSineBasedIntensity(float length) =>
+            Mathf.InverseLerp(-1f, 1f, Mathf.Sin(Time.time * 2f * Mathf.PI / length));
+
+        private float GetStrokeLengthBasedIntensity(StrokeInfo strokeInfo) =>
+            Mathf.InverseLerp(0, Game.PenisSize, value: strokeInfo.Amplitude);
+
+        private float GetStrokeSpeedBasedIntensity(DeviceSettings deviceSettings,
+            StrokeInfo strokeInfo) =>
+            // make top speed the Nyquist frequency, since nothing else makes sense
+            Mathf.InverseLerp(0f, deviceSettings.UpdatesHz / 2f, 1f / strokeInfo.DurationSecs);
     }
 }

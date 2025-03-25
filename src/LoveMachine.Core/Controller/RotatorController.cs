@@ -21,8 +21,8 @@ namespace LoveMachine.Core.Controller
             float remaining = Mathf.Floor(completion * 2f) + 1f - completion;
             float strokeTimeSecs = strokeInfo.DurationSecs * remaining;
             float halfStrokeTimeSecs = strokeTimeSecs / 2f;
-            float downSpeed = Mathf.Lerp(0.3f, 1f, 0.4f / strokeTimeSecs) *
-                RotatorConfig.RotationSpeedRatio.Value;
+            float downSpeed =
+                GetIntensity(RotatorConfig.IntensitySettings, feature.Device.Settings, strokeInfo);
             float upSpeed = downSpeed * 0.8f;
             Client.RotateCmd(feature, downSpeed, clockwise);
             yield return WaitForSecondsUnscaled(halfStrokeTimeSecs);

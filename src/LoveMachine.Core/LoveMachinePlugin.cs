@@ -24,6 +24,7 @@ namespace LoveMachine.Core
             ButtplugConfig.Initialize(this);
             DeviceListConfig.Initialize(this);
             StrokerConfig.Initialize(this);
+            VibratorConfig.Initialize(this);
             RotatorConfig.Initialize(this);
             ConstrictConfig.Initialize(this);
             OscillatorConfig.Initialize(this);
