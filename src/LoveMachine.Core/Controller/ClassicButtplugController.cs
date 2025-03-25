@@ -192,6 +192,7 @@ namespace LoveMachine.Core.Controller
         private float GetStrokeSpeedBasedIntensity(DeviceSettings deviceSettings,
             StrokeInfo strokeInfo) =>
             // make top speed the Nyquist frequency, since nothing else makes sense
-            Mathf.InverseLerp(0f, deviceSettings.UpdatesHz / 2f, 1f / strokeInfo.DurationSecs);
+            Mathf.Sqrt(Mathf.InverseLerp(0f, deviceSettings.UpdatesHz / 2f,
+                value: 1f / strokeInfo.DurationSecs));
     }
 }
