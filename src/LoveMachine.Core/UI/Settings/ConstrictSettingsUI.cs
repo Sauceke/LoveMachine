@@ -19,13 +19,6 @@ namespace LoveMachine.Core.UI.Settings
                 tooltip: "Range of pressure to apply",
                 setting: settings.PressureRange,
                 defaults: defaults.PressureRange);
-            GUIUtil.RangeSlider(
-                label: "Speed Sensitivity Range",
-                tooltip: "Map lowest and highest pressure to these speeds (strokes per second)",
-                setting: settings.SpeedSensitivityRange,
-                defaults: defaults.SpeedSensitivityRange,
-                min: 0.5f,
-                max: 5f);
             settings.UpdateIntervalSecs = GUIUtil.IntSlider(
                 label: "Pressure Update Interval (seconds)",
                 tooltip: "How often the pressure can be changed",
