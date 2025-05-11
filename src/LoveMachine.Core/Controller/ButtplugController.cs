@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using LoveMachine.Core.Buttplug;
+using LoveMachine.Core.Config;
 using LoveMachine.Core.Game;
 using LoveMachine.Core.NonPortable;
 using UnityEngine;
@@ -104,7 +105,16 @@ namespace LoveMachine.Core.Controller
             var girlIndex = feature.Settings.GirlIndex;
             var bone = feature.Settings.Bone;
             float normalizedTime = GetLatencyAndPhaseCorrectedNormalizedTime(feature);
-            return analyzer.TryGetCurrentStrokeInfo(girlIndex, bone, normalizedTime, out result);
+            var trackingKey = new TrackingKey
+            {
+                GirlIndex = girlIndex,
+                Bone = bone,
+                Pose = Game.GetPose(girlIndex),
+                POV = CoreConfig.POV.Value,
+                MovementType = feature.Settings.MovementType,
+                Axis = feature.Settings.Axis
+            };
+            return analyzer.TryGetCurrentStrokeInfo(trackingKey, normalizedTime, out result);
         }
         
         /// <summary>

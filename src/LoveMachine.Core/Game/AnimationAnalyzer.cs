@@ -13,8 +13,8 @@ namespace LoveMachine.Core.Game
     internal class AnimationAnalyzer : CoroutineHandler
     {
         // pose -> result
-        private readonly Dictionary<string, Dictionary<POV, Result>> resultCache =
-            new Dictionary<string, Dictionary<POV, Result>>();
+        private readonly Dictionary<TrackingKey, Result> resultCache =
+            new Dictionary<TrackingKey, Result>();
 
         private GameAdapter game;
 
@@ -25,20 +25,17 @@ namespace LoveMachine.Core.Game
             game.OnHEnded += (s, a) => StopAnalyze();
         }
 
-        private string GetExactPose(int girlIndex, Bone bone) =>
-            $"{game.GetPose(girlIndex)}.girl{girlIndex}.{bone}";
-
         [HideFromIl2Cpp]
-        public bool TryGetCurrentStrokeInfo(int girlIndex, Bone bone, float normalizedTime,
+        public bool TryGetCurrentStrokeInfo(TrackingKey trackingKey, float normalizedTime,
             out StrokeInfo strokeInfo)
         {
-            if (!TryGetResult(girlIndex, bone, out var result))
+            if (!TryGetResult(trackingKey, out var result))
             {
                 strokeInfo = default;
                 return false;
             }
             var delimiters = result.StrokeDelimiters;
-            float animTimeSecs = game.GetAnimationTimeSecs(girlIndex);
+            float animTimeSecs = game.GetAnimationTimeSecs(trackingKey.GirlIndex);
             int delimIndex = Enumerable.Range(0, delimiters.Length)
                 .Where(i => delimiters[i] <= normalizedTime % 1f)
                 .DefaultIfEmpty(delimiters.Length - 1)
@@ -63,13 +60,12 @@ namespace LoveMachine.Core.Game
         }
         
         [HideFromIl2Cpp]
-        private bool TryGetResult(int girlIndex, Bone bone, out Result result)
+        private bool TryGetResult(TrackingKey trackingKey, out Result result)
         {
             try
             {
-                var success = resultCache
-                    .TryGetValue(GetExactPose(girlIndex, bone), out var results);
-                result = success ? results[CoreConfig.POV.Value] : new Result();
+                var success = resultCache.TryGetValue(trackingKey, out result);
+                result = success ? result : new Result();
                 return success;
             }
             catch (Exception e)
@@ -97,7 +93,16 @@ namespace LoveMachine.Core.Game
         {
             while (true)
             {
-                if (TryGetResult(girlIndex, Bone.Auto, out _))
+                var testKey = new TrackingKey
+                {
+                    GirlIndex = girlIndex,
+                    Bone = Bone.Auto,
+                    Pose = game.GetPose(girlIndex),
+                    POV = POV.Balanced,
+                    Axis = Axis.Longest,
+                    MovementType = MovementType.Linear
+                };
+                if (TryGetResult(testKey, out _))
                 {
                     yield return new WaitForSecondsRealtime(0.1f);
                     continue;
@@ -111,7 +116,7 @@ namespace LoveMachine.Core.Game
         {
             var penisBases = game.PenisBases;
             var femaleBones = game.GetFemaleBones(girlIndex);
-            string pose = GetExactPose(girlIndex, Bone.Auto);
+            string pose = game.GetPose(girlIndex);
             yield return HandleCoroutine(game.WaitAfterPoseChange());
             var samples = new List<Sample>();
             game.GetAnimState(girlIndex, out float startTime, out _, out _);
@@ -127,49 +132,62 @@ namespace LoveMachine.Core.Game
                         PenisBase = penisBase,
                         Time = currentTime,
                         MalePos = penisBase.position,
-                        FemalePos = entry.Value.position
+                        FemalePos = entry.Value.position,
+                        MaleRot = penisBase.rotation,
+                        FemaleRot = entry.Value.rotation
                     });
                 samples.AddRange(newSamples);
-                if (pose != GetExactPose(girlIndex, Bone.Auto) || currentTime < startTime)
+                if (pose != game.GetPose(girlIndex) || currentTime < startTime)
                 {
                     Logger.LogWarning($"Pose {pose} interrupted; canceling analysis.");
                     yield break;
                 }
             }
-            var results = femaleBones.Keys
-                .ToDictionary(bone => bone,
-                    bone => GetPreferredResult(samples.Where(entry => entry.Bone == bone)));
-            var autoBone = results
-                .OrderBy(result => result.Value[POV.Balanced].Preference)
-                .FirstOrDefault()
-                .Key;
-            results[Bone.Auto] = results[autoBone];
-            results.ToList()
-                .ForEach(kvp => resultCache[GetExactPose(girlIndex, kvp.Key)] = kvp.Value);
-            Logger.LogInfo($"Calibration for pose {pose} completed. " +
-                $"{samples.Count / femaleBones.Count} frames inspected. " +
-                $"Leading bone: {autoBone}, result: {JsonMapper.ToJson(results[Bone.Auto])}.");
-        }
-
-        private Dictionary<POV, Result> GetPreferredResult(IEnumerable<Sample> samples) => samples
-            .GroupBy(sample => sample.PenisBase)
-            .Select(EvaluateSamples)
-            .OrderBy(result => result[POV.Balanced].Preference)
-            .First();
-
-        private Dictionary<POV, Result> EvaluateSamples(IEnumerable<Sample> samples)
-        {
-            var deltas = SamplesToDeltas(samples);
-            return new Dictionary<POV, Result>
+            var allKeys = GenerateTrackingKeys(girlIndex, pose).ToList();
+            var results = samples
+                .GroupBy(sample => sample.PenisBase)
+                .Select(group =>
+                    allKeys.ToDictionary(key => key, key => EvaluateSamples(group, key)))
+                .ToList();
+            var preferredResults = allKeys.ToDictionary(
+                key => key,
+                key => results.OrderBy(dict => dict[key].Preference).First()[key]);
+            var groupedKeys = allKeys.GroupBy(key =>
+                new { key.GirlIndex, key.POV, key.Pose, key.Axis, key.MovementType });
+            foreach (var group in groupedKeys)
             {
-                { POV.Balanced, EvaluateDeltas(deltas[POV.Balanced]) },
-                { POV.Male, EvaluateDeltas(deltas[POV.Male]) },
-                { POV.Female, EvaluateDeltas(deltas[POV.Female]) }
-            };
+                var bestKey = group.OrderBy(key => preferredResults[key].Preference).First();
+                var autoKey = bestKey;
+                autoKey.Bone = Bone.Auto;
+                preferredResults[autoKey] = preferredResults[bestKey];
+            }
+            foreach (var kvp in preferredResults)
+            {
+                resultCache[kvp.Key] = kvp.Value;
+            }
+            Logger.LogInfo($"Calibration for pose {pose} completed. " +
+                $"{samples.Count / femaleBones.Count} frames inspected.");
         }
 
-        private Dictionary<POV, IEnumerable<Delta>> SamplesToDeltas(IEnumerable<Sample> samples)
+        private IEnumerable<TrackingKey> GenerateTrackingKeys(int girlIndex, string pose) =>
+            from bone in game.FemaleBoneNames.Keys
+            from pov in Enum.GetValues(typeof(POV)).Cast<POV>()
+            from axis in Enum.GetValues(typeof(Axis)).Cast<Axis>()
+            from movementType in Enum.GetValues(typeof(MovementType)).Cast<MovementType>()
+            select new TrackingKey
+            {
+                GirlIndex = girlIndex,
+                Bone = bone,
+                Pose = pose,
+                POV = pov,
+                Axis = axis,
+                MovementType = movementType
+            };
+
+        private Result EvaluateSamples(IEnumerable<Sample> samples,
+            TrackingKey trackingKey)
         {
+            samples = samples.Where(sample => sample.Bone == trackingKey.Bone).ToList();
             var femaleCenter = samples
                 .Select(sample => sample.FemalePos)
                 .Aggregate(Vector3.zero, (acc, pos) => acc + pos / samples.Count());
@@ -181,55 +199,120 @@ namespace LoveMachine.Core.Game
                 .OrderBy(sample => -(sample.FemalePos - maleFarthest).sqrMagnitude)
                 .First()
                 .MalePos;
-            return new Dictionary<POV, IEnumerable<Delta>>
-            {
-                [POV.Balanced] = samples.Select(sample => new Delta
-                    {
-                        Time = sample.Time,
-                        RelativePos = sample.MalePos - sample.FemalePos
-                    }),
-                [POV.Male] = samples.Select(sample => new Delta
-                    {
-                        Time = sample.Time,
-                        RelativePos = maleFarthest - sample.FemalePos
-                    }),
-                [POV.Female] = samples.Select(sample => new Delta
-                    {
-                        Time = sample.Time,
-                        RelativePos = sample.MalePos - femaleFarthest
-                    })
-            };
-        }
-        
-        private Result EvaluateDeltas(IEnumerable<Delta> deltas)
-        {
-            // probably safe to assume the farthest point from the origin is an extremity
-            var crest = deltas
-                .OrderBy(sample => -sample.RelativePos.magnitude)
-                .First();
-            var trough = deltas
-                .OrderBy(sample => -(sample.RelativePos - crest.RelativePos).magnitude)
-                .First();
-            var axis = crest.RelativePos - trough.RelativePos;
-            float GetDistance(Vector3 v) =>
-                Vector3.Project(v - trough.RelativePos, axis).magnitude;
-            float amplitude = deltas.Max(sample => GetDistance(sample.RelativePos));
-            var nodes = deltas.Select(sample => new Node
+            Vector3 GetRelativePos(Sample sample) =>
+                GetRelativePosition(sample, trackingKey.POV, maleFarthest, femaleFarthest);
+            var relativePositions = samples.Select(sample => GetRelativePos(sample)).ToList();
+            var crest = relativePositions.OrderBy(pos => -pos.magnitude).First();
+            var trough = relativePositions.OrderBy(pos => -(pos - crest).magnitude).First();
+            var longestAxis = crest - trough;
+            Vector3 GetAxis(Sample sample) => this.GetAxis(sample, trackingKey.Axis, longestAxis);
+            float GetDistance(Sample sample) =>
+                Vector3.Project(GetRelativePos(sample) - trough, GetAxis(sample)).magnitude;
+            float GetTwist(Sample sample) =>
+                RotationToTwist(GetRelativeRotation(sample, trackingKey.POV), GetAxis(sample));
+            var nodes = samples.Select(sample => new Node
             {
                 Time = sample.Time,
-                Position = Mathf.InverseLerp(0f, amplitude, GetDistance(sample.RelativePos))
-            });
+                Position = trackingKey.MovementType == MovementType.Linear
+                    ? GetDistance(sample)
+                    : GetTwist(sample)
+            }).ToList();
+            if (trackingKey.MovementType == MovementType.Rotation)
+            {
+                nodes = NormalizeAngles(nodes).ToList();
+            }
+            float amplitude = nodes.Max(node => node.Position) - nodes.Min(node => node.Position);
             return new Result
             {
-                StrokeDelimiters = GetStrokeDelimiters(nodes, tolerance: game.MinStrokeLength),
-                Amplitude = axis.magnitude,
+                StrokeDelimiters = GetStrokeDelimiters(nodes, amplitude * game.MinStrokeLength),
+                Amplitude = amplitude,
                 // Prefer bones that are close and move a lot. Being close is more important.
-                Preference = axis.magnitude == 0
+                Preference = amplitude == 0
                     ? float.PositiveInfinity
-                    : Mathf.Pow(trough.RelativePos.magnitude, 3f) / axis.magnitude
+                    : Mathf.Pow(trough.magnitude, 3f) / amplitude
             };
         }
 
+        private Vector3 GetRelativePosition(Sample sample, POV pov, Vector3 male, Vector3 female)
+        {
+            switch(pov)
+            {
+                case POV.Balanced:
+                    return sample.MalePos - sample.FemalePos;
+
+                case POV.Male:
+                    return male - sample.FemalePos;
+
+                case POV.Female:
+                    return sample.MalePos - female;
+
+                default:
+                    throw new Exception("unreachable");
+            }
+        }
+
+        public static float RotationToTwist(Quaternion rotation, Vector3 axis)
+        {
+            (rotation * Quaternion.FromToRotation(rotation * axis, axis))
+                .ToAngleAxis(out float angle, out _);
+            return angle;
+        }
+
+        private Quaternion GetRelativeRotation(Sample sample, POV pov)
+        {
+            switch (pov) {
+                case POV.Balanced:
+                    return sample.MaleRot * Quaternion.Inverse(sample.FemaleRot);
+
+                case POV.Male:
+                    return sample.FemaleRot;
+
+                case POV.Female:
+                    return sample.MaleRot;
+
+                default:
+                    throw new Exception("unreachable");
+            }
+        }
+
+        private IEnumerable<Node> NormalizeAngles(IEnumerable<Node> nodes)
+        {
+            var normalized = new List<Node> { nodes.First() };
+            foreach (var node in nodes.Skip(1))
+            {
+                float lastAngle = normalized.Last().Position;
+                float angle = node.Position - lastAngle;
+                angle = (angle + 360f + 180f) % 360f - 180f;
+                normalized.Add(new Node
+                {
+                    Time = node.Time,
+                    Position = lastAngle + angle
+                });
+            }
+            return normalized;
+        }
+
+        private Vector3 GetAxis(Sample sample, Axis axis, Vector3 longest)
+        {
+            switch(axis)
+            {
+                case Axis.Longest:
+                    return longest;
+
+                case Axis.X:
+                    return sample.MaleRot * Vector3.right;
+
+                case Axis.Y:
+                    return sample.MaleRot * Vector3.up;
+
+                case Axis.Z:
+                    return sample.MaleRot * Vector3.forward;
+
+                default:
+                    throw new Exception("unreachable");
+            }
+        }
+        
         private static float[] GetStrokeDelimiters(IEnumerable<Node> nodes, float tolerance)
         {
             var edge = nodes.OrderBy(node => node.Position).First();
@@ -261,14 +344,10 @@ namespace LoveMachine.Core.Game
             public float Time { get; set; }
             public Vector3 MalePos { get; set; }
             public Vector3 FemalePos { get; set; }
+            public Quaternion MaleRot { get; set; }
+            public Quaternion FemaleRot { get; set; }
         }
 
-        private struct Delta
-        {
-            public float Time { get; set; }
-            public Vector3 RelativePos { get; set; }
-        }
-        
         private struct Node
         {
             public float Time { get; set; }

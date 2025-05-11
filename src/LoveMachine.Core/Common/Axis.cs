@@ -2,6 +2,6 @@
 {
     public enum Axis
     {
-        Longest, Forward, Left, Up
+        Longest, X, Y, Z
     }
 }
