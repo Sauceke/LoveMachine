@@ -143,12 +143,12 @@ namespace LoveMachine.Core.Game
                     yield break;
                 }
             }
-            var allKeys = GenerateTrackingKeys(girlIndex, pose).ToList();
+            var allKeys = GenerateTrackingKeys(girlIndex, pose).ToArray();
             var results = samples
                 .GroupBy(sample => sample.PenisBase)
                 .Select(group =>
                     allKeys.ToDictionary(key => key, key => EvaluateSamples(group, key)))
-                .ToList();
+                .ToArray();
             var preferredResults = allKeys.ToDictionary(
                 key => key,
                 key => results.OrderBy(dict => dict[key].Preference).First()[key]);
@@ -165,7 +165,7 @@ namespace LoveMachine.Core.Game
             {
                 resultCache[kvp.Key] = kvp.Value;
             }
-            Logger.LogInfo($"Calibration for pose {pose} completed. " +
+            Logger.LogInfo($"Analysis of pose {pose} completed. " +
                 $"{samples.Count / femaleBones.Count} frames inspected.");
         }
 
@@ -187,7 +187,7 @@ namespace LoveMachine.Core.Game
         private Result EvaluateSamples(IEnumerable<Sample> samples,
             TrackingKey trackingKey)
         {
-            samples = samples.Where(sample => sample.Bone == trackingKey.Bone).ToList();
+            samples = samples.Where(sample => sample.Bone == trackingKey.Bone).ToArray();
             var femaleCenter = samples
                 .Select(sample => sample.FemalePos)
                 .Aggregate(Vector3.zero, (acc, pos) => acc + pos / samples.Count());
@@ -201,7 +201,7 @@ namespace LoveMachine.Core.Game
                 .MalePos;
             Vector3 GetRelativePos(Sample sample) =>
                 GetRelativePosition(sample, trackingKey.POV, maleFarthest, femaleFarthest);
-            var relativePositions = samples.Select(sample => GetRelativePos(sample)).ToList();
+            var relativePositions = samples.Select(sample => GetRelativePos(sample)).ToArray();
             var crest = relativePositions.OrderBy(pos => -pos.magnitude).First();
             var trough = relativePositions.OrderBy(pos => -(pos - crest).magnitude).First();
             var longestAxis = crest - trough;
@@ -216,10 +216,10 @@ namespace LoveMachine.Core.Game
                 Position = trackingKey.MovementType == MovementType.Linear
                     ? GetDistance(sample)
                     : GetTwist(sample)
-            }).ToList();
+            }).ToArray();
             if (trackingKey.MovementType == MovementType.Rotation)
             {
-                nodes = NormalizeAngles(nodes).ToList();
+                nodes = NormalizeAngles(nodes).ToArray();
             }
             float amplitude = nodes.Max(node => node.Position) - nodes.Min(node => node.Position);
             return new Result
