@@ -19,13 +19,13 @@ namespace LoveMachine.Core.Controller
 
         protected override IEnumerator HandleAnimation(DeviceFeature feature, StrokeInfo strokeInfo)
         {
-            float strength =
-                GetStrength(strokeInfo.Completion, feature.Device.Settings.VibratorSettings);
+            var settings = feature.Device.Settings.VibratorSettings;
+            float strength = GetStrength(strokeInfo.Completion, settings, strokeInfo);
             strength *=
                 GetIntensity(VibratorConfig.IntensitySettings, feature.Device.Settings, strokeInfo);
             float intensity = Mathf.Lerp(
-                feature.Device.Settings.VibratorSettings.IntensityRange.Min,
-                feature.Device.Settings.VibratorSettings.IntensityRange.Max,
+                settings.IntensityRange.Min,
+                settings.IntensityRange.Max,
                 t: strength);
             Client.VibrateCmd(feature, intensity);
             yield return WaitForSecondsUnscaled(1f / feature.Device.Settings.UpdatesHz);
@@ -40,7 +40,7 @@ namespace LoveMachine.Core.Controller
         protected override void HandleLevel(DeviceFeature feature, float level, float durationSecs) =>
             Client.VibrateCmd(feature, level);
 
-        private static float GetStrength(float x, VibratorSettings settings)
+        private static float GetStrength(float x, VibratorSettings settings, StrokeInfo strokeInfo)
         {
             switch (settings.Pattern)
             {
@@ -58,6 +58,9 @@ namespace LoveMachine.Core.Controller
 
                 case VibrationPattern.Constant:
                     return 1f;
+
+                case VibrationPattern.Animation:
+                    return CustomWave(x, strokeInfo.Pattern);
 
                 case VibrationPattern.Custom:
                     return CustomWave(x, settings.CustomPattern);

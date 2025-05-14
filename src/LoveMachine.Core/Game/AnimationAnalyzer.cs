@@ -54,7 +54,8 @@ namespace LoveMachine.Core.Game
             {
                 Amplitude = result.Amplitude,
                 DurationSecs = animTimeSecs * normalizedStrokeDuration,
-                Completion = Mathf.InverseLerp(start, end, normalizedTime % 1f)
+                Completion = Mathf.InverseLerp(start, end, normalizedTime % 1f),
+                Pattern = result.Patterns[delimIndex]
             };
             return true;
         }
@@ -222,9 +223,18 @@ namespace LoveMachine.Core.Game
                 nodes = NormalizeAngles(nodes).ToArray();
             }
             float amplitude = nodes.Max(node => node.Position) - nodes.Min(node => node.Position);
+            var delimiters = GetStrokeDelimiters(nodes, amplitude * game.MinStrokeLength);
+            int strokeCount = delimiters.Length;
+            var patterns = Enumerable.Range(0, strokeCount)
+                .Select(i => GetPattern(
+                    nodes,
+                    delimiters[i],
+                    i == strokeCount - 1 ? delimiters[0] + 1f : delimiters[i + 1]))
+                .ToArray();
             return new Result
             {
-                StrokeDelimiters = GetStrokeDelimiters(nodes, amplitude * game.MinStrokeLength),
+                StrokeDelimiters = delimiters,
+                Patterns = patterns,
                 Amplitude = amplitude,
                 // Prefer bones that are close and move a lot. Being close is more important.
                 Preference = amplitude == 0
@@ -337,6 +347,17 @@ namespace LoveMachine.Core.Game
                 .ToArray();
         }
         
+        private static float[] GetPattern(IEnumerable<Node> nodes, float start, float end)
+        {
+            float min = nodes.Min(node => node.Position);
+            float max = nodes.Max(node => node.Position);
+            return nodes
+                .Where(node => (node.Time - start + 1f) % 1f < end - start)
+                .OrderBy(node => (node.Time - start + 1f) % 1f)
+                .Select(node => Mathf.InverseLerp(min, max, value: node.Position))
+                .ToArray();
+        }
+
         private struct Sample
         {
             public Bone Bone { get; set; }
@@ -357,6 +378,7 @@ namespace LoveMachine.Core.Game
         private struct Result
         {
             public float[] StrokeDelimiters { get; set; }
+            public float[][] Patterns { get; set; } // delimiter index -> pattern
             public float Amplitude { get; set; }
             public float Preference { get; set; } // smaller is better
         }

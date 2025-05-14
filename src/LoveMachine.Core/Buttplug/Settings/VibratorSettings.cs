@@ -11,6 +11,6 @@ namespace LoveMachine.Core.Buttplug.Settings
 
     public enum VibrationPattern
     {
-        Sine, Triangle, Saw, Pulse, Constant, Custom
+        Sine, Triangle, Saw, Pulse, Constant, Animation, Custom
     }
 }

@@ -31,9 +31,10 @@ namespace LoveMachine.Core.Controller
             float nextSegmentCompletion = Mathf.Round(startCompletion * segments + 1) / segments;
             float timeToNextSegmentSecs = (nextSegmentCompletion - startCompletion) * durationSecs;
             GetStrokeZone(feature.Device.Settings, strokeInfo, out float bottom, out float top);
-            float currentPosition = Mathf.Lerp(bottom, top, GetPosition(startCompletion, settings));
+            float currentPosition =
+                Mathf.Lerp(bottom, top, GetPosition(startCompletion, settings, strokeInfo));
             float nextPosition =
-                Mathf.Lerp(bottom, top, GetPosition(nextSegmentCompletion, settings));
+                Mathf.Lerp(bottom, top, GetPosition(nextSegmentCompletion, settings, strokeInfo));
             bool movingUp = currentPosition < nextPosition;
             float targetPosition = movingUp ? top : bottom;
             float speed = (nextPosition - currentPosition) / timeToNextSegmentSecs;
@@ -59,7 +60,7 @@ namespace LoveMachine.Core.Controller
         protected override void HandleLevel(DeviceFeature feature, float level, float durationSecs) =>
             Client.LinearCmd(feature, level, durationSecs);
 
-        public float GetPosition(float x, StrokerSettings settings)
+        public float GetPosition(float x, StrokerSettings settings, StrokeInfo strokeInfo)
         {
             if (!settings.SmoothStroking)
             {
@@ -75,6 +76,9 @@ namespace LoveMachine.Core.Controller
 
                 case StrokingPattern.Arches:
                     return ArchesWave(x);
+
+                case StrokingPattern.Animation:
+                    return CustomWave(x, strokeInfo.Pattern);
 
                 case StrokingPattern.Custom:
                     return CustomWave(x, settings.CustomPattern);

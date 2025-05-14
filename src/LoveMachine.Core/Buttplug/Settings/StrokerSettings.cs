@@ -13,6 +13,6 @@ namespace LoveMachine.Core.Buttplug.Settings
 
     public enum StrokingPattern
     {
-        Sine, Cups, Arches, Custom
+        Sine, Cups, Arches, Animation, Custom
     }
 }
