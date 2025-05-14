@@ -29,7 +29,7 @@ namespace LoveMachine.Core.Game
         public bool TryGetCurrentStrokeInfo(TrackingKey trackingKey, float normalizedTime,
             out StrokeInfo strokeInfo)
         {
-            if (!TryGetResult(trackingKey, out var result))
+            if (!TryGetResult(trackingKey, out var result) || result.StrokeDelimiters.Length == 0)
             {
                 strokeInfo = default;
                 return false;
@@ -65,13 +65,13 @@ namespace LoveMachine.Core.Game
             try
             {
                 var success = resultCache.TryGetValue(trackingKey, out result);
-                result = success ? result : new Result();
+                result = success ? result : default;
                 return success;
             }
             catch (Exception e)
             {
                 Logger.LogError($"Error while trying to get wave info: {e}");
-                result = new Result();
+                result = default;
                 return false;
             }
         }
