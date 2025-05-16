@@ -243,6 +243,25 @@ namespace LoveMachine.Core.Game
             };
         }
 
+        private Vector3 GetAxis(Sample sample, Axis axis, Vector3 longest)
+        {
+            switch (axis)
+            {
+                case Axis.Longest:
+                    return longest;
+
+                case Axis.X:
+                    return sample.MaleRot * Vector3.right;
+
+                case Axis.Y:
+                    return sample.MaleRot * Vector3.up;
+
+                case Axis.Z:
+                    return sample.MaleRot * Vector3.forward;
+            }
+            throw new Exception("unreachable");
+        }
+
         private Vector3 GetRelativePosition(Sample sample, POV pov, Vector3 male, Vector3 female)
         {
             switch(pov)
@@ -255,17 +274,8 @@ namespace LoveMachine.Core.Game
 
                 case POV.Female:
                     return sample.MalePos - female;
-
-                default:
-                    throw new Exception("unreachable");
             }
-        }
-
-        public static float RotationToTwist(Quaternion rotation, Vector3 axis)
-        {
-            (rotation * Quaternion.FromToRotation(rotation * axis, axis))
-                .ToAngleAxis(out float angle, out _);
-            return angle;
+            throw new Exception("unreachable");
         }
 
         private Quaternion GetRelativeRotation(Sample sample, POV pov)
@@ -279,10 +289,14 @@ namespace LoveMachine.Core.Game
 
                 case POV.Female:
                     return sample.MaleRot;
-
-                default:
-                    throw new Exception("unreachable");
             }
+            throw new Exception("unreachable");
+        }
+        public static float RotationToTwist(Quaternion rotation, Vector3 axis)
+        {
+            (rotation * Quaternion.FromToRotation(rotation * axis, axis))
+                .ToAngleAxis(out float angle, out _);
+            return angle;
         }
 
         private IEnumerable<Node> NormalizeAngles(IEnumerable<Node> nodes)
@@ -302,27 +316,6 @@ namespace LoveMachine.Core.Game
             return normalized;
         }
 
-        private Vector3 GetAxis(Sample sample, Axis axis, Vector3 longest)
-        {
-            switch(axis)
-            {
-                case Axis.Longest:
-                    return longest;
-
-                case Axis.X:
-                    return sample.MaleRot * Vector3.right;
-
-                case Axis.Y:
-                    return sample.MaleRot * Vector3.up;
-
-                case Axis.Z:
-                    return sample.MaleRot * Vector3.forward;
-
-                default:
-                    throw new Exception("unreachable");
-            }
-        }
-        
         private static float[] GetStrokeDelimiters(IEnumerable<Node> nodes, float tolerance)
         {
             var edge = nodes.OrderBy(node => node.Position).First();
