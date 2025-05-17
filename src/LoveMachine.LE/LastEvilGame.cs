@@ -71,10 +71,82 @@ namespace LoveMachine.LE
         protected override void GetAnimState(int girlIndex, out float normalizedTime,
             out float length, out float speed)
         {
-            var state = animation[$"Anim{animIndex.Value + 1}"];
-            normalizedTime = state.time / state.length;
-            length = state.length;
-            speed = 1f;
+            // Type 0: From Gallery
+            //[Info: LoveMachine] UntilReady: Anim_04_End
+            //[Info: LoveMachine] UntilReady: Anim_03_Emit
+            //[Info: LoveMachine] UntilReady: Anim_02_During
+            //[Info: LoveMachine] UntilReady: Anim_01_Start
+            //[Info: LoveMachine] UntilReady: Animation index: 0
+
+            // Type 1: In Game
+            //[Info: LoveMachine] UntilReady: Anim4
+            //[Info: LoveMachine] UntilReady: Anim3
+            //[Info: LoveMachine] UntilReady: Anim2
+            //[Info: LoveMachine] UntilReady: Anim1
+            //[Info: LoveMachine] UntilReady: Animation index: 0
+
+            //Logger.LogInfo($"GetAnimState, girl{girlIndex}");
+            //Logger.LogInfo($"GetAnimState: Animation index: {animIndex.Value}");
+            //// List of name of all anime states
+            //foreach (var anim in animation)
+            //{
+            //    // Force convert to AnimationState
+            //    // ReSharper disable once PossibleInvalidCastExceptionInForeachLoop
+            //    Logger.LogInfo("GetAnimState:" + ((AnimationState)anim).name);
+            //}
+
+            AnimationState state = null;
+            bool animationFound = false;
+            int index = animIndex.Value + 1;
+
+            // Try Type 1 format first (e.g., "Anim1")
+            string type1Name = $"Anim{index}";
+            try
+            {
+                state = animation[type1Name];
+                animationFound = true;
+            }
+            catch
+            {
+                // Type 1 format failed, now try Type 0 format
+            }
+
+            // If Type 1 failed, try Type 0 format (e.g., "Anim_01_Start")
+            if (!animationFound)
+            {
+                string[] suffixes = { "_Start", "_During", "_Emit", "_End" };
+                string formattedIndex = index.ToString("00");
+
+                foreach (string suffix in suffixes)
+                {
+                    string type0Name = $"Anim_{formattedIndex}{suffix}";
+                    try
+                    {
+                        state = animation[type0Name];
+                        animationFound = true;
+                        break;
+                    }
+                    catch
+                    {
+                        // This particular suffix didn't work, try the next one
+                    }
+                }
+            }
+
+            // Set output values
+            if (animationFound && state != null)
+            {
+                normalizedTime = state.time / state.length;
+                length = state.length;
+                speed = 1f;
+            }
+            else
+            {
+                // No valid animation found, set default values
+                normalizedTime = 0f;
+                length = 0f;
+                speed = 1f;
+            }
         }
 
         protected override Transform PenisBase => throw new NotImplementedException();
@@ -89,7 +161,9 @@ namespace LoveMachine.LE
         protected override string GetPose(int girlIndex) => animIndex.Value.ToString();
 
         protected override bool IsIdle(int girlIndex) => false;
-        
+
+        protected override bool IsOrgasming(int girlIndex) => animIndex.Value==2;
+
         protected override IEnumerator UntilReady(object eventSceneFramework)
         {
             yield return new WaitForSeconds(5f);
