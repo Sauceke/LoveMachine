@@ -51,13 +51,15 @@ namespace LoveMachine.LE
 
         protected override int AnimationLayer => throw new NotImplementedException();
 
+        protected void myEndH() { }
         protected override MethodInfo[] StartHMethods =>
             new[] { AccessTools.Method("EventSceneFramework, Assembly-CSharp:Init"),
                 AccessTools.Method("AnimCombineEventer, Assembly-CSharp:Set")
             };
 
         protected override MethodInfo[] EndHMethods =>
-            new[] { AccessTools.Method("EventSceneFramework, Assembly-CSharp:OnClickEnd")};
+            new[] { AccessTools.Method("EventSceneFramework, Assembly-CSharp:OnClickEnd"),
+            AccessTools.Method(typeof(LastEvilGame), nameof(myEndH))};
 
         protected override Dictionary<Bone, string> FemaleBoneNames => new Dictionary<Bone, string>
         {
@@ -85,10 +87,11 @@ namespace LoveMachine.LE
             if (animation == null)
             {
                 Logger.LogError("GetAnimState: Animation is null, endH");
-                StopAllCoroutines();
                 normalizedTime = 0f;
                 length = 0f;
                 speed = 1f;
+
+                myEndH();
                 return;
             }
 
