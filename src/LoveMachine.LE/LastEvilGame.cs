@@ -86,7 +86,6 @@ namespace LoveMachine.LE
         {
             if (animation == null)
             {
-                Logger.LogError("GetAnimState: Animation is null, endH");
                 normalizedTime = 0f;
                 length = 0f;
                 speed = 1f;
@@ -103,21 +102,12 @@ namespace LoveMachine.LE
                 normalizedTime = state.time / state.length;
                 length = state.length;
                 speed = state.speed;
-
-                //Logger.LogInfo("GetAnimState: Animation state found: " + state.name +
-                //    " normalizedTime: " + normalizedTime +
-                //    " length: " + length +
-                //    " speed: " + speed);
             }
             else
             {
-                foreach (var anim in animation)
-                {
-                    Logger.LogInfo("GetAnimState Not Hit:" + ((AnimationState)anim).name);
-                }
                 // No valid animation found, set default values
                 normalizedTime = 0f;
-                length = 0f;
+                length = 1f;
                 speed = 1f;
             }
         }
@@ -129,7 +119,7 @@ namespace LoveMachine.LE
             .ToArray();
 
         protected override GameObject GetFemaleRoot(int girlIndex) =>
-            GameObject.Find(root + "/Succubus");
+            GameObject.Find(root + "/Succubus") ?? FindDeepChildrenByPath(GameObject.Find(root), "Female").FirstOrDefault()?.gameObject;
 
         protected override string GetPose(int girlIndex) => animIndex.Value.ToString();
 
@@ -163,6 +153,7 @@ namespace LoveMachine.LE
             }
             return null;
         }
+
         protected override IEnumerator UntilReady(object eventSceneFramework)
         {
             yield return new WaitForSeconds(5f);
