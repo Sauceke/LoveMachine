@@ -12,7 +12,8 @@ namespace LoveMachine.LE
 {
     public class LastEvilGame : GameAdapter
     {
-        private const string root = "EventSceneFramework/Root/Entities";
+        private string root = "EventSceneFramework/Root/Entities";
+
         private static readonly string[] ballsNames =
         {
             "ActorMan_Ball2",
@@ -21,6 +22,9 @@ namespace LoveMachine.LE
             "Bip_Ball",
             "Bip_Ball02",
             "Slime_Collect_Acid",
+            "BipDealdoTwin1_03",
+            "HumanGirl_Merchant/Bip_Root/Bip_Virgin/Bip_Clitoris1/Bip_Clitoris2",
+            "Succubus/Bip_Root/Bip_Spine1/Bip_Spine2/Bip_Spine3/Bip_Spine4/Bip_ShoulderR/Bip_ArmR1/Bip_ArmR2/Bip_HandR/Bip_FingerR3_1/Bip_FingerR3_2/Bip_FingerR3_3/Bip_FingerR3_4",
             "Slime_AnimEvent1/Bone001/Bone002/Bone003/Bone004/Bone005",
             "Slime_Collect/Bip01_Root/Bip01_Bone1/Bip01_Bone2/Bip01_Bone3/Bip01_Bone4/Bip01_Bone5",
             "Slime_Defeat/Bip01_Root/Bip01_Bone1/Bip01_Bone2/Bip01_Bone3/Bip01_Bone4",
@@ -37,16 +41,23 @@ namespace LoveMachine.LE
                 "Bip01_Tentacle_07/Bip01_Tentacle_08/Bip01_Tentacle_09/Bip01_Tentacle_10"
         };
 
+        private static readonly string[] orgasming_names = {
+            "Anim_03_Emit",
+            "Anim3"
+            };
+
         private Animation animation;
         private Traverse<int> animIndex;
 
         protected override int AnimationLayer => throw new NotImplementedException();
 
         protected override MethodInfo[] StartHMethods =>
-            new[] { AccessTools.Method("EventSceneFramework, Assembly-CSharp:Init") };
+            new[] { AccessTools.Method("EventSceneFramework, Assembly-CSharp:Init"),
+                AccessTools.Method("AnimCombineEventer, Assembly-CSharp:Set")
+            };
 
         protected override MethodInfo[] EndHMethods =>
-            new[] { AccessTools.Method("EventSceneFramework, Assembly-CSharp:OnClickEnd") };
+            new[] { AccessTools.Method("EventSceneFramework, Assembly-CSharp:OnClickEnd")};
 
         protected override Dictionary<Bone, string> FemaleBoneNames => new Dictionary<Bone, string>
         {
@@ -71,77 +82,36 @@ namespace LoveMachine.LE
         protected override void GetAnimState(int girlIndex, out float normalizedTime,
             out float length, out float speed)
         {
-            // Type 0: From Gallery
-            //[Info: LoveMachine] UntilReady: Anim_04_End
-            //[Info: LoveMachine] UntilReady: Anim_03_Emit
-            //[Info: LoveMachine] UntilReady: Anim_02_During
-            //[Info: LoveMachine] UntilReady: Anim_01_Start
-            //[Info: LoveMachine] UntilReady: Animation index: 0
-
-            // Type 1: In Game
-            //[Info: LoveMachine] UntilReady: Anim4
-            //[Info: LoveMachine] UntilReady: Anim3
-            //[Info: LoveMachine] UntilReady: Anim2
-            //[Info: LoveMachine] UntilReady: Anim1
-            //[Info: LoveMachine] UntilReady: Animation index: 0
-
-            //Logger.LogInfo($"GetAnimState, girl{girlIndex}");
-            //Logger.LogInfo($"GetAnimState: Animation index: {animIndex.Value}");
-            //// List of name of all anime states
-            //foreach (var anim in animation)
-            //{
-            //    // Force convert to AnimationState
-            //    // ReSharper disable once PossibleInvalidCastExceptionInForeachLoop
-            //    Logger.LogInfo("GetAnimState:" + ((AnimationState)anim).name);
-            //}
-
-            AnimationState state = null;
-            bool animationFound = false;
-            int index = animIndex.Value + 1;
-
-            // Try Type 1 format first (e.g., "Anim1")
-            string type1Name = $"Anim{index}";
-            try
+            if (animation == null)
             {
-                state = animation[type1Name];
-                animationFound = true;
-            }
-            catch
-            {
-                // Type 1 format failed, now try Type 0 format
+                Logger.LogError("GetAnimState: Animation is null, endH");
+                StopAllCoroutines();
+                normalizedTime = 0f;
+                length = 0f;
+                speed = 1f;
+                return;
             }
 
-            // If Type 1 failed, try Type 0 format (e.g., "Anim_01_Start")
-            if (!animationFound)
-            {
-                string[] suffixes = { "_Start", "_During", "_Emit", "_End" };
-                string formattedIndex = index.ToString("00");
-
-                foreach (string suffix in suffixes)
-                {
-                    string type0Name = $"Anim_{formattedIndex}{suffix}";
-                    try
-                    {
-                        state = animation[type0Name];
-                        animationFound = true;
-                        break;
-                    }
-                    catch
-                    {
-                        // This particular suffix didn't work, try the next one
-                    }
-                }
-            }
+            AnimationState state = getPlayingAnim();
 
             // Set output values
-            if (animationFound && state != null)
-            {
+            if (state != null)
+            {   
                 normalizedTime = state.time / state.length;
                 length = state.length;
-                speed = 1f;
+                speed = state.speed;
+
+                //Logger.LogInfo("GetAnimState: Animation state found: " + state.name +
+                //    " normalizedTime: " + normalizedTime +
+                //    " length: " + length +
+                //    " speed: " + speed);
             }
             else
             {
+                foreach (var anim in animation)
+                {
+                    Logger.LogInfo("GetAnimState Not Hit:" + ((AnimationState)anim).name);
+                }
                 // No valid animation found, set default values
                 normalizedTime = 0f;
                 length = 0f;
@@ -162,14 +132,44 @@ namespace LoveMachine.LE
 
         protected override bool IsIdle(int girlIndex) => false;
 
-        protected override bool IsOrgasming(int girlIndex) => animIndex.Value==2;
+        protected override bool IsOrgasming(int girlIndex)
+            {
+            AnimationState state = getPlayingAnim();
+            if(state == null)
+            {
+                return false;
+            }else
+            {
+                return orgasming_names.Contains(state.name);
+            }
+        }
 
+        protected AnimationState getPlayingAnim()
+        {
+            if(animation==null)
+            {
+                return null;
+            }
+
+            foreach (AnimationState anim in animation)
+            {
+                if (animation.IsPlaying(anim.name))
+                {
+                    return anim;
+                }
+            }
+            return null;
+        }
         protected override IEnumerator UntilReady(object eventSceneFramework)
         {
             yield return new WaitForSeconds(5f);
             var traverse = Traverse.Create(eventSceneFramework);
             animation = traverse.Field<Animation>("_animation").Value;
             animIndex = traverse.Field<int>("_animIndex");
+
+            // Try to cast eventSceneFramework to the correct type, like Unity.GameObject
+            UnityEngine.Object obj = eventSceneFramework as UnityEngine.Object;
+            root = obj.name;
         }
     }
 }
