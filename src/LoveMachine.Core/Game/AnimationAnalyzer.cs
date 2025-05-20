@@ -152,12 +152,12 @@ namespace LoveMachine.Core.Game
                 .ToArray();
             var preferredResults = allKeys.ToDictionary(
                 key => key,
-                key => results.OrderBy(dict => dict[key].Preference).First()[key]);
+                key => results.Maximize(dict => dict[key].Preference)[key]);
             var groupedKeys = allKeys.GroupBy(key =>
                 new { key.GirlIndex, key.POV, key.Pose, key.Axis, key.MovementType });
             foreach (var group in groupedKeys)
             {
-                var bestKey = group.OrderBy(key => preferredResults[key].Preference).First();
+                var bestKey = group.Maximize(key => preferredResults[key].Preference);
                 var autoKey = bestKey;
                 autoKey.Bone = Bone.Auto;
                 preferredResults[autoKey] = preferredResults[bestKey];
@@ -193,18 +193,16 @@ namespace LoveMachine.Core.Game
                 .Select(sample => sample.FemalePos)
                 .Aggregate(Vector3.zero, (acc, pos) => acc + pos / samples.Count());
             var maleFarthest = samples
-                .OrderBy(sample => -(sample.MalePos - femaleCenter).sqrMagnitude)
-                .First()
+                .Maximize(sample => (sample.MalePos - femaleCenter).sqrMagnitude)
                 .MalePos;
             var femaleFarthest = samples
-                .OrderBy(sample => -(sample.FemalePos - maleFarthest).sqrMagnitude)
-                .First()
+                .Maximize(sample => (sample.FemalePos - maleFarthest).sqrMagnitude)
                 .MalePos;
             Vector3 GetRelativePos(Sample sample) =>
                 GetRelativePosition(sample, trackingKey.POV, maleFarthest, femaleFarthest);
             var relativePositions = samples.Select(sample => GetRelativePos(sample)).ToArray();
-            var crest = relativePositions.OrderBy(pos => -pos.magnitude).First();
-            var trough = relativePositions.OrderBy(pos => -(pos - crest).magnitude).First();
+            var crest = relativePositions.Maximize(pos => pos.magnitude);
+            var trough = relativePositions.Maximize(pos => (pos - crest).magnitude);
             var longestAxis = crest - trough;
             Vector3 GetAxis(Sample sample) => this.GetAxis(sample, trackingKey.Axis, longestAxis);
             float GetDistance(Sample sample) =>
@@ -238,8 +236,8 @@ namespace LoveMachine.Core.Game
                 Amplitude = amplitude,
                 // Prefer bones that are close and move a lot. Being close is more important.
                 Preference = amplitude == 0
-                    ? float.PositiveInfinity
-                    : Mathf.Pow(trough.magnitude, 3f) / amplitude
+                    ? float.NegativeInfinity
+                    : -Mathf.Pow(trough.magnitude, 3f) / amplitude
             };
         }
 
@@ -318,7 +316,7 @@ namespace LoveMachine.Core.Game
 
         private static float[] GetStrokeDelimiters(IEnumerable<Node> nodes, float tolerance)
         {
-            var edge = nodes.OrderBy(node => node.Position).First();
+            var edge = nodes.Minimize(node => node.Position);
             int index = nodes.ToList().IndexOf(edge);
             nodes = nodes.Skip(index).Concat(nodes.Take(index));
             int direction = 1;
@@ -373,7 +371,7 @@ namespace LoveMachine.Core.Game
             public float[] StrokeDelimiters { get; set; }
             public float[][] Patterns { get; set; } // delimiter index -> pattern
             public float Amplitude { get; set; }
-            public float Preference { get; set; } // smaller is better
+            public float Preference { get; set; } // larger is better
         }
     }
 }
