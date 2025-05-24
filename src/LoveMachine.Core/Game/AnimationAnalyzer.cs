@@ -2,7 +2,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using LitJson;
 using LoveMachine.Core.Common;
 using LoveMachine.Core.Config;
 using LoveMachine.Core.NonPortable;
@@ -12,16 +11,16 @@ namespace LoveMachine.Core.Game
 {
     internal class AnimationAnalyzer : CoroutineHandler
     {
-        // pose -> result
         private readonly Dictionary<TrackingKey, Result> resultCache =
             new Dictionary<TrackingKey, Result>();
+
+        private readonly HashSet<TrackingKey> keysInProgress = new HashSet<TrackingKey>();
 
         private GameAdapter game;
 
         private void Start()
         {
             game = GetComponent<GameAdapter>();
-            game.OnHStarted += (s, a) => StartAnalyze();
             game.OnHEnded += (s, a) => StopAnalyze();
         }
 
@@ -65,9 +64,12 @@ namespace LoveMachine.Core.Game
         {
             try
             {
-                var success = resultCache.TryGetValue(trackingKey, out result);
-                result = success ? result : default;
-                return success;
+                if (resultCache.TryGetValue(trackingKey, out result))
+                {
+                    return true;
+                }
+                HandleCoroutine(TryAnalyzeAnimation(trackingKey), suppressExceptions: true);
+                return false;
             }
             catch (Exception e)
             {
@@ -77,47 +79,36 @@ namespace LoveMachine.Core.Game
             }
         }
 
-        private void StartAnalyze()
-        {
-            StopAllCoroutines();
-            Enumerable.Range(0, game.HeroineCount).ToList()
-                .ForEach(girlIndex => HandleCoroutine(RunAnalysisLoop(girlIndex)));
-        }
-
         private void StopAnalyze()
         {
             StopAllCoroutines();
             resultCache.Clear();
         }
 
-        private IEnumerator RunAnalysisLoop(int girlIndex)
+        private IEnumerator TryAnalyzeAnimation(TrackingKey trackingKey)
         {
-            while (true)
+            if (resultCache.ContainsKey(trackingKey) || keysInProgress.Contains(trackingKey))
             {
-                var testKey = new TrackingKey
-                {
-                    GirlIndex = girlIndex,
-                    Bone = Bone.Auto,
-                    Pose = game.GetPose(girlIndex),
-                    POV = POV.Balanced,
-                    Axis = Axis.Longest,
-                    MovementType = MovementType.Linear
-                };
-                if (TryGetResult(testKey, out _))
-                {
-                    yield return new WaitForSecondsRealtime(0.1f);
-                    continue;
-                }
-                Logger.LogDebug("New animation playing, starting to analyze.");
-                yield return HandleCoroutine(AnalyzeAnimation(girlIndex), suppressExceptions: true);
+                yield break;
             }
+            keysInProgress.Add(trackingKey);
+            Logger.LogDebug("New animation playing, starting to analyze.");
+            yield return HandleCoroutine(AnalyzeAnimation(trackingKey), suppressExceptions: true);
+            keysInProgress.Remove(trackingKey);
         }
 
-        private IEnumerator AnalyzeAnimation(int girlIndex)
+        private IEnumerator AnalyzeAnimation(TrackingKey trackingKey)
         {
+            int girlIndex = trackingKey.GirlIndex;
             var penisBases = game.PenisBases;
             var femaleBones = game.GetFemaleBones(girlIndex);
-            string pose = game.GetPose(girlIndex);
+            var trackedFemaleBones = trackingKey.Bone == Bone.Auto
+                ? femaleBones
+                : new Dictionary<Bone, Transform>
+                {
+                    { trackingKey.Bone, femaleBones[trackingKey.Bone] }
+                };
+            string pose = trackingKey.Pose;
             yield return HandleCoroutine(game.WaitAfterPoseChange());
             var samples = new List<Sample>();
             game.GetAnimState(girlIndex, out float startTime, out _, out _);
@@ -126,7 +117,7 @@ namespace LoveMachine.Core.Game
             {
                 yield return new WaitForEndOfFrame();
                 game.GetAnimState(girlIndex, out currentTime, out _, out _);
-                var newSamples = femaleBones
+                var newSamples = trackedFemaleBones
                     .SelectMany(entry => penisBases, (entry, penisBase) => new Sample
                     {
                         Bone = entry.Key,
@@ -144,49 +135,28 @@ namespace LoveMachine.Core.Game
                     yield break;
                 }
             }
-            var allKeys = GenerateTrackingKeys(girlIndex, pose).ToArray();
+            var keys = trackedFemaleBones
+                .Select(entry => { var key = trackingKey; key.Bone = entry.Key; return key; });
             var results = samples
                 .GroupBy(sample => sample.PenisBase)
-                .Select(group =>
-                    allKeys.ToDictionary(key => key, key => EvaluateSamples(group, key)))
+                .Select(group => keys.ToDictionary(key => key, key => EvaluateSamples(group, key)))
                 .ToArray();
-            var preferredResults = allKeys.ToDictionary(
+            var preferredResults = keys.ToDictionary(
                 key => key,
                 key => results.Maximize(dict => dict[key].Preference)[key]);
-            var groupedKeys = allKeys.GroupBy(key =>
-                new { key.GirlIndex, key.POV, key.Pose, key.Axis, key.MovementType });
-            foreach (var group in groupedKeys)
-            {
-                var bestKey = group.Maximize(key => preferredResults[key].Preference);
-                var autoKey = bestKey;
-                autoKey.Bone = Bone.Auto;
-                preferredResults[autoKey] = preferredResults[bestKey];
-            }
+            var bestKey = keys.Maximize(key => preferredResults[key].Preference);
+            var autoKey = bestKey;
+            autoKey.Bone = Bone.Auto;
+            preferredResults[autoKey] = preferredResults[bestKey];
             foreach (var kvp in preferredResults)
             {
                 resultCache[kvp.Key] = kvp.Value;
             }
             Logger.LogInfo($"Analysis of pose {pose} completed. " +
-                $"{samples.Count / femaleBones.Count} frames inspected.");
+                $"{samples.Count / trackedFemaleBones.Count} frames inspected.");
         }
 
-        private IEnumerable<TrackingKey> GenerateTrackingKeys(int girlIndex, string pose) =>
-            from bone in game.FemaleBoneNames.Keys
-            from pov in Enum.GetValues(typeof(POV)).Cast<POV>()
-            from axis in Enum.GetValues(typeof(Axis)).Cast<Axis>()
-            from movementType in Enum.GetValues(typeof(MovementType)).Cast<MovementType>()
-            select new TrackingKey
-            {
-                GirlIndex = girlIndex,
-                Bone = bone,
-                Pose = pose,
-                POV = pov,
-                Axis = axis,
-                MovementType = movementType
-            };
-
-        private Result EvaluateSamples(IEnumerable<Sample> samples,
-            TrackingKey trackingKey)
+        private Result EvaluateSamples(IEnumerable<Sample> samples, TrackingKey trackingKey)
         {
             samples = samples.Where(sample => sample.Bone == trackingKey.Bone).ToArray();
             var femaleCenter = samples
@@ -209,13 +179,15 @@ namespace LoveMachine.Core.Game
                 Vector3.Project(GetRelativePos(sample) - trough, GetAxis(sample)).magnitude;
             float GetTwist(Sample sample) =>
                 RotationToTwist(GetRelativeRotation(sample, trackingKey.POV), GetAxis(sample));
-            var nodes = samples.Select(sample => new Node
-            {
-                Time = sample.Time,
-                Position = trackingKey.MovementType == MovementType.Linear
-                    ? GetDistance(sample)
-                    : GetTwist(sample)
-            }).ToArray();
+            var nodes = samples
+                .Select(sample => new Node 
+                {
+                    Time = sample.Time,
+                    Position = trackingKey.MovementType == MovementType.Linear
+                        ? GetDistance(sample)
+                        : GetTwist(sample)
+                })
+                .ToArray();
             if (trackingKey.MovementType == MovementType.Rotation)
             {
                 nodes = NormalizeAngles(nodes).ToArray();
@@ -290,6 +262,7 @@ namespace LoveMachine.Core.Game
             }
             throw new Exception("unreachable");
         }
+
         public static float RotationToTwist(Quaternion rotation, Vector3 axis)
         {
             (rotation * Quaternion.FromToRotation(rotation * axis, axis))
