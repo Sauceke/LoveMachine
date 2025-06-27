@@ -11,7 +11,7 @@ foreach ($plugin in $plugins) {
 	# find all dependencies to alias
 	$dlls = Get-ChildItem $path -Filter "*.dll" -Recurse
 	$dll_names = $dlls -Replace "\.dll$",""
-	$deps = $dll_names | Where { $_ -NotLike "LoveMachine.*" -And $_ -NotLike "*$suffix" }
+	$deps = $dll_names | Where { $_ -NotLike "LoveMachine*" -And $_ -NotLike "*$suffix" }
 	$deps_str = $deps -Join ";"
 	assemblyalias --target-directory $path --suffix $suffix --assemblies-to-alias $deps_str 
 }

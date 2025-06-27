@@ -20,7 +20,7 @@
 #define I 0
 #sub AddGameEntry
     #define PluginName FindGetFileName(FindHandle)
-    #if Pos("LoveMachine.Core", PluginName) != 1
+    #if Pos("LoveMachine.", PluginName) == 1 && Pos("LoveMachine.Core", PluginName) != 1
         #expr Plugins[I] = PluginName
         #expr I = I + 1
     #endif
