@@ -305,7 +305,6 @@ Global
 		{5E5AAE4E-F70F-4985-FC4C-7FF7538CBF65}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5E5AAE4E-F70F-4985-FC4C-7FF7538CBF65}.Release|Any CPU.Build.0 = Release|Any CPU
 		{5E5AAE4E-F70F-4985-FC4C-7FF7538CBF65}.Release-net6|Any CPU.ActiveCfg = Release|Any CPU
-		{5E5AAE4E-F70F-4985-FC4C-7FF7538CBF65}.Release-net6|Any CPU.Build.0 = Release|Any CPU
 		{5E5AAE4E-F70F-4985-FC4C-7FF7538CBF65}.Release-netfx3|Any CPU.ActiveCfg = Release|Any CPU
 		{5E5AAE4E-F70F-4985-FC4C-7FF7538CBF65}.Release-netfx3|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
