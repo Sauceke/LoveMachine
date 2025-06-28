@@ -4,6 +4,10 @@
 		<OutputPath>..\bin\LoveMachinePrototyper\BepInEx\plugins\LoveMachinePrototyper\</OutputPath>
 	</PropertyGroup>
 	<ItemGroup>
+		<Compile Include="..\LoveMachine.Core\Config\ConfigurationManager\ConfigurationManagerAttributes.cs"
+                 LinkBase="Included" />
+	</ItemGroup>
+	<ItemGroup>
 		<ProjectReference Include="..\LoveMachine.Core\LoveMachine.Core.csproj" />
 	</ItemGroup>
 	<ItemGroup>

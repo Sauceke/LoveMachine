@@ -12,6 +12,16 @@ namespace LoveMachinePrototyper
             base.Start();
             PrototyperConfig.Initialize(this);
             Globals.ManagerObject.AddComponent<HListener>();
+            if (PrototyperConfig.PluginVersion.Value != Globals.Version)
+            {
+                Logger.LogWarning("This config file was written in LoveMachine Prototyping Tool " +
+                    $"{PrototyperConfig.PluginVersion.Value}, and may not work in other versions.");
+            }
+            if (PrototyperConfig.GameProcessName.Value != Paths.ProcessName)
+            {
+                Logger.LogWarning("This config file was written for a game named " +
+                    $"{PrototyperConfig.GameProcessName.Value}, and may not work in this game.");
+            }
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using BepInEx;
 using BepInEx.Configuration;
 using LoveMachine.Core.Common;
+using LoveMachine.Core.NonPortable;
 using System;
 using System.Collections.Generic;
 
@@ -8,6 +9,9 @@ namespace LoveMachinePrototyper
 {
     internal static class PrototyperConfig
     {
+        public static ConfigEntry<string> PluginVersion { get; private set; }
+        public static ConfigEntry<string> GameProcessName { get; private set; }
+
         public static ConfigEntry<string> PenisBaseName { get; private set; }
         public static ConfigEntry<string> AnimatorName { get; private set; }
         public static ConfigEntry<int> AnimationLayer { get; private set; }
@@ -19,6 +23,20 @@ namespace LoveMachinePrototyper
         public static void Initialize(BaseUnityPlugin plugin)
         {
             const string settingsTitle = "Prototyper Settings";
+            PluginVersion = plugin.Config.Bind(
+                section: settingsTitle,
+                key: "Plugin Version",
+                defaultValue: Globals.Version,
+                new ConfigDescription(
+                    "The LoveMachine version this config file was written in - do not edit",
+                    tags: new ConfigurationManagerAttributes { ReadOnly = true }));
+            GameProcessName = plugin.Config.Bind(
+                section: settingsTitle,
+                key: "Game Process Name",
+                defaultValue: Paths.ProcessName,
+                new ConfigDescription(
+                    "The name of the game process this config file was written in - do not edit",
+                    tags: new ConfigurationManagerAttributes { ReadOnly = true }));
             PenisBaseName = plugin.AddConfigEntry(
                 section: settingsTitle,
                 key: "Penis Base Name",
