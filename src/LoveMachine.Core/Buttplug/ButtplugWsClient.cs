@@ -24,6 +24,8 @@ namespace LoveMachine.Core.Buttplug
 
         public bool IsConsensual { get; set; } = true;
 
+        private bool reconnecting;
+
         private void Start() => Open();
 
         private void OnDestroy()
@@ -40,7 +42,10 @@ namespace LoveMachine.Core.Buttplug
             incoming = new ConcurrentQueue<IEnumerator>();
             string address = ButtplugConfig.WebSocketHost.Value
                 + ":" + ButtplugConfig.WebSocketPort.Value;
-            Logger.LogInfo($"Connecting to Intiface server at {address}");
+            if (!reconnecting)
+            {
+                Logger.LogInfo($"Connecting to Intiface server at {address}");
+            }
             websocket = new WebSocket(address);
             // StartCoroutine is only safe to call inside Unity's main thread
             websocket.Opened += (s, e) => incoming.Enqueue(OnOpened());
@@ -129,6 +134,7 @@ namespace LoveMachine.Core.Buttplug
 
         private IEnumerator OnOpened()
         {
+            reconnecting = false;
             Logger.LogInfo("Connected to Intiface. Commencing handshake.");
             RequestServerInfo();
             yield break;
@@ -136,9 +142,12 @@ namespace LoveMachine.Core.Buttplug
 
         private IEnumerator OnClosed()
         {
-            Logger.LogInfo(IsConnected
-                ? "Disconnected from Intiface."
-                : "Failed to connect to Intiface.");
+            if (!reconnecting)
+            {
+                Logger.LogInfo(IsConnected
+                    ? "Disconnected from Intiface."
+                    : "Failed to connect to Intiface.");
+            }
             CleanUp();
             HandleCoroutine(Reconnect());
             yield break;
@@ -160,14 +169,21 @@ namespace LoveMachine.Core.Buttplug
 
         private IEnumerator OnError(SuperSocket.ClientEngine.ErrorEventArgs e)
         {
-            Logger.LogWarning($"Websocket error: {e.Exception.Message}");
+            if (!reconnecting)
+            {
+                Logger.LogWarning($"Websocket error: {e.Exception.Message}");
+            }
             yield break;
         }
 
         private IEnumerator Reconnect()
         {
             int retrySecs = ButtplugConfig.ReconnectBackoffSecs.Value;
-            Logger.LogInfo($"Attempting to reconnect in {retrySecs} seconds...");
+            if (!reconnecting)
+            {
+                Logger.LogInfo($"Attempting to reconnect every {retrySecs} seconds...");
+            }
+            reconnecting = true;
             yield return new WaitForSecondsRealtime(retrySecs);
             Open();
         }
