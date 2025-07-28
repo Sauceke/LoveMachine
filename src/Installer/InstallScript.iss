@@ -181,6 +181,12 @@ begin
     Result := GetDir(IntToStr(Index)) <> '';
 end;
 
+function ShouldInstallIntiface(): Boolean;
+begin
+    Result := (not DirExists(AddBackslash(ExpandConstant('{commonpf32}')) + 'IntifaceCentral'))
+        and (not DirExists(AddBackslash(ExpandConstant('{userappdata}')) + 'IntifaceCentral'));
+end;
+
 function ShouldInstallBepInEx(Index: Integer; Architecture: String): Boolean;
 var
     BepInExCoreDir: String;
@@ -293,7 +299,7 @@ procedure CheckIntiface;
 var
     ErrorCode: Integer;
 begin
-    if not DirExists(AddBackslash(ExpandConstant('{commonpf32}')) + 'IntifaceCentral') then
+    if ShouldInstallIntiface() then
         if MsgBox(CustomMessage('InstallIntiface'), mbConfirmation, MB_YESNO) = IDYES then
             if not ShellExec('open', 'https://intiface.com/central/', '', '', SW_SHOW, ewNoWait, ErrorCode) then
                 MsgBox(SysErrorMessage(ErrorCode), mbError, MB_OK);
