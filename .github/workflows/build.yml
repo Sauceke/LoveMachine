@@ -13,7 +13,7 @@ jobs:
     strategy:
       matrix:
         include:
-          - os: windows-2019
+          - os: windows-2022
             vs-version: "[16.0,17.0)"
             configuration: Release-netfx3
 
@@ -34,6 +34,9 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v1
+
+      - name: Enable .NET Framework 3.5
+        run: DISM /Online /Enable-Feature /FeatureName:NetFx3 /All
 
       - name: Setup MSBuild path
         uses: microsoft/setup-msbuild@v1.1
