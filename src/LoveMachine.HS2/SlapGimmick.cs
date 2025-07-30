@@ -9,18 +9,18 @@ namespace LoveMachine.HS2
     {
         private readonly string[] slapAnimationNames = { "SAction", "WAction" };
         
-        protected override IEnumerator Run(Device device)
+        protected override IEnumerator Run(DeviceFeature feature)
         {
             var hs2 = GetComponent<HoneySelect2Game>();
-            float updateTimeSecs = 1f / device.Settings.UpdatesHz;
+            float updateTimeSecs = 1f / feature.Device.Settings.UpdatesHz;
             while (true)
             {
                 yield return new WaitForSecondsRealtime(updateTimeSecs);
-                var info = hs2.animators[device.Settings.GirlIndex]
+                var info = hs2.animators[feature.Settings.GirlIndex]
                     .GetCurrentAnimatorStateInfo(0);
                 if (slapAnimationNames.Any(info.IsName))
                 {
-                    yield return DoStroke(device, info.length);
+                    yield return DoStroke(feature, info.length);
                     yield return new WaitForSecondsRealtime(info.length / 2);
                 }
             }

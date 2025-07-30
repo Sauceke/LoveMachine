@@ -1,9 +1,12 @@
-﻿using LoveMachine.Core.Buttplug.Settings;
+﻿using LoveMachine.Core.Buttplug;
+using LoveMachine.Core.Buttplug.Settings;
 using LoveMachine.Core.UI.Util;
+using System;
+using UnityEngine;
 
 namespace LoveMachine.Core.UI.Settings
 {
-    internal class StrokerSettingsUI: SettingsUI
+    internal class StrokerSettingsUI : SettingsUI
     {
         public override void Draw(DeviceSettings deviceSettings)
         {
@@ -13,44 +16,36 @@ namespace LoveMachine.Core.UI.Settings
                 return;
             }
             var defaults = new StrokerSettings();
-            settings.MaxStrokesPerMin = GUIUtil.IntSlider(
-                label: "Max Strokes Per Minute",
-                tooltip: "The top speed possible on this stroker at 100% stroke length.",
-                value: settings.MaxStrokesPerMin,
-                defaultValue: defaults.MaxStrokesPerMin,
-                min: 60,
-                max: 300);
-            {
-                float min = settings.SlowStrokeZoneMin;
-                float max = settings.SlowStrokeZoneMax;
-                GUIUtil.PercentRangeSlider(
-                    label: "Stroke Zone - Slow",
-                    tooltip: "Range of stroking movement when going slow",
-                    lower: ref min,
-                    upper: ref max,
-                    lowerDefault: defaults.SlowStrokeZoneMin,
-                    upperDefault: defaults.SlowStrokeZoneMax);
-                settings.SlowStrokeZoneMin = min;
-                settings.SlowStrokeZoneMax = max;
-            }
-            {
-                float min = settings.FastStrokeZoneMin;
-                float max = settings.FastStrokeZoneMax;
-                GUIUtil.PercentRangeSlider(
-                    label: "Stroke Zone - Fast",
-                    tooltip: "Range of stroking movement when going fast",
-                    lower: ref min,
-                    upper: ref max,
-                    lowerDefault: defaults.FastStrokeZoneMin,
-                    upperDefault: defaults.FastStrokeZoneMax);
-                settings.FastStrokeZoneMin = min;
-                settings.FastStrokeZoneMax = max;
-            }
+            GUIUtil.Title("Stroker Settings");
+            GUIUtil.PercentRangeSlider(
+                label: "Stroke Zone",
+                tooltip: "Range of the stroking movement.",
+                setting: settings.StrokeZone,
+                defaults: defaults.StrokeZone);
+            GUIUtil.PercentRangeSlider(
+                label: "Orgasm Shake Zone",
+                tooltip: "Range of the shaking movement during orgasm.",
+                setting: settings.OrgasmShakeZone,
+                defaults: defaults.OrgasmShakeZone);
             settings.SmoothStroking = GUIUtil.Toggle(
                 label: "Smooth Stroking",
-                tooltip: "Warning: not all strokers support this.",
+                tooltip: "Makes the movement less robotic. Not all strokers support this.",
                 value: settings.SmoothStroking,
                 defaultValue: defaults.SmoothStroking);
+            if (settings.SmoothStroking)
+            {
+                settings.Pattern = (StrokingPattern)GUIUtil.MultiChoice(
+                    label: "Stroking Pattern",
+                    tooltip: "The type of stroking motion to use",
+                    choices: Enum.GetNames(typeof(StrokingPattern)),
+                    value: (int)settings.Pattern);
+                if (settings.Pattern == StrokingPattern.Custom)
+                {
+                    settings.CustomPattern = GUIUtil.PatternEditor(settings.CustomPattern);
+                    GUILayout.Label("The pattern should start and end at the bottom. " +
+                        "Avoid large jumps and always test before use to prevent injury.");
+                }
+            }
         }
     }
 }

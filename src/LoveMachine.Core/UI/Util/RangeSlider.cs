@@ -7,14 +7,6 @@ namespace LoveMachine.Core.UI.Util
         private static readonly GUIStyle sliderStyle = GUI.skin.horizontalSlider;
         private static readonly GUIStyle thumbStyle = GUI.skin.horizontalSliderThumb;
 
-        private static readonly GUIStyle bandStyle = new GUIStyle
-        {
-            normal = new GUIStyleState
-            {
-                background = BandTexture()
-            }
-        };
-
         private readonly Rect position;
         private float value1;
         private float value2;
@@ -97,7 +89,7 @@ namespace LoveMachine.Core.UI.Util
         private void OnRepaint()
         {
             sliderStyle.Draw(position, GUIContent.none, id);
-            bandStyle.Draw(BandRect(), GUIContent.none, id);
+            GetBandStyle().Draw(BandRect(), GUIContent.none, id);
             thumbStyle.Draw(ThumbRect(value1), GUIContent.none, id);
             thumbStyle.Draw(ThumbRect(value2), GUIContent.none, id);
         }
@@ -146,7 +138,15 @@ namespace LoveMachine.Core.UI.Util
 
         private static float ThumbHeight => thumbStyle.CalcSize(GUIContent.none).y;
 
-        private static Texture2D BandTexture()
+        private static GUIStyle GetBandStyle() => new GUIStyle
+        {
+            normal = new GUIStyleState
+            {
+                background = GetBandTexture()
+            }
+        };
+
+        private static Texture2D GetBandTexture()
         {
             var texture = new Texture2D(1, 1);
             texture.SetPixels(new[] { new Color(1, 1, 1, 0.5f) });

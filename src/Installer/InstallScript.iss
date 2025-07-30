@@ -20,7 +20,7 @@
 #define I 0
 #sub AddGameEntry
     #define PluginName FindGetFileName(FindHandle)
-    #if Pos("LoveMachine.Core", PluginName) != 1
+    #if Pos("LoveMachine.", PluginName) == 1 && Pos("LoveMachine.Core", PluginName) != 1
         #expr Plugins[I] = PluginName
         #expr I = I + 1
     #endif
@@ -50,7 +50,7 @@ Compression=lzma2
 SolidCompression=yes
 OutputDir=bin
 OutputBaseFilename=LoveMachineInstaller
-WizardStyle=modern
+WizardStyle=classic
 DisableDirPage=yes
 DisableWelcomePage=no
 PrivilegesRequired=lowest
@@ -181,12 +181,18 @@ begin
     Result := GetDir(IntToStr(Index)) <> '';
 end;
 
+function ShouldInstallIntiface(): Boolean;
+begin
+    Result := (not DirExists(AddBackslash(ExpandConstant('{commonpf32}')) + 'IntifaceCentral'))
+        and (not DirExists(AddBackslash(ExpandConstant('{userappdata}')) + 'IntifaceCentral'));
+end;
+
 function ShouldInstallBepInEx(Index: Integer; Architecture: String): Boolean;
 var
-    BepInExConfigDir: String;
+    BepInExCoreDir: String;
 begin
-    BepInExConfigDir := AddBackslash(GetDir(IntToStr(Index))) + 'BepInEx\config';
-    Result := (not DirExists(BepInExConfigDir)) and (GetGameArchitecture(Index) = Architecture);
+    BepInExCoreDir := AddBackslash(GetDir(IntToStr(Index))) + 'BepInEx\core';
+    Result := (not DirExists(BepInExCoreDir)) and (GetGameArchitecture(Index) = Architecture);
 end;
 
 function GetPreviousDataKey(Index: Integer): String;
@@ -208,26 +214,35 @@ begin
     end;
 end;
 
-function OnDirPageNextClick(Page: TWizardPage): Boolean;
+function ValidateDirPage(Page: TWizardPage; DirCount: Integer): Boolean;
 var
     DirPage: TInputDirWizardPage;
     IndexInPage: Integer;
 begin
     Result := True;
     DirPage := Page as TInputDirWizardPage;
-    try
-        for IndexInPage := 0 to PageSize - 1 do
+    for IndexInPage := 0 to DirCount - 1 do
+    begin
+        if not ValidateGameDir(DirPage.Values[IndexInPage]) then
         begin
-            if not ValidateGameDir(DirPage.Values[IndexInPage]) then
-            begin
-                Result := False;
-                break;
-            end;
+            Result := False;
+            break;
         end;
-    except
-        // there is no way to get the length of TInputDirWizardPage.Values
-        // so just go for an out of bounds error and fucking swallow it
     end;
+end;
+
+function OnDirPageNextClick(Page: TWizardPage): Boolean;
+begin
+    Result := ValidateDirPage(Page, PageSize);
+end;
+
+function OnLastDirPageNextClick(Page: TWizardPage): Boolean;
+var
+    LastPage: Integer;
+    LastIndex: Integer;
+begin
+    GetPageAndIndex(PluginCount - 1, LastPage, LastIndex);
+    Result := ValidateDirPage(Page, LastIndex + 1);
 end;
 
 procedure AddDirPrompts;
@@ -254,6 +269,7 @@ begin
             GetPreviousData(GetPreviousDataKey(Index), GuessGamePath(Index));
         DirPages[Page].OnNextButtonClick := @OnDirPageNextClick;
     end;
+    DirPages[Page].OnNextButtonClick := @OnLastDirPageNextClick;
 end;
 
 // based on https://stackoverflow.com/a/31706698
@@ -283,7 +299,7 @@ procedure CheckIntiface;
 var
     ErrorCode: Integer;
 begin
-    if not DirExists(AddBackslash(ExpandConstant('{commonpf32}')) + 'IntifaceCentral') then
+    if ShouldInstallIntiface() then
         if MsgBox(CustomMessage('InstallIntiface'), mbConfirmation, MB_YESNO) = IDYES then
             if not ShellExec('open', 'https://intiface.com/central/', '', '', SW_SHOW, ewNoWait, ErrorCode) then
                 MsgBox(SysErrorMessage(ErrorCode), mbError, MB_OK);

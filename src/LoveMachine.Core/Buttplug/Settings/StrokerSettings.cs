@@ -1,12 +1,18 @@
-﻿namespace LoveMachine.Core.Buttplug.Settings
+﻿using LoveMachine.Core.Common;
+
+namespace LoveMachine.Core.Buttplug.Settings
 {
     public class StrokerSettings
     {
-        public int MaxStrokesPerMin { get; set; } = 150;
-        public float SlowStrokeZoneMin { get; set; } = 0f;
-        public float SlowStrokeZoneMax { get; set; } = 1f;
-        public float FastStrokeZoneMin { get; set; } = 0.1f;
-        public float FastStrokeZoneMax { get; set; } = 0.9f;
+        public RangeSetting StrokeZone { get; set; } = new RangeSetting(0f, 1f);
+        public RangeSetting OrgasmShakeZone { get; set; } = new RangeSetting(0.2f, 0.3f);
         public bool SmoothStroking { get; set; } = false;
+        public StrokingPattern Pattern { get; set; } = StrokingPattern.Sine;
+        public float[] CustomPattern { get; set; } = new float[20];
+    }
+
+    public enum StrokingPattern
+    {
+        Sine, Cups, Arches, Animation, Custom
     }
 }

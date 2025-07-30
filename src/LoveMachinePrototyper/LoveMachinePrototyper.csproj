@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<TargetFramework>net35</TargetFramework>
+		<OutputPath>..\bin\LoveMachinePrototyper\BepInEx\plugins\LoveMachinePrototyper\</OutputPath>
+	</PropertyGroup>
+	<ItemGroup>
+		<Compile Include="..\LoveMachine.Core\Config\ConfigurationManager\ConfigurationManagerAttributes.cs"
+                 LinkBase="Included" />
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\LoveMachine.Core\LoveMachine.Core.csproj" />
+	</ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="UnityEngine.Core" Version="5.6.0" ExcludeAssets="runtime" />
+	</ItemGroup>
+</Project>

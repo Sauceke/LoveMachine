@@ -45,7 +45,7 @@ is not guaranteed.
 | [Our Apartment]            | Momoiro Software   | 0.5.3.a           | Available in the [installer]                             |
 | [Melty Night VR]           | Cauchemar          | 0.5.5             | [Patreon post][Patreon-MNVR], or build the `mnvr` branch |
 | [Orc Massage]              | TorchEntertainment | July 11, 2023     | [Patreon post][Patreon-OM], or build the `om` branch     |
-| [Summer In Heat]           | Miconisomi         | 0.10              | [Free patreon post][Patreon-SIH]                         |
+| [Summer In Heat]           | Miconisomi         | 1.00              | [Free patreon post][Patreon-SIH]                         |
 | [Summer Vacation Scramble] | Illgames           | 1.0.0             | [Free patreon post][Patreon-SVS]                         |
 | [Sex Formula]              | Migi Studio        | 1.3.0             | [Patreon post][Patreon-SF], or build the `sf` branch     |
 | [Gals Collector]           | Studio Tris        | 1.04              | [Free patreon post][Patreon-GC]                          |
@@ -292,7 +292,7 @@ This mod would not have been possible without the [BepInEx] plugin framework and
 [Patreon]: https://www.patreon.com/sauceke
 [Patreon-MNVR]: https://www.patreon.com/posts/lovemachine-for-105156790
 [Patreon-OM]: https://www.patreon.com/posts/lovemachine-for-105156790
-[Patreon-SIH]: https://www.patreon.com/posts/xia-nosakari-107065871
+[Patreon-SIH]: https://www.patreon.com/posts/lovemachine-for-121132226
 [Patreon-SVS]: https://www.patreon.com/posts/lovemachine-for-111228062
 [Patreon-SF]: https://www.patreon.com/posts/lovemachine-for-116761160
 [Patreon-GC]: https://www.patreon.com/posts/lovemachine-for-119312328
@@ -329,6 +329,8 @@ This mod would not have been possible without the [BepInEx] plugin framework and
   https://www.dlsite.com/pro/dlaf/=/t/n/link/work/aid/sauceke/locale/en_US/id/VJ01002420.html/?locale=en_US
 [Gals Collector]:
   https://www.dlsite.com/maniax/dlaf/=/t/n/link/work/aid/sauceke/locale/en_US/id/RJ01285811.html/?locale=en_US
+[Summer In Heat]:
+  https://dlaf.jp/maniax/dlaf/=/t/n/link/work/aid/sauceke/locale/en_US/id/RJ365188.html/?locale=en_US
 
 <!-- sponsored sex toy links -->
 
@@ -359,5 +361,4 @@ This mod would not have been possible without the [BepInEx] plugin framework and
 [Solas City Heroes]: https://store.steampowered.com/app/2060170/Solas_City_Heroes/
 [Melty Night VR]: https://ci-en.dlsite.com/creator/3131
 [Orc Massage]: https://store.steampowered.com/app/1129540/Orc_Massage/
-[Summer In Heat]: https://www.dlsite.com/maniax/announce/=/product_id/RJ365188.html
 [Sex Formula]: https://store.steampowered.com/app/2889660/Sex_Formula/
