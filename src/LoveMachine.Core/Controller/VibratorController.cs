@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using LoveMachine.Core.Buttplug;
 using LoveMachine.Core.Buttplug.Settings;
+using LoveMachine.Core.Config;
 using LoveMachine.Core.Game;
 using UnityEngine;
 
@@ -11,29 +14,33 @@ namespace LoveMachine.Core.Controller
     {
         public override string FeatureName => "Vibration";
         
-        public override bool IsDeviceSupported(Device device) => device.IsVibrator;
+        public override Buttplug.Buttplug.Feature[] GetSupportedFeatures(Device device) =>
+            device.DeviceMessages.ScalarCmd.Where(feature => feature.IsVibrator).ToArray();
 
-        protected override IEnumerator HandleAnimation(Device device, StrokeInfo strokeInfo)
+        protected override IEnumerator HandleAnimation(DeviceFeature feature, StrokeInfo strokeInfo)
         {
-            float strength = GetStrength(strokeInfo.Completion, device.Settings.VibratorSettings);
+            var settings = feature.Device.Settings.VibratorSettings;
+            float strength = GetStrength(strokeInfo.Completion, settings, strokeInfo);
+            strength *=
+                GetIntensity(VibratorConfig.IntensitySettings, feature.Device.Settings, strokeInfo);
             float intensity = Mathf.Lerp(
-                device.Settings.VibratorSettings.IntensityMin,
-                device.Settings.VibratorSettings.IntensityMax,
+                settings.IntensityRange.Min,
+                settings.IntensityRange.Max,
                 t: strength);
-            Client.VibrateCmd(device, intensity);
-            yield return WaitForSecondsUnscaled(1f / device.Settings.UpdatesHz);
+            Client.VibrateCmd(feature, intensity);
+            yield return WaitForSecondsUnscaled(1f / feature.Device.Settings.UpdatesHz);
         }
 
-        protected override IEnumerator HandleOrgasm(Device device)
+        protected override IEnumerator HandleOrgasm(DeviceFeature feature)
         {
-            Client.VibrateCmd(device, device.Settings.VibratorSettings.IntensityMax);
+            Client.VibrateCmd(feature, feature.Device.Settings.VibratorSettings.IntensityRange.Max);
             yield break;
         }
 
-        protected override void HandleLevel(Device device, float level, float durationSecs) =>
-            Client.VibrateCmd(device, level);
+        protected override void HandleLevel(DeviceFeature feature, float level, float durationSecs) =>
+            Client.VibrateCmd(feature, level);
 
-        private static float GetStrength(float x, VibratorSettings settings)
+        private static float GetStrength(float x, VibratorSettings settings, StrokeInfo strokeInfo)
         {
             switch (settings.Pattern)
             {
@@ -51,6 +58,9 @@ namespace LoveMachine.Core.Controller
 
                 case VibrationPattern.Constant:
                     return 1f;
+
+                case VibrationPattern.Animation:
+                    return CustomWave(x, strokeInfo.Pattern);
 
                 case VibrationPattern.Custom:
                     return CustomWave(x, settings.CustomPattern);

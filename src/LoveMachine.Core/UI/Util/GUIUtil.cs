@@ -1,9 +1,23 @@
-﻿using UnityEngine;
+﻿using LoveMachine.Core.Common;
+using System.Linq;
+using UnityEngine;
 
 namespace LoveMachine.Core.UI.Util
 {
     internal static class GUIUtil
     {
+        internal static void Title(string title)
+        {
+            GUILayout.BeginHorizontal();
+            {
+                GUILayout.FlexibleSpace();
+                GUILayout.Label(title);
+                GUILayout.FlexibleSpace();
+            }
+            GUILayout.EndHorizontal();
+            SingleSpace();
+        }
+
         internal static void PercentBar(string label, string tooltip, float value)
         {
             GUILayout.BeginHorizontal();
@@ -19,9 +33,10 @@ namespace LoveMachine.Core.UI.Util
         }
 
         internal static void RangeSlider(string label, string tooltip,
-            ref float lower, ref float upper, float lowerDefault, float upperDefault,
-            float min, float max)
+            RangeSetting setting, RangeSetting defaults, float min, float max)
         {
+            float lower = setting.Min;
+            float upper = setting.Max;
             GUILayout.BeginHorizontal();
             {
                 LabelWithTooltip(label, tooltip);
@@ -30,17 +45,21 @@ namespace LoveMachine.Core.UI.Util
                 GUILayout.Label(upper.ToString("N2"), GUILayout.ExpandWidth(false));
                 if (ResetButton)
                 {
-                    lower = lowerDefault;
-                    upper = upperDefault;
+                    lower = defaults.Min;
+                    upper = defaults.Max;
                 }
             }
             GUILayout.EndHorizontal();
             SingleSpace();
+            setting.Min = lower;
+            setting.Max = upper;
         }
 
         internal static void PercentRangeSlider(string label, string tooltip,
-            ref float lower, ref float upper, float lowerDefault, float upperDefault)
+            RangeSetting setting, RangeSetting defaults)
         {
+            float lower = setting.Min;
+            float upper = setting.Max;
             GUILayout.BeginHorizontal();
             {
                 LabelWithTooltip(label, tooltip);
@@ -49,12 +68,33 @@ namespace LoveMachine.Core.UI.Util
                 PercentLabel(upper);
                 if (ResetButton)
                 {
-                    lower = lowerDefault;
-                    upper = upperDefault;
+                    lower = defaults.Min;
+                    upper = defaults.Max;
                 }
             }
             GUILayout.EndHorizontal();
             SingleSpace();
+            setting.Min = lower;
+            setting.Max = upper;
+        }
+
+        public static float FloatSlider(string label, string tooltip,
+            float value, float defaultValue, float min, float max)
+        {
+            GUILayout.BeginHorizontal();
+            {
+                LabelWithTooltip(label, tooltip);
+                value = GUILayout.HorizontalSlider(value, min, max);
+                value = float.Parse(GUILayout.TextField(value.ToString("N2"), GUILayout.Width(50)));
+                if (ResetButton)
+                {
+                    value = defaultValue;
+                }
+                value = Mathf.Clamp(value, min, max);
+            }
+            GUILayout.EndHorizontal();
+            SingleSpace();
+            return value;
         }
 
         public static int IntSlider(string label, string tooltip,
@@ -105,6 +145,20 @@ namespace LoveMachine.Core.UI.Util
             GUILayout.EndHorizontal();
             SingleSpace();
             return value;
+        }
+
+        public static float[] PatternEditor(float[] pattern)
+        {
+            GUILayout.BeginHorizontal();
+            {
+                LabelWithTooltip("Custom Pattern", "Draw your own pattern.");
+                pattern = pattern
+                    .Select(y => GUILayout.VerticalSlider(y, 1f, 0f))
+                    .ToArray();
+            }
+            GUILayout.EndHorizontal();
+            SingleSpace();
+            return pattern;
         }
 
         public static void SingleSpace() => GUILayout.Space(10);

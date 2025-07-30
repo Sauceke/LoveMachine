@@ -14,15 +14,15 @@ namespace LoveMachine.KK
             Bone.LeftBreast, Bone.RightBreast, Bone.Vagina, Bone.Anus, Bone.LeftButt, Bone.RightButt
         };
 
-        protected override IEnumerator Run(Device device)
+        protected override IEnumerator Run(DeviceFeature feature)
         {
             var kk = gameObject.GetComponent<KoikatsuGame>();
-            float updateTimeSecs = 1f / device.Settings.UpdatesHz;
+            float updateTimeSecs = 1f / feature.Device.Settings.UpdatesHz;
             float previousY = 0f;
             while (true)
             {
                 yield return new WaitForSecondsRealtime(updateTimeSecs);
-                var bone = device.Settings.Bone;
+                var bone = feature.Settings.Bone;
                 if (!fondleBones.Contains(bone))
                 {
                     continue;
@@ -30,7 +30,7 @@ namespace LoveMachine.KK
                 float y = kk.Flags.xy[fondleBones.IndexOf(bone)].y;
                 if (previousY != y)
                 {
-                    SetLevel(device, y, updateTimeSecs);
+                    SetLevel(feature, y, updateTimeSecs);
                     previousY = y;
                 }
             }

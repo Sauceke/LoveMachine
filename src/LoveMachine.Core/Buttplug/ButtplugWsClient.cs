@@ -24,6 +24,8 @@ namespace LoveMachine.Core.Buttplug
 
         public bool IsConsensual { get; set; } = true;
 
+        private bool reconnecting;
+
         private void Start() => Open();
 
         private void OnDestroy()
@@ -40,7 +42,10 @@ namespace LoveMachine.Core.Buttplug
             incoming = new ConcurrentQueue<IEnumerator>();
             string address = ButtplugConfig.WebSocketHost.Value
                 + ":" + ButtplugConfig.WebSocketPort.Value;
-            Logger.LogInfo($"Connecting to Intiface server at {address}");
+            if (!reconnecting)
+            {
+                Logger.LogInfo($"Connecting to Intiface server at {address}");
+            }
             websocket = new WebSocket(address);
             // StartCoroutine is only safe to call inside Unity's main thread
             websocket.Opened += (s, e) => incoming.Enqueue(OnOpened());
@@ -58,20 +63,33 @@ namespace LoveMachine.Core.Buttplug
             CleanUp();
         }
 
-        public void LinearCmd(Device device, float position, float durationSecs) =>
-            SendWithConsent(Buttplug.LinearCmd(device, position, durationSecs));
+        public void LinearCmd(DeviceFeature feature, float position, float durationSecs) =>
+            SendWithConsent(
+                Buttplug.LinearCmd(feature.Device, feature.FeatureIndex, position, durationSecs),
+                feature);
 
-        public void VibrateCmd(Device device, float intensity) =>
-            SendWithConsent(Buttplug.ScalarCmd(device, intensity, Buttplug.Feature.Vibrate));
+        public void VibrateCmd(DeviceFeature feature, float intensity) =>
+            SendWithConsent(
+                Buttplug.ScalarCmd(feature.Device, feature.FeatureIndex, intensity,
+                    Buttplug.Feature.Vibrate),
+                feature);
 
-        public void ConstrictCmd(Device device, float pressure) =>
-            SendWithConsent(Buttplug.ScalarCmd(device, pressure, Buttplug.Feature.Constrict));
-        
-        public void OscillateCmd(Device device, float speed) =>
-            SendWithConsent(Buttplug.ScalarCmd(device, speed, Buttplug.Feature.Oscillate));
+        public void ConstrictCmd(DeviceFeature feature, float pressure) =>
+            SendWithConsent(
+                Buttplug.ScalarCmd(feature.Device, feature.FeatureIndex, pressure,
+                    Buttplug.Feature.Constrict),
+                feature);
 
-        public void RotateCmd(Device device, float speed, bool clockwise) =>
-            SendWithConsent(Buttplug.RotateCmd(device, speed, clockwise));
+        public void OscillateCmd(DeviceFeature feature, float speed) =>
+            SendWithConsent(
+                Buttplug.ScalarCmd(feature.Device, feature.FeatureIndex, speed,
+                    Buttplug.Feature.Oscillate),
+                feature);
+
+        public void RotateCmd(DeviceFeature feature, float speed, bool clockwise) =>
+            SendWithConsent(
+                Buttplug.RotateCmd(feature.Device, feature.FeatureIndex, speed, clockwise),
+                feature);
 
         public void BatteryLevelCmd(Device device) => Send(Buttplug.BatteryLevelCmd(device));
 
@@ -95,9 +113,9 @@ namespace LoveMachine.Core.Buttplug
 
         private void Send(object command) => websocket.Send(JsonMapper.ToJson(new[] { command }));
 
-        private void SendWithConsent(object command)
+        private void SendWithConsent(object command, DeviceFeature feature)
         {
-            if (IsConsensual)
+            if (IsConsensual && feature.Settings.Enabled)
             {
                 Send(command);
             }
@@ -116,6 +134,7 @@ namespace LoveMachine.Core.Buttplug
 
         private IEnumerator OnOpened()
         {
+            reconnecting = false;
             Logger.LogInfo("Connected to Intiface. Commencing handshake.");
             RequestServerInfo();
             yield break;
@@ -123,9 +142,12 @@ namespace LoveMachine.Core.Buttplug
 
         private IEnumerator OnClosed()
         {
-            Logger.LogInfo(IsConnected
-                ? "Disconnected from Intiface."
-                : "Failed to connect to Intiface.");
+            if (!reconnecting)
+            {
+                Logger.LogInfo(IsConnected
+                    ? "Disconnected from Intiface."
+                    : "Failed to connect to Intiface.");
+            }
             CleanUp();
             HandleCoroutine(Reconnect());
             yield break;
@@ -147,20 +169,27 @@ namespace LoveMachine.Core.Buttplug
 
         private IEnumerator OnError(SuperSocket.ClientEngine.ErrorEventArgs e)
         {
-            Logger.LogWarning($"Websocket error: {e.Exception.Message}");
+            if (!reconnecting)
+            {
+                Logger.LogWarning($"Websocket error: {e.Exception.Message}");
+            }
             yield break;
         }
 
         private IEnumerator Reconnect()
         {
             int retrySecs = ButtplugConfig.ReconnectBackoffSecs.Value;
-            Logger.LogInfo($"Attempting to reconnect in {retrySecs} seconds...");
+            if (!reconnecting)
+            {
+                Logger.LogInfo($"Attempting to reconnect every {retrySecs} seconds...");
+            }
+            reconnecting = true;
             yield return new WaitForSecondsRealtime(retrySecs);
             Open();
         }
 
         private bool CheckOkMsg(JsonData data) => data.ContainsKey("Ok");
-        
+
         private bool CheckErrorMsg(JsonData data)
         {
             if (!data.ContainsKey("Error"))
@@ -236,7 +265,7 @@ namespace LoveMachine.Core.Buttplug
             var args = new DeviceListEventArgs(before: oldDevices, after: Devices);
             OnDeviceListUpdated.Invoke(this, args);
         }
-        
+
         private IEnumerator RunReceiveLoop()
         {
             while (true)
@@ -248,7 +277,7 @@ namespace LoveMachine.Core.Buttplug
                 yield return new WaitForSecondsRealtime(1f);
             }
         }
-        
+
         private IEnumerator RunBatteryLoop()
         {
             while (true)

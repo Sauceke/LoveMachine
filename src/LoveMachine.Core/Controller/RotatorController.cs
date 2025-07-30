@@ -12,20 +12,21 @@ namespace LoveMachine.Core.Controller
         
         private bool clockwise = true;
 
-        public override bool IsDeviceSupported(Device device) => device.IsRotator;
+        public override Buttplug.Buttplug.Feature[] GetSupportedFeatures(Device device) =>
+            device.DeviceMessages.RotateCmd;
 
-        protected override IEnumerator HandleAnimation(Device device, StrokeInfo strokeInfo)
+        protected override IEnumerator HandleAnimation(DeviceFeature feature, StrokeInfo strokeInfo)
         {
             float completion = strokeInfo.Completion;
             float remaining = Mathf.Floor(completion * 2f) + 1f - completion;
             float strokeTimeSecs = strokeInfo.DurationSecs * remaining;
             float halfStrokeTimeSecs = strokeTimeSecs / 2f;
-            float downSpeed = Mathf.Lerp(0.3f, 1f, 0.4f / strokeTimeSecs) *
-                RotatorConfig.RotationSpeedRatio.Value;
+            float downSpeed =
+                GetIntensity(RotatorConfig.IntensitySettings, feature.Device.Settings, strokeInfo);
             float upSpeed = downSpeed * 0.8f;
-            Client.RotateCmd(device, downSpeed, clockwise);
+            Client.RotateCmd(feature, downSpeed, clockwise);
             yield return WaitForSecondsUnscaled(halfStrokeTimeSecs);
-            Client.RotateCmd(device, upSpeed, !clockwise);
+            Client.RotateCmd(feature, upSpeed, !clockwise);
             yield return WaitForSecondsUnscaled(halfStrokeTimeSecs);
             if (UnityEngine.Random.value <= RotatorConfig.RotationDirectionChangeChance.Value)
             {
@@ -33,13 +34,13 @@ namespace LoveMachine.Core.Controller
             }
         }
 
-        protected override IEnumerator HandleOrgasm(Device device)
+        protected override IEnumerator HandleOrgasm(DeviceFeature feature)
         {
-            Client.RotateCmd(device, 1f, clockwise);
+            Client.RotateCmd(feature, 1f, clockwise);
             yield break;
         }
 
-        protected override void HandleLevel(Device device, float level, float durationSecs) =>
-            Client.RotateCmd(device, level, true);
+        protected override void HandleLevel(DeviceFeature feature, float level, float durationSecs) =>
+            Client.RotateCmd(feature, level, true);
     }
 }

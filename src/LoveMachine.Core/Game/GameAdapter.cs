@@ -160,7 +160,8 @@ namespace LoveMachine.Core.Game
 
         /// <summary>
         /// Low-level replacement for Unity's AnimatorStateInfo. <br/>
-        /// You might need this e.g. when animations are handled by Playables.
+        /// You might need this e.g. when animations are handled by Playables. <br/>
+        /// This will be called often, so keep it lightweight!
         /// </summary>
         /// <param name="girlIndex">
         /// the index of the heroine whose current animator state to get
@@ -171,9 +172,13 @@ namespace LoveMachine.Core.Game
         /// </param>
         /// <param name="length">equivalent to AnimatorStateInfo.length</param>
         /// <param name="speed">
-        /// equivalent to AnimatorStateInfo.speed; must be relative to in-game
-        /// time (i.e. ignoring timeScale) <br/>
-        /// This will be called often, so keep it lightweight!
+        /// Okay, so animation speeds in Unity are a mess.
+        /// As far as I can tell: <br/>
+        /// AnimatorStateInfo: just set to 1, disregard the speed property; the
+        /// length is automatically adjusted <br/>
+        /// AnimationState: length is NOT auto-adjusted, so set this to the
+        /// speed property (probably) <br/>
+        /// Everything else: ¯\_(ツ)_/¯
         /// </param>
         [HideFromIl2Cpp]
         protected internal virtual void GetAnimState(int girlIndex, out float normalizedTime,
@@ -182,7 +187,7 @@ namespace LoveMachine.Core.Game
             var info = GetAnimatorStateInfo(girlIndex);
             normalizedTime = info.normalizedTime;
             length = info.length;
-            speed = info.speed;
+            speed = 1f;
         }
 
         /// <summary>

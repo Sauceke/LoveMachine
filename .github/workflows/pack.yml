@@ -30,8 +30,8 @@ jobs:
       - name: Download artifacts
         uses: actions/download-artifact@v4
         with:
+          name: bin
           path: src/bin
-          pattern: "bin-*"
           merge-multiple: true
 
       - name: Alias dependencies

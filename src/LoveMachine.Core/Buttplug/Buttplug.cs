@@ -1,7 +1,6 @@
-﻿using System;
+﻿using BepInEx;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using BepInEx;
 
 namespace LoveMachine.Core.Buttplug
 {
@@ -60,55 +59,56 @@ namespace LoveMachine.Core.Buttplug
             }
         };
 
-        public static object LinearCmd(Device device, float position, float durationSecs) => new
+        public static object LinearCmd(Device device, int featureIndex, float position, float durationSecs) => new
         {
             LinearCmd = new
             {
                 Id = NewId,
                 DeviceIndex = device.DeviceIndex,
-                Vectors = device.DeviceMessages.LinearCmd
-                    .Select((feature, featureIndex) => new
+                Vectors = new[] {
+                    new
                     {
                         Index = featureIndex,
                         Duration = (int)(durationSecs * 1000f),
                         Position = position
-                    })
-                    .ToArray()
+                    }
+                }
             }
         };
 
-        public static object ScalarCmd(Device device, float value, string actuatorType) => new
+        public static object ScalarCmd(Device device, int featureIndex, float value, string actuatorType) => new
         {
             ScalarCmd = new
             {
                 Id = NewId,
                 DeviceIndex = device.DeviceIndex,
-                Scalars = device.DeviceMessages.ScalarCmd
-                    .Select((feature, featureIndex) => new
+                Scalars = new[]
+                {
+                    new
                     {
                         Index = featureIndex,
                         Scalar = value,
-                        ActuatorType = feature.ActuatorType
-                    })
-                    .Where(cmd => cmd.ActuatorType == actuatorType)
-                    .ToArray()
+                        ActuatorType = actuatorType
+                    }
+                }
             }
         };
 
-        public static object RotateCmd(Device device, float speed, bool clockwise) => new
+        public static object RotateCmd(Device device, int featureIndex, float speed, bool clockwise) => new
         {
             RotateCmd = new
             {
                 Id = NewId,
                 DeviceIndex = device.DeviceIndex,
-                Rotations = device.DeviceMessages.RotateCmd
-                    .Select((feature, featureIndex) => new
+                Rotations = new[]
+                {
+                    new
                     {
                         Index = featureIndex,
                         Speed = speed,
                         Clockwise = clockwise
-                    })
-                    .ToArray()
+                    }
+                }
             }
         };
 
@@ -145,10 +145,10 @@ namespace LoveMachine.Core.Buttplug
 
         public class Features
         {
-            public Feature[] LinearCmd { get; set; }
-            public Feature[] ScalarCmd { get; set; }
-            public Feature[] RotateCmd { get; set; }
-            public Feature[] SensorReadCmd { get; set; }
+            public Feature[] LinearCmd { get; set; } = new Feature[0];
+            public Feature[] ScalarCmd { get; set; } = new Feature[0];
+            public Feature[] RotateCmd { get; set; } = new Feature[0];
+            public Feature[] SensorReadCmd { get; set; } = new Feature[0];
         }
 
         public class Feature

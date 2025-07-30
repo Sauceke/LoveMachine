@@ -19,7 +19,7 @@ namespace LoveMachine.Core.Config
             const string deviceListTitle = "Device List";
             SaveDeviceMapping = plugin.Config.Bind(
                 section: deviceListTitle,
-                key: "Save Device Assignments",
+                key: "Save Group Role & Body Part",
                 defaultValue: false,
                 new ConfigDescription("",
                     tags: new ConfigurationManagerAttributes { Order = --order }));

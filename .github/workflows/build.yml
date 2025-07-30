@@ -10,18 +10,7 @@ on:
 
 jobs:
   build:
-    strategy:
-      matrix:
-        include:
-          - os: windows-2019
-            vs-version: "[16.0,17.0)"
-            configuration: Release-netfx3
-
-          - os: windows-2022
-            vs-version: "[17.0,)"
-            configuration: Release-net6
-
-    runs-on: ${{ matrix.os }}
+    runs-on: windows-2022
     timeout-minutes: 10
 
     env:
@@ -35,18 +24,21 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v1
 
+      - name: Enable .NET Framework 3.5
+        run: DISM /Online /Enable-Feature /FeatureName:NetFx3 /All
+
       - name: Setup MSBuild path
         uses: microsoft/setup-msbuild@v1.1
         with:
-          vs-version: ${{ matrix.vs-version }}
+          vs-version: "[17.0,)"
 
       - name: Build and Publish
         run:
-          msbuild LoveMachine.sln /r /p:Configuration=${{ matrix.configuration }}
-          /p:DeployOnBuild=true /p:PublishProfile=FolderProfile /p:Version=${{ inputs.version }}
+          msbuild LoveMachine.sln /r /p:Configuration=Release /p:DeployOnBuild=true
+          /p:PublishProfile=FolderProfile /p:Version=${{ inputs.version }}
 
       - name: Upload binaries
         uses: actions/upload-artifact@v4
         with:
-          name: bin-${{ matrix.configuration }}
+          name: bin
           path: src/bin
