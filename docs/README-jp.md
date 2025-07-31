@@ -38,6 +38,7 @@ LoveMachine はアダルトゲームのキャラクターと連動してアダ�
 | [セクサロイドな彼女]         | Daminz             | ⭕                    |         |
 | [Solas City Heroes]          | MrZGames           |                       | ⭕      |
 | [Succubus Cafe]              | MIGI STUDIO        |                       | ⭕      |
+| [夏のサカり]                 | Miconisomi         |                       | ⭕      |
 | VR カノジョ                  | ILLUSION           | ⭕                    |         |
 | [ライジングプレイ]           | Robi               | ⭕                    | ⭕      |
 
@@ -261,6 +262,8 @@ LoveMachine は[BepInEx]プラグインフレームワークと、そしても�
 [ライジングプレイ]: https://www.dlsite.com/maniax/dlaf/=/t/n/link/work/aid/sauceke/id/RJ167339.html
 [駆動妖精アイディールレイズ]:
   https://www.dlsite.com/maniax/dlaf/=/t/s/link/work/aid/sauceke/id/RJ406835.html
+[夏のサカり]:
+  https://dlaf.jp/maniax/dlaf/=/t/n/link/work/aid/sauceke/locale/en_US/id/RJ365188.html/?locale=en_US
 
 <!-- sponsored sex toy links -->
 

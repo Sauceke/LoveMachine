@@ -34,6 +34,7 @@ Adds support for [some computer-controlled sex toys](#supported-devices) in the 
 | [Sexaroid Girl]             | Daminz        | ✓                             |           |
 | [Solas City Heroes]         | MrZGames      |                               | ✓         |
 | [Succubus Cafe]             | Migi Studio   |                               | ✓         |
+| [Summer In Heat]            | Miconisomi    |                               | ✓         |
 | VR Kanojo                   | Illusion      | ✓                             |           |
 | [Writhing Play]             | Robi          | ✓                             | ✓         |
 
@@ -45,7 +46,6 @@ is not guaranteed.
 | [Our Apartment]            | Momoiro Software   | 0.5.3.a           | Available in the [installer]                             |
 | [Melty Night VR]           | Cauchemar          | 0.5.5             | [Patreon post][Patreon-MNVR], or build the `mnvr` branch |
 | [Orc Massage]              | TorchEntertainment | July 11, 2023     | [Patreon post][Patreon-OM], or build the `om` branch     |
-| [Summer In Heat]           | Miconisomi         | 1.00              | [Free patreon post][Patreon-SIH]                         |
 | [Summer Vacation Scramble] | Illgames           | 1.0.0             | [Free patreon post][Patreon-SVS]                         |
 | [Sex Formula]              | Migi Studio        | 1.3.0             | [Patreon post][Patreon-SF], or build the `sf` branch     |
 | [Gals Collector]           | Studio Tris        | 1.04              | [Free patreon post][Patreon-GC]                          |
@@ -158,33 +158,61 @@ In Plugin Settings > LoveMachine, you can set the following parameters:
 
 This is where all your devices connected to Intiface are listed.
 
+- **Save Group Role & Body Part:** If enabled, the Group Role and Body Part settings will be saved
+  between sessions for all devices. Disabled by default.
+- **Show Offline Devices:** Lets you access some of the settings for devices that are not connected.
+  Settings for offline devices are shown with a red background instead of green.
 - **Connect:** Connect or reconnect to the Intiface server.
 - **Scan:** Scan for devices.
 
 General device settings (all devices):
 
+- **Latency (milliseconds):** Latency of sex toys is usually negligible, but if you're experiencing
+  any noticeable delay between your display and your device, use this setting to correct it. There's
+  no way to automatically calibrate this, so you'll have to experiment.
+- **Updates per second:** How often to send commands to this device. BLE devices can usually handle
+  about 10-20 commands per second.
+- **Separate Tracking Settings:** For devices with multiple features (e.g. multi-axis strokers,
+  vibrators that also rotate, etc.), this setting gives you fine-tuned control over each separate
+  feature by adding a Tracking Settings section for each one. Turned off by default to keep things
+  simple for the average user.
+
+Tracking settings:
+
+- **Enabled:** Whether this feature should be enabled at all. Turned on by default.
 - **Group Role:** Which girl the device is assigned to in a group scene. This also affects scenes
   that are not group scenes, e.g. if a device is assigned to second girl, and there is only one girl
   in the scene, it will not be activated at all.
-- **Body Part:** Selects the body part that will be tracked by the device. Defaults to Auto (which
-  means it will find the one closest to the player's balls). Can be used to re-enact TJ/FJ with
-  alternating movement using two devices. In Koikatsu and KKS, it also tracks fondling/fingering
-  movements.
-- **Latency (milliseconds):** Latency of sex toys is usually negligible, but if you're experiencing
-  any noticeable delay between your display and your device, use this setting to correct it. There's
-  no way to calibrate this, so you'll have to experiment.
-- **Updates per second:** How often to send commands to this device. BLE devices can usually handle
-  about 10-20 commands per second.
+- **Body Part:** Selects the body part that will be tracked by this feature. Defaults to Auto (which
+  means it will find the one closest to the player character's genitals). Can be used to re-enact
+  complex TJ or FJ scenes where two body parts are rubbed against one. In Koikatsu and KKS, it also
+  tracks fondling/fingering movements.
+- **Phase Shift:** Gives this feature a delay that is measured in stroke cycles. For example, `0.5`
+  means the feature will always lag half a stroke behind the animation, resulting in an inverted
+  motion.
+- **Axis:** This feature will track the component of movement that corresponds to the selected axis,
+  relative to the tracked penis object. What X, Y and Z means can vary for each game, so some
+  experimenting might be necessary. "Longest" always means the axis along which the most movement
+  occurs.
+- **Movement Type:** Whether this feature should re-enact linear (back-and-forth) movement or
+  rotation. If "Rotation" is selected, the feature will match the rotation **around** the selected
+  Axis, while "Linear" means it will match the movement **along** it.
 
 Stroker settings:
 
 - **Max Strokes (per minute):** The maximum speed your stroker is capable of at 100% stroke length.
-- **Stroke Zone / Slow:** The range of the stroking motion when going slow. 0% is the bottom, 100%
-  is the top.
-- **Stroke Zone / Fast:** The range of the stroking motion when going fast. 0% is the bottom, 100%
-  is the top.
+- **Stroke Zone:** The range of the stroking motion. 0% is the bottom, 100% is the top.
+- **Orgasm Shake Zone:** The stroker will shake during orgasm animations. This setting controls what
+  two positions the shaking should occur between. 0% is the bottom, 100% is the top.
 - **Smooth Stroking:** Makes the stroking movement less robotic, but not all strokers can handle
   this. Known to work well on Handy and OSR2 devices. Turned off by default.
+- **Stroking Pattern:** If Smooth Stroking is turned on, this setting lets you select the exact type
+  of curve the stroker should move according to. Available values are Sine, Cups, Arches, Animation
+  and Custom. "Animation" matches the exact in-game motion.
+- **Custom Pattern:** Available if Smooth Stroking is turned on and the Stroking Pattern is set to
+  Custom. You can set the stroking curve using the sliders; it should go up then down, starting and
+  ending at the bottom. I'm not responsible for any injuries that may occur due to the use of
+  LoveMachine.
 
 Vibrator settings:
 
@@ -205,11 +233,6 @@ Pressure settings:
 - **Pressure Update Interval (seconds)** How much time it takes for this device to change pressure,
   in seconds. Defaults to 5.
 
-You may also want to:
-
-- **Save device assignments:** If enabled, the Threesome Role and Body Part attributes will be saved
-  for all devices. Disabled by default.
-
 ### Intiface Settings
 
 - **WebSocket host:** The URL of the host Intiface is running on. Should be `ws://127.0.0.1` unless
@@ -227,36 +250,60 @@ default, pressing Spacebar will immediately stop all connected devices.
   default).
 - **Resume Key Binding:** Sets the keystroke for deactivating the kill switch (F8 by default).
 
-### Stroker Settings
-
-- **Stroke Length Realism:** How much the stroke length should match the animation. 0% means every
-  stroke will use the full available length. 100% means every stroke will be scaled to its in-game
-  length.
-- **Hard Sex Intensity:** How fast your stroker will fall during hard sex animations. 100% is twice
-  as fast as 0%. I'm not responsible for any injuries that may occur due to the use of LoveMachine.
-- **Orgasm Depth:** The position of the stroker during orgasm.
-- **Orgasm Shaking Frequency:** How many strokes to do per second during orgasm.
-
-### Rotator Settings
-
-- **Rotation Speed Ratio:** The speed ratio for rotation. 0% is no rotation, 100% is full speed
-  rotation. Default is 50%.
-- **Rotation Direction Change Chance:** The direction of rotation changes with the probability of
-  this setting. Default is 30%.
-
 ### Oscillation Settings
 
 - **RPM limit:** Maximum allowed rotations per minute for any device. Default is 300.
 
 ### Pressure Settings
 
-- **Enable Pressure Control:** Whether to use the pressure feature of this device. On by default.
-- **Pressure Mode:** Determines how the pressure will be set.
-  - **Cycle:** Gradually build up and release pressure over a fixed duration.
-  - **Stroke Length:** Longer strokes = more pressure.
-  - **Stroke Speed:** Faster strokes = more pressure.
-- **Pressure Cycle Length (seconds):** If the Pressure Mode is set to Cycle, determines the length
-  of a buildup-release cycle in seconds.
+- **Intensity Mode:** What to decide the pressure based on.
+  - **Cycle:** Gradually increase and decrease over a fixed duration (determined by the Intensity
+    Cycle Length).
+  - **Stroke Length:** Match to the in-game stroking length (longer strokes in game = more pressure
+    IRL).
+  - **Stroke Speed:** Match to the in-game stroking speed (faster in game = more pressure IRL).
+- **Intensity Scale:** How much the pressure should be affected by the Intensity Mode.
+- **Intensity Cycle Length (seconds):** The duration of a cycle if the Intensity Mode is set to
+  Cycle.
+
+### Rotator Settings
+
+- **Intensity Mode:** What to decide the rotation speed based on.
+  - **Cycle:** Gradually increase and decrease over a fixed duration (determined by the Intensity
+    Cycle Length).
+  - **Stroke Length:** Match to the in-game stroking length (longer strokes in game = faster IRL).
+  - **Stroke Speed:** Match to the in-game stroking speed (faster in game = faster IRL).
+- **Intensity Scale:** How much the rotation speed should be affected by the Intensity Mode.
+- **Intensity Cycle Length (seconds):** The duration of a cycle if the Intensity Mode is set to
+  Cycle.
+- **Rotation Direction Change Chance:** The direction of rotation changes with the probability of
+  this setting. Default is 30%.
+
+### Stroker Settings
+
+- **Intensity Mode:** What to decide the stroking length based on.
+  - **Cycle:** Gradually increase and decrease over a fixed duration (determined by the Intensity
+    Cycle Length).
+  - **Stroke Length:** Match to the in-game stroking length (longer strokes in game = longer strokes
+    IRL).
+  - **Stroke Speed:** Match to the in-game stroking speed (faster in game = longer strokes IRL).
+- **Intensity Scale:** How much the stroking length should be affected by the Intensity Mode.
+- **Intensity Cycle Length (seconds):** The duration of a cycle if the Intensity Mode is set to
+  Cycle.
+- **Hard Sex Intensity:** How fast your stroker will fall during hard sex animations. 100% is twice
+  as fast as 0%.
+
+### Vibrator Settings
+
+- **Intensity Mode:** What to decide the top vibration strength based on.
+  - **Cycle:** Gradually increase and decrease over a fixed duration (determined by the Intensity
+    Cycle Length).
+  - **Stroke Length:** Match to the in-game stroking length (longer strokes in game = more vibration
+    IRL).
+  - **Stroke Speed:** Match to the in-game stroking speed (faster in game = more vibration IRL).
+- **Intensity Scale:** How much the top vibration strength should be affected by the Intensity Mode.
+- **Intensity Cycle Length (seconds):** The duration of a cycle if the Intensity Mode is set to
+  Cycle.
 
 ## Contributing
 
