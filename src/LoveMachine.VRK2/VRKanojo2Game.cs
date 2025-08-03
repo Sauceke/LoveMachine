@@ -10,11 +10,11 @@ namespace LoveMachine.VRK2
 {
     public class VRKanojo2Game : GameAdapter
     {
-        private Component uac;
-        private Il2CppSystem.Reflection.PropertyInfo loopCount;
-        private Il2CppSystem.Reflection.PropertyInfo playingClip;
-        private Il2CppSystem.Reflection.PropertyInfo nowClip;
-        private Il2CppSystem.Reflection.PropertyInfo speed;
+        private UnityEngine.Object motionCtrl;
+        private Il2CppSystem.Reflection.PropertyInfo loopCountProp;
+        private Il2CppSystem.Reflection.PropertyInfo playingClipNameProp;
+        private Il2CppSystem.Reflection.PropertyInfo playingClipProp;
+        private Il2CppSystem.Reflection.PropertyInfo speedProp;
 
         protected override MethodInfo[] StartHMethods => new MethodInfo[]
         {
@@ -52,9 +52,9 @@ namespace LoveMachine.VRK2
         {
             try
             {
-                normalizedTime = loopCount.GetValue(uac).Unbox<float>();
-                length = nowClip.GetValue(uac).Cast<AnimationClip>().length;
-                speed = (float)this.speed.GetValue(uac).Unbox<double>();
+                normalizedTime = loopCountProp.GetValue(motionCtrl).Unbox<float>();
+                length = playingClipProp.GetValue(motionCtrl).Cast<AnimationClip>().length;
+                speed = (float)speedProp.GetValue(motionCtrl).Unbox<double>();
             }
             catch (Exception e)
             {
@@ -71,7 +71,7 @@ namespace LoveMachine.VRK2
         {
             try
             {
-                return playingClip.GetValue(uac).ToString();
+                return playingClipNameProp.GetValue(motionCtrl).ToString();
             }
             catch (Exception e)
             {
@@ -90,15 +90,13 @@ namespace LoveMachine.VRK2
         protected override IEnumerator UntilReady(object instance)
         {
             yield return new WaitForSecondsRealtime(10f);
-            var chara = GameObject.Find(
-                "Cha01_Sakura01/Models/Cha_Sakura_BodyTop/Cha_Sakura_BodyTop/Reference");
-            var animControllerType = Il2CppType.From(
-                Type.GetType("Vrk.Interactive.UniversalAnimationController, Assembly-CSharp"));
-            uac = chara.GetComponent(animControllerType);
-            loopCount = animControllerType.GetProperty("LoopCount");
-            playingClip = animControllerType.GetProperty("PlayingClip");
-            nowClip = animControllerType.GetProperty("NowClip");
-            speed = animControllerType.GetProperty("Speed");
+            var motionCtrlType = Il2CppType.From(
+                Type.GetType("Vrk.Interactive.MotionCtrlSubst, Assembly-CSharp"));
+            motionCtrl = FindObjectOfType(motionCtrlType);
+            loopCountProp = motionCtrlType.GetProperty("LoopCount");
+            playingClipNameProp = motionCtrlType.GetProperty("PlayingClipName");
+            playingClipProp = motionCtrlType.GetProperty("PlayingClip");
+            speedProp = motionCtrlType.GetProperty("Speed");
         }
     }
 }
