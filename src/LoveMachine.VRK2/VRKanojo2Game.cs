@@ -13,7 +13,8 @@ namespace LoveMachine.VRK2
         private Component uac;
         private Il2CppSystem.Reflection.PropertyInfo loopCount;
         private Il2CppSystem.Reflection.PropertyInfo playingClip;
-
+        private Il2CppSystem.Reflection.PropertyInfo nowClip;
+        private Il2CppSystem.Reflection.PropertyInfo speed;
 
         protected override MethodInfo[] StartHMethods => new MethodInfo[]
         {
@@ -27,7 +28,9 @@ namespace LoveMachine.VRK2
 
         protected override Dictionary<Bone, string> FemaleBoneNames => new Dictionary<Bone, string>
         {
-            { Bone.Vagina, "Touch_Crotch" }
+            { Bone.Vagina, "Touch_Crotch" },
+            { Bone.Mouth, "KissDetector" },
+            { Bone.RightHand, "R_HandIndex5" }
         };
 
         protected override float MinStrokeLength => 0.25f;
@@ -50,14 +53,16 @@ namespace LoveMachine.VRK2
             try
             {
                 normalizedTime = loopCount.GetValue(uac).Unbox<float>();
+                length = nowClip.GetValue(uac).Cast<AnimationClip>().length;
+                speed = (float)this.speed.GetValue(uac).Unbox<double>();
             }
             catch (Exception e)
             {
                 Logger.LogDebug(e);
                 normalizedTime = 0f;
+                length = 1f;
+                speed = 1f;
             }
-            length = 1f;
-            speed = 1f;
         }
 
         protected override GameObject GetFemaleRoot(int girlIndex) => GameObject.Find("Cha01_Sakura01");
@@ -75,6 +80,11 @@ namespace LoveMachine.VRK2
             }
         }
 
+        protected override IEnumerator WaitAfterPoseChange()
+        {
+            yield return new WaitForSeconds(1f);
+        }
+
         protected override bool IsIdle(int girlIndex) => false;
 
         protected override IEnumerator UntilReady(object instance)
@@ -87,6 +97,8 @@ namespace LoveMachine.VRK2
             uac = chara.GetComponent(animControllerType);
             loopCount = animControllerType.GetProperty("LoopCount");
             playingClip = animControllerType.GetProperty("PlayingClip");
+            nowClip = animControllerType.GetProperty("NowClip");
+            speed = animControllerType.GetProperty("Speed");
         }
     }
 }
