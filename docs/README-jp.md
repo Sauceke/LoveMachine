@@ -226,7 +226,7 @@ LoveMachine は[BepInEx]プラグインフレームワークと、そしても�
 [Download Button]:
   https://img.shields.io/badge/%E2%87%93%E3%82%A4%E3%83%B3%E3%82%B9%E3%83%88%E3%83%BC%E3%83%A9-blue?style=for-the-badge
 [Demo Button]:
-  https://img.shields.io/badge/%E2%96%B6_%E5%8B%95%E7%94%BB(R18)-pink?style=for-the-badge
+  https://img.shields.io/badge/%E2%96%B6_%E3%83%87%E3%83%A2(R18)-pink?style=for-the-badge
 
 <!-- own links -->
 

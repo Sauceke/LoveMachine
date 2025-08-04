@@ -220,7 +220,8 @@ Vibrator settings:
 - **Intensity Range:** Minimum and maximum vibration intensity allowed for this device. 0% = no
   vibration, 100% = full strength.
 - **Vibration Pattern:** The waveform of the vibration intensity. Available values are Sine,
-  Triangle, Saw, Pulse, Constant, and Custom.
+  Triangle, Saw, Pulse, Constant, Animation, and Custom. "Animation" matches the intensity to the
+  exact in-game motion.
 - **Custom Pattern:** Available if Vibration Pattern is set to Custom. You can set the vibration
   intensity curve using the sliders.
 
