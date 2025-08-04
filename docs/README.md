@@ -49,6 +49,7 @@ is not guaranteed.
 | [Summer Vacation Scramble] | Illgames           | 1.0.0             | [Free patreon post][Patreon-SVS]                         |
 | [Sex Formula]              | Migi Studio        | 1.3.0             | [Patreon post][Patreon-SF], or build the `sf` branch     |
 | [Gals Collector]           | Studio Tris        | 1.04              | [Free patreon post][Patreon-GC]                          |
+| [VR-Kanojo]                | Illumination       | July 31, 2025     | [Patreon post][Patreon-VRK2], or build the `vrk2` branch |
 
 ## Supported devices
 
@@ -343,6 +344,7 @@ This mod would not have been possible without the [BepInEx] plugin framework and
 [Patreon-SVS]: https://www.patreon.com/posts/lovemachine-for-111228062
 [Patreon-SF]: https://www.patreon.com/posts/lovemachine-for-116761160
 [Patreon-GC]: https://www.patreon.com/posts/lovemachine-for-119312328
+[Patreon-VRK2]: www.patreon.com/posts/135633065
 [Demo video]: https://www.erome.com/a/f2XKHJ1I
 [issue]: https://github.com/Sauceke/LoveMachine/issues/new?template=technical-problem.md
 
@@ -409,3 +411,4 @@ This mod would not have been possible without the [BepInEx] plugin framework and
 [Melty Night VR]: https://ci-en.dlsite.com/creator/3131
 [Orc Massage]: https://store.steampowered.com/app/1129540/Orc_Massage/
 [Sex Formula]: https://store.steampowered.com/app/2889660/Sex_Formula/
+[VR-Kanojo]: https://store.steampowered.com/app/2954880/VRKanojo/
