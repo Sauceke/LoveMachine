@@ -201,7 +201,6 @@ Tracking settings:
 
 Stroker settings:
 
-- **Max Strokes (per minute):** The maximum speed your stroker is capable of at 100% stroke length.
 - **Stroke Zone:** The range of the stroking motion. 0% is the bottom, 100% is the top.
 - **Orgasm Shake Zone:** The stroker will shake during orgasm animations. This setting controls what
   two positions the shaking should occur between. 0% is the bottom, 100% is the top.
