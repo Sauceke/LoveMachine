@@ -63,6 +63,7 @@ Strokers
 
 - [The Handy]
 - [Kiiroo KEON]
+- [Lovense Solace Pro]<sup>[⚠](#solace-pro-warning)</sup>
 - OSR2
 
 Vibrators
@@ -78,16 +79,23 @@ Rotators
 
 - Vorze A10 Cyclone
 
-Oscillators
+Oscillators<sup>[⚠](#oscillator-warning)</sup>
 
 - [Lovense Gravity]
 - [Lovense Solace]
 
-ℹ️ **Every supported device works with every game. No exceptions.**
+ℹ️ **Every supported device works with every supported game.**
 
-⚠ **The devices listed under Oscillators have no positional feedback. They don't know which way is
-up and down, so they can't accurately sync to in-game characters. If you want to buy a device that
-can, you're looking for something under Strokers.**
+<a name="solace-pro-warning"></a>
+
+⚠ The Solace Pro requires some extra steps to work smoothly. In the Plugin Settings, turn on
+Separate Tracking Settings for the device, then set the Tracking Setting for the Oscillate feature
+to Disabled.
+
+<a name="oscillator-warning"></a>
+
+⚠ Oscillators have no positional feedback. They can't move in perfect sync with the game. Devices
+that **can** are listed under Strokers.
 
 The [LoveMachine.Experiments] plugin also adds experimental support for two depth sensing devices
 ([Lovense Calor] and the [Hotdog]) to Koikatsu and Koikatsu Sunshine.
@@ -393,6 +401,7 @@ This mod would not have been possible without the [BepInEx] plugin framework and
 [Lovense Domi 2]: https://www.lovense.com/r/77i51d
 [Lovense Gravity]: https://www.lovense.com/r/3n3jgv
 [Lovense Solace]: https://www.lovense.com/r/t1ivev
+[Lovense Solace Pro]: https://www.lovense.com/r/z7k9m9
 
 <!-- other links -->
 
