@@ -1,6 +1,6 @@
 ---
-name: 'Please add a new game to LoveMachine'
-about: ''
+name: Please add a new game to LoveMachine
+about: "\u200b\u200b\u200b\u200b\u200b"
 title: ''
 labels: ''
 assignees: ''

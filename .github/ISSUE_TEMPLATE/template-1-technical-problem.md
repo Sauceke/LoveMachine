@@ -1,6 +1,6 @@
 ---
 name: I have a technical problem
-about: ''
+about: "\u200b\u200b\u200b\u200b\u200b"
 title: ''
 labels: ''
 assignees: ''

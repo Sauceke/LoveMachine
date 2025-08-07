@@ -1,6 +1,6 @@
 ---
-name: 'Please add a new device type to LoveMachine'
-about: ''
+name: Please add a new device type to LoveMachine
+about: "\u200b\u200b\u200b\u200b\u200b"
 title: ''
 labels: ''
 assignees: ''
