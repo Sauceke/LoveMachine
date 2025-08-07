@@ -1,6 +1,6 @@
 ---
-name: Technical problem
-about: I need help in using the plugin
+name: I have a technical problem
+about: ''
 title: ''
 labels: ''
 assignees: ''

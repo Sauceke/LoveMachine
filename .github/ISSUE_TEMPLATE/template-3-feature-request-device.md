@@ -1,6 +1,6 @@
 ---
-name: 'Feature request: Device'
-about: I want a device type integrated into LoveMachine.
+name: 'Please add a new device type to LoveMachine'
+about: ''
 title: ''
 labels: ''
 assignees: ''

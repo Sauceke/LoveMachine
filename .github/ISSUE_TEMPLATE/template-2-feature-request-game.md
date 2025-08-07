@@ -1,10 +1,9 @@
 ---
-name: 'Feature request: Game'
-about: I want a game added to LoveMachine.
+name: 'Please add a new game to LoveMachine'
+about: ''
 title: ''
 labels: ''
 assignees: ''
-
 ---
 
 > Is this a Unity 3D game? (I can't support other types of games.)
@@ -15,7 +14,7 @@ assignees: ''
 
 [answer here]
 
-> Where can I download this game?
-(If it's a paid game, preferably provide a DLsite link. Piracy is not allowed on GitHub.)
+> Where can I download this game? (If it's a paid game, preferably provide a DLsite link. Piracy is
+> not allowed on GitHub.)
 
 [answer here]
