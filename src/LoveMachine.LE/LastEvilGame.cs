@@ -24,7 +24,8 @@ namespace LoveMachine.LE
             "Slime_Collect_Acid",
             "BipDealdoTwin1_03",
             "HumanGirl_Merchant/Bip_Root/Bip_Virgin/Bip_Clitoris1/Bip_Clitoris2",
-            "Succubus/Bip_Root/Bip_Spine1/Bip_Spine2/Bip_Spine3/Bip_Spine4/Bip_ShoulderR/Bip_ArmR1/Bip_ArmR2/Bip_HandR/Bip_FingerR3_1/Bip_FingerR3_2/Bip_FingerR3_3/Bip_FingerR3_4",
+            "Succubus/Bip_Root/Bip_Spine1/Bip_Spine2/Bip_Spine3/Bip_Spine4/Bip_ShoulderR/" +
+                "Bip_ArmR1/Bip_ArmR2/Bip_HandR/Bip_FingerR3_1/Bip_FingerR3_2/Bip_FingerR3_3/Bip_FingerR3_4",
             "Slime_AnimEvent1/Bone001/Bone002/Bone003/Bone004/Bone005",
             "Slime_Collect/Bip01_Root/Bip01_Bone1/Bip01_Bone2/Bip01_Bone3/Bip01_Bone4/Bip01_Bone5",
             "Slime_Defeat/Bip01_Root/Bip01_Bone1/Bip01_Bone2/Bip01_Bone3/Bip01_Bone4",
@@ -44,7 +45,7 @@ namespace LoveMachine.LE
         private static readonly string[] orgasming_names = {
             "Anim_03_Emit",
             "Anim3"
-            };
+        };
 
         private Animation animation;
         private Traverse<int> animIndex;
@@ -52,14 +53,18 @@ namespace LoveMachine.LE
         protected override int AnimationLayer => throw new NotImplementedException();
 
         protected void myEndH() { }
-        protected override MethodInfo[] StartHMethods =>
-            new[] { AccessTools.Method("EventSceneFramework, Assembly-CSharp:Init"),
-                AccessTools.Method("AnimCombineEventer, Assembly-CSharp:Set")
-            };
 
-        protected override MethodInfo[] EndHMethods =>
-            new[] { AccessTools.Method("EventSceneFramework, Assembly-CSharp:OnClickEnd"),
-            AccessTools.Method(typeof(LastEvilGame), nameof(myEndH))};
+        protected override MethodInfo[] StartHMethods => new[]
+        {
+            AccessTools.Method("EventSceneFramework, Assembly-CSharp:Init"),
+            AccessTools.Method("AnimCombineEventer, Assembly-CSharp:Set")
+        };
+
+        protected override MethodInfo[] EndHMethods => new[]
+        {
+            AccessTools.Method("EventSceneFramework, Assembly-CSharp:OnClickEnd"),
+            AccessTools.Method(typeof(LastEvilGame), nameof(myEndH))
+        };
 
         protected override Dictionary<Bone, string> FemaleBoneNames => new Dictionary<Bone, string>
         {
@@ -89,13 +94,10 @@ namespace LoveMachine.LE
                 normalizedTime = 0f;
                 length = 0f;
                 speed = 1f;
-
                 myEndH();
                 return;
             }
-
             AnimationState state = getPlayingAnim();
-
             // Set output values
             if (state != null)
             {   
@@ -126,12 +128,13 @@ namespace LoveMachine.LE
         protected override bool IsIdle(int girlIndex) => false;
 
         protected override bool IsOrgasming(int girlIndex)
-            {
+        {
             AnimationState state = getPlayingAnim();
-            if(state == null)
+            if (state == null)
             {
                 return false;
-            }else
+            }
+            else
             {
                 return orgasming_names.Contains(state.name);
             }
@@ -139,11 +142,10 @@ namespace LoveMachine.LE
 
         protected AnimationState getPlayingAnim()
         {
-            if(animation==null)
+            if (animation == null)
             {
                 return null;
             }
-
             foreach (AnimationState anim in animation)
             {
                 if (animation.IsPlaying(anim.name))
