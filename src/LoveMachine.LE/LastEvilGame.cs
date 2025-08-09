@@ -12,8 +12,6 @@ namespace LoveMachine.LE
 {
     public class LastEvilGame : GameAdapter
     {
-        private string root = "EventSceneFramework/Root/Entities";
-
         private static readonly string[] ballsNames =
         {
             "ActorMan_Ball2",
@@ -47,6 +45,7 @@ namespace LoveMachine.LE
             "Anim3"
         };
 
+        private string root;
         private Animation animation;
         private Traverse<int> animIndex;
 
@@ -121,7 +120,7 @@ namespace LoveMachine.LE
             .ToArray();
 
         protected override GameObject GetFemaleRoot(int girlIndex) =>
-            GameObject.Find(root + "/Succubus") ?? FindDeepChildrenByPath(GameObject.Find(root), "Female").FirstOrDefault()?.gameObject;
+            GameObject.Find(root + "/Succubus") ?? GameObject.Find(root + "/Female");
 
         protected override string GetPose(int girlIndex) => animIndex.Value.ToString();
 
@@ -156,16 +155,17 @@ namespace LoveMachine.LE
             return null;
         }
 
-        protected override IEnumerator UntilReady(object eventSceneFramework)
+        protected override IEnumerator UntilReady(object instance)
         {
             yield return new WaitForSeconds(5f);
-            var traverse = Traverse.Create(eventSceneFramework);
+            var traverse = Traverse.Create(instance);
             animation = traverse.Field<Animation>("_animation").Value;
             animIndex = traverse.Field<int>("_animIndex");
-
             // Try to cast eventSceneFramework to the correct type, like Unity.GameObject
-            UnityEngine.Object obj = eventSceneFramework as UnityEngine.Object;
-            root = obj.name;
+            UnityEngine.Object obj = instance as UnityEngine.Object;
+            root = instance.GetType().Name == "AnimCombineEventer"
+                ? obj.name
+                : obj.name + "/Root/Entities";
         }
     }
 }
