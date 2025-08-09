@@ -325,8 +325,8 @@ please check me out on [Patreon].
 
 ## Acknowledgements
 
-Thanks to nhydock, hogefugamoga, RPKU, and andama777 for contributing to the project, and to my
-Patreon members for their generous support.
+Thanks to nhydock, hogefugamoga, RPKU, andama777, and sis92 for contributing to the project, and to
+my Patreon members for their generous support.
 
 This mod would not have been possible without the [BepInEx] plugin framework and, of course, the
 [Buttplug.io] project.
