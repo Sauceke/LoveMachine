@@ -51,7 +51,7 @@ namespace LoveMachine.LE
 
         protected override int AnimationLayer => throw new NotImplementedException();
 
-        protected void myEndH() { }
+        private void myEndH() { }
 
         protected override MethodInfo[] StartHMethods => new[]
         {
@@ -103,14 +103,12 @@ namespace LoveMachine.LE
                 normalizedTime = state.time / state.length;
                 length = state.length;
                 speed = state.speed;
+                return;
             }
-            else
-            {
-                // No valid animation found, set default values
-                normalizedTime = 0f;
-                length = 1f;
-                speed = 1f;
-            }
+            // No valid animation found, set default values
+            normalizedTime = 0f;
+            length = 1f;
+            speed = 1f;
         }
 
         protected override Transform PenisBase => throw new NotImplementedException();
@@ -129,17 +127,10 @@ namespace LoveMachine.LE
         protected override bool IsOrgasming(int girlIndex)
         {
             AnimationState state = getPlayingAnim();
-            if (state == null)
-            {
-                return false;
-            }
-            else
-            {
-                return orgasming_names.Contains(state.name);
-            }
+            return state != null && orgasming_names.Contains(state.name);
         }
 
-        protected AnimationState getPlayingAnim()
+        private AnimationState getPlayingAnim()
         {
             if (animation == null)
             {
