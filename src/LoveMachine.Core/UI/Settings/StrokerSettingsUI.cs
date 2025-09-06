@@ -42,7 +42,7 @@ namespace LoveMachine.Core.UI.Settings
                 if (settings.Pattern == StrokingPattern.Custom)
                 {
                     settings.CustomPattern = GUIUtil.PatternEditor(settings.CustomPattern);
-                    GUILayout.Label("The pattern should start and end at the bottom. " +
+                    GUIUtil.Warning("The pattern should start and end at the bottom. " +
                         "Avoid large jumps and always test before use to prevent injury.");
                 }
             }

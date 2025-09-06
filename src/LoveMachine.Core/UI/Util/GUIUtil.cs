@@ -18,6 +18,20 @@ namespace LoveMachine.Core.UI.Util
             SingleSpace();
         }
 
+        internal static void Warning(string text)
+        {
+            var style = new GUIStyle
+            {
+                wordWrap = true,
+                normal = new GUIStyleState
+                {
+                    textColor = Color.red
+                }
+            };
+            GUILayout.Label(text, style);
+            SingleSpace();
+        }
+
         internal static void PercentBar(string label, string tooltip, float value)
         {
             GUILayout.BeginHorizontal();

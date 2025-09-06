@@ -6,6 +6,7 @@ using LoveMachine.Core.Common;
 using LoveMachine.Core.Game;
 using LoveMachine.Core.NonPortable;
 using LoveMachine.Core.UI.Util;
+using UnityEngine;
 
 namespace LoveMachine.Core.UI.Settings
 {
@@ -29,6 +30,11 @@ namespace LoveMachine.Core.UI.Settings
                 defaultValue: defaults.UpdatesHz,
                 min: 1,
                 max: 30);
+            if (settings.UpdatesHz != defaults.UpdatesHz)
+            {
+                GUIUtil.Warning("Updates Per Second should almost always be 10. " +
+                    "Please make sure you know what you're doing.");
+            }
         }
     }
 }
