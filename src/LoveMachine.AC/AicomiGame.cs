@@ -9,23 +9,24 @@ namespace LoveMachine.AC;
 
 public class AicomiGame: GameAdapter
 {
+    private Traverse hscene;
     private Traverse ctrlFlag;
     private GameObject[] females;
     private Transform[] penises;
     private Traverse<int> loopType;
     private Traverse<bool> nowOrgasm;
     
-    private Traverse AnimationInfo => ctrlFlag.Property("NowAnimationInfo");
+    private Traverse AnimationInfo => hscene.Property("NowAnimationInfo");
 
     private int AnimationId => AnimationInfo.Property<int>("ID").Value;
 
     private string AnimationName => AnimationInfo.Property<string>("NameAnimation").Value;
     
     protected override MethodInfo[] StartHMethods =>
-        new[] { AccessTools.Method("H.HScene, Assembly-CSharp:Initialize") };
+        new[] { AccessTools.Method("H.HScene, Assembly-CSharp:InitializeActors") };
 
     protected override MethodInfo[] EndHMethods =>
-        new[] { AccessTools.Method("H.HScene, Assembly-CSharp:End") };
+        new[] { AccessTools.Method("H.HScene, Assembly-CSharp:IsNextResult") };
 
     protected override Dictionary<Bone, string> FemaleBoneNames => new Dictionary<Bone, string>
     {
@@ -61,11 +62,11 @@ public class AicomiGame: GameAdapter
     protected override bool IsIdle(int girlIndex) => loopType.Value == -1;
 
     protected override bool IsOrgasming(int girlIndex) => nowOrgasm.Value;
-    
+
     protected override IEnumerator UntilReady(object instance)
     {
         yield return new WaitForSeconds(10f);
-        var hscene = Traverse.Create(instance);
+        hscene = Traverse.Create(instance);
         ctrlFlag = hscene.Property("CtrlFlag");
         loopType = ctrlFlag.Property<int>("LoopType");
         nowOrgasm = ctrlFlag.Property<bool>("IsNowOrgasm");
