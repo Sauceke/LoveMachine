@@ -11,6 +11,7 @@ namespace LoveMachinePrototyper
     {
         public static ConfigEntry<string> PluginVersion { get; private set; }
         public static ConfigEntry<string> GameProcessName { get; private set; }
+        public static ConfigEntry<string> GameBuildArchitecture { get; private set; }
 
         public static ConfigEntry<string> PenisBaseName { get; private set; }
         public static ConfigEntry<string> AnimatorName { get; private set; }
@@ -35,7 +36,14 @@ namespace LoveMachinePrototyper
                 key: "Game Process Name",
                 defaultValue: Paths.ProcessName,
                 new ConfigDescription(
-                    "The name of the game process this config file was written in - do not edit",
+                    "The process name of the game this config file was written for - do not edit",
+                    tags: new ConfigurationManagerAttributes { ReadOnly = true }));
+            GameBuildArchitecture = plugin.Config.Bind(
+                section: settingsTitle,
+                key: "Game Build Architecture",
+                defaultValue: IntPtr.Size == 4 ? "x86" : "x64",
+                new ConfigDescription(
+                    "The build architecture of the game this config file was written for - do not edit",
                     tags: new ConfigurationManagerAttributes { ReadOnly = true }));
             PenisBaseName = plugin.AddConfigEntry(
                 section: settingsTitle,
