@@ -9,8 +9,11 @@ using UnityEngine;
 
 namespace LoveMachinePrototyper
 {
-    public class PrototyperGame : GameAdapter
+    internal class PrototyperGame : GameAdapter
     {
+        private Animator animator;
+        private GameObject[] femaleRoots;
+
         protected override MethodInfo[] StartHMethods => new[]
         {
             AccessTools.Method(typeof(HListener), nameof(HListener.StartH))
@@ -26,22 +29,22 @@ namespace LoveMachinePrototyper
                 .Where(entry => !string.IsNullOrEmpty(entry.Value.Value))
                 .ToDictionary(entry => entry.Key, entry => entry.Value.Value);
 
-        protected override Transform PenisBase =>
-            GameObject.Find(PrototyperConfig.PenisBaseName.Value).transform;
+        protected override Transform PenisBase => throw new System.NotImplementedException();
+
+        protected override Transform[] PenisBases =>
+            FindUtil.FindAll<Transform>(PrototyperConfig.PenisBaseName.Value);
 
         protected override int AnimationLayer => PrototyperConfig.AnimationLayer.Value;
 
-        protected override int HeroineCount => 1;
+        protected override int HeroineCount => femaleRoots.Length;
 
-        protected override int MaxHeroineCount => 1;
+        protected override int MaxHeroineCount => 3;
 
         protected override bool IsHardSex => false;
 
-        protected override Animator GetFemaleAnimator(int girlIndex) =>
-            GameObject.Find(PrototyperConfig.AnimatorName.Value).GetComponent<Animator>();
+        protected override Animator GetFemaleAnimator(int girlIndex) => animator;
 
-        protected override GameObject GetFemaleRoot(int girlIndex) =>
-            GameObject.Find(PrototyperConfig.FemaleRootName.Value);
+        protected override GameObject GetFemaleRoot(int girlIndex) => femaleRoots[girlIndex];
 
         protected override string GetPose(int girlIndex) =>
             GetAnimatorStateInfo(girlIndex).fullPathHash.ToString();
@@ -51,6 +54,8 @@ namespace LoveMachinePrototyper
         protected override IEnumerator UntilReady(object instance)
         {
             yield return new WaitForSeconds(5f);
+            animator = FindUtil.FindFirst<Animator>(PrototyperConfig.AnimatorName.Value);
+            femaleRoots = FindUtil.FindAll<GameObject>(PrototyperConfig.FemaleRootName.Value);
         }
     }
 }

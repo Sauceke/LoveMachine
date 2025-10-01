@@ -42,8 +42,8 @@ namespace LoveMachinePrototyper
         private GameObject getHStartObject()
         {
             return string.IsNullOrEmpty(PrototyperConfig.HStartObjectName.Value)
-                ? GameObject.Find(PrototyperConfig.PenisBaseName.Value)
-                : GameObject.Find(PrototyperConfig.HStartObjectName.Value);
+                ? FindUtil.FindFirst<GameObject>(PrototyperConfig.PenisBaseName.Value)
+                : FindUtil.FindFirst<GameObject>(PrototyperConfig.HStartObjectName.Value);
         }
     }
 }

@@ -13,12 +13,14 @@ namespace LoveMachinePrototyper
         public static ConfigEntry<string> GameProcessName { get; private set; }
         public static ConfigEntry<string> GameBuildArchitecture { get; private set; }
 
+        public static ConfigEntry<bool> UseRegexes { get; private set; }
         public static ConfigEntry<string> PenisBaseName { get; private set; }
         public static ConfigEntry<string> AnimatorName { get; private set; }
         public static ConfigEntry<int> AnimationLayer { get; private set; }
         public static ConfigEntry<string> FemaleRootName { get; private set; }
         public static Dictionary<Bone, ConfigEntry<string>> FemaleBoneNames { get; private set; }
         public static ConfigEntry<string> HStartObjectName { get; private set; }
+
         public static event EventHandler ConfigChanged;
 
         public static void Initialize(BaseUnityPlugin plugin)
@@ -45,6 +47,11 @@ namespace LoveMachinePrototyper
                 new ConfigDescription(
                     "The build architecture of the game this config file was written for - do not edit",
                     tags: new ConfigurationManagerAttributes { ReadOnly = true }));
+            UseRegexes = plugin.AddConfigEntry(
+                section: settingsTitle,
+                key: "Use Regular Expressions",
+                defaultValue: false,
+                description: "Treat all name fields as regular expressions (except Female Bones)");
             PenisBaseName = plugin.AddConfigEntry(
                 section: settingsTitle,
                 key: "Penis Base Name",
