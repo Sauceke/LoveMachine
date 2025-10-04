@@ -93,7 +93,13 @@ namespace LoveMachine.Core.Buttplug
 
         public void BatteryLevelCmd(Device device) => Send(Buttplug.BatteryLevelCmd(device));
 
-        public void StopDeviceCmd(Device device) => Send(Buttplug.StopDeviceCmd(device));
+        public void StopDeviceCmd(DeviceFeature feature)
+        {
+            if (feature.Settings.Enabled)
+            {
+                Send(Buttplug.StopDeviceCmd(feature.Device));
+            }
+        }
 
         public void StopAllDevices() => Send(Buttplug.StopAllDevices());
 

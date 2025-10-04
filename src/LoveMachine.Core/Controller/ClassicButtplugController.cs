@@ -68,7 +68,7 @@ namespace LoveMachine.Core.Controller
                 if (IsIdleOrPaused(feature))
                 {
                     TryStopCoroutine(ref strokeLoop);
-                    Client.StopDeviceCmd(feature.Device);
+                    Client.StopDeviceCmd(feature);
                     while (IsIdleOrPaused(feature))
                     {
                         yield return WaitForSecondsUnscaled(refreshTimeSecs);
@@ -117,13 +117,13 @@ namespace LoveMachine.Core.Controller
             yield return HandleCoroutine(EmulateStrokes(feature, 2, 2f, display));
             yield return HandleCoroutine(EmulateStrokes(feature, 2, 1f, display));
             yield return HandleCoroutine(EmulateStrokes(feature, 5, 0.3f, display));
-            Client.StopDeviceCmd(feature.Device);
+            Client.StopDeviceCmd(feature);
         }
 
         private IEnumerator HandleStroke(DeviceFeature feature, float durationSecs)
         {
             yield return HandleCoroutine(EmulateStrokes(feature, count: 1, durationSecs, _ => { }));
-            Client.StopDeviceCmd(feature.Device);
+            Client.StopDeviceCmd(feature);
         }
         
         private IEnumerator EmulateStrokes(DeviceFeature feature, int count, float durationSecs,
