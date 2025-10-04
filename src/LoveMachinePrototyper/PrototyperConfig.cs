@@ -20,7 +20,10 @@ namespace LoveMachinePrototyper
         public static ConfigEntry<string> FemaleRootName { get; private set; }
         public static Dictionary<Bone, ConfigEntry<string>> FemaleBoneNames { get; private set; }
         public static ConfigEntry<string> HStartObjectName { get; private set; }
+
         public static ConfigEntry<int> MaxFemaleCount { get; private set; }
+        public static ConfigEntry<float> StrokeSensitivity { get; private set; }
+
 
         public static event EventHandler ConfigChanged;
 
@@ -97,11 +100,26 @@ namespace LoveMachinePrototyper
                 section: settingsTitle,
                 key: "Max Female Count",
                 defaultValue: 1,
-                description: "Maximum number of females in an H-scene.");
+                description: "Maximum number of females in an H-scene");
+            StrokeSensitivity = plugin.AddConfigEntry(
+                section: settingsTitle,
+                key: "Stroke Sensitivity",
+                defaultValue: 0.2f,
+                new ConfigDescription(
+                    "Decrease to makes the plugin pick up smaller movements",
+                    new AcceptableValueRange<float>(0.05f, 1f)));
         }
 
         private static ConfigEntry<T> AddConfigEntry<T>(this BaseUnityPlugin plugin,
             string section, string key, T defaultValue, string description)
+        {
+            var entry = plugin.Config.Bind(section, key, defaultValue, description);
+            entry.SettingChanged += OnSettingChanged;
+            return entry;
+        }
+
+        private static ConfigEntry<T> AddConfigEntry<T>(this BaseUnityPlugin plugin,
+            string section, string key, T defaultValue, ConfigDescription description)
         {
             var entry = plugin.Config.Bind(section, key, defaultValue, description);
             entry.SettingChanged += OnSettingChanged;

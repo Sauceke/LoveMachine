@@ -34,6 +34,8 @@ namespace LoveMachinePrototyper
         protected override Transform[] PenisBases =>
             FindUtil.FindAll<Transform>(PrototyperConfig.PenisBaseName.Value);
 
+        protected override float MinStrokeLength => PrototyperConfig.StrokeSensitivity.Value;
+
         protected override int AnimationLayer => PrototyperConfig.AnimationLayer.Value;
 
         protected override int HeroineCount => femaleRoots.Length;
