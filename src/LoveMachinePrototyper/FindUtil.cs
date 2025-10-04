@@ -6,28 +6,38 @@ namespace LoveMachinePrototyper
 {
     internal static class FindUtil
     {
-        public static T[] FindAll<T>(string pattern)
-            where T : Object
+        public static Transform[] FindAll(string pattern)
         {
             return PrototyperConfig.UseRegexes.Value
-                ? GameObject.FindObjectsOfType<T>()
-                    .Where(go => MatchesEntireName(go.name, pattern))
+                ? GameObject.FindObjectsOfType<Transform>()
+                    .Where(go => MatchesEndOfPath(go, pattern))
                     .ToArray()
-                : typeof(T) == typeof(GameObject)
-                    ? new[] { GameObject.Find(pattern) as T }
-                    : new[] { GameObject.Find(pattern)?.GetComponent<T>() };
+                : new[] { GameObject.Find(pattern).transform };
         }
 
-        public static T FindFirst<T>(string pattern)
-            where T : Object
+        public static Transform FindFirst(string pattern)
         {
-            return FindAll<T>(pattern).FirstOrDefault();
+            return FindAll(pattern).FirstOrDefault();
         }
 
-        private static bool MatchesEntireName(string name, string pattern)
+        private static bool MatchesEndOfPath(Transform transform, string pattern)
         {
-            var match = Regex.Match(name, pattern);
-            return match.Success && match.Value == name;
+            Match match;
+            if (pattern.Contains("/"))
+            {
+                string path = "";
+                while (transform != null)
+                {
+                    path = "/" + transform.name + path;
+                    transform = transform.parent;
+                }
+                match = Regex.Match(path, pattern);
+                return match.Success
+                    && match.Index + match.Length == path.Length
+                    && (pattern.StartsWith("/") ? match.Index == 0 : path[match.Index - 1] == '/');
+            }
+            match = Regex.Match(transform.name, pattern);
+            return match.Success && match.Value == transform.name;
         }
     }
 }

@@ -32,13 +32,13 @@ namespace LoveMachinePrototyper
         protected override Transform PenisBase => throw new System.NotImplementedException();
 
         protected override Transform[] PenisBases =>
-            FindUtil.FindAll<Transform>(PrototyperConfig.PenisBaseName.Value);
+            FindUtil.FindAll(PrototyperConfig.PenisBaseName.Value);
 
         protected override float MinStrokeLength => PrototyperConfig.StrokeSensitivity.Value;
 
         protected override int AnimationLayer => PrototyperConfig.AnimationLayer.Value;
 
-        protected override int HeroineCount => femaleRoots.Length;
+        protected override int HeroineCount => Mathf.Max(femaleRoots.Length, 1);
 
         protected override int MaxHeroineCount => PrototyperConfig.MaxFemaleCount.Value;
 
@@ -46,7 +46,8 @@ namespace LoveMachinePrototyper
 
         protected override Animator GetFemaleAnimator(int girlIndex) => animator;
 
-        protected override GameObject GetFemaleRoot(int girlIndex) => femaleRoots[girlIndex];
+        protected override GameObject GetFemaleRoot(int girlIndex) =>
+            girlIndex < femaleRoots.Length ? femaleRoots[girlIndex] : null;
 
         protected override string GetPose(int girlIndex) =>
             GetAnimatorStateInfo(girlIndex).fullPathHash.ToString();
@@ -56,8 +57,10 @@ namespace LoveMachinePrototyper
         protected override IEnumerator UntilReady(object instance)
         {
             yield return new WaitForSeconds(5f);
-            animator = FindUtil.FindFirst<Animator>(PrototyperConfig.AnimatorName.Value);
-            femaleRoots = FindUtil.FindAll<GameObject>(PrototyperConfig.FemaleRootName.Value);
+            animator = FindUtil.FindFirst(PrototyperConfig.AnimatorName.Value)
+                .GetComponent<Animator>();
+            femaleRoots = FindUtil.FindAll(PrototyperConfig.FemaleRootName.Value)
+                .Select(tf => tf.gameObject).ToArray();
         }
     }
 }
