@@ -20,6 +20,7 @@ namespace LoveMachinePrototyper
         public static ConfigEntry<string> FemaleRootName { get; private set; }
         public static Dictionary<Bone, ConfigEntry<string>> FemaleBoneNames { get; private set; }
         public static ConfigEntry<string> HStartObjectName { get; private set; }
+        public static ConfigEntry<int> MaxFemaleCount { get; private set; }
 
         public static event EventHandler ConfigChanged;
 
@@ -90,8 +91,13 @@ namespace LoveMachinePrototyper
                 section: settingsTitle,
                 key: "H Start Object Name",
                 defaultValue: "",
-                description: "The name (or path) of a GameObject that is only active when an H" +
-                    "scene is playing. If empty, we default to the penis base.");
+                description: "The name (or path) of a GameObject that is only active when an " +
+                    "H-scene is playing. If empty, we default to the penis base.");
+            MaxFemaleCount = plugin.AddConfigEntry(
+                section: settingsTitle,
+                key: "Max Female Count",
+                defaultValue: 1,
+                description: "Maximum number of females in an H-scene.");
         }
 
         private static ConfigEntry<T> AddConfigEntry<T>(this BaseUnityPlugin plugin,

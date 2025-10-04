@@ -38,7 +38,7 @@ namespace LoveMachinePrototyper
 
         protected override int HeroineCount => femaleRoots.Length;
 
-        protected override int MaxHeroineCount => 3;
+        protected override int MaxHeroineCount => PrototyperConfig.MaxFemaleCount.Value;
 
         protected override bool IsHardSex => false;
 
