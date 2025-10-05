@@ -26,12 +26,13 @@ namespace LoveMachinePrototyper
         {
             while (true)
             {
-                while (getHStartObject() == null)
+                Transform hStartObject;
+                while ((hStartObject = GetHStartObject()) == null)
                 {
                     yield return new WaitForSeconds(1f);
                 }
                 StartH();
-                while (getHStartObject() != null)
+                while (GetHStartObject() == hStartObject && hStartObject != null)
                 {
                     yield return new WaitForSeconds(5f);
                 }
@@ -39,7 +40,7 @@ namespace LoveMachinePrototyper
             }
         }
 
-        private Transform getHStartObject()
+        private Transform GetHStartObject()
         {
             return string.IsNullOrEmpty(PrototyperConfig.HStartObjectName.Value)
                 ? FindUtil.FindFirst(PrototyperConfig.PenisBaseName.Value)
