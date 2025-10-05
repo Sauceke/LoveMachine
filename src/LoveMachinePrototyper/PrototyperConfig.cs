@@ -104,7 +104,7 @@ namespace LoveMachinePrototyper
             StrokeSensitivity = plugin.AddConfigEntry(
                 section: settingsTitle,
                 key: "Stroke Sensitivity",
-                defaultValue: 0.2f,
+                defaultValue: 0.5f,
                 new ConfigDescription(
                     "Decrease to make the plugin pick up smaller movements",
                     new AcceptableValueRange<float>(0.05f, 1f)));
