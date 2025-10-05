@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace LoveMachinePrototyper
 {
-    internal static class FindUtil
+    public static class FindUtil
     {
         public static Transform[] FindAll(string pattern)
         {
@@ -12,7 +12,7 @@ namespace LoveMachinePrototyper
                 ? GameObject.FindObjectsOfType<Transform>()
                     .Where(go => MatchesEndOfPath(go, pattern))
                     .ToArray()
-                : new[] { GameObject.Find(pattern).transform };
+                : new[] { GameObject.Find(pattern)?.transform };
         }
 
         public static Transform FindFirst(string pattern)
@@ -20,7 +20,7 @@ namespace LoveMachinePrototyper
             return FindAll(pattern).FirstOrDefault();
         }
 
-        private static bool MatchesEndOfPath(Transform transform, string pattern)
+        public static bool MatchesEndOfPath(Transform transform, string pattern)
         {
             Match match;
             if (pattern.Contains("/"))

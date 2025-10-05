@@ -233,8 +233,8 @@ namespace LoveMachine.Core.Game
                 : animTimeSecs;
         }
         
-        internal Dictionary<Bone, Transform> GetFemaleBones(int girlIndex) => FemaleBoneNames
-            .ToDictionary(kvp => kvp.Key,
+        protected internal virtual Dictionary<Bone, Transform> GetFemaleBones(int girlIndex) =>
+            FemaleBoneNames.ToDictionary(kvp => kvp.Key,
                 kvp => FindBoneByPath(GetFemaleRoot(girlIndex), kvp.Value));
 
         protected static Transform FindBoneByPath(GameObject root, string path) =>

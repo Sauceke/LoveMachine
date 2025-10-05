@@ -29,6 +29,16 @@ namespace LoveMachinePrototyper
                 .Where(entry => !string.IsNullOrEmpty(entry.Value.Value))
                 .ToDictionary(entry => entry.Key, entry => entry.Value.Value);
 
+        protected override Dictionary<Bone, Transform> GetFemaleBones(int girlIndex) =>
+            FemaleBoneNames.ToDictionary(
+                entry => entry.Key,
+                entry => PrototyperConfig.UseRegexes.Value
+                    ? GetFemaleRoot(girlIndex)
+                        .GetComponentsInChildren<Transform>()
+                        .FirstOrDefault(tf => FindUtil.MatchesEndOfPath(tf, entry.Value))
+                            ?? FindUtil.FindFirst(entry.Value)
+                    : FindBoneByPath(GetFemaleRoot(girlIndex), entry.Value));
+
         protected override Transform PenisBase => throw new System.NotImplementedException();
 
         protected override Transform[] PenisBases =>

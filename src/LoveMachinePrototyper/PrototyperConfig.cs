@@ -55,7 +55,7 @@ namespace LoveMachinePrototyper
                 section: settingsTitle,
                 key: "Use Regular Expressions",
                 defaultValue: false,
-                description: "Treat all name fields as regular expressions (except Female Bones)");
+                description: "Treat all name fields as regular expressions");
             PenisBaseName = plugin.AddConfigEntry(
                 section: settingsTitle,
                 key: "Penis Base Name",
@@ -106,7 +106,7 @@ namespace LoveMachinePrototyper
                 key: "Stroke Sensitivity",
                 defaultValue: 0.2f,
                 new ConfigDescription(
-                    "Decrease to makes the plugin pick up smaller movements",
+                    "Decrease to make the plugin pick up smaller movements",
                     new AcceptableValueRange<float>(0.05f, 1f)));
         }
 
