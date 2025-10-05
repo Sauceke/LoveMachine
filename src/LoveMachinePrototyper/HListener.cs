@@ -43,8 +43,8 @@ namespace LoveMachinePrototyper
         private Transform GetHStartObject()
         {
             return string.IsNullOrEmpty(PrototyperConfig.HStartObjectName.Value)
-                ? FindUtil.FindFirst(PrototyperConfig.PenisBaseName.Value)
-                : FindUtil.FindFirst(PrototyperConfig.HStartObjectName.Value);
+                ? FindUtil.FindFirst<Transform>(PrototyperConfig.PenisBaseName.Value)
+                : FindUtil.FindFirst<Transform>(PrototyperConfig.HStartObjectName.Value);
         }
     }
 }

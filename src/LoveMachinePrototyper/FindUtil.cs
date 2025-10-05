@@ -6,18 +6,20 @@ namespace LoveMachinePrototyper
 {
     public static class FindUtil
     {
-        public static Transform[] FindAll(string pattern)
+        public static T[] FindAll<T>(string pattern)
+            where T : Component
         {
             return PrototyperConfig.UseRegexes.Value
-                ? GameObject.FindObjectsOfType<Transform>()
-                    .Where(go => MatchesEndOfPath(go, pattern))
+                ? GameObject.FindObjectsOfType<T>()
+                    .Where(go => MatchesEndOfPath(go.transform, pattern))
                     .ToArray()
-                : new[] { GameObject.Find(pattern)?.transform };
+                : new[] { GameObject.Find(pattern)?.GetComponent<T>() };
         }
 
-        public static Transform FindFirst(string pattern)
+        public static T FindFirst<T>(string pattern)
+            where T : Component
         {
-            return FindAll(pattern).FirstOrDefault();
+            return FindAll<T>(pattern).FirstOrDefault();
         }
 
         public static bool MatchesEndOfPath(Transform transform, string pattern)

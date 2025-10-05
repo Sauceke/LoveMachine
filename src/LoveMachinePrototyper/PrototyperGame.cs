@@ -36,13 +36,13 @@ namespace LoveMachinePrototyper
                     ? GetFemaleRoot(girlIndex)
                         .GetComponentsInChildren<Transform>()
                         .FirstOrDefault(tf => FindUtil.MatchesEndOfPath(tf, entry.Value))
-                            ?? FindUtil.FindFirst(entry.Value)
+                            ?? FindUtil.FindFirst<Transform>(entry.Value)
                     : FindBoneByPath(GetFemaleRoot(girlIndex), entry.Value));
 
         protected override Transform PenisBase => throw new System.NotImplementedException();
 
         protected override Transform[] PenisBases =>
-            FindUtil.FindAll(PrototyperConfig.PenisBaseName.Value);
+            FindUtil.FindAll<Transform>(PrototyperConfig.PenisBaseName.Value);
 
         protected override float MinStrokeLength => PrototyperConfig.StrokeSensitivity.Value;
 
@@ -67,9 +67,8 @@ namespace LoveMachinePrototyper
         protected override IEnumerator UntilReady(object instance)
         {
             yield return new WaitForSeconds(5f);
-            animator = FindUtil.FindFirst(PrototyperConfig.AnimatorName.Value)
-                .GetComponent<Animator>();
-            femaleRoots = FindUtil.FindAll(PrototyperConfig.FemaleRootName.Value)
+            animator = FindUtil.FindFirst<Animator>(PrototyperConfig.AnimatorName.Value);
+            femaleRoots = FindUtil.FindAll<Transform>(PrototyperConfig.FemaleRootName.Value)
                 .Select(tf => tf.gameObject).ToArray();
         }
     }
