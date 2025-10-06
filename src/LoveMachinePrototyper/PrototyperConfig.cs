@@ -70,7 +70,9 @@ namespace LoveMachinePrototyper
                 section: settingsTitle,
                 key: "Animation Layer",
                 defaultValue: 0,
-                description: "The layer index of H animations, usually 0");
+                new ConfigDescription(
+                    "The layer index of H animations. Almost always 0, this field is mainly for debugging.",
+                    tags: new ConfigurationManagerAttributes { IsAdvanced = true }));
             FemaleRootName = plugin.AddConfigEntry(
                 section: settingsTitle,
                 key: "Female Root Name",
