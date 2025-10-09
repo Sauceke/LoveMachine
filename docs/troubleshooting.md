@@ -5,27 +5,30 @@ LoveMachine.
 
 ## Device is not doing anything
 
-1. Make sure you can control your device from Intiface by following this guide:
+1. Double check that you've installed the _right_ LoveMachine plugin for the game, i.e. the game
+   folder in the installer is under the correct title. Also check that there is only one folder in
+   `BepInEx/plugins` whose name ends with `_LoveMachine`.
+2. Have you pressed Space while in the game? The Space key is an emergency brake that stops all
+   devices immediately. To restart them, press F8. You can remap both of these key bindings in the
+   Plugin Settings.
+3. Make sure you can control your device from Intiface by following this guide:
    https://docs.intiface.com/docs/intiface-central/quickstart. If not even that works, try the
    troubleshooting guide on the same site, or try reaching out on the [Buttplug Forum].
-2. Check if BepInEx is installed correctly. There should be a BepInEx\LogOutput.log file or an
+4. Check if BepInEx is installed correctly. There should be a BepInEx\LogOutput.log file or an
    output_log.txt file in your game folder. If you delete it, it should appear again when you start
    the game. If it doesn't, then BepInEx isn't installed correctly. Follow the installation steps
    here: https://docs.bepinex.dev/articles/user_guide/installation/index.html
-3. Make sure there are no other plugin frameworks that could interfere with BepInEx (IPA, Sybaris,
+5. Make sure there are no other plugin frameworks that could interfere with BepInEx (IPA, Sybaris,
    ReiPatcher). If there is an HF patch available for your game, installing it should get rid of the
    conflicting plugin frameworks.
-4. Do you have any mods installed besides LoveMachine? If so, try disabling them one by one (most
+6. Do you have any mods installed besides LoveMachine? If so, try disabling them one by one (most
    easily done by moving them to a folder outside of `BepInEx/plugins`).
-5. Do you have any DLCs installed? If you do, see if you can get LoveMachine working on a vanilla
+7. Do you have any DLCs installed? If you do, see if you can get LoveMachine working on a vanilla
    installation of the game first, to rule out the DLCs being the cause of the problem.
-6. **If one of the previous two steps helped, please open an [issue] and mention which mod or DLC
+8. **If one of the previous two steps helped, please open an [issue] and mention which mod or DLC
    caused the problem.**
-7. Check the Intiface status. If it says "waiting for client" while the game is running, refer to
+9. Check the Intiface status. If it says "waiting for client" while the game is running, refer to
    [this section](#lovemachine-is-not-connecting-to-intiface).
-8. Have you pressed Space while in the game? The Space key is an emergency brake that stops all
-   devices immediately. To restart them, press F8. You can remap both of these key bindings in the
-   Plugin Settings.
 
 ## LoveMachine is not connecting to Intiface
 
