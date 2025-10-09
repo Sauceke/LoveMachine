@@ -13,7 +13,9 @@ namespace LoveMachinePrototyper
                 ? GameObject.FindObjectsOfType<T>()
                     .Where(go => MatchesEndOfPath(go.transform, pattern))
                     .ToArray()
-                : new[] { GameObject.Find(pattern)?.GetComponent<T>() };
+                : new[] { GameObject.Find(pattern)?.GetComponent<T>() }
+                    .Where(go => go != null)
+                    .ToArray();
         }
 
         public static T FindFirst<T>(string pattern)

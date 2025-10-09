@@ -33,7 +33,7 @@ namespace LoveMachinePrototyper
             FemaleBoneNames.ToDictionary(
                 entry => entry.Key,
                 entry => PrototyperConfig.UseRegexes.Value
-                    ? GetFemaleRoot(girlIndex)
+                    ? GetFemaleRoot(girlIndex)?
                         .GetComponentsInChildren<Transform>()
                         .FirstOrDefault(tf => FindUtil.MatchesEndOfPath(tf, entry.Value))
                             ?? FindUtil.FindFirst<Transform>(entry.Value)
