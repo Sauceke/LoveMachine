@@ -63,7 +63,7 @@ Strokers
 
 - [The Handy]
 - [Kiiroo KEON]
-- [Lovense Solace Pro]<sup>[⚠](#solace-pro-warning)</sup>
+- [Lovense Solace Pro] <sup>[⚠](#solace-pro-warning)</sup>
 - OSR2
 
 Vibrators
@@ -79,23 +79,23 @@ Rotators
 
 - Vorze A10 Cyclone
 
-Oscillators<sup>[⚠](#oscillator-warning)</sup>
+Oscillators <sup>[⚠](#oscillator-warning)</sup>
 
 - [Lovense Gravity]
 - [Lovense Solace]
 
-ℹ️ **Every supported device works with every supported game.**
+> ℹ️ **Every supported device works with every supported game.**
 
 <a name="solace-pro-warning"></a>
 
-⚠ The Solace Pro requires some extra steps to work smoothly. In the Plugin Settings, turn on
-Separate Tracking Settings for the device, then set the Tracking Setting for the Oscillate feature
-to Disabled.
+> ⚠ The Solace Pro requires some extra steps to work smoothly. In the Plugin Settings, turn on
+> Separate Tracking Settings for the device, then set the Tracking Setting for the Oscillate feature
+> to Disabled.
 
 <a name="oscillator-warning"></a>
 
-⚠ Oscillators have no positional feedback. They can't move in perfect sync with the game. Devices
-that **can** are listed under Strokers.
+> ⚠ Oscillators have no positional feedback. They can't move in perfect sync with the game. Devices
+> that **can** are listed under Strokers.
 
 The [LoveMachine.Experiments] plugin also adds experimental support for two depth sensing devices
 ([Lovense Calor] and the [Hotdog]) to Koikatsu and Koikatsu Sunshine.
@@ -118,8 +118,8 @@ The Space key acts as a kill switch for all devices while in-game. To reactivate
 F8. Both of these key bindings can be modified under Plugin Settings > LoveMachine > Kill Switch
 Settings.
 
-⚠ In certain games, the kill switch may not work if the BepInEx console is open while playing in VR,
-because it can steal focus from the game window. It is recommended to disable the console.
+> ⚠ In certain games, the kill switch may not work if the BepInEx console is open while playing in
+> VR, because it can steal focus from the game window. It is recommended to disable the console.
 
 If you need further help in using the plugin, check the [Troubleshooting](troubleshooting.md) page
 or open an [issue].
@@ -143,9 +143,9 @@ proportioned characters.
 
 ## Configuration
 
-⚠ IL2CPP games (RoomGirl, Holy Knight Ricca) are not compatible with ConfigurationManager at the
-moment. If you want to change the settings in those games, you can edit the configuration file
-(`BepInEx\config\Sauceke.LoveMachine.IL2CPP.cfg`) in Notepad.
+> ⚠ IL2CPP games (RoomGirl, Holy Knight Ricca) are not compatible with ConfigurationManager at the
+> moment. If you want to change the settings in those games, you can edit the configuration file
+> (`BepInEx\config\Sauceke.LoveMachine.IL2CPP.cfg`) in Notepad.
 
 In Plugin Settings > LoveMachine, you can set the following parameters:
 
