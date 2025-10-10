@@ -17,7 +17,7 @@ namespace LoveMachine.Core.Buttplug
                 DeviceListConfig.DeviceSettingsJson.Value);
             set => DeviceListConfig.DeviceSettingsJson.Value = JsonMapper.ToJson(value);
         }
-        
+
         private void Start()
         {
             client = GetComponent<ButtplugWsClient>();
@@ -55,10 +55,39 @@ namespace LoveMachine.Core.Buttplug
             var settings = DeviceSettings;
             foreach (var device in devices)
             {
-                device.Settings = settings.Find(device.Matches) ?? device.Settings;
+                device.Settings = settings.Find(device.Matches) ?? InitDefaults(device);
                 settings.Remove(device.Settings);
                 device.CleanUpSettings();
             }
+        }
+
+        private static DeviceSettings InitDefaults(Device device)
+        {
+            var settings = device.Settings;
+            device.CleanUpSettings();
+            switch (device.DeviceName)
+            {
+                case "The Handy":
+                    if (settings.StrokerSettings == null)
+                    {
+                        break;
+                    }
+                    settings.StrokerSettings.SmoothStroking = true;
+                    break;
+
+                case "Lovense Solace Pro":
+                    if (settings.StrokerSettings == null)
+                    {
+                        break;
+                    }
+                    settings.UseSeparateFeatureSettings = true;
+                    foreach (var scalarSetting in settings.ScalarCmdSettings)
+                    {
+                        scalarSetting.Enabled = false;
+                    }
+                    break;
+            }
+            return settings;
         }
     }
 }
