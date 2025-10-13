@@ -64,11 +64,11 @@ Name: "jp"; MessagesFile: "compiler:Languages/Japanese.isl,JP.isl"
 ; BepInEx files
 #sub BepInExFileEntry
     Source: "{#BepInEx32Dir}\*"; DestDir: {code:GetDir|{#I}}; \
-        Flags: recursesubdirs confirmoverwrite; Check: IsBuildType({#I}, 'x86')
+        Flags: recursesubdirs onlyifdoesntexist; Check: IsBuildType({#I}, 'x86')
     Source: "{#BepInEx64Dir}\*"; DestDir: {code:GetDir|{#I}}; \
-        Flags: recursesubdirs confirmoverwrite; Check: IsBuildType({#I}, 'x64')
+        Flags: recursesubdirs onlyifdoesntexist; Check: IsBuildType({#I}, 'x64')
     Source: "{#BepInExIl2cpp64Dir}\*"; DestDir: {code:GetDir|{#I}}; \
-        Flags: recursesubdirs confirmoverwrite; Check: IsBuildType({#I}, 'il2cpp-x64')
+        Flags: recursesubdirs onlyifdoesntexist; Check: IsBuildType({#I}, 'il2cpp-x64')
 #endsub
 #if DirExists(BepInEx32Dir) && DirExists(BepInEx64Dir)
     #for {I = 0; I < PluginCount; I++} BepInExFileEntry
