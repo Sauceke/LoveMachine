@@ -77,7 +77,8 @@ namespace LoveMachinePrototyper
                 section: settingsTitle,
                 key: "Female Root Name",
                 defaultValue: "",
-                description: "The name (or path) of the GameObject that contains the female character");
+                description: "The name (or path) of the GameObject that contains the female " +
+                    "bones. Optional, if empty, the entire scene will be searched for bones.");
             FemaleBoneNames = new Dictionary<Bone, ConfigEntry<string>>();
             foreach (int i in Enum.GetValues(typeof(Bone)))
             {
@@ -97,7 +98,7 @@ namespace LoveMachinePrototyper
                 key: "H Start Object Name",
                 defaultValue: "",
                 description: "The name (or path) of a GameObject that is only active when an " +
-                    "H-scene is playing. If empty, we default to the penis base.");
+                    "H-scene is playing. Optional, if empty, we default to the penis base.");
             MaxFemaleCount = plugin.AddConfigEntry(
                 section: settingsTitle,
                 key: "Max Female Count",
