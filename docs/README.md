@@ -53,9 +53,9 @@ is not guaranteed.
 
 ## Supported devices
 
-LoveMachine connects to adult toys through the Buttplug protocol, which supports over 200 devices.
-Among those, LoveMachine can recognize **linear** (moving back-and-forth), **vibrating**,
-**rotating** and **tightening** sex toys.
+LoveMachine connects to adult toys through the Buttplug protocol, which supports over **700**
+devices. LoveMachine supports most of Buttplug's features: it can control **linear movement**,
+**vibration**, **oscillation**, **bi-directional rotation**, and **pressure**.
 
 Some of the devices that have been confirmed to work well with the mod:
 
@@ -129,23 +129,26 @@ If you found this project useful, please give it a ⭐.
 ## How it works, limitations
 
 Whenever a new animation loop starts, LoveMachine records the relative positions of certain bones
-for one cycle, then it tries to guess which bones are the most likely to be involved in the action
-(e.g. a penis and a mouth). More often than not, it guesses correctly; when it doesn't, you can
-manually select which bone of which character to track in the Plugin Settings. You can even select a
-different bone for each device to reenact more complex scenes.
+(body parts) for one cycle, then it tries to guess which bones are the most likely to be involved in
+the action. More often than not, it guesses correctly; when it doesn't, you can manually select
+which bone of which character to track in the Plugin Settings. You can even select a different bone
+for each device to reenact more complex scenes.
 
 After one cycle of learning, the plugin translates the relative movement of the guessed/selected
 bones into something that the device can perform (e.g. axial movement for strokers, or rotating
-back-and-forth for rotators).
+back-and-forth for rotators). Keep in mind that "one cycle" isn't always one stroke or thrust, it's
+how long it takes for the animation to _repeat_, which might be as long as 30 seconds in some games.
 
-As the whole thing is based on bone positions, this will only work for reasonably sized and
-proportioned characters.
+In games with character customization, note that this approach, being based on bone positions, will
+only work for reasonably sized and proportioned characters. What you see is what you get, and if
+what you see is a glitchy mess, what you get probably will be too.
 
 ## Configuration
 
-> ⚠ IL2CPP games (RoomGirl, Holy Knight Ricca) are not compatible with ConfigurationManager at the
-> moment. If you want to change the settings in those games, you can edit the configuration file
-> (`BepInEx\config\Sauceke.LoveMachine.IL2CPP.cfg`) in Notepad.
+> ⚠ There is no Plugin Settings UI for IL2CPP games at the moment. If you want to change the
+> settings in those games, you can edit the configuration file
+> (`BepInEx\config\Sauceke.LoveMachine.IL2CPP.cfg`) in Notepad, or you can copy the
+> Sauceke.LoveMachine.cfg from another game and rename it to Sauceke.LoveMachine.IL2CPP.cfg.
 
 In Plugin Settings > LoveMachine, you can set the following parameters:
 
