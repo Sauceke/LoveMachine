@@ -11,3 +11,4 @@ foreach ($plugin in $plugins) {
 	Compress-Archive -Path "./bin/$plugin/BepInEx" -DestinationPath "./assets/LoveMachine_for_${gameName}.zip"
 }
 Compress-Archive -Path "./bin/LoveMachinePrototyper/BepInEx" -DestinationPath "./assets/LoveMachine_Prototyping_Tool.zip"
+Compress-Archive -Path "./PrototyperFiles/*" -DestinationPath "./assets/LoveMachine_Prototyper_Files.zip"
