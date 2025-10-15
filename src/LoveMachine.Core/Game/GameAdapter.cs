@@ -68,7 +68,7 @@ namespace LoveMachine.Core.Game
         protected internal abstract int MaxHeroineCount { get; }
 
         /// <summary>
-        /// Set to true when the characters are REALLY going at it.
+        /// Makes down-strokes faster for strokers; no effect on other devices.
         /// </summary>
         [HideFromIl2Cpp]
         protected abstract bool IsHardSex { get; }
@@ -92,12 +92,12 @@ namespace LoveMachine.Core.Game
         protected internal virtual float MinStrokeLength => 0.5f;
 
         /// <summary>
-        /// Override this to control the speed of down-strokes. <br/>
-        /// Value must be between 0 (=normal speed) and 1 (=2x speed).
+        /// Controls the speed of down-strokes.
         /// </summary>
         [HideFromIl2Cpp]
-        protected internal virtual float StrokingIntensity =>
-            IsHardSex ? Mathf.InverseLerp(0f, 100f, StrokerConfig.HardSexIntensity.Value) : 0f;
+        internal float StrokingIntensity => (IsHSceneRunning && IsHardSex)
+            ? Mathf.InverseLerp(0f, 100f, StrokerConfig.HardSexIntensity.Value)
+            : 0f;
 
         /// <summary>
         /// The shortest duration an orgasm should last. <br/>
