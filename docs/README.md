@@ -63,7 +63,7 @@ Strokers
 
 - [The Handy]
 - [Kiiroo KEON]
-- [Lovense Solace Pro] <sup>[⚠](#solace-pro-warning)</sup>
+- [Lovense Solace Pro]
 - OSR2
 
 Vibrators
@@ -85,12 +85,6 @@ Oscillators <sup>[⚠](#oscillator-warning)</sup>
 - [Lovense Solace]
 
 > ℹ️ **Every supported device works with every supported game.**
-
-<a name="solace-pro-warning"></a>
-
-> ⚠ The Solace Pro requires some extra steps to work smoothly. In the Plugin Settings, turn on
-> Separate Tracking Settings for the device, then set the Tracking Setting for the Oscillate feature
-> to Disabled.
 
 <a name="oscillator-warning"></a>
 
