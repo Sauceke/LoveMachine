@@ -20,7 +20,7 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           name: results
           path: results
-          run_id: ${{ github.event.workflow_run.id }}
+          run-id: ${{ github.event.workflow_run.id }}
 
       - name: "Get information about the origin 'CI' run"
         uses: potiuk/get-workflow-origin@v1_1
