@@ -1,6 +1,7 @@
 name: Pull Request
 
 permissions: write-all
+
 on:
   pull_request:
     branches: [mastur]
@@ -14,3 +15,9 @@ jobs:
   test:
     needs: build
     uses: ./.github/workflows/test.yml
+
+  report:
+    needs: test
+    uses: ./.github/workflows/report.yml
+    with:
+      pull_request_number: ${{ github.event.pull_request.number }}

@@ -1,13 +1,11 @@
-name: "Test report"
+name: "[Reusable] Test report"
 
 on:
-  workflow_run:
-    workflows:
-      - "Pull Request"
-      - "Robot Tests"
-      - "Release"
-    types:
-      - completed
+  workflow_call:
+    inputs:
+      pull_request_number:
+        description: The pull request number if applicable
+        required: false
 
 jobs:
   report:
@@ -20,18 +18,11 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           name: results
           path: results
-          run-id: ${{ github.event.workflow_run.id }}
-
-      - name: "Get information about the origin 'CI' run"
-        uses: potiuk/get-workflow-origin@08219db9dbbbec802d571eaf0e14ece0bc005f72 # v1_6
-        id: source-run-info
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          sourceRunId: ${{ github.event.workflow_run.id }}
+          run-id: ${{ github.event.workflow_call.id }}
 
       - name: Generate test report
         uses: joonvena/robotframework-reporter-action@229b6d4248b20be6e54f4fc32c7414130d1bf200 # v2.5
         with:
           gh_access_token: ${{ secrets.GITHUB_TOKEN }}
           report_path: results
-          pull_request_id: ${{ steps.source-run-info.outputs.pullRequestNumber }}
+          pull_request_id: ${{ inputs.pull_request_number }}

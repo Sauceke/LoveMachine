@@ -1,4 +1,4 @@
-name: "[Reusable] End-to-end tests"
+name: "[Reusable] Run Robot tests"
 
 on:
   workflow_call:
