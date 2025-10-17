@@ -2,7 +2,7 @@ name: "Test report"
 
 on:
   workflow_run:
-    workflows: 
+    workflows:
       - "Pull Request"
       - "QA"
       - "Release"
@@ -15,11 +15,11 @@ jobs:
 
     steps:
       - name: Download test results
-        uses: dawidd6/action-download-artifact@v2
+        uses: actions/download-artifact@v4
         with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
           name: results
           path: results
-          workflow: ${{ github.event.workflow.id }}
           run_id: ${{ github.event.workflow_run.id }}
 
       - name: "Get information about the origin 'CI' run"
