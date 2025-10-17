@@ -2,7 +2,7 @@
 
 # LoveMachine
 
-[![Robot Tests][CI Badge]][Test report] [![Download][Downloads Badge]][installer]
+[![CI Badge]][Test report] [![Download][Downloads Badge]][installer]
 [![Patreon][Patreon Badge]][Patreon]
 
 [![Download][Download Button]][installer] &nbsp; [![Watch Demo (NSFW)][Demo Button]][Demo video]
@@ -353,7 +353,7 @@ This mod would not have been possible without the [BepInEx] plugin framework and
 [Patreon-VRK2]: www.patreon.com/posts/135633065
 [Demo video]: https://www.erome.com/a/f2XKHJ1I
 [issue]: https://github.com/Sauceke/LoveMachine/issues/new?template=technical-problem.md
-[Test report]: https://github.com/Sauceke/LoveMachine/actions/workflows/report.yml
+[Test report]: https://github.com/Sauceke/LoveMachine/actions/workflows/robot.yml
 
 <!-- sponsored game links -->
 

@@ -2,7 +2,7 @@
 
 # LoveMachine
 
-[![Robot Tests][CI Badge]][Test report] [![Download][Downloads Badge]][インストーラ]
+[![CI Badge]][Test report] [![Download][Downloads Badge]][インストーラ]
 [![Patreon][Patreon Badge]][Patreon]
 
 [![インストーラ][Download Button]][インストーラ] &nbsp; [![デモ(R18)][Demo Button]][Demo video]
@@ -236,7 +236,7 @@ LoveMachine は[BepInEx]プラグインフレームワークと、そしても�
 [Hotdog]: https://sauceke.github.io/hotdog
 [Patreon]: https://www.patreon.com/sauceke
 [Demo video]: https://www.erome.com/a/f2XKHJ1I
-[Test report]: https://github.com/Sauceke/LoveMachine/actions/workflows/report.yml
+[Test report]: https://github.com/Sauceke/LoveMachine/actions/workflows/robot.yml
 
 <!-- sponsored game links -->
 
