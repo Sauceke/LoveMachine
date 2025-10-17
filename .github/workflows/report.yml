@@ -16,10 +16,8 @@ jobs:
       - name: Download test results
         uses: actions/download-artifact@v4
         with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
           name: results
           path: results
-          run-id: ${{ github.event.workflow_call.id }}
 
       - name: Generate test report
         uses: joonvena/robotframework-reporter-action@229b6d4248b20be6e54f4fc32c7414130d1bf200 # v2.5
