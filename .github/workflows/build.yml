@@ -27,15 +27,13 @@ jobs:
       - name: Enable .NET Framework 3.5
         run: DISM /Online /Enable-Feature /FeatureName:NetFx3 /All
 
-      - name: Setup MSBuild path
-        uses: microsoft/setup-msbuild@6fb02220983dee41ce7ae257b6f4d8f9bf5ed4ce # v2
+      - name: Setup dotnet
+        uses: actions/setup-dotnet@v5
         with:
-          vs-version: "[17.0,)"
+          dotnet-version: "6.x"
 
-      - name: Build and Publish
-        run:
-          msbuild LoveMachine.sln /r /p:Configuration=Release /p:DeployOnBuild=true
-          /p:PublishProfile=FolderProfile /p:Version=${{ inputs.version }}
+      - name: Build
+        run: dotnet build --configuration Release -p:Version=${{ inputs.version }}
 
       - name: Upload binaries
         uses: actions/upload-artifact@v4
