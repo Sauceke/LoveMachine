@@ -1,6 +1,8 @@
-name: QA
+name: Robot Tests
 
 on:
+  schedule:
+    - cron: 41 5 * * TUE
   workflow_dispatch:
 
 jobs:
@@ -12,8 +14,3 @@ jobs:
   test:
     needs: build
     uses: ./.github/workflows/test.yml
-
-  pack:
-    needs: build
-    uses: ./.github/workflows/pack.yml
-    secrets: inherit
