@@ -2,7 +2,7 @@
 
 # LoveMachine
 
-[![QA][CI Badge]](#) [![Download][Downloads Badge]][インストーラ]
+[![Robot Tests][CI Badge]][Test report] [![Download][Downloads Badge]][インストーラ]
 [![Patreon][Patreon Badge]][Patreon]
 
 [![インストーラ][Download Button]][インストーラ] &nbsp; [![デモ(R18)][Demo Button]][Demo video]
@@ -220,7 +220,7 @@ LoveMachine は[BepInEx]プラグインフレームワークと、そしても�
 
 <!-- badges -->
 
-[CI Badge]: https://github.com/Sauceke/LoveMachine/actions/workflows/qa.yml/badge.svg
+[CI Badge]: https://github.com/Sauceke/LoveMachine/actions/workflows/robot.yml/badge.svg
 [Downloads Badge]: https://img.shields.io/github/downloads/Sauceke/LoveMachine/total
 [Patreon Badge]: https://shields.io/badge/patreon-grey?logo=patreon
 [Download Button]:
@@ -236,6 +236,7 @@ LoveMachine は[BepInEx]プラグインフレームワークと、そしても�
 [Hotdog]: https://sauceke.github.io/hotdog
 [Patreon]: https://www.patreon.com/sauceke
 [Demo video]: https://www.erome.com/a/f2XKHJ1I
+[Test report]: https://github.com/Sauceke/LoveMachine/actions/workflows/report.yml
 
 <!-- sponsored game links -->
 

@@ -4,7 +4,7 @@ on:
   workflow_run:
     workflows:
       - "Pull Request"
-      - "QA"
+      - "Robot Tests"
       - "Release"
     types:
       - completed

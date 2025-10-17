@@ -2,7 +2,8 @@
 
 # LoveMachine
 
-[![QA][CI Badge]](#) [![Download][Downloads Badge]][installer] [![Patreon][Patreon Badge]][Patreon]
+[![Robot Tests][CI Badge]][Test report] [![Download][Downloads Badge]][installer]
+[![Patreon][Patreon Badge]][Patreon]
 
 [![Download][Download Button]][installer] &nbsp; [![Watch Demo (NSFW)][Demo Button]][Demo video]
 
@@ -330,7 +331,7 @@ This mod would not have been possible without the [BepInEx] plugin framework and
 
 <!-- badges -->
 
-[CI Badge]: https://github.com/Sauceke/LoveMachine/actions/workflows/qa.yml/badge.svg
+[CI Badge]: https://github.com/Sauceke/LoveMachine/actions/workflows/robot.yml/badge.svg
 [Downloads Badge]: https://img.shields.io/github/downloads/Sauceke/LoveMachine/total
 [Patreon Badge]: https://shields.io/badge/patreon-grey?logo=patreon
 [Download Button]: https://img.shields.io/badge/%E2%87%93_Download-blue?style=for-the-badge
@@ -352,6 +353,7 @@ This mod would not have been possible without the [BepInEx] plugin framework and
 [Patreon-VRK2]: www.patreon.com/posts/135633065
 [Demo video]: https://www.erome.com/a/f2XKHJ1I
 [issue]: https://github.com/Sauceke/LoveMachine/issues/new?template=technical-problem.md
+[Test report]: https://github.com/Sauceke/LoveMachine/actions/workflows/report.yml
 
 <!-- sponsored game links -->
 
