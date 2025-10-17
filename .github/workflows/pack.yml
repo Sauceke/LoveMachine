@@ -65,7 +65,7 @@ jobs:
           copy bin/LoveMachineInstaller.exe ../assets/LoveMachineInstaller.exe
 
       - name: Scan installer with VirusTotal
-        uses: crazy-max/ghaction-virustotal@v3
+        uses: crazy-max/ghaction-virustotal@d34968c958ae283fe976efed637081b9f9dcf74f # v4.2.0
         with:
           vt_api_key: ${{ secrets.VIRUSTOTAL_API_KEY }}
           files: |
