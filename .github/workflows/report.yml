@@ -6,6 +6,7 @@ on:
       pull_request_number:
         description: The pull request number if applicable
         required: false
+        type: string
 
 jobs:
   report:

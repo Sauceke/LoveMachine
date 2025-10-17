@@ -20,4 +20,4 @@ jobs:
     needs: test
     uses: ./.github/workflows/report.yml
     with:
-      pull_request_number: ${{ github.event.pull_request.number }}
+      pull_request_number: ${{ github.event.number }}
