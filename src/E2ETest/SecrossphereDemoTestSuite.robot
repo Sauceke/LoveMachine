@@ -1,16 +1,19 @@
 *** Settings ***
 Name              Secrossphere Demo Test Suite
 Documentation     End-to-end tests of LoveMachine.SCS running on
-...               Secrossphere demo, with simulated websocket
-...               devices connected to Intiface Engine.
+...               Secrossphere demo, with simulated websocket devices
+...               connected to Intiface Engine.
+...               The game settings allow us to hide everything, even
+...               the characters during H, so Github's VMs can run it
+...               at full FPS (while also staying seiso).
 Library           LoveMachineLibrary.py
 Library           GameLibrary.py
 Suite Setup       Play The Game
 Suite Teardown    Clean Up
 
 *** Variables ***
-${Game URL}        https://trial.dlsite.com/professional/VJ016000/VJ015728_trial.zip
-${BepInEx URL}     https://github.com/BepInEx/BepInEx/releases/download/v5.4.22/BepInEx_x86_5.4.22.0.zip
+${Game URL}       https://trial.dlsite.com/professional/VJ016000/VJ015728_trial.zip
+${BepInEx URL}    https://github.com/BepInEx/BepInEx/releases/download/v5.4.22/BepInEx_x86_5.4.22.0.zip
 
 *** Test Cases ***
 Linear Command Count
