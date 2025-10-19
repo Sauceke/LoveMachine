@@ -4,9 +4,13 @@ Documentation     End-to-end tests of LoveMachine.SCS running on
 ...               Secrossphere demo, with simulated websocket
 ...               devices connected to Intiface Engine.
 Library           LoveMachineLibrary.py
-Library           SecrossphereLibrary.py
+Library           GameLibrary.py
 Suite Setup       Play The Game
 Suite Teardown    Clean Up
+
+*** Variables ***
+${Game URL}        https://trial.dlsite.com/professional/VJ016000/VJ015728_trial.zip
+${BepInEx URL}     https://github.com/BepInEx/BepInEx/releases/download/v5.4.22/BepInEx_x86_5.4.22.0.zip
 
 *** Test Cases ***
 Linear Command Count
@@ -50,26 +54,32 @@ Kill Switch
 
 *** Keywords ***
 Play The Game
-    Download Secrossphere Demo
-    Patch Secrossphere Demo
-    Set Secrossphere Resolution    ${320}        ${240}    ${1}
-    Use Secrossphere Config        ./scs-config
+    Install Secrossphere Demo
     Download Intiface Engine
     Start Intiface Engine
     Connect Lovense Nora
     Connect Lovense Sex Machine
     Connect OSR2
-    Start Secrossphere Demo
-    Sleep                          30 seconds    let the game load
+    Launch Game    bin/scs/Trial.exe
+    Sleep          30 seconds    let the game load
     Start H Scene
-    Sleep                          30 seconds    let the h-scene run
+    Sleep          30 seconds    let the h-scene run
+
+Install Secrossphere Demo
+    Download ZIP    ${Game URL}                  bin/scs-dl
+    Copy Content    bin/scs-dl/*                 bin/scs
+    Download ZIP    ${BepInEx URL}               bin/bepinex
+    Copy Content    bin/bepinex                  bin/scs
+    Copy Content    ../LoveMachine.SCS/tweaks    bin/scs
+    Copy Content    ../bin/LoveMachine.SCS       bin/scs
+    Copy Content    scs-config                   bin/scs
 
 Start H Scene
-    Press Key                      s
-    Press Key                      enter
-    Sleep                          5 seconds     let the dialog load
-    Repeat Keyword                 14 times      Left Click
+    Press Key         s
+    Press Key         enter
+    Sleep             5 seconds    let the dialog load
+    Repeat Keyword    14 times     Left Click
 
 Clean Up
-    Close Secrossphere Demo
+    Close Game
     Close Intiface Engine

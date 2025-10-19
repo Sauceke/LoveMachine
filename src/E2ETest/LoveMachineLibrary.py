@@ -1,6 +1,5 @@
 import device
 import os
-import pynput
 import requests
 import robot
 import shutil
@@ -20,8 +19,6 @@ class LoveMachineLibrary:
     def __init__(self):
         if not os.path.exists(root_path):
             os.makedirs(root_path)
-        self._mouse = pynput.mouse.Controller()
-        self._keyboard = pynput.keyboard.Controller()
 
     def _durations_should_be_about(self, durations_s, expected_str):
         expected_s = robot.libraries.DateTime.convert_time(expected_str)
@@ -68,14 +65,6 @@ class LoveMachineLibrary:
 
     def connect_lovense_sex_machine(self):
         self._oscillator = device.LovenseSexMachine(wsdm_port)
-
-    def press_key(self, key):
-        self._keyboard.tap(key if len(key) == 1 else pynput.keyboard.Key[key])
-        time.sleep(1)
-
-    def left_click(self):
-        self._mouse.click(pynput.mouse.Button.left)
-        time.sleep(1)
 
     def number_of_linear_commands_should_be_at_least(self, min):
         cmds = self._stroker.linear_cmd_log
