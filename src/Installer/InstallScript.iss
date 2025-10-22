@@ -16,6 +16,7 @@
 #define GetGameRegSubKey(Index) ReadIni(GetPluginInfoIni(Index), GetPluginId(Index), "RegSubKey")
 #define GetGameRegName(Index) ReadIni(GetPluginInfoIni(Index), GetPluginId(Index), "RegName")
 #define GetGameArchitecture(Index) ReadIni(GetPluginInfoIni(Index), GetPluginId(Index), "Architecture")
+#define GetExecutableName(Index) ReadIni(GetPluginInfoIni(Index), GetPluginId(Index), "ExecutableName")
 
 #define I 0
 #sub AddGameEntry
@@ -146,6 +147,16 @@ begin
     end;
 end;
 
+function GetExecutableName(Index: Integer): String;
+begin
+    case Index of
+        #sub ExeNameMapping
+            {#I}: Result := '{#GetExecutableName(I)}';
+        #endsub
+        #for {I = 0; I < PluginCount; I++} ExeNameMapping
+    end;
+end;
+
 // Tries to guess the root directory of the game at the given index
 function GuessGamePath(Index: Integer): String;
 begin
@@ -157,6 +168,21 @@ begin
     end;
     if not DirExists(Result) then
         Result := ''
+end;
+
+function GuessPluginIndex(GameDir: String): Integer;
+var
+    Index: Integer;
+begin
+    Result := -1;
+    for Index := 0 to PluginCount - 1 do
+    begin
+        if FileExists(AddBackslash(GameDir) + GetExecutableName(Index) + '.exe') then
+        begin
+            Result := Index;
+            break;
+        end;
+    end;
 end;
 
 function GetDir(Index: String): String;
@@ -283,6 +309,7 @@ begin
     if BrowseForFolder(SetupMessage(msgBrowseDialogLabel), Path, False) then
     begin
         PathEdit.Text := Path;
+        TitleComboBox.ItemIndex := GuessPluginIndex(Path);
     end;
 end;
 
