@@ -214,19 +214,19 @@ begin
     end;
     if PluginIndex < 0 then
     begin
-        Oopsie('Select game title', ShowErrors);
+        Oopsie(CustomMessage('MissingTitle'), ShowErrors);
         exit;
     end;
     if GameDirs[PluginIndex] <> '' then
     begin
-        Oopsie('Conflicting path', ShowErrors);
+        Oopsie(Format(CustomMessage('ConflictingPaths'), [GetGameName(PluginIndex)]), ShowErrors);
         exit;
     end;
     for Index := 0 to PluginCount - 1 do
     begin
         if GameDirs[Index] = GameDir then
         begin
-            Oopsie('Conflicting title', ShowErrors);
+            Oopsie(Format(CustomMessage('ConflictingTitles'), [GetGameName(Index)]), ShowErrors);
             exit;
         end;
     end;
@@ -301,8 +301,8 @@ var
     RemoveBtn: TButton;
 begin
     GameListPage := CreateCustomPage(wpSelectDir,
-        'Select Destinations',
-        'To add a game, select the game folder and the title, then click Add.');
+        CustomMessage('GameListTitle'),
+        CustomMessage('GameListDesc'));
     PathEdit := TEdit.Create(WizardForm);
     PathEdit.Parent := GameListPage.Surface;
     PathEdit.Left := 0;
@@ -320,13 +320,13 @@ begin
     TitleComboBox.Left := 0;
     TitleComboBox.Top := PathEdit.Height + Spacing;
     TitleComboBox.Width := GameListPage.Surface.Width;
-    TitleComboBox.Text := 'Select game title...';
+    TitleComboBox.Text := CustomMessage('TitlePlaceholder');
     AddBtn := TButton.Create(WizardForm);
     AddBtn.Parent := GameListPage.Surface;
     AddBtn.Left := 0;
     AddBtn.Top := TitleComboBox.Top + TitleComboBox.Height + Spacing;
     AddBtn.Height := BrowseBtn.Height;
-    AddBtn.Caption := 'Add';
+    AddBtn.Caption := CustomMessage('AddBtn');
     AddBtn.OnClick := @OnAddClick;
     PathList := TListBox.Create(WizardForm);
     PathList.Parent := GameListPage.Surface;
@@ -340,7 +340,7 @@ begin
     RemoveBtn.Left := 0;
     RemoveBtn.Top := PathList.Top + PathList.Height + spacing;
     RemoveBtn.Height := BrowseBtn.Height;
-    RemoveBtn.Caption := 'Remove';
+    RemoveBtn.Caption := CustomMessage('RemoveBtn');
     RemoveBtn.OnClick := @OnRemoveClick;
 end;
 
