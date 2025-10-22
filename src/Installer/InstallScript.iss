@@ -185,54 +185,27 @@ begin
     Result := 'GameDir.' + GetPluginId(Index);
 end;
 
-procedure Oopsie(Message: String; Show: Boolean);
+procedure Warn(Message: String; Interactive: Boolean);
 begin
-    if Show then
+    if Interactive then
         MsgBox(Message, mbError, MB_OK);
 end;
 
-function ValidateGameDir(Path: String; ShowErrors: Boolean): Boolean;
+function Ask(Message: String; Interactive: Boolean): Boolean;
+begin
+    Result := Interactive and (MsgBox(Message, mbConfirmation, MB_YESNO) = IDYES);
+end;
+
+function ValidateGameDir(Path: String; Interactive: Boolean): Boolean;
 var
     FindRec: TFindRec;
 begin
     Result := True;
     if not FindFirst(AddBackslash(Path) + '*_Data', FindRec) then
     begin
-        Oopsie(Format(CustomMessage('NotAGameDir'), [Path]), ShowErrors);
+        Warn(FmtMessage(CustomMessage('NotAGameDir'), [Path]), Interactive);
         Result := False;
     end;
-end;
-
-function AddGameDir(GameDir: String; PluginIndex: Integer; ShowErrors: Boolean): Boolean;
-var
-    Index: Integer;
-begin
-    Result := False;
-    if not ValidateGameDir(GameDir, ShowErrors) then
-    begin
-        exit;
-    end;
-    if PluginIndex < 0 then
-    begin
-        Oopsie(CustomMessage('MissingTitle'), ShowErrors);
-        exit;
-    end;
-    if GameDirs[PluginIndex] <> '' then
-    begin
-        Oopsie(Format(CustomMessage('ConflictingPaths'), [GetGameName(PluginIndex)]), ShowErrors);
-        exit;
-    end;
-    for Index := 0 to PluginCount - 1 do
-    begin
-        if GameDirs[Index] = GameDir then
-        begin
-            Oopsie(Format(CustomMessage('ConflictingTitles'), [GetGameName(Index)]), ShowErrors);
-            exit;
-        end;
-    end;
-    GameDirs[PluginIndex] := GameDir;
-    PathList.Items.Add(GameDir);
-    Result := True;
 end;
 
 procedure RemoveGameDir(GameDir: String);
@@ -245,6 +218,41 @@ begin
             GameDirs[Index] := '';
     end;
     PathList.Items.Delete(PathList.Items.IndexOf(GameDir));
+end;
+
+function AddGameDir(GameDir: String; PluginIndex: Integer; Interactive: Boolean): Boolean;
+var
+    Index: Integer;
+begin
+    Result := False;
+    if not ValidateGameDir(GameDir, Interactive) then
+    begin
+        exit;
+    end;
+    if PluginIndex < 0 then
+    begin
+        Warn(CustomMessage('MissingTitle'), Interactive);
+        exit;
+    end;
+    if GameDirs[PluginIndex] <> '' then
+    begin
+        if Ask(FmtMessage(CustomMessage('ConflictingPaths'), [GetGameName(PluginIndex)]), Interactive) then
+            RemoveGameDir(GameDirs[PluginIndex])
+        else
+            exit;
+    end;
+    for Index := 0 to PluginCount - 1 do
+    begin
+        if GameDirs[Index] <> GameDir then
+            continue;
+        if Ask(FmtMessage(CustomMessage('ConflictingTitles'), [GetGameName(Index)]), Interactive) then
+            RemoveGameDir(GameDirs[Index])
+        else
+            exit;
+    end;
+    GameDirs[PluginIndex] := GameDir;
+    PathList.Items.Add(GameDir);
+    Result := True;
 end;
 
 procedure PopulateGameListPage;
@@ -349,7 +357,7 @@ var
     ErrorCode: Integer;
 begin
     if ShouldInstallIntiface() then
-        if MsgBox(CustomMessage('InstallIntiface'), mbConfirmation, MB_YESNO) = IDYES then
+        if Ask(CustomMessage('InstallIntiface'), True) then
             if not ShellExec('open', 'https://intiface.com/central/', '', '', SW_SHOW, ewNoWait, ErrorCode) then
                 MsgBox(SysErrorMessage(ErrorCode), mbError, MB_OK);
 end;
