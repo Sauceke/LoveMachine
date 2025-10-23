@@ -299,6 +299,11 @@ begin
     end;
 end;
 
+procedure OnPathChanged(Sender: TObject);
+begin
+    TitleComboBox.ItemIndex := GuessPluginIndex(PathEdit.Text);
+end;
+
 procedure OnBrowseClick(Sender: TObject);
 var
     Path: String;
@@ -309,7 +314,7 @@ begin
     if BrowseForFolder(SetupMessage(msgBrowseDialogLabel), Path, False) then
     begin
         PathEdit.Text := Path;
-        TitleComboBox.ItemIndex := GuessPluginIndex(Path);
+        OnPathChanged(Sender);
     end;
 end;
 
@@ -342,6 +347,7 @@ begin
     PathEdit.Parent := GameListPage.Surface;
     PathEdit.Left := 0;
     PathEdit.Top := 0;
+    PathEdit.OnChange := @OnPathChanged;
     BrowseBtn := TButton.Create(WizardForm);
     BrowseBtn.Parent := GameListPage.Surface;
     BrowseBtn.Left := GameListPage.Surface.Width - BrowseBtn.Width;
