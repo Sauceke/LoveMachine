@@ -16,6 +16,7 @@
 #define GetGameRegSubKey(Index) ReadIni(GetPluginInfoIni(Index), GetPluginId(Index), "RegSubKey")
 #define GetGameRegName(Index) ReadIni(GetPluginInfoIni(Index), GetPluginId(Index), "RegName")
 #define GetGameArchitecture(Index) ReadIni(GetPluginInfoIni(Index), GetPluginId(Index), "Architecture")
+#define GetExecutableName(Index) ReadIni(GetPluginInfoIni(Index), GetPluginId(Index), "ExecutableName")
 
 #define I 0
 #sub AddGameEntry
@@ -88,14 +89,13 @@ Name: "{group}\Inno_Setup_Project"; Filename: "{app}\Inno_Setup_Project.exe"
 
 [Code]
 const
-    PageSize = 4;
     PluginCount = {#PluginCount};
+    Spacing = 8;
 var
-    // The directory prompts don't fit all in one page, so we need more pages
-    // This is way too many pages but whatever 
-    DirPages: array[0..{#PluginCount}] of TInputDirWizardPage;
-    Old_WizardForm_NextButton_OnClick: TNotifyEvent;
-    PlaceholderDir: String;
+    GameDirs: array[0..{#PluginCount - 1}] of String;
+    PathEdit: TEdit;
+    TitleComboBox: TComboBox;
+    PathList: TListBox;
 
 // The ID of the plugin at the given index (e. g. 'LoveMachine.KK')
 function GetPluginId(Index: Integer): String;
@@ -132,9 +132,11 @@ end;
 function GetGameName(Index: Integer): String;
 begin
     Result := GetGameNameEN(Index);
-    if ActiveLanguage = 'jp' then Result := GetGameNameJP(Index);
+    if ActiveLanguage = 'jp' then
+        Result := GetGameNameJP(Index);
     // this shouldn't happen, but whatever
-    if Result = '' then Result := GetPluginId(Index);
+    if Result = '' then
+        Result := GetPluginId(Index);
 end;
 
 function GetGameArchitecture(Index: Integer): String;
@@ -144,6 +146,16 @@ begin
             {#I}: Result := '{#GetGameArchitecture(I)}';
         #endsub
         #for {I = 0; I < PluginCount; I++} ArchitectureMapping
+    end;
+end;
+
+function GetExecutableName(Index: Integer): String;
+begin
+    case Index of
+        #sub ExeNameMapping
+            {#I}: Result := '{#GetExecutableName(I)}';
+        #endsub
+        #for {I = 0; I < PluginCount; I++} ExeNameMapping
     end;
 end;
 
@@ -160,20 +172,24 @@ begin
         Result := ''
 end;
 
-// Tells us where on which page the install dir box for the given index is located
-procedure GetPageAndIndex(Index: Integer; out Page: Integer; out IndexInPage: Integer);
+function GuessPluginIndex(GameDir: String): Integer;
+var
+    Index: Integer;
 begin
-    Page := Index / PageSize;
-    IndexInPage := Index mod PageSize;
+    Result := -1;
+    for Index := 0 to PluginCount - 1 do
+    begin
+        if FileExists(AddBackslash(GameDir) + GetExecutableName(Index) + '.exe') then
+        begin
+            Result := Index;
+            break;
+        end;
+    end;
 end;
 
 function GetDir(Index: String): String;
-var
-    Page: Integer;
-    IndexInPage: Integer;
 begin
-    GetPageAndIndex(StrToInt(Index), Page, IndexInPage);
-    Result := DirPages[Page].Values[IndexInPage];
+    Result := GameDirs[StrToInt(Index)];
 end;
 
 function IsDirSelected(Index: Integer): Boolean;
@@ -181,10 +197,10 @@ begin
     Result := GetDir(IntToStr(Index)) <> '';
 end;
 
-function ShouldInstallIntiface(): Boolean;
+function IsIntifaceInstalled(): Boolean;
 begin
-    Result := (not DirExists(AddBackslash(ExpandConstant('{commonpf32}')) + 'IntifaceCentral'))
-        and (not DirExists(AddBackslash(ExpandConstant('{userappdata}')) + 'IntifaceCentral'));
+    Result := DirExists(AddBackslash(ExpandConstant('{commonpf32}')) + 'IntifaceCentral')
+        or DirExists(AddBackslash(ExpandConstant('{userappdata}')) + 'IntifaceCentral');
 end;
 
 function IsBuildType(Index: Integer; Architecture: String): Boolean;
@@ -197,132 +213,222 @@ begin
     Result := 'GameDir.' + GetPluginId(Index);
 end;
 
-function ValidateGameDir(Path: String): Boolean;
+procedure Warn(Message: String; Interactive: Boolean);
+begin
+    if Interactive then
+        MsgBox(Message, mbError, MB_OK);
+end;
+
+function Ask(Message: String; Interactive: Boolean): Boolean;
+begin
+    Result := Interactive and (MsgBox(Message, mbConfirmation, MB_YESNO) = IDYES);
+end;
+
+function ValidateGameDir(Path: String; Interactive: Boolean): Boolean;
 var
     FindRec: TFindRec;
-    WarningMsg: String;
 begin
-    Result := True;
-    if (not FindFirst(AddBackslash(Path) + '*_Data', FindRec)) and (Path <> PlaceholderDir) then
-    begin
-        WarningMsg := Format(CustomMessage('NotAGameDir'), [Path]);
-        MsgBox(WarningMsg, mbError, MB_OK);
-        Result := False;
-    end;
+    Result := FindFirst(AddBackslash(Path) + '*_Data', FindRec);
+    if not Result then
+        Warn(FmtMessage(CustomMessage('NotAGameDir'), [Path]), Interactive);
+    FindClose(FindRec);
 end;
 
-function ValidateDirPage(Page: TWizardPage; DirCount: Integer): Boolean;
-var
-    DirPage: TInputDirWizardPage;
-    IndexInPage: Integer;
-begin
-    Result := True;
-    DirPage := Page as TInputDirWizardPage;
-    for IndexInPage := 0 to DirCount - 1 do
-    begin
-        if not ValidateGameDir(DirPage.Values[IndexInPage]) then
-        begin
-            Result := False;
-            break;
-        end;
-    end;
-end;
-
-function OnDirPageNextClick(Page: TWizardPage): Boolean;
-begin
-    Result := ValidateDirPage(Page, PageSize);
-end;
-
-function OnLastDirPageNextClick(Page: TWizardPage): Boolean;
-var
-    LastPage: Integer;
-    LastIndex: Integer;
-begin
-    GetPageAndIndex(PluginCount - 1, LastPage, LastIndex);
-    Result := ValidateDirPage(Page, LastIndex + 1);
-end;
-
-procedure AddDirPrompts;
+procedure RemoveGameDir(GameDir: String);
 var
     Index: Integer;
-    Page: Integer;
-    IndexInPage: Integer;
-    PrevPageID: Integer;
 begin
     for Index := 0 to PluginCount - 1 do
     begin
-        GetPageAndIndex(Index, Page, IndexInPage);
-        if Page = 0 then
-            PrevPageID := wpSelectDir
+        if GameDirs[Index] = GameDir then
+            GameDirs[Index] := '';
+    end;
+    PathList.Items.Delete(PathList.Items.IndexOf(GameDir));
+end;
+
+function AddGameDir(GameDir: String; PluginIndex: Integer; Interactive: Boolean): Boolean;
+var
+    Index: Integer;
+begin
+    Result := False;
+    if not ValidateGameDir(GameDir, Interactive) then
+        exit;
+    if PluginIndex < 0 then
+    begin
+        Warn(CustomMessage('MissingTitle'), Interactive);
+        exit;
+    end;
+    if GameDirs[PluginIndex] <> '' then
+    begin
+        if Ask(FmtMessage(CustomMessage('ConflictingPaths'), [GetGameName(PluginIndex)]), Interactive) then
+            RemoveGameDir(GameDirs[PluginIndex])
         else
-            PrevPageID := DirPages[Page - 1].ID;
-        if IndexInPage = 0 then
-            DirPages[Page] := CreateInputDirPage(PrevPageID,
-                Format(CustomMessage('SelectPathTitle'), [Page + 1]),
-                CustomMessage('SelectPath'),
-                '', False, '');
-        DirPages[Page].Add(GetGameName(Index));
-        DirPages[Page].Values[IndexInPage] :=
-            GetPreviousData(GetPreviousDataKey(Index), GuessGamePath(Index));
-        DirPages[Page].OnNextButtonClick := @OnDirPageNextClick;
+            exit;
     end;
-    DirPages[Page].OnNextButtonClick := @OnLastDirPageNextClick;
+    for Index := 0 to PluginCount - 1 do
+    begin
+        if GameDirs[Index] <> GameDir then
+            continue;
+        if Ask(FmtMessage(CustomMessage('ConflictingTitles'), [GetGameName(Index)]), Interactive) then
+            RemoveGameDir(GameDirs[Index])
+        else
+            exit;
+    end;
+    GameDirs[PluginIndex] := GameDir;
+    PathList.Items.Add(GameDir);
+    Result := True;
 end;
 
-// based on https://stackoverflow.com/a/31706698
-procedure New_WizardForm_NextButton_OnClick(Sender: TObject);
+procedure PopulateGameListPage;
 var
     Index: Integer;
-    Page: Integer;
-    IndexInPage: Integer;
+    GameDir: String;
 begin
     for Index := 0 to PluginCount - 1 do
     begin
-        GetPageAndIndex(Index, Page, IndexInPage);
-        if DirPages[Page].Values[IndexInPage] = '' then
-            // Force value to pass validation
-            DirPages[Page].Values[IndexInPage] := PlaceholderDir;
+        TitleComboBox.Items.Add(GetGameName(Index));
+        GameDir := GetPreviousData(GetPreviousDataKey(Index), GuessGamePath(Index));
+        AddGameDir(GameDir, Index, False);
     end;
-    Old_WizardForm_NextButton_OnClick(Sender);
-    for Index := 0 to PluginCount - 1 do
+end;
+
+procedure OnPathChanged(Sender: TObject);
+begin
+    TitleComboBox.ItemIndex := GuessPluginIndex(PathEdit.Text);
+end;
+
+procedure OnBrowseClick(Sender: TObject);
+var
+    Path: String;
+begin
+    Path := PathEdit.Text;
+    if Path = '' then
+        Path := ExpandConstant('{sd}');
+    if BrowseForFolder(SetupMessage(msgBrowseDialogLabel), Path, False) then
     begin
-        GetPageAndIndex(Index, Page, IndexInPage);
-        if DirPages[Page].Values[IndexInPage] = PlaceholderDir then
-            DirPages[Page].Values[IndexInPage] := '';
+        ValidateGameDir(Path, True); // allow bad path for easier correction
+        PathEdit.Text := Path;
+        OnPathChanged(Sender);
     end;
+end;
+
+procedure OnAddClick(Sender: TObject);
+begin
+    if AddGameDir(PathEdit.Text, TitleComboBox.ItemIndex, True) then
+    begin
+        PathEdit.Text := '';
+        TitleComboBox.ItemIndex := -1;
+    end;
+end;
+
+procedure OnRemoveClick(Sender: TObject);
+begin
+    if PathList.ItemIndex >= 0 then
+        RemoveGameDir(PathList.Items[PathList.ItemIndex]);
+end;
+
+function OnGameListPageNextButtonClick(Sender: TWizardPage): Boolean;
+begin
+    if PathList.Items.Count = 0 then
+    begin
+        Warn(CustomMessage('EmptyGameList'), True);
+        Result := False;
+        exit;
+    end;
+    if (PathEdit.Text <> '') and not Ask(CustomMessage('GamePending'), True) then
+    begin
+        Result := False;
+        exit;
+    end;
+    Result := True;
+end;
+
+procedure AddGameListPage;
+var
+    GameListPage: TWizardPage;
+    BrowseBtn: TButton;
+    AddBtn: TButton;
+    RemoveBtn: TButton;
+    AddLabel: TLabel;
+    ListLabel: TLabel;
+begin
+    GameListPage := CreateCustomPage(wpSelectDir,
+        CustomMessage('GameListTitle'),
+        CustomMessage('GameListDesc'));
+    GameListPage.OnNextButtonClick := @OnGameListPageNextButtonClick;
+    PathEdit := TEdit.Create(WizardForm);
+    PathEdit.Parent := GameListPage.Surface;
+    PathEdit.Left := 0;
+    PathEdit.Top := 0;
+    PathEdit.OnChange := @OnPathChanged;
+    BrowseBtn := TButton.Create(WizardForm);
+    BrowseBtn.Parent := GameListPage.Surface;
+    BrowseBtn.Left := GameListPage.Surface.Width - BrowseBtn.Width;
+    BrowseBtn.Top := 0;
+    BrowseBtn.Height := PathEdit.Height;
+    BrowseBtn.Caption := SetupMessage(msgButtonBrowse);
+    BrowseBtn.OnClick := @OnBrowseClick;
+    PathEdit.Width := BrowseBtn.Left - PathEdit.Left - Spacing;
+    TitleComboBox := TComboBox.Create(WizardForm);
+    TitleComboBox.Parent := GameListPage.Surface;
+    TitleComboBox.Left := 0;
+    TitleComboBox.Top := PathEdit.Height + Spacing;
+    TitleComboBox.Width := GameListPage.Surface.Width;
+    TitleComboBox.Text := CustomMessage('TitlePlaceholder');
+    AddBtn := TButton.Create(WizardForm);
+    AddBtn.Parent := GameListPage.Surface;
+    AddBtn.Left := 0;
+    AddBtn.Top := TitleComboBox.Top + TitleComboBox.Height + Spacing;
+    AddBtn.Height := BrowseBtn.Height;
+    AddBtn.Caption := CustomMessage('AddBtn');
+    AddBtn.OnClick := @OnAddClick;
+    ListLabel := TLabel.Create(WizardForm);
+    ListLabel.Parent := GameListPage.Surface;
+    ListLabel.Left := 0;
+    ListLabel.Top := AddBtn.Top + AddBtn.Height + Spacing;
+    ListLabel.Caption := CustomMessage('PathListLabel');
+    PathList := TListBox.Create(WizardForm);
+    PathList.Parent := GameListPage.Surface;
+    PathList.Left := 0;
+    PathList.Top := ListLabel.Top + ListLabel.Height;
+    PathList.Width := GameListPage.Surface.Width;
+    PathList.Height := GameListPage.Surface.Height - BrowseBtn.Height - PathList.Top - Spacing;
+    PathList.MultiSelect := False;
+    RemoveBtn := TButton.Create(WizardForm);
+    RemoveBtn.Parent := GameListPage.Surface;
+    RemoveBtn.Left := 0;
+    RemoveBtn.Top := PathList.Top + PathList.Height + spacing;
+    RemoveBtn.Height := BrowseBtn.Height;
+    RemoveBtn.Caption := CustomMessage('RemoveBtn');
+    RemoveBtn.OnClick := @OnRemoveClick;
 end;
 
 procedure CheckIntiface;
 var
     ErrorCode: Integer;
 begin
-    if ShouldInstallIntiface() then
-        if MsgBox(CustomMessage('InstallIntiface'), mbConfirmation, MB_YESNO) = IDYES then
-            if not ShellExec('open', 'https://intiface.com/central/', '', '', SW_SHOW, ewNoWait, ErrorCode) then
-                MsgBox(SysErrorMessage(ErrorCode), mbError, MB_OK);
+    if IsIntifaceInstalled() then
+        exit;
+    if not Ask(CustomMessage('InstallIntiface'), True) then
+        exit;
+    if not ShellExec('open', 'https://intiface.com/central/', '', '', SW_SHOW, ewNoWait, ErrorCode) then
+        Warn(SysErrorMessage(ErrorCode), True);
 end;
 
 procedure InitializeWizard;
 begin
-    PlaceholderDir := ExpandConstant('{%TEMP}');
     CheckIntiface;
-    AddDirPrompts;
-    Old_WizardForm_NextButton_OnClick := WizardForm.NextButton.OnClick;
-    WizardForm.NextButton.OnClick := @New_WizardForm_NextButton_OnClick;
+    AddGameListPage;
+    PopulateGameListPage;
 end;
 
 procedure RegisterPreviousData(PreviousDataKey: Integer);
 var
     Index: Integer;
-    Page: Integer;
-    IndexInPage: Integer;
-    DirPath: String;
 begin
     for Index := 0 to PluginCount - 1 do
     begin
-        GetPageAndIndex(Index, Page, IndexInPage);
-        DirPath := DirPages[Page].Values[IndexInPage];
-        if DirExists(DirPath) then
-            SetPreviousData(PreviousDataKey, GetPreviousDataKey(Index), DirPath); 
+        if DirExists(GameDirs[Index]) then
+            SetPreviousData(PreviousDataKey, GetPreviousDataKey(Index), GameDirs[Index]);
     end;
 end;
