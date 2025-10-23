@@ -132,9 +132,11 @@ end;
 function GetGameName(Index: Integer): String;
 begin
     Result := GetGameNameEN(Index);
-    if ActiveLanguage = 'jp' then Result := GetGameNameJP(Index);
+    if ActiveLanguage = 'jp' then
+        Result := GetGameNameJP(Index);
     // this shouldn't happen, but whatever
-    if Result = '' then Result := GetPluginId(Index);
+    if Result = '' then
+        Result := GetPluginId(Index);
 end;
 
 function GetGameArchitecture(Index: Integer): String;
@@ -195,10 +197,10 @@ begin
     Result := GetDir(IntToStr(Index)) <> '';
 end;
 
-function ShouldInstallIntiface(): Boolean;
+function IsIntifaceInstalled(): Boolean;
 begin
-    Result := (not DirExists(AddBackslash(ExpandConstant('{commonpf32}')) + 'IntifaceCentral'))
-        and (not DirExists(AddBackslash(ExpandConstant('{userappdata}')) + 'IntifaceCentral'));
+    Result := DirExists(AddBackslash(ExpandConstant('{commonpf32}')) + 'IntifaceCentral')
+        or DirExists(AddBackslash(ExpandConstant('{userappdata}')) + 'IntifaceCentral');
 end;
 
 function IsBuildType(Index: Integer; Architecture: String): Boolean;
@@ -226,12 +228,10 @@ function ValidateGameDir(Path: String; Interactive: Boolean): Boolean;
 var
     FindRec: TFindRec;
 begin
-    Result := True;
-    if not FindFirst(AddBackslash(Path) + '*_Data', FindRec) then
-    begin
+    Result := FindFirst(AddBackslash(Path) + '*_Data', FindRec);
+    if not Result then
         Warn(FmtMessage(CustomMessage('NotAGameDir'), [Path]), Interactive);
-        Result := False;
-    end;
+    FindClose(FindRec);
 end;
 
 procedure RemoveGameDir(GameDir: String);
@@ -252,9 +252,7 @@ var
 begin
     Result := False;
     if not ValidateGameDir(GameDir, Interactive) then
-    begin
         exit;
-    end;
     if PluginIndex < 0 then
     begin
         Warn(CustomMessage('MissingTitle'), Interactive);
@@ -289,13 +287,8 @@ begin
     for Index := 0 to PluginCount - 1 do
     begin
         TitleComboBox.Items.Add(GetGameName(Index));
-    end;
-    for Index := 0 to PluginCount - 1 do
-    begin
-        GameDir :=
-            GetPreviousData(GetPreviousDataKey(Index), GuessGamePath(Index));
-        if GameDir <> '' then
-            AddGameDir(GameDir, Index, False);
+        GameDir := GetPreviousData(GetPreviousDataKey(Index), GuessGamePath(Index));
+        AddGameDir(GameDir, Index, False);
     end;
 end;
 
@@ -313,6 +306,7 @@ begin
         Path := ExpandConstant('{sd}');
     if BrowseForFolder(SetupMessage(msgBrowseDialogLabel), Path, False) then
     begin
+        ValidateGameDir(Path, True); // allow bad path for easier correction
         PathEdit.Text := Path;
         OnPathChanged(Sender);
     end;
@@ -413,10 +407,12 @@ procedure CheckIntiface;
 var
     ErrorCode: Integer;
 begin
-    if ShouldInstallIntiface() then
-        if Ask(CustomMessage('InstallIntiface'), True) then
-            if not ShellExec('open', 'https://intiface.com/central/', '', '', SW_SHOW, ewNoWait, ErrorCode) then
-                MsgBox(SysErrorMessage(ErrorCode), mbError, MB_OK);
+    if IsIntifaceInstalled() then
+        exit;
+    if not Ask(CustomMessage('InstallIntiface'), True) then
+        exit;
+    if not ShellExec('open', 'https://intiface.com/central/', '', '', SW_SHOW, ewNoWait, ErrorCode) then
+        Warn(SysErrorMessage(ErrorCode), True);
 end;
 
 procedure InitializeWizard;
@@ -429,14 +425,10 @@ end;
 procedure RegisterPreviousData(PreviousDataKey: Integer);
 var
     Index: Integer;
-    Page: Integer;
-    IndexInPage: Integer;
-    DirPath: String;
 begin
     for Index := 0 to PluginCount - 1 do
     begin
-        DirPath := GameDirs[Index];
-        if DirExists(DirPath) then
-            SetPreviousData(PreviousDataKey, GetPreviousDataKey(Index), DirPath); 
+        if DirExists(GameDirs[Index]) then
+            SetPreviousData(PreviousDataKey, GetPreviousDataKey(Index), GameDirs[Index]);
     end;
 end;
