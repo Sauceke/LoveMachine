@@ -333,6 +333,22 @@ begin
         RemoveGameDir(PathList.Items[PathList.ItemIndex]);
 end;
 
+function OnGameListPageNextButtonClick(Sender: TWizardPage): Boolean;
+begin
+    if PathList.Items.Count = 0 then
+    begin
+        Warn(CustomMessage('EmptyGameList'), True);
+        Result := False;
+        exit;
+    end;
+    if (PathEdit.Text <> '') and not Ask(CustomMessage('GamePending'), True) then
+    begin
+        Result := False;
+        exit;
+    end;
+    Result := True;
+end;
+
 procedure AddGameListPage;
 var
     GameListPage: TWizardPage;
@@ -345,6 +361,7 @@ begin
     GameListPage := CreateCustomPage(wpSelectDir,
         CustomMessage('GameListTitle'),
         CustomMessage('GameListDesc'));
+    GameListPage.OnNextButtonClick := @OnGameListPageNextButtonClick;
     PathEdit := TEdit.Create(WizardForm);
     PathEdit.Parent := GameListPage.Surface;
     PathEdit.Left := 0;
