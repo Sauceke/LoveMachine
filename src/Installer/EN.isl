@@ -9,3 +9,4 @@ ConflictingPaths=Another path is already set for %1. Overwrite it?
 ConflictingTitles=This path is already set for %1. Overwrite it?
 AddBtn=Add
 RemoveBtn=Remove
+PathListLabel=LoveMachine will be installed to the following locations:

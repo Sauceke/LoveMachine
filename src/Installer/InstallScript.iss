@@ -339,6 +339,8 @@ var
     BrowseBtn: TButton;
     AddBtn: TButton;
     RemoveBtn: TButton;
+    AddLabel: TLabel;
+    ListLabel: TLabel;
 begin
     GameListPage := CreateCustomPage(wpSelectDir,
         CustomMessage('GameListTitle'),
@@ -369,10 +371,15 @@ begin
     AddBtn.Height := BrowseBtn.Height;
     AddBtn.Caption := CustomMessage('AddBtn');
     AddBtn.OnClick := @OnAddClick;
+    ListLabel := TLabel.Create(WizardForm);
+    ListLabel.Parent := GameListPage.Surface;
+    ListLabel.Left := 0;
+    ListLabel.Top := AddBtn.Top + AddBtn.Height + Spacing;
+    ListLabel.Caption := CustomMessage('PathListLabel');
     PathList := TListBox.Create(WizardForm);
     PathList.Parent := GameListPage.Surface;
     PathList.Left := 0;
-    PathList.Top := AddBtn.Top + AddBtn.Height + Spacing;
+    PathList.Top := ListLabel.Top + ListLabel.Height;
     PathList.Width := GameListPage.Surface.Width;
     PathList.Height := GameListPage.Surface.Height - BrowseBtn.Height - PathList.Top - Spacing;
     PathList.MultiSelect := False;
