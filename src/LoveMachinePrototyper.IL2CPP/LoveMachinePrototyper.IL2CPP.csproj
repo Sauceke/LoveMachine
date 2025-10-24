@@ -1,0 +1,19 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <TargetFramework>net6.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+        <OutputPath>..\bin\LoveMachinePrototyper.IL2CPP\BepInEx\plugins\LoveMachinePrototyper\</OutputPath>
+        <RuntimeIdentifier>none</RuntimeIdentifier>
+    </PropertyGroup>
+    <ItemGroup>
+        <Compile Include="..\LoveMachinePrototyper\**\*.cs;
+				          ..\LoveMachine.Core\Config\ConfigurationManager\ConfigurationManagerAttributes.cs"
+				 Exclude="..\LoveMachinePrototyper\obj\**\*.cs"
+                 LinkBase="Included" />
+    </ItemGroup>
+    <ItemGroup>
+        <ProjectReference Include="..\LoveMachine.Core.IL2CPP\LoveMachine.Core.IL2CPP.csproj" />
+    </ItemGroup>
+</Project>

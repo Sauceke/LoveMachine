@@ -78,6 +78,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Prototyper", "Prototyper", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LoveMachinePrototyper", "LoveMachinePrototyper\LoveMachinePrototyper.csproj", "{5E5AAE4E-F70F-4985-FC4C-7FF7538CBF65}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LoveMachinePrototyper.IL2CPP", "LoveMachinePrototyper.IL2CPP\LoveMachinePrototyper.IL2CPP.csproj", "{690E6F00-F5FC-4D18-992A-E488B325B6E0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -215,6 +217,10 @@ Global
 		{5E5AAE4E-F70F-4985-FC4C-7FF7538CBF65}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5E5AAE4E-F70F-4985-FC4C-7FF7538CBF65}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5E5AAE4E-F70F-4985-FC4C-7FF7538CBF65}.Release|Any CPU.Build.0 = Release|Any CPU
+		{690E6F00-F5FC-4D18-992A-E488B325B6E0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{690E6F00-F5FC-4D18-992A-E488B325B6E0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{690E6F00-F5FC-4D18-992A-E488B325B6E0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{690E6F00-F5FC-4D18-992A-E488B325B6E0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -252,6 +258,7 @@ Global
 		{A867D601-9F35-4806-8099-18EA8CA15D73} = {C9AD8132-2D49-41BF-8AFB-E7AE8870880C}
 		{31F7D87C-DD6A-4B4A-9370-1A79DD1952C8} = {C9AD8132-2D49-41BF-8AFB-E7AE8870880C}
 		{5E5AAE4E-F70F-4985-FC4C-7FF7538CBF65} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{690E6F00-F5FC-4D18-992A-E488B325B6E0} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {446d456d-8d87-438a-9dac-1b76093e0305}
