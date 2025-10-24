@@ -2,6 +2,7 @@
 using BepInEx.Configuration;
 using LoveMachine.Core.Common;
 using LoveMachine.Core.NonPortable;
+using LoveMachinePrototyper.NonPortable;
 using System;
 using System.Collections.Generic;
 
@@ -47,7 +48,7 @@ namespace LoveMachinePrototyper
             GameBuildArchitecture = plugin.Config.Bind(
                 section: settingsTitle,
                 key: "Game Build Architecture",
-                defaultValue: IntPtr.Size == 4 ? "x86" : "x64",
+                defaultValue: GameArchitecture.Arch,
                 new ConfigDescription(
                     "The build architecture of the game this config file was written for - do not edit",
                     tags: new ConfigurationManagerAttributes { ReadOnly = true }));

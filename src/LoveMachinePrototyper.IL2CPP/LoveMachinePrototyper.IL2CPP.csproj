@@ -10,7 +10,7 @@
     <ItemGroup>
         <Compile Include="..\LoveMachinePrototyper\**\*.cs;
 				          ..\LoveMachine.Core\Config\ConfigurationManager\ConfigurationManagerAttributes.cs"
-				 Exclude="..\LoveMachinePrototyper\obj\**\*.cs"
+				 Exclude="..\LoveMachinePrototyper\obj\**\*.cs;..\LoveMachinePrototyper\NonPortable\*.cs"
                  LinkBase="Included" />
     </ItemGroup>
     <ItemGroup>
