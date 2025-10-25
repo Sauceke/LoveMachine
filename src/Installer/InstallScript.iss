@@ -1,4 +1,5 @@
 ﻿#define PluginBuildDir SourcePath + "..\bin\"
+#define PrototyperFilesDir SourcePath + "..\PrototyperFiles\"
 #define BepInEx32Dir SourcePath + "BepInEx32"
 #define BepInEx64Dir SourcePath + "BepInEx64"
 #define BepInExIl2cpp64Dir SourcePath + "BepInExIl2cpp64"
@@ -7,7 +8,8 @@
 ; We have a lot of plugins, so we just find them all and put them in here
 ; This way the script will handle new plugins by itself and we can forget about it
 #dim Plugins[100]
-#define PluginCount 0
+#define PluginCount
+#define PrototyperPluginStartIndex
 
 #define GetPluginId(Index) Plugins[Index]
 #define GetPluginInfoIni(Index) SourcePath + "..\" + GetPluginId(Index) + "\PluginInfo.ini"
@@ -18,22 +20,37 @@
 #define GetGameArchitecture(Index) ReadIni(GetPluginInfoIni(Index), GetPluginId(Index), "Architecture")
 #define GetExecutableName(Index) ReadIni(GetPluginInfoIni(Index), GetPluginId(Index), "ExecutableName")
 
+#define GetPrototyperCfg(Index) PrototyperFilesDir + GetPluginId(Index) + "\Sauceke.LoveMachinePrototyper.cfg"
+#define GetPrototyperGameArchitecture(Index) ReadIni(GetPrototyperCfg(Index), "Prototyper Settings", "Game Build Architecture") 
+#define GetPrototyperExecutableName(Index) ReadIni(GetPrototyperCfg(Index), "Prototyper Settings", "Game Process Name")
+
 #define I 0
-#sub AddGameEntry
+#define FindHandle
+#define FindResult
+
+#sub AddPluginEntry
     #define PluginName FindGetFileName(FindHandle)
-    #if Pos("LoveMachine.", PluginName) == 1 && Pos("LoveMachine.Core", PluginName) != 1
+    #if (PluginName != ".") && (PluginName != "..") && Pos("LoveMachine.Core", PluginName) != 1
         #expr Plugins[I] = PluginName
         #expr I = I + 1
     #endif
 #endsub
 
 ; Get all plugins from the build via file search
-#define FindHandle
-#define FindResult
-#for {FindHandle = FindResult = FindFirst(PluginBuildDir + "LoveMachine*", faDirectory); \
+#for {FindHandle = FindResult = FindFirst(PluginBuildDir + "LoveMachine.*", faDirectory); \
     FindResult; \
     FindResult = FindNext(FindHandle)} \
-        AddGameEntry
+        AddPluginEntry
+#if FindHandle
+    #expr PrototyperPluginStartIndex = I
+    #expr FindClose(FindHandle)
+#endif
+
+; Get prototyper plugins
+#for {FindHandle = FindResult = FindFirst(PrototyperFilesDir + "*", faDirectory); \
+    FindResult; \
+    FindResult = FindNext(FindHandle)} \
+        AddPluginEntry
 #if FindHandle
     #expr PluginCount = I
     #expr FindClose(FindHandle)
@@ -65,11 +82,14 @@ Name: "jp"; MessagesFile: "compiler:Languages/Japanese.isl,JP.isl"
 ; BepInEx files
 #sub BepInExFileEntry
     Source: "{#BepInEx32Dir}\*"; DestDir: {code:GetDir|{#I}}; \
-        Flags: recursesubdirs onlyifdoesntexist; Check: IsBuildType({#I}, 'x86')
+        Flags: recursesubdirs onlyifdoesntexist; \
+        Check: IsDirSelected({#I}) and IsBuildType({#I}, 'x86')
     Source: "{#BepInEx64Dir}\*"; DestDir: {code:GetDir|{#I}}; \
-        Flags: recursesubdirs onlyifdoesntexist; Check: IsBuildType({#I}, 'x64')
+        Flags: recursesubdirs onlyifdoesntexist; \
+        Check: IsDirSelected({#I}) and IsBuildType({#I}, 'x64')
     Source: "{#BepInExIl2cpp64Dir}\*"; DestDir: {code:GetDir|{#I}}; \
-        Flags: recursesubdirs onlyifdoesntexist; Check: IsBuildType({#I}, 'il2cpp-x64')
+        Flags: recursesubdirs onlyifdoesntexist; \
+        Check: IsDirSelected({#I}) and IsBuildType({#I}, 'il2cpp-x64')
 #endsub
 #if DirExists(BepInEx32Dir) && DirExists(BepInEx64Dir)
     #for {I = 0; I < PluginCount; I++} BepInExFileEntry
@@ -78,11 +98,27 @@ Name: "jp"; MessagesFile: "compiler:Languages/Japanese.isl,JP.isl"
 ; LoveMachine files
 #sub PluginFileEntry
     Source: "{#PluginBuildDir}{#GetPluginId(I)}\*"; DestDir: {code:GetDir|{#I}}; \
-        Flags: recursesubdirs ignoreversion; Check: IsDirSelected({#I})
+        Flags: recursesubdirs ignoreversion; \
+        Check: IsDirSelected({#I})
     Source: "..\{#GetPluginId(I)}\tweaks\*"; DestDir: {code:GetDir|{#I}}; \
-        Flags: recursesubdirs ignoreversion skipifsourcedoesntexist onlyifdoesntexist;
+        Flags: recursesubdirs ignoreversion skipifsourcedoesntexist onlyifdoesntexist; \
+        Check: IsDirSelected({#I})
 #endsub
-#for {I = 0; I < PluginCount; I++} PluginFileEntry
+#for {I = 0; I < PrototyperPluginStartIndex; I++} PluginFileEntry
+
+; Prototyper files
+# sub PrototyperPluginEntry
+    Source: "{#PrototyperFilesDir}{#GetPluginId(I)}\*"; DestDir: "{code:GetDir|{#I}}\BepInEx\config"; \
+        Flags: recursesubdirs ignoreversion; \
+        Check: IsDirSelected({#I})
+    Source: "{#PluginBuildDir}LoveMachinePrototyper\*"; DestDir: "{code:GetDir|{#I}}"; \
+        Flags: recursesubdirs ignoreversion; \
+        Check: IsDirSelected({#I}) and not IsBuildType({#I}, 'il2cpp-x64')
+    Source: "{#PluginBuildDir}LoveMachinePrototyper.IL2CPP\*"; DestDir: "{code:GetDir|{#I}}"; \
+        Flags: recursesubdirs ignoreversion; \
+        Check: IsDirSelected({#I}) and IsBuildType({#I}, 'il2cpp-x64')
+#endsub
+#for {I = PrototyperPluginStartIndex; I < PluginCount; I++} PrototyperPluginEntry
 
 [Icons]
 Name: "{group}\Inno_Setup_Project"; Filename: "{app}\Inno_Setup_Project.exe"
@@ -90,6 +126,7 @@ Name: "{group}\Inno_Setup_Project"; Filename: "{app}\Inno_Setup_Project.exe"
 [Code]
 const
     PluginCount = {#PluginCount};
+    PrototyperPluginStartIndex = {#PrototyperPluginStartIndex};
     Spacing = 8;
 var
     GameDirs: array[0..{#PluginCount - 1}] of String;
@@ -131,6 +168,11 @@ end;
 // The human-readable name of the game at the given index
 function GetGameName(Index: Integer): String;
 begin
+    if Index >= PrototyperPluginStartIndex then
+    begin
+        Result := GetPluginId(Index);
+        exit;
+    end;
     Result := GetGameNameEN(Index);
     if ActiveLanguage = 'jp' then
         Result := GetGameNameJP(Index);
@@ -145,7 +187,11 @@ begin
         #sub ArchitectureMapping
             {#I}: Result := '{#GetGameArchitecture(I)}';
         #endsub
-        #for {I = 0; I < PluginCount; I++} ArchitectureMapping
+        #for {I = 0; I < PrototyperPluginStartIndex; I++} ArchitectureMapping
+        #sub PrototyperArchitectureMapping
+            {#I}: Result := '{#GetPrototyperGameArchitecture(I)}';
+        #endsub
+        #for {I = PrototyperPluginStartIndex; I < PluginCount; I++} PrototyperArchitectureMapping
     end;
 end;
 
@@ -155,7 +201,11 @@ begin
         #sub ExeNameMapping
             {#I}: Result := '{#GetExecutableName(I)}';
         #endsub
-        #for {I = 0; I < PluginCount; I++} ExeNameMapping
+        #for {I = 0; I < PrototyperPluginStartIndex; I++} ExeNameMapping
+        #sub PrototyperExeNameMapping
+            {#I}: Result := '{#GetPrototyperExecutableName(I)}';
+        #endsub
+        #for {I = PrototyperPluginStartIndex; I < PluginCount; I++} PrototyperExeNameMapping
     end;
 end;
 
@@ -166,7 +216,7 @@ begin
         #sub PathMapping
             {#I}: RegQueryStringValue(HKCU, '{#GetGameRegSubKey(I)}', '{#GetGameRegName(I)}', Result);
         #endsub
-        #for {I = 0; I < PluginCount; I++} PathMapping
+        #for {I = 0; I < PrototyperPluginStartIndex; I++} PathMapping
     end;
     if not DirExists(Result) then
         Result := ''
