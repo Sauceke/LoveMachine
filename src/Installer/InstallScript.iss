@@ -7,22 +7,29 @@
 
 ; We have a lot of plugins, so we just find them all and put them in here
 ; This way the script will handle new plugins by itself and we can forget about it
+; C# plugins first, then prototyper plugins from PrototyperPluginStartIndex
 #dim Plugins[100]
 #define PluginCount
 #define PrototyperPluginStartIndex
 
 #define GetPluginId(Index) Plugins[Index]
-#define GetPluginInfoIni(Index) SourcePath + "..\" + GetPluginId(Index) + "\PluginInfo.ini"
-#define GetGameNameEN(Index) ReadIni(GetPluginInfoIni(Index), GetPluginId(Index), "NameEN")
-#define GetGameNameJP(Index) ReadIni(GetPluginInfoIni(Index), GetPluginId(Index), "NameJP")
-#define GetGameRegSubKey(Index) ReadIni(GetPluginInfoIni(Index), GetPluginId(Index), "RegSubKey")
-#define GetGameRegName(Index) ReadIni(GetPluginInfoIni(Index), GetPluginId(Index), "RegName")
-#define GetGameArchitecture(Index) ReadIni(GetPluginInfoIni(Index), GetPluginId(Index), "Architecture")
-#define GetExecutableName(Index) ReadIni(GetPluginInfoIni(Index), GetPluginId(Index), "ExecutableName")
 
-#define GetPrototyperCfg(Index) PrototyperFilesDir + GetPluginId(Index) + "\Sauceke.LoveMachinePrototyper.cfg"
-#define GetPrototyperGameArchitecture(Index) ReadIni(GetPrototyperCfg(Index), "Prototyper Settings", "Game Build Architecture") 
-#define GetPrototyperExecutableName(Index) ReadIni(GetPrototyperCfg(Index), "Prototyper Settings", "Game Process Name")
+; C# plugins only
+#define GetPluginInfoIni(Index) SourcePath + "..\" + GetPluginId(Index) + "\PluginInfo.ini"
+#define ReadPluginInfo(Index, Key) ReadIni(GetPluginInfoIni(Index), GetPluginId(Index), Key)
+#define GetGameNameEN(Index) ReadPluginInfo(Index, "NameEN")
+#define GetGameNameJP(Index) ReadPluginInfo(Index, "NameJP")
+#define GetGameRegSubKey(Index) ReadPluginInfo(Index, "RegSubKey")
+#define GetGameRegName(Index) ReadPluginInfo(Index, "RegName")
+#define GetGameArchitecture(Index) ReadPluginInfo(Index, "Architecture")
+#define GetExecutableName(Index) ReadPluginInfo(Index, "ExecutableName")
+
+; Prototyper plugins only
+#define GetPrototyperCfg(Index) \
+    PrototyperFilesDir + GetPluginId(Index) + "\Sauceke.LoveMachinePrototyper.cfg"
+#define ReadPrototyperCfg(Index, Key) ReadIni(GetPrototyperCfg(Index), "Prototyper Settings", Key)
+#define GetPrototyperGameArchitecture(Index) ReadPrototyperCfg(Index, "Game Build Architecture")
+#define GetPrototyperExecutableName(Index) ReadPrototyperCfg(Index, "Game Process Name")
 
 #define I 0
 #define FindHandle
@@ -310,19 +317,17 @@ begin
     end;
     if GameDirs[PluginIndex] <> '' then
     begin
-        if Ask(FmtMessage(CustomMessage('ConflictingPaths'), [GetGameName(PluginIndex)]), Interactive) then
-            RemoveGameDir(GameDirs[PluginIndex])
-        else
+        if not Ask(FmtMessage(CustomMessage('ConflictingPaths'), [GetGameName(PluginIndex)]), Interactive) then
             exit;
+        RemoveGameDir(GameDirs[PluginIndex]);
     end;
     for Index := 0 to PluginCount - 1 do
     begin
         if GameDirs[Index] <> GameDir then
             continue;
-        if Ask(FmtMessage(CustomMessage('ConflictingTitles'), [GetGameName(Index)]), Interactive) then
-            RemoveGameDir(GameDirs[Index])
-        else
+        if not Ask(FmtMessage(CustomMessage('ConflictingTitles'), [GetGameName(Index)]), Interactive) then
             exit;
+        RemoveGameDir(GameDirs[Index]);
     end;
     GameDirs[PluginIndex] := GameDir;
     PathList.Items.Add(GameDir);
