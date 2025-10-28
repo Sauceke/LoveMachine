@@ -43,5 +43,15 @@ namespace LoveMachinePrototyper
             match = Regex.Match(transform.name, pattern);
             return match.Success && match.Value == transform.name;
         }
+
+        public static bool Matches(string name, string pattern)
+        {
+            if (!PrototyperConfig.UseRegexes.Value)
+            {
+                return name == pattern;
+            }
+            var match = Regex.Match(name, pattern);
+            return match.Success && match.Value == name;
+        }
     }
 }

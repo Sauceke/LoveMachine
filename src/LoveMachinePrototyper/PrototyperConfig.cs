@@ -18,6 +18,7 @@ namespace LoveMachinePrototyper
         public static ConfigEntry<string> PenisBaseName { get; private set; }
         public static ConfigEntry<string> AnimatorName { get; private set; }
         public static ConfigEntry<int> AnimationLayer { get; private set; }
+        public static ConfigEntry<string> AnimationLayerName { get; private set; }
         public static ConfigEntry<string> FemaleRootName { get; private set; }
         public static Dictionary<Bone, ConfigEntry<string>> FemaleBoneNames { get; private set; }
         public static ConfigEntry<string> HStartObjectName { get; private set; }
@@ -73,6 +74,14 @@ namespace LoveMachinePrototyper
                 defaultValue: 0,
                 new ConfigDescription(
                     "The layer index of H animations. Almost always 0, this field is mainly for debugging.",
+                    tags: new ConfigurationManagerAttributes { IsAdvanced = true }));
+            AnimationLayerName = plugin.AddConfigEntry(
+                section: settingsTitle,
+                key: "Animation Layer Name",
+                defaultValue: "",
+                new ConfigDescription(
+                    "The name of the H animation layer. If using regular expressions, the layer " +
+                    "of the highest weight with a matching name will be used.",
                     tags: new ConfigurationManagerAttributes { IsAdvanced = true }));
             FemaleRootName = plugin.AddConfigEntry(
                 section: settingsTitle,

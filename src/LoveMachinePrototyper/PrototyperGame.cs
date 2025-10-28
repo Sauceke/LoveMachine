@@ -46,7 +46,14 @@ namespace LoveMachinePrototyper
 
         protected override float MinStrokeLength => PrototyperConfig.StrokeSensitivity.Value;
 
-        protected override int AnimationLayer => PrototyperConfig.AnimationLayer.Value;
+        protected override int AnimationLayer =>
+            string.IsNullOrEmpty(PrototyperConfig.AnimationLayerName.Value)
+                ? PrototyperConfig.AnimationLayer.Value
+                : Enumerable.Range(0, animator.layerCount)
+                    .Where(i => FindUtil.Matches(animator.GetLayerName(i),
+                        PrototyperConfig.AnimationLayerName.Value))
+                    .OrderByDescending(i => animator.GetLayerWeight(i))
+                    .First();
 
         protected override int HeroineCount => Mathf.Max(femaleRoots.Length, 1);
 
