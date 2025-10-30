@@ -116,7 +116,7 @@ namespace LoveMachinePrototyper
                 key: "H Start Method",
                 defaultValue: "",
                 new ConfigDescription(
-                    "Method that starts H-scenes, in the form Type,Assembly:Method" +
+                    "Method that starts H-scenes, in the form Type,Assembly:Method. " +
                     "Requires restart.",
                     tags: new ConfigurationManagerAttributes { IsAdvanced = true }));
             HEndMethod = plugin.AddConfigEntry(
@@ -124,7 +124,7 @@ namespace LoveMachinePrototyper
                 key: "H End Method",
                 defaultValue: "",
                 new ConfigDescription(
-                    "Method that ends H-scenes, in the form Type,Assembly:Method" +
+                    "Method that ends H-scenes, in the form Type,Assembly:Method. " +
                     "Requires restart.",
                     tags: new ConfigurationManagerAttributes { IsAdvanced = true }));
             MaxFemaleCount = plugin.AddConfigEntry(
