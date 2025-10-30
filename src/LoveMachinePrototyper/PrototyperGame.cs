@@ -16,12 +16,16 @@ namespace LoveMachinePrototyper
 
         protected override MethodInfo[] StartHMethods => new[]
         {
-            AccessTools.Method(typeof(HListener), nameof(HListener.StartH))
+            string.IsNullOrEmpty(PrototyperConfig.HStartMethod.Value)
+                ? AccessTools.Method(typeof(HListener), nameof(HListener.StartH))
+                : AccessTools.Method(PrototyperConfig.HStartMethod.Value)
         };
 
         protected override MethodInfo[] EndHMethods => new[]
         {
-            AccessTools.Method(typeof(HListener), nameof(HListener.EndH))
+            string.IsNullOrEmpty(PrototyperConfig.HEndMethod.Value)
+                ? AccessTools.Method(typeof(HListener), nameof(HListener.EndH))
+                : AccessTools.Method(PrototyperConfig.HEndMethod.Value)
         };
 
         protected override Dictionary<Bone, string> FemaleBoneNames =>

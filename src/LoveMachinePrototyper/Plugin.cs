@@ -9,8 +9,8 @@ namespace LoveMachinePrototyper
     {
         protected override void Start()
         {
-            base.Start();
             PrototyperConfig.Initialize(this);
+            base.Start();
             Globals.ManagerObject.AddComponent<HListener>();
             if (PrototyperConfig.PluginVersion.Value != (string)PrototyperConfig.PluginVersion.DefaultValue)
             {

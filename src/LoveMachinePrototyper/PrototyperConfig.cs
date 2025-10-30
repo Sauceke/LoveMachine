@@ -22,6 +22,8 @@ namespace LoveMachinePrototyper
         public static ConfigEntry<string> FemaleRootName { get; private set; }
         public static Dictionary<Bone, ConfigEntry<string>> FemaleBoneNames { get; private set; }
         public static ConfigEntry<string> HStartObjectName { get; private set; }
+        public static ConfigEntry<string> HStartMethod { get; private set; }
+        public static ConfigEntry<string> HEndMethod { get; private set; }
 
         public static ConfigEntry<int> MaxFemaleCount { get; private set; }
         public static ConfigEntry<float> StrokeSensitivity { get; private set; }
@@ -109,6 +111,22 @@ namespace LoveMachinePrototyper
                 defaultValue: "",
                 description: "The name (or path) of a GameObject that is only active when an " +
                     "H-scene is playing. Optional, if empty, we default to the penis base.");
+            HStartMethod = plugin.AddConfigEntry(
+                section: settingsTitle,
+                key: "H Start Method",
+                defaultValue: "",
+                new ConfigDescription(
+                    "Method that starts H-scenes, in the form Type,Assembly:Method" +
+                    "Requires restart.",
+                    tags: new ConfigurationManagerAttributes { IsAdvanced = true }));
+            HEndMethod = plugin.AddConfigEntry(
+                section: settingsTitle,
+                key: "H End Method",
+                defaultValue: "",
+                new ConfigDescription(
+                    "Method that ends H-scenes, in the form Type,Assembly:Method" +
+                    "Requires restart.",
+                    tags: new ConfigurationManagerAttributes { IsAdvanced = true }));
             MaxFemaleCount = plugin.AddConfigEntry(
                 section: settingsTitle,
                 key: "Max Female Count",
