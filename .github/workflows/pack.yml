@@ -16,7 +16,7 @@ jobs:
       INNO_SETUP_URL: https://files.jrsoftware.org/is/6/innosetup-6.2.2.exe
       BEPINEX_32_URL: https://github.com/BepInEx/BepInEx/releases/download/v5.4.23.4/BepInEx_win_x86_5.4.23.4.zip
       BEPINEX_64_URL: https://github.com/BepInEx/BepInEx/releases/download/v5.4.23.4/BepInEx_win_x64_5.4.23.4.zip
-      BEPINEX_IL2CPP_64_URL: https://github.com/BepInEx/BepInEx/releases/download/v6.0.0-pre.2/BepInEx-Unity.IL2CPP-win-x64-6.0.0-pre.2.zip
+      BEPINEX_IL2CPP_64_URL: https://builds.bepinex.dev/projects/bepinex_be/738/BepInEx-Unity.IL2CPP-win-x64-6.0.0-be.738%2Baf0cba7.zip
       BEPINEX_CONF_MGR_URL: https://github.com/BepInEx/BepInEx.ConfigurationManager/releases/download/v18.0.1/BepInEx.ConfigurationManager_v18.0.1.zip
 
     defaults:
